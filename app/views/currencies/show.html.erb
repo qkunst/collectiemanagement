@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Iso 4217 code:</strong>
+  <%= @currency.iso_4217_code %>
+</p>
+
+<p>
+  <strong>Symbol:</strong>
+  <%= @currency.symbol %>
+</p>
+
+<%= link_to 'Bewerken', edit_currency_path(@currency) %> |
+<%= link_to 'Terug naar overzicht', currencies_path %>

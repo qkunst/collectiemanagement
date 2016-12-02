@@ -1,0 +1,66 @@
+
+<div class="row">
+<div class="large-9 medium-9 columns">
+<h1>Imports</h1>
+<p>Hieronder een overzicht van alle data-imports (excel-bestanden, csv-bestanden) en foto-imports (grote hoeveelheden foto's die gekoppeld kunnen worden op naam). Aan de zijkant kunnen nieuwe imports gestart worden.</p>
+<h2>Data-imports</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aanmaakdatum</th>
+      <th>Bestand</th>
+      <th>Aantal geïmporteerde werken</th>
+      <th>Aantal geïmporteerde artiesten</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @import_collections.each do |import_collection| %>
+      <tr>
+        <td><%= I18n.l import_collection.created_at, format: :short %></td>
+        <td><%= link_to import_collection.file.file.filename, collection_import_collection_path(@collection, import_collection) %></td>
+        <td><%= import_collection.works.count %></td>
+        <td><%= import_collection.artists.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<h2>Foto-imports</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aanmaakdatum</th>
+      <th>Bestanden</th>
+      <th>Aantal foto's</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @batch_photo_uploads.each do |batch_photo_upload| %>
+      <tr>
+        <td><%= I18n.l batch_photo_upload.created_at, format: :short %></td>
+        <td><%= link_to batch_photo_upload.image_names, collection_batch_photo_upload_path(@collection, batch_photo_upload) %></td>
+        <td><%= batch_photo_upload.images.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Geïmporteerde vervaardigers</h2>
+<p>Om snel de zojuist geïmporteerde vervaardigers op te schonen <%= link_to "kun je op deze pagina een overzicht zien van alle kunstenaars binnen deze collectie", collection_artists_path(@collection) %>.</p>
+</div>
+
+
+
+
+<aside class="large-3 medium-3 columns">
+<%= link_to 'Nieuwe import', new_collection_import_collection_path(@collection), class: :button %>
+<br/><%= link_to 'Nieuwe set aan foto\'s uploaden', new_collection_batch_photo_upload_path(@collection), class: :button %>
+
+</aside>
+</div>

@@ -1,0 +1,8 @@
+<h1>Overzicht technieken</h1>
+<ul>
+    <% @techniques.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe techniek', new_technique_path %>
+

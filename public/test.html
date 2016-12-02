@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+    <head>
+        <title></title>
+        <script type="text/javascript">
+
+
+        </script>
+    </head>
+    <body>
+        <iframe src ="http://localhost:3000/" id="iframe" style="width: 90%; height: 500px;"></iframe>
+        <script type="text/javascript">
+            function sleepForMe( sleepDuration ){
+                var now = new Date().getTime();
+                while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+            };
+
+            var i = 0
+            function doIt() {
+                console.log(i);
+                i++;
+                var iframe = document.getElementsByTagName("iframe")[0];
+                iframe.src = "http://localhost:3000/collections/1/works/new?test";
+                if ( i < 100 ) {
+                    setTimeout(function() {
+                            doIt();
+                    }, 10000)
+                }
+
+            }
+
+
+        </script>
+    </body>
+</html>

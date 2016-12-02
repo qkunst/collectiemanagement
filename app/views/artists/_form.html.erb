@@ -1,0 +1,34 @@
+<%= simple_form_for(@artist) do |f| %>
+<div class="artist">
+  <div class="row">
+    <div class="large-4 medium-4 columns">
+      <%= f.input :first_name, required: false %>
+    </div>
+    <div class="large-2 medium-2 columns">
+      <%= f.input :prefix, required: false %>
+    </div>
+    <div class="large-6 medium-6 columns">
+      <%= f.input :last_name, required: false %><br/>
+    </div>
+  </div>
+  <%= f.input :description%>
+
+  <div class="row">
+    <div class="large-offset-2 large-5 columns">
+      <%= f.input :place_of_birth, required: false  %>
+      <%= f.input :year_of_birth, as: :integer, required: false  %>
+    </div>
+    <div class="large-5 columns end">
+      <%= f.input :place_of_death, required: false  %>
+      <%= f.input :year_of_death, as: :integer, required: false  %>
+    </div>
+  </div>
+  <!-- <h2>Opleiding</h2>
+  <% %>
+  <%= f.input :artist_involvements, collection: Involvement.educational %> -->
+
+  <div class="actions">
+    <%= f.submit class: :button %>
+  </div>
+</div>
+<% end %>

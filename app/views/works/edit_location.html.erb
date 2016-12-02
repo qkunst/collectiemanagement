@@ -1,0 +1,6 @@
+<h1>Bewerk locatie</h1>
+<%= simple_form_for([@collection,@work], url: collection_work_update_location_path(@collection,@work) ) do |f| %>
+<%= f.input :location %>
+<%= f.input :location_detail %>
+<%= f.submit class: :submit, class: :button%>
+<% end%>

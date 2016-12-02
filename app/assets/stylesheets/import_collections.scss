@@ -1,0 +1,29 @@
+// Place all the styles related to the import_collections controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.importtable {
+  table {
+    font-size: 0.875em;
+    thead {
+      th {
+        padding: 2px;
+        vertical-align: top;
+        select {
+          margin-bottom: 2px;
+        }
+        label {
+          min-width: 120px;
+          margin-right: 2px;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          padding: 2px;
+        }
+      }
+    }
+  }
+}

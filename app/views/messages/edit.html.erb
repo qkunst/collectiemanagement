@@ -1,0 +1,11 @@
+<div id="main">
+  <h1>Bewerk bericht
+  <% if current_user.admin? and @message.replies.count == 0 %>
+    <small>(<%= link_to 'Verwijder bericht', message_path(@message), method: :delete, data: {confirm: "Weet u zeker dat u dit bericht wilt verwijderen?"}, class: :warn %>)</small>
+  <% end %>
+</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Annuleren', @message.conversation_start_message || @message %> |
+</div>

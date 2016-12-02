@@ -1,0 +1,7 @@
+<h1>Overzicht condities</h1>
+<ul>
+    <% @conditions.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe conditie', new_condition_path %>

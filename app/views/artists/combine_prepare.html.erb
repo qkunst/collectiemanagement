@@ -1,0 +1,17 @@
+<h1>Combineer <%=@artist.name%> met...</h1>
+<p><strong>Belangrijk:</strong> Door de kunstenaar <%=@artist.name %> samen te voegen met de geselecteerde kunstenaars hieronder <em>verwijder*</em> je de hieronder geselecteerde kunstenaars (met alle eventuele opmerkingen etc.). De werken die aan die kunstenaars gekoppeld waren worden gekoppeld aan deze kunstenaar.</p>
+<div class="row">
+  <%= simple_form_for @artist, url: artist_combine_path(@artist) do |f| %>
+  <div class="large-12 medium-12 columns">
+    <h3>Andere kunstenaars</h3>
+    <%= f.select :artists_with_same_name, Artist.exclude_artist(@artist).order_by_name.map { |r| [r.name, r.id] }, {}, {multiple: true, style: "height: 20em"} %>
+    <p><small>Gebruik de shift-toets in combinatie met klikken om een reeks te selecteren of gebruik de ctrl- (Windows) of cmd- (Mac) toets om meerdere losse kunstenaars tegelijkertijd te selecteren.</small></p>
+  </div>
+
+  <div class="large-12 medium-12 columns">
+    <%=f.submit value: 'Kunstenaars combineren', class: :button%>
+  </div>
+  <% end %>
+</div>
+
+<p><small>* De informatie wordt niet helemaal verwijderd en er wordt een logboek bijgehouden met de belangrijkste acties, mocht het echt mis zijn gegaan dan kan er een poging gedaan worden om de informatie te herstellen.</small></p>

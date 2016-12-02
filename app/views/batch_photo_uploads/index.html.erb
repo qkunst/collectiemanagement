@@ -1,0 +1,36 @@
+
+<div class="row">
+<div class="large-9 medium-9 columns">
+<h1>Foto uploads</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aanmaakdatum</th>
+      <th>Bestanden</th>
+      <th>Aantal foto's</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @batch_photo_uploads.each do |batch_photo_upload| %>
+      <tr>
+        <td><%= I18n.l batch_photo_upload.created_at, format: :short %></td>
+        <td><%= link_to batch_photo_upload.image_names, collection_batch_photo_upload_path(@collection, batch_photo_upload) %></td>
+        <td><%= batch_photo_upload.images.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<aside class="large-3 medium-3 columns">
+  <%= link_to 'Nieuwe set aan foto\'s uploaden', new_collection_batch_photo_upload_path(@collection), class: :button %>
+</aside>
+</div>
+
+
+
+
+
+

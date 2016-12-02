@@ -1,0 +1,23 @@
+<h1><%= @artist.name%> <small>(<%= link_to 'Bewerk gegevens', edit_artist_path(@artist) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small></h1>
+<%= simple_format @artist.description %>
+<div class="row">
+  <dl class="large-6 medium-6 columns">
+    <% if @artist.born? %>
+      <dt>Geboren:</dt>
+      <dd><%= @artist.place_of_birth %> (<%=@artist.year_of_birth%>)
+    <% end %>
+  </dl>
+  <dl class="large-6 medium-6 columns">
+    <% if @artist.died? %>
+      <dt>Gestorven:</dt>
+      <dd><%=  @artist.place_of_death %> (<%=@artist.year_of_death%>)
+    <% end %>
+  </dl>
+</div>
+<h2>Werken van deze kunstenaar</h2>
+<p>Overzicht van werken van deze kunstenaar in de QKunst database.</p>
+<ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
+<%= render @artist.works%>
+</ul>
+
+

@@ -1,0 +1,15 @@
+<%= simple_form_for([@collection,@theme].compact) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <% unless @collection and @theme.id.nil? %>
+      <%= f.association :collection, include_blank: false, prompt: "Geen collectie (Algemeen)" %>
+    <% end %>
+    <%= f.input :hide if @theme.id%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

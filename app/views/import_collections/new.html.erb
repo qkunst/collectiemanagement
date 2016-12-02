@@ -1,0 +1,15 @@
+<h1>Importeer een collectie</h1>
+<p>Upload een collectie als .xls, .xlsx, .ods of .csv formaat.</p>
+<%= simple_form_for([@collection, @import_collection]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :file %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>
+
+<%= link_to 'Annuleer het aanmaken van een nieuwe collectie', collection_import_collections_path(@collection) %>

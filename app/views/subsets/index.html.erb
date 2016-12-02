@@ -1,0 +1,7 @@
+<h1>Overzicht deelcollecties</h1>
+<ul>
+    <% @subsets.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe deelcollectie', new_subset_path %>

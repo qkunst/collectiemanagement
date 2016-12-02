@@ -1,0 +1,42 @@
+<%= simple_form_for([@parent_collection, @collection].compact) do |f| %>
+  <%= f.error_notification %>
+
+
+<div class="tabs">
+  <nav class="tab-head">
+  <ul>
+    <li><a href="#standard">Standaard</a></li>
+    <li><a href="#advanced">Geavanceerd</a></li>
+  </ul>
+  </nav>
+    <section id="standard">
+      <h3>Standaard instellingen</h3>
+      <div class="form-inputs">
+        <%= f.input :name %>
+        <%= f.input :description %>
+        <% unless @parent_collection %>
+          <%= f.association :parent_collection, collection: @collection.possible_parent_collections%>
+        <% end%>
+      </div>
+    </section>
+    <section id="advanced">
+      <h3>Geavanceerd</h3>
+     <fieldset class="form-inputs">
+       <legend>Labels voor de 'alternatieve nummers'</legend>
+       <p>Standaard is er sprake van alt. nr. 1 t/m 3, in dit scherm kun je ze overschrijven zodat bij het invoeren, het tonen en het uitdraaien voor iedereen duidelijk is welke getallen wat representeren.</p>
+       <%= f.input :label_override_work_alt_number_1 %>
+       <%= f.input :label_override_work_alt_number_2 %>
+       <%= f.input :label_override_work_alt_number_3 %>
+     </fieldset>
+
+    </section>
+</div>
+
+
+
+
+  <div class="form-actions">
+    <p><br/></p>
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

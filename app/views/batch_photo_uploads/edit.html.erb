@@ -1,0 +1,19 @@
+<h1>Bewerk koppelinstellingen</h1>
+
+<%= simple_form_for([@collection,@batch_photo_upload]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :column, collection: [
+      [Work.human_attribute_name_overridden(:stock_number,@collection), :stock_number],
+      [Work.human_attribute_name_overridden(:alt_number_1,@collection), :alt_number_1],
+      [Work.human_attribute_name_overridden(:alt_number_2,@collection), :alt_number_2],
+      [Work.human_attribute_name_overridden(:alt_number_3,@collection), :alt_number_3]
+    ] %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>
+<%= link_to 'Annuleer', collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>

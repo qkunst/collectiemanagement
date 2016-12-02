@@ -1,0 +1,29 @@
+<h1>Account bewerken</h1>
+
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :email, required: true, autofocus: true %>
+
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <p>Wacht op bevestiging van: <%= resource.unconfirmed_email %></p>
+    <% end %>
+    <%= f.input :receive_mails %>
+    <fieldset>
+      <legend>Nieuw wachtwoord</legend>
+      <p>Laat deze velden leeg wanneer u geen nieuw wachtwoord wilt.</p>
+    <%= f.input :password, autocomplete: "off", required: false %>
+    <%= f.input :password_confirmation, required: false %>
+    </fieldset>
+    <%= f.input :current_password, hint: "een wachtwoord is nodig voor het maken van de wijziging", required: true %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Werk bij", class: :button %>
+  </div>
+<% end %>
+
+<h3>Account opheffen</h3>
+
+<p>Indien u geen gebruik meer maakt van QKunst Collectiebeheer kunt u uw <%= link_to "account verwijderen", registration_path(resource_name), data: { confirm: "Weet u zeker dat u uw account wilt verwijderen?" }, method: :delete %>.</p>

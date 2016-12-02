@@ -1,0 +1,24 @@
+
+
+<p>
+  <strong>Involvement:</strong>
+  <%= @artist_involvement.involvement_id %>
+</p>
+
+<p>
+  <strong>Artist:</strong>
+  <%= @artist_involvement.artist_id %>
+</p>
+
+<p>
+  <strong>Start year:</strong>
+  <%= @artist_involvement.start_year %>
+</p>
+
+<p>
+  <strong>End year:</strong>
+  <%= @artist_involvement.end_year %>
+</p>
+
+<%= link_to 'Bewerken', edit_artist_involvement_path(@artist_involvement) %> |
+<%= link_to 'Terug naar overzicht', artist_involvements_path %>

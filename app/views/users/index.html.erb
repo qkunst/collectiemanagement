@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="large-12 columns">
+    <h1>Gebruikers</h1>
+    <p>Admin gebruikers hebben overal toegang toe. QKunst gebruikers moet specifiek toegang worden verleend tot bepaalde projecten. Klik op een e-mailadres van een gebruiker om de toegangsrechten aan te passen.</p>
+
+  </div>
+  <div class="large-6 columns">
+    <h2>Administratoren</h2>
+    <p>Admin gebruikers hebben overal toegang toe.</p>
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@admin_users.each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="large-6 columns">
+    <h2>Niet geactiveerde gebruikers</h2>
+    <p>Deze gebruikers kunnen nog niets zien binnen de app en hebben dus ook nog geen toegang tot enige collectie of instelling. Indien ze bekend zijn bij een administrator kan hij of zij deze activeren doe hem haar te koppelen aan een collectie en/of QKunst of Administratie rollen toekennen.</p>
+
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+          <th>Geregistreerd op</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% (@unregistered_users).each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <td><%= I18n.l user.created_at %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row">
+
+  <div class="large-6 columns">
+
+    <h2>Registratoren</h2>
+    <p>QKunst gebruikers hebben alleen toegang tot geselecteerde collecties en kunnen geen instellingen wijzigen. </p>
+
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+          <th>Collectie-toegang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@qkunst_users.each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <td>
+              <ul>
+                <%user.collections.each do |collection| %>
+                  <li><%= link_to collection.name, collection%></li>
+                <% end %>
+              </ul>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="large-6 columns">
+
+    <h2>Extern</h2>
+    <p>Externe gebruikers (geen administratoren of QKunst medewerkers) kunnen bij de geselecteerde collecties. In de read only-rol kunnen ze niets
+      downloaden of wijzigen en geen waarde-bepalingen inzien. FM gebruikers kunnen de locatie van een werk aanpassen, gegevens downloaden en
+      waarde-bepalingen inzien.</p>
+
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+          <th>Rol</th>
+          <th>Collectie-toegang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@external_users.each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <td><%=user.facility_manager ? "FM" : "Read-only"%>
+            <td>
+              <ul>
+                <%user.collections.each do |collection| %>
+                  <li><%= link_to collection.name, collection%></li>
+                <% end %>
+              </ul>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>

@@ -1,0 +1,8 @@
+<h1>Overzicht plaatsbaarheid-labels</h1>
+<ul>
+    <% @object_categories.each do |item| %>
+      <li><%= link_to item.name, item %> (<%= item.hide? ? "verborgen" : item.order%>)</li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuw plaatsbaarheid-label', new_placeability_path %>
+

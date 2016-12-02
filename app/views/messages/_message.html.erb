@@ -1,0 +1,72 @@
+<% this_user = defined?(current_user) ? current_user : @user %>
+<article class="message<%= message.conversation_starter? ? " conversation_starter" : ""%>">
+  <header>
+    <div class="right">
+      <%= I18n.l message.created_at, format: :short%>
+    </div>
+    <ul class="labels right">
+      <% if message.qkunst_private %>
+        <li class="label round qkunst_private qkunst">QKunst Intern</li>
+      <% end %>
+      <% if message.just_a_note %>
+        <li class="label round just_a_note secondary">Notitie</li>
+      <% end %>
+    </ul>
+    <%
+      collectie = ""
+      begin
+        collectie = "Collectie: #{message.subject_object.name}" if message.subject_object.is_a?(Collection)
+        collectie = "Collectie: #{message.subject_object.collection.name}" if message.subject_object.is_a?(Work)
+      rescue
+      end
+
+    %>
+     <%=collectie%><br/>
+    <% if this_user.qkunst? %>
+      <strong><%= message.from_user_name %></strong>
+    <% else %>
+      <strong><%= message.from_user_name.split('@')[0].to_s.capitalize %></strong>
+    <% end %>
+    <h5><%=message.subject %></h5>
+  </header>
+  <blockquote class="body">
+    <% if message.image? %>
+      <%= link_to (root_url + message.image.to_be_path), target: '_blank' do %>
+      <%= image_tag (root_url + message.image.to_be_path(:thumb)), class: 'thumb right' %>
+      <% end%>
+    <% end %>
+    <%= Kramdown::Document.new( message.message).to_html.html_safe if message.message %>
+
+  </blockquote>
+  <footer>
+  <div class="meta">
+    <div class="actions right">
+      <% if this_user.can_edit_message?(message) %>
+      <%= link_to('Bewerk bericht', edit_message_url(message))  %> of
+      <% end %>
+      <%
+        reply_path = message_new_reply_url(message)
+        if controller.is_a?(MessageMailer)
+          reply_path = message
+          reply_path = message.conversation_start_message unless message.conversation_starter?
+        end
+      %>
+      <%=link_to '↩ Antwoord', reply_path, class: 'small button'%>
+      <% if message.unread and !controller.is_a?(MessageMailer) and (message.from_user != current_user) %>
+      <%= button_to 'Markeer als gelezen', message_path(message), params: {"message[actioned_upon_by_qkunst_admin_at]" => :now}, method: :patch, class: 'small secondary button' if this_user.admin?%>
+      <% end %>
+
+    </div>
+    <% if message.in_reply_to_message %>
+        In antwoord op
+          <%= message.in_reply_to_message.from_user_name %>
+        op <%= I18n.l message.created_at, format: :short %> “<%= link_to message.in_reply_to_message.subject, message.in_reply_to_message %>”.
+
+        <% unless @message and @message.conversation_starter? %>
+        (<%= link_to 'toon de gehele conversatie', message.conversation_start_message%>)
+        <% end %>
+    <% end %>
+    </div>
+
+  </footer>
+</article>

@@ -1,0 +1,317 @@
+nl:
+  count:
+    works:
+      zero: geen werken
+      one: 1 werk
+      other: ! '%{count} werken'
+  simple_form:
+    include_blanks:
+      theme:
+        collection: 'Algemeen'
+  save_and_edit_next: Na bewaren direct de volgende bewerken
+  routes:
+    books: boeken
+    new: nieuw
+    edit: bewerken
+    authors: auteurs
+    ingredients: ingredienten
+    cuisines: keukens
+    recipe_types: recept_types
+    recipes: recepten
+    users: gebruikers
+    courses: gangen
+    ratings: beoordelingen
+    password: wachtwoord
+    sign_in: inloggen
+    unlock: ontgrendel
+    sign_out: uitloggen
+    articles: artikelen
+    register: registreren
+    index_complete: index_compleet
+    edit_password: bewerk_wachtwoord
+  errors:
+    messages:
+      extension_white_list_error: Dit bestand heeft een onbekende extentie
+  notifications:
+    welcome: Welkom bij heerlijk zoeken!
+  user_session:
+    destroy: "Uitloggen"
+    sign_up: "Aanmelden"
+    log_in: "Log in"
+  helpers:
+    submit:
+      user:
+        create: "Aanmelden"
+      recipe:
+        create: "Recept toevoegen"
+        update: "Recept bewerken"
+  activecontroller:
+    actions:
+      new: "Nieuw"
+  activerecord:
+    models:
+      message: Bericht
+      user: Gebruiker
+      recipe: Recept
+      book: Boek
+      work: Kunstwerk
+      subset: Deelcollectie
+      style: Stijl
+      theme: Thema
+      artist: Vervaardiger
+      collection: Collectie
+      object_category: Categorie
+      technique: Techniek
+      medium: Drager
+      condition: Conditie beeld
+      damage_type: Type schade beeld
+      frame_damage_type: Type schade lijst
+      source: Herkomst
+      cluster: Cluster
+      import_collection: Import
+      batch_photo_upload: Foto-import
+    values:
+      import_collection:
+        split_nothing: "Splits niets"
+        split_space: "Splits op spatie"
+        split_comma: "Splits op komma"
+        split_natural: "Splits op 'en' en komma"
+        split_cross: "Splits op x of *"
+        find_keywords: "Herken waarden voor veld"
+        replace: "Vervang waarden"
+        append: "Vul eventuele eerdere waarde aan"
+        first_then_join_rest: "Vervang veld 1, rest in veld 2"
+        first_then_join_rest_separated: "Vervang veld 1, rest in veld 2 (gescheiden)"
+      work:
+        abstract_or_figurative:
+          abstract: Abstract
+          figurative: Figuratief
+        grade_within_collection:
+          a: A
+          b: B
+          c: C
+          d: D
+          e: E
+          f: F
+          g: G
+        object_format_code:
+          xxs: XXS
+          xs: XS
+          s: S
+          m: M
+          l: L
+          xl: XL
+          xxl: XXL
+    attributes:
+      artist:
+        first_name: Voornaam
+        prefix: Tussenvoegsel
+        last_name: Achternaam
+        place_of_birth: Geboorteplaats
+        year_of_birth: Geboortejaar
+        place_of_death: Plaats van overlijden
+        year_of_death: Jaar van overlijden
+        description: Opmerkingen
+      cluster:
+        name: Naam
+        description: Beschrijving
+      message:
+        subject: Onderwerp
+        message: Berichttekst
+        just_a_note: Slechts een annotatie (geen reactie vereist)
+        qkunst_private: QKunst intern
+        image: Afbeelding (ter toelichting)
+      work:
+        locality_geoname_name: Lokaliteit
+        locality_geoname_id: Lokaliteit
+        locality_geoname: Lokaliteit
+        created_by: Gemaakt door
+        cluster: Cluster
+        locations: Locaties
+        figurative: Figuratief
+        abstract: Abstract
+        abstract_or_figurative: Abstract of figuratief
+        abstract_or_figurative_rendered: Abstract of figuratief
+        object_format_code: Formaatcode
+        title: Titel
+        collection: Collectie
+        collection_name_extended: Collectie
+        created_at: Opgeslagen op
+        created_by: Invoerder
+        location: Locatie
+        location_raw: Locatie
+        stock_number: Inventarisnummer
+        alt_number_1: Alternatief nummer 1
+        alt_number_2: Alternatief nummer 2
+        alt_number_3: Alternatief nummer 3
+        photo_front: Foto voorkant
+        photo_back: Foto achterkant
+        photo_detail_1: Foto detail 1
+        photo_detail_2: Foto detail 2
+        artist_unknown: Onbekend
+        title_unknown: Zonder titel
+        description: Beschrijving
+        object_creation_year: Datering (jaar)
+        object_creation_year_unknown: Onbekend
+        medium: Drager
+        medium_comments: Toelichting drager
+        signature: Signatuur
+        placeability: Plaatsbaarheid
+        signature_comments: Signatuur (incl. locatie)
+        no_signature_present: Geen signatuur aanwezig
+        techniques: Technieken
+        object_categories: Categorieën
+        print: Oplage
+        frame_size: Lijstafmetingen (cm)
+        work_size: Afmetingen beeld (cm)
+        frame_height: Hoogte lijst (cm)
+        frame_width: Breedte lijst (cm)
+        frame_depth: Diepte lijst (cm)
+        frame_diameter: Diameter lijst (cm)
+        height: Hoogte beeld (cm)
+        width: Breedte beeld (cm)
+        depth: Diepte beeld (cm)
+        diameter: Diameter beeld (cm)
+        condition_work: Conditie beeld
+        damage_types: Type schade beeld
+        frame_damage_types:  Type schade lijst
+        condition_work_comments: "Conditie beeld toelichting & locatie"
+        condition_frame: Conditie lijst
+        condition_frame_comments: "Conditie lijst toelichting & locatie"
+        information_back: Informatie achterkant
+        other_comments: Overige opmerkingen
+        source: Herkomst
+        sources: Herkomst
+        source_comments: Herkomst opmerkingen
+        style: Stijl
+        artists: Vervaardigers
+        themes: "Thema's"
+        subset: Deelcollectie
+        market_value: Marktwaarde (€)
+        replacement_value: Vervangingswaarde (€)
+        purchase_price: Aankoopprijs
+        purchase_price_currency: Eenheid
+        price_reference: Prijsreferentie
+        grade_within_collection: Niveau binnen collectie
+        created_at: Gemaakt op
+        updated_at: Bijgewerkt op
+        entry_status: Invoerstatus
+        entry_status_description: Invoerstatus opmerkingen
+        signature_rendered: Signatuur
+        condition_work_rendered: Conditie werk
+        condition_frame_rendered: Conditie lijst
+        valuation_on: Datum waardebepaling
+        internal_comments: Opmerkingen voor intern gebruik
+        location_detail: Locatie specificatie
+        artist_name_rendered: Vervaardiger(s)
+        hpd_height: Hoogte (HPD)
+        hpd_width: Breedte (HPD)
+        hpd_depth: Diepte (HPD)
+        hpd_diameter: Diameter (HPD)
+        hpd_keywords: Trefwoord
+        hpd_materials: Materiaal
+        hpd_condition: Fysieke staat
+        hpd_photo_file_name: Fotonummer
+        hpd_comments: Opmerkingen
+        hpd_contact: Contactpersoon
+        object_categories_split: Categorieën (technieken afzonderlijk geteld)
+      category:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      collection:
+        name: Naam
+        description: Beschrijving
+        exposable_fields: Beschikbare velden
+        order: Volgorde
+        hide: Verberg
+        parent_collection: Maakt onderdeel uit van de collectie
+        label_override_work_alt_number_1: Label voor alternatief nummer 1
+        label_override_work_alt_number_2: Label voor alternatief nummer 2
+        label_override_work_alt_number_3: Label voor alternatief nummer 3
+      condition:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      currency:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      damage_type:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      frame_damage_type:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      medium:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      object_category:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      placeability:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      source:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      style:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      subset:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      technique:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      theme:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+        collection: Collectie
+      book:
+        isbn: ISBN
+        title: Titel
+        subtitle: Subtitel
+        gbid: Source ID
+        status:
+          indexed: ✔ Geïndexeerd!
+          indexing_in_progress: Bezig met indexeren!
+          not_indexed: Niet geïndexeerd
+          partly_indexed: Gedeeltelijk geïndexeerd
+        book_of_the_year_year: Kookboek van het jaar uit het jaar
+        book_of_the_year_category: Kookboek van het jaar categorie
+        book_of_the_year_type: Kookboek van het jaar type
+      user:
+        name: Naam
+        email: E-mailadres
+        order: Volgorde
+        hide: Verberg
+        qkunst: QKunst registratiemedewerker
+        admin: Administrator (heeft toegang tot alle collecties en functies)
+        collections: 'Collecties waartoe deze gebruiker toegang toe heeft'
+        receive_mails: Ontvang e-mails bij updates (meldingen, nieuwe berichten)
+        login: Inloggen
+        password: Wachtwoord
+        current_password: Huidige wachtwoord
+        password_confirmation: 'Wachtwoord bevestiging'
+        newsletter: 'Ik wil de nieuwsbrief ontvangen'
+        first_name: 'Voornaam'
+        last_name: 'Achternaam'
+        remember_me: 'Onthoud mij'
+        city: 'Stad'
+        company_name: 'Bedrijfsnaam'
+      import_collection:
+        file: Importbestand
+        header_row: Koprij
+        decimal_separator: Scheidingsteken decimalen
+        external_inventory: Externe inventarisatie

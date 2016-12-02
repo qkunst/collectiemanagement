@@ -1,0 +1,21 @@
+
+
+<h1><%=@involvement.name%></h1>
+
+<p>
+  <strong>City:</strong>
+  <%= @involvement.city %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @involvement.country %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @involvement.type %>
+</p>
+
+<%= link_to 'Bewerken', edit_involvement_path(@involvement) %> |
+<%= link_to 'Terug naar overzicht', involvements_path %>

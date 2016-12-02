@@ -1,0 +1,17 @@
+<div class="row">
+<div class="large-9 medium-9 columns">
+<h1><%=@title%></h1>
+
+  <ul>
+    <% @artists.each do |artist| %>
+      <li>
+        <%= link_to artist.name, artist %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<aside class="large-3 medium-3 columns">
+  <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: :button if qkunst_user? %>
+</aside>
+</div>

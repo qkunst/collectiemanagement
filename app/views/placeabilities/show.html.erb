@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%=@placeability.name%></h1>
+
+<p>
+  <strong>Order:</strong>
+  <%= @placeability.order %>
+</p>
+
+<p>
+  <strong>Hide:</strong>
+  <%= @placeability.hide %>
+</p>
+
+<%= link_to 'Bewerken', edit_placeability_path(@placeability) %> |
+<%= link_to 'Terug naar overzicht', placeabilities_path %>

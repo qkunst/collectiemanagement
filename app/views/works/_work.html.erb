@@ -1,0 +1,20 @@
+<div class="panel work<%=' external_inventory' if work.external_inventory?%>">
+  <% cache([work.id ? work : "#{Time.now}+#{rand(10000)}+#{work.title}+#{work}+#{work.stock_number}", @selection_display, current_user.role, "v1.3.1"]) do %>
+    <%= link_to collection_work_path(work.collection, work.id ? work.id : -1) do%>
+      <div class="image"><%= image_tag(work.photo_front.big_thumb, class: "nonlinked_show") if work.photo_front? %></div>
+    <% end %>
+      <div class="data">
+        <label class="work-selector hide-for-print">
+        <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" if qkunst_user? and @show_work_checkbox %>
+      </label>
+        <p class="stocknumber"><%= work.stock_number %><% if work.external_inventory? %><span title="Dit werk is niet door QKunst geïnventariseerd">*</span><% end %></p>
+        <%= link_to collection_work_path(work.collection, work.id ? work.id : -1) do%>
+          <h3><%= work.artist_name_rendered%></h3>
+          <h4><%= work.title_rendered%></h4>
+          <p><%=  work.description%></p>
+
+          <%= render :partial => 'works/work_detailed_data', locals: {work: work} %>
+        <% end %>
+      </div>
+  <% end %>
+</div>

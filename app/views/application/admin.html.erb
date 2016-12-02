@@ -1,0 +1,20 @@
+<h1>Administratie</h1>
+<h2>Beheren gebruikers</h2>
+<p>Ga naar <%= link_to 'gebruikersbeheer', users_path %> om gebruikers toegang tot collecties te verlenen en de rollen die de gebruikers hebben aan te passen.</p>
+
+<h2>Beheren van de opties</h2>
+<p>Beheer hier de verschillende opties die geboden worden bij het gestructureerd invoeren van de werken:</p>
+<ul>
+  <li><%= link_to 'Beschadigingen (beeld)', damage_types_path%> </li>
+  <li><%= link_to 'Beschadigingen (lijst)', frame_damage_types_path%> </li>
+  <li><%= link_to 'Categorie', object_categories_path%> </li>
+  <li><%= link_to 'Conditie', conditions_path%> </li>
+  <li><%= link_to 'Deelcollectie', subsets_path%> </li>
+  <li><%= link_to 'Herkomst', sources_path%> </li>
+  <li><%= link_to 'Drager', media_path%> </li>
+  <li><%= link_to 'Munteenheden', currencies_path%> </li>
+  <li><%= link_to 'Plaatsbaarheid', placeabilities_path%> </li>
+  <li><%= link_to 'Stijlen', styles_path%> </li>
+  <li><%= link_to 'Technieken', techniques_path%> </li>
+  <li><%= link_to 'Thema\'s', themes_path%> </li>
+</ul>

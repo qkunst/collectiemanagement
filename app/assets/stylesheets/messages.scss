@@ -1,0 +1,61 @@
+// Place all the styles related to the messages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+
+table.conversations {
+  width: 100%;
+  tr {
+    border-bottom: 1px solid $light_grey;
+    &.unread {
+      td {
+        span.label.unread {
+          overflow: hidden;
+          display: inline-block;
+          vertical-align: center;
+          width: 8px;
+          height: 8px;
+          padding: 0;
+          margin-left: -15px;
+          span {
+            margin-left: -100px;
+          }
+        }
+        font-weight: bold;
+      }
+    }
+  }
+}
+article.message {
+  border: 1px solid $light_grey;
+  margin: 0.5em 0;
+  box-shadow: 0 0 8px rgba(77,77,77,0.2);
+  &.conversation_starter {
+    margin: 1em 0;
+
+    header {
+      background: $qkunst_orange;
+      h6, h5, h4, h3 {
+        color: $white;
+      }
+      color: $white;
+    }
+  }
+
+  blockquote {
+    border: 0;
+    padding: 0.5em;
+    color: #000;
+    float: left;
+    width: 100%;
+    p {
+      color: #000;
+    }
+  }
+
+}
+#context-container {
+  .message footer {
+    display: none;
+  }
+}

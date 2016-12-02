@@ -1,0 +1,57 @@
+<h1><%=@batch_photo_upload.short_name%> (<%= link_to 'Bewerk', edit_collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>)</h1>
+<% unless params[:debug] %>
+<p>Hieronder ziet u hoe de foto's aan de reeds geïmporteerde werken in deze collectie zijn gekoppeld. Indien de koppeling er goed uit ziet <%= button_to 'kan deze definitief gemaakt worden', collection_batch_photo_upload_match_works_path(@collection,@batch_photo_upload), class: 'small button inline', method: :post%>, anders kunt u de <%= link_to 'koppel-instellingen bewerken', edit_collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>. Weet u wat u doet, dan <%= link_to 'kunt u de debug-foto-import pagina', collection_batch_photo_upload_path(@collection,@batch_photo_upload, params: {debug: true})%> bekijken.</p>
+<div class="row">
+<div class="large-12 columns">
+<% @batch_photo_upload.images[(@page)*24..(@page)*24+23].each do | image | %>
+  <div class="panel work">
+    <% work = image.work %>
+    <% link_path = work ? collection_work_path(work.collection, work.id ? work.id : -1) : '' %>
+
+    <%= link_to link_path do %>
+      <div class="image"><%= image_tag(image.big_thumb, class: "nonlinked_show") %></div>
+    <% end %>
+      <div class="data">
+        <p class="stocknumber"><%= work.stock_number if work %></p>
+        <%= link_to link_path do%>
+          <h3><%= work.artist_name_rendered if work%></h3>
+          <h4><%= work.title_rendered if work%></h4>
+          <p>bestand: <%= image_alt(image.file.file) %><br/>
+             type: <%=Work.human_attribute_name(image.image_type)%></p>
+        <% end %>
+      </div>
+  </div>
+
+<% end %>
+<hr/>
+<%= link_to 'Vorige pagina', collection_batch_photo_upload_path(@collection,@batch_photo_upload, {page: @page-1}) if @page > 0 %>
+<%= link_to 'Volgende pagina', collection_batch_photo_upload_path(@collection,@batch_photo_upload, {page: @page+1}) if @page*24 < @batch_photo_upload.images.count-24 %>
+</div>
+</div>
+<% else %>
+<h2>Debug informatie</h2>
+<p><%= link_to 'Terug naar de foto-import', collection_batch_photo_upload_path(@collection,@batch_photo_upload)%></p>
+<p>Met deze pagina kunnen eventuele fouten opgespoord worden / missende foto's geïdentificeerd worden.</p>
+<% path = @batch_photo_upload.images.first.path %>
+<% directory = @batch_photo_upload.images.first.path.gsub(@batch_photo_upload.images.first.filename,'') %>
+<% directory = Dir.new(directory)%>
+<% unmatched_files = directory.collect{|a| a unless a.starts_with?("big_thumb_") or a == "." or a == ".."}.compact %>
+<div class="row">
+  <div class="large-6 columns">
+    <p>De volgende foto's konden niet gekoppeld worden:</p>
+    <ul>
+    <% unmatched_files.sort.each do |file| %>
+    <li><%= file%></li>
+    <% end %>
+    </ul>
+  </div>
+  <div class="large-6 columns">
+    <p>De volgende <%= @collection.works.no_photo_front.count %> werken hebben geen foto's:</p>
+    <ul>
+    <% @collection.works.no_photo_front.order(:stock_number).each do |work| %>
+    <li><%= link_to work.stock_number, collection_work_path(@collection, work) %></li>
+    <% end %>
+    </ul>
+  </div>
+</div>
+<% end%>

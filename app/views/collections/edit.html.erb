@@ -1,0 +1,5 @@
+<h1>Bewerk deze collectie <small>(<%= link_to 'Verwijder collectie', @collection, method: :delete, data: { confirm: "Weet u zeker dat u deze collectie wenst te verwijderen? "} %>)</small></h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Wijzigingen niet opslaan', @collection %>

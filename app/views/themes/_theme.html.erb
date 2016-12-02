@@ -1,0 +1,3 @@
+<% if (theme.hide? == true and @show_hidden) or theme.hide? == false %>
+  <li><%= link_to_edit [@collection,theme].compact %> <%=theme.hide? ? "(verborgen)" : ""%></li>
+<% end %>

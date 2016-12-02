@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="large-9 columns">
+    <h1>Thema's binnen <%=@collection.name%></h1>
+    <div class="row">
+      <div class="large-4 columns">
+        <h4>Algemeen</h4>
+        <ul>
+          <%= render Theme.general.all %>
+        </ul>
+      </div>
+      <div class="large-4 columns">
+        <h4>Uit bovenliggende collecties</h4>
+        <% if @collection.parent_collections_flattened.count > 0 %>
+          <% count = 0 %>
+          <% @collection.parent_collections_flattened.each do |collection| %>
+            <% if collection.themes.show_hidden(@show_hidden).count > 0 %>
+              <h6><%= collection.name%></h6>
+              <ul>
+                <%= render collection.themes %>
+                <% count += 1%>
+              </ul>
+            <% end %>
+          <% end %>
+          <% if count == 0 %>
+            <p>Deze deelcollectie heeft geen thema's overgekregen uit bovenliggende collecties</p>
+          <% end%>
+        <% else %>
+          <p>Dit is geen deelcollectie</p>
+        <% end %>
+      </div>
+      <div class="large-4 columns">
+        <h4>Collectiespecifiek</h4>
+        <ul>
+          <%= render @collection.themes %>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+  <aside class="large-3 columns">
+    <%= link_to 'Nieuw collectie-thema', new_collection_theme_path(@collection), class: 'button'%>
+    <% if @show_hidden %>
+      <p>Verborgen thema's worden nu weergegeven, <%= link_to "verberg de verborgen thema's", collection_themes_path(@collection, show_hidden: nil)%></p>
+    <% else %>
+      <p>Verborgen thema's zijn nu verborgen, <%= link_to "toon ook deze thema's", collection_themes_path(@collection, show_hidden: true)%></p>
+    <% end %>
+  </aside>
+</div>

@@ -1,0 +1,46 @@
+<h1>Bewerk de import</h1>
+<%= simple_form_for([@collection, @import_collection]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <hr/>
+
+    <div class="row">
+      <div class="large-8 columns">
+        <%= f.input :file, hint: "Gebruik dit upload veld alleen wanneer je een bijgewerkte versie van hetzelfde bestand hebt. Wil je extra werken importeren, #{link_to 'maak dan een nieuwe import', new_collection_import_collection_path(@collection)}. Bij het importeren worden eerder geïmporteerde werken met dezelfde importer verwijderd.".html_safe %>
+        <%= f.input :external_inventory, as: :boolean%>
+      </div>
+      <div class="large-4 columns">
+        <h4>Geavanceerd</h4>
+        <%= f.input :header_row, hint: "Het rijnummer waarin de kolomhoofden staan" %>
+        <div class="input">
+        <%= f.label :decimal_separator %>
+        <%= f.select :decimal_separator, [",","."], value: @import_collection.decimal_separator_with_fallback %>
+        <div class="hint">In Nederland is dit over het algemeen een komma, in de VS een punt.</div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="import_collection">
+    <hr/>
+    <div class="row">
+      <div class="large-8 columns">
+        <h3>Te importeren tabel</h3>
+        <p>Let op, er wordt slechts een fragment van het bestand getoond</p>
+      </div>
+      <div class="large-4 columns" style="text-align: right">
+        <%= f.button :submit, class: :button %>
+
+      </div>
+    </div>
+
+
+    <%= render partial: 'import_table'%>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', collection_import_collection_path(@collection,@import_collection) %> |
+<%= link_to 'Back', collection_import_collections_path(@collection) %>

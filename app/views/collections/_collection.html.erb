@@ -1,0 +1,25 @@
+<% close_li = false %>
+<% parent_has_themes = defined?(parent_has_themes) ? parent_has_themes : nil %>
+
+<% if defined?(render_themes) && render_themes %>
+  <% themes = @show_hidden ? collection.themes : collection.themes.not_hidden %>
+  <% if themes.count > 0 or (defined?(parent_has_themes) && parent_has_themes) %>
+    <li><%= link_to collection.name, collection_themes_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %>
+      (<%= themes.collect(&:name).to_sentence%>)
+       <% close_li = true %><ul>
+  <% end %>
+<% else %>
+  <li><%= link_to collection.name, collection_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %><% if collection.works.count > 0 %> (<%= link_to  I18n.translate('count.works', count: collection.works.count), collection_works_path(collection, params: {show_hidden: @show_hidden, no_child_works: true})  %>)<% end %>
+       <% close_li = true %><ul>
+<% end %>
+
+<% if collection.child_collections.count > 0 %>
+  <%
+  locals = {}
+  locals[:render_themes] = render_themes if defined?(render_themes)
+  locals[:parent_has_themes] = collection.themes.count > 0
+  %>
+  <%= render collection.child_collections, locals %>
+<% end %>
+
+<% if close_li%></ul></li><% end %>

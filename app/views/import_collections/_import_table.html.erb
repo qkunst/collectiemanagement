@@ -1,0 +1,69 @@
+<%
+table = ""
+if @import_collection.import_file_snippet_to_workbook_table
+  table = @import_collection.import_file_snippet_to_workbook_table.to_html
+
+  # <th class="datum" data-key="datum">datum</th>
+  def field_options_html fieldname
+    selected = @import_collection.import_setting_for(fieldname)["fields"]
+    html = ""
+    ImportCollection.columns_for_select.each do | optgroup, options |
+      html += "<optgroup label=\"#{I18n.t optgroup.to_s.singularize, scope: [:activerecord,:models]}\">"
+      options.each do | option |
+        value = "#{optgroup}.#{option}"
+        model_name = optgroup.to_s.singularize.to_sym
+        if !selected.include?(value.to_s)
+          html += "<option value=\"#{value}\""
+          html +=">#{I18n.t(option, scope: [:activerecord, :attributes, model_name])}</option>"
+        end
+      end
+      html += "</optgroup>"
+    end
+
+    selected.each do |value|
+      optgroup, option = value.split('.')
+      model_name = optgroup.to_s.singularize.to_sym
+      html += "<option value=\"#{value}\""
+      html += " selected=\"selected\""
+      html +=">#{I18n.t(option, scope: [:activerecord, :attributes, model_name])}</option>"
+    end
+
+    html
+  end
+
+  def split_strategy_options_html fieldname
+    selected = @import_collection.import_setting_for(fieldname)["split_strategy"]
+    html = ""
+    ImportCollection.split_strategies.each do |key, value|
+      html += "<option value=\"#{key}\""
+      html += " selected=\"selected\"" if selected == key.to_s
+      html += ">#{I18n.t key, scope: 'activerecord.values.import_collection'}</option>"
+    end
+    html
+  end
+
+  def assign_strategy_options_html fieldname
+    selected = @import_collection.import_setting_for(fieldname)["assign_strategy"]
+    html = ""
+    ImportCollection.assign_strategies.each do |key, value|
+      html += "<option value=\"#{key}\""
+      html += " selected=\"selected\"" if selected == key.to_s
+      html += ">#{I18n.t key, scope: 'activerecord.values.import_collection'}</option>"
+    end
+    html
+  end
+
+  table = table.gsub(/data-key=\"([A-Za-z0-9\_\-]+)\"\>/) do |match|
+    match = match.match(/\"([A-Za-z0-9\_\-]+)\"/)[1]
+    '><div class="field-settings">
+      <label><select name="[import_settings]['+match+'][split_strategy]" title="Splits veld">'+split_strategy_options_html(match)+'</select></label>
+      <label><select name="[import_settings]['+match+'][assign_strategy]" title="Selecteer voor veld">'+assign_strategy_options_html(match)+'</select></label>
+      <label><select name="[import_settings]['+match+'][fields][]" multiple="multiple" title="Plaats in veld(en)" class="select2">'+field_options_html(match)+'</select></label>
+    </div>'
+  end
+  table = table.gsub("<tbody>","<tbody style=\"height: 50em; overflow-y: scroll\">")
+end
+%>
+<div class="importtable" style="width: 100%; overflow-x: scroll">
+<%= table.html_safe%>
+</div>

@@ -1,0 +1,148 @@
+<%= simple_nested_form_for([@collection,@work], data: {offline: :offline}) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">
+    <fieldset>
+      <legend>Administratief</legend>
+      <div class="row">
+      <div class="large-8 medium-8 columns">
+        <%= f.input :location if @collection.expose?(:location)%>
+      </div>
+      <div class="large-4 medium-4 columns">
+        <%= f.input :location_detail if @collection.expose?(:location)%>
+      </div>
+      </div>
+      <div class="row">
+        <div class="large-3 medium-6 columns">
+          <%= f.input :stock_number if @collection.expose?(:stock_number) %>
+        </div><div class="large-3 medium-6 columns">
+          <%= f.input( :alt_number_1, label: @collection.label_override_work_alt_number_1_with_inheritance ) if @collection.expose?(:alt_number_1) %>
+        </div><div class="large-3 medium-6 columns">
+          <%= f.input( :alt_number_2, label: @collection.label_override_work_alt_number_2_with_inheritance ) if @collection.expose?(:alt_number_2) %>
+        </div><div class="large-3 medium-6 columns">
+          <%= f.input( :alt_number_3, label: @collection.label_override_work_alt_number_3_with_inheritance ) if @collection.expose?(:alt_number_3) %>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Foto</legend>
+      <div class="row">
+        <div class="large-6 medium-6 columns">
+          <div class="image_upload"><div class="image"><%= image_tag(@work.send("photo_front".to_sym).thumb) %></div><%= f.input :photo_front if @collection.expose?(:photo_front) %></div>
+          <div class="image_upload"><div class="image"><%= image_tag(@work.send("photo_back".to_sym).thumb) %></div><%= f.input :photo_back if @collection.expose?(:photo_back) %></div>
+        </div>
+        <div class="large-6 medium-6 columns">
+          <div class="image_upload"><div class="image"><%= image_tag(@work.send("photo_detail_1".to_sym).thumb) %></div><%= f.input :photo_detail_1 if @collection.expose?(:photo_detail_1) %></div>
+          <div class="image_upload"><div class="image"><%= image_tag(@work.send("photo_detail_2".to_sym).thumb) %></div><%= f.input :photo_detail_2 if @collection.expose?(:photo_detail_2) %></div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset id="vervaardigers">
+      <% if @collection.expose?(:artists)%>
+      <legend>Vervaardiger(s)</legend>
+      <%= f.association :artists, input_html: {class: 'chosen-select'}  %>
+      <%= f.input :artist_unknown %>
+      <p><%= f.link_to_add "Voeg een nog niet eerder geregistreerde vervaardiger toe", :artists, :data => { :target => "#artists" } %></p>
+      <div id="artists">
+        <%= f.fields_for :artists  %>
+      </div>
+      <% end %>
+    </fieldset>
+    <fieldset>
+      <legend>Object</legend>
+      <%= f.input :title if @collection.expose?(:title) %>
+      <%= f.input :title_unknown if @collection.expose?(:title_unknown) %>
+      <%= f.input :description if @collection.expose?(:description)  %>
+      <%= f.input( :object_creation_year, input_html: {step: 0, maxlength: 4, type: :text}) if @collection.expose?(:object_creation_year)  %>
+      <%= f.input :object_creation_year_unknown if @collection.expose?(:object_creation_year_unknown)  %>
+      <%= f.association( :object_categories, input_html: {class: 'chosen-select'}, collection: ObjectCategory.not_hidden ) if @collection.expose?(:object_categories) %>
+      <%= f.association( :techniques, input_html: {class: 'chosen-select'}, collection: Technique.not_hidden) if @collection.expose?(:techniques) %>
+      <%= f.association( :medium, input_html: {class: 'chosen-select'}, collection: Medium.not_hidden) if @collection.expose?(:medium)  %>
+      <%= f.input :medium_comments if @collection.expose?(:medium_comments)  %>
+      <%= f.input :signature_comments if @collection.expose?(:signature_comments)  %>
+      <%= f.input :no_signature_present if @collection.expose?(:no_signature_present)  %>
+      <%= f.input :print if @collection.expose?(:print)  %>
+    </fieldset>
+    <fieldset>
+      <legend>Afmetingen</legend>
+      <div class="row">
+        <div class="large-3 medium-3 columns"><%= f.input(:frame_height, input_html: {type: :text}) if @collection.expose?(:frame_height) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:frame_width, input_html: {type: :text}) if @collection.expose?(:frame_width) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:frame_depth, input_html: {type: :text}) if @collection.expose?(:frame_depth) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:frame_diameter, input_html: {type: :text}) if @collection.expose?(:frame_diameter) %></div>
+      </div>
+      <div class="row">
+        <div class="large-3 medium-3 columns"><%= f.input(:height, input_html: {type: :text}) if @collection.expose?(:height) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:width, input_html: {type: :text}) if @collection.expose?(:width) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:depth, input_html: {type: :text}) if @collection.expose?(:depth) %></div>
+        <div class="large-3 medium-3 columns"><%= f.input(:diameter, input_html: {type: :text}) if @collection.expose?(:diameter) %></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Conditie</legend>
+      <div class="row">
+        <div class="large-3 medium-3 columns"><%= f.association( :condition_work, input_html: {class: 'chosen-select'}) if @collection.expose?(:condition_work) %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :damage_types, input_html: {class: 'chosen-select'}) if @collection.expose?(:damage_types) %></div>
+        <div class="large-6 medium-6 columns"><%= f.input :condition_work_comments  if @collection.expose?(:condition_work_comments)%></div>
+      </div>
+      <div class="row">
+        <div class="large-3 medium-3 columns"><%= f.association( :condition_frame, input_html: {class: 'chosen-select'}) if @collection.expose?(:condition_frame) %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'} ) if @collection.expose?(:frame_damage_types)%></div>
+        <div class="large-6 medium-6 columns"><%= f.input :condition_frame_comments if @collection.expose?(:condition_frame_comments) %></div>
+      </div>
+      <%= f.association( :placeability, input_html: {class: 'chosen-select'})  if @collection.expose?(:placeability)%>
+    </fieldset>
+    <fieldset>
+      <legend>Overig</legend>
+      <%= f.input :information_back  if @collection.expose?(:information_back) %>
+      <%= f.input :other_comments  if @collection.expose?(:other_comments)%>
+      <%= f.association( :sources, input_html: {class: 'chosen-select'}) if @collection.expose?(:sources)%>
+      <%= f.input :source_comments  if @collection.expose?(:source_comments)%>
+    </fieldset>
+    <fieldset>
+      <legend>Typering</legend>
+      <%= f.input( :abstract_or_figurative, collection: {Work.human_attribute_name(:abstract)=>'abstract', Work.human_attribute_name(:figurative)=>'figurative'},  as: :radio_buttons )  if @collection.expose?(:abstract_or_figurative)%>
+      <%= f.association(:style, input_html: {class: 'chosen-select'}, collection: Style.not_hidden)  if @collection.expose?(:style)%>
+      <%= f.association(:themes, input_html: {class: 'chosen-select', :multiple => true }, as: :grouped_select, collection: @collection.self_and_parent_collections_flattened.all_plus_a_fake_super_collection, group_method: :not_hidden_themes)  if @collection.expose?(:themes)%>
+      <%= f.association(:subset, input_html: {class: 'chosen-select'}, collection: Subset.not_hidden)  if @collection.expose?(:subset)%>
+      <%= f.label :locality_geoname_id, "Lokaliteit" %>
+      <%= f.select :locality_geoname_id, { @work.locality_geoname_name => @work.locality_geoname_id}, {}, class: 'select2 ajax'  if @collection.expose?(:locality_geoname_id)%>
+    </fieldset>
+      <fieldset>
+        <legend>Waardebepaling</legend>
+        <div class="row">
+        <% if current_user.can_access_valuation?%>
+          <div class="large-4 medium-4 columns"><%= f.input(:market_value, input_html: {type: :text})  if @collection.expose?(:market_value)%></div>
+          <div class="large-4 medium-4 columns"><%= f.input(:replacement_value, input_html: {type: :text})  if @collection.expose?(:replacement_value)%></div>
+          <div class="large-4 medium-4 columns">
+            <div class="row">
+            <div class="large-9 medium-9 columns"><%= f.input(:purchase_price, input_html: {type: :text}) if @collection.expose?(:purchase_price) %></div>
+            <div class="large-3 medium-3 columns"><%=f.association( :purchase_price_currency, value: 1 ) if @collection.expose?(:purchase_price_currency) %></div>
+            </div>
+          </div>
+
+          <div class="large-12 medium-12 columns"><%= f.input :valuation_on, html5:true if @collection.expose?(:market_value)%></div>
+        <% end %>
+        <div class="large-12 medium-12 columns"><%= f.input(:price_reference) if @collection.expose?(:price_reference) %></div>
+        </div>
+        <%= f.input(:grade_within_collection, collection: %w{A B C D E F G}) if @collection.expose?(:grade_within_collection) %>
+      </fieldset>
+    <fieldset>
+      <%= f.input :internal_comments %>
+      <!-- make sure manually fixed works aren't removed on rollback-->
+      <%= f.input :imported_at, input_html: { value: ""}, as: :hidden %>
+      <%= f.input :import_collection_id, input_html: { value: ""}, as: :hidden%>
+    </fieldset>
+  </div>
+
+  <div class="form-actions">
+    <hr/>
+    <% if @work.id %>
+    <label><%= check_box_tag 'submit_and_edit_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
+    <% end %>
+    <%= f.button :submit, class: :button %>
+    <% unless @work.id %>
+      <%= f.button :submit, class: "button no-reload", value: "Werk toevoegen en volgende voorinvullen", data: { no_reload: true, confirm: "Het formulier wordt op de achtergrond verstuurd. Foto's worden niet opgeslagen bij deze handeling. Als u op OK drukt kunt u beginnen met het volgende werk." } %>
+    <% end %>
+
+  </div>
+<% end %>

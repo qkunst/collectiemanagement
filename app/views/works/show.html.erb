@@ -1,0 +1,50 @@
+<header class="row">
+  <div class="large-10 columns">
+    <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to_with_name artist %> <% end %></h2>
+
+    <h1><%= @work.title_rendered %>         <% if qkunst_user? %>
+          (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
+        <% end %></h1>
+  </div>
+  <div class="medium-2 columns">
+    <div class="stocknumber right"><%= @work.stock_number %></div>
+    <p class="meta">Toegevoegd <%= "door #{@work.created_by.email}" if @work.created_by and current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, {format: :short}%></p>
+  </div>
+  <div class="large-12 columns">
+    <p>
+      <%= simple_format @work.description %>
+    </p>
+  </div>
+</header>
+
+
+<div class="imageviewer">
+  <%= image_tag(@work.photo_front.screen, class: :show) if @work.photo_front? %>
+  <ul class="thumbs" >
+    <% [:front,:back,:detail_1,:detail_2].each do |phototype| %>
+      <% if @work.send("photo_#{phototype}?".to_sym) %>
+        <li title="<%= Work.human_attribute_name "photo_#{phototype}"%>">
+          <%= link_to @work.send("photo_#{phototype}".to_sym).screen.url do %>
+            <%= image_tag(@work.send("photo_#{phototype}".to_sym).thumb) %>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="small-6 column">
+    <h3 class="left">Details</h3>
+  </div>
+  <div class="small-6 column">
+    <% if current_user.can_write_messages? %>
+      <%= link_to 'Vraag of opmerking?', collection_work_messages_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="large-12 column">
+    <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
+  </div>
+</div>

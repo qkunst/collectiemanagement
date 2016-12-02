@@ -1,0 +1,21 @@
+<div class="row">
+<div id="main" class="medium-9 columns">
+  <%= render @message %>
+  <%= render @other_messages %>
+  <h3>Antwoord</h3>
+  <%= render 'form' %>
+
+</div>
+<% if @message.subject_url%>
+<aside class="medium-3 columns">
+  <h4>Context</h4>
+  <p>Deze conversatie vindt plaats in de context van:</p>
+  <div class="row">
+    <div class="large-12 columns">
+      <%= render @message.subject_object if @message.subject_url%>
+    </div>
+  </div>
+  <%= link_to 'Ga naar het object →', @message.subject_url, class: 'small button'%>
+</aside>
+<% end %>
+</div>

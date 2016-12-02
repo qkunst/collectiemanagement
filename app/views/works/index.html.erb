@@ -1,0 +1,102 @@
+<h1>Collectie <%= @collection.name %></h1>
+<%= form_tag collection_works_path, method: :get, data: {auto_submit: true} do %>
+
+  <p id="offline"  data-alert class="alert-box"></p>
+    <% if offline? %>
+    <div class="row">
+      <div class="large-12 columns"><p>Wanneer de applicatie offline gebruikt wordt kan de collectie niet worden weergegeven</p>
+      </div>
+    </div>
+    <% else %>
+
+  <div class="row">
+    <div class="large-6 columns">
+      <p>Deze <% if @collection_works_count > @works.count %> (gefilterde) <% end %> collectie bevat <%= I18n.translate 'count.works', count:  @works.count %><% if @collection_works_count > @works.count %> (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>).<span class="hide-for-print"><br/> <%= link_to collection_works_path(@collection, params: params.merge({filter:nil, cluster_new: nil, utf8: nil, action:nil, cluster_existing: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil, no_child_works: nil}) ) do %>Reset filters<% end %><% end %>.</span></p>
+
+
+
+    </div>
+    <div class="large-6 columns">
+      <div class="right hide-for-print" id="group_sort_display">
+        <% unless current_user.read_only? %>
+          <label>Groepeer: <%= select_tag :group, options_for_select({"Niet"=>:no_grouping, "Cluster"=>:cluster}, @selection_group), data: {auto_submit: true}  %></label>
+        <% end %>
+        <label>Sorteer: <%= select_tag :sort, options_for_select({"Inventarisnummer"=>:stock_number, "Kunstenaar"=>:artist_name}, @selection_sort), data: {auto_submit: true}  %></label>
+        <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection_display), data: {auto_submit: true}  %></label>
+      </div>
+  </div>
+  </div>
+  <div class="row">
+    <aside class="large-2 medium-2 columns filter hide-for-print">
+      <h4>Filteren</h4>
+      <h5>Thema</h5>
+      <%= render partial: "application/forms/checkbox", collection: @collection.available_themes+[{not_set: "Geen thema"}], as: :checkbox, locals: {field: "themes.id"} %>
+      <% unless current_user.read_only? %>
+        <h5>Deelcollectie</h5>
+        <%= render partial: "application/forms/checkbox", collection: Subset.all+[{not_set: "Geen deelcollectie"}], as: :checkbox, locals: {field: "subset_id"} %>
+        <h5>Niveau</h5>
+        <%= render partial: "application/forms/checkbox", collection: [{a: "A"},{b:"B"},{c:"C"},{d:"D"},{e:"E"},{f:"F"},{not_set: "Onbekend"}], as: :checkbox, locals: {field: "grade_within_collection"} %>
+        <h5>Plaatsbaarheid</h5>
+        <%= render partial: "application/forms/checkbox", collection: Placeability.all+[{not_set: "Onbekend"}], as: :checkbox, locals: {field: "placeability_id"} %>
+      <% end %>
+      <hr/>
+      <%= button_tag type: :submit do %>Filter<% end %>
+
+      <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
+    </aside>
+    <div class="large-10 medium-10 columns">
+
+      <%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
+
+
+      <% if defined?(@works_grouped) %>
+        <% if @works_grouped[nil].count > 0 %>
+          <h3>Overige werken (buiten een cluster)</h3>
+          <p>Dit cluster bevat <%= I18n.translate 'count.works', count: @works_grouped[nil].count %>.</p>
+          <%= render @works_grouped[nil]%>
+          <hr/>
+        <% end %>
+        <% @works_grouped.each do |cluster, works| %>
+          <% if works.count > 0 and cluster%>
+            <h3><%= cluster.name %></h3>
+            <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>. <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span></p>
+            <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.description%>
+            <%= render works%>
+            <hr/>
+          <% end %>
+        <% end %>
+      <% else %>
+        <%= render @works %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+  <% content_for :footer do %>
+  <p>Dit overzicht is gemaakt op <%= I18n.l Time.now, format: :long %>.</p>
+  <% end %>
+  <div id="selected-works" class="row">
+    <div class="large-12 columns">
+
+    <p>Voeg <span id="selected-works-count">x</span> werken toe aan
+      <%= select_tag "cluster_existing", options_for_select(@cluster_options, params[:cluster_existing]), include_blank: "een nieuw cluster"
+%> <label id="new-cluster-name">met naam <input name="cluster_new" type="text" /></label>
+<%= button_tag type: :submit, method: :post, value: :add_or_create_cluster, name: :add_or_create_cluster do %>Opslaan<% end %>
+    </div>
+  </div>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+<% end %>
+
+<script type="text/javascript">
+  $(function() {
+    var offline_stored_count = (FormStore.Store.count_by_key_start("<%=collection_works_url(@collection)%>"));
+    if (offline_stored_count > 0) {
+      $('#offline').text("Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd");
+
+      // document.getElementById("offline").innerHtml="Er zijn "+offline_stored_count;
+    } else {
+      $('#offline').hide()
+    }
+  });
+</script>

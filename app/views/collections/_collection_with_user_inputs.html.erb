@@ -1,0 +1,13 @@
+    <li>
+      <label>
+        <input name="user[collection_ids][]" value="<%=collection_with_user_inputs.id%>" type="checkbox" class="check_boxes optional"
+        <% if @user.collections.include? collection_with_user_inputs %>checked="checked"<% end %>
+        />
+        <%= link_to collection_with_user_inputs.name, collection_with_user_inputs if !collection_with_user_inputs.child_collections_flattened.include?(collection_with_user_inputs) %>
+      </label>
+      <% if collection_with_user_inputs.child_collections.count > 0 %>
+        <ul>
+          <%= render partial: 'collections/collection_with_user_inputs', collection: collection_with_user_inputs.child_collections %>
+        </ul>
+      <% end %>
+    </li>

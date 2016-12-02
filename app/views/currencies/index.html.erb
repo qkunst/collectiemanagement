@@ -1,0 +1,7 @@
+<h1>Overzicht munteenheden</h1>
+<ul>
+    <% @currencies.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe munteenheid', new_currency_path %>

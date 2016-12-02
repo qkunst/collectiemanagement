@@ -1,0 +1,19 @@
+<% @form_message = @new_reply_message || @message%>
+<%= simple_form_for([@collection, @work, @form_message].compact) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs"  id="start_reply">
+    <%= f.input :subject %>
+    <%= f.input :message %>
+    <%= f.input :in_reply_to_message_id, as: :hidden%>
+    <%#= f.input :just_a_note %>
+    <% if current_user.qkunst? %>
+      <%= f.input :qkunst_private %>
+    <% end %>
+    <br/>
+    <%= f.input :image %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, value: @form_message.id ? "Bericht bijwerken" : "Bericht versturen", class: 'button' %>
+  </div>
+<% end %>

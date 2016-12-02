@@ -1,0 +1,7 @@
+<h1>Overzicht dragers</h1>
+<ul>
+    <% @media.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe drager', new_medium_path %>

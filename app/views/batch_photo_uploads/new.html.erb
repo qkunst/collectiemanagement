@@ -1,0 +1,16 @@
+<h1>Nieuwe set foto's uploaden</h1>
+
+<%= simple_form_for([@collection,@batch_photo_upload]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%#= f.input :zip_file %>
+    <%= f.input :images, as: :file, input_html: {multiple: true} %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>
+
+<%= link_to 'Terug naar het overzicht', collection_batch_photo_uploads_path(@collection) %>

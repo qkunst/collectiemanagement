@@ -1,0 +1,7 @@
+<h1>Overzicht stijlen</h1>
+<ul>
+    <% @styles.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe stijl', new_style_path %>

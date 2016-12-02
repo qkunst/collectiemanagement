@@ -1,0 +1,9 @@
+<p>Er is een nieuw bericht geplaatst binnen de QKunst collectie database:</p>
+<%= render @message %>
+<% if @message.subject_object %>
+  <% if @message_object.is_a? Work %>
+    <p><strong>Gerelateerd werk: </strong> <%= @message_object.name %></p>
+  <% elsif @message_object.is_a? Collection %>
+    <p><strong>Gerelateerde collectie: </strong> <%= @message_object.name %></p>
+  <% end %>
+<% end %>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<% if offline? %>
+<html manifest="/application.manifest" lang="nl">
+<% else %>
+<html lang="nl">
+<% end %>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= "QKunst Collectie Beheer - #{@title}" %></title>
+
+    <%= stylesheet_link_tag    "application", media: 'all' %>
+
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+
+    <% if Rails.env == 'develofpment' %>
+    <script type="text/javascript" src="/testscript.js"></script>
+    <% end %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body class="<% if offline? %>offline-page <% end %><% if detail_display? %>detailed <%end%><% if complete_display? %>complete <%end%>">
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1>
+            <%= link_to root_path do %>
+              <%= image_tag "logo.svg", id: 'logo', alt: "QKunst Collectie Beheer"%>
+              <% end%>
+          </h1>
+        </li>
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon hide-for-print"><a href="#"><span>Menu</span></a></li>
+      </ul>
+
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right hide-for-print">
+          <% if user_signed_in? %>
+            <li><%= menu_link_to "Ingelogd als #{current_user.email}", edit_user_registration_path %> </li>
+
+          <li><%= link_to "Uitloggen", destroy_user_session_path, method: :delete, class:"alert" %> </li>
+          <% else %>
+          <li><%= link_to "Inloggen", new_user_session_path %> </li>
+
+          <% end%>
+          <% if current_user && current_user.qkunst? %>
+            <li id="online-statuses">
+              <a href="/debug-offline?offline=offline" class="online-status" id="online-status-offline" title="onlinestatus: offline"></a>
+              <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-offline-page-online" title="onlinestatus: offline"></a>
+              <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-uncertain" title="onlinestatus: onduidelijk"></a>
+              <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-online" title="onlinestatus: online"></a>
+            </li>
+          <% end %>
+        </ul>
+        <!-- Left Nav Section -->
+        <ul class="left hide-for-print">
+          <li><%= menu_link_to 'Collecties', collections_path%></li>
+          <% if current_user && current_user.can_receive_messages? %>
+          <li><%= menu_link_to 'Berichten', messages_path%></li>
+
+          <% end %>
+          <% unless offline? %>
+            <li><%= menu_link_to 'Vervaardigers', artists_path if qkunst_user?%></li>
+            <li><%= menu_link_to 'Beheren', admin_path if admin_user?%></li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
+   <% if notice %><p data-alert class="alert-box info"><%= notice %> <a href="#" class="close">&times;</a></p><% end %>
+   <% if alert %><p data-alert class="alert-box alert"><%= alert %> <a href="#" class="close">&times;</a></p><% end %>
+      <div class="row">
+        <div class="large-12 columns">
+          <% if @collection and @collection.name %>
+            <%= render partial: 'collections/subnav'%>
+          <% end %>
+          <%= yield %>
+
+         </div>
+       </div>
+     <footer class="">
+      <div class="row">
+        <%= yield(:footer)%>
+     </div>
+     </footer>
+     <% if current_user && current_user.qkunst? %>
+       <% unless offline? %>
+         <iframe src="<%= request.fullpath.match(/\?/) ? "#{request.fullpath}&offline=offline".html_safe: "#{request.fullpath}?offline=offline".html_safe %>" style="margin-left: -999px; height: 0px; position: absolute; top: 0"></iframe>
+       <% end %>
+     <% end %>
+     <div id="context-container" class="closed">
+     </div>
+  </body>
+</html>
