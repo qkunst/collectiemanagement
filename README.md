@@ -1,6 +1,6 @@
 # QKunst collectiebeheer
 
-Dit is de broncode van de QKunst Collectiebeheer applicatie, vrijgegeven onder een AGPL (GNU AFFERO GENERAL PUBLIC LICENSE) opensource licentie.
+Dit is de broncode van de QKunst Collectiebeheer applicatie, vrijgegeven onder een AGPL (GNU Affero General Public License v3.0) opensource licentie. Zie ook [LICENSE](LICENSE).
 Deze web applicatie stelt u in staat om kunstwerken binnen uw collectie te bekijken en, afhankelijk van de u toegewezen rol, te beheren.
 
 ## Over QKunst Collectiebeheer
