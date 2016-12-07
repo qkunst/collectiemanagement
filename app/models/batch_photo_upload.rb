@@ -1,4 +1,4 @@
-class BatchPhotoUpload < ActiveRecord::Base
+class BatchPhotoUpload < ApplicationRecord
   # store :images
   store :settings, accessors: [:column]
   mount_uploader :zip_file, ZipUploader

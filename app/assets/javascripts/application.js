@@ -13,15 +13,14 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require jquery.turbolinks
+//  require jquery.turbolinks
 //= require foundation
 //= require chosen
 //= require select2
 //= require jquery_nested_form
 //= require_tree .
 
-$(function(){
-Turbolinks.enableProgressBar();
+var collectieBeheerInit = function() {
   FormStore.init();
 
   function formatRepo (result) {
@@ -132,8 +131,7 @@ Turbolinks.enableProgressBar();
     return false;
   });
   $(document).foundation();
-});
-
+}
 
 $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function(event) {
   var form = $(event.target).parents("form[data-auto-submit=true]");
@@ -148,7 +146,13 @@ $(document).on("click keydown", "button[method=post]", function(e) {
   form.attr("method","post")
 });
 
-// Turbolinks.enableProgressBar();
 // f = FormStore.Form.parseForm(document.forms[0])
 // f.submitForm()
 
+$(document).ready(function(){
+  collectieBeheerInit()
+})
+
+$(document).on("turbolinks:load", function(){
+  collectieBeheerInit()
+})

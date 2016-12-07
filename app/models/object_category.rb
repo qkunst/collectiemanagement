@@ -1,4 +1,4 @@
-class ObjectCategory < ActiveRecord::Base
+class ObjectCategory < ApplicationRecord
   scope :not_hidden, ->{where(hide:[nil,false])}
   default_scope ->{order(:name)}
 

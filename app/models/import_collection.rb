@@ -43,7 +43,7 @@ class ImportCollectionClassAssociation
   end
 end
 
-class ImportCollection < ActiveRecord::Base
+class ImportCollection < ApplicationRecord
   belongs_to :collection
   has_many :artists
   has_many :works

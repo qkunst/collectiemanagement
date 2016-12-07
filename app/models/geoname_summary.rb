@@ -1,4 +1,4 @@
-class GeonameSummary < ActiveRecord::Base
+class GeonameSummary < ApplicationRecord
   scope :selectable, -> { where(type_code: ["AREA","PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX", "COUNTRY", "ADM1", "ADM2-NL"]) }
 
   class << self

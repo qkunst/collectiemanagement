@@ -1,4 +1,4 @@
-class Artist < ActiveRecord::Base
+class Artist < ApplicationRecord
   has_paper_trail
   has_many :artist_involvements
   has_and_belongs_to_many :works

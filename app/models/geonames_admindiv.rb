@@ -1,4 +1,4 @@
-class GeonamesAdmindiv < ActiveRecord::Base
+class GeonamesAdmindiv < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: 'GeonameTranslation'
 
   scope :netherlands, -> { where("geonames_admindivs.admin_code LIKE 'NL%'")}

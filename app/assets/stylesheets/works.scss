@@ -3,9 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-$qkunst-orange: #EA8830;
-$qkunst-grey : #7A7E80;
-$qkunst-dark : #1A1A18;
+@import 'variables';
+
 
 .work.panel {
   position: relative;
