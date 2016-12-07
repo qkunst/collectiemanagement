@@ -1,4 +1,4 @@
-class Theme < ActiveRecord::Base
+class Theme < ApplicationRecord
   belongs_to :collection
 
   scope :general, -> {where("themes.collection_id IS NULL")}

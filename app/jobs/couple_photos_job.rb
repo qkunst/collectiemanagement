@@ -1,4 +1,4 @@
-class CouplePhotosJob < ActiveJob::Base
+class CouplePhotosJob < ApplicationJob
   queue_as :default
 
   def perform(batch_photo_upload)

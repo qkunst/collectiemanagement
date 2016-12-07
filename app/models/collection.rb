@@ -12,7 +12,7 @@ class FakeSuperCollection
   end
 end
 
-class Collection < ActiveRecord::Base
+class Collection < ApplicationRecord
   has_many :works
   has_many :clusters
   has_many :import_collections

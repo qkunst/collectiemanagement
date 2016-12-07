@@ -16,6 +16,8 @@
  *= require foundation_and_overrides
  *= require_tree .
  *= require_self
+//= require foundation_and_overrides
+
  */
 
 @import 'variables';
@@ -133,12 +135,13 @@ ul.chosen-results li {
 
 nav.top-bar {
   border-bottom: 1px solid $light-grey;
-  li {
-//    border-bottom: 1px solid #ccc;
-//margin-top: -1px;
-  }
-  .top-bar-section li, .top-bar-section li a, .top-bar-section li:not(.has-form) a:not(.button) {
-    line-height: 2.75rem;
+  font-size: 0.85em;
+
+  li:not(.has-form), li a:not(.button) {
+    line-height: $navbar-height;
+    a {
+      color: $black;
+    }
     a.active {
       background: $qkunst-orange;
       color: #fff;
@@ -147,8 +150,9 @@ nav.top-bar {
   h1 {
     margin: 0;
     padding: 0;
+    line-height: $navbar-height;
     img {
-      margin: 4px 0 0 0;
+      margin: 4px 0 0 4px;
       padding: 0;
       height: 36px;
       vertical-align: top;
@@ -205,19 +209,14 @@ h3 {
   width: 100%;
 }
 .sub-nav {
+  float: left;
+  width: 100%;
   border-bottom: 1px solid #999;
   padding-bottom: 10px;
   padding-top: 1em;
 
-  dt {
-    margin-left: 0;
-    a {
-      padding-left: 0;
-    }
-  }
   a.button {
     margin-bottom: 0;
-    padding: 0.5em;
     color: #fff;
     &:hover {
       color: #fff;
@@ -363,11 +362,6 @@ body.offline {
   }
 }
 
-.sub-nav.right {
-//  clear: right;
-  padding: 5px 0;
-  margin-left: 1em;
-}
 
 .tabs {
   float: left;
@@ -442,6 +436,12 @@ body.offline {
   }
 }
 
+.right {
+  float: right;
+}
+.button.small {
+  font-weight: 600;
+}
 
 @media print {
   body {

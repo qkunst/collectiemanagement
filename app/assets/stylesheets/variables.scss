@@ -22,6 +22,60 @@ $black       : #000000;
 $qkunst-orange: #EA8830;
 $qkunst-grey : #7A7E80;
 $qkunst-dark : #1A1A18;
+$qkunst-blue: #008CBA;
 $light-grey: #ccc;
 $lighter-grey: #f0f0f0;
 $background-light-grey: #fafafa;
+
+
+$light-gray: #e6e6e6;
+$medium-gray: #cacaca;
+$dark-gray: #8a8a8a;
+$black: #0a0a0a;
+$white: #fff;
+
+$navbar-height: 1.5rem;
+
+
+
+
+
+
+
+
+
+
+
+
+$include-html-classes: true;
+$include-print-styles: true;
+
+// b. Grid
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+//$off-canvas-overlay-box-shadow: -4px -4px 4px rgba($black, .5);
+$topbar-bg-color: $white;
+$topbar-bg: $topbar-bg-color;
+$topbar-link-color: $oil;
+$topbar-link-color-hover: $oil;
+$topbar-link-color-active: $oil;
+$topbar-link-color-active-hover: $oil;
+$topbar-link-hover-lightness: +10%; // Darken by 10%
+$topbar-link-bg: $topbar-bg;
+$topbar-link-bg-hover: #ccc;
+$topbar-link-bg-color-hover: $topbar-bg;
+$topbar-link-bg-active: $topbar-bg;
+$topbar-link-bg-active-hover: scale-color($topbar-bg, $lightness: +14%);
+$topbar-dropdown-bg: $topbar-bg;
+$topbar-dropdown-link-color: $oil;
+$topbar-dropdown-label-bg: $topbar-bg;
+$topbar-menu-link-color: $oil;
+$topbar-menu-icon-color: $oil;
+$topbar-menu-link-color-toggled: $jumbo;
+$topbar-menu-icon-color-toggled: $jumbo;
+
+
+.label.qkunst {
+  background:  $qkunst-orange;
+}

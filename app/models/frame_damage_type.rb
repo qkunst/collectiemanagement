@@ -1,4 +1,4 @@
-class FrameDamageType < ActiveRecord::Base
+class FrameDamageType < ApplicationRecord
   scope :not_hidden, ->{where(hide:[nil,false])}
   default_scope ->{order(:name)}
 

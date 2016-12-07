@@ -1,4 +1,4 @@
-class Geoname < ActiveRecord::Base
+class Geoname < ApplicationRecord
   scope :populated_places, -> { where(feature_code: ["PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX"]) }
 
   has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: 'GeonameTranslation'

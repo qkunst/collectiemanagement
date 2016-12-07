@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   mount_uploader :image, PictureUploader

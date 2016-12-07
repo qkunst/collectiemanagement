@@ -1,4 +1,4 @@
-class Involvement < ActiveRecord::Base
+class Involvement < ApplicationRecord
   scope :educational, -> {where(type: :educational)}
   scope :professional, -> {where(type: :professional)}
 end

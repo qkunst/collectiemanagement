@@ -1,5 +1,5 @@
 require_relative "../uploaders/picture_uploader"
-class Work < ActiveRecord::Base
+class Work < ApplicationRecord
   has_paper_trail
   before_save :set_empty_values_to_nil
 

@@ -1,11 +1,12 @@
-<dl class="sub-nav hide-for-print">
-  <dt><%= menu_link_to @collection.name, collection_path(@collection)%>:</dt>
-  <dd><%= menu_link_to "Werken", collection_works_path(@collection)%></dd>
-  <dd><%= menu_link_to "Clusters", collection_clusters_path(@collection) if qkunst_user?%></dd>
-  <dd><%= menu_link_to "Rapportage", collection_report_path(@collection) if qkunst_user?%></dd>
-  <dd><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></dd>
-  <dd><%= menu_link_to "Import", collection_import_collections_path(@collection) if admin_user?%></dd>
+<nav class='sub-nav hide-for-print'>
+  <% if qkunst_user? %><%= link_to "Voeg nieuw werk toe", new_collection_work_path(@collection), class: 'small button right' %><% end %>
+<ul class="menu simple">
+  <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
+  <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
+  <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if qkunst_user?%></li>
+  <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if qkunst_user?%></li>
+  <li><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></li>
+  <li><%= menu_link_to "Import", collection_import_collections_path(@collection) if admin_user?%></li>
 
-
-  <% if qkunst_user? %><dd class="right"><%= link_to "Voeg nieuw werk toe", new_collection_work_path(@collection), class: 'small button' %></dd><% end %>
-</dl>
+</ul>
+</nav>
