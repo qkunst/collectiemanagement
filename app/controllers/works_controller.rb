@@ -24,10 +24,13 @@ class WorksController < ApplicationController
 
     prepare_clusters_for_selection
 
+    @max_index = params["max_index"].to_i if params["max_index"]
+
     if params[:offline] == "offline"
       @works = []
     else
       @works = @collection.search_works(nil,@selection_filter,{no_child_works: (params[:no_child_works] ? true : false)})
+      @works = @works
     end
 
     respond_to do |format|
@@ -40,8 +43,10 @@ class WorksController < ApplicationController
             works_other = works_other - cluster.works
           end
           @works_grouped[nil] = sort_works(works_other)
+          @max_index ||= 7
         else
           @works = sort_works(@works)
+          @max_index ||= 247
         end
       }
       format.xlsx {

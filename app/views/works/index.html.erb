@@ -44,16 +44,20 @@
 
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
     </aside>
-    <div class="large-10 medium-10 columns">
+    <div class="large-10 medium-10 columns" id="works-list">
 
       <%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
 
 
       <% if defined?(@works_grouped) %>
         <% if @works_grouped[nil].count > 0 %>
+          <% works = @works_grouped[nil ]%>
           <h3>Overige werken (buiten een cluster)</h3>
-          <p>Dit cluster bevat <%= I18n.translate 'count.works', count: @works_grouped[nil].count %>.</p>
-          <%= render @works_grouped[nil]%>
+          <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>.</p>
+          <%= render works[0..@max_index]%>
+          <% if works.count > @max_index+1%>
+          <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+          <% end %>
           <hr/>
         <% end %>
         <% @works_grouped.each do |cluster, works| %>
@@ -61,12 +65,18 @@
             <h3><%= cluster.name %></h3>
             <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>. <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span></p>
             <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.description%>
-            <%= render works%>
+            <%= render works[0..@max_index]%>
+            <% if works.count > @max_index+1%>
+            <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+            <% end %>
             <hr/>
           <% end %>
         <% end %>
       <% else %>
-        <%= render @works %>
+        <%= render @works[0..@max_index] %>
+        <% if @works.count > (@max_index + 1)%>
+          <p><%= link_to "Toon alle #{@works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+        <% end %>
       <% end %>
     </div>
   </div>
