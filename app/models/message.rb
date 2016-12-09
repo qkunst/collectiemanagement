@@ -85,6 +85,14 @@ class Message < ApplicationRecord
     User.where(id: users.compact.uniq)
   end
 
+  def notifyable_users
+    users = conversation_users.receive_mails.all
+    users += User.admin.receive_mails.all
+    users -= [self.from_user]
+    users.delete_if{|user| !user.qkunst? } if self.qkunst_private?
+    users.compact.uniq
+  end
+
   def from_qkunst?
     from_user.qkunst? if from_user
   end
@@ -105,11 +113,7 @@ class Message < ApplicationRecord
   end
 
   def send_notification
-    users = conversation_users.receive_mails.all
-    users += User.admin.receive_mails.all
-    users -= [self.from_user]
-    users.delete_if{|user| !user.qkunst? } if self.qkunst_private?
-    users.compact.uniq.each do | user |
+    notifyable_users.each do | user |
       MessageMailer.new_message(user, self).deliver_now
     end
   end

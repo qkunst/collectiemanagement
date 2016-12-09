@@ -1,0 +1,18 @@
+user1:
+  email: qkunst-test-user1@murb.nl
+  encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+user2:
+  email: qkunst-test-user2@murb.nl
+  encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+user3:
+  email: qkunst-test-user3@murb.nl
+  encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+admin:
+  email: qkunst-admin-user@murb.nl
+  admin: true
+  qkunst: true
+  encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+# admin_notify:
+#   email: qkunst-admin-user@murb.nl
+#
+#   encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.

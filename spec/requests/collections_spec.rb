@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe "Messages", type: :request do
-  describe "GET /messages" do
+RSpec.describe "Collections", type: :request do
+  describe "GET /collections" do
     it "shouldn't be publicly accessible!" do
-      get messages_path
+      get collections_path
       expect(response).to have_http_status(302)
     end
   end

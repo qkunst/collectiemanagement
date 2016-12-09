@@ -241,7 +241,7 @@ class Work < ApplicationRecord
   end
 
   def report_val_sorted_artist_ids
-    artists.order_by_name.uniq.collect{|a| a.id}.sort.join(",")
+    artists.order_by_name.distinct.collect{|a| a.id}.sort.join(",")
   end
   def report_val_sorted_object_category_ids
     object_categories.uniq.collect{|a| a.id}.sort.join(",")
