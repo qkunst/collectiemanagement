@@ -40,7 +40,7 @@
         <%= render partial: "application/forms/checkbox", collection: Placeability.all+[{not_set: "Onbekend"}], as: :checkbox, locals: {field: "placeability_id"} %>
       <% end %>
       <hr/>
-      <%= button_tag type: :submit do %>Filter<% end %>
+      <%= button_tag type: :submit, class: :button do %>Filter<% end %>
 
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
     </aside>

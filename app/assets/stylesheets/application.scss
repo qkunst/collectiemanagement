@@ -165,9 +165,20 @@ nav.top-bar {
   }
 }
 
-a:hover {
+a {
+ &:hover {
   text-decoration: underline;
-};
+ };
+
+ &.block {
+   color: inherit;
+ }
+ &.block:hover {
+   text-decoration: none;
+
+   color: inherit;
+ }
+}
 
 aside {
   background: #eee;
