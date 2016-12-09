@@ -22,10 +22,11 @@
 
   <body class="<% if offline? %>offline-page <% end %><% if detail_display? %>detailed <%end%><% if complete_display? %>complete <%end%>">
     <nav class="top-bar">
-      <div class="top-bar-title">
-        <span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+        <div data-responsive-toggle="responsive-menu" class="hide-for-medium" id="responsive-toggle">
           <button class="menu-icon dark" type="button" data-toggle></button>
-        </span>
+        </div>
+      <div class="top-bar-title">
+
         <h1>
           <%= link_to root_path do %>
             <%= image_tag "logo.svg", id: 'logo', alt: "QKunst Collectie Beheer"%>
@@ -33,8 +34,9 @@
         </h1>
       </div>
       <div id="responsive-menu">
+
         <div class="top-bar-left">
-          <ul class=" menu" data-dropdown-menu>
+          <ul class="vertical medium-horizontal menu" data-dropdown-menu>
             <li><%= menu_link_to 'Collecties', collections_path%></li>
             <% if current_user && current_user.can_receive_messages? %>
             <li><%= menu_link_to 'Berichten', messages_path%></li>
@@ -47,7 +49,7 @@
           </ul>
         </div>
         <div class="top-bar-right">
-          <ul class="menu">
+          <ul class="vertical medium-horizontal menu">
             <% if user_signed_in? %>
               <li><%= menu_link_to "Ingelogd als #{current_user.email}", edit_user_registration_path %> </li>
 
@@ -65,8 +67,10 @@
               </li>
             <% end %>
           </ul>
+
         </div>
       </div>
+
     </nav>
 
    <% if notice %><div data-closable class="callout info"><%= notice %>   <button class="close-button" aria-label="Sluit melding" type="button" data-close>

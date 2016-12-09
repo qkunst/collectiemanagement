@@ -130,6 +130,7 @@ var collectieBeheerInit = function() {
     $(".tabs section"+anchor).show();
     return false;
   });
+
   $(document).foundation();
 }
 

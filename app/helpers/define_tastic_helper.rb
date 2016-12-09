@@ -16,7 +16,6 @@ module DefineTasticHelper
     classname = options[:classname]
     if @define_tastic_render_as == :table
       "<tr#{" class=\"#{classname}\"" if classname}><th>#{description}:</th><td>#{value}</td></tr>".html_safe unless value.blank?
-
     else
       "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{value}</dd>".html_safe unless value.blank?
     end

@@ -4,7 +4,7 @@
       Maakt deel uit van:
       <%= @collection.parent_collections_flattened.collect{|a| a.can_be_accessed_by_user(current_user) ? link_to(a.name,a) : a.name}.join(" &raquo; ").html_safe%>
     <% end %>
-    <%= link_to 'Stel een vraag', collection_messages_path(@collection), class: 'secondary small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
+
     <h1><%= @collection.name %>  <% if qkunst_user? %>
           (<%= link_to 'Bewerk gegevens', edit_collection_path(@collection) %>)
         <% end %></h1>

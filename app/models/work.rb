@@ -95,7 +95,7 @@ class Work < ApplicationRecord
 
   def artist_name_rendered
     return @artist_name_rendered if @artist_name_rendered
-    @artist_name_rendered = artists.order_by_name.uniq.collect{|a| a.name if a.name.to_s.strip != ""}.compact.to_sentence
+    @artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name if a.name.to_s.strip != ""}.compact.to_sentence
     if artist_unknown and (@artist_name_rendered.nil? or @artist_name_rendered.empty?)
       @artist_name_rendered = "Onbekend"
     end
@@ -206,7 +206,7 @@ class Work < ApplicationRecord
   end
 
   def collection_name_extended
-    collection.collection_name_extended
+    self.collection.collection_name_extended
   end
 
   def as_indexed_json(options={})
