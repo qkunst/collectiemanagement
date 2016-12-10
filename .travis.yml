@@ -9,8 +9,8 @@ before_script:
 before_install:
   - gem install bundler
 script:
-  rake db:test:prepare
-  bundle exec rspec
+  - bundle exec rake db:test:prepare
+  - bundle exec rspec
 services:
   - postgresql
 # safelist
