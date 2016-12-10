@@ -1,6 +1,20 @@
 sudo: false
 language: ruby
+cache: bundler
 rvm:
   - 2.3.3
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
 before_install:
   - gem install bundler
+script:
+  rake db:test:prepare
+  bundle exec rspec
+services:
+  - postgresql
+# safelist
+branches:
+  only:
+  - master
+  - develop
