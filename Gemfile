@@ -53,12 +53,12 @@ gem 'attribute_normalizer' # keeps the database clean
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'rspec-rails', group: [:development, :test]
 
 ##
 ## DEVELOPMENT
 ##
 group :development do
-  gem 'rspec-rails'
   gem 'capistrano', '3.5.0'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
