@@ -6,8 +6,6 @@ class Api::V1::ApiController < ApplicationController
     # render body: request.inspect, status: 200
     # return false
     # raise request
-    p request.headers["X-user-id"].to_i
-
 
     u = User.where(id: request.headers["X-user-id"].to_i).first
 
@@ -26,7 +24,11 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def not_authorized
-    render text: "Not authorized\n\nuid: #{request.headers['X-user-id'].to_i}; data: #{request.remote_ip}#{request.url}#{request.body.read})", status: 401
+    render json: {
+      message: "Not authorized",
+      nuid: request.headers['X-user-id'].to_i,
+      data: "#{request.remote_ip}#{request.url}#{request.body.read})",
+    }, status: 401
     return false
   end
 end
