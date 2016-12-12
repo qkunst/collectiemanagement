@@ -7,6 +7,10 @@ user2:
 user3:
   email: qkunst-test-user3@murb.nl
   encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+user_with_api_key:
+  email: qkunst-test-user-with-api-key@murb.nl
+  encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.
+  api_key: 0946281efb2d948c385bd7af96686484444180d657a6e18994f3054c36336891be85bf184d642447a73f3deaf8365cc4e02bf2324e09a1f58ae0ec613bbf4c7d
 admin:
   email: qkunst-admin-user@murb.nl
   admin: true

@@ -7,15 +7,15 @@ class Api::V1::ApiController < ApplicationController
     # return false
     # raise request
 
-    u = User.where(id: request.headers["X-user-id"].to_i).first
+    @user = User.where(id: request.headers["X-user-id"].to_i).first
 
-    return not_authorized if !u or !u.api_key
+    return not_authorized if !@user or !@user.api_key
 
     data = "#{request.remote_ip}#{request.url}#{request.body.read}"
 
     digest = OpenSSL::Digest.new('sha512')
 
-    expected_token = OpenSSL::HMAC.hexdigest(digest, u.api_key, data)
+    expected_token = OpenSSL::HMAC.hexdigest(digest, @user.api_key, data)
 
     received_token = request.headers["X-hmac-token"].strip.to_s
 
