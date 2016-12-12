@@ -28,6 +28,7 @@ class Api::V1::ApiController < ApplicationController
       message: "Not authorized",
       nuid: request.headers['X-user-id'].to_i,
       data: "#{request.remote_ip}#{request.url}#{request.body.read})",
+      your_remote_ip: request.remote_ip
     }, status: 401
     return false
   end
