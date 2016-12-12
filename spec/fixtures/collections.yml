@@ -1,0 +1,6 @@
+collection1:
+  name: Collection 1
+
+collection2:
+  name: Collection 2 (sub of Collection 1)
+  parent_collection: :collection1
