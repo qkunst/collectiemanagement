@@ -40,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def can_access_report?
-    qkunst?
+    qkunst? or facility_manager?
   end
 
   def can_access_location_info?
@@ -93,6 +93,10 @@ class User < ApplicationRecord
 
   def can_access_valuation?
     admin? or facility_manager?
+  end
+
+  def can_access_extended_report?
+    qkunst?
   end
 
   def can_download?

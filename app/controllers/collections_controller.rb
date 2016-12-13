@@ -1,6 +1,7 @@
 class CollectionsController < ApplicationController
   before_action :authenticate_admin_user!, only: [:destroy, :create, :new]
-  before_action :authenticate_qkunst_user!, only: [:edit, :update, :report]
+  before_action :authenticate_qkunst_user!, only: [:edit, :update]
+  before_action :authenticate_qkunst_or_facility_user!, only: [:report]
   before_action :set_collection, only: [:show, :edit, :update, :destroy] #includes authentication
   before_action :set_parent_collection
 
@@ -22,6 +23,22 @@ class CollectionsController < ApplicationController
 
   def report
     @collection = @parent_collection
+    @sections = {
+      "Locaties": [[:location_raw]],
+    }
+
+    @sections.deep_merge!({"Vervaardigers": [[:artists]],
+      "Conditie": [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
+      "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
+      "Waardering": [[:grade_within_collection]],
+      "Object": [[:object_categories_split],[:object_format_code], [:object_creation_year]],
+      "Overige": [[:source]]
+      }) if current_user.can_access_extended_report?
+
+    if current_user.can_access_valuation? and @sections[:Waardering]
+      @sections[:Waardering] << [:market_value]
+      @sections[:Waardering] << [:replacement_value]
+    end
     current_user.reset_filters!
   end
 

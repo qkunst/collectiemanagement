@@ -1,32 +1,14 @@
 <h1>Rapportage</h1>
 <p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.</p>
-<%
-    sections = {
-      "Locaties": [[:location_raw]],
-      "Vervaardigers": [[:artists]],
-      "Conditie": [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-      "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-      "Waardering": [[:grade_within_collection]],
-      "Object": [[:object_categories_split],[:object_format_code], [:object_creation_year]],
-      "Overige": [[:source]]
-    }
-
-    if current_user.can_access_valuation?
-      sections[:Waardering] << [:market_value]
-      sections[:Waardering] << [:replacement_value]
-    end
-
-
-%>
 <div class="tabs">
 <nav class="tab-head">
 <ul>
-  <% sections.each do |head, contents| %>
+  <% @sections.each do |head, contents| %>
     <li><a href="#<%=head.to_s.parameterize%>"><%= head %></a></li>
   <% end %>
 </ul>
 </nav>
-  <% sections.each do |head, contents| %>
+  <% @sections.each do |head, contents| %>
     <section id="<%=head.to_s.parameterize%>">
       <h3><%=head%></h3>
       <div class="row">
