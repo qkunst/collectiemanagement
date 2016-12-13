@@ -8,12 +8,16 @@
 <h1>Collecties</h1>
   <p>Naar de collectie <%= link_to @collections.first.name, @collections.first%></p>
 <% else %>
- <h1>Overzicht van de collecties </h1>
-  <ul>
-    <% @collections.each do |collection| %>
-      <%= render collection%>
-    <% end %>
-  </ul>
-
+  <h1>Overzicht van de collecties </h1>
+  <div class="row">
+    <div class="medium-9 columns">
+      <label>Filter de collecties<input type="search" class="list-filter" data-filters="list-to-filter"></label>
+      <ul id="list-to-filter" class="collapsable">
+        <% @collections.each do |collection| %>
+          <%= render collection%>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 <% end %>
 
