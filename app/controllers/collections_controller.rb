@@ -76,8 +76,21 @@ class CollectionsController < ApplicationController
   # DELETE /collections/1.json
   def destroy
     if @collection.works.count == 0 and @collection.collections.count == 0
+      name = @collection.name
       @collection.destroy
-      notice = "De collectie “#{params[:collection][:name]}” is verwijderd."
+      notice = "De collectie “#{name}” is verwijderd."
+    elsif @collection.collections.count and @collection.parent_collection
+      name = @collection.name
+      parent = @collection.parent_collection
+      parent_name = parent.name
+      @collection.works.each do |w|
+        w.collection = parent
+        w.save
+      end
+      if @collection.works.count == 0
+        @collection.destroy
+        notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{@collection.parent_collection}”"
+      end
     else
       notice = "De collectie kon niet verwijderd worden omdat deze nog werken heeft en/of subcollecties"
     end

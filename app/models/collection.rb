@@ -21,6 +21,7 @@ class Collection < ApplicationRecord
   has_many :batch_photo_uploads
   belongs_to :parent_collection, class_name: 'Collection'
   has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
+  has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_and_belongs_to_many :users
   default_scope ->{order(:name)}
   scope :without_parent, ->{where(parent_collection_id: nil)}

@@ -158,7 +158,7 @@ class WorksController < ApplicationController
       params[:authenticity_token] = nil
       respond_to do |format|
         format.html {
-          redirect_to collection_works_path(@collection, params), notice: notice, alert: alert
+          redirect_to collection_works_path(@collection), notice: notice, alert: alert
 
         }
       end
@@ -254,7 +254,9 @@ class WorksController < ApplicationController
     end
     if params[:filter] and params[:filter] != ""
       params[:filter].each do |field, values|
-        if ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw"].include?(field)
+        if field == "reset"
+
+        elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw"].include?(field)
           @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
         else
           @selection_filter[field] = clean_ids(values)

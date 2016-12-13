@@ -1,4 +1,4 @@
-<h1>Bewerk cluster</h1>
+<h1>Bewerk cluster  <small>(<%= link_to 'Verwijder cluster', [@collection, @cluster], method: :delete, data: { confirm: "Weet u zeker dat u dit cluster wenst te verwijderen?"} %>)</small></h1>
 
 <%= render 'form' %>
 

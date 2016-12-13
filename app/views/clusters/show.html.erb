@@ -1,8 +1,5 @@
-<p>
-<%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,@cluster) %> |
-<%= link_to 'Terug naar het clusteroverzicht', collection_clusters_path(@collection) %>
-</p>
-<h1>Cluster: <%= @cluster.name%></h1>
+
+<h1>Cluster: <%= @cluster.name%> (<%= link_to 'bewerk', edit_collection_cluster_path(@collection,@cluster) %>)</h1>
 <p>Dit cluster maakt deel uit van de collectie <%= link_to @cluster.collection.name, @cluster.collection %>.
 <% if @cluster.description? %>
 <h2>Meer informatie</h2>

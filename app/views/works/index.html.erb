@@ -11,7 +11,7 @@
 
   <div class="row">
     <div class="large-6 columns">
-      <p>Deze <% if @collection_works_count > @works.count %> (gefilterde) <% end %> collectie bevat <%= I18n.translate 'count.works', count:  @works.count %><% if @collection_works_count > @works.count %> (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>).<span class="hide-for-print"><br/> <%= link_to collection_works_path(@collection, params: params.merge({filter:nil, cluster_new: nil, utf8: nil, action:nil, cluster_existing: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil, no_child_works: nil}) ) do %>Reset filters<% end %><% end %>.</span></p>
+      <p>Deze <% if @collection_works_count > @works.count %> (gefilterde) <% end %> collectie bevat <%= I18n.translate 'count.works', count:  @works.count %><% if @collection_works_count > @works.count %> (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>).<span class="hide-for-print"><br/> <%= link_to collection_works_path(@collection, params: params.merge({filter:{reset:true}, cluster_new: nil, utf8: nil, action:nil, cluster_existing: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil, no_child_works: nil}) ) do %>Reset filters<% end %><% end %>.</span></p>
 
 
 

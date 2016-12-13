@@ -10,7 +10,7 @@
 <ul>
       <% @clusters.each do |cluster| %>
 
-        <li><%= link_to cluster.name, collection_works_path(@collection, {filter: {"cluster_id"=>[cluster.id]}}) %> (<%= cluster.works.count %> werken)</li>
+        <li><%= link_to cluster.name, collection_cluster_path(@collection, cluster) %> (<%= link_to collection_works_path(@collection, {filter: {"cluster_id"=>[cluster.id]}}) do %><%= cluster.works.count %> werken<% end %>)</li>
 <% end %>
 </ul>
 
