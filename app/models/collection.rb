@@ -26,6 +26,24 @@ class Collection < ApplicationRecord
   default_scope ->{order(:name)}
   scope :without_parent, ->{where(parent_collection_id: nil)}
 
+  KEY_MODEL_RELATIONS={
+    "artists"=>Artist,
+    "themes"=>Theme,
+    "object_categories"=>ObjectCategory,
+    "object_categories_split"=>ObjectCategory,
+    "techniques"=>Technique,
+    "condition_frame"=>Condition,
+    "techniques_split"=>Technique,
+    "condition_work"=>Condition,
+    "frame_damage_types"=>FrameDamageType,
+    "damage_types"=>DamageType,
+    "placeability"=>Placeability,
+    "style"=>Style,
+    "subset"=>Subset,
+    "source"=>Source,
+    "cluster"=>Cluster,
+  }
+
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)
   end
@@ -154,24 +172,8 @@ class Collection < ApplicationRecord
           subcounts_in_hash[subkey.to_sym] = sub_counts if sub_counts
         end
         key = parse_bucket_key(aggregation_key,bucket["key"])
-        key_model_relations={
-          "artists"=>Artist,
-          "themes"=>Theme,
-          "object_categories"=>ObjectCategory,
-          "object_categories_split"=>ObjectCategory,
-          "techniques"=>Technique,
-          "condition_frame"=>Condition,
-          "techniques_split"=>Technique,
-          "condition_work"=>Condition,
-          "frame_damage_types"=>FrameDamageType,
-          "damage_types"=>DamageType,
-          "placeability"=>Placeability,
-          "style"=>Style,
-          "subset"=>Subset,
-          "source"=>Source,
-          "cluster"=>Cluster,
-        }
-        key_model = key_model_relations[aggregation_key]
+
+        key_model = KEY_MODEL_RELATIONS[aggregation_key]
         if key_model
           key = key_model.send(:names, key)
         end
@@ -241,7 +243,17 @@ class Collection < ApplicationRecord
       query[:query][:filtered][:filter][:bool][:must] << new_bool
     end
 
-    query[:aggs] = {
+    query[:aggs] = aggregation_builder
+
+    if options[:return_records]
+      return Work.search(query).records
+    else
+      return Work.search(query)
+    end
+  end
+
+  def aggregation_builder
+    aggregation = {
       total: {
         value_count: {
           field: :id
@@ -350,26 +362,21 @@ class Collection < ApplicationRecord
     }
 
     [:subset, :cluster, :style].each do |key|
-      query[:aggs].merge!(basic_aggregation_snippet(key,"_id"))
+      aggregation.merge!(basic_aggregation_snippet(key,"_id"))
     end
 
     [:condition_work, :condition_frame, :sources, :placeability, :themes ].each do |key|
-      query[:aggs].merge!(basic_aggregation_snippet_with_missing(key,".id"))
+      aggregation.merge!(basic_aggregation_snippet_with_missing(key,".id"))
     end
 
     [:damage_types, :frame_damage_types].each do |key|
-      query[:aggs].merge!(basic_aggregation_snippet(key,".id"))
+      aggregation.merge!(basic_aggregation_snippet(key,".id"))
     end
 
     [:abstract_or_figurative, :grade_within_collection, :location_raw, :object_format_code, :object_creation_year].each do |key|
-      query[:aggs].merge!(basic_aggregation_snippet_with_missing(key))
+      aggregation.merge!(basic_aggregation_snippet_with_missing(key))
     end
-
-    if options[:return_records]
-      return Work.search(query).records
-    else
-      return Work.search(query)
-    end
+    return aggregation
   end
 
   def basic_aggregation_snippet key, postfix = "", field = nil

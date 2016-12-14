@@ -8,6 +8,33 @@ class WorksController < ApplicationController
 
   # GET /works
   # GET /works.json
+
+  def aggregations works, attributes
+    rv = {}
+    works.each do |work|
+      attributes.each do |attribute|
+        rv[attribute] ||= {}
+        values = work.send(attribute)
+        if values.is_a? ActiveRecord::Associations::CollectionProxy
+          values.each do |value|
+            rv[attribute][value] ||= 0
+            rv[attribute][value] += 1
+          end
+          if values.count == 0
+            rv[attribute][:not_set] ||= 0
+            rv[attribute][:not_set] += 1
+          end
+        else
+          value = values
+          value = value.downcase.to_sym if value.is_a? String
+          rv[attribute][value] ||= 0
+          rv[attribute][value] += 1
+        end
+      end
+    end
+    rv
+  end
+
   def index
     set_selection_filter
     set_selection_group
@@ -29,10 +56,13 @@ class WorksController < ApplicationController
     if params[:offline] == "offline"
       @works = []
     else
-      @works = @collection.search_works(nil,@selection_filter,{no_child_works: (params[:no_child_works] ? true : false)})
-      @works = @works
+      @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)})
+      # @aggregations = search[:aggregations]
     end
 
+    @aggregations = aggregations(@works, [:themes,:subset,:grade_within_collection,:placeability])
+    @title = "Werken van #{@collection.name}"
+    # raise @aggregations
     respond_to do |format|
       format.html {
         if @selection_group == "cluster"
@@ -94,6 +124,8 @@ class WorksController < ApplicationController
   # GET /works/1.json
   def show
     @selection_display = current_user.can_see_details? ? "complete" : "detailed"
+    @title = @work.name
+
   end
 
   # GET /works/new
