@@ -4,3 +4,7 @@ collection1:
 collection2:
   name: Collection 2 (sub of Collection 1)
   parent_collection: :collection1
+
+collection_with_works:
+  name: Collection with works (sub of Collection 1)
+  parent_collection: :collection1

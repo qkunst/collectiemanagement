@@ -1,5 +1,5 @@
 <h1>Collectie <%= @collection.name %></h1>
-<%= form_tag collection_works_path, method: :get, data: {auto_submit: true} do %>
+<%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
 
   <p id="offline"  data-alert class="alert-box"></p>
     <% if offline? %>
@@ -30,14 +30,21 @@
     <aside class="large-2 medium-2 columns filter hide-for-print">
       <h4>Filteren</h4>
       <h5>Thema</h5>
-      <%= render partial: "application/forms/checkbox", collection: @collection.available_themes+[{not_set: "Geen thema"}], as: :checkbox, locals: {field: "themes.id"} %>
+      <%= filter_checkboxes(@aggregations[:themes], "themes.id") %>
+      <%#= render partial: "application/forms/checkbox", collection: @collection.available_themes+[{not_set: "Geen thema"}], as: :checkbox, locals: {field: "themes.id"} %>
       <% unless current_user.read_only? %>
         <h5>Deelcollectie</h5>
-        <%= render partial: "application/forms/checkbox", collection: Subset.all+[{not_set: "Geen deelcollectie"}], as: :checkbox, locals: {field: "subset_id"} %>
+        <%= filter_checkboxes(@aggregations[:subset], "subset_id") %>
+
+        <%#= render partial: "application/forms/checkbox", collection: Subset.all+[{not_set: "Geen deelcollectie"}], as: :checkbox, locals: {field: "subset_id"} %>
         <h5>Niveau</h5>
-        <%= render partial: "application/forms/checkbox", collection: [{a: "A"},{b:"B"},{c:"C"},{d:"D"},{e:"E"},{f:"F"},{not_set: "Onbekend"}], as: :checkbox, locals: {field: "grade_within_collection"} %>
+        <%= filter_checkboxes(@aggregations[:grade_within_collection], "grade_within_collection") %>
+
+        <%#= render partial: "application/forms/checkbox", collection: [{a: "A"},{b:"B"},{c:"C"},{d:"D"},{e:"E"},{f:"F"},{not_set: "Onbekend"}], as: :checkbox, locals: {field: "grade_within_collection"} %>
         <h5>Plaatsbaarheid</h5>
-        <%= render partial: "application/forms/checkbox", collection: Placeability.all+[{not_set: "Onbekend"}], as: :checkbox, locals: {field: "placeability_id"} %>
+        <%= filter_checkboxes(@aggregations[:placeability], "placeability_id") %>
+
+        <%#= render partial: "application/forms/checkbox", collection: Placeability.all+[{not_set: "Onbekend"}], as: :checkbox, locals: {field: "placeability_id"} %>
       <% end %>
       <hr/>
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>

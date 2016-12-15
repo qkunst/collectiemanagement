@@ -1,4 +1,16 @@
 work1:
   title: Work1
+  grade_within_collection: A
+  themes:
+    - :earth
+    - :wind
+  subset: :contemporary
+  collection: :collection_with_works
 work2:
   title: Work2
+  grade_within_collection: A (of B)
+  themes:
+    - :wind
+    - :fire
+  subset: :modern
+  collection: :collection_with_works

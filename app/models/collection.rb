@@ -124,7 +124,7 @@ class Collection < ApplicationRecord
   end
 
   def elastic_aggragations
-    elastic_report = search_works("",{},{force_elastic: true, return_records: false})
+    elastic_report = search_works("",{},{force_elastic: true, return_records: false, limit: 1, aggregations: aggregation_builder})
     return elastic_report.aggregations
   end
 
@@ -195,15 +195,15 @@ class Collection < ApplicationRecord
   # search (to be implemented)
   # filter
   def search_works(search="", filter={}, options={})
-    options = {force_elastic: false, return_records: true}.merge(options)
+    options = {force_elastic: false, return_records: true, count: 10000}.merge(options)
     if ((search == "" or search == nil) and (filter == nil or filter == {} or (
       filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
       )) and options[:force_elastic] == false)
-      return options[:no_child_works] ? works : works_including_child_works
+      return options[:no_child_works] ? works.limit(options[:limit]) : works_including_child_works.limit(options[:limit])
     end
 
     query = {
-      size: 10000,
+      size: options[:limit],
       query:{
         filtered:{
           filter:{
@@ -243,7 +243,7 @@ class Collection < ApplicationRecord
       query[:query][:filtered][:filter][:bool][:must] << new_bool
     end
 
-    query[:aggs] = aggregation_builder
+    query[:aggs] = options[:aggregations] if options[:aggregations]
 
     if options[:return_records]
       return Work.search(query).records

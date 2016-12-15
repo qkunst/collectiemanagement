@@ -1,5 +1,5 @@
 <div class="panel work<%=' external_inventory' if work.external_inventory?%>">
-  <% cache([work.id ? work : "#{Time.now}+#{rand(10000)}+#{work.title}+#{work}+#{work.stock_number}", @selection_display, current_user.role, "v1.3.1"]) do %>
+  <% cache_if(work.id, [work, @selection_display, current_user.role, "v1.3.1"]) do %>
     <%= link_to collection_work_path(work.collection, work.id ? work.id : -1), class: :block do%>
       <div class="image"><%= image_tag(work.photo_front.big_thumb, class: "nonlinked_show") if work.photo_front? %></div>
     <% end %>

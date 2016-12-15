@@ -20,13 +20,19 @@ class WorksController < ApplicationController
             rv[attribute][value] ||= 0
             rv[attribute][value] += 1
           end
-          if values.count == 0
+          if values.empty?
             rv[attribute][:not_set] ||= 0
             rv[attribute][:not_set] += 1
           end
         else
           value = values
-          value = value.downcase.to_sym if value.is_a? String
+          if value.is_a? String
+            if attribute == :grade_within_collection
+              value = value[0]
+            end
+            value = value.downcase.to_sym
+          end
+          value = :not_set if value.nil?
           rv[attribute][value] ||= 0
           rv[attribute][value] += 1
         end
@@ -56,13 +62,12 @@ class WorksController < ApplicationController
     if params[:offline] == "offline"
       @works = []
     else
-      @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)})
-      # @aggregations = search[:aggregations]
+      @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability)
     end
 
     @aggregations = aggregations(@works, [:themes,:subset,:grade_within_collection,:placeability])
+
     @title = "Werken van #{@collection.name}"
-    # raise @aggregations
     respond_to do |format|
       format.html {
         if @selection_group == "cluster"
@@ -76,7 +81,7 @@ class WorksController < ApplicationController
           @max_index ||= 7
         else
           @works = sort_works(@works)
-          @max_index ||= 247
+          @max_index ||= 16 #247
         end
       }
       format.xlsx {

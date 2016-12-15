@@ -15,4 +15,7 @@
   # raise field_name
   checked = @selection_filter[field_name] && (@selection_filter[field_name].include?(value) || @selection_filter[field_name].include?(value.to_s) || (value == :not_set and @selection_filter[field_name].include?(nil)))
 %>
-<label><input type="checkbox" name="filter[<%=field_name%>][]" value="<%=value%>"<%= " checked" if checked %><%= " data-auto-submit=\"true\"".html_safe if auto_submit  %>><%= label%></label>
+<label>
+  <input type="checkbox" name="filter[<%=field_name%>][]" value="<%=value%>"<%= " checked" if checked %><%= " data-auto-submit=\"true\"".html_safe if auto_submit  %>>
+  <%= label%>
+</label>

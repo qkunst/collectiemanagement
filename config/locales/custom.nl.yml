@@ -86,6 +86,13 @@ nl:
         abstract_or_figurative:
           abstract: Abstract
           figurative: Figuratief
+        subset_id:
+          not_set: Geen deelcollectie
+        placeability_id:
+          not_set: Onbekend
+        themes:
+          id:
+            not_set: Geen thema
         grade_within_collection:
           a: A
           b: B
@@ -94,6 +101,7 @@ nl:
           e: E
           f: F
           g: G
+          not_set: Onbekend
         object_format_code:
           xxs: XXS
           xs: XS
