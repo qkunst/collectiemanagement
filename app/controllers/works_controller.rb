@@ -273,7 +273,7 @@ class WorksController < ApplicationController
   end
   def set_selection_group
     @selection_group = "no_grouping"
-    if params[:group] and ["cluster", "no_grouping"].include? params[:group].to_s
+    if params[:group] and ["cluster", "no_grouping", "subset_name"].include? params[:group].to_s
       @selection_group = params[:group].to_s
     elsif current_user.filter_params[:group]
       @selection_group = current_user.filter_params[:group]

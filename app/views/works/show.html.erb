@@ -19,13 +19,13 @@
 
 
 <div class="imageviewer">
-  <%= image_tag(@work.photo_front.screen, class: :show) if @work.photo_front? %>
+  <%= image_tag(@work.photo_front_url(:screen), class: :show) if @work.photo_front? %>
   <ul class="thumbs" >
     <% [:front,:back,:detail_1,:detail_2].each do |phototype| %>
       <% if @work.send("photo_#{phototype}?".to_sym) %>
         <li title="<%= Work.human_attribute_name "photo_#{phototype}"%>">
-          <%= link_to @work.send("photo_#{phototype}".to_sym).screen.url do %>
-            <%= image_tag(@work.send("photo_#{phototype}".to_sym).thumb) %>
+          <%= link_to "#{@work.send("photo_#{phototype}".to_sym).screen.url}?#{@work.updated_at.to_i}" do %>
+            <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}") %>
           <% end %>
         </li>
       <% end %>

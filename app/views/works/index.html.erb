@@ -19,9 +19,18 @@
     <div class="large-6 columns">
       <div class="right hide-for-print" id="group_sort_display">
         <% unless current_user.read_only? %>
-          <label>Groepeer: <%= select_tag :group, options_for_select({"Niet"=>:no_grouping, "Cluster"=>:cluster}, @selection_group), data: {auto_submit: true}  %></label>
+          <label>Groepeer: <%= select_tag :group, options_for_select({
+            "Niet"=>:no_grouping,
+            "Cluster"=>:cluster,
+            "Deelcollectie"=>:subset_name,
+            "Niveau"=>:grade_within_collection,
+            "Plaatsbaarheid"=>:placeability_name
+          }, @selection_group), data: {auto_submit: true}  %></label>
         <% end %>
-        <label>Sorteer: <%= select_tag :sort, options_for_select({"Inventarisnummer"=>:stock_number, "Kunstenaar"=>:artist_name}, @selection_sort), data: {auto_submit: true}  %></label>
+        <label>Sorteer: <%= select_tag :sort, options_for_select({
+          "Inventarisnummer"=>:stock_number,
+          "Kunstenaar"=>:artist_name
+        }, @selection_sort), data: {auto_submit: true}  %></label>
         <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection_display), data: {auto_submit: true}  %></label>
       </div>
   </div>
