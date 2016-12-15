@@ -22,6 +22,7 @@ class Work < ApplicationRecord
   belongs_to :condition_frame, :class_name=>Condition
   has_and_belongs_to_many :frame_damage_types
   has_and_belongs_to_many :themes
+
   belongs_to :subset
   belongs_to :placeability
   belongs_to :purchase_price_currency, :class_name=>Currency
@@ -315,6 +316,75 @@ class Work < ApplicationRecord
   end
 
   class << self
+    def fast_aggregations attributes
+      rv = {}
+      attributes.each do |attribute|
+        rv[attribute] ||= {}
+        if column_names.include? attribute.to_s
+          self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
+            value = (a ? a : :not_set)
+            if value.is_a? String
+              if attribute == :grade_within_collection
+                value = value[0]
+              end
+              value = value.downcase.to_sym
+            end
+            rv[attribute][value] ||= {count: 999999, name: value }
+          end
+        elsif column_names.include? "#{attribute}_id"
+          ids = self.group("#{attribute}_id").select("#{attribute}_id").collect{|a| a.send("#{attribute}_id")}
+          if ids.include?(nil)
+            rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
+          end
+          attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+            rv[attribute][a] ||= {count: 10000, name: a.name }
+          end
+        else
+          ids = self.left_outer_joins(attribute).select("#{attribute}.id AS id").distinct.collect(&:id)
+          if ids.include?(nil)
+            rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
+          end
+          attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+            rv[attribute][a] ||= {count: 999999, name: a.name }
+          end
+        # self.joins(attribute).select("themes.id AS id").distinct.collect(&:id)
+        end
+      end
+      rv
+    end
+
+    def aggregations attributes
+      rv = {}
+      self.all.each do |work|
+        attributes.each do |attribute|
+          rv[attribute] ||= {}
+          values = work.send(attribute)
+          if values.is_a? ActiveRecord::Associations::CollectionProxy
+            values.each do |value|
+              rv[attribute][value] ||= {count: 0, name: value.name}
+              rv[attribute][value][:count] += 1
+            end
+            if values.empty?
+              rv[attribute][:not_set] ||= {count: 0, name: :not_set }
+              rv[attribute][:not_set][:count] += 1
+            end
+          else
+            value = values
+            if value.is_a? String
+              if attribute == :grade_within_collection
+                value = value[0]
+              end
+              value = value.downcase.to_sym
+            end
+            value = :not_set if value.nil?
+            rv[attribute][value] ||= {count: 0, name: value }
+            rv[attribute][value][:count] += 1
+          end
+        end
+      end
+      rv
+    end
+
     def reindex!(recreate_index=false)
       if recreate_index
         Work.__elasticsearch__.create_index! force: true

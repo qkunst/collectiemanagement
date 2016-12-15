@@ -9,38 +9,6 @@ class WorksController < ApplicationController
   # GET /works
   # GET /works.json
 
-  def aggregations works, attributes
-    rv = {}
-    works.each do |work|
-      attributes.each do |attribute|
-        rv[attribute] ||= {}
-        values = work.send(attribute)
-        if values.is_a? ActiveRecord::Associations::CollectionProxy
-          values.each do |value|
-            rv[attribute][value] ||= 0
-            rv[attribute][value] += 1
-          end
-          if values.empty?
-            rv[attribute][:not_set] ||= 0
-            rv[attribute][:not_set] += 1
-          end
-        else
-          value = values
-          if value.is_a? String
-            if attribute == :grade_within_collection
-              value = value[0]
-            end
-            value = value.downcase.to_sym
-          end
-          value = :not_set if value.nil?
-          rv[attribute][value] ||= 0
-          rv[attribute][value] += 1
-        end
-      end
-    end
-    rv
-  end
-
   def index
     set_selection_filter
     set_selection_group
@@ -65,8 +33,9 @@ class WorksController < ApplicationController
       @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability)
     end
 
-    @aggregations = aggregations(@works, [:themes,:subset,:grade_within_collection,:placeability])
-
+    Perf.test do
+      @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability])
+    end
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.html {

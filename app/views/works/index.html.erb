@@ -29,6 +29,7 @@
   <div class="row">
     <aside class="large-2 medium-2 columns filter hide-for-print">
       <h4>Filteren</h4>
+
       <h5>Thema</h5>
       <%= filter_checkboxes(@aggregations[:themes], "themes.id") %>
       <%#= render partial: "application/forms/checkbox", collection: @collection.available_themes+[{not_set: "Geen thema"}], as: :checkbox, locals: {field: "themes.id"} %>

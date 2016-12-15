@@ -195,7 +195,7 @@ class Collection < ApplicationRecord
   # search (to be implemented)
   # filter
   def search_works(search="", filter={}, options={})
-    options = {force_elastic: false, return_records: true, count: 10000}.merge(options)
+    options = {force_elastic: false, return_records: true, limit: 10000}.merge(options)
     if ((search == "" or search == nil) and (filter == nil or filter == {} or (
       filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
       )) and options[:force_elastic] == false)
@@ -203,6 +203,7 @@ class Collection < ApplicationRecord
     end
 
     query = {
+      _source: [:id], #major speedup!
       size: options[:limit],
       query:{
         filtered:{
