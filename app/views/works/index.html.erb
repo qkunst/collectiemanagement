@@ -22,16 +22,16 @@
           <label>Groepeer: <%= select_tag :group, options_for_select({
             "Niet"=>:no_grouping,
             "Cluster"=>:cluster,
-            "Deelcollectie"=>:subset_name,
+            "Deelcollectie"=>:subset,
             "Niveau"=>:grade_within_collection,
-            "Plaatsbaarheid"=>:placeability_name
-          }, @selection_group), data: {auto_submit: true}  %></label>
+            "Plaatsbaarheid"=>:placeability
+          }, @selection[:group]), data: {auto_submit: true}  %></label>
         <% end %>
         <label>Sorteer: <%= select_tag :sort, options_for_select({
           "Inventarisnummer"=>:stock_number,
           "Kunstenaar"=>:artist_name
-        }, @selection_sort), data: {auto_submit: true}  %></label>
-        <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection_display), data: {auto_submit: true}  %></label>
+        }, @selection[:sort]), data: {auto_submit: true}  %></label>
+        <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
       </div>
   </div>
   </div>
@@ -67,9 +67,9 @@
 
 
       <% if defined?(@works_grouped) %>
-        <% if @works_grouped[nil].count > 0 %>
-          <% works = @works_grouped[nil ]%>
-          <h3>Overige werken (buiten een cluster)</h3>
+        <% if @works_grouped[nil] %>
+          <% works = @works_grouped[nil] %>
+          <h3>Overige werken (buiten een <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
           <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>.</p>
           <%= render works[0..@max_index]%>
           <% if works.count > @max_index+1%>
@@ -78,10 +78,10 @@
           <hr/>
         <% end %>
         <% @works_grouped.each do |cluster, works| %>
-          <% if works.count > 0 and cluster%>
-            <h3><%= cluster.name %></h3>
-            <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>. <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span></p>
-            <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.description%>
+          <% if cluster %>
+            <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
+            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>. <% if cluster.is_a? Cluster %><span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span><% end %></p>
+            <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
             <%= render works[0..@max_index]%>
             <% if works.count > @max_index+1%>
             <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>

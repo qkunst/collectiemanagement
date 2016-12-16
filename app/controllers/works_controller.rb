@@ -10,6 +10,7 @@ class WorksController < ApplicationController
   # GET /works.json
 
   def index
+    @selection = {}
     set_selection_filter
     set_selection_group
     set_selection_sort
@@ -33,21 +34,29 @@ class WorksController < ApplicationController
       @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability)
     end
 
-    Perf.test do
-      @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability])
-    end
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability])
+
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.html {
-        if @selection_group == "cluster"
-          @works_grouped = {}
-          works_other = @works - []
-          @collection.clusters_including_parent_clusters.order_by_name.each do |cluster|
-            @works_grouped[cluster] = sort_works(cluster.works&works_other)
-            works_other = works_other - cluster.works
+        if @selection[:group] != :no_grouping
+          works_grouped = {}
+          @works.each do |work|
+            group = work.send(@selection[:group])
+            works_grouped[group] ||= []
+            works_grouped[group] << work
           end
-          @works_grouped[nil] = sort_works(works_other)
+          works_grouped.each do |key, works|
+            works_grouped[key] = sort_works(works)
+          end
           @max_index ||= 7
+          @works_grouped = {}
+          works_grouped.keys.compact.sort.each do |key|
+            @works_grouped[key] = works_grouped[key]
+          end
+          if works_grouped[nil]
+            @works_grouped[nil] = works_grouped[nil]
+          end
         else
           @works = sort_works(@works)
           @max_index ||= 16 #247
@@ -97,7 +106,8 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.json
   def show
-    @selection_display = current_user.can_see_details? ? "complete" : "detailed"
+    @selection = {}
+    @selection[:display] = current_user.can_see_details? ? :complete : :detailed
     @title = @work.name
 
   end
@@ -238,7 +248,7 @@ class WorksController < ApplicationController
   def prepare_clusters_for_selection
     @cluster_options = {}
 
-    @collection.clusters_including_parent_clusters.order_by_name.each do |cluster|
+    @collection.clusters_including_parent_clusters.each do |cluster|
       @cluster_options["cluster “#{cluster.name}”"] = cluster.id
     end
     @cluster_options["overige (geen cluster)"] = :clusterless
@@ -271,42 +281,34 @@ class WorksController < ApplicationController
     end
     return @selection_filter
   end
-  def set_selection_group
-    @selection_group = "no_grouping"
-    if params[:group] and ["cluster", "no_grouping", "subset_name"].include? params[:group].to_s
-      @selection_group = params[:group].to_s
-    elsif current_user.filter_params[:group]
-      @selection_group = current_user.filter_params[:group]
+  def set_selection thing, list
+    @selection[thing] = list[0]
+    if params[thing] and list.include? params[thing].to_sym
+      @selection[thing] = params[thing].to_sym
+    elsif current_user.filter_params[thing]
+      @selection[thing] = current_user.filter_params[thing].to_sym
     end
-    @selection_group
+    @selection[thing]
+  end
+  def set_selection_group
+    set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection]
   end
   def set_selection_sort
-    @selection_sort = "stock_number"
-    if params[:sort] and ["artist_name", "stock_number"].include? params[:sort].to_s
-      @selection_sort = params[:sort].to_s
-    elsif current_user.filter_params[:sort]
-      @selection_sort = current_user.filter_params[:sort]
-    end
-    @selection_sort
+    set_selection :sort, [:stock_number, :artist_name]
   end
   def set_selection_display
-    @selection_display = "compact"
-    if params[:display] and ["compact", "detailed", "complete"].include?(params[:display].to_s)
-      @selection_display = params[:display].to_s
-    elsif current_user.filter_params[:display]
-      @selection_display = current_user.filter_params[:display]
-    end
-    @selection_display
+    set_selection :display, [:compact, :detailed, :complete]
   end
+
   def update_current_user_with_params
-    current_user.filter_params[:group] = @selection_group
-    current_user.filter_params[:display] = @selection_display
-    current_user.filter_params[:sort] = @selection_sort
+    current_user.filter_params[:group] = @selection[:group]
+    current_user.filter_params[:display] = @selection[:display]
+    current_user.filter_params[:sort] = @selection[:sort]
     current_user.filter_params[:filter] = @selection_filter
     current_user.save
   end
   def sort_works works
-    if @selection_sort.to_s == "artist_name"
+    if @selection[:sort].to_s == "artist_name"
       works = works.sort{|a,b| a.artist_name_rendered <=> b.artist_name_rendered}
     else
       works = works.sort{|a,b| a.stock_number.to_s.downcase <=> b.stock_number.to_s.downcase}

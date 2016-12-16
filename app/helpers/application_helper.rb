@@ -16,11 +16,11 @@ module ApplicationHelper
   end
 
   def detail_display?
-    @selection_display == "detailed"
+    @selection and @selection[:display] == :detailed
   end
 
   def complete_display?
-    @selection_display == "complete"
+    @selection and @selection[:display] == :complete
   end
 
   def link_to_edit item

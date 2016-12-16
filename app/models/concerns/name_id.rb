@@ -1,15 +1,30 @@
 module NameId
   extend ActiveSupport::Concern
 
-  module ClassMethods
+  included do
+
+    default_scope ->{ order(:name) }
+
+    def <=> other
+      self.name <=> other.name
+    end
+
+    def to_json
+      self.as_json(
+        only: [:id, :name]
+      )
+    end
+  end
+
+  class_methods do
     def names_hash
-      unless defined?(@names_hash)
-        @names_hash = {}
+      unless defined?(@@names_hash)
+        @@names_hash = {}
         self.select("id,name").each do |objekt|
-          @names_hash[objekt.id] = objekt.name
+          @@names_hash[objekt.id] = objekt.name
         end
       end
-      @names_hash
+      @@names_hash
     end
 
     def names ids
@@ -25,14 +40,12 @@ module NameId
       return rv
     end
 
-    def find_by_case_insensitive_name name
-      self.where(arel_table[:name].matches(name))
+    def to_sym
+      self.to_s.downcase.to_sym
     end
 
-    def to_json
-      self.as_json(
-        only: [:id, :name]
-      )
+    def find_by_case_insensitive_name name
+      self.where(arel_table[:name].matches(name))
     end
   end
 end

@@ -1,7 +1,7 @@
 class Currency < ApplicationRecord
-  def name
-    "#{iso_4217_code} (#{symbol})"
+  before_save :set_name!
+  def set_name!
+    self.name = "#{iso_4217_code} (#{symbol})"
   end
   include NameId
-
 end

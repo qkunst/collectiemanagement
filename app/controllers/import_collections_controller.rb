@@ -26,7 +26,8 @@ class ImportCollectionsController < ApplicationController
   end
 
   def preview
-    @selection_display = "complete"
+    @selection ||= {}
+    @selection[:display] = :complete
     @works = @import_collection.read
   end
 
