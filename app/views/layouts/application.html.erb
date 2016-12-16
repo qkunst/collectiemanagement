@@ -22,7 +22,7 @@
 
   <body class="<% if offline? %>offline-page <% end %><% if detail_display? %>detailed <%end%><% if complete_display? %>complete <%end%>">
     <nav class="top-bar">
-        <div data-responsive-toggle="responsive-menu" class="hide-for-medium" id="responsive-toggle">
+        <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print" id="responsive-toggle">
           <button class="menu-icon dark" type="button" data-toggle></button>
         </div>
       <div class="top-bar-title">
@@ -33,7 +33,7 @@
             <% end%>
         </h1>
       </div>
-      <div id="responsive-menu">
+      <div id="responsive-menu" class="hide-for-print">
 
         <div class="top-bar-left">
           <ul class="vertical medium-horizontal menu" data-dropdown-menu>

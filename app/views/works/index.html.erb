@@ -69,11 +69,11 @@
       <% if defined?(@works_grouped) %>
         <% if @works_grouped[nil] %>
           <% works = @works_grouped[nil] %>
-          <h3>Overige werken (buiten een <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
-          <p>Dit cluster bevat <%= I18n.translate 'count.works', count: works.count %>.</p>
+          <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
+          <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>.</p>
           <%= render works[0..@max_index]%>
           <% if works.count > @max_index+1%>
-          <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+          <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
           <% end %>
           <hr/>
         <% end %>
@@ -84,7 +84,7 @@
             <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
             <%= render works[0..@max_index]%>
             <% if works.count > @max_index+1%>
-            <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+            <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
             <% end %>
             <hr/>
           <% end %>
@@ -92,7 +92,7 @@
       <% else %>
         <%= render @works[0..@max_index] %>
         <% if @works.count > (@max_index + 1)%>
-          <p><%= link_to "Toon alle #{@works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: :button%></p>
+          <p><%= link_to "Toon alle #{@works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
         <% end %>
       <% end %>
     </div>
