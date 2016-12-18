@@ -22,11 +22,12 @@
 @include foundation-breadcrumbs;
 @include foundation-button-group;
 @include foundation-callout;
+@include foundation-card;
 @include foundation-close-button;
 @include foundation-drilldown-menu;
 @include foundation-dropdown;
 @include foundation-dropdown-menu;
-@include foundation-flex-video;
+@include foundation-responsive-embed;
 @include foundation-label;
 @include foundation-media-object;
 @include foundation-menu;
@@ -50,8 +51,3 @@
 //
 // @include motion-ui-transitions;
 // @include motion-ui-animations;
-
-body > .callout {
-  border-width:  0 0 1px 0
-}
-

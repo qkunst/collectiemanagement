@@ -7,7 +7,7 @@ class ClustersController < ApplicationController
   # GET /clusters
   # GET /clusters.json
   def index
-    @clusters = @collection.clusters.order_by_name.all
+    @clusters = @collection.clusters.all
   end
 
   # GET /clusters/1

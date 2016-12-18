@@ -158,6 +158,9 @@ nav.top-bar {
       vertical-align: top;
     }
   }
+  .top-bar-title {
+    padding: 0 1em 0 0;
+  }
   #responsive-toggle {
     float: right;
     margin-right: 4px;
@@ -193,6 +196,9 @@ table {
   border-collapse: collapse;
   border: 0;
   width: 100%;
+  tbody {
+    border: 0;
+  }
   tbody,tr {
     width: 100%;
   }
@@ -389,6 +395,7 @@ body.offline {
   float: left;
   width: 100%;
   margin-bottom: 4em;
+  border: 0;
 
   section {
     border-top: 1px solid #ddd ;
