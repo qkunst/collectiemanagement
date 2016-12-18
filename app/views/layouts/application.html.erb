@@ -76,7 +76,7 @@
    <% if notice %><div data-closable class="callout primary"><%= notice %>   <button class="close-button" aria-label="Sluit melding" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button></div><% end %>
-   <% if alert %><div data-closable class="callout alert"><%= alert %>   <button class="close-button" aria-label="Sluit waarschuwing" type="button" data-close>
+   <% if alert || @alert %><div data-closable class="callout alert"><%= alert || @alert %>   <button class="close-button" aria-label="Sluit waarschuwing" type="button" data-close>
     <span aria-hidden="true">&times;</span>
   </button></div><% end %>
       <div class="row">

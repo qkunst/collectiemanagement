@@ -27,11 +27,17 @@ class WorksController < ApplicationController
     prepare_clusters_for_selection
 
     @max_index = params["max_index"].to_i if params["max_index"]
+    @search_text = params["q"].to_s if params["q"] and !@reset
 
     if params[:offline] == "offline"
       @works = []
     else
-      @works = @collection.search_works(nil,@selection_filter,{force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability)
+      begin
+        @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability)
+      rescue Elasticsearch::Transport::Transport::Errors::BadRequest
+        @works = []
+        @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
+      end
     end
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability])
@@ -271,7 +277,7 @@ class WorksController < ApplicationController
     if params[:filter] and params[:filter] != ""
       params[:filter].each do |field, values|
         if field == "reset"
-
+          @reset = true
         elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw"].include?(field)
           @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
         else

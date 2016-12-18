@@ -221,9 +221,13 @@ class Collection < ApplicationRecord
     }
 
     if (search and search.to_s.strip != "")
+      # search.split("/\s/").each do |search_t
       query[:query][:filtered][:query] = {
-        fuzzy: {
-          _all: search
+        query_string: {
+          default_field: :_all,
+          query: search,
+          default_operator: :and,
+          fuzziness: 1
         }
       }
     end
