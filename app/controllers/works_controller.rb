@@ -37,6 +37,9 @@ class WorksController < ApplicationController
       rescue Elasticsearch::Transport::Transport::Errors::BadRequest
         @works = []
         @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
+      rescue Faraday::ConnectionFailed
+        @works = []
+        @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
       end
     end
 
