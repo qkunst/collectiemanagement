@@ -7,11 +7,11 @@ show_or_hide_selected_works = ->
   if selected_works_count > 0
     $("#selected-works-count").html(selected_works_count)
     $("#selected-works").show()
-    cluster_existing = $("#cluster_existing").val()
-    if cluster_existing
-      $("#new-cluster-name").hide()
+    batch_edit_property = $("#batch_edit_property").val()
+    if batch_edit_property.endsWith("_new")
+      $("#new-batch-edit-name").show()
     else
-      $("#new-cluster-name").show()
+      $("#new-batch-edit-name").hide()
   else
     $("#selected-works").hide()
 
@@ -25,7 +25,7 @@ click_thumb_event = (e)->
   show_area.click(show_screen_image)
   return false
 
-$(document).on("change",".work.panel input[type=checkbox], #cluster_existing", ->
+$(document).on("change",".work.panel input[type=checkbox], #batch_edit_property", ->
   show_or_hide_selected_works()
 )
 $(document).on("click","img.show",show_screen_image)

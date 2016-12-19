@@ -206,6 +206,11 @@ class Work < ApplicationRecord
     end
   end
 
+  # TODO: in future versions make more stable, this might break cluster-functionality!
+  # def collection= collection
+  #
+  # end
+
   def collection_name_extended
     self.collection.collection_name_extended
   end

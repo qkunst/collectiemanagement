@@ -24,7 +24,7 @@ class WorksController < ApplicationController
 
     update_current_user_with_params
 
-    prepare_clusters_for_selection
+    prepare_batch_editor_selection
 
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] and !@reset
@@ -135,46 +135,44 @@ class WorksController < ApplicationController
   # POST /works
   # POST /works.json
   def create
-    if params[:add_or_create_cluster] == "add_or_create_cluster"
+    if params[:batch_edit] == "batch_edit" and params[:batch_edit_property]
       notice = nil
       alert = nil
       selected_works = @collection.works_including_child_works.where(id:params[:selected_works].collect{|a| a.to_i})
-      if params[:cluster_existing].to_s == "clusterless"
-        selected_works.each do | work |
-          work.cluster = nil
-          work.save
-        end
-        notice = "De geselecteerde #{selected_works.count} werken zijn uit de clusters gehaald"
-      elsif params[:cluster_existing].starts_with? "collection_"
-        collection_id = params[:cluster_existing].gsub("collection_","").to_i
-        if collection_id > 0
-          collection = Collection.find collection_id
-          selected_works.each do | work |
-            work.collection = collection
-            work.save
-          end
-          notice = "De geselecteerde #{selected_works.count} werken zijn toegevoegd aan de subcollectie #{collection.name}."
-        else
-          notice = "Deze collectie bestaat niet"
-        end
-      elsif params[:cluster_existing].to_i > 0
-        cluster = @collection.clusters_including_parent_clusters.find(params[:cluster_existing])
-        if cluster != nil
-          cluster.works << selected_works
-          cluster.touch
-          notice = "De geselecteerde #{selected_works.count} werken zijn toegevoegd aan het bestaande cluster #{cluster.name}"
-        else
-          alert = "De werken zijn niet verplaatst, het geselecteerde cluster bestaat niet in deze of bovenliggende collecties."
-        end
-      end
-      if params[:cluster_new].to_s.strip != ""
-        cluster = @collection.clusters.create(name: params[:cluster_new].to_s )
-        cluster.works << selected_works
-        params[:cluster_existing] = cluster.id
-        notice = "De geselecteerde #{selected_works.count} werken zijn toegevoegd aan een nieuwe cluster met de naam #{cluster.name}"
 
+      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location", "subset_id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
+
+      if property_being_edited
+        if property_being_edited.ends_with?("_id")
+          id = params[:batch_edit_property].gsub("#{property_being_edited}_","")
+          value = nil
+          unless id == "nil"
+            klass = property_being_edited.gsub("_id","").classify.constantize
+            if id.to_i.to_s == id
+              value = klass.find(id)
+            elsif id == "new"
+              if current_user.qkunst?
+                value = klass.new(name: params[:batch_edit_new_name])
+                value.collection = @collection if value.methods.include?(:collection)
+                value.save
+              end
+            else
+              raise id
+            end
+
+          end
+          selected_works.each{|a| a.send("#{property_being_edited}=", value ? value.id : nil); a.save}
+          notice = "Wijziging (#{I18n.t property_being_edited.gsub("_id",""), scope: [:activerecord, :attributes, :work]} = #{ value ? value.name : "geen"}) doorgevoerd voor #{selected_works.count} werken."
+        else
+          value = params[:batch_edit_property].gsub("#{property_being_edited}_","")
+          value = nil if value == "nil"
+          value = params[:batch_edit_new_name] if value == "new"
+          selected_works.each{|a| a.send("#{property_being_edited}=", value); a.save}
+          notice = "Wijziging (#{I18n.t property_being_edited, scope: [:activerecord, :attributes, :work]} = #{value}) doorgevoerd voor #{selected_works.count} werken."
+        end
       end
-      params[:add_or_create_cluster] = nil
+
+      params[:batch_edit] = nil
       params[:selected_works] = []
       params[:cluster_new] = nil
       params[:action] = nil
@@ -254,21 +252,36 @@ class WorksController < ApplicationController
 
   private
 
-  def prepare_clusters_for_selection
-    @cluster_options = {}
+  def prepare_batch_editor_selection
+    @batch_edit_options = {"Cluster" => {}, "Collectie" => {}, "Niveau" => {}, "Locatie" => {}, "Locatie" => {}, "Deelcollectie" => {}}
 
     @collection.clusters_including_parent_clusters.each do |cluster|
-      @cluster_options["cluster “#{cluster.name}”"] = cluster.id
+      @batch_edit_options["Cluster"]["Voeg to aan cluster “#{cluster.name}”"] = "cluster_id_#{cluster.id}"
     end
-    @cluster_options["overige (geen cluster)"] = :clusterless
+    @batch_edit_options["Cluster"]["Haal uit cluster (geen cluster)"] = :cluster_id_nil
+    @batch_edit_options["Cluster"]["Voeg toe aan nieuw cluster"] = :cluster_id_new
+
+    %w{A B C D E F G}.each do |grade|
+      @batch_edit_options["Niveau"]["Niveau #{grade}"] = "grade_within_collection_#{grade}"
+    end
+
     @collection.child_collections.each do |collection|
-      @cluster_options["collectie “#{collection.name}”"] = "collection_#{collection.id}"
+      @batch_edit_options["Collectie"]["Verplaats naar collectie “#{collection.name}”"] = "collection_id_#{collection.id}"
     end
+
     if @collection.child_collections.count > 0
       collection = @collection
-      # TODO: in future versions make more stable, this might break cluster-functionality!
-      @cluster_options["collectie “#{collection.name}”*"] = "collection_#{collection.id}"
+      @batch_edit_options["Collectie"]["Verplaats naar collectie “#{collection.name}”*"] = "collection_id_#{collection.id}"
     end
+
+    Subset.all.each do |subset|
+      @batch_edit_options["Deelcollectie"]["Zet in deelcollectie “#{subset.name}”"] = "subset_id_#{subset.id}"
+    end
+
+    @batch_edit_options["Locatie"]["Nieuwe locatie"] = "location_new"
+    @batch_edit_options["Locatie"]["Nieuwe locatie specificatie"] = "location_detail_new"
+
+
   end
 
   def set_selection_filter
