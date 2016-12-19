@@ -231,6 +231,7 @@ class Work < ApplicationRecord
         themes: { only: [:id, :name]},
         subset: { only: [:id, :name]},
         placeability: { only: [:id, :name]},
+        cluster: { only: [:id, :name]},
       },
       methods: [
         :title_rendered,
