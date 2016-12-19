@@ -8,3 +8,6 @@ collection2:
 collection_with_works:
   name: Collection with works (sub of Collection 1)
   parent_collection: :collection1
+
+collection3:
+  name: Collection 3
