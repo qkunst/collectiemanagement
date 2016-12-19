@@ -43,7 +43,7 @@ class WorksController < ApplicationController
       end
     end
 
-    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability])
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster])
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|

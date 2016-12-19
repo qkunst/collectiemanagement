@@ -56,6 +56,8 @@
         <%#= render partial: "application/forms/checkbox", collection: [{a: "A"},{b:"B"},{c:"C"},{d:"D"},{e:"E"},{f:"F"},{not_set: "Onbekend"}], as: :checkbox, locals: {field: "grade_within_collection"} %>
         <h5>Plaatsbaarheid</h5>
         <%= filter_checkboxes(@aggregations[:placeability], "placeability_id") %>
+        <h5>Cluster</h5>
+        <%= filter_checkboxes(@aggregations[:cluster], "cluster_id") %>
 
         <%#= render partial: "application/forms/checkbox", collection: Placeability.all+[{not_set: "Onbekend"}], as: :checkbox, locals: {field: "placeability_id"} %>
       <% end %>

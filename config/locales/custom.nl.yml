@@ -90,6 +90,8 @@ nl:
           not_set: Geen deelcollectie
         placeability_id:
           not_set: Onbekend
+        cluster_id:
+          not_set: Niet in cluster
         themes:
           id:
             not_set: Geen thema
