@@ -44,3 +44,25 @@ $(document).on("turbolinks:load", ->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"));
   show_or_hide_selected_works()
 )
+
+$(document).on("click", "span.select_all", (e)->
+  container_div = $(e.target).parents("form,.select_all_scope")[0]
+  inputs = container_div.querySelectorAll("input[name='selected_works[]']")
+  for elem in inputs
+    elem.checked = true
+  $(inputs[0]).trigger('change')
+  e.target.classList.add "unselect_all"
+  e.target.classList.remove "select_all"
+  e.target.innerHTML = "Deselecteer alles"
+)
+
+$(document).on("click", "span.unselect_all", (e)->
+  container_div = $(e.target).parents("form,.select_all_scope")[0]
+  inputs = container_div.querySelectorAll("input[name='selected_works[]']")
+  for elem in inputs
+    elem.checked = false
+  $(inputs[0]).trigger('change')
+  e.target.classList.add "select_all"
+  e.target.classList.remove "unselect_all"
+  e.target.innerHTML = "Selecteer alles"
+)

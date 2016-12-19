@@ -11,7 +11,7 @@
 
   <div class="row">
     <div class="large-5 columns">
-      <p>Deze <% if @collection_works_count > @works.count %> (gefilterde) <% end %> collectie bevat <%= I18n.translate 'count.works', count:  @works.count %><% if @collection_works_count > @works.count %> (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>).<span class="hide-for-print"><br/> <%= link_to collection_works_path(@collection, params: params.merge({filter:{reset:true}, cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil, no_child_works: nil}) ) do %>Reset filters<% end %><% end %>.</span></p>
+      <p>Deze <% if @collection_works_count > @works.count %> (gefilterde) <% end %> collectie bevat <%= I18n.translate 'count.works', count:  @works.count %><% if @collection_works_count > @works.count %> (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>).<span class="hide-for-print"><br/> <%= link_to collection_works_path(@collection, params: params.merge({filter:{reset:true}, cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil, no_child_works: nil}) ) do %>Reset filters<% end %><% end %>. <% if qkunst_user? %><span class="select_all hide-for-print secondary small button inline">Selecteer alles</span><% end %></span></p>
 
 
 
@@ -74,23 +74,27 @@
       <% if defined?(@works_grouped) %>
         <% if @works_grouped[nil] %>
           <% works = @works_grouped[nil] %>
-          <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
-          <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>.</p>
-          <%= render works[0..@max_index]%>
-          <% if works.count > @max_index+1%>
-          <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
-          <% end %>
-          <hr/>
-        <% end %>
-        <% @works_grouped.each do |cluster, works| %>
-          <% if cluster %>
-            <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
-            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>. <% if cluster.is_a? Cluster %><span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span><% end %></p>
-            <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
+          <div class="select_all_scope cluster">
+            <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
+            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>.  <% if qkunst_user? %><span class="select_all hide-for-print secondary small button inline">Selecteer alles</span></p><% end %>
             <%= render works[0..@max_index]%>
             <% if works.count > @max_index+1%>
             <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
             <% end %>
+            </div>
+          <hr/>
+        <% end %>
+        <% @works_grouped.each do |cluster, works| %>
+          <% if cluster %>
+            <div class="select_all_scope cluster">
+              <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
+              <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>.  <% if qkunst_user? %><span class="select_all hide-for-print secondary small button inline">Selecteer alles</span><% end %>. <% if cluster.is_a? Cluster %><span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span><% end %></p>
+              <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
+              <%= render works[0..@max_index]%>
+              <% if works.count > @max_index+1%>
+              <p><%= link_to "Toon alle #{works.count} werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%></p>
+              <% end %>
+            </div>
             <hr/>
           <% end %>
         <% end %>

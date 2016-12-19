@@ -263,6 +263,9 @@ input.radio_buttons {
 .button:hover {
   text-decoration: none;
 }
+.button.inline {
+  margin-bottom: 0;
+}
 
 form.button_to {
   display: inline-block;
