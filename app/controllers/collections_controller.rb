@@ -15,6 +15,10 @@ class CollectionsController < ApplicationController
     end
   end
 
+  def refresh_works
+    @collection.works_including_child_works.all.each{ |w| w.touch; w.save }
+  end
+
   # GET /collections/1
   # GET /collections/1.json
   def show

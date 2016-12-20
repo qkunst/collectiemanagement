@@ -17,6 +17,11 @@ admin:
   admin: true
   qkunst: true
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+qkunst:
+  email: qkunst-regular-user@murb.nl
+  admin: false
+  qkunst: true
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 user_with_no_rights:
   email: qkunst-test-user_with_no_rights@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy

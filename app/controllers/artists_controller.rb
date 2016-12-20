@@ -18,6 +18,14 @@ class ArtistsController < ApplicationController
     end
   end
 
+  # POST
+  def clean
+    Artist.destroy_all_empty_artists!
+    Artist.destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
+    Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
+    redirect_to artists_path, notice: "De kunstenaarsdatabase is opgeschoond!"
+  end
+
   # GET /artists/1
   # GET /artists/1.json
   def show

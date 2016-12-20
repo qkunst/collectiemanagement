@@ -7,8 +7,11 @@ class Artist < ApplicationRecord
   after_save :touch_works
   belongs_to :import_collection
 
+  scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
   scope :exclude_artist, ->(artist){where("artists.id != ?", artist.id)}
   scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
+  scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
+  scope :have_name, ->{where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)")}
   # accepts_nested_attributes_for :artist_involvements
 
   def name
@@ -18,6 +21,15 @@ class Artist < ApplicationRecord
     birthpart = "(#{birthpart})" if birthpart != ""
     rname = [namepart,birthpart].delete_if{|a| a==""}.join(" ")
     return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
+  end
+
+  def search_name
+    last_name_part = [first_name,prefix].join(" ").strip
+    [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
+  end
+
+  def name?
+    search_name != ""
   end
 
   def title
@@ -36,9 +48,12 @@ class Artist < ApplicationRecord
     place_of_birth? or year_of_birth?
   end
 
-  def combine_artists_with_ids(artist_ids_to_combine_with)
-    artists = Artist.where(id: artist_ids_to_combine_with)
+  def combine_artists_with_ids(artist_ids_to_combine_with, options = {})
+    options = {only_when_created_at_date_is_equal: false}.merge(options)
 
+
+    artists = Artist.where(id: artist_ids_to_combine_with)
+    artists = artists.created_at_date(self.created_at) if options[:only_when_created_at_date_is_equal]
     count = 0
     artists.each do |artist|
       artist.works.each do |work|
@@ -60,8 +75,7 @@ class Artist < ApplicationRecord
   def search_rkd
     require 'open-uri'
     json_response = nil
-    search_name = name
-    unless search_name.starts_with?("-geen naam opgevoerd")
+    if name?
       encoded_search_name = ERB::Util.url_encode(search_name)
       json_response = CachedApi.query("https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=#{encoded_search_name}")
       if json_response["response"]["docs"].count == 1
@@ -97,14 +111,33 @@ class Artist < ApplicationRecord
       return rv
     end
 
-    def clean!
-      self.empty_artists.each{|a| a.destroy}
+    def destroy_all_empty_artists!
+      self.empty_artists.collect{|a| a.destroy}
     end
 
     def empty_artists
       _empty_artists = []
       self.select(:id).each do |a|
         _empty_artists << a if a.works.count == 0
+      end
+      _empty_artists
+    end
+
+    def destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
+      self.artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name.collect{|a| a.destroy}
+
+    end
+    def artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name
+      _empty_artists = []
+      self.no_name.select(:id).each do |a|
+        if a.works.count > 0
+          artists_with_name = a.works.collect do |w|
+            w.artists.have_name.count > 0
+          end.compact.uniq
+          if artists_with_name.length == 1 and artists_with_name.first == true
+            _empty_artists << a
+          end
+        end
       end
       _empty_artists
     end
@@ -122,11 +155,12 @@ class Artist < ApplicationRecord
 
     end
 
-    def collapse_by_name
+    def collapse_by_name!(options = {})
+      options = {only_when_created_at_date_is_equal: true}.merge(options)
       self.group_by_name.each do |name, ids|
         first = ids.delete_at(0)
         first_artist=Artist.find(first)
-        first_artist.combine_artists_with_ids(ids)
+        first_artist.combine_artists_with_ids(ids, options)
       end
     end
   end

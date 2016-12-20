@@ -68,7 +68,9 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     resources :messages
-    resources :collections
+    resources :collections do
+      post 'refresh_works' => 'collections#refresh_works'
+    end
     resources :themes
     resources :batch_photo_uploads do
       post 'match_works' => 'batch_photo_uploads#match_works'
@@ -91,6 +93,8 @@ Rails.application.routes.draw do
     get 'combine_prepare' => 'artists#combine_prepare'
     patch 'combine' => 'artists#combine'
   end
+  post '/artists/clean' => 'artists#clean'
+
 
   resources :professional_activities
 

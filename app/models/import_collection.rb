@@ -252,7 +252,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def collapse_all_generated_artists
-    artists.collapse_by_name
+    artists.collapse_by_name!
   end
 
   def analyze_field_properties(field)

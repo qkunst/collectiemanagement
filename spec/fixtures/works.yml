@@ -6,6 +6,8 @@ work1:
     - :wind
   subset: :contemporary
   collection: :collection_with_works
+  artists:
+    - :artist1
 work2:
   title: Work2
   grade_within_collection: A (of B)
@@ -14,3 +16,14 @@ work2:
     - :fire
   subset: :modern
   collection: :collection_with_works
+  artists:
+    - :artist2
+    - :artist_no_name
+work3:
+  title: Work3
+  artists:
+    - :artist3
+work4:
+  title: Work4
+  artists:
+    - :artist4

@@ -71,7 +71,7 @@ class ImportCollectionsController < ApplicationController
 
   def delete_works options={}
     @import_collection.works.destroy_all
-    @import_collection.artists.clean!
+    @import_collection.artists.destroy_all_empty_artists!
     redirect_to collection_import_collection_path(@collection, @import_collection), notice: 'De werken die met deze importer zijn aangemaakt zijn verwijderd.' unless options[:redirect] == false
   end
 
