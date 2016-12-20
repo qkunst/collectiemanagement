@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216094521) do
+ActiveRecord::Schema.define(version: 20161219205845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20161216094521) do
     t.string   "prefix"
     t.string   "last_name"
     t.integer  "import_collection_id"
+    t.integer  "rdk_artist_id"
   end
 
   create_table "artists_works", force: :cascade do |t|
@@ -51,6 +52,13 @@ ActiveRecord::Schema.define(version: 20161216094521) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "finished_uploading", default: false
+  end
+
+  create_table "cached_apis", force: :cascade do |t|
+    t.string   "query"
+    t.text     "response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "clusters", force: :cascade do |t|
@@ -272,6 +280,15 @@ ActiveRecord::Schema.define(version: 20161216094521) do
     t.boolean  "hide",       default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "rdk_artists", force: :cascade do |t|
+    t.integer  "rkd_id"
+    t.string   "name"
+    t.string   "api_response"
+    t.string   "api_response_source_url"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "sources", force: :cascade do |t|

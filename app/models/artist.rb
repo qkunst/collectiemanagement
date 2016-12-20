@@ -2,6 +2,7 @@ class Artist < ApplicationRecord
   has_paper_trail
   has_many :artist_involvements
   has_and_belongs_to_many :works
+  belongs_to :rdk_artist
   has_many :involvements, through: :artist_involvement
   after_save :touch_works
   belongs_to :import_collection
@@ -56,6 +57,22 @@ class Artist < ApplicationRecord
     works.each{|work| work.touch}
   end
 
+  def search_rkd
+    require 'open-uri'
+    json_response = nil
+    search_name = name
+    unless search_name.starts_with?("-geen naam opgevoerd")
+      encoded_search_name = ERB::Util.url_encode(search_name)
+      json_response = CachedApi.query("https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=#{encoded_search_name}")
+      if json_response["response"]["docs"].count == 1
+        # json_response =
+      end
+    end
+
+    json_response
+    # aantekening maarten: https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=sjoerd%20buisman&format=json -> https://api.rkd.nl/api/record/artists/13928?format=json
+  end
+
   class << self
     def names_hash
       unless defined?(@@artist_names)
@@ -99,6 +116,10 @@ class Artist < ApplicationRecord
         groups[artist.name] << artist.id
       end
       groups
+    end
+
+    def remove_artist_with_no_works
+
     end
 
     def collapse_by_name
