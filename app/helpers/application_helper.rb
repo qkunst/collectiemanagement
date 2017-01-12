@@ -35,8 +35,13 @@ module ApplicationHelper
     link_to name, url
   end
 
-  def menu_link_to desc, path
-    class_name = request.path.to_s.starts_with?(path.to_s) ? "active" : ""
+  def menu_link_to desc, path, options={}
+    test_path = path.include?("//") ? path.sub("//","").split("/")[1..1000].join("/") : path
+    if options[:only_exact_path_match]
+      class_name = (request.path.to_s == (test_path.to_s)) ? "active" : ""
+    else
+      class_name = request.path.to_s.starts_with?(test_path.to_s) ? "active" : ""
+    end
     link_to "#{desc}", path, class: class_name
   end
 end
