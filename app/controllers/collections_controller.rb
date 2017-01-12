@@ -1,5 +1,5 @@
 class CollectionsController < ApplicationController
-  before_action :authenticate_admin_user!, only: [:destroy, :create, :new]
+  before_action :authenticate_admin_user!, only: [:destroy, :create, :new, :refresh_works]
   before_action :authenticate_qkunst_user!, only: [:edit, :update]
   before_action :authenticate_qkunst_or_facility_user!, only: [:report]
   before_action :set_collection, only: [:show, :edit, :update, :destroy] #includes authentication
@@ -16,7 +16,7 @@ class CollectionsController < ApplicationController
   end
 
   def refresh_works
-    @collection.works_including_child_works.all.each{ |w| w.touch; w.save }
+    @parent_collection.works_including_child_works.all.reindex!
   end
 
   # GET /collections/1

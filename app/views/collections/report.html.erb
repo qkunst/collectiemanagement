@@ -1,5 +1,5 @@
 <h1>Rapportage</h1>
-<p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.</p>
+<p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.   <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :secondary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if admin_user?%></p>
 <div class="tabs">
 <nav class="tab-head">
 <ul>

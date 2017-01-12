@@ -68,8 +68,8 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     resources :messages
+    post 'refresh_works' => 'collections#refresh_works'
     resources :collections do
-      post 'refresh_works' => 'collections#refresh_works'
     end
     resources :themes
     resources :batch_photo_uploads do
