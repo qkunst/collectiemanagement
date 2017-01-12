@@ -43,7 +43,7 @@ class WorksController < ApplicationController
       end
     end
 
-    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster])
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques])
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
@@ -52,8 +52,11 @@ class WorksController < ApplicationController
           works_grouped = {}
           @works.each do |work|
             group = work.send(@selection[:group])
-            works_grouped[group] ||= []
-            works_grouped[group] << work
+            group = nil if group.methods.include?(:count) and group.count == 0
+            [group].flatten.each do | group |
+              works_grouped[group] ||= []
+              works_grouped[group] << work
+            end
           end
           works_grouped.each do |key, works|
             works_grouped[key] = sort_works(works)
@@ -140,7 +143,7 @@ class WorksController < ApplicationController
       alert = nil
       selected_works = @collection.works_including_child_works.where(id:params[:selected_works].collect{|a| a.to_i})
 
-      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location", "subset_id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
+      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location", "subset_id", "theme.id", "technique.id", "source.id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
 
       if property_being_edited
         if property_being_edited.ends_with?("_id")
@@ -163,6 +166,21 @@ class WorksController < ApplicationController
           end
           selected_works.each{|a| a.send("#{property_being_edited}=", value ? value.id : nil); a.save}
           notice = "Wijziging (#{I18n.t property_being_edited.gsub("_id",""), scope: [:activerecord, :attributes, :work]} = #{ value ? value.name : "geen"}) doorgevoerd voor #{selected_works.count} werken."
+        elsif property_being_edited.ends_with?(".id")
+            id = params[:batch_edit_property].gsub("#{property_being_edited}_","")
+            value = nil
+            unless id == "nil"
+              klass = property_being_edited.gsub(".id","").classify.constantize
+              if id.to_i.to_s == id
+                value = klass.find(id)
+              else
+                raise id
+              end
+            end
+            property_name = "#{property_being_edited.gsub(".id","")}s"
+            selected_works.each{|a| a.send(property_name).push(value); a.reindex! }
+            notice = "Wijziging (#{I18n.t property_name, scope: [:activerecord, :attributes, :work]} = #{ value ? value.name : "geen"}) doorgevoerd voor #{selected_works.count} werken."
+
         else
           value = params[:batch_edit_property].gsub("#{property_being_edited}_","")
           value = nil if value == "nil"
@@ -253,13 +271,13 @@ class WorksController < ApplicationController
   private
 
   def prepare_batch_editor_selection
-    @batch_edit_options = {"Cluster" => {}, "Collectie" => {}, "Niveau" => {}, "Locatie" => {}, "Locatie" => {}, "Deelcollectie" => {}}
+    @batch_edit_options = {"Cluster" => {}, "Deelcollectie" => {}, "Collectie" => {}, "Herkomst" => {}, "Niveau" => {}, "Locatie" => {}, "Technieken"=>{}, "Thema's"=>{}}
 
     @collection.clusters_including_parent_clusters.each do |cluster|
-      @batch_edit_options["Cluster"]["Voeg to aan cluster “#{cluster.name}”"] = "cluster_id_#{cluster.id}"
+      @batch_edit_options["Cluster"]["Zet in cluster “#{cluster.name}”"] = "cluster_id_#{cluster.id}"
     end
     @batch_edit_options["Cluster"]["Haal uit cluster (geen cluster)"] = :cluster_id_nil
-    @batch_edit_options["Cluster"]["Voeg toe aan nieuw cluster"] = :cluster_id_new
+    @batch_edit_options["Cluster"]["Zet in nieuw cluster"] = :cluster_id_new
 
     %w{A B C D E F G}.each do |grade|
       @batch_edit_options["Niveau"]["Niveau #{grade}"] = "grade_within_collection_#{grade}"
@@ -281,6 +299,18 @@ class WorksController < ApplicationController
     @batch_edit_options["Locatie"]["Nieuwe locatie"] = "location_new"
     @batch_edit_options["Locatie"]["Nieuwe locatie specificatie"] = "location_detail_new"
 
+    Technique.all.each do |technique|
+      @batch_edit_options["Technieken"]["Voeg ook techniek “#{technique.name}” toe"] = "technique.id_#{technique.id}"
+    end
+
+    Source.all.each do |source|
+      @batch_edit_options["Herkomst"]["Voeg herkomst “#{source.name}” toe"] = "source.id_#{source.id}"
+    end
+
+    @collection.available_themes.each do |theme|
+      @batch_edit_options["Thema's"]["Voeg thema “#{theme.name}” toe"] = "theme.id_#{theme.id}"
+
+    end
 
   end
 
@@ -313,7 +343,7 @@ class WorksController < ApplicationController
     @selection[thing]
   end
   def set_selection_group
-    set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection]
+    set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection, :themes, :techniques, :sources]
   end
   def set_selection_sort
     set_selection :sort, [:stock_number, :artist_name]

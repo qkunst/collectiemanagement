@@ -92,6 +92,12 @@ nl:
           not_set: Onbekend
         cluster_id:
           not_set: Niet in cluster
+        techniques:
+          id:
+            not_set: Techniek onbekend
+        sources:
+          id:
+            not_set: Onbekende herkomst
         themes:
           id:
             not_set: Geen thema

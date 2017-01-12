@@ -222,6 +222,7 @@ class Collection < ApplicationRecord
 
     if (search and search.to_s.strip != "")
       # search.split("/\s/").each do |search_t
+      search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
       query[:query][:filtered][:query] = {
         query_string: {
           default_field: :_all,
