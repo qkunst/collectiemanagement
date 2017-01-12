@@ -54,6 +54,11 @@ $(document).on("click", "span.select_all", (e)->
   e.target.classList.add "unselect_all"
   e.target.classList.remove "select_all"
   e.target.innerHTML = "Deselecteer alles"
+  buttons = container_div.querySelectorAll("span.select_all")
+  for elem in buttons
+    elem.classList.add "unselect_all"
+    elem.classList.remove "select_all"
+    elem.innerHTML = "Deselecteer alles"
 )
 
 $(document).on("click", "span.unselect_all", (e)->
@@ -65,4 +70,9 @@ $(document).on("click", "span.unselect_all", (e)->
   e.target.classList.add "select_all"
   e.target.classList.remove "unselect_all"
   e.target.innerHTML = "Selecteer alles"
+  buttons = container_div.querySelectorAll("span.unselect_all")
+  for elem in buttons
+    elem.classList.add "select_all"
+    elem.classList.remove "unselect_all"
+    elem.innerHTML = "Selecteer alles"
 )

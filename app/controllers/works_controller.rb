@@ -16,7 +16,7 @@ class WorksController < ApplicationController
     set_selection_sort
     set_selection_display
 
-    @show_work_checkbox = true
+    @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count
 
     @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}

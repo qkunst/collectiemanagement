@@ -38,6 +38,10 @@ class ApplicationController < ActionController::Base
     current_user && current_user.admin?
   end
 
+  def qkunst_user?
+    current_user && current_user.qkunst?
+  end
+
   private
 
   def show_hidden

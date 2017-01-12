@@ -9,7 +9,6 @@ class Work < ApplicationRecord
 
   belongs_to :collection
   belongs_to :created_by, :class_name=>User
-  # belongs_to :source
   has_and_belongs_to_many :sources
   belongs_to :style
   belongs_to :cluster
