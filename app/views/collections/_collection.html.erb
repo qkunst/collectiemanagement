@@ -8,7 +8,7 @@
        <ul>
   <% end %>
 <% else %>
-    <li><%= link_to collection.name, collection_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %><% if collection.works.count > 0 %> (<%= link_to  I18n.translate('count.works', count: collection.works.count), collection_works_path(collection, params: {show_hidden: @show_hidden, no_child_works: true})  %>)<% end %>
+    <li><%= link_to collection.name, collection_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %> (<%= link_to  I18n.translate('count.works', count: collection.works_including_child_works.count), collection_works_path(collection)  %><% if collection.works.count > 0 %>; in deze collectie <%= link_to  I18n.translate('count.works', count: collection.works.count), collection_works_path(collection, params: {show_hidden: @show_hidden, no_child_works: true})  %><% end %>)
        <ul>
 <% end %>
 
