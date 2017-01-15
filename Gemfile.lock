@@ -118,6 +118,9 @@ GEM
       faraday
       multi_json
     erubis (2.7.0)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     execjs (2.7.0)
     faraday (0.10.0)
       multipart-post (>= 1.2, < 3)
@@ -312,6 +315,7 @@ DEPENDENCIES
   devise
   elasticsearch-model
   elasticsearch-rails
+  exception_notification
   foundation-rails
   jbuilder (~> 2.0)
   jquery-rails

@@ -95,6 +95,7 @@ gem 'paper_trail'#, '~>4.0.0.rc1'
 gem 'keyword_finder'
 gem 'daemons'
 gem 'delayed_job_active_record'
+gem 'exception_notification'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-jquery', '~>2.2'
