@@ -40,8 +40,8 @@ class Artist < ApplicationRecord
     return [rkd_artist] if rkd_artist
     rkd_artists = RkdArtist.search_rkd_by_artist(self)
     if rkd_artists.count == 1
-      artist.rkd_artist = rkd_artists.first
-      artist.save unless artist.changes == {}
+      self.rkd_artist = rkd_artists.first
+      self.save unless self.changes == {}
     end
     rkd_artists
   end
