@@ -1,0 +1,32 @@
+<div class="row columns">
+  <header class="row">
+    <div class="large-12 columns">
+      <p><%= link_to '← Terug naar de vervaardigerspagina', artist_path(@artist)%></p>
+
+      <h1>RKD koppeling voor <%= @artist.name %></h1>
+    </div>
+
+  </header>
+
+  <div class="row">
+    <% if @artist.rkd_artist %>
+      <p>Deze kunstenaar is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
+      <%= render @artist.rkd_artist %>
+    <% end %>
+  </div>
+
+  <form action="<%=artist_rkd_artists_path(@artist)%>" method="get">
+    <input type="search" name="q" value="<%=@q%>" />
+  </form>
+
+  <% case @rkd_artists.count %>
+  <% when 0 %>
+    <p>Deze vervaardiger kon niet worden gevonden in de RKDartists&amp;-database.</p>
+  <% when 1 %>
+    <p>Deze vervaardiger matcht met het volgende record in de RKDartists&amp;-database (maar is nog niet gekoppeld)</p>
+    <%= render @rkd_artists %>
+  <% else %>
+    <p>Deze vervaardiger kon niet gekoppeld worden aan één kunstenaar in RKDartists&amp;-database.</p>
+    <%= render @rkd_artists %>
+  <% end %>
+</div>

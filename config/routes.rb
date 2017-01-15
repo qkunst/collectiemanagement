@@ -92,6 +92,7 @@ Rails.application.routes.draw do
   resources :artists do
     get 'combine_prepare' => 'artists#combine_prepare'
     patch 'combine' => 'artists#combine'
+    get 'rkd_artists' => 'artists#rkd_artists'
   end
   post '/artists/clean' => 'artists#clean'
 

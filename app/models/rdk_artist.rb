@@ -1,2 +1,0 @@
-class RdkArtist < ApplicationRecord
-end

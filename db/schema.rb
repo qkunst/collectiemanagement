@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161219205845) do
+ActiveRecord::Schema.define(version: 20170112195113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20161219205845) do
     t.string   "prefix"
     t.string   "last_name"
     t.integer  "import_collection_id"
-    t.integer  "rdk_artist_id"
+    t.integer  "rkd_artist_id"
   end
 
   create_table "artists_works", force: :cascade do |t|
@@ -282,13 +282,14 @@ ActiveRecord::Schema.define(version: 20161219205845) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "rdk_artists", force: :cascade do |t|
+  create_table "rkd_artists", force: :cascade do |t|
     t.integer  "rkd_id"
     t.string   "name"
-    t.string   "api_response"
     t.string   "api_response_source_url"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.json     "api_response"
+    t.index ["rkd_id"], name: "index_rkd_artists_on_rkd_id", using: :btree
   end
 
   create_table "sources", force: :cascade do |t|

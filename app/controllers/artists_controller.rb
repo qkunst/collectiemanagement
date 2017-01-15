@@ -3,7 +3,8 @@ class ArtistsController < ApplicationController
   before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]
   before_action :authenticate_qkunst_user!, only: [:edit, :update, :destroy, :new, :create]
   before_action :authenticate_qkunst_user_if_no_collection!
-  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare]
+  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :rkd_artists]
+  before_action :retrieve_rkd_artists, only: [:show]
   skip_before_action :verify_authenticity_token, only: [:create]
 
   # GET /artists
@@ -20,15 +21,19 @@ class ArtistsController < ApplicationController
 
   # POST
   def clean
+    artist_count_before = Artist.count
     Artist.destroy_all_empty_artists!
     Artist.destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
     Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
-    redirect_to artists_path, notice: "De kunstenaarsdatabase is opgeschoond!"
+    artist_count_after = Artist.count
+
+    redirect_to artists_path, notice: ((artist_count_after < artist_count_before) ? "De kunstenaarsdatabase is opgeschoond (van #{artist_count_before} kunstenaars naar #{artist_count_after} kunstenaars)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
   end
 
   # GET /artists/1
   # GET /artists/1.json
   def show
+
   end
 
   # GET
@@ -94,15 +99,28 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def rkd_artists
+    @q = params[:q].to_s.strip
+    if !@q.empty?
+      @rkd_artists = RkdArtist.search_rkd @q
+    else
+      @q = @artist.search_name
+      @rkd_artists = @artist.retrieve_rkd_artists!
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_artist
-      id = params[:artist_id] ? params[:artist_id] : params[:id]
-      @artist = Artist.find(id)
+      @artist = Artist.find(params[:artist_id] || params[:id])
+    end
+
+    def retrieve_rkd_artists
+      @rkd_artists = @artist.retrieve_rkd_artists!
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def artist_params
-      params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description)
+      params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description, :rkd_artist_id)
     end
 end

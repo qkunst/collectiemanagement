@@ -6,16 +6,35 @@
       <dt>Geboren:</dt>
       <dd><%= @artist.place_of_birth %> (<%=@artist.year_of_birth%>)
     <% end %>
-  </dl>
-  <dl class="large-6 medium-6 columns">
     <% if @artist.died? %>
       <dt>Gestorven:</dt>
       <dd><%=  @artist.place_of_death %> (<%=@artist.year_of_death%>)
     <% end %>
   </dl>
+  <aside class="large-6 medium-6 columns">
+    <h3>RKDartists&amp;</h3>
+    <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', artist_rkd_artists_path(@artist)%></p>
+
+    <% if @artist.rkd_artist %>
+      <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
+      <%= render @artist.rkd_artist %>
+    <% else%>
+      <% case @rkd_artists.count %>
+      <% when 0 %>
+        <p>Deze vervaardiger kon niet gekoppeld aan de volgende kunstenaar in de RKDartists&amp;-database.</p>
+      <% when 1 %>
+        <p>Deze vervaardiger matcht met het volgende record in de RKDartists&amp;-database (maar is nog niet gekoppeld)</p>
+        <%= render @rkd_artists %>
+      <% else %>
+        <p>Deze vervaardiger kon niet gekoppeld worden aan één kunstenaar in RKDartists&amp;-database.</p>
+        <%= render @rkd_artists %>
+      <% end %>
+    <% end %>
+
+  </aside>
 </div>
-<h2>Werken van deze kunstenaar</h2>
-<p>Overzicht van werken van deze kunstenaar in de QKunst database.</p>
+<h2>Werken van deze vervaardiger</h2>
+<p>Overzicht van werken van deze vervaardiger in de QKunst database.</p>
 <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
 <%= render @artist.works%>
 </ul>

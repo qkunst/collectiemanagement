@@ -1,0 +1,19 @@
+<article class="rkd_artist">
+  <header>
+    <h4><%= rkd_artist.rkd_id%>: <%= rkd_artist.name %></h4>
+    <p><%= rkd_artist.substring%></p>
+  </header>
+  <% if admin_user? and @artist %>
+  <nav class="actions">
+    <ul class="menu">
+      <% if @artist.rkd_artist == rkd_artist %>
+        <%= button_to 'Ontkoppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
+      <% else %>
+        <%= button_to 'Koppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
+
+      <% end %>
+    </ul>
+  </nav>
+  <% end %>
+  <p><small>Informatie afkomstig van het <%= link_to 'RKD', rkd_artist.end_user_link, target: '_blank' %></small></p>
+</article>
