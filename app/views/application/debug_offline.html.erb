@@ -1,13 +1,12 @@
          <!-- <iframe src="/?offline=offline" style="margin-left: -999px; height: 0px">
          </iframe> -->
-<h1>Debugging offline</h1>
-<h2>App Cache</h2>
-
-<p>App Cache Status: <span id="appcachestatus"> </span>.</p>
-<h2>Store</h2>
-<p>Store count: <span id="storecount"> </span>.</p>
+<h1>Offline status</h1>
+<p>Dit scherm geeft aan wat de status is van de offline werking. Staat deze op 'DOWNLOADING' wacht dan totdat deze veranderd in 'UPDATE READY' of 'IDLE'; dan is de applicatie namelijk geheel gereed voor offline gebruik.</p>
+<p>De status is: <span id="appcachestatus"> </span>.</p>
+<h2>Nog niet verstuurde werken</h2>
+<p>Er staan <span id="storecount"> </span> onverzonden werken in de lokale opslag</p>
 <h2>Online/offline</h2>
-<p>Oline status: <span id="onlineoffline"> </span>.</p>
+<p>Online status: <span id="onlineoffline"> </span>.</p>
 <script type="text/javascript">
 var showAppCacheStatus = function() {
   $('#appcachestatus').text(FormStore.appCache.status());

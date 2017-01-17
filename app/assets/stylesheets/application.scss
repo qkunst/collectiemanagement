@@ -23,7 +23,7 @@
 @import 'variables';
 //Qoranje: F69022
 //blauw: 232EFB
-html.turbolinks-progress-bar::before {
+.turbolinks-progress-bar {
   background-color: lighten($qkunst-orange,20) !important;
 }
 
@@ -288,11 +288,6 @@ button.inline {
   &:focus {
     outline: dotted 1px #ccc;
   };
-}
-
-a.button.inline {
-  padding: 4px 5px;
-  font-size: 1em;
 }
 
 label input[type="checkbox"] {

@@ -113,7 +113,9 @@ class CollectionsController < ApplicationController
         notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{@collection.parent_collection}”"
       end
     else
-      notice = "De collectie kon niet verwijderd worden omdat deze nog werken heeft en/of subcollecties"
+      @collection.works.destroy_all
+      @collection.destroy
+      notice = "De collectie is verwijderd inclusief bijbehorende werken."
     end
 
     respond_to do |format|

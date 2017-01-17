@@ -11,7 +11,7 @@
   <h1>Overzicht van de collecties </h1>
   <div class="row">
     <div class="medium-9 columns">
-      <label>Filter de collecties<input type="search" class="list-filter" data-filters="list-to-filter"></label>
+      <label>Zoek op naam van de collectie<input type="search" class="list-filter" data-filters="list-to-filter"></label>
       <ul id="list-to-filter" class="collapsable">
         <% @collections.each do |collection| %>
           <%= render collection%>

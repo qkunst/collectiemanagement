@@ -2,10 +2,9 @@
   <% if qkunst_user? %><%= link_to "Voeg nieuw werk toe", new_collection_work_path(@collection), class: 'small button right' %><% end %>
   <% if current_user.can_write_messages? %>
   <% if @work%>
-    <%= link_to 'Vraag of opmerking over dit werk?', collection_messages_path(@collection), class: 'secondary small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
-
+    <%= link_to 'Vraag of opmerking over dit werk?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button right' : 'small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
   <% else %>
-    <%= link_to 'Vraag of opmerking over deze collectie?', collection_messages_path(@collection), class: 'secondary small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
+    <%= link_to 'Vraag of opmerking over deze collectie?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button right' : 'small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
   <% end%>
   <% end %>
 <ul class="menu simple">
