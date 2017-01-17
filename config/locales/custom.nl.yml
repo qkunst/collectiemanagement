@@ -70,6 +70,8 @@ nl:
       cluster: Cluster
       import_collection: Import
       batch_photo_upload: Foto-import
+      involvement: Betrekking
+      artist_involvement: Vervaardigersbetrekking
     values:
       import_collection:
         split_nothing: "Splits niets"
@@ -128,6 +130,15 @@ nl:
         place_of_death: Plaats van overlijden
         year_of_death: Jaar van overlijden
         description: Opmerkingen
+        involvement: Betrekking
+      artist_involvement:
+        involvement: Instelling
+        start_year: Vanaf (jaar)
+        end_year: Tot (jaar)
+      involvement:
+        name: Naam
+        city: Stad
+        country: Land
       cluster:
         name: Naam
         description: Beschrijving

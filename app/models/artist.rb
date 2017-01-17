@@ -12,7 +12,8 @@ class Artist < ApplicationRecord
   scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
   scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
   scope :have_name, ->{where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)")}
-  # accepts_nested_attributes_for :artist_involvements
+
+  accepts_nested_attributes_for :artist_involvements
 
   def name
     last_name_part = [first_name,prefix].join(" ").strip

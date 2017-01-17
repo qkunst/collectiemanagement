@@ -1,0 +1,13 @@
+<article class="rkd_artist">
+  <header>
+    <h4><%= link_to artist do %><%= artist.name %><% end %></h4>
+  </header>
+    <% if artist.born? %>
+      <dt>Geboren:</dt>
+      <dd><%= artist.place_of_birth %> (<%=artist.year_of_birth%>)
+    <% end %>
+    <% if artist.died? %>
+      <dt>Gestorven:</dt>
+      <dd><%=  artist.place_of_death %> (<%=artist.year_of_death%>)
+    <% end %>
+</article>

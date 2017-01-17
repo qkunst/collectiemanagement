@@ -1,7 +1,8 @@
 <h1><%= @artist.name%> <small>(<%= link_to 'Bewerk gegevens', edit_artist_path(@artist) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small></h1>
 <%= simple_format @artist.description %>
 <div class="row">
-  <dl class="large-6 medium-6 columns">
+  <div  class="large-9 medium-9 columns">
+    <dl>
     <% if @artist.born? %>
       <dt>Geboren:</dt>
       <dd><%= @artist.place_of_birth %> (<%=@artist.year_of_birth%>)
@@ -10,25 +11,28 @@
       <dt>Gestorven:</dt>
       <dd><%=  @artist.place_of_death %> (<%=@artist.year_of_death%>)
     <% end %>
-  </dl>
-  <aside class="large-6 medium-6 columns">
+    </dl>
+    <div class="row">
+      <div class="medium-6 columns">
+        <h3>Opleiding <small>(<%=link_to 'voeg toe', new_artist_artist_involvement_path(@artist, type: :education)%>)</small></h3>
+        <%= render @artist.artist_involvements.educational %>
+      </div>
+      <div class="medium-6 columns">
+        <h3>Werkgebied <small>(<%=link_to 'voeg toe', new_artist_artist_involvement_path(@artist, type: :professional)%>)</small></h3>
+        <%= render @artist.artist_involvements.professional %>
+
+      </div>
+    </div>
+
+  </div>
+  <aside class="large-3 medium-3 columns">
     <h3>RKDartists&amp;</h3>
     <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', artist_rkd_artists_path(@artist)%></p>
 
     <% if @artist.rkd_artist %>
       <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
       <%= render @artist.rkd_artist %>
-    <% else%>
-      <% case @rkd_artists.count %>
-      <% when 0 %>
-        <p>Deze vervaardiger kon niet gekoppeld aan de volgende kunstenaar in de RKDartists&amp;-database.</p>
-      <% when 1 %>
-        <p>Deze vervaardiger matcht met het volgende record in de RKDartists&amp;-database (maar is nog niet gekoppeld)</p>
-        <%= render @rkd_artists %>
-      <% else %>
-        <p>Deze vervaardiger kon niet gekoppeld worden aan één kunstenaar in RKDartists&amp;-database.</p>
-        <%= render @rkd_artists %>
-      <% end %>
+      <hr/>
     <% end %>
 
   </aside>

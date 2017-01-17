@@ -1,0 +1,26 @@
+<h1><%= link_to @rkd_artist.end_user_link do %><%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %><% end %></h1>
+<p><%= @rkd_artist.substring%></p>
+
+<p>Deze informatie is <%= link_to 'afkomstig', @rkd_artist.end_user_link %> uit de RKDartists&amp;-database, en vrijgegeven onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</p>
+<hr/>
+<div class="row">
+  <div class="medium-6 columns">
+    <% if admin_user? and @artist %>
+    <nav class="actions">
+      <ul class="menu">
+        <% if @artist.rkd_artist == @rkd_artist %>
+          <%= button_to 'Neem informatie over uit het RKD', '', class: [:small, :secondary, :button]%>
+        <% else %>
+          <%= button_to 'Koppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => @rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
+
+        <% end %>
+      </ul>
+    </nav>
+    <%= render @artist%>
+    <% end %>
+  </div>
+  <div class="medium-6 columns">
+<h3>Alle informatie uit RKD:</h3>
+<%= render_hash @rkd_artist.api_response%>
+  </div>
+</div>

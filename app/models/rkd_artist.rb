@@ -36,6 +36,10 @@ class RkdArtist < ApplicationRecord
     rv += year_of_death ? " - #{year_of_death} (#{place_of_death})" : " - heden(?)"
   end
 
+  def to_param
+    rkd_id.to_s
+  end
+
   class << self
     def search_rkd_by_artist artist
       self.search_rkd(artist.search_name)

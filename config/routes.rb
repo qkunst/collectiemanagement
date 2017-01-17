@@ -1,6 +1,7 @@
 
 Rails.application.routes.draw do
 
+
   namespace :api do
     namespace :v1 do
       resources :collections, only: [] do
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
   resources :media
   resources :techniques
   resources :object_categories
+  resources :rkd_artists
 
   rack_offline = Rack::Offline.configure :cache_interval => 3600 do
     # cache "images/masthead.png"
@@ -64,7 +66,6 @@ Rails.application.routes.draw do
 
   get "/application.manifest" => rack_offline #if Rails.env != "development"
 
-  resources :artist_involvements
   resources :involvements
   resources :collections do
     resources :messages
@@ -93,6 +94,7 @@ Rails.application.routes.draw do
     get 'combine_prepare' => 'artists#combine_prepare'
     patch 'combine' => 'artists#combine'
     get 'rkd_artists' => 'artists#rkd_artists'
+    resources :artist_involvements
   end
   post '/artists/clean' => 'artists#clean'
 

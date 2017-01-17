@@ -1,33 +1,35 @@
-<%= form_for(@artist_involvement) do |f| %>
-  <% if @artist_involvement.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@artist_involvement.errors.count, "error") %> prohibited this artist_involvement from being saved:</h2>
-
-      <ul>
-      <% @artist_involvement.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+<%= simple_form_for([@artist,@artist_involvement]) do |f| %>
+  <fieldset class="row">
+    <div class="field medium-4 columns">
+      <%= f.input :start_year %><br>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :involvement_id %><br>
-    <%= f.number_field :involvement_id %>
-  </div>
-  <div class="field">
-    <%= f.label :artist_id %><br>
-    <%= f.number_field :artist_id %>
-  </div>
-  <div class="field">
-    <%= f.label :start_year %><br>
-    <%= f.number_field :start_year %>
-  </div>
-  <div class="field">
-    <%= f.label :end_year %><br>
-    <%= f.number_field :end_year %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+    <div class="field medium-4 columns">
+      <%= f.input :end_year %><br>
+    </div>
+    <div class="field medium-4 columns">
+      <%= f.hidden_field :involvement_type %>
+    </div>
+  </fieldset>
+  <fieldset class="row columns">
+    <%= f.association :involvement, input_html: {class: 'chosen-select'}  %>
+  </fieldset>
+    <%= f.simple_fields_for :involvement do |sf| %>
+  <fieldset  class="row">
+      <% if sf.object.id %>
+      <div class="medium-12 columns">
+        <label><input value="<%=sf.object.id%>" name="artist_involvement[involvement_attributes][id]" checked="checked" id="artist_involvement_involvement_attributes_id" type="checkbox"> Bewerk</label>
+      </div>
+      <% end %>
+      <div class="medium-4 columns">
+        <%= sf.input :name, required: false %>
+      </div>
+      <div class="medium-8 columns">
+        <label>Localiteit</label>
+        <%= sf.select :locality_geoname_id, { @artist_involvement.involvement.locality_geoname_name => @artist_involvement.involvement.locality_geoname_id}, {}, class: 'select2 ajax' %>
+      </div>
+  </fieldset>
+      <% end %>
+  <div class="">
+    <%= f.submit class: :button %>
   </div>
 <% end %>

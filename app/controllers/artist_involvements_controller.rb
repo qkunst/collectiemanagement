@@ -1,21 +1,12 @@
 class ArtistInvolvementsController < ApplicationController
-  before_action :authenticate_qkunst_user!
+  before_action :authenticate_admin_user!
   before_action :set_artist_involvement, only: [:show, :edit, :update, :destroy]
-
-  # GET /artist_involvements
-  # GET /artist_involvements.json
-  def index
-    @artist_involvements = ArtistInvolvement.all
-  end
-
-  # GET /artist_involvements/1
-  # GET /artist_involvements/1.json
-  def show
-  end
+  before_action :set_artist
 
   # GET /artist_involvements/new
   def new
-    @artist_involvement = ArtistInvolvement.new
+    @artist_involvement = ArtistInvolvement.new(involvement_type: params[:type])
+    @artist_involvement.involvement = Involvement.new
   end
 
   # GET /artist_involvements/1/edit
@@ -26,10 +17,10 @@ class ArtistInvolvementsController < ApplicationController
   # POST /artist_involvements.json
   def create
     @artist_involvement = ArtistInvolvement.new(artist_involvement_params)
-
+    @artist_involvement.artist = @artist
     respond_to do |format|
       if @artist_involvement.save
-        format.html { redirect_to @artist_involvement, notice: 'Artist involvement was successfully created.' }
+        format.html { redirect_to @artist, notice: 'Artist involvement was successfully created.' }
         format.json { render :show, status: :created, location: @artist_involvement }
       else
         format.html { render :new }
@@ -43,7 +34,7 @@ class ArtistInvolvementsController < ApplicationController
   def update
     respond_to do |format|
       if @artist_involvement.update(artist_involvement_params)
-        format.html { redirect_to @artist_involvement, notice: 'Artist involvement was successfully updated.' }
+        format.html { redirect_to @artist, notice: 'Artist involvement was successfully updated.' }
         format.json { render :show, status: :ok, location: @artist_involvement }
       else
         format.html { render :edit }
@@ -57,7 +48,7 @@ class ArtistInvolvementsController < ApplicationController
   def destroy
     @artist_involvement.destroy
     respond_to do |format|
-      format.html { redirect_to artist_involvements_url, notice: 'Artist involvement was successfully destroyed.' }
+      format.html { redirect_to @artist, notice: 'Artist involvement was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -67,9 +58,22 @@ class ArtistInvolvementsController < ApplicationController
     def set_artist_involvement
       @artist_involvement = ArtistInvolvement.find(params[:id])
     end
+    def set_artist
+      @artist = Artist.find(params[:artist_id])
+    end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def artist_involvement_params
-      params.require(:artist_involvement).permit(:involvement_id, :artist_id, :start_year, :end_year)
+      pms = params.require(:artist_involvement).permit(:involvement_id, :involvement_type, :start_year, :end_year, involvement_attributes: [:id, :name, :locality_geoname_id])
+      if pms[:involvement_attributes] and pms[:involvement_attributes][:id]
+        if pms[:involvement_id] and pms[:involvement_attributes][:id] != pms[:involvement_id]
+          pms.delete(:involvement_attributes)
+        end
+      end
+      if pms[:involvement_attributes] and !pms[:involvement_attributes][:name]
+        pms.delete(:involvement_attributes)
+      end
+      pms
     end
 end
