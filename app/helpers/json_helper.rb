@@ -1,5 +1,6 @@
 module JsonHelper
   def clean_key key
+    key = key.to_s.strip
     return "" if key.ends_with?('_lref') or key.ends_with?('_search') or key.ends_with?('earchField') or key.starts_with?('filterField')  or ["allowedproductstrings","suggested", "urls", "url", "displaydatabase", "displayrole", "field", "count", "database"].include? key.downcase
     return key.gsub('_',' ').capitalize
   end

@@ -41,7 +41,7 @@ RSpec.describe CollectionsController, type: :controller do
       sign_in user
       expect {
         delete :destroy, params: {id: collection.to_param}, session: valid_session
-      }.to change(Collection, :count).by(0)
+      }.to change(Collection, :count).by(-1)
     end
 
     it "does destroy the requested Collection with admin login if it has works and a parent collection" do
@@ -52,7 +52,7 @@ RSpec.describe CollectionsController, type: :controller do
       sign_in user
       expect {
         delete :destroy, params: {id: collection.to_param}, session: valid_session
-      }.to change(Collection, :count).by(0)
+      }.to change(Collection, :count).by(-1)
       expect {
         delete :destroy, params: {id: subcollection.to_param}, session: valid_session
       }.to change(Collection, :count).by(-1)
