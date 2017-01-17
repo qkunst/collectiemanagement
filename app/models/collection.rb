@@ -266,10 +266,9 @@ class Collection < ApplicationRecord
         }
       },
       market_value: {
-          histogram: {
-              field: :market_value,
-              interval: 1,
-          }
+        terms: {
+          field: :market_value, size: 0
+        }
       },
       market_value_missing: {
         missing: {
@@ -277,10 +276,9 @@ class Collection < ApplicationRecord
         }
       },
       replacement_value:  {
-          histogram: {
-              field: :replacement_value,
-              interval: 1,
-          }
+        terms: {
+          field: :replacement_value, size: 0
+        }
       },
       replacement_value_missing: {
         missing: {
