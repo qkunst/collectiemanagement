@@ -18,13 +18,14 @@ module NameId
 
   class_methods do
     def names_hash
-      unless defined?(@@names_hash)
-        @@names_hash = {}
+      unless defined?(@@names_hash) and  @@names_hash[self.to_s]
+        @@names_hash = {} unless defined?(@@names_hash)
+        @@names_hash[self.to_s] = {}
         self.select("id,name").each do |objekt|
-          @@names_hash[objekt.id] = objekt.name
+          @@names_hash[self.to_s][objekt.id] = objekt.name
         end
       end
-      @@names_hash
+      @@names_hash[self.to_s]
     end
 
     def names ids
