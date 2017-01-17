@@ -143,7 +143,7 @@
     <p>Verander <span id="selected-works-count">x</span> werken.
       <%= select_tag "batch_edit_property", grouped_options_for_select(@batch_edit_options, params[:batch_edit_property])
 %> <label id="new-batch-edit-name">met naam <input name="batch_edit_new_name" type="text" /></label>
-<%= button_tag type: :submit, method: :post, value: :batch_edit, name: :batch_edit, class: :button do %>Opslaan<% end %>
+<%= button_tag type: :submit, method: :post, value: :batch_edit, name: :batch_edit, class: :button, data: {confirm: "Weet u zeker dat u deze werken wilt aanpassen?"} do %>Opslaan<% end %>
     </div>
   </div>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
