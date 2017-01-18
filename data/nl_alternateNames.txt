@@ -3,7 +3,7 @@
 1591971	53654	nl	Mogadishu				
 2723544	54365	nl	Bab el Mandeb				
 2001265	55671	nl	Kismayo				
-9360558	59611	nl	Galcaio				
+9360558	59611	nl	Galkayo				
 1926546	63795	nl	Burao				
 1911913	64435	nl	Berbera				
 1993056	68239	nl	Hamadan				
@@ -24,7 +24,7 @@
 1602829	94824	nl	Karbala				
 1646989	96205	nl	Halabja				
 1939371	96331	nl	Hatra				
-1908752	96834	nl	Eridu				
+1908752	96834	nl	Eridoe				
 1932118	96994	nl	Duhok				
 2004730	97990	nl	Baquba				
 1591509	98182	nl	Bagdad				
@@ -46,6 +46,7 @@
 2418889	102358	nl	Saudi-Arabië	1			
 1981301	104515	nl	Mekka				
 1597707	105343	nl	Djedda				
+11532161	107312	nl	Abkaik				
 8302506	107797	nl	Dharaan				
 1602011	107968	nl	Taif				
 1591618	108410	nl	Riyad				
@@ -103,6 +104,7 @@
 2037284	146748	nl	Agia Napa				
 1637967	146970	nl	Stepanakert				
 1898629	147435	nl	Nachitsjevan				
+11584471	148105	nl	Hadroet				
 1602228	148730	nl	Zanzibar				
 8701049	148996	nl	Victoriameer				
 1953527	149310	nl	Ujiji				
@@ -123,12 +125,15 @@
 1600242	169577	nl	Homs				
 1602604	170017	nl	Hama				
 1598419	170063	nl	Aleppo				
+11488579	170354	nl	Tabqadam				
 1592608	170654	nl	Damascus				
 1656598	171126	nl	Bosra				
 1919778	172481	nl	Dura Europus				
 1910275	173153	nl	Anti-Libanon				
 1604255	173576	nl	Latakia				
 1899671	173708	nl	Golanhoogten				
+11359490	174710	nl	Jechegnadzor				
+11354751	174979	nl	Artasjat				
 1560734	174982	nl	Armenië				
 1591929	184745	nl	Nairobi				
 1599953	186301	nl	Mombassa				
@@ -165,6 +170,7 @@
 1563279	248816	nl	Jordanië				
 1957604	248875	nl	Jerash				
 1592919	250441	nl	Amman				
+11651559	250582	nl	Mafrak				
 1635636	250745	nl	Petra				
 1617133	250774	nl	Akaba				
 1640030	251279	nl	Zakynthos				
@@ -285,6 +291,7 @@
 1984835	267008	nl	Tyrus				
 1641989	268064	nl	Sidon				
 1903112	269355	nl	Qana				
+11598954	269474	nl	Kasteel Belfort				
 1562475	272103	nl	Libanon				
 1902123	273203	nl	Byblos				
 1592311	276781	nl	Beiroet				
@@ -311,8 +318,10 @@
 1595114	290030	nl	Doha				
 11334716	290288	nl	Internationale luchthaven van Bahrein				
 1559383	290291	nl	Bahrein				
+11612798	290292	nl	Golf van Bahrein				
 1595612	290340	nl	Manamah				
 1561352	290557	nl	Verenigde Arabische Emiraten				
+11497780	291602	nl	Liwa Oase				
 1599365	292223	nl	Dubai				
 1900663	292672	nl	Sharjah				
 1903095	292878	nl	Fujairah				
@@ -447,6 +456,7 @@
 1598979	325363	nl	Adana				
 1644617	327932	nl	Tanameer				
 1998095	330546	nl	Massawa				
+11569845	331180	nl	Mek'ele				
 1644434	332288	nl	Lalibela				
 1926893	335035	nl	Harar				
 1611665	336014	nl	Gondar				
@@ -475,6 +485,7 @@
 1653121	353802	nl	Kom Ombo				
 1908532	355449	nl	Esna				
 1638400	355635	nl	Edfu				
+11612264	355952	nl	Hermopolis Magna				
 2000039	356859	nl	Philae				
 1556875	357994	nl	Egypte				
 1994617	358048	nl	Damietta				
@@ -486,7 +497,7 @@
 1602932	360502	nl	Luxor				
 1591274	360630	nl	Caïro				
 1597940	360995	nl	Gizeh				
-2010208	361055	nl	Ismailia				
+2010208	361055	nl	Ismaïlia				
 1597373	361058	nl	Alexandrië				
 1622380	361121	nl	Aswandam				
 1616755	361291	nl	Hurghada				
@@ -497,10 +508,13 @@
 1622137	362040	nl	Aboe Simbel				
 2001177	362069	nl	Aboesir				
 1907464	362903	nl	Sfinx van Gizeh				
+11802662	363196	nl	Middellandse Zee				
 1990261	363394	nl	Butrint				
 1653202	365137	nl	Omdurman				
 1556115	366755	nl	Soedan				
 9378502	370131	nl	Meroë				
+11530606	378231	nl	Atbarah				
+11630453	379062	nl	Al-Qadarif				
 1592248	379252	nl	Khartoem				
 1604069	379555	nl	Al-Fashir				
 9362770	386235	nl	Regionale raad van Misgav				
@@ -542,10 +556,12 @@
 1912982	461114	nl	Bauska				
 8323999	462008	nl	Zoebtsov				
 8296389	462444	nl	Zlato-oest				
+11372280	463824	nl	Zelenokoemsk				
 1990859	466806	nl	Josjkar-Ola				
 11330318	467978	nl	Jelets				
 1927871	468082	nl	Jelaboega				
 1636752	470546	nl	Vyborg				
+11590162	470905	nl	Voektyl				
 8221410	471101	nl	Vsevolozjsk				
 1994529	471430	nl	Votkinsk				
 1615899	472045	nl	Voronezj				
@@ -555,6 +571,7 @@
 2035450	472761	nl	Volgodonsk				
 1603352	473247	nl	Vladimir				
 1629740	473249	nl	Vladikavkaz				
+11637131	474462	nl	Verchnjaja Toera				
 8734161	475955	nl	Velizj				
 1652392	476077	nl	Velikije Loeki				
 1934288	478581	nl	Oeroes-Martan				
@@ -564,16 +581,19 @@
 1955735	479532	nl	Oeglitsj				
 8699140	479560	nl	Oefa				
 1599387	479561	nl	Oefa				
+11386117	479933	nl	Tyrnyaoez				
 1602251	480060	nl	Tver				
 1601501	480562	nl	Toela				
 1917573	480716	nl	Toeapse				
 8297953	481985	nl	Torzjok				
 1989950	482283	nl	Toljatti				
 8214122	483019	nl	Tichvin				
+11360565	483029	nl	Tichoretsk				
 1908824	484646	nl	Tambov				
 1987713	484907	nl	Taganrog				
 1604395	485239	nl	Syktyvkar				
 1641785	485824	nl	Soezdal				
+11611392	486937	nl	Stir				
 8736325	486968	nl	Stoepino				
 2002565	487495	nl	Sterlitamak				
 1932187	489088	nl	Staraja Roessa				
@@ -583,9 +603,11 @@
 8190533	491421	nl	Sotsji				
 1604435	491422	nl	Sotsji				
 1602986	491687	nl	Smolensk				
+11420104	493463	nl	Sjoemerlja				
 1936237	494027	nl	Sjchara				
 11284741	494811	nl	Luchthaven Sjeremetjevo				
 9390756	494884	nl	Sjenkoersk				
+11414774	495957	nl	Sjali				
 2007503	496015	nl	Sjachty				
 1608636	496285	nl	Severodvinsk				
 2007374	496527	nl	Serpoechov				
@@ -607,6 +629,7 @@
 8318659	503977	nl	Poesjkino				
 9451758	504269	nl	Poedozj				
 1605045	504341	nl	Pskov				
+11381096	505259	nl	Primorsko-Achtarsk				
 8327754	506278	nl	Porchov				
 9341626	508606	nl	Potsjinok				
 9462677	509697	nl	Petoesjki				
@@ -618,12 +641,14 @@
 8292941	511785	nl	Petsjory				
 1997776	511794	nl	Petsjora				
 1930404	511865	nl	Petsjenga				
+11947307	511865	nl	Petsamo				
 8306890	514259	nl	Ostasjkov				
 1907455	514734	nl	Orsk				
 1600837	515003	nl	Orenburg				
 1902024	515012	nl	Orjol				
 8293473	515024	nl	Orechovo-Zoejevo				
 9335413	515771	nl	Okoelovka				
+11639718	516073	nl	Ochansk				
 9373925	516716	nl	Noerlat				
 2029361	517836	nl	Novotroitsk				
 8741650	518236	nl	Novorzjev				
@@ -634,6 +659,7 @@
 1604636	519336	nl	Veliki Novgorod				
 2432489	519406	nl	Nova Zembla				
 9449583	520204	nl	Nizjnjaja Toera				
+11584074	520667	nl	Nizjnieje Sergi				
 2000921	521118	nl	Nizjnekamsk				
 1998758	523064	nl	Nazran				
 1911761	523392	nl	Narjan-Mar				
@@ -648,22 +674,30 @@
 9383965	525404	nl	Montsjegorsk				
 8310786	527191	nl	Mitsjoerinsk				
 1990472	528293	nl	Majkop				
+11380661	529073	nl	Marx				
+11514135	529709	nl	Mamadysj				
 1601154	532096	nl	Machatsjkala				
 1603223	532288	nl	Magnitogorsk				
 8230742	532615	nl	Ljoebertsy				
+11543868	533687	nl	Loega				
 8233164	533690	nl	Loega				
 1999889	534341	nl	Lomonosov				
 1600979	535121	nl	Lipetsk				
+11641800	537158	nl	Laisjevo				
+11418137	538340	nl	Koesjva				
 1602144	538560	nl	Koersk				
 1931857	538562	nl	Koerse Haf				
+11376545	538836	nl	Koerganinsk				
 11334175	539147	nl	Koengoer				
 9451729	539555	nl	Koelebaki				
 9382227	539817	nl	Koedymkar				
+11418848	542199	nl	Krasno-oefimsk				
 1600307	542420	nl	Krasnodar				
 1999949	543460	nl	Kovrov				
 1993417	543697	nl	Kotlin-eiland				
 2006190	543704	nl	Kotlas				
 1914315	543878	nl	Kostroma				
+11417602	545788	nl	Kommoenar				
 1991808	546230	nl	Kolomna				
 1657364	547840	nl	Kizljar				
 1612838	548114	nl	Kislovodsk				
@@ -677,6 +711,7 @@
 8226378	551986	nl	Kasjin				
 11214274	552548	nl	Republiek Karelië				
 11214275	552548	nl	Karelië		1		
+11458261	552951	nl	Karaboelak				
 1999577	553190	nl	Kandalaksja				
 8721966	553216	nl	Kanasj				
 8226120	553287	nl	Kamysjin				
@@ -686,6 +721,7 @@
 1602070	555312	nl	Ivanovo				
 11336354	557882	nl	Goesev				
 1908090	558118	nl	Goedermes				
+11414454	558209	nl	Goebacha				
 1615919	558418	nl	Grozny				
 9378713	559459	nl	Gorochovets				
 2036080	560846	nl	Hogland				
@@ -693,6 +729,7 @@
 1655892	561887	nl	Gatsjina				
 1642079	563514	nl	Elista				
 2003888	563523	nl	Elektrostal				
+11989928	563708	nl	Dzerzjinsk				
 9335493	564234	nl	Doechovsjtsjina				
 1906174	564719	nl	Doebna				
 8318808	565202	nl	Dorogoboezj				
@@ -700,6 +737,7 @@
 1993864	566532	nl	Derbent				
 1897153	567293	nl	Dagestan				
 1984676	567395	nl	Tsjoevasjië				
+11377660	567434	nl	Tsjoesovoj				
 9343460	567774	nl	Tsjoedovo				
 9389336	568533	nl	Tsjernysjevskoje				
 1656583	569154	nl	Tsjerkessk				
@@ -726,6 +764,7 @@
 1644569	581179	nl	Ardon				
 1654608	581357	nl	Apatity				
 1650316	582182	nl	Anapa				
+11402224	584243	nl	District Adlerski				
 1989390	586523	nl	Gäncä				
 9466777	587057	nl	Bərdə				
 1593252	587084	nl	Bakoe				
@@ -788,6 +827,7 @@
 1914160	597989	nl	Kretinga				
 1605201	598098	nl	Klaipėda				
 2005560	598257	nl	Kelmė				
+11426024	598317	nl	Luchthaven Kaunas				
 1950058	598512	nl	Kalvarija				
 2016463	598567	nl	Kaišiadorys				
 2016779	598655	nl	Jurbarkas				
@@ -806,6 +846,7 @@
 1609388	602150	nl	Umeå				
 1998169	603570	nl	Piteå				
 1941047	603761	nl	Pajala				
+11498332	604485	nl	Lule älv				
 1906732	604490	nl	Luleå				
 2418750	607072	nl	Svalbard en Jan Mayen	1			
 1957887	607197	nl	Nordaustlandet				
@@ -815,19 +856,28 @@
 1644516	610529	nl	Atıraw				
 8709715	610612	nl	Aqtau				
 1895335	611717	nl	Tbilisi				
+11487586	612536	nl	Ozoergeti				
 9330930	612890	nl	Mtscheta				
 1900743	613607	nl	Koetaisi				
-9338189	614409	nl	Gudaoeta				
+11471069	613762	nl	Koboeleti				
+11534852	613988	nl	Chasjoeri				
+9338189	614409	nl	Goedaoeta				
 1628973	614455	nl	Gori				
 1555510	614540	nl	Georgië				
 1894992	614622	nl	Gagra				
 9459908	615403	nl	Bordzjomi				
 2020339	615460	nl	Pitsoenda				
 1622360	615532	nl	Batoemi				
+11648221	615631	nl	Tskaltoebo				
+11457885	615776	nl	Ambrolaoeri				
 9446283	615860	nl	Achaltsiche				
 1593289	616052	nl	Jerevan				
+11548132	616065	nl	Jegvard				
+11619094	616160	nl	Tsachkadzor				
+11630771	616333	nl	Nojemberjan				
 2001164	616530	nl	Vanadzor				
 1990075	616635	nl	Gjoemri				
+11653968	616883	nl	Artsvasjen				
 1943716	617077	nl	Arrondissement Edineţ				
 1925311	617180	nl	Ungheni				
 1929462	617181	nl	Arrondissement Ungheni				
@@ -863,6 +913,7 @@
 1929411	618565	nl	Arrondissement Basarabeasca				
 1615043	618577	nl	Tighina				
 1645509	618605	nl	Bălţi				
+11344784	619322	nl	Westelijke Dvina				
 1615965	620127	nl	Vitebsk				
 1615966	620127	nl	Vitsebsk				
 9381097	620391	nl	Volkovisk				
@@ -874,7 +925,7 @@
 8713958	624785	nl	Navahroedak				
 1592445	625144	nl	Minsk				
 1916525	625324	nl	Mozyr				
-1638999	625665	nl	Mahiljov				
+1638999	625665	nl	Mahiljow				
 1920042	626081	nl	Lida				
 1637168	627904	nl	Hrodna				
 1636115	627907	nl	Homel				
@@ -1076,6 +1127,7 @@
 1954168	670938	nl	Petroşani				
 1954868	671291	nl	Paşcani				
 1604958	671768	nl	Oradea				
+11344714	671857	nl	District Olt				
 1652290	671964	nl	Odorheiu Secuiesc				
 1952050	672546	nl	Nădlac				
 1916906	673634	nl	Mediaş				
@@ -1115,21 +1167,26 @@
 1610982	686578	nl	Alba Iulia				
 2021206	686616	nl	Agnita				
 1996294	686967	nl	Zjytomyr				
+11408663	688373	nl	Jasinoevata				
 1618031	688533	nl	Jalta				
 8200104	690548	nl	Oezjhorod				
 1564453	690791	nl	Oekraïne				
 1909317	691650	nl	Ternopil				
 2000065	692194	nl	Soemy				
 1992398	692196	nl	Oblast Soemy				
+11408281	692975	nl	Stachanov				
 8327090	693468	nl	Slovjansk				
 1902630	693805	nl	Simferopol				
 1634372	694423	nl	Sebastopol				
 2000101	695594	nl	Rivne				
+11358753	696269	nl	Pripjat				
 1990293	696634	nl	Oblast Poltava				
 1603130	696643	nl	Poltava				
 1902803	698738	nl	Oblast Odessa				
 1599453	698740	nl	Odessa				
+11411164	698770	nl	Otsjakiv				
 8717747	699942	nl	Nizjyn				
+11518782	700737	nl	Mosjtsjena				
 1649890	702550	nl	Lviv				
 1993168	702569	nl	Loetsk				
 9445720	702658	nl	Loehansk				
@@ -1152,7 +1209,8 @@
 8195041	710719	nl	Tsjernivtsi				
 1912029	710735	nl	Tsjernihiv				
 1910540	710791	nl	Tsjerkasy				
-1984442	711134	nl	Barnsteen				
+1984442	711134	nl	Boersjtyn				
+11368637	711348	nl	Boetsjatsj				
 2020308	711416	nl	Brody				
 9349578	712441	nl	Berdytsjiv				
 1997626	712930	nl	Balaklava				
@@ -1178,7 +1236,6 @@
 1995230	722439	nl	Békés				
 2728030	723120	nl	Hoge Tatra				
 1913142	723358	nl	Trebišov				
-2003753	723675	nl	Rysy				
 1608593	723819	nl	Prešov				
 1639473	723844	nl	Poprad				
 1604273	724443	nl	Košice				
@@ -1186,6 +1243,7 @@
 1917284	725846	nl	Vitosha				
 1649023	725905	nl	Vidin				
 1629134	726050	nl	Varna				
+11368247	726174	nl	Targovisjte				
 1648748	726418	nl	Dobritsj				
 1642716	726848	nl	Stara Zagora				
 9451849	726872	nl	Doepnitsa				
@@ -1201,9 +1259,11 @@
 1609366	728378	nl	Pazardzjik				
 1908590	728674	nl	Obzor				
 1643277	728825	nl	Nessebar				
+11404812	728902	nl	Moesala				
 8711810	729559	nl	Lovetsj				
 1615984	729794	nl	Kardzjali				
 8315738	731108	nl	Gotse Deltsjev				
+11601040	732627	nl	Tsjepelare				
 1605108	732770	nl	Boergas				
 1559439	732800	nl	Bulgarije				
 8707655	733191	nl	Blagoëvgrad				
@@ -1238,6 +1298,7 @@
 2024402	738926	nl	Tekirdağ				
 1925728	738927	nl	Tekirdağ				
 1996304	739598	nl	Sinop				
+11995162	739600	nl	Sinope				1
 1997235	740263	nl	Samsun				
 1649941	740264	nl	Samsun				
 2014961	740352	nl	Sakarya				
@@ -1245,6 +1306,7 @@
 1906857	741098	nl	Ordu				
 1995895	741253	nl	Ani				
 1912620	742865	nl	Kocaeli				
+11367970	742986	nl	Kizil Irmak				
 2026184	743165	nl	Kırklareli				
 1931241	743881	nl	Kastamonu				
 2003364	744562	nl	Karabük				
@@ -1252,12 +1314,14 @@
 2002495	745028	nl	Izmit				
 1981972	745043	nl	Bosporus				
 5463536	745044	nl	Istanbul	1			
+11995157	745044	nl	Constantinopolen				1
 2037193	745175	nl	İnebolu				
 1903975	746000	nl	Gouden Hoorn				
 2007110	746835	nl	Imbros				
 1995462	746878	nl	Giresun				
 1616467	746881	nl	Giresun				
 1927994	746958	nl	Gemlik				
+11464855	746983	nl	Gallipoli				
 2003677	747059	nl	Galata				
 1997691	747711	nl	Edirne				
 1613320	747712	nl	Edirne				
@@ -1376,14 +1440,17 @@
 1607923	788886	nl	Kumanovo				
 1636024	789128	nl	Kragujevac				
 2002560	789403	nl	Kočani				
+11376724	789721	nl	Kaçanik				
 1913419	790295	nl	Gostivar				
 1614011	791606	nl	Debar				
 1630323	792578	nl	Bitola				
 1596784	792680	nl	Belgrado				
 1900554	792963	nl	Balkan				
+11649751	795120	nl	Baltisch Station				
+11380245	797781	nl	Neftekoemsk				
 1557575	798544	nl	Polen				
 1556639	798549	nl	Roemenië				
-9344428	812394	nl	Finse Archipel				
+9344428	812394	nl	Finse archipel				
 7823126	828987	nl	Zuid Finland				
 1920533	830664	nl	Kainuu				
 8713276	830667	nl	Pohjois-Pohjanmaa				
@@ -1408,6 +1475,7 @@
 1905203	862470	nl	Ardahan				
 9391085	862977	nl	Češinovo-Obleševo				
 9379993	863061	nl	Oesinsk				
+11359859	863892	nl	Mavrovo en Rostuša				
 8321541	865518	nl	District Ilfov				
 8306065	865537	nl	Kacheti				
 9358975	865538	nl	Goeria				
@@ -1429,6 +1497,7 @@
 1908921	922000	nl	Anjouan				
 515800	922704	nl	Elizabethstad				1
 1598693	922704	nl	Lubumbashi				
+12095681	922741	nl	Jadotstad				
 1560846	927384	nl	Malawi				
 1594453	927967	nl	Lilongwe				
 2034809	932011	nl	Thaba-Tseka				
@@ -1478,6 +1547,7 @@
 2011003	1006984	nl	Oos-Londen				
 1900262	1007311	nl	Durban				
 1922899	1017780	nl	Boksburg				
+11492743	1018620	nl	Blombosgrot				
 1601547	1018725	nl	Bloemfontein				
 1999053	1019330	nl	Bisho				
 1636300	1023516	nl	Kaap Agulhas				
@@ -1531,7 +1601,7 @@
 1611500	1153557	nl	Chumphon				
 1609288	1153669	nl	Chiang Rai				
 1605061	1153671	nl	Chiang Mai				
-1931014	1161936	nl	Onafhankelijkheidsberg				
+1931014	1161936	nl	Leninpiek				
 8718934	1162005	nl	Khyberpas				
 1945279	1163320	nl	Tirich Mir				
 1942915	1163715	nl	Taxila				
@@ -1555,6 +1625,7 @@
 1994503	1214404	nl	Nias				
 1598138	1214520	nl	Medan				
 1604084	1215502	nl	Banda Atjeh				
+11413596	1216187	nl	Sachrisabz				
 1603025	1216265	nl	Samarkand				
 1985377	1217662	nl	Buchara				
 1565007	1218197	nl	Turkmenistan				
@@ -1565,12 +1636,14 @@
 1562313	1227603	nl	Sri Lanka				
 1958439	1229901	nl	Polonnaruwa				
 1926898	1229989	nl	Point Pedro				
+11368807	1232860	nl	Noordwestelijke Provincie				
 1641213	1238992	nl	Kotte				
 1614946	1241622	nl	Kandy				
 1924527	1242833	nl	Jaffna				
 1616914	1246294	nl	Galle				
 1928474	1248749	nl	Dambulla				
 1594428	1248991	nl	Colombo				
+11367678	1249296	nl	Centrale Provincie				
 1927011	1250161	nl	Batticaloa				
 1652165	1251081	nl	Anuradhapura				
 1596542	1252416	nl	Thimphu				
@@ -1599,8 +1672,10 @@
 1986409	1259425	nl	Pondicherry				
 1598294	1260086	nl	Patna				
 1611032	1260607	nl	Panaji				
+11514201	1260962	nl	Pachmarhi Cantonment				
 1595217	1261481	nl	New Delhi				
 1597987	1262180	nl	Nagpur				
+11505934	1263080	nl	Mhow Cantonment				
 1992660	1263214	nl	Meerut				
 1956237	1263997	nl	Mahabalipuram				
 1599895	1264521	nl	Madurai				
@@ -1621,6 +1696,7 @@
 1598233	1269743	nl	Indore				
 1564036	1269750	nl	India				
 1987216	1269843	nl	Haiderabad				
+11404987	1271146	nl	Oud Goa				
 1900683	1271155	nl	Daman en Diu				
 1983040	1271157	nl	Goa				
 1993978	1271715	nl	Gandhinagar				
@@ -1680,15 +1756,20 @@
 1953052	1337286	nl	Paro				
 2015518	1337290	nl	Dzongkhag Samdrup Jongkhar				
 5893057	1454002	nl	Luchthaven Kabul				
+11410745	1485357	nl	Zavodo-oekovsk				
 1999876	1485997	nl	Jenisejsk				
 1598867	1486209	nl	Jekaterinenburg				
 1617975	1486910	nl	Vorkoeta				
+11495807	1487277	nl	Verchnjaja Salda				
 9388834	1487281	nl	Verchnjaja Pysjma				
 1897977	1488441	nl	Oeral				
 11326526	1488754	nl	Tjoemen				
+11513516	1488933	nl	Toerinsk				
+11648620	1488950	nl	Toeran				
 1601347	1489425	nl	Tomsk				
 1987673	1489643	nl	Tiensjan				
 1605080	1490624	nl	Soergoet				
+11589139	1491159	nl	Sredneoeralsk				
 9367846	1491999	nl	Sjoemicha				
 8223370	1492517	nl	Sjadrinsk				
 1994155	1493197	nl	Salechard				
@@ -1703,10 +1784,13 @@
 9446174	1500665	nl	Leninsk-Koeznetski				
 1607943	1500973	nl	Kyzyl				
 9336055	1500996	nl	Kysjtym				
+11570689	1501255	nl	Koertamysj				
 8199169	1501321	nl	Koergan				
 1908861	1503772	nl	Chanty-Mansiejsk				
 1601376	1503901	nl	Kemerovo				
+11422943	1504636	nl	Karabasj				
 1926277	1504682	nl	Kansk				
+11627063	1504769	nl	Kamysjlov				
 8741844	1505453	nl	Isjim				
 1655807	1505526	nl	Irbit				
 2036947	1505579	nl	Inta				
@@ -1726,7 +1810,9 @@
 8708821	1514019	nl	Fargʻona				
 1603076	1514588	nl	Andizan				
 1606689	1514879	nl	Choedzjand				
+11405106	1518262	nl	Temirtaū				
 8715824	1518542	nl	Taldıqorğan				
+11350312	1518649	nl	Syr Darja				
 8219786	1518980	nl	Şımkent				
 1914930	1519422	nl	Semey				
 8709470	1519922	nl	Qızılorda				
@@ -1735,6 +1821,7 @@
 1602858	1520240	nl	Pavlodar				
 8725707	1522203	nl	Kökşetaw				
 1562589	1522867	nl	Kazachstan				
+11510717	1526168	nl	Arıs				
 2427755	1526250	nl	Aralmeer				
 1595088	1526273	nl	Astana				
 1984262	1526384	nl	Alma-Ata				
@@ -1753,6 +1840,7 @@
 1998604	1529660	nl	Aksu				
 9379427	1536289	nl	Snezjinsk				
 2013556	1538637	nl	Seversk				
+11607734	1540711	nl	Moeravlenko				
 1994482	1545749	nl	Rodrigues				
 1994483	1545749	nl	Rodriguez				
 1998314	1545990	nl	Saint-Paul				
@@ -1771,7 +1859,7 @@
 1592743	1581130	nl	Hanoi				
 1905978	1581298	nl	Haiphong				
 1907576	1582886	nl	Dong Hoi				
-1612453	1583477	nl	Dien Bien Phu				
+1612453	1583477	nl	Điện Biên Phủ				
 1905709	1583992	nl	Da Nang				
 1906918	1586203	nl	Can Tho				
 1613689	1604769	nl	Yasothon				
@@ -1802,7 +1890,6 @@
 1612290	1607779	nl	Phattalung				
 2023403	1607978	nl	Pattani				
 1616042	1607983	nl	Pathum Thani				
-1924254	1608048	nl	Amphoe Pak Kret				
 1924634	1608232	nl	Nong Khai				
 1924973	1608409	nl	Narathiwat				
 1925673	1608452	nl	Nan				
@@ -1863,6 +1950,7 @@
 794533	1629585	nl	Olifant Berg				
 1645328	1630680	nl	Prambanan				
 1601624	1630789	nl	Pontianak				
+11995135	1631580	nl	Maurits-Bay				
 1926504	1631761	nl	Pekanbaru				
 1925785	1631905	nl	Payakumbuh				
 1926782	1632334	nl	Pariaman				
@@ -1894,7 +1982,10 @@
 1997875	1642858	nl	Jambi				
 809380	1642911	nl	Batavia				1
 1591139	1642911	nl	Jakarta	1			
+809672	1643084	nl	Nederlandsch-Indië				1
 1564282	1643084	nl	Indonesië				
+11763781	1643084	nl	Nederlands-Indië				1
+11995148	1643084	nl	Oost-Indien				1
 810100	1643459	nl	Hamoekoe				
 1995418	1643789	nl	Grote Soenda-eilanden				
 1943544	1644865	nl	Ermera				
@@ -1916,6 +2007,7 @@
 1931110	1649884	nl	Batam				
 817812	1650043	nl	Barapasi-rivier				
 1910253	1650312	nl	Banka				
+11618358	1650352	nl	Bandung				
 1598269	1650357	nl	Bandung				
 1647157	1650527	nl	Balikpapan				
 10380097	1650535	nl	Bali				
@@ -1926,6 +2018,7 @@
 1999851	1651810	nl	Ainaro				
 1948877	1651844	nl	Gunung Agung				
 1595485	1651944	nl	Vientiane				
+11517201	1652272	nl	Wat Phou				
 1610937	1653316	nl	Khwaeng_Savannakhet				
 1924571	1653316	nl	Khwaeng Savannakhet				
 1608890	1654379	nl	Pakxe				
@@ -1950,6 +2043,8 @@
 1910556	1685725	nl	Southern Leyte				
 1647010	1686067	nl	Siquijor				
 1923999	1688830	nl	San Pablo City				
+11641472	1689217	nl	San Juanicostraat				
+11429465	1690237	nl	San Bernardinostraat				
 1957998	1691045	nl	Saint Bernard				
 1927439	1692565	nl	Pulilan				
 1924781	1692685	nl	Puerto Princesa City				
@@ -1979,6 +2074,8 @@
 1923770	1705357	nl	Lucena City				
 1923925	1706090	nl	Lipa City				
 1923637	1707267	nl	Lapu-Lapu City				
+11656825	1707882	nl	Lal-Lo				
+11515748	1709634	nl	Kalibo International Airport				
 2006702	1710222	nl	Getafe				
 2006703	1710222	nl	Jetafe				
 1927512	1712531	nl	Guiguinto				
@@ -2009,6 +2106,7 @@
 1653066	1733432	nl	Kota Kinabalu				
 1998984	1734634	nl	Ipoh				
 1998302	1734639	nl	Ipoh				
+11593282	1734660	nl	Nationaal park Taman Negara				
 1605528	1734759	nl	Malakka				
 1923397	1735106	nl	George Town				
 1648638	1735107	nl	Penang				
@@ -2055,6 +2153,7 @@
 1922686	1799491	nl	Neijiang				
 1599907	1799869	nl	Nanning				
 1629612	1799960	nl	Nanking				
+11995146	1799962	nl	Nankijn				1
 1598100	1800163	nl	Nanchang				
 1915348	1801722	nl	Port Arthur				
 1908792	1801792	nl	Luoyang				
@@ -2083,6 +2182,7 @@
 1611933	1814934	nl	Chizhou				
 1558266	1814991	nl	China				
 1973904	1814991	nl	Volksrepubliek China				
+11995161	1814991	nl	Chyna				1
 1597287	1815286	nl	Chengdu				
 1903379	1815577	nl	Changsha				
 1609379	1816234	nl	Bozhou				
@@ -2095,6 +2195,7 @@
 5423882	1818183	nl	Gele Zee				
 2725135	1818198	nl	Zee van Halmahera				
 2724769	1818200	nl	Flores-Zee				
+11464646	1819557	nl	Lamma-eiland				
 1995441	1819609	nl	Kowloon				
 1618984	1819727	nl	Hongkong				
 2422609	1819730	nl	Hongkong	1			
@@ -2124,6 +2225,9 @@
 1598617	1841811	nl	Gwangju				
 1598618	1841811	nl	Kwangju				
 1616147	1843564	nl	Incheon				
+11995145	1846265	nl	Quelpaarts Eylandt				1
+11494438	1847947	nl	Shingu				
+11547454	1848096	nl	Yuki				
 1921357	1848275	nl	Yonaguni				
 1985701	1848354	nl	Yokohama				
 1909865	1848689	nl	Yamaguchi				
@@ -2131,15 +2235,24 @@
 1925071	1849186	nl	Urayasu				
 1979160	1850147	nl	Tokio				
 2014395	1851348	nl	Suzuka				
+11425004	1851713	nl	Shobara				
 1905491	1851717	nl	Shizuoka				
 1997833	1852224	nl	Shimonoseki				
 1898206	1852487	nl	Shikoku				
 1989282	1852736	nl	Sendai				
+11489335	1852984	nl	Sanjo				
 1996852	1853195	nl	Sakai				
+11635454	1853564	nl	Otsuki				
 11331390	1853574	nl	Otsu				
 9470289	1853677	nl	Ota				
 1597824	1853909	nl	Osaka				
+11995144	1853909	nl	Osaacke				1
 2023830	1853972	nl	Sakurajima				
+11485333	1854083	nl	Omuta				
+11462227	1854093	nl	Omura				
+11406525	1854162	nl	Ome				
+11377142	1854703	nl	Ogaki				
+11657522	1854803	nl	Obu				
 1922817	1855207	nl	Nishinomiya				
 1995087	1855395	nl	Nikko				
 2020829	1855449	nl	Japanse Alpen				
@@ -2148,11 +2261,13 @@
 1986047	1856057	nl	Nagoya				
 1633972	1856177	nl	Nagasaki				
 1924812	1856184	nl	Nagareyama				
+11553896	1856775	nl	Miyakonojo				
 1609839	1857553	nl	Matsudo				
 1897362	1857892	nl	Kyushu				
 1598473	1857910	nl	Kyoto				
 1924100	1858296	nl	Kure				
 1943826	1858956	nl	Kokura				
+11384011	1859100	nl	Kofu				
 1598383	1859171	nl	Kobe				
 1991827	1859307	nl	Kitakyushu				
 1925722	1859393	nl	Kisarazu				
@@ -2160,18 +2275,29 @@
 1903136	1859642	nl	Kawasaki				
 1923183	1859924	nl	Kashiwa				
 1563217	1861060	nl	Japan				
+11641197	1861290	nl	Ito				
 11335761	1862047	nl	Hyogo				
+11627022	1862198	nl	Honjo				
 1599127	1862415	nl	Hiroshima				
+11648870	1863173	nl	Hanyu				
+11542052	1863183	nl	Hanno				
 2015207	1863209	nl	Handa				
+11349735	1863440	nl	Hachioji				
+11578658	1863451	nl	Omihachiman				
+11657353	1863482	nl	Gyoda				
+11413129	1863592	nl	Gojo				
+11630608	1863614	nl	Gobo				
 1908885	1863641	nl	Gifu				
 9451081	1863693	nl	Gamagori				
 1922649	1863905	nl	Funabashi				
 1985617	1863967	nl	Fukuoka				
 1925389	1864132	nl	Fujieda				
+11637749	1864549	nl	Chiryu				
 9364330	1865294	nl	Anjo				
 1591786	1871859	nl	Pyongyang				
 1562765	1873107	nl	Noord-Korea				
 2421725	1873107	nl	Korea, Democratische Volksrepubliek	1			
+11995143	1873107	nl	Coeree				1
 1922909	1876373	nl	Kaesong				
 1600771	1877449	nl	Hamhŭng				
 8321375	1880248	nl	Singapore rivier				
@@ -2187,6 +2313,7 @@
 8316169	1923045	nl	Bantam				
 2002886	1923047	nl	Banka-Billiton				
 9373052	1926054	nl	Saijo				
+11412678	1926055	nl	Ozu				
 1554511	1966436	nl	Oost-Timor				
 1600640	2013348	nl	Vladivostok				
 9346666	2013392	nl	Viljoejsk				
@@ -2194,6 +2321,7 @@
 1993660	2013465	nl	Verchojansk				
 1997543	2014006	nl	Oessoeriejsk				
 1602618	2014407	nl	Oelan-Oede				
+11471127	2014624	nl	Oedatsjny				
 1615408	2014833	nl	Toera				
 9376941	2014927	nl	Toeloen				
 1912424	2015306	nl	Tiksi				
@@ -2204,6 +2332,7 @@
 2035760	2019309	nl	Nerjoengri				
 9448469	2019326	nl	Nertsjinsk				
 1990174	2019528	nl	Nachodka				
+11561509	2022463	nl	Chilok				
 1615836	2022890	nl	Chabarovsk				
 1600668	2023469	nl	Irkoetsk				
 1989224	2026609	nl	Blagovesjtsjensk				
@@ -2236,14 +2365,18 @@
 1649056	2044757	nl	Chŏngjin				
 1657464	2057087	nl	Kupang				
 2010078	2061677	nl	Sharkbaai				
+11471964	2063213	nl	Shire of Plantagenet				
 1598502	2063523	nl	Perth				
 8194185	2064513	nl	Noordelijk Territorium				
 1958780	2068655	nl	Katherine				
 1947044	2068768	nl	Kangaroo-eiland				
 2006477	2069468	nl	Hutt River				
 1929892	2071223	nl	Fremantle				
+11649324	2071858	nl	Shire of Esperance				
+11468551	2072765	nl	Dirk Hartogeiland				
 1959634	2073124	nl	Darwin				
 2725057	2074837	nl	Golf van Carpentaria				
+11600991	2077062	nl	Barroweiland				
 1560390	2077456	nl	Australië				
 1906291	2077895	nl	Alice Springs				
 1985933	2078025	nl	Adelaide				
@@ -2255,6 +2388,7 @@
 1981925	2081918	nl	Micronesia				
 2418965	2081918	nl	Micronesië	1			
 1901031	2081986	nl	Palikir				
+1031843	2082600	nl	Hollandia				1
 1923707	2082600	nl	Port Numbay				
 1595245	2088122	nl	Port Moresby				
 1557750	2088628	nl	Papoea-Nieuw-Guinea				
@@ -2283,7 +2417,13 @@
 1931627	2110449	nl	Anabar				
 1642698	2110451	nl	Aiwo				
 1927113	2110579	nl	Yachimata				
+11374716	2110735	nl	Tono				
+11623637	2110774	nl	Togane				
+11558433	2111258	nl	Ryugasaki				
+11579195	2111325	nl	Otawara				
+11588987	2111530	nl	Ofunato				
 1926319	2111684	nl	Narita				
+11418642	2111836	nl	Moka				
 1926611	2111855	nl	Mobara				
 9352338	2112141	nl	Koriyama				
 1991371	2112601	nl	Iwo Jima				
@@ -2291,7 +2431,11 @@
 1951758	2112996	nl	Choshi				
 1900602	2113015	nl	Chiba				
 1925429	2113164	nl	Abiko				
+11538186	2118647	nl	Viljoetsjinsk				
 8207463	2119441	nl	Joezjno-Sachalinsk				
+11540898	2119447	nl	Joezjno-Koerilsk				
+11605928	2120048	nl	Oest-Nera				
+11461785	2120864	nl	Soesoeman				
 8201304	2121530	nl	Sachalin				
 1989120	2122104	nl	Petropavlovsk-Kamtsjatski				
 9354487	2122605	nl	Ochotsk				
@@ -2303,6 +2447,7 @@
 1653374	2126712	nl	Beringeiland				
 2029039	2126968	nl	Avatsjabaai				
 1615031	2127202	nl	Anadyr				
+11475529	2127419	nl	Yubari				
 1983472	2128295	nl	Sapporo				
 9367726	2128787	nl	Odate				
 2008839	2128975	nl	Nemuro				
@@ -2313,6 +2458,7 @@
 1622462	2135171	nl	Port-Vila				
 2002229	2137067	nl	Espiritu Santo				
 2027614	2137141	nl	Efate				
+11458187	2137422	nl	Bankseilanden				
 1957813	2137575	nl	Ambrym				
 1907268	2139521	nl	Nouméa				
 2420623	2139685	nl	Nieuw-Caledonië	1			
@@ -2325,6 +2471,8 @@
 1621343	2155116	nl	Norfolkeiland				
 1621344	2155116	nl	Norfolk				
 1907367	2155472	nl	Newcastle				
+11421783	2155855	nl	Nambucca Shire Council				
+11477326	2156090	nl	Murray Shire Council				
 1597335	2158177	nl	Melbourne				
 1650547	2159558	nl	Lord Howe-eiland				
 8738240	2160940	nl	Nationaal park Ku-ring-gai Chase				
@@ -2332,6 +2480,7 @@
 2000050	2161314	nl	Kingston				
 1999367	2161357	nl	Kingeiland				
 2005504	2162322	nl	Jervis Bay Territorium				
+11652017	2164017	nl	Hamiltoneiland				
 1991181	2164025	nl	Hamilton				
 2005360	2164625	nl	Groot Australisch Scheidingsgebergte				
 1995622	2165087	nl	Gold Coast				
@@ -2344,6 +2493,7 @@
 2008548	2174949	nl	Bondi Beach				
 1617815	2176187	nl	Bendigo				
 1633494	2179538	nl	Wellington				
+11573338	2179680	nl	Wanakameer				
 2022776	2179867	nl	Waitakere				
 1951122	2180399	nl	Waiheke-eiland				
 1952028	2180967	nl	Nationaal park Tongariro				
@@ -2360,12 +2510,14 @@
 1912991	2189529	nl	Invercargill				
 1990330	2190324	nl	Hamilton				
 9380532	2190504	nl	Great Barriereiland				
+11564629	2190927	nl	Franz Josefgletsjer				
 1614756	2191562	nl	Dunedin				
 1643661	2192136	nl	Mount Cook				
 1603972	2192362	nl	Christchurch				
 1941032	2193043	nl	Bounty_eilanden				
 1633937	2193734	nl	Auckland				
 1981417	2193734	nl	Auckland City				1
+11644133	2193779	nl	Nationaal park Arthurs Pass				
 1641388	2194167	nl	Straat Cook				
 9394101	2194371	nl	Western				
 1650916	2197138	nl	Vanua Levu				
@@ -2377,6 +2529,7 @@
 1931433	2206854	nl	Gisborne				
 5894790	2207075	nl	Nationaal park Royal				
 1920803	2208291	nl	Sydney Harbour Bridge				
+11475862	2208485	nl	Zlitan				
 2001201	2212768	nl	Sabratha				
 2020358	2214846	nl	Misratah				
 1561911	2215636	nl	Libië				
@@ -2416,6 +2569,7 @@
 1912159	2264557	nl	Ponta do Sol				
 1999116	2264923	nl	Peniche				
 2005680	2265223	nl	Palmela				
+11376886	2265432	nl	Santa Maria dos Olivais				
 1650236	2265467	nl	Odivelas				
 1957073	2265552	nl	Nazaré				
 1646732	2266895	nl	Machico				
@@ -2548,6 +2702,7 @@
 1646441	2481700	nl	Sétif				
 1600896	2485926	nl	Oran				
 1929643	2487134	nl	Mostaganem				
+11466478	2498491	nl	El-Biar				
 1941868	2499912	nl	Djémila				
 1952092	2500017	nl	Djelfa				
 1647983	2503769	nl	Blida				
@@ -3731,7 +3886,7 @@
 1603441	2540483	nl	Oujda				
 1954018	2540850	nl	Ouarzazate				
 1613102	2541479	nl	Nador				
-1561852	2542007	nl	Marokko				
+1561852	2542007	nl	Marokko	1			
 1601781	2542715	nl	Meknès				
 1642044	2542715	nl	Meknes				
 1600150	2542997	nl	Marrakesh				
@@ -3745,11 +3900,12 @@
 1996002	2549315	nl	Rifgebergte				
 1611963	2550078	nl	El Jadida				
 1597643	2553604	nl	Casablanca				
-1610960	2555745	nl	Beni Mellal				
+1610960	2555745	nl	Béni-Mellal				
 2001785	2558545	nl	Al Hoceima				
 1899723	2561668	nl	Agadir				
 1596287	2562305	nl	Valletta				
 1943235	2562704	nl	Mosta				
+11515812	2562705	nl	Megalithische tempels van Mnajdra				
 1918407	2562746	nl	Mdina				
 1561125	2562770	nl	Malta				
 8714764	2562787	nl	Luchthaven van Malta				
@@ -3759,6 +3915,7 @@
 9469646	2563097	nl	Megalithische tempels van Ġgantija				
 1921175	2563110	nl	Filfla				
 1639191	2563191	nl	Birkirkara				
+11641883	2564445	nl	Megalithische tempels van Tarxien				
 2033887	2565056	nl	Punta Umbría				
 1557048	2589581	nl	Algerije				
 2012580	2592655	nl	Cardedu				
@@ -3884,6 +4041,7 @@
 1911723	2620952	nl	Hadsund				
 1905441	2620964	nl	Haderslev				
 2004433	2621067	nl	Gudme				
+11550636	2621074	nl	Gudenåen				
 1919706	2621230	nl	Grenaa				
 2000231	2621258	nl	Gråsten				
 2031428	2621294	nl	Gøtugjógv				
@@ -3913,10 +4071,12 @@
 1914176	2622372	nl	Fakse				
 1994237	2622388	nl	Eysturoy				
 2005757	2622686	nl	Egtved				
+11654666	2622730	nl	Slot Egeskov				
 1919141	2622888	nl	Dronninglund				
 1906788	2622937	nl	Dragør				
 2035682	2623031	nl	Depil				
 1557332	2623032	nl	Denemarken				
+11995152	2623032	nl	Denemarcken				1
 1654654	2623169	nl	Ertholmene				
 1913705	2623183	nl	Christiansfeld				
 1918120	2623184	nl	Christiansborg				
@@ -3943,6 +4103,7 @@
 1648343	2624740	nl	Amager				
 1933702	2624789	nl	Als				
 1900897	2624886	nl	Aalborg				
+11504042	2624887	nl	Aalborg Lufthavn				
 1909234	2624906	nl	Albertslund				
 2037407	2624918	nl	Akrar				
 1644602	2625001	nl	Ærøskøbing				
@@ -3959,6 +4120,7 @@
 2015069	2629306	nl	Kirkjubæjarklaustur				
 2004486	2629403	nl	Katla				
 1563738	2629691	nl	IJsland				
+11995160	2629691	nl	Yslandt				1
 1994000	2629761	nl	Hvannadalshnjúkur				
 1996915	2629833	nl	Húsavík				
 1996916	2629833	nl	Norðurþing				
@@ -3982,14 +4144,16 @@
 1635804	2633939	nl	Wight				
 1909222	2633948	nl	Wigan				
 1613356	2634677	nl	Watford				
-2020605	2634688	nl	Waterloo Station				
+2020605	2634688	nl	Station London Waterloo				
 1609172	2634739	nl	Warrington				
 2038551	2634812	nl	Wandsworth				
 1605874	2634853	nl	Walsall				
 6533553	2634895	nl	Wales	1			
 1652973	2634910	nl	Wakefield				
 1555716	2635167	nl	Verenigd Koninkrijk				
+11387162	2635167	nl	Groot-Brittannië				
 1918188	2635199	nl	Ullapool				
+11420071	2635342	nl	Turnberry Golf Club				
 1918969	2635412	nl	Truro				
 1630056	2635595	nl	Tower Bridge				
 1657533	2635650	nl	Torquay				
@@ -4017,6 +4181,9 @@
 1993158	2637681	nl	Skye				
 2000096	2637786	nl	Skara Brae				
 1984954	2638010	nl	Shetlandeilanden				
+11995140	2638010	nl	Hitlandt				1
+11995141	2638010	nl	Hit-land				1
+11995142	2638010	nl	Hitland				1
 1601750	2638077	nl	Sheffield				
 1920859	2638225	nl	Sellafield				
 6533557	2638360	nl	Schotland	1			
@@ -4041,6 +4208,7 @@
 1908666	2640358	nl	Perth				
 1950725	2640377	nl	Penzance				
 1606376	2640729	nl	Oxford				
+11573865	2640826	nl	Oulton Park Circuit				
 1983833	2640923	nl	Orkney-eilanden				
 1996181	2641022	nl	Oldham				
 2002305	2641108	nl	Oban				
@@ -4069,7 +4237,7 @@
 1591390	2643743	nl	Londen				
 1909171	2643750	nl	Loch Lomond				
 1908775	2643791	nl	Lockerbie				
-1986387	2644080	nl	Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch				
+1986387	2644080	nl	Llanfairpwll­gwyngyllgogerychwyrndrobwllllantysiliogogogoch				
 2036564	2644208	nl	Station London Liverpool Street				
 1601483	2644210	nl	Liverpool				
 1610532	2644487	nl	Lincoln				
@@ -4137,9 +4305,12 @@
 1640378	2653228	nl	Chester				
 1615568	2653261	nl	Cheltenham				
 1924057	2653266	nl	Chelmsford				
+11578437	2653754	nl	Baai van Carmarthen				
 1609396	2653775	nl	Carlisle				
 1635913	2653877	nl	Canterbury				
 1607251	2653941	nl	Cambridge				
+11380623	2653943	nl	Cambrische Bergen				
+11567348	2654008	nl	Caldey				
 8209239	2654186	nl	Bury St. Edmunds				
 1654367	2654187	nl	Bury				
 1653982	2654264	nl	Burnley				
@@ -4160,6 +4331,7 @@
 1599505	2655603	nl	Birmingham				
 1929776	2655775	nl	Bexley				
 1941580	2655819	nl	Berwick-upon-Tweed				
+11576462	2655848	nl	Beàrnaraigh				
 1603843	2655984	nl	Belfast				
 2009268	2656046	nl	Bedford				
 1985965	2656173	nl	Bath				
@@ -4181,6 +4353,7 @@
 1995278	2657908	nl	Zug				
 1956204	2657926	nl	Zernez				
 1643838	2657928	nl	Zermatt				
+11641556	2658019	nl	Wengi bei Büren				
 2032888	2658038	nl	Weggis				
 9346926	2658065	nl	Walenmeer				
 1643544	2658136	nl	Vierwoudstrekenmeer				
@@ -4194,6 +4367,8 @@
 7976730	2658527	nl	Splügenpas	1			
 1992942	2658564	nl	Solothurn				
 1904799	2658576	nl	Sion				
+11646240	2658591	nl	Sils				
+11573928	2658630	nl	Meer van Sempach				
 1614777	2658665	nl	Schwyz				
 1940318	2658684	nl	Schwanden				
 1614671	2658761	nl	Schaffhausen				
@@ -4216,7 +4391,9 @@
 2022041	2659235	nl	Walliser Alpen				
 1951218	2659316	nl	Obstalden				
 8700456	2659347	nl	Bodenmeer				
+11411561	2659415	nl	Oberalppas				
 1654589	2659422	nl	Nyon				
+11607236	2659429	nl	Nufenenpas				
 1996056	2659494	nl	Meer van Neuchâtel				
 9352716	2659528	nl	Meer van Murten				
 1949048	2659529	nl	Murten				
@@ -4225,6 +4402,7 @@
 1630701	2659601	nl	Montreux				
 1951549	2659632	nl	Mönch				
 1955748	2659636	nl	Mollis				
+11596079	2659655	nl	Mischabelgroep				
 1934354	2659689	nl	Mendrisio				
 1657372	2659700	nl	Meiringen				
 1622782	2659729	nl	Matterhorn				
@@ -4244,13 +4422,16 @@
 1957915	2660088	nl	Küssnacht am Rigi				
 2020751	2660127	nl	Kloten				
 1951655	2660145	nl	Kleine Scheidegg				
+11568881	2660149	nl	Klausenpas				
 1954322	2660187	nl	Kappelen				
 1933954	2660191	nl	Kandersteg				
 1952078	2660195	nl	Kallnach				
 1648434	2660209	nl	Jungfrau				
 9366377	2660210	nl	Julierpas				
 1638383	2660253	nl	Interlaken				
+11367315	2660275	nl	Ilanz/Glion				
 1651510	2660281	nl	Huttwil				
+11459199	2660340	nl	Achter-Rijn				
 1921037	2660365	nl	Herisau				
 9462207	2660416	nl	Hallwilermeer				
 11107648	2660448	nl	Muri bij Bern				
@@ -4258,13 +4439,16 @@
 1911257	2660487	nl	Aletschgletsjer				
 1955468	2660491	nl	Grossaffoltern				
 1907958	2660498	nl	Grindelwald				
+11378730	2660501	nl	Grimselpas				
 2009055	2660518	nl	Grote Sint-Bernhardpas				
 1615386	2660594	nl	Glarus				
 1938532	2660604	nl	Giswil				
 1605617	2660646	nl	Genève				
 1622502	2660647	nl	Meer van Genève				
+11385910	2660697	nl	Furkapas				
 1903478	2660718	nl	Fribourg				
 1925748	2660727	nl	Frauenfeld				
+11615323	2660753	nl	Flüelapas				
 1957046	2660770	nl	Finsteraarhorn				
 1938934	2660876	nl	Eriswil				
 1645977	2660902	nl	Engelberg				
@@ -4274,9 +4458,11 @@
 2027177	2660970	nl	Düdingen				
 1614974	2661035	nl	Delémont				
 1956596	2661086	nl	Couvet				
+11376317	2661113	nl	Genève Gare de Cornavin				
 1638215	2661169	nl	Chur				
 1633895	2661235	nl	Centre Européen pour la Recherche Nucléaire				
 1983909	2661235	nl	CERN				
+11522405	2661371	nl	Brünigpas				
 2006214	2661394	nl	Brig				
 1654853	2661396	nl	Meer van Brienz				
 1998463	2661398	nl	Brienz				
@@ -4323,6 +4509,7 @@
 1648203	2679302	nl	Sigtuna				
 1994568	2681825	nl	Ronneby				
 5893279	2681826	nl	Luchthaven Ronneby				
+11430323	2681931	nl	Romakloster				
 1993799	2685750	nl	Östersund				
 2021116	2685828	nl	Östermalm				
 1653921	2686657	nl	Örebro				
@@ -4332,6 +4519,7 @@
 1906821	2688368	nl	Norrköping				
 1951687	2692469	nl	Marstrand				
 2016697	2692633	nl	Mariefred				
+11637995	2692968	nl	Station Malmö-Centraal				
 1604005	2692969	nl	Malmö				
 8307621	2693132	nl	Mälarmeer				
 2014336	2693301	nl	Lysekil				
@@ -4355,7 +4543,7 @@
 1653821	2707684	nl	Härnösand				
 1611509	2708365	nl	Halmstad				
 1956929	2711174	nl	Gränna				
-2010180	2711497	nl	Gotska Sandön				
+2010180	2711497	nl	Nationaal park Gotska Sandön				
 1630986	2711511	nl	Gotland				
 1898224	2711511	nl	Gotlands län				
 1601003	2711537	nl	Gotenburg				
@@ -4375,6 +4563,7 @@
 1999071	2725901	nl	Ängelholm				
 2025403	2727664	nl	Abisko				
 1940369	2729215	nl	Pyramiden				
+11995156	2729238	nl	Voorlandt				1
 1910361	2729457	nl	Ny-Ålesund				
 1596454	2729907	nl	Longyearbyen				
 1907536	2731990	nl	Barentszburg				
@@ -4525,7 +4714,6 @@
 10840849	2745126	nl	Waalre		1		
 1952796	2745127	nl	Waalre				
 10840848	2745153	nl	Vught		1		
-8555561	2745154	nl	Fughte				1
 1244455	2745163	nl	Lieve Vrouwe Parochie				
 1244456	2745163	nl	Lieve Vrouwenparochie				
 2432182	2745163	nl	Vrouwenparochie	1			
@@ -4540,6 +4728,7 @@
 10841028	2745386	nl	Vlist		1		
 10840816	2745391	nl	Vlissingen		1		
 1618126	2745392	nl	Vlissingen				
+11995138	2745405	nl	Vlieter				1
 10840866	2745417	nl	Vlieland		1		
 1650716	2745420	nl	Vlieland				
 10841058	2745460	nl	Vlagtwedde		1		
@@ -4556,7 +4745,6 @@
 1244528	2745555	nl	Vierhuizen				
 2432070	2745555	nl	Vierhuis	1			
 10840794	2745579	nl	Vianen		1		
-8555547	2745581	nl	Fianen				
 10840983	2745633	nl	Venray		1		
 10840982	2745640	nl	Venlo		1		
 1616975	2745641	nl	Venlo				
@@ -4709,6 +4897,8 @@
 1932672	2747290	nl	Sint Anthonis				
 1245001	2747297	nl	Annaparochie				
 2432180	2747297	nl	Sint Annaparochie	1			
+11995128	2747298	nl	St, Anna Land		1		
+11995129	2747298	nl	Anna Land		1		
 10840979	2747311	nl	Simpelveld		1		
 2030104	2747312	nl	Simpelveld				
 1245007	2747325	nl	Sythuizen				
@@ -4735,6 +4925,7 @@
 1245026	2747373	nl	's-Gravenhage				1
 1245027	2747373	nl	Den Haag	1			
 1935414	2747375	nl	's-Gravendeel				
+11537675	2747377	nl	's-Graveland				
 1245033	2747380	nl	Sixbierum				
 2431855	2747380	nl	Sexbierum	1			
 1932718	2747382	nl	Sevenum				
@@ -4798,6 +4989,7 @@
 2431740	2748051	nl	Rinsumageest				
 2432396	2748071	nl	Rijtseterp				
 10840789	2748075	nl	Rijswijk		1		
+12096100	2748083	nl	Rijssen				
 2431708	2748097	nl	Rijperkerkstervaart				
 1245214	2748099	nl	Riperkerk				
 2431635	2748099	nl	Rijperkerk	1			
@@ -4870,6 +5062,7 @@
 3058532	2749017	nl	Ouderkerk aan de Amstel				
 2034920	2749027	nl	Ouder-Amstel		1		
 2431692	2749070	nl	Oude Lune				
+12133260	2749074	nl	Oude Leije				
 1245471	2749120	nl	Oldehaske				
 2432039	2749120	nl	Oudehaske	1			
 2431519	2749136	nl	Oudega				
@@ -4904,6 +5097,8 @@
 10840840	2749447	nl	Oosterhout		1		
 1942277	2749450	nl	Oosterhout				
 1245557	2749468	nl	Oostergoo				
+11801855	2749474	nl	Oosterend	1			
+11814821	2749474	nl	Easterein				
 2431994	2749476	nl	Oosterend				
 2432166	2749492	nl	Oosterboorn				
 2431879	2749500	nl	Oosterbierum				
@@ -4971,6 +5166,8 @@
 2431759	2750399	nl	Niawier	1			
 1245782	2750405	nl	Koninkrijk der Nederlanden				
 1560001	2750405	nl	Nederland	1			
+11995158	2750405	nl	Nederlandt				1
+11995159	2750405	nl	Hollandt				1
 2431613	2750417	nl	Nes				
 2431777	2750418	nl	Nes				
 2432172	2750420	nl	Nes				
@@ -5144,12 +5341,11 @@
 2431893	2752867	nl	Kie				
 10840971	2752922	nl	Kerkrade		1		
 1639318	2752923	nl	Kerkrade				
-5463479	2753010	nl	Katwijk-Midden				
 7756489	2753010	nl	Katwijk Aan Zee	1			
 1246321	2753011	nl	Katwijk aan den Rijn	1			
-1906189	2753011	nl	Katwijk				
 3058527	2753011	nl	Katwijk aan de Rijn				
 3058528	2753011	nl	Katwijk a/d Rijn				
+12131496	2753011	nl	Katwijk				
 10840774	2753012	nl	Katwijk		1		
 8555549	2753013	nl	Katwijk aan de Maas				
 10840808	2753069	nl	Kapelle		1		
@@ -5183,6 +5379,7 @@
 10840739	2753467	nl	Huizen		1		
 1956308	2753468	nl	Huizen				
 2729765	2753491	nl	Slotbosse Toren				
+11563801	2753492	nl	Paleis Huis ten Bosch				
 10261778	2753521	nl	Huybergen				1
 2431557	2753545	nl	Houtigehage				
 10840963	2753556	nl	Houten		1		
@@ -5210,6 +5407,7 @@
 1650468	2754064	nl	Hilversum				
 10840922	2754065	nl	Hilvarenbeek		1		
 10840773	2754072	nl	Hillegom		1		
+12133256	2754088	nl	Hijlaard				
 1554402	2754104	nl	Hidaard				
 2431804	2754106	nl	Hiaure				
 2025807	2754111	nl	Heythuysen				
@@ -5303,7 +5501,7 @@
 2432476	2755249	nl	Groningen	1	1		
 10841050	2755250	nl	Groningen		1		
 1605488	2755251	nl	Groningen				
-10840912	2755270	nl	Groesbeek		1		
+10840912	2755270	nl	Groesbeek				1
 1949391	2755272	nl	Groesbeek				
 1950860	2755281	nl	Groenlo				
 10841066	2755357	nl	Grave		1		
@@ -5315,6 +5513,7 @@
 1638247	2755420	nl	Gouda				
 1554388	2755429	nl	Gorredijk				
 10840766	2755433	nl	Gorinchem		1		
+1246981	2755434	nl	Gorkum		1	1	
 3074809	2755457	nl	Gooi en Vechtstreek				
 10840837	2755463	nl	Goirle		1		
 1935910	2755464	nl	Goirle				
@@ -5352,6 +5551,7 @@
 5580326	2755907	nl	Finkum	1			
 2432080	2755908	nl	Finkeburen				
 10840923	2755918	nl	Ferwerderadiel		1		
+11651448	2755920	nl	Ferwerd				
 2431902	2755928	nl	Fatum				
 2431768	2755936	nl	Ezumazijl				
 2729733	2755953	nl	De Oort				
@@ -5485,7 +5685,7 @@
 9861418	2757879	nl	Cromvoirt	1			
 2299355	2757883	nl	Fort Crèvecoeur (1629 Beleg 's-Hertogenbosch)				
 1936964	2757890	nl	Cranendonck				
-1554422	2757906	nl	Kornwerd				
+11991600	2757909	nl	Cornjum				
 10840868	2757936	nl	Coevorden		1		
 1651992	2757937	nl	Coevorden				
 1247710	2757961	nl	Geitberg				
@@ -5523,6 +5723,7 @@
 10840842	2758257	nl	Waterland		1		
 2432017	2758295	nl	Broek				
 2512106	2758297	nl	't Broek				
+11991599	2758306	nl	Britswert				
 10840762	2758325	nl	Brielle		1		
 2529085	2758391	nl	Breedeweg	1			
 10840828	2758400	nl	Breda		1		
@@ -5649,6 +5850,7 @@
 2729659	2759790	nl	Station Amsterdam Centraal	1			
 2322123	2759793	nl	Amsterdam		1		
 1593936	2759794	nl	Amsterdam				
+11922088	2759794	nl	Mokum			1	
 10840720	2759797	nl	Amstelveen		1		
 1618019	2759798	nl	Amstelveen				
 10840957	2759820	nl	Amersfoort		1		
@@ -5692,28 +5894,35 @@
 10840820	2760143	nl	Aalburg		1		
 1938305	2760144	nl	Aalburg				
 2322156	2760144	nl	Wijk en Aalburg	1			
+11745460	2760154	nl	Aa of Weerijs				
 1639954	2760454	nl	Zugspitze				
 2015479	2760634	nl	Zell am See				
 8195988	2761335	nl	Luchthaven Wenen				
+11379381	2761350	nl	Wiener Neustädterkanaal				
 1914063	2761353	nl	Wiener Neustadt				
 2430922	2761369	nl	Wenen				
 1914126	2761524	nl	Wels				
+11599394	2761615	nl	Weißenbach an der Triesting				
 2001804	2762137	nl	Wachau				
 1983981	2762300	nl	Vorarlberg				
 1996354	2762372	nl	Villach				
+11385946	2763805	nl	Tennengebergte				
 1909285	2764359	nl	Steyr				
 8303705	2764581	nl	Stiermarken				
 1950284	2764786	nl	Spittal an der Drau				
 1954407	2765581	nl	Schruns				
 1611911	2766429	nl	Sankt Pölten				
+11406442	2766800	nl	Samnaungroep				
 1606631	2766824	nl	Salzburg				
 1954030	2766939	nl	Rust				
 1916956	2768071	nl	Raiding				
 2727897	2769848	nl	Opper-Oostenrijk				
 1898419	2770542	nl	Neder-Oostenrijk				
 1954224	2771335	nl	Mödling				
+11425639	2771605	nl	Miemingergebergte				
 1932567	2771682	nl	Melk				
 1950457	2771893	nl	Mariazell				
+11613413	2772036	nl	Malta in Kärnten				
 1935406	2772173	nl	Lustenau				
 1605509	2772400	nl	Linz				
 1933442	2772505	nl	Lienz				
@@ -5732,6 +5941,7 @@
 1952519	2777237	nl	Gurk				
 1641772	2777697	nl	Großglockner				
 1604505	2778067	nl	Graz				
+11574178	2778626	nl	Nationaal Park Gesäuse				
 1630380	2779155	nl	Fucking				
 1949162	2779275	nl	Freistadt				
 1910431	2779674	nl	Feldkirch				
@@ -5742,10 +5952,12 @@
 1917739	2781423	nl	Brennerpas				
 1613281	2781503	nl	Bregenz				
 1634905	2781520	nl	Braunau am Inn				
+11557318	2781584	nl	Brand in Vorarlberg				
 1932359	2781680	nl	Bludenz				
 1950549	2781703	nl	Bleiburg				
 1913756	2781735	nl	Bischofshofen				
 1949306	2782052	nl	Bad Ischl				
+11514464	2782055	nl	Bad Goisern am Hallstättersee				
 2005271	2782067	nl	Baden bei Wien				
 1560448	2782113	nl	Oostenrijk				
 1952670	2782480	nl	Ansfelden				
@@ -5830,7 +6042,7 @@
 8044951	2787415	nl	Gemeente Sint-Gilles				
 4166756	2787770	nl	Ronse				
 1933971	2787889	nl	Roeselare				
-1953990	2788849	nl	Bleiberg				
+1953990	2788849	nl	Blieberg				
 1950341	2789403	nl	Overpelt				
 1953067	2789519	nl	Oudenburg				
 4167350	2789528	nl	Arrondissement Oudenaarde				
@@ -5911,6 +6123,7 @@
 2189078	2794594	nl	Peutzstraat	1			
 1933108	2794788	nl	Kalmthout				
 11093653	2794827	nl	Nieuw-Noordlandpolder				
+11546687	2794852	nl	Jurbeke				
 1956720	2794895	nl	Geldenaken				
 1938122	2794914	nl	Brussel (Jette)				
 8045007	2794915	nl	Gemeente Jette				
@@ -5970,6 +6183,7 @@
 8045038	2798555	nl	Gemeente Evere				
 1641880	2798573	nl	Eupen				
 1918673	2798578	nl	Brussel (Etterbeek)				
+11472710	2798604	nl	Steenput				
 4170643	2798628	nl	Spiere-Helkijn				
 6114209	2798748	nl	Edingen				
 4170793	2798986	nl	Arrondissement Eeklo				
@@ -5986,6 +6200,7 @@
 1945936	2799779	nl	De Haan				
 1656572	2799885	nl	Damme				
 1957086	2800025	nl	Couvin				
+12132525	2800196	nl	Komen-Waasten				
 1934393	2800298	nl	Ciney				
 1959546	2800430	nl	Chaumont-Gistoux				
 1608271	2800481	nl	Charleroi				
@@ -6060,6 +6275,7 @@
 1261447	2803303	nl	Albert Kanaal				
 1959592	2803443	nl	Aalter				
 1959593	2803443	nl	Gemeente_Aalter				
+1261504	2803445	nl	Sint-Pieters-Aalst	1			
 4172305	2803447	nl	Arrondissement Aalst				
 4172306	2803447	nl	Aalst				
 4172311	2803451	nl	Aalst				
@@ -6070,9 +6286,11 @@
 2002458	2803907	nl	Zoologischer Garten Berlin				
 1630459	2804008	nl	Zittau				
 9389968	2804880	nl	Zell				
+11641156	2804979	nl	Frankfurt-Zeilsheim				
 9367484	2805059	nl	Berlin-Zehlendorf				
 1652887	2805385	nl	Xanten				
 1612799	2805615	nl	Würzburg				
+11565738	2805735	nl	Station Wuppertal-Vohwinkel				
 1604026	2805753	nl	Wuppertal				
 1617888	2806142	nl	Worms				
 2008612	2806501	nl	Wolgast				
@@ -6081,10 +6299,12 @@
 1615699	2807363	nl	Witten				
 1642912	2807465	nl	Wismar				
 1957420	2807594	nl	Wipperfürth				
+11406568	2807748	nl	Hamburg-Winterhude				
 1958678	2807872	nl	Winnenden				
 8295625	2808473	nl	Berlin-Wilmersdorf				
 9454856	2808662	nl	Berlin-Wilhelmstadt				
 1617552	2808720	nl	Wilhelmshaven				
+11373314	2808747	nl	Hamburg-Wilhelmsburg				
 1603869	2809346	nl	Wiesbaden				
 7584924	2809518	nl	Wiehengebergte				
 1620577	2809889	nl	Wetzlar				
@@ -6112,7 +6332,9 @@
 1617312	2817724	nl	Velbert				
 1953636	2818094	nl	Uslar				
 1646939	2818108	nl	Usedom				
+11644893	2819151	nl	Frankfurt-Unterliederbach				
 1917434	2819564	nl	Neder-Franken				
+11802743	2819834	nl	Simonswald	1			
 1928470	2820087	nl	Unna				
 1613777	2820256	nl	Ulm				
 1942891	2820693	nl	Tuttlingen				
@@ -6124,10 +6346,12 @@
 1953061	2821515	nl	Traunstein				
 1640314	2821807	nl	Torgau				
 2038736	2822085	nl	Titisee				
+11373269	2822224	nl	Berlin-Tiergarten				
 8196868	2822540	nl	Thüringer Woud				
 8221049	2823538	nl	Berlin-Tempelhof				
 9373692	2823708	nl	Berlin-Tegel				
 1919917	2824454	nl	Sylt				
+11636060	2824894	nl	Hamburg-Sülldorf				
 1652555	2824948	nl	Suhl				
 1600597	2825297	nl	Stuttgart				
 1942658	2826099	nl	Straubing				
@@ -6148,12 +6372,16 @@
 1615296	2832495	nl	Siegen				
 1653606	2832521	nl	Siegburg				
 8226410	2832708	nl	Zevengebergte				
+11373057	2834078	nl	Frankfurt-Seckbach				
 1608486	2834282	nl	Schwerin				
 1648324	2834498	nl	Schweinfurt				
 1985647	2834688	nl	Zwarte Woud				
 8210007	2834978	nl	Schwarzenberg/Erzgeb.				
+11479978	2835245	nl	Frankfurt-Schwanheim				
 1652700	2835481	nl	Schwäbisch Hall				
 1929180	2835482	nl	Schwäbisch Gmünd				
+11657663	2837041	nl	Schönau-Berzdorf auf dem Eigen				
+11581766	2837672	nl	Berlin-Schmöckwitz				
 8298612	2838009	nl	Berlin-Schmargendorf				
 11320175	2838632	nl	Sleeswijk-Holstein				
 8304611	2840134	nl	Schaumburg				
@@ -6164,12 +6392,16 @@
 1605464	2842647	nl	Saarbrücken				
 1937660	2842688	nl	Saalfeld/Saale				
 1940510	2842884	nl	Rüsselsheim am Main				
+11466746	2843106	nl	Berlin-Rummelsburg				
 10723660	2843198	nl	Ruhrgebied				
 1628674	2843325	nl	Rügen				
+11470827	2843350	nl	Berlin-Rudow				
 1942327	2843636	nl	Rottweil				
 1941859	2844056	nl	Rothenburg ob der Tauber				
 1608374	2844588	nl	Rostock				
 1645225	2844988	nl	Rosenheim				
+11456795	2846092	nl	Frankfurt-Rödelheim				
+11459759	2846455	nl	Hamburg-Rissen				
 1931023	2846865	nl	Riesigk				
 8186627	2847618	nl	Rijnland-Palts				
 1952749	2847639	nl	Rheinfelden				
@@ -6178,6 +6410,7 @@
 1954356	2848245	nl	Rendsburg				
 1614082	2848273	nl	Remscheid				
 2038347	2848755	nl	Reinickendorf				
+11411477	2848756	nl	Berlin-Reinickendorf				
 9389437	2849170	nl	Reichenbach am Regen				
 1613121	2849483	nl	Regensburg				
 9934960	2849645	nl	Kreis Recklinghausen				
@@ -6191,7 +6424,9 @@
 1643421	2851465	nl	Quedlinburg				
 1951639	2851886	nl	Prora				
 8318948	2852047	nl	Landkreis Prignitz				
+11598459	2852151	nl	Frankfurt-Preungesheim				
 8193880	2852217	nl	Berlin-Prenzlauer Berg				
+11380208	2852309	nl	Frankfurt-Praunheim				
 1606660	2852458	nl	Potsdam				
 1653808	2853292	nl	Plauen				
 1943505	2853574	nl	Pirmasens				
@@ -6205,7 +6440,10 @@
 1998368	2855597	nl	Pankow				
 9346278	2855598	nl	Berlin-Pankow				
 1612365	2855745	nl	Paderborn				
+11402274	2856075	nl	Hamburg-Ottensen				
+11564415	2856163	nl	Hamburg-Othmarschen				
 2012786	2856306	nl	Oost-Friese Eilanden				
+11658510	2856312	nl	Oostfalen				
 1610950	2856883	nl	Osnabrück				
 1943613	2857129	nl	Oranienburg				
 1611297	2857458	nl	Oldenburg				
@@ -6219,8 +6457,12 @@
 1631575	2861982	nl	Nordhausen				
 1927953	2862026	nl	Norderstedt				
 1921508	2862042	nl	Norderney				
+11426255	2862423	nl	Berlin-Nikolassee				
+11512159	2862534	nl	Hamburg-Nienstedten				
 9708837	2862576	nl	Nienhagen (Nedersaksen)				
 8212586	2862620	nl	Nienburg/Weser				
+11658422	2862926	nl	Nedersaksen				
+11424294	2863692	nl	Frankfurt-Nied				
 1928456	2863840	nl	Neuwied				
 1931404	2863941	nl	Neu-Ulm				
 2024377	2864005	nl	Neustrelitz				
@@ -6244,6 +6486,7 @@
 1610765	2867838	nl	Mülheim an der Ruhr				
 1956835	2867996	nl	Mühlhausen				
 1606118	2869894	nl	Mönchengladbach				
+11418512	2870169	nl	Möhnesee				
 1615247	2870221	nl	Moers				
 8222987	2870310	nl	Berlin-Moabit				
 1912038	2870736	nl	Middel-Franken				
@@ -6266,12 +6509,14 @@
 1935376	2874262	nl	Mainau				
 1616385	2874545	nl	Maagdenburg				
 1635017	2874545	nl	Magdeburg				
+11597102	2875023	nl	Hamburg-Lurup				
 1617052	2875107	nl	Lünen				
 1637339	2875115	nl	Lüneburg				
 1611117	2875376	nl	Ludwigshafen am Rhein				
 1617315	2875392	nl	Ludwigsburg				
 1618052	2875457	nl	Lüdenscheid				
 1607799	2875601	nl	Lübeck				
+11562133	2875631	nl	Berlin-Lübars				
 2004338	2875877	nl	Lorsch				
 1910882	2875881	nl	Lörrach				
 1996483	2875905	nl	Loreley				
@@ -6285,6 +6530,7 @@
 1620015	2879139	nl	Leipzig				
 1957176	2879697	nl	Leer				
 8214947	2880498	nl	Berlin-Lankwitz				
+11627126	2880666	nl	Lalendorf				
 1955648	2880860	nl	Langeoog				
 1943948	2881263	nl	Langenargen				
 1650775	2881485	nl	Landshut				
@@ -6293,19 +6539,25 @@
 1958654	2881885	nl	Lahr/Schwarzwald				
 1930046	2881909	nl	Lahn				
 2001273	2882588	nl	Kulmbach				
+11353782	2884161	nl	Berlin-Kreuzberg				
 1607029	2884509	nl	Krefeld				
 1937295	2885237	nl	Köthen				
 2035445	2885408	nl	Kornwestheim				
+11609967	2885499	nl	Wittenburg				
 8303002	2885656	nl	Berlin-Köpenick				
 1617854	2885679	nl	Konstanz				
+11602650	2885912	nl	Abdij Königsbronn				
+11479494	2886235	nl	Keulse Bocht				
 1599806	2886242	nl	Keulen				
 1615283	2886946	nl	Koblenz				
 1933742	2887835	nl	Kleef				
 9454232	2890136	nl	Berlin-Kladow				
 1897417	2891122	nl	Kiel				
+11472461	2891282	nl	Ketzin/Havel				
 1928797	2891524	nl	Kerpen				
 1954730	2891951	nl	Kehl				
 1935752	2892080	nl	Kaufbeuren				
+11627623	2892460	nl	Markt Kastl				
 8222665	2892506	nl	Station Kassel-Wilhelmshöhe				
 1608625	2892518	nl	Kassel				
 8317732	2892786	nl	Karlstadt am Main				
@@ -6327,14 +6579,18 @@
 1933038	2905457	nl	Herzogenaurach				
 1928662	2905560	nl	Herten				
 1609443	2905891	nl	Herne				
+11420280	2905904	nl	Berlin-Hermsdorf				
 1928704	2906121	nl	Herford				
+11552011	2906246	nl	Witten-Herbede				
 1639218	2906595	nl	Hemer				
 1954083	2906676	nl	Helmstedt				
 9384379	2906809	nl	Berlin-Hellersdorf				
 1631941	2906947	nl	Helgoland				
+11423996	2907551	nl	Berlin-Heiligensee				
 1636641	2907669	nl	Heilbronn				
 1949291	2907851	nl	Heidenheim an der Brenz				
 1612308	2907911	nl	Heidelberg				
+11370905	2908403	nl	Frankfurt-Heddernheim				
 1643493	2908646	nl	Havel				
 9454591	2909794	nl	Berlin-Haselhorst				
 1993001	2909965	nl	Harz				
@@ -6344,10 +6600,12 @@
 1609046	2911240	nl	Hamm				
 1905724	2911271	nl	Hamelen				
 1905725	2911271	nl	Hameln				
+11368703	2911293	nl	Hamburg-Eimsbüttel				
 8222615	2911295	nl	Station Hamburg-Altona				
 1598178	2911298	nl	Hamburg				
 2014671	2911520	nl	Halle				
 1635953	2911522	nl	Halle				
+11511626	2911560	nl	Berlin-Halensee				
 8308604	2911710	nl	Berlin-Hakenfelde				
 1991923	2912621	nl	Hagen				
 1616713	2913366	nl	Gütersloh				
@@ -6363,12 +6621,14 @@
 1654231	2919054	nl	Göppingen				
 1945461	2919765	nl	Glücksburg				
 1927474	2920236	nl	Gladbeck				
+11544869	2920337	nl	Frankfurt-Ginnheim				
 1647597	2920512	nl	Gießen				
 8218199	2920789	nl	Berlin-Gesundbrunnen				
 8299622	2920999	nl	Gernrode am Harz				
 1557512	2921044	nl	Duitsland				
 1615460	2921232	nl	Gera				
 1628528	2921466	nl	Gelsenkirchen				
+11462715	2922336	nl	Berlin-Gatow				
 1637215	2922530	nl	Garmisch-Partenkirchen				
 2009416	2923507	nl	Füssen				
 1655331	2923521	nl	Furtwangen				
@@ -6378,6 +6638,7 @@
 1641349	2923822	nl	Fulda				
 9450273	2924302	nl	Berlin-Frohnau				
 8208043	2924447	nl	Station Berlin Friedrichstraße				
+11356357	2924573	nl	Berlin-Friedrichshain				
 1641584	2924585	nl	Friedrichshafen				
 8199272	2924770	nl	Berlin-Friedenau				
 9935760	2924895	nl	Landkreis Freudenstadt				
@@ -6397,6 +6658,7 @@
 1601200	2928810	nl	Essen				
 1934705	2928963	nl	Eschweiler				
 1956128	2928967	nl	Eschwege				
+11472438	2929006	nl	Frankfurt-Eschersheim				
 1642637	2929112	nl	Eschelbronn				
 1615608	2929567	nl	Erlangen				
 1959048	2929600	nl	Erkrath				
@@ -6432,6 +6694,7 @@
 8233355	2939440	nl	Berlin-Dahlem				
 1997447	2939623	nl	Dachau				
 1956672	2939658	nl	Cuxhaven				
+11995147	2939658	nl	Cux		1		
 1617517	2939811	nl	Cottbus				
 1956357	2939927	nl	Colditz				
 1958846	2939949	nl	Cochem				
@@ -6441,8 +6704,9 @@
 1645555	2940213	nl	Celle				
 1643343	2940383	nl	Calw				
 1930514	2940715	nl	Büsingen				
-8198592	2940925	nl	Abdij van Burtscheid				
+8198592	2940925	nl	Abdijvorstendom Burtscheid				
 9453549	2942122	nl	Berlin-Buckow				
+11557767	2942341	nl	Berlin-Französisch Buchholz				
 1957469	2943560	nl	Bruchsal				
 1652540	2943991	nl	Brocken				
 9350351	2944027	nl	Berlin-Britz				
@@ -6456,6 +6720,7 @@
 8220014	2946108	nl	Frankfurt-Bornheim				
 1929636	2946206	nl	Borkum				
 8293817	2946821	nl	Boizenburg/Elbe				
+11571351	2946887	nl	Berlin-Bohnsdorf				
 8191918	2947354	nl	Frankfurt-Bockenheim				
 1603721	2947416	nl	Bochum				
 1927743	2947421	nl	Bocholt				
@@ -6463,13 +6728,16 @@
 8727981	2948066	nl	Hamburg-Blankenese				
 1956252	2948184	nl	Bitburg				
 1956660	2948825	nl	Bingen am Rhein				
+11409919	2948917	nl	Hamburg-Billstedt				
 1604373	2949186	nl	Bielefeld				
 1939496	2949423	nl	Biberach an der Riß				
 1956862	2950073	nl	Bernburg				
 5882596	2950157	nl	Berlijn				
 1591746	2950159	nl	Berlijn				
 1615348	2950349	nl	Bergisch Gladbach				
+11514581	2950614	nl	Frankfurt-Bergen-Enkheim				
 2020011	2950877	nl	Berchtesgadener Land				
+11368143	2950880	nl	Nationaal Park Berchtesgaden				
 1646620	2950881	nl	Berchtesgaden				
 1644955	2950978	nl	Bensheim				
 1636318	2951825	nl	Bayreuth				
@@ -6477,6 +6745,7 @@
 1642764	2951881	nl	Bautzen				
 5890695	2952289	nl	Basel Badischer Bahnhof II				
 1631284	2952984	nl	Bamberg				
+11412716	2953235	nl	Hamburg-Bahrenfeld				
 1942358	2953424	nl	Bad Kissingen				
 1929438	2953436	nl	Bad Homburg vor der Höhe				
 9371678	2953459	nl	Bad Frankenhausen/Kyffhäuser				
@@ -6485,6 +6754,7 @@
 1955370	2953528	nl	Bad Doberan				
 1952085	2953559	nl	Bad Abbach				
 1606236	2954172	nl	Augsburg				
+11711476	2954677	nl	Aue (Wezer)				
 1954751	2955168	nl	Aschersleben				
 1647554	2955272	nl	Aschaffenburg				
 1651646	2955439	nl	Arnstadt				
@@ -6497,12 +6767,14 @@
 8229932	2956441	nl	Landkreis Ammerland				
 1654707	2956656	nl	Amberg				
 1642672	2957773	nl	Altenburg				
+11634575	2958397	nl	Hamburg-Allermöhe				
 8296660	2959047	nl	Landkreis Ahrweiler				
 1939130	2959223	nl	Ahlen				
 1930978	2959686	nl	Achern				
 1940906	2959842	nl	Abensberg				
 1643030	2959927	nl	Aalen				
 1952447	2959977	nl	Wiltz				
+11377870	2959978	nl	Kanton Wiltz				
 1957318	2960010	nl	Walferdange				
 1955852	2960017	nl	Wahl				
 1951508	2960019	nl	Vichten				
@@ -6566,8 +6838,11 @@
 1984808	2965140	nl	Cork				
 1646981	2965260	nl	Cobh				
 1944650	2965745	nl	Carrantuohill				
+11490687	2966106	nl	Blasket-eilanden				
+11418229	2966355	nl	Bantrybaai				
 1649149	2966947	nl	Araneilanden				
 1915981	2967082	nl	Achill				
+11477162	2967110	nl	Zuidkote				
 1949964	2967203	nl	Yssingeaux				
 1652872	2967245	nl	Yerres				
 1934154	2967304	nl	Wœrth				
@@ -6643,6 +6918,7 @@
 1647073	2972811	nl	Thionville				
 2011027	2972857	nl	Thiers				
 1949461	2972893	nl	Thiais				
+11518400	2973150	nl	Terdegem				
 1954782	2973303	nl	Taulé				
 1993579	2973317	nl	Tassin-la-Demi-Lune				
 1993760	2973385	nl	Tarbes				
@@ -6651,8 +6927,11 @@
 2004678	2973521	nl	Taizé				
 2032542	2973597	nl	Tabanac				
 1939508	2973675	nl	Suresnes				
+11497136	2973780	nl	Strazele				
 1895788	2973783	nl	Straatsburg				
 9359760	2973821	nl	Steenwerk				
+11542663	2973825	nl	Stene				
+11565668	2973826	nl	Steenbeke				
 2023386	2974056	nl	Soulac-sur-Mer				
 1950487	2974086	nl	Soufflenheim				
 1951341	2974153	nl	Sotteville-lès-Rouen				
@@ -6671,6 +6950,7 @@
 1952849	2975445	nl	Schirmeck				
 1918906	2975446	nl	Schiltigheim				
 1951475	2975452	nl	Scheibenhard				
+11405273	2975475	nl	Skarpe				
 1656553	2975588	nl	Saverne				
 1648474	2975758	nl	Saumur				
 1953368	2975819	nl	Saulieu				
@@ -6694,6 +6974,7 @@
 1913745	2977295	nl	Saint-Quentin				
 1934265	2977390	nl	Saint-Pol-de-Léon				
 11337167	2977414	nl	Saint Pierre Quiberon				
+11550818	2977550	nl	Sint-Pietersbroek				
 1941152	2977701	nl	Saint-Paul				
 1931782	2977845	nl	Sint-Omaars				
 1955937	2977910	nl	Saint-Nectaire				
@@ -6744,6 +7025,7 @@
 1956286	2983011	nl	Romans-sur-Isère				
 1640636	2983154	nl	Rodez				
 1934810	2983165	nl	Rocroi				
+11462544	2983354	nl	Robeke				
 1929716	2983362	nl	Roanne				
 1957019	2983369	nl	Rixheim				
 1958082	2983393	nl	Rivesaltes				
@@ -6760,6 +7042,7 @@
 1645579	2983986	nl	Rennes-le-Château				
 1628253	2983990	nl	Rennes				
 1951988	2984003	nl	Renève				
+11471432	2984005	nl	Ruisscheure				
 1957204	2984050	nl	Remiremont				
 1948512	2984126	nl	Reigny				
 1956371	2984136	nl	Reichshoffen				
@@ -6832,6 +7115,7 @@
 1944035	2988592	nl	Paray-le-Monial				
 1651592	2988670	nl	Pamiers				
 2024394	2988758	nl	Palaiseau				
+11411036	2988893	nl	Ooie				
 1959078	2989084	nl	Ottmarsheim				
 1958317	2989093	nl	Ostwald				
 1956021	2989187	nl	Orthez				
@@ -6842,7 +7126,7 @@
 1639572	2989460	nl	Orange				
 1656373	2989467	nl	Oradour-sur-Glane				
 2256378	2989489	nl	Oostkappel				
-1955669	2989626	nl	Île d'Oléron				
+1955669	2989626	nl	Île dOléron				
 1929847	2989796	nl	Obernai				
 1957799	2989819	nl	Nyons				
 1953307	2989837	nl	Nuits-Saint-Georges				
@@ -6916,7 +7200,9 @@
 1955781	2994126	nl	Meung-sur-Loire				
 1944021	2994144	nl	Meudon				
 1628456	2994160	nl	Metz				
+11507958	2994168	nl	Meteren				
 2004782	2994393	nl	Mérignac				
+11538016	2994461	nl	Merkegem				
 2002552	2994497	nl	Menton				
 1642786	2994617	nl	Mende				
 1921265	2994651	nl	Melun				
@@ -6929,6 +7215,7 @@
 1956557	2995387	nl	Martigues				
 1600026	2995469	nl	Marseille				
 1948273	2995489	nl	Marsannay-la-Côte				
+11523394	2995544	nl	Marke				
 1955864	2995622	nl	Marmoutier				
 1944423	2995642	nl	Marmande				
 1956891	2995652	nl	Marly-le-Roi				
@@ -7000,6 +7287,7 @@
 1630271	3003603	nl	Le Mans				
 1628775	3003796	nl	Le Havre				
 1956536	3003952	nl	Le Grand-Quevilly				
+11488824	3004244	nl	Leffrinkhoeke				
 2021202	3004306	nl	Le Faou				
 9362407	3004318	nl	Ledringem				
 1959400	3004321	nl	Le Drennec				
@@ -7025,6 +7313,7 @@
 2012312	3006348	nl	Lassy				
 1929024	3006414	nl	La Seyne-sur-Mer				
 1644248	3006471	nl	Grotten van Lascaux				
+11507914	3006541	nl	La Salle les Alpes				
 2010404	3006567	nl	Causse du Larzac				
 1935768	3006697	nl	La Roque-Gageac				
 1649294	3006767	nl	La Roche-sur-Yon				
@@ -7038,6 +7327,7 @@
 1955930	3007648	nl	Lanildut				
 1896494	3007670	nl	Languedoc-Roussillon				
 1930178	3007680	nl	Langres				
+11648411	3007685	nl	Langouët				
 1955857	3007692	nl	Langolen				
 1951144	3007729	nl	Langeais				
 1936474	3007794	nl	Lanester				
@@ -7100,9 +7390,13 @@
 1929955	3012937	nl	Hyères				
 1941909	3012977	nl	Hunspach				
 1933234	3013026	nl	Huelgoat				
+11619247	3013044	nl	Hooimille				
+11509476	3013052	nl	Houtkerke				
 1958148	3013097	nl	Houilles				
+11461889	3013124	nl	Île-dHouat				
 1910896	3013173	nl	Honfleur				
 9375378	3013174	nl	Hondschote				
+11525993	3013177	nl	Hondegem				
 1944913	3013229	nl	Hoëdic				
 1935193	3013365	nl	Hesdin				
 1930326	3013403	nl	Hérouville-Saint-Clair				
@@ -7110,6 +7404,7 @@
 1650906	3013534	nl	Hendaye				
 1933383	3013619	nl	Hazebroek				
 1957439	3013627	nl	Hayange				
+11553792	3013635	nl	Haverskerke				
 1896838	3013756	nl	Hoog-Normandië				
 1952994	3013769	nl	Hautefort				
 1952959	3013779	nl	Hautefaye				
@@ -7180,6 +7475,7 @@
 1958479	3017603	nl	Fougerolles				
 1953326	3017624	nl	Fouesnant				
 1954516	3017651	nl	Fos-sur-Mer				
+11540649	3017686	nl	Fort-Mardijk				
 1959053	3017698	nl	Fortan				
 1953047	3017714	nl	Formiguères				
 1941824	3017798	nl	Forcalquier				
@@ -7192,6 +7488,7 @@
 1637903	3018074	nl	Fontainebleau				
 1950201	3018124	nl	Fondettes				
 2025575	3018280	nl	Fleury-les-Aubrais				
+11549086	3018330	nl	Vleteren				
 1956315	3018363	nl	Flavigny-sur-Ozerain				
 1950271	3018455	nl	Firminy				
 1939526	3018506	nl	Figeac				
@@ -7235,6 +7532,7 @@
 1900096	3020311	nl	Élan				
 1900097	3020311	nl	Eland				
 1916465	3020324	nl	Eguisheim				
+11510085	3020369	nl	Eke				
 1941488	3020495	nl	Échirolles				
 2006584	3020601	nl	Eaubonne				
 1622850	3020686	nl	Duinkerke				
@@ -7321,6 +7619,7 @@
 1949605	3022988	nl	Cournon-d'Auvergne				
 1954088	3023065	nl	Courchevel				
 9361141	3023356	nl	Nieuw-Koudekerke				
+11611581	3023357	nl	Koudekerke-Dorp				
 1943474	3023506	nl	Corte				
 1942037	3023573	nl	Cornimont				
 1953258	3023617	nl	Cornas				
@@ -7375,6 +7674,7 @@
 1959342	3024778	nl	Clamerey				
 1953395	3024782	nl	Clamecy				
 1648948	3024783	nl	Clamart				
+11411727	3024803	nl	Klaarmares				
 2026600	3024816	nl	Clairac				
 1948670	3024817	nl	Claira				
 1959224	3024836	nl	Civry-en-Montagne				
@@ -7503,6 +7803,7 @@
 1948684	3028632	nl	Cardaillac				
 1988102	3028641	nl	Carcassonne				
 1941989	3028667	nl	Carantec				
+11495894	3028690	nl	Kapelle				
 2005385	3028714	nl	Capian				
 1904922	3028730	nl	Capelle				
 1904923	3028730	nl	Kapelle				
@@ -7578,6 +7879,7 @@
 1949722	3030708	nl	Bouxwiller				
 1949565	3030723	nl	Bouville				
 1958804	3030807	nl	Bousseviller				
+11489066	3030847	nl	Busbeke				
 1948774	3030853	nl	Bourville				
 1948923	3030856	nl	Bourthes				
 2016423	3030857	nl	Bourth				
@@ -7616,6 +7918,7 @@
 1909201	3031801	nl	Bonifacio				
 2022182	3031815	nl	Bondy				
 1951205	3031817	nl	Bondues				
+11556908	3031865	nl	Bollezele				
 1948313	3031871	nl	Bolbec				
 1949005	3031872	nl	Bolazec				
 1949840	3031898	nl	Boissy-Saint-Léger				
@@ -7634,6 +7937,7 @@
 1631972	3032213	nl	Blois				
 1958810	3032269	nl	Blérancourt				
 9390968	3032279	nl	Blendeke				
+11472931	3032319	nl	Blaringem				
 1952411	3032379	nl	Blancherupt				
 2017114	3032452	nl	Blainville-sur-Orne				
 1957908	3032455	nl	Blainville-Crevon				
@@ -7651,6 +7955,7 @@
 1959516	3032574	nl	Biozat				
 1953735	3032602	nl	Bindernheim				
 2036469	3032668	nl	Biguglia				
+11551846	3032726	nl	Bieren				
 2026452	3032784	nl	Biblisheim				
 1639091	3032797	nl	Biarritz				
 1998871	3032824	nl	Bezons				
@@ -7665,6 +7970,7 @@
 1953822	3033052	nl	Bessines-sur-Gartempe				
 1628435	3033123	nl	Besançon				
 1950298	3033136	nl	Berville-sur-Mer				
+11543199	3033194	nl	Berten				
 2022242	3033228	nl	Berry-Bouy				
 1954387	3033236	nl	Berrien				
 1959456	3033252	nl	Bérou-la-Mulotière				
@@ -7690,6 +7996,7 @@
 1956771	3033913	nl	Bédarieux				
 1958601	3034001	nl	Beauval				
 1642832	3034006	nl	Beauvais				
+11642855	3034074	nl	Kasteel van Beauregard				
 1647195	3034126	nl	Beaune				
 1956321	3034153	nl	Beaumont-le-Roger				
 1958713	3034165	nl	Beaumont-en-Argonne				
@@ -7707,6 +8014,7 @@
 1631787	3034475	nl	Baiona				
 1637864	3034475	nl	Bayonne				
 1989403	3034483	nl	Bayeux				
+11424257	3034505	nl	Bavinkhove				
 2025251	3034579	nl	Baudemont				
 2024076	3034586	nl	Batzendorf				
 1901849	3034640	nl	Bastia				
@@ -7873,7 +8181,6 @@
 2033564	3036694	nl	Artenay				
 2024353	3036697	nl	Artemare				
 1931172	3036719	nl	Ars-en-Ré				
-1931173	3036719	nl	Île de Ré				
 1959371	3036723	nl	Arsac-en-Velay				
 2023588	3036742	nl	Arronnes				
 2014209	3036744	nl	Arromanches-les-Bains				
@@ -8076,6 +8383,7 @@
 1649245	3042359	nl	Herm				
 2418510	3042362	nl	Guernsey	1			
 1620368	3042363	nl	Guernsey				
+11358081	3042400	nl	Kanaaleilanden				
 1990309	3042422	nl	Alderney				
 1905283	3042613	nl	Zala				
 1994777	3042638	nl	Zalaegerszeg				
@@ -8097,12 +8405,14 @@
 1997453	3047679	nl	Nagykanizsa				
 2027791	3047896	nl	Mosonmagyaróvár				
 2005183	3047967	nl	Mohács				
+11545375	3048434	nl	Margaretha-eiland				
 1903799	3049518	nl	Komárom-Esztergom				
 1996067	3049519	nl	Komárom				
 1616238	3050434	nl	Kecskemét				
 1994724	3050616	nl	Kaposvár				
 1903659	3051977	nl	Győr-Moson-Sopron				
 1616253	3052009	nl	Győr				
+11599608	3052343	nl	Gellértberg				
 1654179	3052649	nl	Neusiedler Meer				
 1990488	3052649	nl	Neusiedlermeer				
 1905118	3053028	nl	Fejér				
@@ -8123,19 +8433,24 @@
 1645086	3058779	nl	Martin				
 1594938	3060972	nl	Bratislava				
 1999761	3061344	nl	Znojmo				
+11838691	3061368	nl	Zliv				
+11478320	3061753	nl	Praag-Zbraslav				
 1953962	3062283	nl	Vyskov				
 1652176	3063409	nl	valtice				
 1652177	3063409	nl	Valtice				
 1608644	3063548	nl	Ústí nad Labem				
+11839148	3063835	nl	Tvarožná				
 1944863	3063907	nl	Trutnov				
 8290319	3064268	nl	Theresienstadt				
 1931753	3064288	nl	Teplice				
+11839130	3064307	nl	Telnice				
 1657187	3064373	nl	Tachov				
 1653626	3064379	nl	Tábor				
 9336171	3065328	nl	Oude Stad				
 2006746	3065522	nl	Špindlerův Mlýn				
 1643140	3065824	nl	Slavkov u Brna				
 11225665	3065901	nl	Šlapanice				
+11613506	3067653	nl	Prebuz				
 1593119	3067696	nl	Praag				
 10906859	3067716	nl	Prace				
 11225979	3068020	nl	Podolí				
@@ -8145,10 +8460,12 @@
 1993649	3068927	nl	Opava				
 1608221	3069011	nl	Olomouc				
 8208623	3069467	nl	Nieuwe Stad				
+11838940	3069808	nl	Netolice				
 1928363	3070291	nl	Most				
 8701959	3070359	nl	Moravië				
 1997514	3070544	nl	Mladá Boleslav				
 1930211	3071024	nl	Mariënbad				
+11839165	3071358	nl	Luleč				
 1951131	3071507	nl	Louny				
 1637043	3071858	nl	Lidice				
 1608416	3071961	nl	Liberec				
@@ -8156,6 +8473,7 @@
 11226483	3073070	nl	Kovalovice				
 2023565	3073800	nl	Kasteel Karlstein				
 1611823	3073803	nl	Karlsbad				
+11839115	3073966	nl	Kámen				
 1608571	3074967	nl	Hradec Králové				
 1647390	3074982	nl	Hradčany				
 2298940	3075921	nl	Havířov				
@@ -8209,7 +8527,7 @@
 1895139	3083988	nl	Świętochłowice				
 1953610	3084074	nl	Świecie				
 1922281	3084093	nl	Świdnica				
-1897462	3084840	nl	Stargard Szczeciński				
+1897462	3084840	nl	Stargard				
 1952573	3085047	nl	Środa Śląska				
 1905457	3085128	nl	Sosnowiec				
 1904205	3085151	nl	Sopot				
@@ -8285,6 +8603,7 @@
 1942180	3097528	nl	Jarocin				
 1922254	3097872	nl	Inowrocław				
 1909899	3097902	nl	Iława				
+11536659	3098005	nl	Station Herby Nowe				
 1920209	3098030	nl	Hel				
 2028649	3098130	nl	Gubin				
 1954061	3098200	nl	Gryfino				
@@ -8295,7 +8614,7 @@
 1899883	3099213	nl	Głogów				
 1903022	3099230	nl	Gliwice				
 1898853	3099424	nl	Gdynia				
-8309499	3099432	nl	Station Gdańsk Główny				
+11802466	3099429	nl	Station Gdańsk Główny				
 1982633	3099434	nl	Gdansk				
 1938142	3099634	nl	Frombork				
 1904117	3099759	nl	Elbląg				
@@ -8366,6 +8685,7 @@
 1904174	3108126	nl	Teruel				
 1646160	3108286	nl	Terrassa				
 1614689	3108288	nl	Tarragona				
+11562289	3108717	nl	Col du Somport				
 1920877	3108747	nl	Solsona				
 1643919	3108877	nl	Sitges				
 1653001	3109143	nl	La Seu d'Urgell				
@@ -8373,7 +8693,7 @@
 2037320	3109369	nl	Sarria				
 1943179	3109402	nl	Cerdanyola del Vallès				
 2013251	3109450	nl	San Vicente de la Barquera				
-1895221	3109642	nl	Santiago de Compostella				
+1895221	3109642	nl	Santiago de Compostela				
 1605392	3109718	nl	Santander				
 1925952	3109981	nl	Santa Coloma de Gramenet				
 2015037	3109982	nl	Santa Coloma de Farners				
@@ -8381,6 +8701,7 @@
 1988153	3110044	nl	San Sebastian				
 2037329	3110129	nl	Sant Pere Pescador				
 1952514	3110479	nl	San Leonardo de Yagüe				
+11603800	3110581	nl	Real Sitio de San Ildefonso				
 1950671	3110589	nl	Sangüesa				
 2023272	3110642	nl	Sant Feliu de Llobregat				
 2017898	3110643	nl	Sant Feliu de Guíxols				
@@ -8393,6 +8714,7 @@
 1614631	3111108	nl	Salamanca				
 2019385	3111348	nl	Roses				
 1939004	3111371	nl	Roncesvalles				
+11510597	3111468	nl	Roda de Berà				
 2005629	3111607	nl	Ripoll				
 1935383	3111855	nl	Ribadesella				
 1616461	3111933	nl	Reus				
@@ -8566,6 +8888,7 @@
 2024038	3130606	nl	Alcañiz				
 1639546	3130616	nl	Alcalá de Henares				
 1948869	3130639	nl	Albiztur				
+11638270	3130752	nl	Ajamil de Cameros				
 1954591	3130817	nl	Aguilar de Segarra				
 2038743	3130822	nl	Aguilar de Codés				
 1957651	3130946	nl	Adiós				
@@ -8605,6 +8928,7 @@
 1946065	3135520	nl	Suldal				
 2007154	3135806	nl	Stranda				
 2036393	3135833	nl	Strand				
+11519463	3136242	nl	Storfjord				
 1934301	3136725	nl	Stokke				
 1605817	3137115	nl	Stavanger				
 1943568	3137405	nl	Sortland				
@@ -9607,7 +9931,6 @@
 2033043	3167215	nl	San Venanzo				
 1935162	3167219	nl	San Valentino Torio				
 1938454	3167220	nl	San Valentino in Abruzzo Citeriore				
-2033646	3167231	nl	Sant'Urbano				
 2008258	3167233	nl	Santu Lussurgiu				
 2017796	3167240	nl	Santo Stefano Ticino				
 1942381	3167242	nl	Santo Stefano di Sessanio				
@@ -9763,6 +10086,7 @@
 2036698	3168028	nl	San Martino d'Agri				
 1914814	3168029	nl	San Martino Canavese				
 2027823	3168030	nl	San Martino Buon Albergo				
+11423460	3168043	nl	Sankt Martin in Passeier				
 1555660	3168068	nl	San Marino				
 1985845	3168070	nl	San Marino				
 1933814	3168073	nl	San Marco la Catola				
@@ -10354,6 +10678,7 @@
 1942269	3170463	nl	Poggio Imperiale				
 1941009	3170465	nl	Poggiofiorito				
 2031823	3170471	nl	Poggiodomo				
+11840283	3170472	nl	Chiesanuova				
 2032413	3170479	nl	Poggio Catino				
 2019312	3170482	nl	Poggio Bustone				
 2030356	3170483	nl	Poggio Berni				
@@ -10825,6 +11150,7 @@
 1652361	3172322	nl	Nepi				
 2014308	3172324	nl	Neoneli				
 1941025	3172326	nl	Nemoli				
+11589939	3172327	nl	Meer van Nemi				
 1997505	3172328	nl	Nemi				
 2034443	3172330	nl	Nembro				
 1918997	3172332	nl	Neive				
@@ -11262,6 +11588,7 @@
 2038146	3173839	nl	Martinengo				
 2003188	3173840	nl	Urbe				
 2007662	3173841	nl	Martina Franca				
+11461412	3173850	nl	Martell				
 2010650	3173852	nl	Martellago				
 1932808	3173857	nl	Martano				
 2016621	3173861	nl	Marta				
@@ -11282,6 +11609,7 @@
 1932508	3173949	nl	Mariano Comense				
 2003264	3173963	nl	Margarita				
 1917894	3173971	nl	Marene				
+11377472	3173977	nl	Mareo				
 2012949	3173985	nl	Marcon				
 1936507	3173995	nl	Marcianise				
 2017822	3173996	nl	Marciana Marina				
@@ -11446,6 +11774,7 @@
 2011553	3174719	nl	Limbiate				
 2030978	3174721	nl	Limatola				
 1944415	3174723	nl	Lillianes				
+11342058	3174724	nl	Ligurische Zee				
 2702190	3174725	nl	Ligurië				
 2025397	3174728	nl	Ligonchio				
 1651007	3174729	nl	Lignano Sabbiadoro				
@@ -11858,6 +12187,7 @@
 1941733	3176652	nl	Fossacesia				
 2001874	3176661	nl	Fosdinovo				
 2030255	3176666	nl	Fortunago				
+11355989	3176672	nl	Franzensfeste				
 1654844	3176674	nl	Forte dei Marmi				
 2034607	3176680	nl	Fornovo San Giovanni				
 1940939	3176682	nl	Fornovo di Taro				
@@ -11928,6 +12258,7 @@
 2020129	3176952	nl	Firenzuola				
 8184304	3176959	nl	Florence				
 2026348	3176964	nl	Fiorenzuola d'Arda				
+11840195	3176966	nl	Fiorentino				
 1913266	3176970	nl	Fiorano Modenese				
 2032646	3176976	nl	Fino Mornasco				
 1930701	3176982	nl	Finale Ligure				
@@ -11995,6 +12326,7 @@
 1939638	3177279	nl	Fagnano Olona				
 2038576	3177286	nl	Faggiano				
 1919926	3177294	nl	Faeto				
+11840324	3177299	nl	Faetano				
 1638030	3177300	nl	Faenza				
 2035168	3177304	nl	Faedo Valtellino				
 2034557	3177313	nl	Fabro				
@@ -12002,6 +12334,7 @@
 2026182	3177317	nl	Fabbrico				
 2012739	3177318	nl	Fabbriche di Vallico				
 1916580	3177326	nl	Exilles				
+11572767	3177329	nl	Euganische Heuvels				
 1929277	3177330	nl	Etroubles				
 1998923	3177337	nl	Este				
 2032333	3177344	nl	Esino Lario				
@@ -12937,6 +13270,7 @@
 2015830	3180937	nl	Camponogara				
 2011098	3180940	nl	Campomorone				
 1945299	3180947	nl	Campomaggiore				
+11641086	3180952	nl	Campolongo Tapogliano				
 2011145	3180957	nl	Campo Ligure				
 2021281	3180958	nl	Campolieto				
 2020279	3180959	nl	Campoli del Monte Taburno				
@@ -13194,6 +13528,7 @@
 2022631	3181789	nl	Borgomaro				
 1930971	3181790	nl	Borgomanero				
 2020093	3181792	nl	Borgomale				
+11840239	3181793	nl	Borgo Maggiore				
 1916735	3181799	nl	Borgofranco d'Ivrea				
 2034573	3181802	nl	Borgoforte				
 1936309	3181804	nl	Borgo di Terzo				
@@ -13227,7 +13562,8 @@
 2015958	3181911	nl	Bolzano Novarese				
 10261757	3181912	nl	Zuid-Tirol	1			
 1981249	3181913	nl	Bozen				
-1989040	3181917	nl	Bolsenameer				
+11367606	3181916	nl	Meer van Bolsena				
+1989040	3181917	nl	Bolsena				
 2001547	3181918	nl	Bolotana				
 2032063	3181919	nl	Bolognola				
 1947800	3181924	nl	Bolognano				
@@ -13706,6 +14042,7 @@
 2018629	3183582	nl	Abbadia Lariana				
 1640353	3183587	nl	Abano Terme				
 1610514	3183719	nl	Vlorë				
+11385094	3183874	nl	Luchthaven Tirana				
 1595055	3183875	nl	Tirana				
 1608901	3184081	nl	Shkodër				
 1607387	3185728	nl	Durrës				
@@ -13751,6 +14088,7 @@
 1650665	3190536	nl	Slovenj Gradec				
 1555941	3190538	nl	Slovenië				
 1644744	3190586	nl	Slavonski Brod				
+11458745	3190716	nl	Škofja Loka				
 1940222	3190717	nl	Škofja Loka				
 1904657	3190813	nl	Sisak				
 1612565	3190941	nl	Šibenik				
@@ -13842,6 +14180,7 @@
 1944551	3198561	nl	Julische Alpen				
 1911385	3198647	nl	Jesenice				
 1643329	3199017	nl	Izola				
+11626514	3199069	nl	Ivanić Grad				
 1953013	3199078	nl	Ivančna Gorica				
 1953559	3199131	nl	Ilirska Bistrica				
 1648263	3199177	nl	Hvar				
@@ -13893,6 +14232,7 @@
 1607427	3204541	nl	Banja Luka				
 1931268	3204612	nl	Bakar				
 1649253	3204854	nl	Ajdovščina				
+11545815	3205525	nl	Estergebergte				
 1648164	3205589	nl	Slot Herrenchiemsee				
 2013620	3205904	nl	Tergu				
 1640077	3206558	nl	Bergen-Belsen				
@@ -13931,7 +14271,7 @@
 9935772	3220792	nl	Landkreis Reutlingen				
 9935811	3220793	nl	Landkreis Sigmaringen				
 2036869	3220794	nl	Zollernalbkreis				
-1988882	3220975	nl	Offenbach am Main				
+1988882	3220975	nl	Landkreis Offenbach				
 2034180	3220991	nl	Lahn-Dill-Kreis				
 9935746	3220993	nl	Landkreis Fulda				
 2008516	3220999	nl	Werra-Meißner-Kreis				
@@ -14506,6 +14846,7 @@
 1988542	3386496	nl	Teresina				
 1988761	3388368	nl	São Luís				
 1598433	3390760	nl	Recife				
+11623506	3392026	nl	Aeroporto Internacional de Fortaleza				
 1928769	3393008	nl	Parintins				
 1903720	3393536	nl	Olinda				
 1609598	3394023	nl	Natal				
@@ -14545,17 +14886,30 @@
 2006203	3422683	nl	Kangaatsiaq				
 1938380	3422891	nl	Ittoqqortoormiit				
 1907039	3423146	nl	Ilulissat				
+11995153	3423742	nl	Galehamkes Landt				1
+11995154	3423742	nl	Galamkes				1
 2698402	3423843	nl	Kaap Vaarwel				
+11995136	3423843	nl	Staatenhoek				1
+11995137	3423843	nl	Capo Farwel				1
 2000267	3424901	nl	Aasiaat				
 2419550	3424932	nl	Saint Pierre en Miquelon	1			
 1621398	3425505	nl	Groenland				
+11995130	3425505	nl	Groen-land				1
+11995132	3425505	nl	Groen-Landt				
+11995134	3425505	nl	Groenlandt				1
+11642761	3426225	nl	Zavodovski-eiland				
+11350422	3426293	nl	Scotiazee				
+11648475	3426375	nl	Montagu-eiland				
 1639611	3426466	nl	Grytviken				
 1596430	3426691	nl	Port Stanley				
 1596431	3426691	nl	Stanley				
+11360307	3427504	nl	Vicente López				
 8182992	3427655	nl	Tres de Febrero				
+11423202	3429088	nl	San Fernando				
 2000004	3429577	nl	Resistencia				
 1940607	3429652	nl	Quilmes				
 1996587	3429886	nl	Posadas				
+11623004	3430860	nl	Pinamar				
 1601680	3430863	nl	Mar del Plata				
 1600212	3432043	nl	La Plata				
 1899922	3433488	nl	Cataratas do Iguaçu				
@@ -14589,6 +14943,7 @@
 1931376	3443756	nl	Artigas				
 1956883	3443758	nl	Artigas				
 1613530	3445679	nl	Uruguaiana				
+11653464	3446381	nl	Allerheiligenbaai				
 9357429	3446537	nl	Tietê				
 1981601	3448439	nl	São Paulo				
 1601051	3448636	nl	São José dos Campos				
@@ -14596,17 +14951,21 @@
 2001844	3449319	nl	São Carlos				
 1656682	3449340	nl	São Borja				
 1641403	3449433	nl	Santos				
+11404109	3450386	nl	Santa Catarina				
 1597780	3450554	nl	Salvador				
 1597009	3451190	nl	Rio de Janeiro				
 1598712	3452925	nl	Porto Alegre				
 1604553	3454244	nl	Pelotas				
 9451550	3454901	nl	Passa-Quatro				
+11495435	3455063	nl	Paranaíba				
 1995048	3455671	nl	Ouro Preto				
 1640258	3456160	nl	Nova Iguaçu				
 1602644	3456283	nl	Niterói				
 9386351	3456998	nl	Mogi-Mirim				
 9366128	3457000	nl	Mogi-Guaçu				
+11402991	3457088	nl	Merínlagune				
 1604742	3457671	nl	Maringá				
+11457513	3457859	nl	Maracajú				
 2001084	3458449	nl	Londrina				
 1636870	3460629	nl	Itaqui				
 1900877	3462377	nl	Goiânia				
@@ -14622,6 +14981,7 @@
 1592043	3469058	nl	Brasilia				
 1597918	3470127	nl	Belo Horizonte				
 1601231	3471872	nl	Aracaju				
+11376974	3473902	nl	Aeroporto Internacional Salgado Filho				
 2419032	3474414	nl	Falklandeilanden	1			
 2418269	3474415	nl	Zuid-Georgië en Zuidelijke Sandwicheilanden	1			
 1645167	3474574	nl	Palmas				
@@ -14829,7 +15189,6 @@
 1608540	3645213	nl	Coro				
 1922526	3645528	nl	Ciudad Guayana				
 1906662	3645532	nl	Ciudad Bolívar	1			
-1629651	3645581	nl	Angelwaterval				
 1592383	3646738	nl	Caracas				
 2021418	3648546	nl	Barinas				
 1920106	3648559	nl	Barcelona				
@@ -14846,6 +15205,7 @@
 1899636	3663517	nl	Manaus				
 1610020	3664980	nl	Boa Vista				
 8226797	3666645	nl	Tulúa				
+11641524	3666939	nl	Santiago de Tolú				
 1602001	3668605	nl	Santa Marta				
 1647767	3670563	nl	Nevado del Ruiz				
 1598048	3674962	nl	Medellín				
@@ -14853,6 +15213,7 @@
 1656804	3685533	nl	Cúcuta				
 1558202	3686110	nl	Colombia				
 1992158	3687238	nl	Cartagena				
+11625863	3687318	nl	El Carmen de Viboral				
 1903317	3687925	nl	Cali				
 1600730	3688465	nl	Bucaramanga				
 1981790	3688689	nl	Bogota				
@@ -14866,6 +15227,7 @@
 1990088	3699088	nl	Cajamarca				
 1558032	3703430	nl	Panama				
 1594968	3703443	nl	Panama-stad				
+11542822	3709289	nl	Gatúnmeer				
 1924263	3711668	nl	David				
 1646688	3716385	nl	Tortuga				
 1906769	3716385	nl	Île de la Tortue				
@@ -14889,10 +15251,15 @@
 1911272	3838233	nl	Salta				
 1899208	3838583	nl	Rosario				
 2006043	3840092	nl	Puerto Madryn				
+11546000	3843121	nl	Neuquén				
 1923168	3843123	nl	Neuquén				
+11370235	3843470	nl	Nationaal park Nahuel Huapi				
+11420168	3846883	nl	Limay				
 1997583	3855542	nl	Cerro Chaltén				
+11385464	3855914	nl	Stateneiland				
 1636462	3860259	nl	Córdoba				
 1906819	3865086	nl	Bahía Blanca				
+11510926	3865480	nl	Argentinomeer				
 1560506	3865483	nl	Argentinië				
 1622801	3866949	nl	Aconcagua				
 1948862	3867291	nl	Filadelfia				
@@ -14901,6 +15268,7 @@
 1591589	3871336	nl	Santiago de Chile				
 1620598	3871336	nl	Santiago				
 2035288	3871781	nl	San Pedro de Atacama				
+11578262	3872154	nl	San Javier de Loncomilla				
 1991221	3874787	nl	Punta Arenas				
 1928631	3876685	nl	Peñaflor				
 1925265	3877949	nl	Osorno				
@@ -14908,6 +15276,7 @@
 1997923	3884373	nl	La Serena				
 1635668	3887850	nl	Kaap Hoorn				
 1558387	3895114	nl	Chili				
+11622112	3899038	nl	Cerro Azul-Quizapu				
 1987923	3899539	nl	Antofagasta				
 1636926	3903046	nl	Tiwanaku				
 1595386	3903987	nl	Sucre				
@@ -14915,6 +15284,7 @@
 1643177	3906108	nl	Nevado Sajama				
 1641974	3907584	nl	Potosí				
 1593671	3911925	nl	La Paz				
+11367558	3913354	nl	Aeropuerto Internacional El Alto				
 1949917	3914272	nl	Illimani				
 1599643	3919968	nl	Cochabamba				
 1559110	3923057	nl	Bolivia				
@@ -14948,6 +15318,7 @@
 1922602	3988086	nl	Saltillo				
 1910679	3991162	nl	Santiago de Querétaro				
 1608960	3991328	nl	Puerto Vallarta				
+11645530	3993177	nl	Pátzcuaromeer				
 1995758	3993360	nl	Paricutín				
 1989778	3995012	nl	Nayarit				
 1601221	3995402	nl	Morelia				
@@ -15025,7 +15396,11 @@
 1642299	4035722	nl	Atiu				
 1620412	4036232	nl	Niue				
 1647235	4036508	nl	Aitutaki				
+11353178	4036628	nl	Bellingshausenzee				
+11367267	4036629	nl	Amundsenzee				
+11429394	4036645	nl	Korozee				
 9395002	4036647	nl	Eastern				
+11643731	4041436	nl	Maug-eilanden				
 2421139	4041467	nl	Noordelijke Marianen	1			
 2427729	4041468	nl	Noordelijke Marianen				
 7088962	4041468	nl	Noordelijke Marianeneilanden	1			
@@ -15061,11 +15436,14 @@
 1612927	4151909	nl	Coral Springs				
 9381849	4152888	nl	De Funiak Springs				
 8297833	4152890	nl	De Land				
+11464317	4152926	nl	De Bary				
 8712749	4155696	nl	Florida Internationale Universiteit				
 1610704	4155966	nl	Fort Lauderdale				
+11419426	4157898	nl	Hallandale				
 1652439	4158476	nl	Hialeah				
 1612172	4158928	nl	Hollywood				
 1609629	4160021	nl	Jacksonville				
+11409301	4161075	nl	Labelle				
 2028946	4163971	nl	Melbourne				
 1897933	4164138	nl	Miami				
 2025928	4164143	nl	Miami Beach				
@@ -15082,6 +15460,7 @@
 1608988	4188985	nl	Columbus				
 8202680	4193413	nl	Emory-universiteit				
 5895906	4199225	nl	Elektriciteitscentrale Harllee				
+11531619	4204241	nl	La Fayette				
 2026165	4209132	nl	Midway				
 1612946	4221552	nl	Savannah				
 1992006	4226150	nl	The Coca-Cola Company				
@@ -15098,6 +15477,7 @@
 1637461	4292188	nl	Frankfort				
 1607337	4297983	nl	Lexington				
 1610220	4299276	nl	Louisville				
+11417557	4315134	nl	Atchafalaya				
 1610318	4315588	nl	Baton Rouge				
 1614895	4330145	nl	Lafayette				
 1602349	4335045	nl	New Orleans				
@@ -15136,12 +15516,14 @@
 1611305	4509884	nl	Dayton				
 8196770	4518163	nl	Miami-universiteit				
 9341442	4527660	nl	Washington				
+11526327	4527760	nl	Waverly City				
 1987351	4544349	nl	Oklahoma City				
 1603626	4553433	nl	Tulsa				
 5890268	4560337	nl	Stadhuis van Philadelphia				
 1981878	4560349	nl	Philadelphia				
 1636496	4561872	nl	Universiteit van Pennsylvania				
 1924047	4562831	nl	Bayamón				
+11495029	4566396	nl	Nagüabo				
 2419441	4566966	nl	Puerto Rico	1			
 1895394	4566967	nl	Puerto Rico				
 1603093	4568127	nl	San Juan				
@@ -15150,6 +15532,7 @@
 1611532	4612862	nl	Chattanooga				
 1614952	4613868	nl	Clarksville				
 2003108	4625573	nl	Graceland				
+11584914	4628044	nl	Harrogate-Shawanee				
 1610631	4634946	nl	Knoxville				
 1600852	4641239	nl	Memphis				
 8227571	4641253	nl	Internationale luchthaven Memphis				
@@ -15174,8 +15557,10 @@
 1610473	4700168	nl	Irving				
 1610365	4705349	nl	Laredo				
 1637919	4709272	nl	Marshall				
+11475701	4709577	nl	Matagordabaai				
 1612178	4717782	nl	Pasadena				
 1609534	4726206	nl	San Antonio				
+11421025	4726245	nl	San Antonio				
 5904611	4736314	nl	Ameriquest Field in Arlington				
 1613965	4739526	nl	Waco				
 1615704	4741752	nl	Wichita Falls				
@@ -15188,6 +15573,7 @@
 2035004	4760059	nl	Fredericksburg				
 1612035	4762894	nl	Hampton				
 1923720	4776222	nl	Norfolk				
+11635473	4777849	nl	Pamunkey				
 1634853	4778469	nl	Het Pentagon				
 1615739	4779999	nl	Portsmouth				
 8295461	4785286	nl	Shenandoahvallei				
@@ -15202,6 +15588,7 @@
 1903005	4801859	nl	Charleston				
 1632874	4829764	nl	Alabama				
 1980122	4831725	nl	Connecticut				
+11414434	4832643	nl	Deep River Center				
 9351324	4833132	nl	Stadhuis van New York				
 8313545	4835512	nl	Guilford Center				
 1613482	4835797	nl	Hartford				
@@ -15212,6 +15599,7 @@
 8200972	4844713	nl	Universiteit van Connecticut				
 8301706	4845056	nl	Wallingford Center				
 1615170	4845193	nl	Waterbury				
+11474911	4845533	nl	Westbrook Center				
 1986489	4846179	nl	Yale-universiteit				
 2005247	4846834	nl	Ames				
 2009522	4853423	nl	Davenport				
@@ -15247,11 +15635,13 @@
 1984113	4943351	nl	Massachusetts Institute of Technology				
 1932083	4950065	nl	Salem				
 1611771	4951788	nl	Springfield				
+11641507	4952532	nl	Boston Symphony Hall				
 8210362	4953407	nl	Tuftsuniversiteit				
 1610584	4956184	nl	Worcester				
 1639942	4957003	nl	Augusta				
 1646206	4975802	nl	Portland				
 1614822	4984247	nl	Ann Arbor				
+11507767	4988997	nl	Village of Clarkston				
 1599849	4990729	nl	Detroit				
 1614074	4992982	nl	Flint				
 1996550	4994358	nl	Grand Rapids				
@@ -15260,6 +15650,7 @@
 8197060	5000469	nl	Mackinac				
 1994610	5012988	nl	Universiteit van Michigan				
 1994611	5012988	nl	University of Michigan				
+11340034	5012995	nl	Universiteit van Michigan				
 1612805	5014051	nl	Warren				
 1617507	5024719	nl	Duluth				
 5890411	5029205	nl	Hamline-universiteit				
@@ -15302,6 +15693,7 @@
 1899434	5113752	nl	Cornell universiteit				
 1657316	5116041	nl	East River				
 1622756	5116597	nl	Empire State Building				
+11423971	5116985	nl	Federal Reserve Bank van New York				
 7580117	5117551	nl	Universiteit van Fordham				
 1909060	5119418	nl	Greenwich Village				
 8231666	5120037	nl	Harlem				
@@ -15331,12 +15723,14 @@
 1610377	5145476	nl	Akron				
 1635721	5150529	nl	Cleveland				
 1610096	5174035	nl	Toledo				
+11373545	5174839	nl	Universiteit van Akron				
 1615397	5178127	nl	Allentown				
 1900491	5178401	nl	Appalachen				
 1616417	5188843	nl	Erie				
 1637541	5192726	nl	Harrisburg				
 1997281	5197079	nl	Lancaster				
 8206733	5197664	nl	Lehigh-universiteit				
+11460225	5201734	nl	Municipality of Monroeville				
 1985564	5206379	nl	Pittsburgh				
 2027902	5211303	nl	Scranton				
 7586119	5216781	nl	Universiteit van Pittsburgh				
@@ -15378,7 +15772,9 @@
 1637097	5328041	nl	Beverly Hills				
 1914147	5331835	nl	Burbank				
 1901738	5332811	nl	Caltech - Jet Propulsion Laboratory				
+11506876	5332867	nl	Capitool van Californië				
 8185001	5332921	nl	Californië				
+11586748	5334448	nl	Straat van Carquinez				
 1928962	5334928	nl	Castro Valley				
 1610337	5336899	nl	Chula Vista				
 1616658	5339066	nl	Compton				
@@ -15392,7 +15788,9 @@
 1986523	5343229	nl	Walt Disney Parks and Resorts				
 1614931	5343858	nl	Downey				
 1613379	5345743	nl	El Monte				
+11583870	5346808	nl	Esalen				
 1612555	5346827	nl	Escondido				
+11425778	5347698	nl	Farallon-eilanden				
 1610782	5349755	nl	Fontana				
 1610406	5350734	nl	Fremont				
 1609874	5350937	nl	Fresno				
@@ -15416,6 +15814,7 @@
 1614384	5368361	nl	Los Angeles				
 1993512	5368418	nl	Internationale luchthaven van Los Angeles				
 1949313	5369907	nl	Malibu				
+11462207	5373719	nl	San Francisco de Asís-missie				
 1995258	5373900	nl	Modesto				
 9368658	5374363	nl	Baai van Monterey				
 9351526	5375347	nl	Mount Wilson-observatorium				
@@ -15533,6 +15932,8 @@
 9467951	5847504	nl	Kailua-Kona				
 1902004	5850299	nl	Mauna Loa				
 1990789	5850911	nl	Mauna Kea				
+11457770	5850915	nl	Mauna Kea-observatorium				
+11377993	5854907	nl	Baker				
 1898753	5854928	nl	Johnston-atol				
 1628998	5854935	nl	Kingmanrif				
 1622437	5854941	nl	Midway				
@@ -15543,15 +15944,19 @@
 1603891	5856195	nl	Honolulu				
 9464696	5856403	nl	Hualalai				
 9367822	5858047	nl	Bristolbaai				
+11409373	5860716	nl	Diomedeseilanden				
 1642592	5861897	nl	Fairbanks				
 9348830	5861900	nl	Fairbanks North Star				
 1912964	5870133	nl	Nome				
 1958335	5870385	nl	Novarupta				
+11606158	5872069	nl	Pribilofeilanden				
 1650388	5877208	nl	Unalaska				
 1899608	5879400	nl	Anchorage				
 1929830	5880054	nl	Barrow				
 2420717	5880801	nl	Amerikaans Samoa	1			
+11609719	5882936	nl	Akimiski-eiland				
 2003052	5886180	nl	Anticosti				
+11406591	5894956	nl	Bathursteiland				
 8183127	5909050	nl	Brits-Columbia				
 1656590	5911606	nl	Burnaby				
 1599732	5913490	nl	Calgary				
@@ -15559,6 +15964,8 @@
 1640434	5920288	nl	Charlottetown				
 1949229	5922111	nl	Churchill				
 1987826	5922806	nl	Circuit Gilles Villeneuve				
+11460412	5928076	nl	Cornwallis				
+11581075	5940956	nl	Dollard-des-Ormeaux				
 1622602	5946768	nl	Edmonton				
 1990573	5957776	nl	Fredericton				
 1930081	5959878	nl	Gaspé				
@@ -15571,15 +15978,20 @@
 8299655	5985550	nl	Jamesbaai				
 1925646	5990579	nl	Kelowna				
 9338958	5992539	nl	Koning Willem-eiland				
+11616996	6048484	nl	Louisemeer				
 1936405	6048504	nl	Lake Manitoba				
 1628907	6048611	nl	Ontariomeer				
 1646265	6049596	nl	L'Anse aux Meadows				
 1928033	6053154	nl	Lethbridge				
 1993363	6058560	nl	London				
+11640802	6063227	nl	Mackenzie Kingeiland				
 2016080	6076211	nl	Moncton				
 1980853	6077243	nl	Montréal				
+11504331	6077315	nl	Mount Royal				
+11469238	6077401	nl	Notre Dame				
 1621147	6087891	nl	Niagarawatervallen				
 1980637	6094817	nl	Ottawa				
+11604329	6113351	nl	Prins Charleseiland				
 8698800	6113358	nl	Prins Edwardeiland				
 9361494	6113396	nl	Prins Patrickeiland				
 1914653	6118158	nl	Red Deer				
@@ -15599,6 +16011,7 @@
 1610191	6182962	nl	Windsor				
 1600937	6183235	nl	Winnipeg				
 1903002	6185377	nl	Yellowknife				
+11377633	6194228	nl	Internationale luchthaven Jeju				
 1994330	6201375	nl	Razavi-Khorasan				
 1951013	6204696	nl	Queenstown				
 8321017	6220393	nl	Luchthaven van Christchurch				
@@ -15612,6 +16025,7 @@
 1895269	6254976	nl	Eiffeltoren				
 1952642	6255002	nl	Siegessäule				
 2021165	6255079	nl	Koninklijk Paleis van Madrid				
+11618245	6255080	nl	Tempel van Debod				
 2698106	6255146	nl	Afrika				
 2698109	6255147	nl	Azië	1	1		
 2297089	6255148	nl	Europa	1	1		
@@ -15621,6 +16035,7 @@
 2420771	6255152	nl	Antarctica	1			
 2729904	6268737	nl	Plein van de Hemelse Vrede				
 6533558	6269131	nl	Engeland	1			
+11802103	6269133	nl	Midden-Oosten				
 8704546	6269204	nl	Zuidpool				
 1998044	6269236	nl	Escorial				
 1899561	6269240	nl	Camp Nou				
@@ -15655,9 +16070,12 @@
 1897218	6285137	nl	Poznań				
 1910655	6285687	nl	Jaworzno				
 9447079	6285741	nl	Śląskistadion				
+11478873	6285755	nl	Nationaal Theater				
 5895907	6286388	nl	Kasteel van Sandgate				
 1989015	6286786	nl	Tower of London				
 1989630	6287215	nl	Windsor Castle				
+11382251	6287237	nl	Kasteel van Kenilworth				
+11636920	6288577	nl	Macron Stadium				
 1978088	6290252	nl	Servië				
 1994859	6290265	nl	Vyšehrad				
 2006247	6290282	nl	Motta Camastra				
@@ -15667,6 +16085,7 @@
 1984058	6295575	nl	Rode Plein				
 1999319	6295604	nl	Djurgården				
 5894574	6295607	nl	Ericsson Globe				
+11645598	6295619	nl	Voortrekkermonument				
 2297088	6295630	nl	Aarde				
 1991946	6295636	nl	Koninklijk Observatorium van Greenwich				
 1991273	6295638	nl	Sanssouci				
@@ -15675,14 +16094,19 @@
 1882165	6295663	nl	Camposanto van Pisa				
 1882174	6295664	nl	Plein van wonderen				
 1985014	6295667	nl	Bastille Saint-Antoine				
-8326754	6295710	nl	Luchthaven Keflavík				
+11583608	6295682	nl	Reikoariata Republik Naoero				
+11384745	6295685	nl	Luchthaven Port Moresby				
+8326754	6295710	nl	Keflavíkurflugvöllur				
 9448560	6296184	nl	Luchthaven Iqaluit				
+11367705	6296207	nl	Halifax Stanfield International Airport				
+11485036	6296409	nl	Luchthaven Ouagadougou Internationaal				
 8066089	6296483	nl	Internationale Luchthaven Antwerpen				
 9530835	6296486	nl	Brussel Nationaal Luchthaven				
 9530837	6296486	nl	Luchthaven Brussel-Nationaal				
 8066321	6296496	nl	Luchthaven Luik-Bierset				
 9336481	6296496	nl	Liege Airport				
 10003262	6296498	nl	Internationale Luchthaven Oostend-Brugge				
+11562859	6296508	nl	Flughafen Erfurt Weimar				
 11331917	6296510	nl	Flughafen Köln-Bonn				
 8708976	6296572	nl	Internationale luchthaven van Birmingham				
 8714751	6296587	nl	Bristol International Airport				
@@ -15695,13 +16119,24 @@
 2299738	6296683	nl	Vliegbasis Deelen				
 8041375	6296690	nl	Vliegveld Zestienhoven				
 7481410	6296695	nl	Vliegbasis Woensdrecht				
+11358379	6296718	nl	Aéroport de Luxembourg				
+11415725	6296795	nl	Luchthaven Stockholm-Skavsta				
 5893324	6296819	nl	Luchthaven Visby				
+11422491	6296820	nl	Vliegbasis Spangdahlem				
+11423413	6296955	nl	Luchthaven Maya-Maya				
+11568510	6296967	nl	Luchthaven Pointe-Noire				
+11583177	6297031	nl	Luchthaven Prins Said Ibrahim				
 8713649	6297190	nl	Luchthaven Tenerife Zuid				
 2002056	6297209	nl	Ifni				
 9468057	6297256	nl	Luchthaven Amílcar Cabral Internationaal				
+11405033	6297257	nl	Luchthaven Bole Internationaal				
 8183246	6297293	nl	Luchthaven Caïro Internationaal				
 5893407	6297325	nl	Luchthaven Nanyuki				
+11650777	6297372	nl	Zanzibar Airport				
 11334344	6299309	nl	Luchthaven Sofia				
+11375123	6299310	nl	Luchthaven Varna				
+11473870	6299332	nl	Aeropuerto de A Coruña				
+11414110	6299335	nl	Aeroport de Girona-Costa Brava				
 8543029	6299345	nl	Luchthaven Madrid-Barajas				
 5892791	6299346	nl	Luchthaven Málaga				
 5893106	6299461	nl	Luchthaven Nantes Atlantique				
@@ -15710,16 +16145,27 @@
 1988052	6299603	nl	Arezzo				
 1996206	6299613	nl	Volterra				
 11284770	6299619	nl	Aeroporto di Roma Fiumicino				
-5893096	6299669	nl	Luchthaven Innsbruck				
+11366785	6299668	nl	Flughafen Graz				
+5893096	6299669	nl	Flughafen Innsbruck				
+11476627	6299670	nl	Flughafen Linz				
 1994311	6299716	nl	Neuchâtel				
 1993491	6299745	nl	Bursa				
 5893290	6299767	nl	Luchthaven Van Ferit Melen				
+11462070	6299891	nl	Luchthaven Managua				
+11420901	6299906	nl	Internationale luchthaven Juan Santamaría				
 1997260	6299995	nl	Zuidpoolstation Amundsen-Scott				
 9468016	6300074	nl	Luchthaven van Shiraz				
+11410915	6300128	nl	Luchthaven Damascus				
 5893691	6300307	nl	Luchthaven Narita				
 8205326	6300316	nl	Internationale Luchthaven Kansai				
 9462517	6300399	nl	Luchthaven Sendai				
+11629958	6300597	nl	Aeroporto Internacional de Aracaju				
 8551418	6300610	nl	Internationale Luchthaven Campo Grande				
+11425712	6300617	nl	Aeroporto Internacional Marechal Rondon				
+11367491	6300637	nl	Aeroporto Internacional de Viracopos/Campinas				
+11641257	6300670	nl	Aeroporto Internacional de São Luís				
+11638421	6300685	nl	Aeroporto de Vitória				
+11384712	6300793	nl	Aeropuerto Internacional Viru Viru				
 1994180	6300962	nl	Ivano-Frankivsk				
 11284858	6300971	nl	Luchthaven Poelkovo				
 1989061	6300992	nl	Naltsjik				
@@ -15727,16 +16173,25 @@
 11323148	6301137	nl	Internationale Luchthaven Suvarnabhumi				
 5894049	6301157	nl	Internationale Luchthaven Phuket				
 9332226	6301169	nl	Internationale Luchthaven Đà Nẵng				
+11535108	6301186	nl	Luchthaven Sentani				
+11486237	6301225	nl	Luchthaven Adisucipto				
+11622768	6301242	nl	Luchthaven Supadio				
+11375800	6301284	nl	Internationale luchthaven Juanda				
 5892827	6301354	nl	Internationale Luchthaven van Peking				
 8291542	6301365	nl	Internationale luchthaven Shenzhen Bao'an				
 5892986	6301386	nl	Luchthaven Shanghai Pudong				
 8716805	6301388	nl	Luchthaven Shanghai Hongqiao				
+11342743	6301392	nl	Internationale luchthaven Chengdu Shuangliu				
+11360444	6301857	nl	Aeroporto de Congonhas/São Paulo				
+11375267	6301868	nl	Nationale Luchthaven Minsk				
 11330677	6301878	nl	Internationale luchthaven Soekarno-Hatta				
 8710478	6301885	nl	Paleis van Caserta				
 2000314	6301906	nl	Piramide van Mycerinus				
 5889783	6301916	nl	Station Toulouse-Matabiau				
 2038767	6301942	nl	Brusaporto				
 1994429	6313621	nl	Magas				
+11521202	6321174	nl	Bocaiuva				
+11404526	6322045	nl	Paraty				
 2000217	6324374	nl	Viganella				
 1992886	6324444	nl	Sontbrug				
 2488121	6324464	nl	Dom van Keulen				
@@ -15744,33 +16199,114 @@
 11335602	6324592	nl	Slot Nymphenburg				
 8296528	6324756	nl	Stadhuis van Wenen				
 8719179	6325497	nl	Fernsehturm				
+11406639	6325498	nl	Funkturm				
 8194529	6331816	nl	Caltech				
+11549067	6332309	nl	Cutler Ridge				
 2729762	6354946	nl	Drieklovendam				
 5890504	6354990	nl	Kunsthistorisches Museum Wien				
 5890564	6354997	nl	Slot Belvedere				
 5890168	6355074	nl	Norsk Rikskringkasting				
 10723635	6355141	nl	Sontregio				
+11480149	6357050	nl	Sant Mateu del Maestrat				
 8191248	6357346	nl	Santiago de Compostella				
 8290022	6358863	nl	Lerida				
+11617775	6361418	nl	Vimbodí				
+11581900	6361927	nl	Benigánim				
+11558808	6417596	nl	Koya				
 8712284	6418539	nl	Midden-Jutland				
 8713581	6418541	nl	Seeland				
 8712445	6418542	nl	Zuid-Denemarken				
+11611230	6433894	nl	Moliets-et-Maâ				
+11592883	6438137	nl	Broksele				
+11583384	6438145	nl	Buisscheure				
+11543729	6438146	nl	Kaaster				
 9351430	6438172	nl	Komen				
+11569287	6438177	nl	Kraaiwijk				
+11577962	6438179	nl	Krochte				
+11651424	6438193	nl	Drinkam				
+11611026	6438194	nl	Ebblingem				
+11614865	6438207	nl	Eringem				
+11465100	6438257	nl	Gijvelde				
+11579047	6438274	nl	Hardefoort				
+11607137	6438293	nl	Herzele				
+11615362	6438295	nl	Holke				
+11601702	6438320	nl	Lederzele				
+11529502	6438337	nl	Loberge				
+11632813	6438343	nl	Linde				
 9452851	6438365	nl	Meregem				
 9447427	6438375	nl	Moerbeke				
+11643801	6438381	nl	Nieuw-Berkijn				
+11604289	6438395	nl	Ochtezele				
+11604784	6438403	nl	Oudezele				
+11633369	6438415	nl	Pradeels				
+11562203	6438424	nl	Kwaadieper				
+11573472	6438456	nl	Rubroek				
+11611337	6438472	nl	Sint-Mariakappel				
+11607271	6438474	nl	Sint-Momelijn				
+11645164	6438481	nl	Sint-Silvesterkappel				
+11618948	6438497	nl	Zerkel				
+11554579	6438499	nl	Soks				
+11609102	6438506	nl	Stapel				
+11563573	6438517	nl	Tetegem				
+11558990	6438519	nl	Tienen				
+11574448	6438531	nl	Uksem				
+11527469	6438541	nl	Oud-Berkijn				
+11592301	6438552	nl	Volkerinkhove				
+11565304	6438556	nl	Waalskappel				
+11577844	6438563	nl	Warrem				
 8293630	6438567	nl	Waten				
+11612610	6438574	nl	Wemaarskappel				
+11590185	6438576	nl	Westkappel				
+11560938	6438581	nl	Winnezele				
+11609690	6438583	nl	Wulverdinge				
+11651273	6438584	nl	Wilder				
+11629937	6438585	nl	Zermezele				
+11516337	6438587	nl	Zuidpene				
 9465825	6439781	nl	Ooie				
+11372671	6439994	nl	Châtelguyon				
 7583920	6441375	nl	Straatsburg				
 9365320	6442186	nl	Chasselas blanc				
 9465452	6445358	nl	Saint-Savin-sur-Gartempe				
+11537751	6450023	nl	Armboutskappel				
+11518078	6450025	nl	Arneke				
+11507318	6450044	nl	Bambeke				
+11621002	6450075	nl	Bissezele				
+11490887	6452707	nl	Station Nuevos Ministerios				
 8188499	6452756	nl	Museo Nacional del Prado				
+11369848	6452771	nl	Guggenheim Museum				
 5905263	6453147	nl	La Cala Golf & Country Club				
 8210403	6454401	nl	Kassel				
 7581014	6454414	nl	Rijsel				
 8222341	6455196	nl	Belle				
+11618039	6456231	nl	Zoeterstee				
+11587500	6456236	nl	De Moeren				
+11352804	6457201	nl	Les Arcs-sur-Argens				
+11463169	6457263	nl	Pont Alexandre-III				
+11407720	6458775	nl	Schwyz				
+11584254	6458798	nl	Zürich				
 5895775	6498016	nl	Hotel New York				
+11431028	6533921	nl	Universiteit van Nairobi				
 8197246	6534067	nl	Gerona				
+11382845	6535914	nl	Deutschnofen				
+11545543	6535931	nl	Schluderns				
+11381498	6535936	nl	Tiers				
+11406462	6535940	nl	Niederdorf				
+11587028	6535945	nl	Ruffrè				
 8208137	6535953	nl	Bozen				
+11563390	6535955	nl	Kastelbell-Tschars				
+11369945	6535956	nl	Leifers				
+11380311	6535971	nl	Völs am Schlern				
+11428495	6535972	nl	Lüsen				
+11378085	6535996	nl	La Val				
+11410884	6536004	nl	Aldein				
+11409836	6536005	nl	Andrian				
+11508198	6536006	nl	Barbian				
+11563410	6536008	nl	Kuens				
+11521040	6536013	nl	Proveis				
+11345938	6536015	nl	Ritten				
+11379282	6536018	nl	Tirol				
+11371573	6536019	nl	Ahrntal				
+11478988	6536029	nl	Schenna				
 8219255	6542154	nl	Tarente				
 10840993	6544220	nl	Koggenland		1		
 10841039	6544221	nl	Pijnacker-Nootdorp		1		
@@ -15850,19 +16386,31 @@
 2431566	6544304	nl	Tietjerksteradeel	1	1		
 10840819	6544304	nl	Tytsjerksteradiel		1		
 10781687	6544494	nl	Madrid Centro				
+11564291	6544561	nl	Glyptothek München				
 8702230	6544563	nl	Technische Universiteit München				
+12133264	6544759	nl	Zeijerveen				
+12133263	6544760	nl	Zeijerveld				
 2697736	6544766	nl	Boschkant				
 2697742	6544832	nl	Kremsel				
 11323753	6545078	nl	Madrid				
 11321106	6547285	nl	Marrakesh				
 8294428	6547387	nl	Landkreis Eichsfeld				
 8313666	6547392	nl	Landkreis Saalfeld-Rudolstadt				
+11551871	6551196	nl	Born auf dem Darß				
 11318546	6553049	nl	Keulen				
 8742121	6555606	nl	Regierungsbezirk Karlsruhe				
 8721180	6557528	nl	Düren				
 6972627	6557637	nl	Horn-Bad Meinberg				
+11615481	6612671	nl	Nieuwerleet				
+11611845	6613659	nl	Okselare				
+11618516	6613912	nl	Dieudonne				
+11556791	6613981	nl	Saint-Dionizy				
+11578417	6614120	nl	Boezegem				
+11525462	6614160	nl	Deulemonde				
 2729903	6614239	nl	Verboden Stad				
 2417899	6615247	nl	Bourg-Madame				
+11380796	6615326	nl	Oude Stad				
+11546250	6617184	nl	Kapellebroek				
 8203089	6618320	nl	Sint-Omaars				
 9449354	6618514	nl	Minakshitempel				
 8212886	6618737	nl	Queen's Universiteit van Belfast				
@@ -15881,13 +16429,17 @@
 8724781	6619873	nl	Kathedraal van Exeter				
 5889654	6619874	nl	Kathedraal van York				
 8703667	6619924	nl	Kathedraal van Canterbury				
+11344888	6620309	nl	Peter I-eiland				
 8207424	6620352	nl	Kreis Noord-Friesland				
 8292593	6620493	nl	Universiteit van Lausanne				
 9342902	6620705	nl	Thurston-eiland				
+11582243	6620708	nl	Siple-eiland				
 8717066	6620714	nl	Ross				
 9375726	6620715	nl	Antwerpeneiland				
 9466814	6620722	nl	Brabanteiland				
+11350701	6620723	nl	Livingston				
 9333554	6620729	nl	Elephanteiland				
+11651304	6620750	nl	Presidente Eduardo Frei Montalva Station				
 8291056	6620770	nl	Station McMurdo				
 2299356	6620965	nl	Fort Sint Michiel				
 2299359	6620977	nl	Sint Jan's Kathedraal				
@@ -15903,22 +16455,31 @@
 5904500	6621582	nl	Station Poitiers				
 9358835	6621585	nl	Station Le Mans				
 2729258	6621647	nl	Papierfabriek de Middelste Molen	1			
+11422733	6626488	nl	Taylorgletsjer				
 8227298	6627584	nl	Vinsonmassief				
 9365057	6630103	nl	Enderbyland				
 9357120	6632695	nl	Ellsworthgebergte				
+11510109	6633036	nl	Ferrargletsjer				
 2431551	6639608	nl	Zandburen				
 2432149	6639669	nl	Gotum				
 2322149	6639675	nl	Rottepolderplein		1		
 2322168	6639822	nl	Stemberg				
 2322169	6639833	nl	Langgraf				
 2322170	6639835	nl	Papeloze kerk				
+11762759	6640114	nl	Station Maastricht				
+11552013	6640194	nl	Het Spoorwegmuseum				
 8219506	6640252	nl	Sophia-Antipolis				
 8211750	6640320	nl	Universiteit van Leicester				
 8213019	6640322	nl	Cardiff-universiteit				
+11995149	6640370	nl	Naeuwte Hudsons				1
+11995150	6640370	nl	Freto Hudsons				1
+11995151	6640370	nl	Nauwte Hudsons				1
 5881712	6643410	nl	Abchazië				
 9451906	6690137	nl	Miechów				
 8696634	6690154	nl	Krakau				
 9374648	6690172	nl	Brunel-universiteit				
+11380860	6691264	nl	Technische Universiteit Warschau				
+11586233	6691267	nl	Nationale Bibliotheek van Polen				
 8198081	6691471	nl	Universiteit van Manchester				
 2426765	6692341	nl	Frans Hoebenshal				
 2426766	6692342	nl	Holten's molen	1	1		
@@ -15928,6 +16489,7 @@
 2427018	6693217	nl	Andreaskerk				
 9378476	6693293	nl	Kanton Mersch				
 9344140	6693297	nl	Kanton Clervaux				
+12133234	6693370	nl	Brussel-Hoofdstad				
 8225484	6693532	nl	Universiteit van Concepción				
 7587428	6694825	nl	Kathedraal van Milaan				
 5763711	6695079	nl	NAVO				
@@ -15938,6 +16500,9 @@
 2428575	6695613	nl	Heuvel Galerie	1	1		
 2428576	6695613	nl	Heuvelgalerie				
 8221526	6695712	nl	Universiteit van East Anglia				
+11579859	6695784	nl	Batugrotten				
+11349283	6695794	nl	Nationaal Stadion van Peking				
+11516120	6696119	nl	Tibereiland				
 11338430	6696480	nl	Station McMurdo				
 7084680	6697173	nl	Antarctica	1			
 8204173	6697584	nl	Universiteit van Edinburgh				
@@ -15950,6 +16515,7 @@
 2432365	6697849	nl	Steytelinckpark	1			
 2432366	6697850	nl	Hoek				
 2432372	6697854	nl	De Knijpe				
+11623103	6697887	nl	Teatro Regio di Torino				
 2432402	6697892	nl	Schelum				
 2432407	6697893	nl	Suameerderheide				
 2432416	6697902	nl	Boekelte				
@@ -15959,27 +16525,48 @@
 2432557	6698060	nl	Ouddiep				
 2487990	6698357	nl	Sluiterspoel	1	1		
 2488070	6698450	nl	Vierhuis				
+11571539	6822117	nl	Koka				
+11629262	6822146	nl	Onojo				
+11598800	6822167	nl	Sosa				
+11597168	6822184	nl	Oshu				
+11654338	6822188	nl	Osaki				
 9342503	6822202	nl	Yurihonjo				
 9368977	6822219	nl	Gujo				
 5890679	6884785	nl	Rijksmuseum Amsterdam				
 2697688	6929979	nl	Karpendonksche Plas				
 2919522	6929990	nl	Loenensebrug				
 8314723	6930308	nl	Universiteit van Bazel				
+11503104	6930327	nl	Slavoetytsj				
 5763407	6930381	nl	Europees Parlement				
 7975893	6930383	nl	Dam	1			
 9529065	6930383	nl	de Dam				
 2729267	6930411	nl	Kustbatterij bij Diemerdam				
 2729678	6930474	nl	Lunet III				
-8730808	6930700	nl	Birka en Hovgården				
+8730808	6930700	nl	Birka				
+11597721	6931086	nl	Pereswet				
 8203215	6931097	nl	Lancaster-universiteit				
+11530615	6934056	nl	Monte Basòdino				
+11601199	6937413	nl	Chasseron				
 9345402	6940236	nl	Universiteit van Aarhus				
 11335313	6941096	nl	Eolische Eilanden				
+11411376	6941106	nl	Barrièrerif van Belize				
+11339699	6941120	nl	Universiteit van Tel Aviv				
+11596127	6941812	nl	Okapiwildpark				
 2728565	6941874	nl	Eendrachtsplein	1			
 8704901	6941907	nl	Nationaal park Kakadu				
+11568392	6941921	nl	Kerkuane				
+11629072	6942029	nl	Snelweg des Doods				
+11545749	6942516	nl	Cnidus				
+11573017	6943340	nl	Slot Johannisburg				
+11365941	6944029	nl	Technische Universiteit Wenen				
+11487207	6944092	nl	Slot Bellevue				
+11641280	6944104	nl	Messegelände van Berlijn				
 8198249	6944322	nl	Universiteit Hamburg				
 7587566	6944357	nl	Universiteit van Londen				
 8226597	6944470	nl	Stadhuis van Stockholm				
+11412366	6944471	nl	Kerk van Riddarholmen				
 2729793	6944487	nl	Bloemenmarkt				
+11462127	6944491	nl	Koninklijk Concertgebouw				
 2729789	6944498	nl	Maagdenhuis				
 2729790	6944498	nl	Universiteit van Amsterdam				
 2729688	6944502	nl	Waterlooplein Vlooienmarkt				
@@ -15988,16 +16575,21 @@
 9347259	6946255	nl	Sint-Paulskerk				
 2729606	6946388	nl	Steenhuistermolen				
 5889910	6946600	nl	Queen Mary				
+11617938	6946690	nl	Santa Justa-Lift				
 8308305	6946758	nl	Llyfrgell Genedlaethol Cymru				
+11629799	6947008	nl	Palais de la Découverte				
 8197966	6947146	nl	Universiteit van Alberta				
 8202503	6947470	nl	Heinrich Heine-Universiteit				
 8301597	6947475	nl	Station Köln Messe/Deutz				
 5890725	6947529	nl	Kölnarena				
 8303554	6947533	nl	Romeins-Germaans museum				
 8705261	6947535	nl	Universiteit van Keulen				
+11371053	6947647	nl	Sultan Ahmetmoskee				
+11647862	6947679	nl	Kasteel van Roemelië				
 5889980	6947811	nl	Kunstacademie Düsseldorf				
 2729182	6948483	nl	Holtermansmolen				
 2729183	6948486	nl	Teunismolen				
+11509002	6948514	nl	Oude Kasteel				
 2729200	6948558	nl	Molen van Vordeman				
 9383764	6948595	nl	Station Brussel-Centraal				
 9467525	6948596	nl	Station Brussel-Luxemburg				
@@ -16010,6 +16602,7 @@
 6702183	6948624	nl	Koninklijke Musea voor Schone Kunsten van België	1			
 9529736	6948625	nl	Koninklijk Paleis van Brussel	1			
 9370735	6948629	nl	Manneken Pis van Brussel				
+11583135	6948632	nl	Stocletpaleis				
 2729225	6948634	nl	Ons Belang				
 2729228	6948641	nl	Het Spinnewiel				
 2729229	6948644	nl	De Klarendalse Molen				
@@ -16039,6 +16632,8 @@
 2729437	6949306	nl	Scheve Brug				
 2729438	6949312	nl	Meester Sickensbrug				
 2729439	6949315	nl	Norgervaartsche Brug				
+11465067	6949525	nl	Dom van Innsbruck				
+11566329	6949536	nl	Bergiselschans				
 2729586	6949637	nl	Broekzijdse Molen				
 2729584	6949649	nl	Tweede Molen				
 2729585	6949651	nl	Delphine				
@@ -16146,51 +16741,98 @@
 2729806	6951783	nl	Tuschinski Theater				
 2729807	6951784	nl	City Theater				
 8221110	6952115	nl	Station Bradford Interchange				
+11423997	6952848	nl	Station Hull Paragon Interchange				
 8709225	6954037	nl	Olympisch Stadion				
+11386503	6954075	nl	Kathedraal van Barcelona				
 2729873	6954196	nl	Lievevrouwepoort				
 2729884	6954392	nl	Pechiney				
 8705088	6955257	nl	Slag bij Bosworth				
 8182084	6955473	nl	Tahrirplein				
 9383402	6957084	nl	Paleis voor Schone Kunsten				
+11560746	6957622	nl	Academisch ziekenhuis van Norrland				
+11342231	6957623	nl	Universiteit van Umeå				
 2808659	6957904	nl	Het Franciscushuis				
+12095701	6985411	nl	Koolbaai				
 9389573	7090974	nl	Noord				
+11802215	7114570	nl	Oranjehotel				1
 2919559	7114737	nl	Glasbak				
 2919558	7114755	nl	Bijlmerbajes				
 9453007	7118082	nl	Frankfurt-Ostend				
 9387504	7118086	nl	Frankfurt-Sindlingen				
+11514981	7118087	nl	Frankfurt-Oberrad				
+11409530	7118090	nl	Frankfurt-Bahnhofsviertel				
+11594365	7118091	nl	Frankfurt-Dornbusch				
+11631719	7118092	nl	Frankfurt-Gutleutviertel				
+11427487	7118093	nl	Frankfurt-Gallus				
+11364201	7118103	nl	Frankfurt-Altstadt				
+11587298	7180863	nl	Kathedraal van de Onbevlekte Ontvangenis				
 8209591	7279561	nl	Citadel van Besançon				
 8743567	7280901	nl	Moses Mabhidastadion				
 8727347	7280903	nl	Groenpuntstadion				
 5891263	7280911	nl	Ellispark				
-5895319	7280913	nl	Loftus Versfeldstadion				
+5895319	7280913	nl	Loftus Versfeld				
 5890840	7280915	nl	Nelson Mandelabaaistadion				
 9365189	7280918	nl	Peter Mokabastadion				
 5895596	7280920	nl	Mbombelastadion				
 9344995	7280921	nl	Royal Bafokengstadion				
 9460485	7281801	nl	Whitsundayeilanden				
 8303879	7282645	nl	Viaduct van Millau				
+11401739	7282713	nl	Elektriciteitscentrale Buschhaus				
+11580242	7283727	nl	Norekdam				
 5905275	7283779	nl	Elektriciteitscentrale Provence				
 5905221	7284147	nl	Tv-toren van Zagreb				
 7589139	7284881	nl	Hawar-eilanden				
 5882358	7285161	nl	Bazel				
+11353286	7287246	nl	Sankt Niklaus				
 7584385	7288046	nl	Universiteit van Cambridge				
 8207803	7288143	nl	Universiteit van Sydney				
+11597667	7290164	nl	Musée Grévin Parijs				
 8313113	7290243	nl	Hamburg-Bergedorf				
+11383017	7290252	nl	Berlin-Spandau				
 9446765	7290401	nl	Frankfurt-Niederrad				
 3074810	7302151	nl	Duin- en Bollenstreek				
 3074811	7302151	nl	Zuidelijke Bollenstreek				
 8305027	7302756	nl	Landkreis Weilheim-Schongau				
 3075276	7302907	nl	Vesaliusinstituut				
 3075279	7302913	nl	Begijnhofkerk		1		
+11584737	7302914	nl	Circuit Mugello				
 3075282	7302948	nl	Stadhuis	1	1		
+11408136	7303419	nl	Oost-Jeruzalem				
 3075561	7303567	nl	Universiteit Twente				
+11603901	7303819	nl	Santa Constanza				
 10380089	7472191	nl	Chengdu	1			
+11800860	7500737	nl	Joegoslavië				
 8303648	7521301	nl	Ilocos Region				
 7584034	7521757	nl	Spitsbergen				
 5905289	7521821	nl	Hotel Cheyenne				
 5905264	7522059	nl	Hotel Santa Fé				
 8194635	7522158	nl	Le Mont-Saint-Michel				
 8304048	7522496	nl	Concordia-universiteit				
+11387062	7530806	nl	Głogów				
+11404346	7530807	nl	Góra				
+11401966	7530815	nl	Jawor				
+11385856	7530816	nl	Jelenia Góra				
+11384351	7530821	nl	Kłodzko				
+11403889	7530823	nl	Lubań				
+11402828	7530831	nl	Lubin				
+11401996	7530832	nl	Lwówek Śląski				
+11386002	7530833	nl	Milicz				
+11386026	7530834	nl	Oleśnica				
+11402328	7530835	nl	Oława				
+11403709	7530836	nl	Polkowice				
+11402193	7530837	nl	Strzelin				
+11405824	7530838	nl	Środa Śląska				
+11406558	7530846	nl	Świdnica				
+11383082	7530847	nl	Trzebnica				
+11385365	7530848	nl	Wałbrzych				
+11404867	7530849	nl	Wołów				
+11384693	7530851	nl	Ząbkowice Śląskie				
+11384818	7530852	nl	Zgorzelec				
+11403633	7530853	nl	Złotoryja				
+11374959	7530854	nl	Wodzisław				
+11402715	7530971	nl	Gdańsk				
+11404198	7530998	nl	Kamienna Góra				
+11406863	7531027	nl	Zduńska Wola				
 7583863	7531041	nl	Powiat Staszowski				
 8711977	7532268	nl	Chełmno nad Wisłą				
 9394649	7533612	nl	Kowloon City District				
@@ -16203,14 +16845,18 @@
 10841001	7535501	nl	Zuidplas		1		
 10841002	7535502	nl	Peel en Maas		1		
 5904837	7535505	nl	Kenwood House and Garden				
+11523216	7535522	nl	Kasteel van Villandry				
 5888664	7535595	nl	Station Berlin Zoologischer Garten				
 5463438	7535602	nl	Tjaddinxrijtpolder				
 5463439	7535602	nl	Tjaddix Rijterpolder				
+11995155	7535696	nl	Spitsberghen				1
 5463558	7535941	nl	Olonkinstad				
 8210058	7536060	nl	Abdij van Melk				
 8205929	7536080	nl	Oelan-Oede				
 8699683	7538612	nl	Maracanã				
 5579706	7576126	nl	Marina Seaport, IJmuiden aan Zee	1			
+11384465	7602232	nl	Kathedraal van Coventry				
+11365803	7602447	nl	Auerbach				
 9338602	7602712	nl	Mariinskitheater				
 9467147	7602847	nl	Capitool				
 8290268	7603110	nl	Kasteel van Chambord				
@@ -16221,9 +16867,10 @@
 8189455	7626260	nl	Universiteit van Calgary				
 8229434	7626571	nl	Olympisch Stadion				
 11213484	7626798	nl	San Rafael				
-5700236	7626836	nl	Land Curaçao				
 5700238	7626836	nl	Curaçao				
-7977093	7626844	nl	Bonaire	1			
+7977093	7626844	nl	Bonaire, Sint Eustatius en Saba	1			
+12133909	7626844	nl	Caribisch Nederland				
+12133911	7626844	nl	BES-eilanden		1		
 5904870	7627274	nl	The Wentworth Club				
 5889633	7627299	nl	Silverstone				
 11167528	7627301	nl	Collegiale Sint-Michiels- en Sint-Goedele-co-kathedraal				
@@ -16235,40 +16882,86 @@
 5763708	7648578	nl	Vlaamse Televisie Maatschappij				
 8791672	7648744	nl	Metaxourgeio				
 5768027	7648909	nl	Brussel X-Luchthaven Remailing				
+11548603	7649120	nl	Chor Virap				
+11645392	7667575	nl	Doesjeti				
 9374942	7667578	nl	Marneoeli				
 5894415	7668234	nl	Luchthaven Zemio				
 5894391	7668241	nl	Luchthaven Salak				
 5894409	7668271	nl	Luchthaven Matari				
 5894443	7668295	nl	Luchthaven Tadjoura				
+11566451	7668411	nl	Internationale Luchthaven Erbil				
 5894346	7668518	nl	Luchthaven Novgorod				
+11490144	7668639	nl	Internationale Luchthaven Paro				
+11379220	7668997	nl	Station Berlin Südkreuz				
+11373717	7669170	nl	Avivastadion				
 8293346	7670538	nl	Olympisch Stadion				
 5810438	7670688	nl	Voeren				
 9449051	7670985	nl	UQAM				
 7584456	7671013	nl	Universiteit van Toronto				
+11342976	7671049	nl	Noordelijke Provincie				
+11800864	7701596	nl	Auschwitz			1	
+11800861	7729884	nl	Oost-Europa				
+11802098	7729887	nl	Noord-Afrika				
 9388073	7730313	nl	Luchthaven Đồng Hới				
+11459283	7730378	nl	Station Hamm				
 9385097	7733372	nl	Priëne				
 9348034	7798438	nl	Federale Universiteit van Rio de Janeiro				
 8066328	7839044	nl	Station Luik-Guillemins				
+11534003	7839351	nl	Brighton Council				
+11424952	7839363	nl	Glen Innes Severn Council				
+11459194	7839366	nl	Greater Hume Shire Council				
+11427969	7839368	nl	Tumut Shire Council				
+11425515	7839479	nl	City of Canning				
+11428691	7839533	nl	Brimbank City				
+11604581	7839535	nl	Campaspe Shire				
+11412539	7839633	nl	City of Rockingham				
+11431052	7839658	nl	City of Armadale				
+11369440	7839688	nl	City of Bankstown				
+11408215	7839705	nl	Camden Council				
+11418479	7839740	nl	Ku-ring-gai Council				
+11425405	7839759	nl	North Sydney Council				
+11379411	7839764	nl	Pittwater Council				
+11428603	7839775	nl	Upper Lachlan Shire Council				
+11377981	7839782	nl	Warringah Council				
+11421061	7839783	nl	Warrumbungle Shire Council				
+11462285	7839817	nl	Shire of Nillumbik				
+11492512	7870014	nl	Nabatiye				
 9470813	7870649	nl	Qalqiliya				
+11504246	7871707	nl	Heiligenkreuz bei Baden				
 9364261	7871844	nl	Mistelbach an der Zaya				
+11624163	7872924	nl	Sankt Leonhard am Hornerwald				
+11536438	7873190	nl	Ahorn im Mühlviertel				
 6710399	7874247	nl	Museum voor Moderne Kunst				
 8225288	7909769	nl	Munster van Ulm				
 7977092	7909807	nl	Zuid-Soedan	1			
+11514771	7910703	nl	Basiliek van Santa Maria della Salute				
 8308818	7910928	nl	Station Aix-en-Provence TGV				
 6702186	7911159	nl	Muziekinstrumentenmuseum	1			
 8223650	7931882	nl	Station Wrocław Główny				
+11568868	7932136	nl	Hamburg-Iserbrook				
+11649116	8015085	nl	Heilige Trap				
 9457525	8015423	nl	Great Britain				
+11358857	8015427	nl	Kathedraal van Bristol				
 7588956	8029781	nl	Universiteit van Sheffield				
 8290180	8030107	nl	Tokiotoren				
 8738458	8030271	nl	Akashi-Kaikyo-brug				
+11476948	8051259	nl	Internationale Luchthaven Lombok				
 6990472	8062862	nl	Onze Lieve Vrouwekerk				
 8203624	8063765	nl	Universiteit van Salamanca				
+11498368	8096494	nl	Moffett Field				
 11109040	8131483	nl	Huis van de   Wannseeconferentie				
 10643302	8133721	nl	Zagori		1		
+11542751	8150939	nl	Nationaal park Bellinger River				
+11640658	8152874	nl	Nationaal park Elsey				
 8313121	8156338	nl	Nationaal park Grampians				
+11594062	8157367	nl	Nationaal park Myall Lakes				
+11606500	8161835	nl	Nationaal park Washpool				
 8710334	8176223	nl	Universiteit van Wollongong				
 8224118	8177535	nl	Universiteit van Adelaide				
+11526043	8180312	nl	Melville-eiland				
 11331697	8181624	nl	Flughafen Berlin Brandenburg				
+11462458	8181656	nl	Universiteit van Linköping				
+11514339	8199678	nl	Tofikh Bakhramovstadion				
 7406228	8220832	nl	Bernie’s Projekt				
 7406229	8220833	nl	Bernie’s Park				
 7406230	8220834	nl	De Boer Buiten				
@@ -16299,20 +16992,37 @@
 10841006	8260050	nl	Bodegraven-Reeuwijk		1		
 11330824	8260193	nl	Universiteit van Aberdeen				
 8307548	8261885	nl	Universiteit van Antioquia				
+11468288	8285714	nl	Station Lorraine TGV				
+11474332	8285791	nl	Station Champagne-Ardenne TGV				
 8736483	8285986	nl	Station Strasbourg-Ville				
+11535668	8286246	nl	Station Tourcoing				
 8698888	8299623	nl	Orkney-eilanden				
 9374237	8299698	nl	Palazzo Medici-Riccardi				
 8315933	8299789	nl	Munster van Bazel				
 8226433	8334583	nl	Kaapstad				
 8300128	8334620	nl	Berlin-Hansaviertel				
+11428234	8334621	nl	Berlin-Falkenhagener Feld				
+11561265	8334622	nl	Berlin-Neu-Hohenschönhausen				
 8193678	8334624	nl	Berlin-Alt-Hohenschönhausen				
+11578405	8334625	nl	Berlin-Fennpfuhl				
+11653076	8335421	nl	Centraal-Delhi				
+11385802	8335423	nl	Zuid-Delhi				
+11535422	8335425	nl	Noordoost-Delhi				
+11536908	8335426	nl	Zuidwest-Delhi				
+11410037	8335427	nl	Noordwest-Delhi				
+11477149	8335458	nl	West-Delhi				
+11763774	8354411	nl	Sovjet-Unie				
 9370223	8354442	nl	Oud Korinthe				
 9389796	8354446	nl	Klooster van Osios Loukas				
 8740566	8379485	nl	Tlalnepantla				
+11559948	8383565	nl	Tempel van Bel				
 8224209	8394009	nl	Hockenheimring Baden-Württemberg				
 8292215	8394011	nl	Suzuka International Racing Course				
 8729839	8394018	nl	Circuit Magny-Cours				
+11647015	8394019	nl	Pista di Fiorano				
 9369629	8394022	nl	Stratencircuit van Adelaide				
+11463290	8394028	nl	Circuito Permanente de Jerez				
+11517591	8394029	nl	Circuit van Jacarepagua				
 8298965	8394316	nl	Unayzah				
 9330716	8410591	nl	Boog van Constantijn				
 10841036	8426240	nl	Hollands Kroon		1		
@@ -16320,11 +17030,14 @@
 9367191	8442360	nl	Kostomoeksja				
 9463397	8449910	nl	LaPorte				
 9352107	8480031	nl	Central Waterford				
+11518879	8504622	nl	Musée national du Moyen Âge				
 9338573	8504986	nl	Nissanstadion				
 8698951	8505031	nl	Tsjecho-Slowakije				
 8103223	8505032	nl	Nederlandse Antillen	1			
 11086454	8505032	nl	Nederlandsch West-Indië				1
 9802590	8519934	nl	Soewisawitapa				
+11638029	8520857	nl	Internationale luchthaven Minangkabau				
+11655046	8521444	nl	Bandar Imam Khomeini				
 9802593	8530880	nl	Oost-Carstensz Top				
 8235160	8531976	nl	Vliegveld Ameland				
 8235365	8531981	nl	Vliegveld Hilversum				
@@ -16332,29 +17045,59 @@
 8236676	8533000	nl	Vliegveld Seppe				
 10841038	8549513	nl	Goeree-Overflakkee		1		
 10841040	8555758	nl	Molenwaard		1		
+11349959	8581471	nl	Station Wien Hauptbahnhof				
 8705217	8581500	nl	Olijfberg				
+11528442	8582123	nl	Zapotlán El Grande				
 8713311	8593934	nl	Nationale Universiteit van Ierland				
+11991677	8605013	nl	Balloërveld				
+11712848	8617136	nl	Flegreïsche Eilanden				
+11644591	8643336	nl	Saint Paul				
+11578926	8658867	nl	Kasteel van Saint-Cloud				
 8791620	8740118	nl	Kerameikos				
 8791651	8740123	nl	Monastiráki				
 8791729	8740136	nl	Colonus				
+11472867	8778947	nl	Autonome Universiteit van Nuevo León				
 11328975	8830034	nl	Monash-universiteit				
+11592484	8841370	nl	Fort Sint George				
+11404298	8949708	nl	Villanders				
 9061288	8985766	nl	Forteiland	1	1		1
+11657396	8986639	nl	Kapelbrug				
+11378534	9035418	nl	Elea				
+11476185	9035534	nl	Vöran				
 9139499	9036410	nl	Nationale tuin van Athene				
 11329918	9062327	nl	Canadese Arctische Eilanden				
 11328235	9062340	nl	Celebes				
 11329790	9062342	nl	Albanese Alpen				
 11326221	9165838	nl	Batoemi				
+11652359	9166252	nl	Universiteit van Dar es Salaam				
+11338912	9199767	nl	Universiteit van de Witwatersrand				
+11485461	9199768	nl	Universiteit van Zuid-Afrika				
 9528670	9253668	nl	Nationaal Geografisch Instituut (NGI)				
+11375941	9281111	nl	Prins Edwardeilanden				
+11802216	9408659	nl	West-Europa				
+11380992	9410034	nl	Städel Museum				
+11502192	9412194	nl	Nokcultuur				
+11381423	9533872	nl	Ray				
 9857321	9534269	nl	Merengletscher				
 9857535	9534488	nl	Platen Spitsen				
 10003264	9645465	nl	Kanaal Plassendale Nieuwpoort				
 11320951	9675434	nl	Witte Huis				
+11416143	9682657	nl	Nova Southeastern-universiteit				
+11488537	9795645	nl	Dai autonome prefectuur Xishuangbanna				
+11572116	9827997	nl	Pruitt–Igoe				
 11332096	9855410	nl	Groot-Zimbabwe				
+11474788	9863470	nl	LVR-LandesMuseum Bonn				
 10261759	9883605	nl	Bunt				1
 10261767	9883606	nl	Essenhoek	1			
+11606311	9960118	nl	Piramide van de zon				
+11348107	9986360	nl	Sardis				
+11342009	10124006	nl	Chulalongkorn-universiteit				
+11490060	10174613	nl	Koninklijke Opera				
+11428669	10227186	nl	Ax-3 Domaines				
 11321911	10255490	nl	Jad Wasjem				
 10772087	10278603	nl	De Mercado Central van Valencia				
 10841034	10287303	nl	De Friese Meren		1		
+11806618	10287303	nl	De Fryske Marren				
 11108467	10341415	nl	Universiteit Daugavpils				
 10862471	10349653	nl	Dordrecht				
 10862472	10349654	nl	Dorpsgemeente				
@@ -16433,3 +17176,16 @@
 11093652	10794269	nl	Zandvlietse Hoek				
 11108533	10860686	nl	Kerk van de Onbevlekte Ontvangenis				
 11169257	10942907	nl	Groot-Stockholm				
+11710930	11126251	nl	Luchthaven Sint-Helena				
+11733082	11131850	nl	Oude IJssel				
+11802168	11184923	nl	Lampersari Sompok				1
+11802169	11184923	nl	Lampersari				1
+11802212	11184993	nl	Kamp Westerbork				
+11802660	11185527	nl	Kamp Sint-Michielsgestel				1
+12132483	11395591	nl	Egidiuskerk				
+12132493	11395593	nl	Basiliek van Sint-Clemens				
+12132555	11395635	nl	Petruskerk				
+12133376	11395782	nl	buurt Dansaert				
+12133382	11395785	nl	buurt Louise				
+12133386	11395788	nl	buurt Sablon				
+12133390	11395790	nl	Koningklijke Sint-Hubertusgalerijen				
