@@ -2,30 +2,30 @@
   <header class="row">
     <div class="large-12 columns">
       <p><%= link_to '← Terug naar de vervaardigerspagina', artist_path(@artist)%></p>
-      <h1>RKD koppeling voor <%= @artist.name %></h1>
+      <h1>Mogelijke RKD koppelingen voor <%= @artist.name %></h1>
+      <p>Huidige vermelding in de QKunst database</p>
+        <%= render @artist%>
     </div>
 
   </header>
 
-  <div class="row">
-    <% if @artist.rkd_artist %>
-      <p>Deze kunstenaar is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
-      <%= render @artist.rkd_artist %>
-    <% end %>
-  </div>
-
+  <% if @artist.rkd_artist %>
+    <p>Deze kunstenaar is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
+    <%= render @artist.rkd_artist %>
+  <% end %>
+  <h3>Zoek naar records</h3>
   <form action="<%=artist_rkd_artists_path(@artist)%>" method="get">
     <input type="search" name="q" value="<%=@q%>" />
   </form>
+  <h4>Resultaten</h4>
+  <p>Klik op 'koppel' om een RKDartist-vermelding te koppelen aan een vervaardiger in de QKunst collectiebeheer vervaardigers-database, klik op de naam om details te bekijken van de vermelding in het RKD.</p>
 
   <% case @rkd_artists.count %>
   <% when 0 %>
     <p>Deze vervaardiger kon niet worden gevonden in de RKDartists&amp;-database.</p>
   <% when 1 %>
-    <p>Deze vervaardiger matcht met het volgende record in de RKDartists&amp;-database (maar is nog niet gekoppeld)</p>
     <%= render @rkd_artists %>
   <% else %>
-    <p>Deze vervaardiger kon niet gekoppeld worden aan één kunstenaar in RKDartists&amp;-database.</p>
     <%= render @rkd_artists %>
   <% end %>
 </div>

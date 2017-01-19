@@ -1,5 +1,5 @@
 class GeonamesAdmindiv < ApplicationRecord
-  has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: 'GeonameTranslation'
+  has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: 'GeonameTranslation'
 
   scope :netherlands, -> { where("geonames_admindivs.admin_code LIKE 'NL%'")}
 
@@ -58,7 +58,19 @@ class GeonamesAdmindiv < ApplicationRecord
 
   class << self
     def find_or_create_corresponding_geoname_summary
-      self.all.each{|a| a.find_or_create_corresponding_geoname_summary}
+      self.transaction do
+        self.all.each{|a| a.find_or_create_corresponding_geoname_summary}
+      end
+    end
+    def import!
+      self.delete_all
+      self.transaction do
+        File.open('data/admin1CodesASCII.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 1) }
+      end
+      self.transaction do
+        File.open('data/admin2Codes.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 2) }
+      end
+      self.find_or_create_corresponding_geoname_summary
     end
   end
 end

@@ -101,5 +101,6 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-jquery', '~>2.2'
   gem 'rails-assets-chosen'
   gem 'rails-assets-select2'
+  gem 'rails-assets-fetch'
   gem 'rails-assets-morphdom'
 end

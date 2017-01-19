@@ -15,17 +15,17 @@
 
   <div class="row">
     <div class="large-offset-2 large-5 columns">
+      <%= f.select :place_of_birth_geoname_id, { @artist.place_of_birth_geoname_name => @artist.place_of_birth_geoname_id}, {}, class: 'select2 ajax' %>
       <%= f.input :place_of_birth, required: false  %>
       <%= f.input :year_of_birth, as: :integer, required: false  %>
     </div>
     <div class="large-5 columns end">
+      <%= f.select :place_of_death_geoname_id, { @artist.place_of_death_geoname_name => @artist.place_of_death_geoname_id}, {}, class: 'select2 ajax' %>
+
       <%= f.input :place_of_death, required: false  %>
       <%= f.input :year_of_death, as: :integer, required: false  %>
     </div>
   </div>
-  <!-- <h2>Opleiding</h2>
-  <% %>
-  <%= f.input :artist_involvements, collection: Involvement.educational %> -->
 
   <div class="actions">
     <%= f.submit class: :button %>

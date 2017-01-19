@@ -41,6 +41,10 @@ module NameId
       return rv
     end
 
+    def to_sentence
+      self.all.collect(&:name).to_sentence
+    end
+
     def to_sym
       self.to_s.downcase.to_sym
     end

@@ -32,5 +32,24 @@ class Geoname < ApplicationRecord
     def find_or_create_corresponding_geoname_summary
       self.all.each{|a| a.find_or_create_corresponding_geoname_summary}
     end
+    def import!
+      self.delete_all
+      self.transaction do
+        File.open('data/NL.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| Geoname.create(geonameid: a[0], name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18]) }
+      end
+      self.transaction do
+        File.open('data/cities5000.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| gn = Geoname.where(geonameid: a[0]).first_or_initialize; gn.update_attributes(name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18]); gn.save }
+      end
+      self.transaction do
+        self.find_or_create_corresponding_geoname_summary
+      end
+    end
+
+    def import_all!
+      GeonameTranslation.import!
+      GeonamesAdmindiv.import!
+      GeonamesCountry.import!
+      self.import!
+    end
   end
 end

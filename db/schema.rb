@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116163348) do
+ActiveRecord::Schema.define(version: 20170118162134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,13 +31,15 @@ ActiveRecord::Schema.define(version: 20170116163348) do
     t.integer  "year_of_birth"
     t.integer  "year_of_death"
     t.text     "description"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "first_name"
     t.string   "prefix"
     t.string   "last_name"
     t.integer  "import_collection_id"
     t.integer  "rkd_artist_id"
+    t.integer  "place_of_death_geoname_id"
+    t.integer  "place_of_birth_geoname_id"
   end
 
   create_table "artists_works", force: :cascade do |t|
@@ -150,6 +152,8 @@ ActiveRecord::Schema.define(version: 20170116163348) do
     t.string   "type_code"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["geoname_id", "language"], name: "index_geoname_summaries_on_geoname_id_and_language", using: :btree
+    t.index ["geoname_id"], name: "index_geoname_summaries_on_geoname_id", using: :btree
   end
 
   create_table "geoname_translations", force: :cascade do |t|
@@ -160,6 +164,7 @@ ActiveRecord::Schema.define(version: 20170116163348) do
     t.integer  "priority"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.index ["geoname_id"], name: "index_geoname_translations_on_geoname_id", using: :btree
   end
 
   create_table "geonames", force: :cascade do |t|
@@ -194,6 +199,7 @@ ActiveRecord::Schema.define(version: 20170116163348) do
     t.integer  "admin_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["admin_code"], name: "index_geonames_admindivs_on_admin_code", using: :btree
   end
 
   create_table "geonames_countries", force: :cascade do |t|

@@ -192,6 +192,7 @@ GEM
       sprockets-rails (>= 2.0.0)
     rails-assets-chosen (1.6.2)
       rails-assets-jquery (>= 1.4.4)
+    rails-assets-fetch (2.0.1)
     rails-assets-jquery (2.2.4)
     rails-assets-morphdom (2.3.1)
     rails-assets-select2 (4.0.3)
@@ -331,6 +332,7 @@ DEPENDENCIES
   rack-offline!
   rails
   rails-assets-chosen!
+  rails-assets-fetch!
   rails-assets-jquery (~> 2.2)!
   rails-assets-morphdom!
   rails-assets-select2!

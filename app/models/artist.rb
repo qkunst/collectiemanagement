@@ -4,6 +4,8 @@ class Artist < ApplicationRecord
   has_and_belongs_to_many :works
   belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id
   has_many :involvements, through: :artist_involvement
+  has_many :techniques, through: :works
+  has_many :subsets, through: :works
   after_save :touch_works
   belongs_to :import_collection
 
@@ -53,6 +55,16 @@ class Artist < ApplicationRecord
 
   def born?
     place_of_birth? or year_of_birth?
+  end
+
+  def place_of_birth_geoname_name
+    gs = GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first
+    return "#{gs.name} (#{gs.parent_description})" if gs
+  end
+
+  def place_of_death_geoname_name
+    gs = GeonameSummary.where(geoname_id: place_of_death_geoname_id).first
+    return "#{gs.name} (#{gs.parent_description})" if gs
   end
 
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})

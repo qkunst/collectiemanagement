@@ -1,0 +1,80 @@
+var CACHE = 'cache-and-update';
+self.addEventListener('install', function(evt) {
+  console.log('The service worker is being installed.');
+  evt.waitUntil(precache());
+});
+
+self.addEventListener('fetch', function(evt) {
+  console.log('The service worker is serving the asset.');
+  evt.respondWith(fromCache(evt.request));
+  evt.waitUntil(update(evt.request));
+});
+
+self.addEventListener('beforeSend', function(evt) {
+  console.log('The service worker is serving the asset.');
+  evt.respondWith(fromCache(evt.request));
+  evt.waitUntil(update(evt.request));
+});
+
+
+
+function precache() {
+  return caches.open(CACHE).then(function (cache) {
+    return cache.addAll([
+      './geoname_summaries.json',
+      // './asset'
+    ]);
+  });
+}
+
+function fromCache(request) {
+  return caches.open(CACHE).then(function (cache) {
+    return cache.match(request).then(function (matching) {
+      return matching || Promise.reject('no-match');
+    });
+  });
+}
+
+function update(request) {
+  return caches.open(CACHE).then(function (cache) {
+    return fetch(request).then(function (response) {
+      return cache.put(request, response);
+    });
+  });
+}
+
+//
+// this.addEventListener('install', function(event) {
+//   event.waitUntil(
+//     caches.open('v1').then(function(cache) {
+//
+//       return cache.addAll([
+//         '/',
+//         '/collections',
+//         '/geoname_summaries.json',
+//
+//       <% Collection.all.each do |collection| %>
+//         '<%= "/collections/#{collection.to_param}" %>',
+//         '<%= "/collections/#{collection.to_param}/works" %>',
+//         '<%= "/collections/#{collection.to_param}/works/new" %>',
+//         '<%= "/collections/#{collection.to_param}/works" %>',
+//       <% end %>
+//       ]);
+//     })
+//   );
+// });
+//
+// this.addEventListener('fetch', function(event) {
+//   var response;
+//   event.respondWith(caches.match(event.request).catch(function() {
+//     return fetch(event.request);
+//   }).then(function(r) {
+//     response = r;
+//     caches.open('v1').then(function(cache) {
+//       cache.put(event.request, response);
+//     });
+//     return response.clone();
+//   }).catch(function() {
+//     return caches.match('/sw-test/gallery/myLittleVader.jpg');
+//   }));
+// });

@@ -16,9 +16,10 @@
 //  require jquery.turbolinks
 //= require foundation
 //= require chosen
+//= require fetch
 //= require select2
 //= require jquery_nested_form
-//= require_tree .
+//= require_directory .
 
 var collectieBeheerInit = function() {
   FormStore.init();
@@ -36,7 +37,6 @@ var collectieBeheerInit = function() {
   }
 
   $(".select2").select2().on('select2:select', function(e){
-    console.log(e);
     $selectedElement = $(e.params.data.element);
     $selectedElementOptgroup = $selectedElement.parent("optgroup");
     if ($selectedElementOptgroup.length > 0) {
@@ -47,6 +47,7 @@ var collectieBeheerInit = function() {
   }).on('select2:unselect', function(e){
 
   });
+
 
   $(".select2.ajax").select2({
     placeholder: "Type een lokaliteit...",
@@ -62,6 +63,16 @@ var collectieBeheerInit = function() {
       url: "/geoname_summaries.json",
       dataType: 'json',
       delay: 250,
+      method: 'get',
+      transport: function (params, success, failure) {
+        fetch(params.url, params)
+          .then(function(response) {
+            return success(response);
+          })
+          .catch(function(error) {
+            return failure(error);
+          });
+      },
       data: function (params) {
         return {
           // q: params.term, // search term
@@ -131,6 +142,7 @@ var collectieBeheerInit = function() {
     return false;
   });
 
+
   $(document).foundation();
 }
 
@@ -146,6 +158,17 @@ $(document).on("click keydown", "button[method=post]", function(e) {
   var form = $(e.target).parents("form[data-auto-submit=true]");
   form.attr("method","post")
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', {scope: '/'})
+  .then(function(reg) {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
 
 // f = FormStore.Form.parseForm(document.forms[0])
 // f.submitForm()

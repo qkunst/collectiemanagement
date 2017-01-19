@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-  before_action :authenticate_activated_user!, except: [:heartbeat, :home]
+  protect_from_forgery with: :exception, except: [:service_worker]
+  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries]
   # before_action :authenticate_qkunst_user!, except: [:heartbeat, :home]
   before_action :offline?
   before_action :show_hidden
@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   end
 
   def geoname_summaries
+    response.headers["Cache-Control"] = "public"
+    response.headers["Pragma"] = "cache"
+    response.headers["Expires"] = (Time.now+1.week).rfc822
+
     render json: GeonameSummary.selectable.to_array.to_json
   end
 
@@ -24,6 +28,10 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
+
+  end
+
+  def service_worker
 
   end
 

@@ -14,9 +14,9 @@ Files :
 -------
 XX.zip                   : features for country with iso code XX, see 'geoname' table for columns
 allCountries.zip         : all countries combined in one file, see 'geoname' table for columns
-cities1000.zip           : all cities with a population > 1000 or seats of adm div (ca 80.000), see 'geoname' table for columns
-cities5000.zip           : all cities with a population > 5000 or PPLA (ca 40.000), see 'geoname' table for columns
-cities15000.zip          : all cities with a population > 15000 or capitals (ca 20.000), see 'geoname' table for columns
+cities1000.zip           : all cities with a population > 1000 or seats of adm div (ca 150.000), see 'geoname' table for columns
+cities5000.zip           : all cities with a population > 5000 or PPLA (ca 50.000), see 'geoname' table for columns
+cities15000.zip          : all cities with a population > 15000 or capitals (ca 25.000), see 'geoname' table for columns
 alternateNames.zip       : two files, alternate names with language codes and geonameId, file with iso language codes
 admin1CodesASCII.txt     : ascii names of admin divisions. (beta > http://forum.geonames.org/gforum/posts/list/208.page#1143)
 admin2Codes.txt          : names for administrative subdivision 'admin2 code' (UTF8), Format : concatenated codes <tab>name <tab> asciiname <tab> geonameId
@@ -55,13 +55,13 @@ admin4 code       : code for fourth level administrative division, varchar(20)
 population        : bigint (8 byte int) 
 elevation         : in meters, integer
 dem               : digital elevation model, srtm3 or gtopo30, average elevation of 3''x3'' (ca 90mx90m) or 30''x30'' (ca 900mx900m) area in meters, integer. srtm processed by cgiar/ciat.
-timezone          : the timezone id (see file timeZone.txt) varchar(40)
+timezone          : the iana timezone id (see file timeZone.txt) varchar(40)
 modification date : date of last modification in yyyy-MM-dd format
 
 
 AdminCodes:
-Most adm1 are FIPS codes. ISO codes are used for US, CH, BE and ME. UK and Greece are using an additional level between country and fips code. The code '00' stands for general features 
-where no specific adm1 code is defined.
+Most adm1 are FIPS codes. ISO codes are used for US, CH, BE and ME. UK and Greece are using an additional level between country and fips code. The code '00' stands for general features where no specific adm1 code is defined.
+The corresponding admin feature is found with the same countrycode and adminX codes and the respective feature code ADMx.
 
 
 
@@ -70,7 +70,7 @@ The table 'alternate names' :
 alternateNameId   : the id of this alternate name, int
 geonameid         : geonameId referring to id in table 'geoname', int
 isolanguage       : iso 639 language code 2- or 3-characters; 4-characters 'post' for postal codes and 'iata','icao' and faac for airport codes, fr_1793 for French Revolution names,  abbr for abbreviation, link for a website, varchar(7)
-alternate name    : alternate name or name variant, varchar(200)
+alternate name    : alternate name or name variant, varchar(400)
 isPreferredName   : '1', if this alternate name is an official/preferred name
 isShortName       : '1', if this is a short name like 'California' for 'State of California'
 isColloquial      : '1', if this alternate name is a colloquial or slang term
@@ -80,6 +80,17 @@ Remark : the field 'alternatenames' in the table 'geoname' is a short version of
 If you don't need to know the language of a name variant, the field 'alternatenames' will be sufficient. If you need to know the language
 of a name variant, then you will need to load the table 'alternatenames' and you can drop the column in the geoname table.
 
+
+
+
+Boundaries:
+Simplified country boundaries are available in two slightly different formats:
+shapes_simplified_low:
+geonameId: 	The geonameId of the feature
+geoJson:	The boundary in geoJson format
+
+shapes_simplified_low.json:
+similar to the abovementioned file, but fully in geojson format. The geonameId is a feature property in the geojson string.
 
 
 Statistics on the number of features per country and the feature class and code distributions : http://www.geonames.org/statistics/ 
@@ -93,6 +104,18 @@ NA : North America		geonameId=6255149
 OC : Oceania			geonameId=6255151
 SA : South America		geonameId=6255150
 AN : Antarctica			geonameId=6255152
+
+
+feature classes:
+A: country, state, region,...
+H: stream, lake, ...
+L: parks,area, ...
+P: city, village,...
+R: road, railroad 
+S: spot, building, farm
+T: mountain,hill,rock,... 
+U: undersea
+V: forest,heath,...
 
 
 If you find errors or miss important places, please do use the wiki-style edit interface on our website 

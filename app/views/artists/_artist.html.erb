@@ -1,13 +1,12 @@
-<article class="rkd_artist">
+<article class="artist">
   <header>
     <h4><%= link_to artist do %><%= artist.name %><% end %></h4>
-  </header>
-    <% if artist.born? %>
-      <dt>Geboren:</dt>
-      <dd><%= artist.place_of_birth %> (<%=artist.year_of_birth%>)
+    <p><% if artist.born? %>
+      <%= artist.place_of_birth %> (<%=artist.year_of_birth%>) -
     <% end %>
     <% if artist.died? %>
-      <dt>Gestorven:</dt>
-      <dd><%=  artist.place_of_death %> (<%=artist.year_of_death%>)
-    <% end %>
+      <%=  artist.place_of_death %> (<%=artist.year_of_death%>)
+    <% end %></p>
+    <p>Technieken: <%= artist.techniques.to_sentence %>; Deelcollecties: <%= artist.subsets.to_sentence %></p>
+  </header>
 </article>
