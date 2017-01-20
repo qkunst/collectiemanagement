@@ -33,6 +33,7 @@ class GeonamesCountry < ApplicationRecord
     end
     def import!
       self.delete_all
+      puts "Importing countries..."
       self.transaction do
         File.open('data/countryInfo.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesCountry.create(
           iso: a[0],

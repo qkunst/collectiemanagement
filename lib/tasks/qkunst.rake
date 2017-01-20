@@ -4,6 +4,12 @@ namespace :qkunst do
     Work.reindex!
   end
 
+  desc "Import Geonames data"
+  task geonames_import: :environment do
+    Geonames.import_all!
+    puts "Done!"
+  end
+
   desc "Doe de schoonmaak"
   task rinse_and_clean: :environment do
     Cluster.remove_all_without_works

@@ -64,9 +64,11 @@ class GeonamesAdmindiv < ApplicationRecord
     end
     def import!
       self.delete_all
+      puts "Importing admin1 areas..."
       self.transaction do
         File.open('data/admin1CodesASCII.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 1) }
       end
+      puts "Importing admin2 areas..."
       self.transaction do
         File.open('data/admin2Codes.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 2) }
       end
