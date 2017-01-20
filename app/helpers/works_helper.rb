@@ -3,6 +3,7 @@ module WorksHelper
   def filter_checkboxes hash, field_name, base_scope = [:activerecord,:values,:work], reference = @selection_filter, options={}
 
     return "Geen verfijning mogelijk" if hash.nil?
+    return "Niet van toepassing" if hash.count == 1
     options = { render_count: false }.merge(options)
     str = ""
     i18n_scope = base_scope << field_name.to_sym

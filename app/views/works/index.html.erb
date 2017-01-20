@@ -32,16 +32,7 @@
     <div class="large-7 columns">
       <div class="right hide-for-print" id="group_sort_display">
         <% unless current_user.read_only? %>
-          <label>Groepeer: <%= select_tag :group, options_for_select({
-            "Niet"=>:no_grouping,
-            "Cluster"=>:cluster,
-            "Deelcollectie"=>:subset,
-            "Herkomst"=>:sources,
-            "Niveau"=>:grade_within_collection,
-            "Plaatsbaarheid"=>:placeability,
-            "Techniek"=>:techniques,
-            "Thema"=>:themes,
-          }, @selection[:group]), data: {auto_submit: true}  %></label>
+          <label>Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
         <% end %>
         <label>Sorteer: <%= select_tag :sort, options_for_select({
           "Inventarisnummer"=>:stock_number,
@@ -73,8 +64,10 @@
         <h5>Deelcollectie</h5>
         <%= filter_checkboxes(@aggregations[:subset], "subset_id") %>
 
-        <h5>Herkomst</h5>
-        <%= filter_checkboxes(@aggregations[:sources], "sources.id") %>
+        <% if current_user.can_filter_and_group?(:sources) %>
+          <h5>Herkomst</h5>
+          <%= filter_checkboxes(@aggregations[:sources], "sources.id") %>
+        <% end %>
 
         <h5>Niveau</h5>
         <%= filter_checkboxes(@aggregations[:grade_within_collection], "grade_within_collection") %>
@@ -82,9 +75,10 @@
         <h5>Plaatsbaarheid</h5>
         <%= filter_checkboxes(@aggregations[:placeability], "placeability_id") %>
 
-        <h5>Techniek</h5>
-        <%= filter_checkboxes(@aggregations[:techniques], "techniques.id") %>
-
+        <% if current_user.can_filter_and_group?(:techniques) %>
+          <h5>Techniek</h5>
+          <%= filter_checkboxes(@aggregations[:techniques], "techniques.id") %>
+        <% end %>
       <% end %>
       <hr/>
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>

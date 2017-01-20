@@ -95,6 +95,13 @@ class User < ApplicationRecord
     admin? or facility_manager?
   end
 
+  def can_filter_and_group?( grouping )
+    return true if grouping == :themes
+    return false if read_only?
+    return false if [:techniques, :sources].include?(grouping) and facility_manager?
+    return true
+  end
+
   def can_access_extended_report?
     qkunst?
   end
