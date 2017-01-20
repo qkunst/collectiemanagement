@@ -111,7 +111,7 @@ nl:
           e: E
           f: F
           g: G
-          not_set: Onbekend
+          not_set: Niet van toepassing
         object_format_code:
           xxs: XXS
           xs: XS

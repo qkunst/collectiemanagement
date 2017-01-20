@@ -22,6 +22,21 @@ class WorksController < ApplicationController
     @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
     @selection_display_options["Compleet"] = :complete unless current_user.read_only?
 
+    proto_selection_group_options = {
+      "Niet"=>:no_grouping,
+      "Cluster"=>:cluster,
+      "Deelcollectie"=>:subset,
+      "Herkomst"=>:sources,
+      "Niveau"=>:grade_within_collection,
+      "Plaatsbaarheid"=>:placeability,
+      "Techniek"=>:techniques,
+      "Thema"=>:themes,
+    }
+    @selection_group_options = {}
+    proto_selection_group_options.each do |k,v|
+      @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
+    end
+
     update_current_user_with_params
 
     prepare_batch_editor_selection
