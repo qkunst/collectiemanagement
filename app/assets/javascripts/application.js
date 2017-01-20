@@ -63,15 +63,14 @@ var collectieBeheerInit = function() {
       url: "/geoname_summaries.json",
       dataType: 'json',
       delay: 250,
-      method: 'get',
       transport: function (params, success, failure) {
-        fetch(params.url, params)
-          .then(function(response) {
-            return success(response);
-          })
-          .catch(function(error) {
-            return failure(error);
-          });
+        fetch(params.url).then(function(response) {
+          return response.json();
+        }).then(function(response) {
+          return success(response);
+        }).catch(function(error) {
+          return failure(error);
+        });
       },
       data: function (params) {
         return {
@@ -158,17 +157,17 @@ $(document).on("click keydown", "button[method=post]", function(e) {
   var form = $(e.target).parents("form[data-auto-submit=true]");
   form.attr("method","post")
 });
-//
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('/sw.js', {scope: '/'})
-//   .then(function(reg) {
-//     // registration worked
-//     console.log('Registration succeeded. Scope is ' + reg.scope);
-//   }).catch(function(error) {
-//     // registration failed
-//     console.log('Registration failed with ' + error);
-//   });
-// }
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js', {scope: '/'})
+  .then(function(reg) {
+    // registration worked
+    console.log('Registration succeeded. Scope is ' + reg.scope);
+  }).catch(function(error) {
+    // registration failed
+    console.log('Registration failed with ' + error);
+  });
+}
 
 // f = FormStore.Form.parseForm(document.forms[0])
 // f.submitForm()

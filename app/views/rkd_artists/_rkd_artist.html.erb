@@ -10,7 +10,6 @@
         <%= button_to 'Ontkoppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
       <% else %>
         <%= button_to 'Koppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
-
       <% end %>
     </ul>
   </nav>

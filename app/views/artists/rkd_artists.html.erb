@@ -2,23 +2,20 @@
   <header class="row">
     <div class="large-12 columns">
       <p><%= link_to '← Terug naar de vervaardigerspagina', artist_path(@artist)%></p>
-      <h1>Mogelijke RKD koppelingen voor <%= @artist.name %></h1>
-      <p>Huidige vermelding in de QKunst database</p>
-        <%= render @artist%>
+      <h1>Mogelijke RKD koppelingen voor <%= link_to @artist.name, @artist %></h1>
     </div>
 
   </header>
-
-  <% if @artist.rkd_artist %>
-    <p>Deze kunstenaar is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
-    <%= render @artist.rkd_artist %>
-  <% end %>
-  <h3>Zoek naar records</h3>
+  <div class="row">
+    <div class="medium-9 columns">
+  <p>Zoek naar mogelijke overeenkomende vervaardigers in RKDartists&amp;. Klik op 'koppel' om een RKDartist-vermelding te koppelen aan een vervaardiger in de QKunst collectiebeheer vervaardigers-database, klik op de naam om details te bekijken van de vermelding in het RKD.</p>
   <form action="<%=artist_rkd_artists_path(@artist)%>" method="get">
-    <input type="search" name="q" value="<%=@q%>" />
+    <div class="row">
+      <div class="medium-10 columns"><input type="search" name="q" value="<%=@q%>" /></div>
+      <div class="medium-2 columns"><input type="submit" value="Zoek" class="button expanded" /></div>
+    </div>
   </form>
   <h4>Resultaten</h4>
-  <p>Klik op 'koppel' om een RKDartist-vermelding te koppelen aan een vervaardiger in de QKunst collectiebeheer vervaardigers-database, klik op de naam om details te bekijken van de vermelding in het RKD.</p>
 
   <% case @rkd_artists.count %>
   <% when 0 %>
@@ -28,4 +25,14 @@
   <% else %>
     <%= render @rkd_artists %>
   <% end %>
+    </div>
+
+    <aside class="medium-3 columns">
+      <% if @artist.rkd_artist %>
+        <p>Deze kunstenaar is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
+        <%= render @artist.rkd_artist %>
+        <hr />
+      <% end %>
+    </aside>
+    </div>
 </div>
