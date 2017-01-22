@@ -10,7 +10,8 @@ self.addEventListener('fetch', function(evt) {
   if (evt.respondWith) {
     if (CACHE_TYPES.map(function(a){ return (evt.request.url.endsWith(a) || evt.request.url.endsWith(a+'?body=1')) }).includes(true)) {
       console.log('The service worker is serving the asset: '+evt.request.url);
-      evt.respondWith(fromCache(evt.request))
+      evt.respondWith(fromCache(evt.request));
+      evt.waitUntil(update(evt.request));
     }
   }
 });

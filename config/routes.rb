@@ -37,9 +37,9 @@ Rails.application.routes.draw do
 
     settings "prefer-online"
 
-    action_view = ActionView::Base.new
-    action_view.stylesheet_link_tag("application").split("\n").collect{|a|          cache a.match(/href=\"(.*)\"/)[1] }
-    action_view.javascript_include_tag("application").split("\n").collect{|a|       cache a.match(/src=\"(.*)\"/)[1] }
+    # action_view = ActionView::Base.new
+    # action_view.stylesheet_link_tag("application").split("\n").collect{|a|          cache a.match(/href=\"(.*)\"/)[1] }
+    # action_view.javascript_include_tag("application").split("\n").collect{|a|       cache a.match(/src=\"(.*)\"/)[1] }
 
     network "/heartbeat"
     network "/uploads/work"

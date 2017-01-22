@@ -60,10 +60,10 @@
             <% end%>
             <% if current_user && current_user.qkunst? %>
               <li id="online-statuses">
-                <a href="/debug-offline?offline=offline" class="online-status" id="online-status-offline" title="onlinestatus: offline"></a>
-                <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-offline-page-online" title="onlinestatus: offline"></a>
-                <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-uncertain" title="onlinestatus: onduidelijk"></a>
-                <a href="/debug-offline?offline=offline"  class="online-status" id="online-status-online" title="onlinestatus: online"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-offline" title="onlinestatus: offline"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-offline-page-online" title="onlinestatus: offline"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-uncertain" title="onlinestatus: onduidelijk"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-online" title="onlinestatus: online"></a>
               </li>
             <% end %>
           </ul>
