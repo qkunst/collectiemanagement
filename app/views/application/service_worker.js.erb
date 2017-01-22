@@ -1,24 +1,24 @@
 var CACHE = 'cache-and-update';
+var CACHE_TYPES = ['.json', '.js', '.css', '.svg']
+
 self.addEventListener('install', function(evt) {
   console.log('The service worker is being installed.');
   evt.waitUntil(precache());
 });
 
 self.addEventListener('fetch', function(evt) {
-  console.log('The service worker is serving the asset.');
-  // console.log(evt)
-  console.log(evt.request.url);
   if (evt.respondWith) {
-    evt.respondWith(fromCache(evt.request))
+    if (CACHE_TYPES.map(function(a){ return (evt.request.url.endsWith(a) || evt.request.url.endsWith(a+'?body=1')) }).includes(true)) {
+      console.log('The service worker is serving the asset: '+evt.request.url);
+      evt.respondWith(fromCache(evt.request))
+    }
   }
-  // evt.waitUntil(update(evt.request));
 });
 
 function precache() {
   return caches.open(CACHE).then(function (cache) {
     return cache.addAll([
       './geoname_summaries.json',
-      // './asset'
     ]);
   });
 }
