@@ -1,25 +1,69 @@
-var CACHE = 'cache-and-update';
-var CACHE_TYPES = ['.json', '.js', '.css', '.svg']
+var CACHE = "sw-cache";
+var CACHE_TYPES = [".json", ".js", ".css", ".svg"];
 
-self.addEventListener('install', function(evt) {
-  console.log('The service worker is being installed.');
+self.addEventListener("install", function(evt) {
+
+  console.log("The service worker is being installed.");
+
   evt.waitUntil(precache());
 });
 
-self.addEventListener('fetch', function(evt) {
+self.addEventListener("fetch", function(evt) {
+  // console.log(evt);
   if (evt.respondWith) {
-    if (CACHE_TYPES.map(function(a){ return (evt.request.url.endsWith(a) || evt.request.url.endsWith(a+'?body=1')) }).includes(true)) {
-      console.log('The service worker is serving the asset: '+evt.request.url);
+    var serveCachedAsset = CACHE_TYPES.map(function(a){
+      return evt.request.url.endsWith(a) || evt.request.url.endsWith(a+"?body=1");
+      }).includes(true);
+
+    if (serveCachedAsset) {
+      console.log("The service worker is serving the asset: "+evt.request.url);
       evt.respondWith(fromCache(evt.request));
       evt.waitUntil(update(evt.request));
     }
-  }
+    // else {
+//       var request = evt.request;
+//       var path = request.url.split("//")[1].split("/").slice(1,1000).join("/");
+//       console.log(path);
+//
+//       if (request.method === "GET" && path != "heartbeat") {
+//         evt.respondWith(
+//           fetch(request).then(function(response){
+//             caches.open(CACHE).then(function(cache) {
+//               cache.put(request, response);
+//             });
+//             return response;
+//           }).catch(function(error){
+//             console.log("[onfetch] Failed. Serving cached version" + error);
+//             var collectionId = path.match(/collections\/(\d+)/i);
+//             collectionId = collectionId ? collectionId[1] : null;
+//             var workId = path.match(/works\/([\da-z]+)/i);
+//             workId = workId ? workId[1] : null;
+//
+//             return caches.open(CACHE).then(function(cache){
+//               if (path == "collections") {
+//                 return cache.match("collections");
+//               } else if (workId == "new") {
+//                 return cache.match("offline/work_form");
+//               } else if (collectionId) {
+//                 return cache.match("offline/collection");
+//               } else {
+//                 return cache.match("offline/offline");
+//               }
+//             });
+//           })
+//         );
+//       }
+//     }
+  };
 });
 
 function precache() {
   return caches.open(CACHE).then(function (cache) {
     return cache.addAll([
-      './geoname_summaries.json',
+      "./offline/offline",
+      "./geoname_summaries.json",
+      "./offline/work_form",
+      "./offline/collection"
     ]);
   });
 }
@@ -37,7 +81,7 @@ function fromNetwork(request, timeout) {
 function fromCache(request) {
   return caches.open(CACHE).then(function (cache) {
     return cache.match(request).then(function (matching) {
-      return matching || Promise.reject('no-match');
+      return matching || Promise.reject("no-match");
     }).catch(function() {
       return fromNetwork(request, 10000)
     });
@@ -51,39 +95,3 @@ function update(request) {
     });
   });
 }
-
-//
-// this.addEventListener('install', function(event) {
-//   event.waitUntil(
-//     caches.open('v1').then(function(cache) {
-//
-//       return cache.addAll([
-//         '/',
-//         '/collections',
-//         '/geoname_summaries.json',
-//
-//       <% Collection.all.each do |collection| %>
-//         '<%= "/collections/#{collection.to_param}" %>',
-//         '<%= "/collections/#{collection.to_param}/works" %>',
-//         '<%= "/collections/#{collection.to_param}/works/new" %>',
-//         '<%= "/collections/#{collection.to_param}/works" %>',
-//       <% end %>
-//       ]);
-//     })
-//   );
-// });
-//
-// this.addEventListener('fetch', function(event) {
-//   var response;
-//   event.respondWith(caches.match(event.request).catch(function() {
-//     return fetch(event.request);
-//   }).then(function(r) {
-//     response = r;
-//     caches.open('v1').then(function(cache) {
-//       cache.put(event.request, response);
-//     });
-//     return response.clone();
-//   }).catch(function() {
-//     return caches.match('/sw-test/gallery/myLittleVader.jpg');
-//   }));
-// });

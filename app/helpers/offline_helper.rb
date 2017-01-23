@@ -1,0 +1,2 @@
+module OfflineHelper
+end

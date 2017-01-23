@@ -2,6 +2,14 @@
 Rails.application.routes.draw do
 
 
+  get 'offline/work_form'
+
+  get 'offline/offline'
+
+  get 'offline/collections'
+
+  get 'offline/collection'
+
   namespace :api do
     namespace :v1 do
       resources :collections, only: [] do
