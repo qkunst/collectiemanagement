@@ -61,6 +61,10 @@
         <% if current_user.can_filter_and_group?(:sources) %>
           <h5>Herkomst</h5>
           <%= filter_checkboxes(@aggregations[:sources], "sources.id") %>
+          <h5>Localiteit</h5>
+          <% if @collection.expose?(:locality_geoname_id) %>
+            <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), multiple: true, class: 'select2'%>
+          <% end %>
         <% end %>
 
         <h5>Niveau</h5>

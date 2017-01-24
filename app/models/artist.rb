@@ -31,6 +31,20 @@ class Artist < ApplicationRecord
     [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
   end
 
+  def geoname_ids
+    ids = [place_of_birth_geoname_id, place_of_death_geoname_id]
+    artist_involvements.each do |involvement|
+      ids << involvement.place_geoname_id
+
+      ids << involvement.involvement.place_geoname_id if involvement.involvement
+    end
+    ids.compact.uniq
+  end
+
+  def localities_to_find_by
+    GeonameSummary.where(geoname_id: geoname_ids).with_parents
+  end
+
   def name?
     search_name != ""
   end
@@ -59,12 +73,12 @@ class Artist < ApplicationRecord
 
   def place_of_birth_geoname_name
     gs = GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first
-    return "#{gs.name} (#{gs.parent_description})" if gs
+    return gs.label if gs
   end
 
   def place_of_death_geoname_name
     gs = GeonameSummary.where(geoname_id: place_of_death_geoname_id).first
-    return "#{gs.name} (#{gs.parent_description})" if gs
+    return gs.label if gs
   end
 
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})

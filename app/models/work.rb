@@ -90,7 +90,16 @@ class Work < ApplicationRecord
 
   def locality_geoname_name
     gs = GeonameSummary.where(geoname_id: locality_geoname_id).first
-    return "#{gs.name} (#{gs.parent_description})" if gs
+    return gs.label if gs
+  end
+
+  def geoname_ids
+    ids = []
+    artists.each do |artist|
+      ids += artist.geoname_ids
+    end
+    ids << locality_geoname_id if locality_geoname_id
+    GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end
 
   def artist_name_rendered
@@ -233,6 +242,7 @@ class Work < ApplicationRecord
         cluster: { only: [:id, :name]},
       },
       methods: [
+        :geoname_ids,
         :title_rendered,
         :artist_name_rendered,
         :report_val_sorted_artist_ids,
@@ -343,6 +353,17 @@ class Work < ApplicationRecord
           end
           attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
             rv[attribute][a] ||= {count: 10000, name: a.name }
+          end
+        elsif attribute == :geoname_ids
+          ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
+          artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).uniq
+          # TODO: \/\/ This might become too expensive \/\/
+          artists.each do |artist|
+            ids += artist.geoname_ids
+          end
+          ids = ids.compact.uniq
+          GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
+            rv[attribute][geoname] = {count: 10000, name: geoname.name}
           end
         else
           ids = self.left_outer_joins(attribute).select("#{attribute}.id AS id").distinct.collect(&:id)

@@ -35,6 +35,13 @@ class GeonamesAdmindiv < ApplicationRecord
     end
   end
 
+  def parent_geoname_ids
+    geo_ids = []
+    geo_ids << country.geoname_id if country
+    geo_ids << parent.geonameid if parent
+    geo_ids
+  end
+
   def parents_description
     (admin_type == 1) ? country_localized_name : [country_localized_name, parent_localized_name].compact.join(" > ")
   end

@@ -5,11 +5,29 @@ class GeonameSummary < ApplicationRecord
     "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description[0..30]}\">"
   end
 
+  def label
+    "#{name} (#{parent_description})"
+  end
+
   def priority
     base = 0
     base += 1 if parent_description[0..1] == "NL"
     base += 1 if ["PPLC", "PPLG"].include? type_code
+    base -= 1 if ["PPLL"].include? type_code
     base
+  end
+
+  def parent_geoname_ids
+    base = Geoname.find_by(geonameid: geoname_id) || GeonamesAdmindiv.find_by(geonameid: geoname_id)
+    base ? base.parent_geoname_ids : []
+  end
+
+  def parents
+    GeonameSummary.where(geoname_id: parent_geoname_ids)
+  end
+
+  def to_param
+    geoname_id.to_s
   end
 
   def <=> other
@@ -17,6 +35,14 @@ class GeonameSummary < ApplicationRecord
   end
 
   class << self
+    def with_parents
+      ids = []
+      self.all.each do |a|
+        ids += a.parent_geoname_ids
+        ids << a.geoname_id
+      end
+      GeonameSummary.unscoped.where(geoname_id: ids.compact.uniq)
+    end
     def search name
       if name.nil? or name.to_s.empty?
         return []

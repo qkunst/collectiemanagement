@@ -3,7 +3,7 @@ class Involvement < ApplicationRecord
 
   def place_geoname_name
     gs = GeonameSummary.where(geoname_id: place_geoname_id).first
-    return "#{gs.name} (#{gs.parent_description})" if gs
+    return gs.label if gs
   end
 
   def set_geoname_id_from_name!

@@ -14,6 +14,7 @@
       <% if @artist.techniques.to_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.to_sentence %></dd><% end %>
       <% if @artist.subsets.to_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.to_sentence %></dd><% end %>
     </dl>
+
     <div class="row">
       <div class="medium-6 columns">
         <h3>Opleiding <small>(<%=link_to 'voeg toe', new_artist_artist_involvement_path(@artist, type: :education)%>)</small></h3>
@@ -25,6 +26,7 @@
 
       </div>
     </div>
+    <p><strong>De kunstenaar is gekoppeld aan de volgende localiteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
 
   </div>
   <aside class="large-3 medium-3 columns">

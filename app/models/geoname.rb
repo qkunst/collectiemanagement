@@ -4,11 +4,15 @@ class Geoname < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: 'GeonameTranslation'
 
   def admin1
-    GeonamesAdmindiv.where(admin_code: "#{country_code}.#{admin1_code}").first
+    @admin1 ||= GeonamesAdmindiv.where(admin_code: "#{country_code}.#{admin1_code}").first
   end
 
   def admin2
-    GeonamesAdmindiv.where(admin_code: "#{country_code}.#{admin1_code}.#{admin2_code}").first
+    @admin2 ||= GeonamesAdmindiv.where(admin_code: "#{country_code}.#{admin1_code}.#{admin2_code}").first
+  end
+
+  def country
+    @country ||= GeonamesCountry.where(iso: country_code).first
   end
 
   def localized_name locale=:nl
@@ -23,6 +27,14 @@ class Geoname < ApplicationRecord
 
   def parent_description
     ([country_code]+[admin1, admin2].compact.collect{|a| a.localized_name}).join(" > ")
+  end
+
+  def parent_geoname_ids
+    geo_ids = []
+    geo_ids << country.geoname_id if country
+    geo_ids << admin1.geonameid if admin1
+    geo_ids << admin2.geonameid if admin2
+    geo_ids
   end
 
   def find_or_create_corresponding_geoname_summary locale=:nl

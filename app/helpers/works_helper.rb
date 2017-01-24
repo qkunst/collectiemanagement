@@ -28,4 +28,16 @@ module WorksHelper
     end
     raw str
   end
+
+  def options_from_aggregation_for_select aggregation, selected=nil
+    html = ""
+    aggregation.each do |k,v|
+      # raise selected if selected.first.to_param == "3383330"
+      selected_true = (selected and selected == k or (selected.methods.include?(:include?) and selected.collect{|a| a.to_param}.include?(k.to_param)))
+      html += "<option value=\"#{k.to_param}\""
+      html += "selected=\"selected\"" if selected_true
+      html += ">#{v[:name]}</option>"
+    end
+    html.html_safe
+  end
 end

@@ -235,14 +235,18 @@ class Collection < ApplicationRecord
 
     filter.each do |key, values|
       new_bool = {bool: {should: []}}
-      values.each do |value|
-        if value != nil
-          new_bool[:bool][:should] << {term: {key=>value}}
-        else
-          if key.ends_with?(".id")
-            new_bool[:bool][:should] << {not: {exists: {field: key}}}
+      if key == "locality_geoname_id"
+        new_bool = {terms: {geoname_ids: values}}
+      else
+        values.each do |value|
+          if value != nil
+            new_bool[:bool][:should] << {term: {key=>value}}
           else
-            new_bool[:bool][:should] << {missing: {field: key }}
+            if key.ends_with?(".id")
+              new_bool[:bool][:should] << {not: {exists: {field: key}}}
+            else
+              new_bool[:bool][:should] << {missing: {field: key }}
+            end
           end
         end
       end
@@ -312,6 +316,15 @@ class Collection < ApplicationRecord
           }
         }
       },
+      # geoname_ids: {
+      #   aggs: {
+      #     geoname_ids: {
+      #       terms: {
+      #         field: :geoname_ids
+      #       }
+      #     }
+      #   }
+      # },
       object_categories_missing: {
         missing: {
           field: :report_val_sorted_object_category_ids

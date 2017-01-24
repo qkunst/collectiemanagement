@@ -36,6 +36,8 @@ class WorksController < ApplicationController
     proto_selection_group_options.each do |k,v|
       @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
     end
+    @filter_localities = []
+    @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["locality_geoname_id"]) if @selection_filter["locality_geoname_id"]
 
     update_current_user_with_params
 
@@ -58,7 +60,7 @@ class WorksController < ApplicationController
       end
     end
 
-    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques])
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :geoname_ids])
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
