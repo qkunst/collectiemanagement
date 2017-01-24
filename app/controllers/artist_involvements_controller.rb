@@ -65,7 +65,7 @@ class ArtistInvolvementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def artist_involvement_params
-      pms = params.require(:artist_involvement).permit(:involvement_id, :involvement_type, :start_year, :end_year, involvement_attributes: [:id, :name, :locality_geoname_id])
+      pms = params.require(:artist_involvement).permit(:involvement_id, :involvement_type, :start_year, :end_year, :place, :place_geoname_id)
       if pms[:involvement_attributes] and pms[:involvement_attributes][:id]
         if pms[:involvement_id] and pms[:involvement_attributes][:id] != pms[:involvement_id]
           pms.delete(:involvement_attributes)

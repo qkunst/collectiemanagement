@@ -11,6 +11,8 @@
       <dt>Gestorven:</dt>
       <dd><%=  @artist.place_of_death %> (<%=@artist.year_of_death%>)
     <% end %>
+      <% if @artist.techniques.to_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.to_sentence %></dd><% end %>
+      <% if @artist.subsets.to_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.to_sentence %></dd><% end %>
     </dl>
     <div class="row">
       <div class="medium-6 columns">
@@ -33,6 +35,7 @@
       <%= render @artist.rkd_artist %>
 
     <% end %>
+    <hr />
     <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', artist_rkd_artists_path(@artist)%></p>
 
   </aside>

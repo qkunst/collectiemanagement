@@ -19,7 +19,7 @@
         <ul class="menu">
           <% if @artist.rkd_artist == @rkd_artist %>
 
-            <li><%= button_to 'Neem informatie over uit het RKD', '', class: [:small, :secondary, :button]%></li>
+            <li><%= button_to 'Neem informatie over uit het RKD', rkd_artist_copy_path(@rkd_artist), params: {artist_id: @artist.id}, class: [:small, :secondary, :button], method: :patch, data: {confirm: "Weet je zeker dat je de gegevens in de QKunst database wilt vervangen door de RKD gegevens?"}%></li>
             <li><%= button_to 'Ontkoppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
           <% else %>
             <li><%= button_to 'Koppel met deze vervaardiger', artist_path(@artist), params: {"artist[rkd_artist_id]" => @rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %></li>
@@ -30,9 +30,17 @@
     </div>
     <% end %>
 
-<div class="row columns">
-<h3>Alle informatie uit RKD:</h3>
-<%= render_hash @rkd_artist.api_response%>
-<p><small>Deze informatie is <%= link_to 'afkomstig', @rkd_artist.end_user_link %> uit de RKDartists&amp;-database, en vrijgegeven onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
+<div class="row">
+  <div class="medium-6 columns">
+    <h3>Voorstel import</h3>
+    <%= render @new_artist %>
+  </div>
+  <div class="medium-6 columns">
+    <h3>Alle informatie uit RKD:</h3>
+    <%= render_hash @rkd_artist.api_response%>
+    <p><small>Deze informatie is <%= link_to 'afkomstig', @rkd_artist.end_user_link %> uit de RKDartists&amp;-database, en vrijgegeven onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
+
+  </div>
+
 
 </div>

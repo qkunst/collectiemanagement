@@ -2,11 +2,31 @@
   <header>
     <h4><%= link_to artist do %><%= artist.name %><% end %></h4>
     <p><% if artist.born? %>
-      <%= artist.place_of_birth %> (<%=artist.year_of_birth%>) -
+      <%= artist.place_of_birth %><% if artist.place_of_birth and artist.place_of_birth_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%> (<%=artist.year_of_birth%>) -
     <% end %>
     <% if artist.died? %>
-      <%=  artist.place_of_death %> (<%=artist.year_of_death%>)
+      <%=  artist.place_of_death %><% if artist.place_of_death and artist.place_of_death_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%> (<%=artist.year_of_death%>)
     <% end %></p>
-    <p>Technieken: <%= artist.techniques.to_sentence %>; Deelcollecties: <%= artist.subsets.to_sentence %></p>
+    <p><% if artist.techniques.to_sentence != ""%>Technieken: <%= artist.techniques.to_sentence %><% end %><% if artist.subsets.to_sentence != ""%>; Deelcollecties: <%= artist.subsets.to_sentence %><% end %></p>
   </header>
+  <% if @show_full_artists %>
+  <footer>
+    <h5>Educatie</h5>
+    <ul>
+    <% artist.artist_involvements.each do |artist_involvement| %>
+      <% if artist_involvement.educational? %>
+        <li><%=artist_involvement.name %> (<%=artist_involvement.place %><% if artist_involvement.place and artist_involvement.place_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end %>; <%=artist_involvement.start_year%>-<%=artist_involvement.end_year%>) </li>
+      <% end %>
+    <% end %>
+    </ul>
+    <h5>Werkzaamheid</h5>
+    <ul>
+    <% artist.artist_involvements.each do |artist_involvement| %>
+      <% if artist_involvement.professional? %>
+        <li><%=artist_involvement.name %> (<%=artist_involvement.place %><% if artist_involvement.place and artist_involvement.place_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end %>; <%=artist_involvement.start_year%>-<%=artist_involvement.end_year%>) </li>
+      <% end %>
+    <% end %>
+    </ul>
+  </footer>
+  <% end %>
 </article>

@@ -137,8 +137,7 @@ nl:
         end_year: Tot (jaar)
       involvement:
         name: Naam
-        city: Stad
-        country: Land
+        place: Plaats
       cluster:
         name: Naam
         description: Beschrijving

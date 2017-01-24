@@ -37,7 +37,9 @@ Rails.application.routes.draw do
   resources :media
   resources :techniques
   resources :object_categories
-  resources :rkd_artists
+  resources :rkd_artists do
+    patch 'copy' => 'rkd_artists#copy'
+  end
 
   resources :involvements
   resources :collections do

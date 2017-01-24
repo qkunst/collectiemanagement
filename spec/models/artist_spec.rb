@@ -21,6 +21,39 @@ RSpec.describe Artist, type: :model do
     end
   end
 
+  describe "#to_parameters" do
+    it "should return basic params" do
+      b = Artist.new(first_name: "B", last_name: "A")
+      parameters = b.to_parameters
+      expect(parameters["first_name"]).to eq("B")
+      expect(parameters["last_name"]).to eq("A")
+    end
+
+  end
+
+  describe "#import" do
+    it "should import basic params" do
+      a = Artist.create(first_name: "A")
+      b = Artist.new(first_name: "B", last_name: "A")
+      a.import!(b)
+      expect(a.first_name).to eq("B")
+      expect(a.last_name).to eq("A")
+    end
+    it "should import artist involvements" do
+      a = Artist.create(first_name: "A")
+      a.artist_involvements.create(place: "Berlijn", involvement_type: :professional)
+      a.artist_involvements.create(place: "Parijs", involvement_type: :educational)
+      b = Artist.new(first_name: "B", last_name: "A")
+      b.artist_involvements.new(place: "Kopenhagen", involvement_type: :professional)
+
+      a.import!(b)
+      a.reload
+      expect(a.artist_involvements.professional.count).to eq(1)
+      expect(a.artist_involvements.professional.first.place).to eq("Kopenhagen")
+      expect(a.artist_involvements.educational.first.place).to eq("Parijs")
+    end
+  end
+
   describe "Class methods" do
     describe ".empty_artists" do
       it "should list all workless-artists" do

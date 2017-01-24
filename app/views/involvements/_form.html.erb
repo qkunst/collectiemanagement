@@ -1,33 +1,9 @@
-<%= form_for(@involvement) do |f| %>
-  <% if @involvement.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@involvement.errors.count, "error") %> prohibited this involvement from being saved:</h2>
+<%= simple_form_for(@involvement) do |f| %>
+  <%= f.input :name %>
+  <%= f.input :place %>
+  <label>Plaatsnamen database koppeling</label>
+  <%= f.select :place_geoname_id, { @involvement.place_geoname_name => @involvement.place_geoname_id}, {}, class: 'select2 ajax' %>
+  <hr/>
+  <%= f.submit class: :button %>
 
-      <ul>
-      <% @involvement.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :city %><br>
-    <%= f.text_field :city %>
-  </div>
-  <div class="field">
-    <%= f.label :country %><br>
-    <%= f.text_field :country %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

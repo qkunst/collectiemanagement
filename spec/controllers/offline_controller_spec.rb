@@ -16,13 +16,6 @@ RSpec.describe OfflineController, type: :controller do
     end
   end
 
-  describe "GET #collections" do
-    it "returns http success" do
-      get :collections
-      expect(response).to have_http_status(:success)
-    end
-  end
-
   describe "GET #collection" do
     it "returns http success" do
       get :collection

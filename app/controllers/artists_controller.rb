@@ -80,7 +80,11 @@ class ArtistsController < ApplicationController
   def update
     respond_to do |format|
       if @artist.update(artist_params)
-        format.html { redirect_to @artist, notice: 'De vervaardiger is bijgewerkt' }
+        if artist_params["rkd_artist_id"] and artist_params["rkd_artist_id"].to_i > 0 and artist_params.keys.count == 1
+          format.html { redirect_to rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: 'De vervaardiger is gekoppeld met een RKD artist' }
+        else
+          format.html { redirect_to @artist, notice: 'De vervaardiger is bijgewerkt' }
+        end
         format.json { render :show, status: :ok, location: @artist }
       else
         format.html { render :edit }

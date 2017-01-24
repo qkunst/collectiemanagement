@@ -91,7 +91,41 @@ class Artist < ApplicationRecord
     works.each{|work| work.touch}
   end
 
+  def to_parameters
+    parameters = JSON.parse(self.to_json)
+    parameters.delete("updated_at")
+    parameters.delete("created_at")
+    parameters
+  end
 
+  def import!(other)
+    other.to_parameters.each do |k,v|
+      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty?)
+    end
+    educational_involvements = []
+    professional_involvements = []
+    other.artist_involvements.each do |involvement|
+      if involvement.professional?
+        professional_involvements << involvement
+      else
+        educational_involvements << involvement
+      end
+    end
+    if educational_involvements.count > 0
+      self.artist_involvements.educational.destroy_all
+      educational_involvements.each do |inv|
+        self.artist_involvements << inv.clone
+      end
+    end
+    if professional_involvements.count > 0
+      self.artist_involvements.professional.destroy_all
+      professional_involvements.each do |inv|
+        self.artist_involvements << inv.clone
+      end
+    end
+
+    self.save
+  end
 
   class << self
     def names_hash

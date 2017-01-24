@@ -42,7 +42,7 @@ module NameId
     end
 
     def to_sentence
-      self.all.collect(&:name).to_sentence
+      self.all.collect(&:name).compact.uniq.to_sentence
     end
 
     def to_sym

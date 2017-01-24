@@ -1,5 +1,5 @@
 class InvolvementsController < ApplicationController
-  before_action :authenticate_qkunst_user!
+  before_action :authenticate_admin_user!
   before_action :set_involvement, only: [:show, :edit, :update, :destroy]
 
   # GET /involvements

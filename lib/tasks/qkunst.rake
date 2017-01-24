@@ -6,7 +6,7 @@ namespace :qkunst do
 
   desc "Import Geonames data"
   task geonames_import: :environment do
-    Geonames.import_all!
+    Geoname.import_all!
     puts "Done!"
   end
 

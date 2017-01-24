@@ -23,11 +23,104 @@ class RkdArtist < ApplicationRecord
     api_response["geboorteplaats"].first
   end
 
+  def place_of_death_geoname_id
+    hit = GeonameSummary.search(place_of_death).first
+    hit.id if hit
+  end
+
+  def place_of_birth_geoname_id
+    hit = GeonameSummary.search(place_of_birth).first
+    hit.geoname_id if hit
+  end
+
   def year_of_birth
     begin
       api_response["geboortedatum_eind"].to_date.year
     rescue
     end
+  end
+
+  def kunstenaarsnaam
+    api_response["kunstenaarsnaam"].gsub(/\(.*\)/,'').strip
+  end
+
+  def last_name
+    kunstenaarsnaam.split(",")[0]
+  end
+
+  def first_name
+    kunstenaarsnaam.split(",")[1]
+  end
+
+  def to_artist_params
+    {
+      year_of_birth: year_of_birth,
+      year_of_death: year_of_death,
+      place_of_birth: place_of_birth,
+      place_of_death: place_of_death,
+      last_name: last_name,
+      first_name: first_name,
+      place_of_death_geoname_id: place_of_death_geoname_id,
+      place_of_birth_geoname_id: place_of_birth_geoname_id,
+      rkd_artist_id: rkd_id
+      # first_name:
+      # t.string   "place_of_birth"
+      # t.string   "place_of_death"
+      # t.integer  "year_of_birth"
+      # t.integer  "year_of_death"
+      # t.text     "description"
+      # t.datetime "created_at",                null: false
+      # t.datetime "updated_at",                null: false
+      # t.string   "first_name"
+      # t.string   "prefix"
+      # t.string   "last_name"
+      # t.integer  "import_collection_id"
+      # t.integer  "rkd_artist_id"
+      # t.integer  "place_of_death_geoname_id"
+      # t.integer  "place_of_birth_geoname_id"
+    }
+  end
+
+  def to_artist_involvement_params
+    artist_involvements = []
+    #=> ArtistInvolvement(id: integer, involvement_id: integer, artist_id: integer, start_year: integer, end_year: integer, created_at: datetime, updated_at: datetime, involvement_type: string)
+    # t.integer  "involvement_id"
+    # t.integer  "artist_id"
+    # t.integer  "start_year"
+    # t.integer  "end_year"
+    # t.datetime "created_at",       null: false
+    # t.datetime "updated_at",       null: false
+    # t.string   "involvement_type"
+    api_response["werkzaamheid"].each do | werkzaamheid |
+      involvement = {
+        involvement_type: :professional
+      }
+      involvement[:place] = werkzaamheid["plaats_van_werkzaamheid"]
+      geoname = GeonameSummary.search(involvement[:place]).first
+      involvement[:place_geoname_id] = geoname.geoname_id if geoname
+      involvement[:start_year] = werkzaamheid["plaats_v_werkzh_begindatum"]
+      involvement[:end_year] = werkzaamheid["plaats_v_werkzh_einddatum"]
+      artist_involvements << involvement
+    end
+    api_response["academies"].each do | academie |
+      involvement_id = Involvement.find_or_create_by(name: academie["academie"])
+      involvement = {
+        involvement_id: involvement_id.id,
+        involvement_type: :educational
+      }
+      involvement[:place] = involvement_id.place
+      involvement[:place_geoname_id] = involvement_id.place_geoname_id
+      artist_involvements << involvement
+    end
+    artist_involvements
+  end
+
+  def to_artist
+    artist = Artist.new(to_artist_params)
+    self.to_artist_involvement_params.each do |inv|
+      artist.artist_involvements.new(inv)
+    end
+    artist
   end
 
   def substring

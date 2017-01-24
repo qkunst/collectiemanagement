@@ -113,8 +113,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_activated_user!
-    puts "AUTHENTICATED"
-    puts controller_name
     return true if controller_name == "offline"
 
     unless devise_controller?

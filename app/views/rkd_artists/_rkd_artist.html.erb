@@ -1,6 +1,6 @@
 <article class="rkd_artist">
   <header>
-    <h4>RKDartist: <%= link_to rkd_artist_path(rkd_artist, @artist ? {artist_id: @artist.id} : {})  do %><%= rkd_artist.rkd_id%>: <%= rkd_artist.name %><% end %></h4>
+    <h4><small>RKDartist:<br/></small><%= link_to rkd_artist_path(rkd_artist, @artist ? {artist_id: @artist.id} : {})  do %><%= rkd_artist.rkd_id%>: <%= rkd_artist.name %><% end %></h4>
     <p><%= rkd_artist.substring%></p>
   </header>
   <% if admin_user? and @artist %>
