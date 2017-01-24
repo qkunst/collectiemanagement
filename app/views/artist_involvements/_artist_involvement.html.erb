@@ -1,5 +1,2 @@
-<% if artist_involvement.involvement %>
-<h5><%=artist_involvement.involvement.name %> (<%=artist_involvement.start_year%>-<%=artist_involvement.end_year%>) <small>(<%= link_to 'bewerk', edit_artist_artist_involvement_path(artist_involvement.artist, artist_involvement)%>)</small></h5>
+<h5><%=artist_involvement.name %> (<%=artist_involvement.start_year%>-<%=artist_involvement.end_year%>) <small>(<%= link_to 'bewerk', edit_artist_artist_involvement_path(artist_involvement.artist, artist_involvement)%>)</small></h5>
 <p><%= artist_involvement.place_geoname_name%></p>
-
-<% end %>
