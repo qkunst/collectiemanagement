@@ -39,41 +39,6 @@ Rails.application.routes.draw do
   resources :object_categories
   resources :rkd_artists
 
-  rack_offline = Rack::Offline.configure :cache_interval => 3600 do
-    # cache "images/masthead.png"
-    cache "/testscript.js" if Rails.env == "dfevelopment"
-
-    settings "prefer-online"
-
-    # action_view = ActionView::Base.new
-    # action_view.stylesheet_link_tag("application").split("\n").collect{|a|          cache a.match(/href=\"(.*)\"/)[1] }
-    # action_view.javascript_include_tag("application").split("\n").collect{|a|       cache a.match(/src=\"(.*)\"/)[1] }
-
-    network "/heartbeat"
-    network "/uploads/work"
-    network "*"
-
-    fallbacks = {}
-    fallbacks["/artists"] = "/artists?offline=offline"
-    fallbacks["/geoname_summaries.json"] = "/geoname_summaries.json?offline=offline"
-    fallbacks["/collections"] = "/collections?offline=offline"
-    begin
-      Collection.all.each do |collection|
-        fallback["/collections/#{collection.to_param}"] = "collections/#{collection.to_param}?offline=offline"
-        fallback["/collections/#{collection.to_param}/works"] = "collections/#{collection.to_param}/works?offline=offline"
-        fallback["/collections/#{collection.to_param}/works/new"] = "collections/#{collection.to_param}/works/new?offline=offline"
-        fallback["/collections/#{collection.to_param}/works/new?test"] = "collections/#{collection.to_param}/works/new?test=test&offline=offline" if Rails.env != "develfopment"
-      end
-    rescue
-      puts "Table Collection doesn't exist (yet)"
-
-    end
-    fallbacks["/debug-offline"] = "/debug-offline?offline=offline"
-    fallback(fallbacks)
-  end
-
-  get "/application.manifest" => rack_offline #if Rails.env != "development"
-
   resources :involvements
   resources :collections do
     resources :messages

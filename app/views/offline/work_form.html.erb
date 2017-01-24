@@ -1,2 +1,12 @@
-<h1>Offline#work_form</h1>
-<p>Find me in app/views/offline/work_form.html.erb</p>
+<h1>Voeg werk offline toe</h1>
+
+<%= render 'works/form' %>
+
+<script type="text/javascript">
+  var url = document.location.toString();
+  var path = url.split("//")[1].split("/").slice(1,1000).join("/");
+  var collectionId = path.match(/collections\/(\d+)/i);
+  collectionId = collectionId ? collectionId[1] : null;
+
+  document.querySelector('form[action="/collections/-1/works"]').action = "/collections/"+collectionId+"/works";
+</script>

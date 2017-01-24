@@ -18,13 +18,6 @@ present.
 
 var FormStore = {
   translation: {
-    UNCACHED: 'Er is geen offline mogelijkheid op dit moment [UNCACHED]',
-    IDLE: 'De applicatie is klaar voor offline gebruik [IDLE]',
-    CHECKING: 'Bezig met controleren [CHECKING]',
-    DOWNLOADING: 'Bezig met downloaden [DOWNLOADING]',
-    UPDATEREADY: 'De applicatie is nu klaar voor offline gebruik [UPDATEREADY]',
-    OBSOLETE: 'De applicatie moet bijgewerkt worden voor offline gebruik [OBSOLETE]',
-    OFFLINE_UNKNOWN: 'Onbekende status van de offline mogelijkheid',
     pressAgainToTryAgain: 'druk nogmaals om (toch) te bevestigen',
     filesCannotBeStoredOffline: "Bestanden kunnen niet offline worden opgeslagen, de data wordt wel verwerkt.",
     validationErrorsOccurred: "Niet alle velden zijn juist ingevuld, controleer de invoer."
@@ -39,40 +32,6 @@ var FormStore = {
     window.dispatchEvent(e);
   },
 
-  appCache: {
-    status: function() {
-      appCache = window.applicationCache;
-      switch (appCache.status) {
-        case appCache.UNCACHED: // UNCACHED == 0
-          return FormStore.translation.UNCACHED;
-        case appCache.IDLE: // IDLE == 1
-          return FormStore.translation.IDLE;
-        case appCache.CHECKING: // CHECKING == 2
-          return FormStore.translation.CHECKING;
-        case appCache.DOWNLOADING: // DOWNLOADING == 3
-          return FormStore.translation.DOWNLOADING;
-        case appCache.UPDATEREADY:  // UPDATEREADY == 4
-          return FormStore.translation.UPDATEREADY;
-        case appCache.OBSOLETE: // OBSOLETE == 5
-          return FormStore.translation.OBSOLETE;
-        default:
-          return FormStore.translation.OFFLINE_UNKNOWN;
-      }
-    },
-    update: function() {
-      appCache = window.applicationCache;
-      if (appCache.status === appCache.UPDATEREADY) {
-        appCache.update();
-      }
-    },
-    forceUpdate: function() {
-      appCache = window.applicationCache;
-      if (appCache.status === appCache.IDLE) {
-        appCache.update();
-        appCache.swapCache();
-      }
-    }
-  },
   heartBeatLastSentAt: null,
   setBodyTagOnline: function() {
     var elem = document.getElementsByTagName("body")[0]
@@ -431,11 +390,7 @@ var FormStore = {
     });
     window.addEventListener("connectionBackOnline", function(e) {
       FormStore.setBodyTagOnline();
-
       FormStore.retryStoredForms();
-      setTimeout( function(){
-        FormStore.appCache.update();
-      }, 2000);
     });
 
 

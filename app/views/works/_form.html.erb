@@ -110,7 +110,7 @@
       <fieldset>
         <legend>Waardebepaling</legend>
         <div class="row">
-        <% if current_user.can_access_valuation?%>
+        <% if current_user.nil? or current_user.can_access_valuation?%>
           <div class="large-4 medium-4 columns"><%= f.input(:market_value, input_html: {type: :text})  if @collection.expose?(:market_value)%></div>
           <div class="large-4 medium-4 columns"><%= f.input(:replacement_value, input_html: {type: :text})  if @collection.expose?(:replacement_value)%></div>
           <div class="large-4 medium-4 columns">

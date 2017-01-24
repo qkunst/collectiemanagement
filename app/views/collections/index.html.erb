@@ -21,3 +21,7 @@
   </div>
 <% end %>
 
+<script type="text/javascript">
+localStorage.setItem('collections', JSON.stringify(<%= Collection.all.to_json(only: [:id, :name]).html_safe %>));
+localStorage.setItem('qkunst_user', <%= qkunst_user? %>);
+</script>
