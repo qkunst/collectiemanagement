@@ -1,5 +1,7 @@
 # QKunst collectiebeheer
 
+[![Build Status](https://travis-ci.org/qkunst/collectiebeheer.svg?branch=master)](https://travis-ci.org/qkunst/collectiebeheer)
+
 Dit is de broncode van de QKunst Collectiebeheer applicatie, vrijgegeven onder een AGPL (GNU Affero General Public License v3.0) opensource licentie. Zie ook [LICENSE](LICENSE).
 Deze web applicatie stelt u in staat om kunstwerken binnen uw collectie te bekijken en, afhankelijk van de u toegewezen rol, te beheren.
 
