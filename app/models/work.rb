@@ -51,6 +51,10 @@ class Work < ApplicationRecord
   mount_uploader :photo_detail_1, PictureUploader
   mount_uploader :photo_detail_2, PictureUploader
 
+  def photos?
+    photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
+  end
+
   accepts_nested_attributes_for :artists
 
   settings index: { number_of_shards: 1 } do
