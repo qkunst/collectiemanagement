@@ -60,7 +60,7 @@ Rails.application.routes.draw do
     resources :works do
       resources :messages
       get 'edit_location' => 'works#edit_location'
-      patch 'update_location' => 'works#update_location'
+      get 'edit_photos' => 'works#edit_photos'
     end
     resources :clusters
     get 'report' => 'collections#report'

@@ -1,10 +1,10 @@
 class WorksController < ApplicationController
   before_action :authenticate_admin_user!, only: [:destroy]
-  before_action :authenticate_qkunst_user!, only: [:edit, :create, :new]
+  before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update]
 
   before_action :set_collection # set_collection includes authentication
-  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos]
 
   # GET /works
   # GET /works.json
@@ -138,6 +138,10 @@ class WorksController < ApplicationController
     @selection = {}
     @selection[:display] = current_user.can_see_details? ? :complete : :detailed
     @title = @work.name
+
+  end
+
+  def edit_photos
 
   end
 
@@ -382,7 +386,7 @@ class WorksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
-    if params[:work][:artists_attributes]
+    if params[:work] and params[:work][:artists_attributes]
       params[:work][:artists_attributes].each do |index, values|
         if values[:id] or values[:_destroy].to_i == "1"
           params[:work][:artists_attributes].delete(index)
@@ -393,7 +397,10 @@ class WorksController < ApplicationController
     permitted_fields += [:location_detail, :location] if current_user.can_edit_location?
     permitted_fields += [:valuation_on, :market_value, :replacement_value] if current_user.can_edit_valuation?
     permitted_fields += [:internal_comments] if current_user.qkunst?
-    permitted_fields += [:photo_front, :photo_back, :photo_detail_1, :photo_detail_2] if current_user.can_edit_photos?
+    permitted_fields += [
+      :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
+      :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
+    ] if current_user.can_edit_photos?
     permitted_fields += [
       :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
       :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id,
@@ -406,6 +413,6 @@ class WorksController < ApplicationController
         :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
         ]
       ] if current_user.can_edit_most_of_work?
-    params.require(:work).permit(permitted_fields)
+    params[:work] ? params.require(:work).permit(permitted_fields) : {}
   end
 end

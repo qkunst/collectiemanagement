@@ -1,0 +1,11 @@
+<div id="main">
+<h1>Beheer foto's</h1>
+<p>Beheer foto's van <%= @work.stock_number%> <%= @work.name%></p>
+<%= simple_form_for([@collection,@work]) do |f| %>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_front.thumb) %></div><%= f.input :photo_front  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_back.thumb) %></div><%= f.input :photo_back  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_1.thumb) %></div><%= f.input :photo_detail_1  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_2.thumb) %></div><%= f.input :photo_detail_2  %></div>
+<%= f.submit class: :submit, class: :button%>
+<% end%>
+</div>

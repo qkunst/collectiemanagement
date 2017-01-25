@@ -20,10 +20,11 @@ show_screen_image = (e)->
 
 click_thumb_event = (e)->
   image_url = $(e.currentTarget).attr("href")
-  show_area = $(e.target).closest(".imageviewer").find("img.show")
-  show_area.attr("src",image_url)
-  show_area.click(show_screen_image)
-  return false
+  if $(e.currentTarget).find("img").length > 0
+    show_area = $(e.target).closest(".imageviewer").find("img.show")
+    show_area.attr("src",image_url)
+    show_area.click(show_screen_image)
+    return false
 
 $(document).on("change",".work.panel input[type=checkbox], #batch_edit_property", ->
   show_or_hide_selected_works()
