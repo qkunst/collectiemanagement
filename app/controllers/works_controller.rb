@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
   before_action :authenticate_admin_user!, only: [:destroy]
-  before_action :authenticate_qkunst_user!, only: [:edit, :update, :create, :new]
-  before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update_location]
+  before_action :authenticate_qkunst_user!, only: [:edit, :create, :new]
+  before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update]
 
   before_action :set_collection # set_collection includes authentication
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location]
@@ -254,21 +254,6 @@ class WorksController < ApplicationController
         format.json { render json: @work.errors, status: :unprocessable_entity }
       end
     end
-    @work.touch
-  end
-
-  def update_location
-    respond_to do |format|
-      work_location_params = params.require(:work).permit(:location_detail, :location)
-      if @work.update(work_location_params)
-        format.html { redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.' }
-        format.json { render :show, status: :ok, location: collection_work_path(@collection,@work) }
-      else
-        format.html { render :edit_location }
-        format.json { render json: @work.errors, status: :unprocessable_entity }
-      end
-    end
-    @work.touch
   end
 
   def edit_location
@@ -404,6 +389,23 @@ class WorksController < ApplicationController
         end
       end
     end
-    params.require(:work).permit(:location_detail, :locality_geoname_id, :imported_at, :import_collection_id, :valuation_on, :internal_comments, :created_by, :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :signature_comments, :no_signature_present, :print, :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments, :information_back, :other_comments, :source_comments, :style_id, :subset_id, :market_value, :replacement_value, :purchase_price, :price_reference, :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments, :purchase_price_currency_id, :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [:_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description])
+    permitted_fields = []
+    permitted_fields += [:location_detail, :location] if current_user.can_edit_location?
+    permitted_fields += [:valuation_on, :market_value, :replacement_value] if current_user.can_edit_valuation?
+    permitted_fields += [:internal_comments] if current_user.qkunst?
+    permitted_fields += [:photo_front, :photo_back, :photo_detail_1, :photo_detail_2] if current_user.can_edit_photos?
+    permitted_fields += [
+      :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
+      :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id,
+      :signature_comments, :no_signature_present, :print, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+      :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
+      :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :purchase_price, :price_reference,
+      :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+      :purchase_price_currency_id, :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[],
+      theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
+        :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+        ]
+      ] if current_user.can_edit_most_of_work?
+    params.require(:work).permit(permitted_fields)
   end
 end

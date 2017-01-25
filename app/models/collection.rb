@@ -117,12 +117,6 @@ class Collection < ApplicationRecord
     end
   end
 
-  def expose?(field_name)
-    return true if exposable_fields.count == 0
-    return true if !Collection.possible_exposable_fields.collect{|a| a[1]}.include? field_name.to_s
-    exposable_fields.include? field_name.to_s
-  end
-
   def elastic_aggragations
     elastic_report = search_works("",{},{force_elastic: true, return_records: false, limit: 1, aggregations: aggregation_builder})
     return elastic_report.aggregations

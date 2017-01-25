@@ -47,7 +47,7 @@ class User < ApplicationRecord
     qkunst? or facility_manager?
   end
 
-  def can_quickedit_location_info?
+  def can_edit_location?
     qkunst? or facility_manager?
   end
 
@@ -91,8 +91,25 @@ class User < ApplicationRecord
     qkunst? or facility_manager?
   end
 
+  def can_edit_valuation?
+    admin? or appraiser?
+  end
+
+  def appraiser?
+    # TODO: implement
+    false
+  end
+
   def can_access_valuation?
     admin? or facility_manager?
+  end
+
+  def can_edit_most_of_work?
+    qkunst? or appraiser?
+  end
+
+  def can_edit_photos?
+    qkunst?
   end
 
   def can_filter_and_group?( grouping )

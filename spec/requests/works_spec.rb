@@ -29,6 +29,14 @@ RSpec.describe "Works", type: :request do
       get collection_works_path(collection)
       expect(response).to have_http_status(200)
     end
+    it "should not allow accesss to a work in another collection by accessing it through another collection the user has access to" do
+      user = users(:read_only_user)
+      sign_in user
+      collection = collections(:collection3)
+      get collection_work_path(collection, works(:work1))
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to root_path
+    end
     it "should redirect to the root when accessing anohter collection" do
       user = users(:read_only_user)
       sign_in user
