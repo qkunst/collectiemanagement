@@ -43,16 +43,21 @@ ul.collapsable {
       color: grey;
     };
   }
-  li:focus, li:hover {
+  li:focus, li:hover, li.expanded {
     &:before {
       content: '▼ ';
     };
     & > ul {
-      max-height: 400px;
+      max-height: 500px;
       opacity: 1;
       transition: max-height 0.5s, opacity 0.3s;
       & > ul > li {
       }
     }
+  }
+  li.expanded {
+    &:before {
+      color: #111;
+    };
   }
 }
