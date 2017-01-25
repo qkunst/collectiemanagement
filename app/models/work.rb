@@ -356,7 +356,7 @@ class Work < ApplicationRecord
           end
         elsif attribute == :geoname_ids
           ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
-          artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).uniq
+          artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
           # TODO: \/\/ This might become too expensive \/\/
           artists.each do |artist|
             ids += artist.geoname_ids
