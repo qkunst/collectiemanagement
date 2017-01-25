@@ -10,6 +10,21 @@ nog soepeler te laten verlopen ontwikkelden wij QKunst Collectiebeheer, een web 
 Hiermee worden grote hoeveelheden informatie over een collectie toegankelijk en kunnen we uitgebreide rapportages uitdraaien.
 De applicatie wordt continu doorontwikkeld om de gebruiksvriendelijkheid ervan te vergroten.
 
+## Functies
+
+### Zoeken in de collectie
+
+Voor het zoeken wordt onderliggend gebruik gemaakt van ElasticSearch. Deze kent een krachtig taaltje dat veel
+queries mogelijk maakt. De belangrijkste zijn:
+
+* *~*: fuzzy~ (ik weet de juiste spelling niet van dit woord, maar ik kan een paar letters verkeerd )
+* ***: hottentottente* (het woord begint zo, maar verder…; hotten*tentoonstelling (het woord begint en eindigd zo…; *tentoonstelling (woord dat eindigt op tentoonstelling)
+* *?*: l?tter (als je een letter niet meer weet)
+* *OR*: Als een van de woorden er in moet voorkomen ("schretlen paard", levert 13 werken op (impliciet wordt "schretlen AND paard" uitgevoerd), "schretlen OR paard” levert 53 werken op).
+* *()*: "(schretlen OR paard) AND direct inzetbaar” (iets met schretlen of met een paard én direct inzetbaar).
+
+Wanneer geen van dit soort tekens / commando's worden gebruikt wordt getracht de applicatie 'fuzzy' te doorzoeken; hetgeen betekend dat de zoekmachine iets vergevingsgezinder is t.a.v. typfouten/spelfouten.
+
 ## Installatie
 
 De meest actuele versie van deze handleiding zal altijd terug te vinden zijn in de source code (README.md).
