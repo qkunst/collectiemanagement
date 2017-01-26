@@ -17,6 +17,7 @@ class CollectionsController < ApplicationController
 
   def refresh_works
     @parent_collection.works_including_child_works.all.reindex!
+    redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
   end
 
   # GET /collections/1
