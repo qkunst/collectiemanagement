@@ -149,13 +149,13 @@ class Work < ApplicationRecord
 
   def frame_size
     if frame_height or frame_width or frame_depth or frame_diameter
-      "#{frame_height ? number_to_human(frame_height) : '?'}#{frame_width ? " x #{number_to_human(frame_width)}" : ''}#{frame_depth ? " x #{number_to_human(frame_depth)}#{"(D)" if !frame_width}" : ''}#{frame_diameter ? "; ⌀ #{number_to_human(frame_diameter)}" : ''}"
+      "#{frame_height ? number_with_precision(frame_height, precision: 5, significant: true, strip_insignificant_zeros: true) : '?'}#{frame_width ? " x #{number_with_precision(frame_width, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}#{frame_depth ? " x #{number_with_precision(frame_depth, precision: 5, significant: true, strip_insignificant_zeros: true)}#{"(D)" if !frame_width}" : ''}#{frame_diameter ? "; ⌀ #{number_with_precision(frame_diameter, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}"
     end
   end
 
   def work_size
     if height or width or depth or diameter
-      "#{height ? number_to_human(height) : '?'}#{width ? " x #{number_to_human(width)}" : ''}#{depth ? " x #{number_to_human(depth)}#{"(d)" if !width}" : ''}#{diameter ? "; ⌀ #{number_to_human(diameter)}" : ''}"
+      "#{height ? number_with_precision(height, precision: 5, significant: true, strip_insignificant_zeros: true) : '?'}#{width ? " x #{number_with_precision(width, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}#{depth ? " x #{number_with_precision(depth, precision: 5, significant: true, strip_insignificant_zeros: true)}#{"(d)" if !width}" : ''}#{diameter ? "; ⌀ #{number_with_precision(diameter, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}"
     end
 
   end
