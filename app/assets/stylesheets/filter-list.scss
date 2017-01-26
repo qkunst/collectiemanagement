@@ -41,14 +41,15 @@ ul.collapsable {
       content: '▶ ';
       font-size: 0.9em;
       color: grey;
+      cursor: default;
     };
   }
-  li:focus, li:hover, li.expanded {
+  li:focus, li.expanded { //li:focus, li:hover,
     &:before {
       content: '▼ ';
     };
     & > ul {
-      max-height: 500px;
+      max-height: 800px;
       opacity: 1;
       transition: max-height 0.5s, opacity 0.3s;
       & > ul > li {
