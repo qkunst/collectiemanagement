@@ -17,11 +17,13 @@ class Artist < ApplicationRecord
 
   accepts_nested_attributes_for :artist_involvements
 
-  def name
+  def name(options={})
+    options = {include_years: true}.merge(options)
     last_name_part = [first_name,prefix].join(" ").strip
     namepart = [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
     birthpart = [year_of_birth, year_of_death].delete_if{|a| a==""}.compact.join("-")
     birthpart = "(#{birthpart})" if birthpart != ""
+    birthpart = nil if options[:include_years] == false
     rname = [namepart,birthpart].delete_if{|a| a==""}.join(" ")
     return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
   end
@@ -102,7 +104,7 @@ class Artist < ApplicationRecord
   end
 
   def touch_works
-    works.each{|work| work.touch}
+    works.all.each{|work| work.touch}
   end
 
   def to_parameters
