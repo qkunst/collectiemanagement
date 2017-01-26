@@ -4,10 +4,13 @@
     <fieldset>
       <legend>Administratief</legend>
       <div class="row">
-      <div class="large-8 medium-8 columns">
+      <div class="medium-5 columns">
         <%= f.input :location %>
       </div>
-      <div class="large-4 medium-4 columns">
+      <div class="medium-4 columns">
+        <%= f.input :location_floor %>
+      </div>
+      <div class="medium-3 columns">
         <%= f.input :location_detail %>
       </div>
       </div>
@@ -22,19 +25,7 @@
           <%= f.input( :alt_number_3, label: @collection.label_override_work_alt_number_3_with_inheritance )  %>
         </div>
       </div>
-    </fieldset>
-    <fieldset>
-      <legend>Foto</legend>
-      <div class="row">
-        <div class="large-6 medium-6 columns">
-          <div class="image_upload"><div class="image"><%= image_tag(@work.photo_front.thumb) %></div><%= f.input :photo_front  %></div>
-          <div class="image_upload"><div class="image"><%= image_tag(@work.photo_back.thumb) %></div><%= f.input :photo_back  %></div>
-        </div>
-        <div class="large-6 medium-6 columns">
-          <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_1.thumb) %></div><%= f.input :photo_detail_1  %></div>
-          <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_2.thumb) %></div><%= f.input :photo_detail_2  %></div>
-        </div>
-      </div>
+      <%= f.input :information_back   %>
     </fieldset>
     <fieldset id="vervaardigers">
       <legend>Vervaardiger(s)</legend>
@@ -91,7 +82,7 @@
     </fieldset>
     <fieldset>
       <legend>Overig</legend>
-      <%= f.input :information_back   %>
+      <%= f.input :public_description %>
       <%= f.input :other_comments  %>
       <%= f.association( :sources, input_html: {class: 'chosen-select'}) %>
       <%= f.input :source_comments  %>

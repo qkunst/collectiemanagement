@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124125757) do
+ActiveRecord::Schema.define(version: 20170126124016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -446,6 +446,8 @@ ActiveRecord::Schema.define(version: 20170124125757) do
     t.integer  "import_collection_id"
     t.integer  "locality_geoname_id"
     t.boolean  "external_inventory"
+    t.text     "public_description"
+    t.string   "location_floor"
   end
 
 end

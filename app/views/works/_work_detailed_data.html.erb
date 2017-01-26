@@ -5,7 +5,7 @@
       <tr><th><%=Work.human_attribute_name(:location)%></th><td><%=work.location%><% if current_user.can_edit_location? and work.id %>
         (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
       <% end %></td></tr>
-      <tr><th><%=Work.human_attribute_name(:location_detail)%></th><td><%=work.location_detail%><% if current_user.can_edit_location? and work.id  %>
+      <tr><th><%=Work.human_attribute_name(:location_detail)%></th><td><%=work.location_floor%> <%=work.location_detail%><% if current_user.can_edit_location? and work.id  %>
         (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
       <% end %></td></tr>
     <% end %>

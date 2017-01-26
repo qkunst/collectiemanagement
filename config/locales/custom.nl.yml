@@ -156,6 +156,7 @@ nl:
         locations: Locaties
         figurative: Figuratief
         abstract: Abstract
+        public_description: Informatie over het werk voor publiek
         abstract_or_figurative: Abstract of figuratief
         abstract_or_figurative_rendered: Abstract of figuratief
         object_format_code: Formaatcode
@@ -164,7 +165,9 @@ nl:
         collection_name_extended: Collectie
         created_at: Opgeslagen op
         created_by: Invoerder
-        location: Locatie
+        location: Adres en/of gebouw(deel)
+        location_floor: Verdieping
+        location_detail: Locatie specificatie
         location_raw: Locatie
         stock_number: Inventarisnummer
         alt_number_1: Alternatief nummer 1
@@ -228,7 +231,6 @@ nl:
         condition_frame_rendered: Conditie lijst
         valuation_on: Datum waardebepaling
         internal_comments: Opmerkingen voor intern gebruik
-        location_detail: Locatie specificatie
         artist_name_rendered: Vervaardiger(s)
         hpd_height: Hoogte (HPD)
         hpd_width: Breedte (HPD)

@@ -3,6 +3,7 @@
 <p>Bewerk locatie van <%= @work.stock_number%> <%= @work.name%></p>
 <%= simple_form_for([@collection,@work]) do |f| %>
 <%= f.input :location %>
+<%= f.input :location_floor %>
 <%= f.input :location_detail %>
 <%= f.submit class: :submit, class: :button%>
 <% end%>

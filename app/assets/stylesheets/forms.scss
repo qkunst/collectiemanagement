@@ -1,3 +1,5 @@
+@import 'variables';
+
 .hint {
   margin-top: -1em;
   line-height: 1;
@@ -11,4 +13,12 @@
 .button.tertiary {
   background: #eee;
   color: #777;
+}
+
+fieldset {
+  margin-top: 1em;
+  legend {
+    color: $qkunst-orange;
+    font-size: 1.2em;
+  }
 }

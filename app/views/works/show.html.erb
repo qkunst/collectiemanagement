@@ -2,9 +2,9 @@
   <div class="large-10 columns">
     <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to_with_name artist %> <% end %></h2>
 
-    <h1><%= @work.title_rendered %>         <% if qkunst_user? %>
+    <h1><%= @work.title_rendered %> <small>         <% if qkunst_user? %>
           (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
-        <% end %></h1>
+        <% end %></small></h1>
   </div>
   <div class="medium-2 columns">
     <div class="stocknumber right"><%= @work.stock_number %></div>
@@ -14,6 +14,12 @@
     <p>
       <%= simple_format @work.description %>
     </p>
+    <% if @work.public_description? %>
+    <h4>Beschrijving voor eindgebruikers</h4>
+    <p>
+      <%= simple_format @work.public_description %>
+    </p>
+    <% end %>
   </div>
 </header>
 
@@ -51,7 +57,9 @@
 
 <div class="row">
   <div class="small-6 column">
-    <h3 class="left">Details</h3>
+    <h3 class="left">Details <small><% if qkunst_user? %>
+          (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
+        <% end %></small></h3>
   </div>
   <div class="small-6 column">
     <% if current_user.can_write_messages? %>
