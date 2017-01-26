@@ -78,7 +78,7 @@ class Work < ApplicationRecord
     end
   end
 
-  def name
+  def name(options={})
     "#{artist_name_rendered} - #{title_rendered}"
   end
 
@@ -107,12 +107,11 @@ class Work < ApplicationRecord
   end
 
   def artist_name_rendered(options={})
-    return @artist_name_rendered if @artist_name_rendered
-    @artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
-    if artist_unknown and (@artist_name_rendered.nil? or @artist_name_rendered.empty?)
-      @artist_name_rendered = "Onbekend"
+    artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
+    if artist_unknown and (artist_name_rendered.nil? or artist_name_rendered.empty?)
+      artist_name_rendered = "Onbekend"
     end
-    return @artist_name_rendered
+    return artist_name_rendered
   end
 
   def signature_rendered

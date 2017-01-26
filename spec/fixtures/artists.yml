@@ -1,5 +1,8 @@
 artist1:
+  first_name: firstname
   last_name: artist_1
+  year_of_birth: 1900
+  year_of_death: 2000
 artist2:
   last_name: artist_2
 artist3:

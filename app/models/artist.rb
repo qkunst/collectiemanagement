@@ -23,7 +23,7 @@ class Artist < ApplicationRecord
     namepart = [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
     birthpart = [year_of_birth, year_of_death].delete_if{|a| a==""}.compact.join("-")
     birthpart = "(#{birthpart})" if birthpart != ""
-    birthpart = nil if options[:include_years] == false
+    birthpart = "" if options[:include_years] == false
     rname = [namepart,birthpart].delete_if{|a| a==""}.join(" ")
     return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
   end

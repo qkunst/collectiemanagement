@@ -14,6 +14,14 @@ RSpec.describe Work, type: :model do
 
       end
     end
+    describe ".artist_name_rendered" do
+      it "should summarize the artists nicely" do
+        expect(works(:work1).artist_name_rendered).to eq("artist_1, firstname (1900-2000)")
+      end
+      it "should respect include_years option" do
+        expect(works(:work1).artist_name_rendered(include_years: false)).to eq("artist_1, firstname")
+      end
+    end
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
         works = [works(:work1),works(:work2)]
