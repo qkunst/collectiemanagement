@@ -249,6 +249,8 @@ class WorksController < ApplicationController
       if @work.update(work_params)
         if ["1", 1, true].include? params["submit_and_edit_next"]
           format.html { redirect_to edit_collection_work_path(@collection, @work.next), notice: 'Het werk is bijgewerkt, nu de volgende.' }
+        elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]
+          format.html { redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.' }
         else
           format.html { redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.' }
         end
