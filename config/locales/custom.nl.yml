@@ -73,6 +73,7 @@ nl:
       involvement: Betrekking
       artist_involvement: Vervaardigersbetrekking
       appraisal: Waardering
+      attachment: Bijlage
     values:
       import_collection:
         split_nothing: "Splits niets"
@@ -142,6 +143,10 @@ nl:
         replacement_value: Vervangingswaarde
         market_value: Marktwaarde
         appraised_on: Gewaardeerd op
+      attachment:
+        file: Bestand
+        name: Bestandsnaam / beschrijving
+        visibility: Zichtbaarheid
       involvement:
         name: Naam
         place: Plaats

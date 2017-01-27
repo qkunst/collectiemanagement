@@ -54,7 +54,7 @@
     <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
     <li><%=link_to "Foto's", collection_works_path(@collection, format: :zip) %> <small>(geschatte grootte: <%= number_to_human_size(@collection.works_including_child_works.count * 2 * 400000 )%>)</li>
   </ul>
-
+  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>%>
 </aside>
 <% end %>
 </div>

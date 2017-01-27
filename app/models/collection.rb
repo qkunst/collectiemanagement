@@ -23,6 +23,7 @@ class Collection < ApplicationRecord
   has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_and_belongs_to_many :users
+  has_many :attachments, as: :attache
   default_scope ->{order(:name)}
   scope :without_parent, ->{where(parent_collection_id: nil)}
 

@@ -7,6 +7,7 @@ class AppraisalsController < ApplicationController
   # GET /appraisals/new
   def new
     @appraisal = Appraisal.new(appraised_by: current_user.name, appraised_on: Time.now.to_date)
+    @latest_appraisal = @work.appraisals.descending_appraisal_on.first
   end
 
   # GET /appraisals/1/edit

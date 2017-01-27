@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170127183603) do
+ActiveRecord::Schema.define(version: 20170127193358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,17 @@ ActiveRecord::Schema.define(version: 20170127183603) do
     t.integer "artist_id"
     t.integer "work_id"
     t.index ["work_id"], name: "index_artists_works_on_work_id", using: :btree
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "attache_id"
+    t.string   "attache_type"
+    t.string   "file"
+    t.string   "visibility"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["attache_id"], name: "index_attachments_on_attache_id", using: :btree
   end
 
   create_table "batch_photo_uploads", force: :cascade do |t|

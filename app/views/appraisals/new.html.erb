@@ -6,9 +6,12 @@
 
 <%= link_to 'Annuleer', collection_work_path(@collection, @work), class: 'hide-in-context' %>
 
+<% if @latest_appraisal%>
 <hr/>
+
 <h3>Eerdere waarderingen</h3>
 <%= render partial: 'appraisals'%>
 <h4>Laatste referentie</h4>
-<%= simple_format @work.appraisals.descending_appraisal_on.first.reference%>
+<%= simple_format latest_appraisal.reference%>
 </div>
+<% end %>
