@@ -14,6 +14,12 @@
   background: #eee;
   color: #777;
 }
+.button.primary {
+  color: #fff;
+  &:hover {
+    color: #fff;
+  };
+}
 
 fieldset {
   margin-top: 1em;

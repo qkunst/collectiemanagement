@@ -23,6 +23,9 @@
         $.ajax(urlToOpen).then(
           function(data){
             var body = $(data).find("#main");
+            if (body.length == 0){
+              console.warn("No #main-section found in the url ("+urlToOpen+")")
+            }
             contextContainer.html( body.html() );
             contextContainer.data('url', urlToOpen);
           }, closeFunction

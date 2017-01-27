@@ -243,6 +243,13 @@ h3 {
   padding-bottom: 10px;
   padding-top: 1em;
 
+
+  a.active {
+    color: #000;
+    font-weight: bold;
+  }
+}
+nav {
   a.button {
     margin-bottom: 0;
     margin-left: .5em;
@@ -250,10 +257,6 @@ h3 {
     &:hover {
       color: #fff;
     };
-  }
-  a.active {
-    color: #000;
-    font-weight: bold;
   }
 }
 

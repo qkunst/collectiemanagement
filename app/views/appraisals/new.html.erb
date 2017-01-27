@@ -1,0 +1,14 @@
+<div id="main">
+<h1>Waardeer</h1>
+<p>Waardering <%= @work.stock_number%> <%= @work.name%></p>
+
+<%= render 'form', appraisal: @appraisal %>
+
+<%= link_to 'Annuleer', collection_work_path(@collection, @work), class: 'hide-in-context' %>
+
+<hr/>
+<h3>Eerdere waarderingen</h3>
+<%= render partial: 'appraisals'%>
+<h4>Laatste referentie</h4>
+<%= simple_format @work.appraisals.descending_appraisal_on.first.reference%>
+</div>

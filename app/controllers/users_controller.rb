@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @admin_users = User.admin.order(:email).all
+    @appraisal_users = User.appraiser.order(:email).all
     @qkunst_users = User.qkunst.order(:email).all
     other_users = User.other.order(:email)
     @external_users = other_users.has_collections.all
@@ -14,7 +15,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    user_params = params.require(:user).permit(:role, :receive_mails, collection_ids: [])
+    user_params = params.require(:user).permit(:role, :receive_mails, :name, collection_ids: [])
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to users_path, notice: 'De gebruiker is bijgewerkt.' }

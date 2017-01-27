@@ -72,6 +72,7 @@ nl:
       batch_photo_upload: Foto-import
       involvement: Betrekking
       artist_involvement: Vervaardigersbetrekking
+      appraisal: Waardering
     values:
       import_collection:
         split_nothing: "Splits niets"
@@ -135,6 +136,12 @@ nl:
         involvement: Instelling
         start_year: Vanaf (jaar)
         end_year: Tot (jaar)
+      appraisal:
+        appraised_by: Waardering door
+        reference: Referentie / Opmerkingen
+        replacement_value: Vervangingswaarde
+        market_value: Marktwaarde
+        appraised_on: Gewaardeerd op
       involvement:
         name: Naam
         place: Plaats
@@ -219,6 +226,7 @@ nl:
         market_value: Marktwaarde (€)
         replacement_value: Vervangingswaarde (€)
         purchase_price: Aankoopprijs
+        purchased_on: Aankoopdatum
         purchase_price_currency: Eenheid
         price_reference: Prijsreferentie
         grade_within_collection: Niveau binnen collectie

@@ -1,0 +1,23 @@
+<div class="row columns"><%= simple_form_for([@collection, @work, @appraisal]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+  <div class="row">
+    <div class="medium-6 columns"><%= f.input :appraised_by %></div>
+    <div class="medium-6 columns"><%= f.input :appraised_on, html5: true %></div>
+  </div>
+
+  <div class="row">
+    <div class="medium-6 columns"><%= f.input :market_value, as: :string %></div>
+    <div class="medium-6 columns"><%= f.input :replacement_value, as: :string %></div>
+  </div>
+
+    <%= f.input :reference %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button%>
+  </div>
+<% end %>
+
+</div>

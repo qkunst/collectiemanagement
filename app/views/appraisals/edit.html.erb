@@ -1,0 +1,12 @@
+<div id="main">
+  <h1>
+  Bewerk waardering
+  <%if admin_user? %>
+  <small>(<%= link_to 'Verwijder', collection_work_appraisal_path(@collection, @work, @appraisal), method: :delete, data: { confirm: 'Weet je zeker dat je deze waardering wilt verwijderen?' }  %>)</small>
+  <% end %>
+  </h1>
+
+<%= render 'form', appraisal: @appraisal %>
+
+<%= link_to 'Annuleer', collection_work_path(@collection, @work) %>
+</div>

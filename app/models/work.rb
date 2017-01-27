@@ -23,6 +23,9 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :frame_damage_types
   has_and_belongs_to_many :themes
 
+
+  has_many :appraisals
+
   belongs_to :subset
   belongs_to :placeability
   belongs_to :purchase_price_currency, :class_name=>Currency
@@ -342,6 +345,13 @@ class Work < ApplicationRecord
     else
       write_attribute(:signature_comments, sig)
     end
+  end
+
+  def update_latest_appraisal_data!
+    latest_appraisal = appraisals.descending_appraisal_on.first
+    self.market_value = latest_appraisal.market_value
+    self.replacement_value = latest_appraisal.replacement_value
+    self.save
   end
 
   class << self

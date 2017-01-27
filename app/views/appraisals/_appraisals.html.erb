@@ -1,0 +1,29 @@
+
+    <table>
+      <thead>
+        <tr>
+          <th rowspan=2>Datum</th>
+          <th colspan=2>Waarde</th>
+          <th rowspan=2>Door</th>
+          <th rowspan=2>&nbsp;</th>
+        </tr>
+        <tr>
+          <th>Markt</th>
+          <th>Vervanging</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @work.appraisals.descending_appraisal_on.each do |appraisal| %>
+          <tr>
+            <td><%= I18n.l appraisal.appraised_on, format: :short_month_year if appraisal.appraised_on%></td>
+            <td><%= number_to_currency appraisal.market_value %></td>
+            <td><%= number_to_currency appraisal.replacement_value %></td>
+            <td><%= appraisal.appraised_by %></td>
+            <td><%= link_to 'Bewerk', edit_collection_work_appraisal_path(@collection, @work, appraisal), data: { open_in_context: true} %>
+            </td>
+
+          </tr>
+        <% end %>
+      </tbody>
+    </table>

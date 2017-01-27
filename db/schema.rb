@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126124016) do
+ActiveRecord::Schema.define(version: 20170127183603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appraisals", force: :cascade do |t|
+    t.date     "appraised_on"
+    t.float    "market_value"
+    t.float    "replacement_value"
+    t.string   "appraised_by"
+    t.integer  "user_id"
+    t.text     "reference"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "work_id"
+  end
 
   create_table "artist_involvements", force: :cascade do |t|
     t.integer  "involvement_id"
@@ -47,6 +59,7 @@ ActiveRecord::Schema.define(version: 20170126124016) do
   create_table "artists_works", force: :cascade do |t|
     t.integer "artist_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_artists_works_on_work_id", using: :btree
   end
 
   create_table "batch_photo_uploads", force: :cascade do |t|
@@ -370,6 +383,8 @@ ActiveRecord::Schema.define(version: 20170126124016) do
     t.boolean  "facility_manager"
     t.boolean  "receive_mails",          default: true
     t.string   "api_key"
+    t.boolean  "appraiser"
+    t.string   "name"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
@@ -448,6 +463,8 @@ ActiveRecord::Schema.define(version: 20170126124016) do
     t.boolean  "external_inventory"
     t.text     "public_description"
     t.string   "location_floor"
+    t.date     "purchased_on"
+    t.string   "artist_name_rendered"
   end
 
 end

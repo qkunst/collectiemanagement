@@ -1,13 +1,19 @@
 <nav class='sub-nav hide-for-print'>
-  <% if qkunst_user? %><%= link_to "Voeg nieuw werk toe", new_collection_work_path(@collection), class: 'small button right' %><% end %>
-  <% if current_user.can_write_messages? %>
-  <% if @work%>
-    <%= link_to 'Vraag of opmerking over dit werk?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button right' : 'small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
-  <% else %>
-    <%= link_to 'Vraag of opmerking over deze collectie?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button right' : 'small button right', data: { open_in_context: true} if current_user.can_write_messages?%>
-  <% end%>
+<ul class="menu right">
+  <% if qkunst_user? %>
+    <li class="right"><%= link_to "Voeg nieuw werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
   <% end %>
+  <% if current_user.can_write_messages? %>
+    <% if @work%>
+      <li class="right"><%= link_to 'Vraag of opmerking over dit werk?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
+    <% else %>
+      <li class="right"><%= link_to 'Vraag of opmerking over deze collectie?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
+    <% end%>
+  <% end %>
+
+</ul>
 <ul class="menu simple">
+
   <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></strong></li>
   <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>

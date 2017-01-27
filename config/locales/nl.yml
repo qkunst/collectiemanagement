@@ -34,6 +34,7 @@ nl:
       default: ! '%d-%m-%Y'
       long: ! '%e %B %Y'
       short: ! '%e %b'
+      short_month_year: ! '%b %Y'
     month_names:
     -
     - januari

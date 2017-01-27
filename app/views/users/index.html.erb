@@ -47,7 +47,30 @@
 <div class="row">
 
   <div class="large-6 columns">
+    <h2>Taxateurs</h2>
+    <p>Taxateurs kunnen naast registreren ook taxaties toevoegen en inzien, maar hebben alleen toegang tot geselecteerde collecties en kunnen geen instellingen wijzigen. </p>
 
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+          <th>Collectie-toegang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@appraisal_users.each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <td>
+              <ul>
+                <%user.collections.each do |collection| %>
+                  <li><%= link_to collection.name, collection%></li>
+                <% end %>
+              </ul>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
     <h2>Registratoren</h2>
     <p>QKunst gebruikers hebben alleen toegang tot geselecteerde collecties en kunnen geen instellingen wijzigen. </p>
 

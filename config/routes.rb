@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       patch 'import_works' => 'import_collections#import_works'
     end
     resources :works do
+      resources :appraisals
       resources :messages
       get 'edit_location' => 'works#edit_location'
       get 'edit_photos' => 'works#edit_photos'

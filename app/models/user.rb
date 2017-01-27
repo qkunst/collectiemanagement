@@ -8,13 +8,14 @@ class User < ApplicationRecord
   has_and_belongs_to_many :collections
 
   scope :admin, ->{ where(admin: true) }
-  scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil]) }
-  scope :other, ->{ where(qkunst: [false,nil]).where(admin: [false, nil]) }
+  scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil]) }
+  scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil]).where(appraiser: [false, nil]) }
+  scope :other, ->{ where(qkunst: [false,nil]).where(admin: [false, nil]).where(appraiser: [false, nil]) }
   scope :has_collections, ->{ joins(:collections).uniq }
   scope :receive_mails, ->{ where(receive_mails: true)}
 
   def qkunst?
-    read_attribute(:qkunst) or admin?
+    read_attribute(:qkunst) or admin? or appraiser?
   end
 
   def role
@@ -29,10 +30,6 @@ class User < ApplicationRecord
       self.send("#{r}=", r.to_s == new_role.to_s) if self.methods.include?(r)
     end
     return new_role
-  end
-
-  def name
-    email
   end
 
   def activated?
@@ -94,14 +91,10 @@ class User < ApplicationRecord
   def can_edit_valuation?
     admin? or appraiser?
   end
+  alias_method :can_appraise?, :can_edit_valuation?
 
-  def appraiser?
-    # TODO: implement
-    false
-  end
-
-  def can_access_valuation?
-    admin? or facility_manager?
+  def can_access_valuations?
+    admin? or facility_manager? or can_edit_valuation?
   end
 
   def can_edit_most_of_work?
@@ -143,7 +136,7 @@ class User < ApplicationRecord
 
   class << self
     def roles
-      [:admin, :qkunst, :read_only, :facility_manager]
+      [:admin, :qkunst, :read_only, :facility_manager, :appraiser]
     end
     def find_by_name(a)
       find_by_email(a)

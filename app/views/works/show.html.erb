@@ -1,6 +1,6 @@
 <header class="row">
   <div class="large-10 columns">
-    <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to_with_name artist %> <% end %></h2>
+    <% if @work.artists.count > 0 %><h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to_with_name artist %> <% end %></h2><% end %>
 
     <h1><%= @work.title_rendered %> <small>         <% if qkunst_user? %>
           (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
@@ -62,13 +62,18 @@
         <% end %></small></h3>
   </div>
   <div class="small-6 column">
-    <% if current_user.can_write_messages? %>
-      <%= link_to 'Vraag of opmerking?', collection_work_messages_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%>
-    <% end %>
+    <nav>
+      <ul class="menu">
+        <% if current_user.can_write_messages? %>
+          <li class="right"><%= link_to 'Vraag of opmerking?', collection_work_messages_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+        <% end %>
+        <% if current_user.can_appraise? %>
+          <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'primary small button right', data: { open_in_context: true}%></li>
+        <% end %>
+      </ul>
   </div>
 </div>
-<div class="row">
-  <div class="large-12 column">
-    <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
-  </div>
+<div class="row columns">
+  <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
+
 </div>
