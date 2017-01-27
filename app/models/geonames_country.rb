@@ -15,6 +15,10 @@ class GeonamesCountry < ApplicationRecord
     lname ? lname.label : country_name
   end
 
+  def geonameid
+    geoname_id
+  end
+
   def parent_description
     "Land"
   end
