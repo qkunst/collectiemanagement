@@ -38,7 +38,7 @@
     <% elsif @artist.rkd_artists.count == 0 %>
       <p>Er kon geen match gevonden worden in RKDartists&amp;</p>
     <% elsif @artist.rkd_artists.count > 0 and @artist.rkd_artists.count <= 3 %>
-      <p>Er zijn meerdere matches gevonden in RKDartists&amp;:</p>
+      <p>Matches in RKDartists&amp;:</p>
       <%= render @artist.rkd_artists%>
     <% end %>
     <hr />
