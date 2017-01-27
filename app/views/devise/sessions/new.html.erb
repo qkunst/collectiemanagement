@@ -1,5 +1,6 @@
 <h2>Log in</h2>
-
+<div class="row">
+<div class="medium-8 columns">
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="form-inputs">
     <%= f.input :email, required: false, autofocus: true %>
@@ -11,5 +12,11 @@
     <%= f.button :submit, "Inloggen", class: 'button' %>
   </div>
 <% end %>
-
 <%= render "devise/shared/links" %>
+</div>
+<div class="medium-4 columns">
+  <h4>Nog geen account?</h4>
+  <p>Heeft u nog geen toegang tot de QKunst collectiedatabase? U kunt alvast registreren. Een QKunst administrator kan vervolgens uw account activeren.</p>
+  <p><%= link_to 'Registreer', new_registration_path(:user), class: [:button, :expanded] %></p>
+</div>
+</div>

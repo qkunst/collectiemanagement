@@ -46,21 +46,19 @@ class WorksController < ApplicationController
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] and !@reset
 
-    if params[:offline] == "offline"
+    begin
+      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)})
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
-    else
-      begin
-        @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)}).includes(:themes,:placeability,:artists,:collection,:techniques)
-      rescue Elasticsearch::Transport::Transport::Errors::BadRequest
-        @works = []
-        @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
-      rescue Faraday::ConnectionFailed
-        @works = []
-        @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
-      end
+      @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
+    rescue Faraday::ConnectionFailed
+      @works = []
+      @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
     end
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :geoname_ids])
+
+    @works_count = @works.count
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
@@ -78,7 +76,7 @@ class WorksController < ApplicationController
           works_grouped.each do |key, works|
             works_grouped[key] = sort_works(works)
           end
-          @max_index ||= 3
+          @max_index ||= @works_count < 247 ? 99999 : 7
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
             @works_grouped[key] = works_grouped[key]
@@ -88,7 +86,7 @@ class WorksController < ApplicationController
           end
         else
           @works = sort_works(@works)
-          @max_index ||= 15 #247
+          @max_index ||= 247
         end
       }
       format.xlsx {

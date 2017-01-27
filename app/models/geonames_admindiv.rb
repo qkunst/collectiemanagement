@@ -38,7 +38,7 @@ class GeonamesAdmindiv < ApplicationRecord
   def parent_geoname_ids
     geo_ids = []
     geo_ids << country.geoname_id if country
-    geo_ids << parent.geonameid if parent
+    geo_ids << parent.geoname_id if parent
     geo_ids
   end
 

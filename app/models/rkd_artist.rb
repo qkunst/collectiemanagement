@@ -14,7 +14,11 @@ class RkdArtist < ApplicationRecord
 
   def year_of_death
     begin
-      api_response["sterfdatum_eind"].to_date.year
+      if api_response["sterfdatum_eind"].match /\d\d\d\d/
+        api_response["sterfdatum_eind"].to_i
+      else
+        api_response["sterfdatum_eind"].to_date.year
+      end
     rescue
     end
   end
@@ -35,7 +39,11 @@ class RkdArtist < ApplicationRecord
 
   def year_of_birth
     begin
-      api_response["geboortedatum_eind"].to_date.year
+      if api_response["geboortedatum_eind"].match /\d\d\d\d/
+        api_response["geboortedatum_eind"].to_i
+      else
+        api_response["geboortedatum_eind"].to_date.year
+      end
     rescue
     end
   end
@@ -110,6 +118,12 @@ class RkdArtist < ApplicationRecord
       }
       involvement[:place] = involvement_id.place
       involvement[:place_geoname_id] = involvement_id.place_geoname_id
+      opmerkingen_academie = academie["opmerking_academie"]
+      if opmerkingen_academie.to_s.strip.match(/\d\d\d\d-\d\d\d\d/)
+        involvement[:start_year] = opmerkingen_academie.to_s.strip.split("-")[0]
+        involvement[:end_year] = opmerkingen_academie.to_s.strip.split("-")[1]
+      end
+
       artist_involvements << involvement
     end
     artist_involvements

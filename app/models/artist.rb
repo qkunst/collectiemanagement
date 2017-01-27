@@ -55,9 +55,16 @@ class Artist < ApplicationRecord
     name
   end
 
+  def rkd_artists
+    return [rkd_artist] if rkd_artist
+    RkdArtist.search_rkd_by_artist(self)
+  end
+
   def retrieve_rkd_artists!
     return [rkd_artist] if rkd_artist
     rkd_artists = RkdArtist.search_rkd_by_artist(self)
+    self.rkd_artist = rkd_artists.first if rkd_artists.count == 1
+    self.save
     rkd_artists
   end
 
@@ -116,7 +123,7 @@ class Artist < ApplicationRecord
 
   def import!(other)
     other.to_parameters.each do |k,v|
-      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty?)
+      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty? or (k == :firstname or k == :lastname))
     end
     educational_involvements = []
     professional_involvements = []

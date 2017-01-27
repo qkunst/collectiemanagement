@@ -1,11 +1,20 @@
 <article class="artist">
   <header>
     <h4><%= link_to artist do %><%= artist.name %><% end %></h4>
-    <p><% if artist.born? %>
-      <%= artist.place_of_birth %><% if artist.place_of_birth and artist.place_of_birth_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%> (<%=artist.year_of_birth%>) -
+    <p>
+    <% if artist.born? %>
+      <%=artist.year_of_birth%>
+      <% if artist.place_of_birth? %>
+        (<%= artist.place_of_birth %><% if artist.place_of_birth and artist.place_of_birth_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%>)
+      <% end %>
     <% end %>
+
     <% if artist.died? %>
-      <%=  artist.place_of_death %><% if artist.place_of_death and artist.place_of_death_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%> (<%=artist.year_of_death%>)
+      -
+      <%=artist.year_of_death%>
+      <% if artist.place_of_death? %>
+        (<%= artist.place_of_death %><% if artist.place_of_death and artist.place_of_death_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%>)
+      <% end %>
     <% end %></p>
     <p><% if artist.techniques.to_sentence != ""%>Technieken: <%= artist.techniques.to_sentence %><% end %><% if artist.subsets.to_sentence != ""%>; Deelcollecties: <%= artist.subsets.to_sentence %><% end %></p>
   </header>

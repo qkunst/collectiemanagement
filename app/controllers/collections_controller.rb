@@ -9,6 +9,7 @@ class CollectionsController < ApplicationController
   # GET /collections.json
   def index
     @collections = admin_user? ? Collection.without_parent.all : Collection.for_user(current_user).all
+    @title = "Collecties"
     current_user.reset_filters!
     if @collections.count == 1
       redirect_to @collections.first
@@ -23,11 +24,13 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
+    @title = @collection.name
     current_user.reset_filters!
   end
 
   def report
     @collection = @parent_collection
+    @title = "Rapportage voor #{@collection.name}"
     @sections = {
       "Locaties": [[:location_raw]],
     }

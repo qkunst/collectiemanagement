@@ -26,7 +26,7 @@
 
       </div>
     </div>
-    <p><strong>De kunstenaar is gekoppeld aan de volgende localiteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
+    <p><strong>De kunstenaar is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
 
   </div>
   <aside class="large-3 medium-3 columns">
@@ -35,7 +35,11 @@
     <% if @artist.rkd_artist %>
       <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
       <%= render @artist.rkd_artist %>
-
+    <% elsif @artist.rkd_artists.count == 0 %>
+      <p>Er kon geen match gevonden worden in RKDartists&amp;</p>
+    <% elsif @artist.rkd_artists.count > 0 and @artist.rkd_artists.count <= 3 %>
+      <p>Er zijn meerdere matches gevonden in RKDartists&amp;:</p>
+      <%= render @artist.rkd_artists%>
     <% end %>
     <hr />
     <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', artist_rkd_artists_path(@artist)%></p>
