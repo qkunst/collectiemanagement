@@ -56,6 +56,15 @@ RSpec.describe Artist, type: :model do
       expect(a.first_name).to eq("B")
       expect(a.last_name).to eq("A")
     end
+    it "should not import name when middle name is given" do
+      a = Artist.create(first_name: "A", prefix: "B", last_name: "C")
+      b = Artist.new(first_name: "A", last_name: "B C")
+      a.import!(b)
+      a.save
+      expect(a.first_name).to eq("A")
+      expect(a.prefix).to eq("B")
+      expect(a.last_name).to eq("C")
+    end
     it "should import artist involvements" do
       a = Artist.create(first_name: "A")
       a.artist_involvements.create(place: "Berlijn", involvement_type: :professional)
