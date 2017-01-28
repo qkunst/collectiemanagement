@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  ROLES = [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -19,14 +21,19 @@ class User < ApplicationRecord
   end
 
   def role
-    User.roles.each do |r|
-      return r if self.methods.include?(r) and self.send(r)
+    roles.first
+  end
+
+  def roles
+    rv = User::ROLES.collect do |r|
+      r if self.methods.include?(r) and self.send(r)
     end
-    return :read_only
+    rv = (rv.compact + [:read_only])
+    rv
   end
 
   def role= new_role
-    User.roles.each do |r|
+    User::ROLES.each do |r|
       self.send("#{r}=", r.to_s == new_role.to_s) if self.methods.include?(r)
     end
     return new_role
@@ -135,9 +142,6 @@ class User < ApplicationRecord
   end
 
   class << self
-    def roles
-      [:admin, :qkunst, :read_only, :facility_manager, :appraiser]
-    end
     def find_by_name(a)
       find_by_email(a)
     end

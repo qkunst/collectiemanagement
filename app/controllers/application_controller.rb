@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
 
   end
 
+
   def heartbeat
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
     response.headers["Pragma"] = "no-cache"

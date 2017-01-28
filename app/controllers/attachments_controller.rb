@@ -9,11 +9,6 @@ class AttachmentsController < ApplicationController
     @attachments = Attachment.all
   end
 
-  # GET /attachments/1
-  # GET /attachments/1.json
-  def show
-  end
-
   # GET /attachments/new
   def new
     @attachment = Attachment.new()
@@ -33,8 +28,8 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       if @attachment.save
-        format.html { redirect_to [@attachment.attache, @attachment], notice: 'Attachment toegevoegd' }
-        format.json { render :show, status: :created, location: [@attachment.attache, @attachment] }
+        format.html { redirect_to @attachment.attache, notice: 'Attachment toegevoegd' }
+        format.json { render :show, status: :created, location: @attachment.attache }
       else
         format.html { render :new }
         format.json { render json: @attachment.errors, status: :unprocessable_entity }
@@ -47,8 +42,8 @@ class AttachmentsController < ApplicationController
   def update
     respond_to do |format|
       if @attachment.update(attachment_params)
-        format.html { redirect_to [@attachment.attache, @attachment], notice: 'Attachment bijgewerkt' }
-        format.json { render :show, status: :ok, location: [@attachment.attache, @attachment] }
+        format.html { redirect_to @attachment.attache, notice: 'Attachment bijgewerkt' }
+        format.json { render :show, status: :ok, location: @attachment.attache }
       else
         format.html { render :edit }
         format.json { render json: @attachment.errors, status: :unprocessable_entity }
@@ -61,7 +56,7 @@ class AttachmentsController < ApplicationController
   def destroy
     @attachment.destroy
     respond_to do |format|
-      format.html { redirect_to attachments_url, notice: 'Attachment verwijderd' }
+      format.html { redirect_to @collection, notice: 'Attachment verwijderd' }
       format.json { head :no_content }
     end
   end
@@ -74,6 +69,6 @@ class AttachmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def attachment_params
-      params.require(:attachment).permit(:name, :attache_id, :file, :visibility)
+      params.require(:attachment).permit(:name, :file, visibility: [])
     end
 end

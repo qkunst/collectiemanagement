@@ -23,6 +23,12 @@ module ApplicationHelper
     @selection and @selection[:display] == :complete
   end
 
+  def edit_attachment_path attachment
+    if attachment.attache.is_a? Collection
+      edit_collection_attachment_path(attachment.attache, attachment)
+    end
+  end
+
   def link_to_edit item
     if item.is_a? Array
       item_part = item.collect{|a| a.class.model_name.singular}.join("_")

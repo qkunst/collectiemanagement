@@ -1,14 +1,11 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Attachments</h1>
+<div id="main">
+<h1>Bijlagen</h1>
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Attache</th>
-      <th>File</th>
-      <th>Visibility</th>
+      <th>Naam</th>
+      <th>Zichtbaar voor</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,18 +13,12 @@
   <tbody>
     <% @attachments.each do |attachment| %>
       <tr>
-        <td><%= attachment.name %></td>
-        <td><%= attachment.attache %></td>
-        <td><%= attachment.file %></td>
-        <td><%= attachment.visibility %></td>
-        <td><%= link_to 'Show', attachment %></td>
-        <td><%= link_to 'Edit', edit_attachment_path(attachment) %></td>
-        <td><%= link_to 'Destroy', attachment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to attachment.file_name, attachment.file.url %></td>
+        <td><%= attachment.visibility.to_sentence %></td>
+        <td><%= link_to 'Bewerk', edit_attachment_path(attachment) %></td>
+        <td><%= link_to 'Verwijder', [attachment.attache, attachment], method: :delete, data: { confirm: "Weet je zeker dat je '#{attachment.file_name}' wilt  verwijderen?" } %></td>
       </tr>
     <% end %>
   </tbody>
+  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
 </table>
-
-<br>
-
-<%= link_to 'New Attachment', new_attachment_path %>

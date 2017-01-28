@@ -52,9 +52,16 @@
       <li><%=link_to "Excel", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
     <% end %>
     <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
-    <li><%=link_to "Foto's", collection_works_path(@collection, format: :zip) %> <small>(geschatte grootte: <%= number_to_human_size(@collection.works_including_child_works.count * 2 * 400000 )%>)</li>
+    <li><%=link_to "Foto's", collection_works_path(@collection, format: :zip) %> <small>(geschatte grootte: <%= number_to_human_size(@collection.works_including_child_works.count * 2 * 400000 )%>)</small></li>
   </ul>
-  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>%>
+  <hr/>
+  <ul>
+    <% @collection.attachments.for_me(current_user).each do |attachment| %>
+      <li><%= link_to "#{attachment.file_name}", attachment.file.url %> <small>(grootte: <%= number_to_human_size(attachment.file.size)%>)</small></li>
+    <% end %>
+  </ul>
+  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
+  <p><%= link_to 'Beheer bijlagen', collection_attachments_path(@collection), data: {open_in_context:true}%>
 </aside>
 <% end %>
 </div>

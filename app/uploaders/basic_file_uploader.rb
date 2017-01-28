@@ -48,6 +48,7 @@ class BasicFileUploader < CarrierWave::Uploader::Base
 
   def filename
     if original_filename
+      model.write_attribute(:name, original_filename) if model.methods.include? :file_name and !model.name?
       if model && model.read_attribute(mounted_as).present?
         model.read_attribute(mounted_as)
       else
