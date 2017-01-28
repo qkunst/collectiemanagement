@@ -121,7 +121,7 @@ class Artist < ApplicationRecord
 
   def import!(other)
     other.to_parameters.each do |k,v|
-      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty? or (k == :firstname or k == :lastname))
+      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty? or (!(k == "firstname" or k == "lastname") and self.prefix?))
     end
     educational_involvements = []
     professional_involvements = []
