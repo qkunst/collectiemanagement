@@ -470,6 +470,11 @@ body.offline {
 .button.small {
   font-weight: 600;
 }
+@media screen {
+  .hide-for-screen {
+    display: none;
+  }
+}
 
 @media print {
   body {
@@ -480,8 +485,14 @@ body.offline {
   a[href]:after {
     content: "" !important;
   }
+  .cluster {
+    page-break-inside: avoid;
+  }
   a {
     text-decoration: none !important;
+  }
+  .columns.print-12, .column.print-12 {
+    width: 100%;
   }
   .small-block-grid-2, .medium-block-grid-3, .large-block-grid-3{
     li {

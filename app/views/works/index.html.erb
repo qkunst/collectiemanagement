@@ -1,13 +1,13 @@
 <h1>Collectie <%= @collection.name %></h1>
 <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
 
-  <p id="offline" class="callout alert"></p>
+  <p id="offline" class="callout alert hide-for-print"></p>
 
   <div class="row">
-    <div class="large-5 columns">
+    <div class="large-5 columns print-12">
       <p>Deze
         <% if @collection_works_count > @works_count %> (gefilterde) <% end %>
-        collectie <% unless @selection[:group] == :no_gropuing%><span class="show-for-print">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
+        collectie <% unless @selection[:group] == :no_gropuing%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
         <%= I18n.translate 'count.works', count:  @works_count %>
         <% if @collection_works_count > @works_count %>
           (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)
@@ -81,7 +81,7 @@
 
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
     </aside>
-    <div class="large-10 medium-10 columns" id="works-list">
+    <div class="large-10 medium-10 columns print-12" id="works-list">
 
       <%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
 
