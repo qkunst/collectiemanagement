@@ -226,7 +226,10 @@ table {
   tr.group_separator {
     height: 0.6em;
   }
-
+  ul {
+    margin-left: 1em;
+    margin-bottom: 0;
+  }
 }
 
 textarea {

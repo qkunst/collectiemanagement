@@ -2,7 +2,7 @@
 @selection ||= {display: :compact}
 %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%>">
-  <% cache_if(work.id, [work, @selection[:display], current_user.role, @show_work_checkbox, "v1.3.5"]) do %>
+  <% cache_if(work.id, [work, @selection[:display], current_user.role, @show_work_checkbox, (@selection_filter ? @selection_filter["locality_geoname_id"] : nil), "v1.4"]) do %>
     <%= link_to collection_work_path(work.collection, work.id ? work.id : -1), class: :block do%>
       <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show") if work.photo_front? %></div>
     <% end %>
@@ -12,7 +12,7 @@
       </label>
         <p class="stocknumber"><%= work.stock_number %><% if work.external_inventory? %><span title="Dit werk is niet door QKunst geïnventariseerd">*</span><% end %></p>
         <%= link_to collection_work_path(work.collection, work.id ? work.id : -1), class: :block do%>
-          <h3><%= work.artist_name_rendered(include_years: (@selection[:display] != :compact))%></h3>
+          <h3><%= work.artist_name_rendered(include_years: (@selection[:display] != :compact), include_locality: (@selection[:display] != :compact), rebuild: (@selection[:display] != :compact))%></h3>
 
           <h4><%= work.title_rendered%></h4>
 

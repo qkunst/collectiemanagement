@@ -17,6 +17,14 @@ class GeonameSummary < ApplicationRecord
     base
   end
 
+  def geoname_ids= array
+    self.write_attribute(:geoname_ids, array.join(","))
+  end
+
+  def geoname_ids
+    self.read_attribute(:geoname_ids).split(",").collect{|a| a.to_i}
+  end
+
   def parent_geoname_ids
     base = Geoname.find_by(geonameid: geoname_id) || GeonamesAdmindiv.find_by(geonameid: geoname_id)
     base ? base.parent_geoname_ids : []
