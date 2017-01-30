@@ -40,7 +40,7 @@ RSpec.describe Artist, type: :model do
     end
     it "should return a reasonable name string with years if given" do
       a = Artist.create(first_name: "Antony", last_name: "Hopkins", year_of_birth: 1900, year_of_death: 2000)
-      expect(a.name).to eq("Hopkins, Antony (1900-2000)")
+      expect(a.name).to eq("Hopkins, Antony (1900 - 2000)")
     end
     it "should return a reasonable name string without years if given when include_years == false" do
       a = Artist.create(first_name: "Antony", last_name: "Hopkins", year_of_birth: 1900, year_of_death: 2000)

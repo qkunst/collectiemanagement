@@ -18,12 +18,14 @@ class Artist < ApplicationRecord
   accepts_nested_attributes_for :artist_involvements
 
   def name(options={})
-    options = {include_years: true}.merge(options)
+    options = {include_years: true, include_locality: false}.merge(options)
     last_name_part = [first_name,prefix].join(" ").strip
     namepart = [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
-    birthpart = [year_of_birth, year_of_death].delete_if{|a| a==""}.compact.join("-")
+    birth = (options[:include_locality] and place_of_birth) ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
+    death = (options[:include_locality] and place_of_death) ? [place_of_death, year_of_death].join(", ") : year_of_death
+    birthpart = [birth, death].compact.join(" - ")
     birthpart = "(#{birthpart})" if birthpart != ""
-    birthpart = "" if options[:include_years] == false
+    birthpart = "" if options[:include_years] == false and options[:include_locality] == false
     rname = [namepart,birthpart].delete_if{|a| a==""}.join(" ")
     return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
   end
