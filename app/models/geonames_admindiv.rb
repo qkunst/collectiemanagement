@@ -35,6 +35,10 @@ class GeonamesAdmindiv < ApplicationRecord
     end
   end
 
+  def geoname_id
+    geonameid
+  end
+
   def parent_geoname_ids
     geo_ids = []
     geo_ids << country.geoname_id if country

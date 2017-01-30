@@ -119,7 +119,7 @@ class Work < ApplicationRecord
       return artist_name_rendered
     else
       rv = read_attribute(:artist_name_rendered)
-      rv = rv.to_s.gsub(/\s\(([\d\-]*)\)/,"") if options[:include_years] == false
+      rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
       rv
     end
   end
