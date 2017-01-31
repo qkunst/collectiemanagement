@@ -24,6 +24,10 @@ class Stage < ApplicationRecord
     collection_stage ? collection_stage.completed? : false
   end
 
+  def completed_at
+    collection_stage ? collection_stage.completed_at : nil
+  end
+
   def active?
     collection_stage ? collection_stage.active? : false
   end
