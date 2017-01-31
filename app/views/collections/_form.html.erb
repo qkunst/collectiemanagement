@@ -18,7 +18,7 @@
         <% unless @parent_collection %>
           <%= f.association :parent_collection, collection: @collection.possible_parent_collections%>
         <% end%>
-        <%#= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
+        <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
       </div>
     </section>
     <section id="advanced">

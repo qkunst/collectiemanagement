@@ -8,6 +8,8 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    act_as_time_as_boolean (1.0.1)
+      activesupport (>= 3.2)
     actioncable (5.0.1)
       actionpack (= 5.0.1)
       nio4r (~> 1.2)
@@ -303,6 +305,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  act_as_time_as_boolean
   attribute_normalizer
   byebug
   capistrano (= 3.5.0)

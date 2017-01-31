@@ -1,0 +1,6 @@
+<h1>Workflow</h1>
+<p>Workflows bestaan uit meerdere stadia.</p>
+<%= render :partial => 'stages_graph', locals: {collection: nil, action: :link_to} %>
+
+
+<%= link_to 'Nieuw stadium', new_stage_path %>

@@ -1,0 +1,25 @@
+<% collection ||= nil %>
+<% Stage.starts.each do |start| %>
+  <% non_cyclic_graph_from_start = start.non_cyclic_graph_from_here(collection) %>
+  <table class="non_cyclic_graph">
+  <% branch_count = non_cyclic_graph_from_start.count %>
+  <thead>
+    <tr>
+      <% non_cyclic_graph_from_start[0].count.times do |a| %>
+        <th><%= a+1%></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% non_cyclic_graph_from_start.each do |branch| %>
+      <tr>
+        <% branch.each_with_index do |leaf, index| %>
+          <% if leaf %>
+            <td class="<%= leaf.enabled ? 'enabled' : 'disabled' %><%= leaf.completed ? ' completed' : '' %>" rowspan="<%=branch_count - non_cyclic_graph_from_start.collect{|a| a[index]}.compact.count + 1%>"><%= link_to(leaf.name, leaf) %></td>
+          <% end %>
+        <% end%>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>
+<% end %>

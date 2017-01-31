@@ -26,6 +26,8 @@ class Collection < ApplicationRecord
   has_many :attachments, as: :attache
   default_scope ->{order(:name)}
   scope :without_parent, ->{where(parent_collection_id: nil)}
+  has_and_belongs_to_many :stages
+  has_many :collections_stages
 
   KEY_MODEL_RELATIONS={
     "artists"=>Artist,
@@ -44,6 +46,13 @@ class Collection < ApplicationRecord
     "source"=>Source,
     "cluster"=>Cluster,
   }
+
+  def find_state_of_stage(stage)
+    collections_stages.to_a.each do |cs|
+      return cs if cs.stage == stage
+    end
+    return nil
+  end
 
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)

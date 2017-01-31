@@ -123,6 +123,10 @@ nl:
           xl: XL
           xxl: XXL
     attributes:
+      stage:
+        name: Naam
+        actual_stage: Stadium samenvoegen met
+        previous_stage: Vorig stadium
       artist:
         first_name: Voornaam
         prefix: Tussenvoegsel

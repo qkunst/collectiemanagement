@@ -1,14 +1,116 @@
+@import 'variables';
 // Place all the styles related to the appraisals controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 table {
+  border-collapse: collapse;
+  border: 0;
+  width: 100%;
+
   thead {
     th {
       vertical-align: bottom;
     }
     th[colspan] {
       text-align: center!important;
+    }
+  }
+
+  tbody {
+    border: 0;
+  }
+  tbody,tr {
+    width: 100%;
+  }
+  tr, tr:nth-of-type(2n), tr:nth-of-type(1n) {
+    background: none;
+    td {
+      background: none;
+      padding: 0.5em;
+      min-width: 1em;
+      &.count {
+        text-align: right;
+      }
+    }
+    th {
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+      color: $qkunst-orange;
+      padding-left: 0.5em;
+      padding-bottom: 0.5em;
+      padding-top: 0.5em;
+      padding-right: 0.5em;
+    }
+  }
+  tr.group_separator {
+    height: 0.6em;
+  }
+  ul {
+    margin-left: 1em;
+    margin-bottom: 0;
+  }
+}
+
+table.non_cyclic_graph {
+  border-collapse: separate;
+  thead {
+    background: none;
+    border-bottom: 0 none;
+    th {
+      background: none;
+      text-align: center;
+      font-weight: bold;
+      border-bottom: 0 none;
+      padding: 0;
+      color: #aaa;
+    }
+    tr {
+      background: none;
+      border-bottom: 0 none;
+    }
+  }
+  tbody {
+    td {
+      background: #ccc;
+      overflow: hidden;
+      padding-left: 30px;
+      position: relative;
+      &[rowspan='3'] {
+        border-top: 30px solid #fff;
+        border-bottom: 30px solid #fff;
+      }
+      &:before, &:after {
+        content: " ";
+        display: block;
+        height: 0;
+        width: 2em;
+        background: #fff;
+        position: absolute;
+        border-style: solid;
+        border-color: #ccc #ccc #ccc #fff;
+        border-width: 100px 0px 100px 43px;
+        top: 50%;
+        margin-top: -100px;
+        left: -24px;
+      }
+      &:after {
+        border-color: #fff #fff #fff #ccc;
+        right: 0;
+        left: auto;
+      }
+      &.disabled {
+        opacity: 0.5;
+      }
+      &.completed {
+        background: $qkunst-green;
+        &:after {
+          border-color: #fff #fff #fff $qkunst-green;
+        }
+        &:before {
+          border-color: $qkunst-green $qkunst-green $qkunst-green #fff;
+        }
+      }
     }
   }
 }

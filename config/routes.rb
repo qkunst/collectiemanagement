@@ -2,6 +2,7 @@
 Rails.application.routes.draw do
 
 
+  resources :stages
   get 'offline/work_form'
 
   get 'offline/offline'

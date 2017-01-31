@@ -1,0 +1,13 @@
+stage1:
+  name: A
+stage2a:
+  name: B1
+  previous_stage: :stage1
+stage2b:
+  name: B2
+  previous_stage: :stage1
+stage3:
+  previous_stage: :stage2a
+stage3a:
+  previous_stage: :stage2b
+  actual_stage: :stage3
