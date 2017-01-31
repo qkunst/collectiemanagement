@@ -89,6 +89,12 @@ header {
     margin-top: -0.4em;
     font-size: 3.25em;
   }
+
+  form.button_to {
+    display: inline;
+    float: right;
+    margin-left: 0.5em;
+  }
 }
 
 .actions {

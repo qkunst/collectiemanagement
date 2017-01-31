@@ -1,0 +1,25 @@
+<h1>
+  <% if @reminder.collection %>
+    <%= @reminder.name %>   <small>(<%= link_to 'Bewerk', edit_collection_reminder_path(@reminder.collection,@reminder) %>)</small>
+  <% else %>
+    Standaard herinnering: <%= @reminder.name%>   <small>(<%= link_to 'Bewerk', edit_reminder_path(@reminder) %>)</small>
+  <% end %>
+</h1>
+
+<%= render @reminder%>
+
+
+<% if @collection %>
+  <% if @reminder.reference_date and @reminder.repeat %>
+    <p>De volgende 10 momenten waarop een bericht zal worden verstuurd:</p>
+    <ul>
+      <% @reminder.next_dates.each do |date| %>
+        <li><%= I18n.l date, format: :long %></li>
+      <% end %>
+    </ul>
+  <% elsif @reminder.reference_date %>
+    <p>Een herinnering zal worden verstuurd op <%= I18n.l @reminder.next_date, format: :long %>.</p>
+  <% else %>
+    <p>De fase <%= @reminder.stage.name %> is nog niet afgesloten.</p>
+  <% end%>
+<% end %>

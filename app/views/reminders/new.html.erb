@@ -1,0 +1,9 @@
+<h1>Maak nieuwe <%= 'standaard' unless @collection%> herinnering</h1>
+
+<%= render 'form', reminder: @reminder %>
+
+<% if @collection %>
+<%= link_to 'Annuleer', collection_reminders_path(@collection) %>
+<% else %>
+<%= link_to 'Annuleer', reminders_path %>
+<% end %>

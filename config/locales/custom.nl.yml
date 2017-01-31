@@ -75,6 +75,7 @@ nl:
       appraisal: Waardering
       attachment: Bijlage
       stage: Workflow stadium
+      reminder: Herinnering
     values:
       import_collection:
         split_nothing: "Splits niets"
@@ -164,6 +165,13 @@ nl:
         just_a_note: Slechts een annotatie (geen reactie vereist)
         qkunst_private: QKunst intern
         image: Afbeelding (ter toelichting)
+      reminder:
+        name: Naam
+        text: Begeleidende tekst
+        interval_length: Aantal dagen/weken/maanden...
+        interval_unit: Dagen/Weken...
+        repeat: Herhaal herinnering?
+        stage: Vanaf moment
       work:
         locality_geoname_name: Lokaliteit
         locality_geoname_id: Lokaliteit

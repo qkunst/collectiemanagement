@@ -28,6 +28,7 @@ class Collection < ApplicationRecord
   scope :without_parent, ->{where(parent_collection_id: nil)}
   has_and_belongs_to_many :stages
   has_many :collections_stages
+  has_many :reminders
 
   KEY_MODEL_RELATIONS={
     "artists"=>Artist,

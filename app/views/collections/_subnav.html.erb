@@ -18,6 +18,7 @@
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></strong></li>
   <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
   <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if current_user.can_access_report? %></li>
+  <li><%= menu_link_to "Herinneringen", collection_reminders_path(@collection) if admin_user? %></li>
 
 
   <li><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></li>

@@ -1,0 +1,24 @@
+<%= simple_form_for([@collection,@reminder].compact) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :text %>
+    <%= f.association :stage, collection: @collection ? @collection.stages : Stage.actual_stages, prompt: @reminder.created_at ? I18n.l(@reminder.created_at.to_date , format: :long) : "Vandaag", hint: "Kies als datum het moment van aanmaken van deze herinnering of een fase in het project"%>
+    <div class="row">
+      <div class="medium-3 columns">
+        <%= f.input :interval_length %>
+      </div>
+      <div class="medium-3 columns">
+        <%= f.input :interval_unit, collection: Reminder::INTERVAL_UNITS %>
+      </div>
+      <div class="medium-3 columns">
+        <%= f.input :repeat %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

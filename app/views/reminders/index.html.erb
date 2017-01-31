@@ -1,0 +1,26 @@
+<h1>Herinneringen</h1>
+<div class="row">
+<div class="medium-9 columns">
+  <%= render @reminders%>
+  <% if @collection %>
+    <div class="callout secondary">
+      <% if @collection.reminders.count == 0 %>
+        <h2>Geen herinneringen ingesteld voor dit project</h2>
+      <% else %>
+        <h4>Standaard herinneringen</h4>
+      <% end %>
+      <p>Kopieer een standaardherinnering uit onderstaande lijst:</p>
+      <small>
+        <%= render Reminder.prototypes%>
+      </small>
+    </div>
+  <% end%>
+</div>
+<aside class="medium-3 columns">
+<% if @collection%>
+<%= link_to 'Maak een nieuwe herinnering', new_collection_reminder_path(@collection), class: :button %>
+<% else %>
+<%= link_to 'Maak een nieuwe standaardherinnering', new_reminder_path, class: :button %>
+<% end %>
+</aside>
+</div>

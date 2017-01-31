@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131161406) do
+ActiveRecord::Schema.define(version: 20170131171005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -323,6 +323,18 @@ ActiveRecord::Schema.define(version: 20170131161406) do
     t.boolean  "hide",       default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "reminders", force: :cascade do |t|
+    t.string   "name"
+    t.text     "text"
+    t.integer  "stage_id"
+    t.integer  "interval_length"
+    t.string   "interval_unit"
+    t.boolean  "repeat"
+    t.integer  "collection_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "rkd_artists", force: :cascade do |t|

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :reminders
   resources :stages
   get 'offline/work_form'
 
@@ -46,6 +47,8 @@ Rails.application.routes.draw do
 
   resources :involvements
   resources :collections do
+    resources :reminders
+
     resources :attachments
     resources :collections_stages
     resources :messages
