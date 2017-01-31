@@ -9,7 +9,7 @@ class CollectionsStage < ApplicationRecord
   end
 
   def active?
-    previous_collections_stage and previous_collections_stage.completed? and !completed?
+    (previous_collections_stage and previous_collections_stage.completed? and !completed?) or (previous_collections_stage.nil? and !completed?)
   end
 
 end
