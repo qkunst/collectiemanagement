@@ -58,12 +58,13 @@ class Collection < ApplicationRecord
     collections_stages.count > 0
   end
 
-  def parent_collection_stages
+  def parent_collection_with_stages
     unless collections_stages?
       parent_collections_flattened.reverse.each do |coll|
         return coll if coll.collections_stages?
       end
     end
+    return nil
   end
 
   def works_including_child_works
