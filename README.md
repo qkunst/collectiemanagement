@@ -42,7 +42,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * passenger
 * Ruby 2.3.3 (geïnstalleerd via rbenv)
 
-Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv-soursecode pagina](https://github.com/rbenv/rbenv)
+Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv-soursecode pagina](https://github.com/rbenv/rbenv).
 
 Op het moment van schrijven worden de volgende repositories hiervoor geraadpleegd:
 
@@ -67,9 +67,24 @@ Er worden geen versienummers toegekend, de applicatie is in principe continue in
 
 Updates van de applicatie worden uitgevoerd middels Capistrano. Door gebruik te maken van Capistrano kunnen updates op de acceptatie en productie omgevingen bijna onmerkbaar uitgevoerd worden.
 
+### Installatie afhankelijkheden
+
+De QKunst collectiedatabase is gebaseerd op het Ruby On Rails framework en andere opensource libraries, zogenaamde gems. Deze zijn gemakkelijk te installeren middels het bundler commando:
+
+    bundle install
+
+Is het commando `bundle` niet aanwezig op het systeem, typ dan eerst gem install bundler.
+
+### Inrichting van de database
+
+Het Ruby on Rails framework komt met een ingebouwd migratiesysteem om een volledige database in te richten. Hiervoor dient de connectie met de database server geconfigureerd worden. Dit kan in het bestand database.yml.
+Na configuratie dient het volgende commando uitgevoerd te worden:
+
+    RAILS_ENV=production rails db:migrate
+
 ### Installatie van de applicatie
 
-Voordat de applicatie in een serveromgeving gestart kan worden dient de connectie met de database server geconfigureerd worden. Dit kan in het bestand database.yml. Daarnaast dient een bestand met veiligheidscodes aangemaakt te worden, secrets.yml.
+In de vorige stap is de database reeds geconfigureerd. Voor het draaien in productie is het ook van belang dat er een bestand met veiligheidscodes ingericht is voor productie, secrets.yml.
 
 Meer over het configureren van Rails applicaties, zoals deze, raadpleeg de Rails documentatie: [Configuring Rails Applications](http://guides.rubyonrails.org/configuring.html).
 

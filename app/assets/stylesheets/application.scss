@@ -14,9 +14,9 @@
 *= require chosen
 *= require select2
  *= require foundation_and_overrides
- *= require_tree .
  *= require_self
 //= require foundation_and_overrides
+//= require_tree .
 
  */
 
@@ -193,45 +193,6 @@ aside {
   }
 }
 
-table {
-  border-collapse: collapse;
-  border: 0;
-  width: 100%;
-  tbody {
-    border: 0;
-  }
-  tbody,tr {
-    width: 100%;
-  }
-  tr, tr:nth-of-type(2n), tr:nth-of-type(1n) {
-    background: none;
-    td {
-      background: none;
-      padding: 0.5em;
-      min-width: 1em;
-      &.count {
-        text-align: right;
-      }
-    }
-    th {
-      border-bottom: 1px solid #ccc;
-      text-align: left;
-      color: $qkunst-orange;
-      padding-left: 0.5em;
-      padding-bottom: 0.5em;
-      padding-top: 0.5em;
-      padding-right: 0.5em;
-    }
-  }
-  tr.group_separator {
-    height: 0.6em;
-  }
-  ul {
-    margin-left: 1em;
-    margin-bottom: 0;
-  }
-}
-
 textarea {
   min-height: 10em;
 }
@@ -263,15 +224,10 @@ nav {
   }
 }
 
-input.radio_buttons {
-  margin-right: 1em;
-}
+
 
 .button:hover {
   text-decoration: none;
-}
-.button.inline {
-  margin-bottom: 0;
 }
 
 form.button_to {
@@ -280,15 +236,8 @@ form.button_to {
   padding: 0;
 }
 
-.input .hint {
-  font-size: 0.825em;
-  color: #666;
-  margin-top: -1.125em;
-  display: block;
-  margin-bottom: 1em;
-}
-
 button.inline {
+  margin-bottom: 0;
   background: none transparent;
   padding: 0;
   color: inherit;
@@ -316,7 +265,7 @@ label input[type="checkbox"] {
       background: #f0f;
     }
     &#online-status-online {
-      background: #99DF95;
+      background: $qkunst-green;
     }
     &#online-status-uncertain {
       background: #ccc;
@@ -476,6 +425,7 @@ body.offline {
 .button.small {
   font-weight: 600;
 }
+
 @media screen {
   .hide-for-screen {
     display: none;

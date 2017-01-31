@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170129204452) do
+ActiveRecord::Schema.define(version: 20170131110442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,15 @@ ActiveRecord::Schema.define(version: 20170129204452) do
     t.string   "label_override_work_alt_number_1"
     t.string   "label_override_work_alt_number_2"
     t.string   "label_override_work_alt_number_3"
+    t.text     "internal_comments"
+  end
+
+  create_table "collections_stages", force: :cascade do |t|
+    t.integer  "collection_id"
+    t.integer  "stage_id"
+    t.datetime "completed_at"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "collections_users", force: :cascade do |t|
@@ -335,6 +344,14 @@ ActiveRecord::Schema.define(version: 20170129204452) do
   create_table "sources_works", force: :cascade do |t|
     t.integer "work_id"
     t.integer "source_id"
+  end
+
+  create_table "stages", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "actual_stage_id"
+    t.integer  "previous_stage_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "styles", force: :cascade do |t|

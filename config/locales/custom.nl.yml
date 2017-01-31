@@ -264,8 +264,10 @@ nl:
         name: Naam
         description: Beschrijving
         exposable_fields: Beschikbare velden
+        stages: Workflow stadia die gelden voor deze (en onderliggende) collectie
         order: Volgorde
         hide: Verberg
+        internal_comments: Interne opmerkingen
         parent_collection: Maakt onderdeel uit van de collectie
         label_override_work_alt_number_1: Label voor alternatief nummer 1
         label_override_work_alt_number_2: Label voor alternatief nummer 2
