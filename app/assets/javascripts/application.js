@@ -24,6 +24,7 @@
 var collectieBeheerInit = function() {
   FormStore.init();
 
+
   function formatRepo (result) {
     if (result.loading || !result.name) return result.text;
 

@@ -27,6 +27,10 @@ queries mogelijk maakt. De belangrijkste zijn:
 
 Wanneer geen van dit soort tekens / commando's worden gebruikt wordt getracht de applicatie 'fuzzy' te doorzoeken; hetgeen betekend dat de zoekmachine iets vergevingsgezinder is t.a.v. typfouten/spelfouten.
 
+### Langere teksten
+
+Vele van de langere teksten in de applicatie kunnen worden opgemaakt middels MarkDown
+
 ## Installatie
 
 De meest actuele versie van deze handleiding zal altijd terug te vinden zijn in de source code (README.md).

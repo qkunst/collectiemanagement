@@ -21,6 +21,14 @@
 
 <div class="row">
 <div class="large-9 medium-9 columns">
+<% if @collection.collections_stages? %>
+  <h3>Projectfase</h3>
+  <%= render :partial => 'stages/stages_graph', locals: {collection: @collection, compact: true} %>
+<% elsif parent_collection = @collection.parent_collection_stages %>
+  <h3>Projectfasering</h3>
+  <p><em>Let op:</em> Deze fasering komt uit een bovenliggende collectie.</p>
+  <%= render :partial => 'stages/stages_graph', locals: {collection: parent_collection, compact: true} %>
+<% end %>
 <%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
 
 <h3>Werken</h3>

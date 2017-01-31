@@ -54,6 +54,18 @@ class Collection < ApplicationRecord
     return nil
   end
 
+  def collections_stages?
+    collections_stages.count > 0
+  end
+
+  def parent_collection_stages
+    unless collections_stages?
+      parent_collections_flattened.reverse.each do |coll|
+        return coll if coll.collections_stages?
+      end
+    end
+  end
+
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)
   end

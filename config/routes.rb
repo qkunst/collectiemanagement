@@ -2,6 +2,8 @@
 Rails.application.routes.draw do
 
 
+
+
   resources :stages
   get 'offline/work_form'
 
@@ -45,7 +47,7 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     resources :attachments
-
+    resources :collections_stages
     resources :messages
     post 'refresh_works' => 'collections#refresh_works'
     resources :collections do

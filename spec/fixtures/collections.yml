@@ -11,3 +11,7 @@ collection_with_works:
 
 collection3:
   name: Collection 3
+
+collection4:
+  name: Collection 4
+  parent_collection: :collection2

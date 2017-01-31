@@ -74,6 +74,7 @@ nl:
       artist_involvement: Vervaardigersbetrekking
       appraisal: Waardering
       attachment: Bijlage
+      stage: Workflow stadium
     values:
       import_collection:
         split_nothing: "Splits niets"
@@ -267,8 +268,9 @@ nl:
       collection:
         name: Naam
         description: Beschrijving
+        external_reference_code: Externe referentiecode
         exposable_fields: Beschikbare velden
-        stages: Workflow stadia die gelden voor deze (en onderliggende) collectie
+        stages: Procesfases die gelden voor deze (en onderliggende) collectie
         order: Volgorde
         hide: Verberg
         internal_comments: Interne opmerkingen

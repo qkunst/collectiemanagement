@@ -6,16 +6,32 @@ class Stage < ApplicationRecord
 
   scope :actual_stages, ->{where( actual_stage_id: nil )}
 
-  attr_accessor :enabled, :completed
+  attr_accessor :enabled, :collection_stage
 
   def next_stages_actualized
     next_stages.actualize
   end
 
+  def enabled!
+    self.enabled = true
+  end
+
+  def enabled?
+    self.enabled ? true : false
+  end
+
+  def completed?
+    collection_stage ? collection_stage.completed? : false
+  end
+
+  def active?
+    collection_stage ? collection_stage.active? : false
+  end
+
   def non_cyclic_graph_from_here(collection=nil)
     collection_stage = collection ? collection.find_state_of_stage(self) : nil
-    self.enabled = true if collection_stage or !collection
-    self.completed = true if collection_stage and collection_stage.completed?
+    self.enabled! if collection_stage or !collection
+    self.collection_stage = collection_stage
     graph = [[self]]
     next_stages = self.next_stages_actualized
     step = 1
@@ -24,8 +40,8 @@ class Stage < ApplicationRecord
       next_stages = []
       stages.each do | stage |
         collection_stage = collection ? collection.find_state_of_stage(stage) : nil
-        stage.enabled = true if collection_stage or !collection
-        stage.completed = true if collection_stage and collection_stage.completed?
+        stage.enabled! if collection_stage or !collection
+        stage.collection_stage = collection_stage
         branch_index = stages.index(stage)
         if graph[branch_index].nil?
           graph[branch_index] = (step.times.collect{ nil } + [stage])

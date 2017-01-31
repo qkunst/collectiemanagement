@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131110442) do
+ActiveRecord::Schema.define(version: 20170131161406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20170131110442) do
     t.string   "label_override_work_alt_number_2"
     t.string   "label_override_work_alt_number_3"
     t.text     "internal_comments"
+    t.string   "external_reference_code"
   end
 
   create_table "collections_stages", force: :cascade do |t|

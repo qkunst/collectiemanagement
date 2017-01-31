@@ -15,8 +15,8 @@ RSpec.describe Stage, type: :model do
         tree.each do |branch|
           branch.each do |leaf|
             if leaf
-              expect(leaf.completed).to be_falsy
-              expect(leaf.enabled).to eq(true)
+              expect(leaf.completed?).to be_falsy
+              expect(leaf.enabled?).to eq(true)
             end
           end
         end
@@ -30,8 +30,8 @@ RSpec.describe Stage, type: :model do
         tree.each do |branch|
           branch.each do |leaf|
             if leaf
-              expect(leaf.completed).to be_falsy
-              expect(leaf.enabled).to be_falsy
+              expect(leaf.completed?).to be_falsy
+              expect(leaf.enabled?).to be_falsy
             end
           end
         end
@@ -46,11 +46,11 @@ RSpec.describe Stage, type: :model do
         tree.each do |branch|
           branch.each do |leaf|
             if leaf and leaf == stages(:stage1)
-              expect(leaf.completed).to eq(true)
-              expect(leaf.enabled).to eq(true)
+              expect(leaf.completed?).to eq(true)
+              expect(leaf.enabled?).to eq(true)
             elsif leaf
-              expect(leaf.completed).to be_falsy
-              expect(leaf.enabled).to be_falsy
+              expect(leaf.completed?).to be_falsy
+              expect(leaf.enabled?).to be_falsy
             end
           end
         end

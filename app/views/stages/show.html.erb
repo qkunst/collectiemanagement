@@ -1,18 +1,18 @@
-<h1>Workflow stadium: <%= @stage.name %></h1>
+<h1>Projectfase: <%= @stage.name %></h1>
 <%= render :partial => 'stages_graph', locals: {collection: @collection, action: :link_to} %>
 
 <% if @stage.actual_stage %>
-<p>Dit stadium is slechts een ontvangend stadium om ook convergerende flows mogelijk te maken. Ga naar het eigenlijke stadium <strong><%= link_to(@stage.actual_stage.name, @stage.actual_stage) %></strong></p>
+<p>Deze fase is slechts een ontvangende fase om ook convergerende flows mogelijk te maken. Ga naar de eigenlijke fase <strong><%= link_to(@stage.actual_stage.name, @stage.actual_stage) %></strong></p>
 <% end %>
 
 <% if @stage.previous_stage %>
-<p>Voorgaand stadium: <strong><%= link_to(@stage.previous_stage.name, @stage.previous_stage) %></strong></p>
+<p>Voorgaande fase: <strong><%= link_to(@stage.previous_stage.name, @stage.previous_stage) %></strong></p>
 <% end %>
 
 <% if @stage.next_stages %>
-<p>Volgende stadia: <ul><% @stage.next_stages.collect do |nstage| %>
+<p>Volgende fases: <ul><% @stage.next_stages.collect do |nstage| %>
   <li><%= link_to(nstage.name, nstage) %></li>
 <% end %>
 </ul></p>
 <% end %>
-<%= link_to 'Bewerk', edit_stage_path(@stage) %>
+<%= link_to 'Bewerk', edit_stage_path(@stage), class: :button %>

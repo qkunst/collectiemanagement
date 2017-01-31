@@ -6,20 +6,61 @@
   <nav class="tab-head">
   <ul>
     <li><a href="#standard">Standaard</a></li>
+    <li><a href="#stages">Projectfasering</a></li>
     <li><a href="#advanced">Geavanceerd</a></li>
   </ul>
   </nav>
     <section id="standard">
       <h3>Standaard instellingen</h3>
       <div class="form-inputs">
-        <%= f.input :name %>
-        <%= f.input :description %>
-        <%= f.input :internal_comments %>
+        <div class="row">
+          <div class="medium-10 columns">
+            <%= f.input :name %>
+
+          </div>
+          <div class="medium-2 columns">
+            <%= f.input :external_reference_code %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="medium-8 columns">
+            <%= f.input :description %>
+            <%= f.input :internal_comments %>
+          </div>
+          <div class="medium-4 columns">
+            <div class="callout">
+              <h5>Uitleg</h5>
+              <p>In deze tekstvelden kun je beperkt de tekst opmaken met behulp van <a href="https://nl.wikipedia.org/wiki/Markdown" target="_blank">Markdown</a>.</p>
+              <pre>
+  # Kop 1
+  ## Kop 2
+  …
+  ###### Kop 6
+
+  **Vet** *Cursief*
+
+  * Opsomming
+  * Opsomming
+
+  1. Opsomming genummerd
+  2. Opsomming genummerd
+
+  [Link](http://example.com)
+
+</pre>
+            </div>
+          </div>
+        </div>
         <% unless @parent_collection %>
           <%= f.association :parent_collection, collection: @collection.possible_parent_collections%>
         <% end%>
-        <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
       </div>
+    </section>
+    <section id="stages">
+      <h3>Projectfasering</h3>
+      <p>Hieronder kies je de fases die geldig zijn voor deze collectie. Op de overzichtspagina kan een fase als voltooid worden gemarkeerd.</p>
+      <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
+
     </section>
     <section id="advanced">
       <h3>Geavanceerd</h3>

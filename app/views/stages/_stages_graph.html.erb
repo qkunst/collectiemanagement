@@ -1,8 +1,11 @@
 <% collection ||= nil %>
+<% compact ||= false %>
 <% Stage.starts.each do |start| %>
   <% non_cyclic_graph_from_start = start.non_cyclic_graph_from_here(collection) %>
-  <table class="non_cyclic_graph">
+<div class="stages_graph">
+  <table class="non_cyclic_graph<%=" compact" if compact%>">
   <% branch_count = non_cyclic_graph_from_start.count %>
+  <% unless compact %>
   <thead>
     <tr>
       <% non_cyclic_graph_from_start[0].count.times do |a| %>
@@ -10,16 +13,28 @@
       <% end %>
     </tr>
   </thead>
+  <% end %>
   <tbody>
     <% non_cyclic_graph_from_start.each do |branch| %>
       <tr>
         <% branch.each_with_index do |leaf, index| %>
           <% if leaf %>
-            <td class="<%= leaf.enabled ? 'enabled' : 'disabled' %><%= leaf.completed ? ' completed' : '' %>" rowspan="<%=branch_count - non_cyclic_graph_from_start.collect{|a| a[index]}.compact.count + 1%>"><%= link_to(leaf.name, leaf) %></td>
+            <td class="<%= leaf.enabled? ? 'enabled' : 'disabled' %><%= leaf.completed? ? ' completed' : '' %><%= leaf.active? ? ' active' : '' %>" rowspan="<%=branch_count - non_cyclic_graph_from_start.collect{|a| a[index]}.compact.count + 1%>">
+              <% if collection and collection.id %>
+                <% if leaf.enabled and !leaf.completed? %>
+                  <%= button_to(leaf.name, collection_collections_stage_path(collection, leaf.collection_stage), params: {collections_stage: {completed: true}}, method: :patch, data: {confirm: "Weet u zeker dat u dit stadium als voltooid wilt beschouwen?"})%>
+                <% else %>
+                  <%= leaf.name%>
+                <% end %>
+              <% else%>
+                <%= link_to(leaf.name, leaf) %>
+              <% end %>
+            </td>
           <% end %>
         <% end%>
       </tr>
     <% end %>
   </tbody>
   </table>
+</div>
 <% end %>

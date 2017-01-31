@@ -89,7 +89,6 @@ gem 'foundation-rails'
 ##
 
 gem 'act_as_time_as_boolean'
-
 gem 'workbook'
 gem "nested_form"
 gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
