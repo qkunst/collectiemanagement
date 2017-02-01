@@ -1,6 +1,6 @@
 <h1>Collectie <%= @collection.name %></h1>
 <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
-
+  <input type="hidden" name="max_index" value="<%=@max_index%>" />
   <p id="offline" class="callout alert hide-for-print"></p>
 
   <div class="row">

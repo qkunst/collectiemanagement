@@ -3,8 +3,8 @@ class WorksController < ApplicationController
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update]
 
-  before_action :set_collection # set_collection includes authentication
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos]
+  before_action :set_collection # set_collection includes authentication
 
   # GET /works
   # GET /works.json
@@ -381,7 +381,7 @@ class WorksController < ApplicationController
 
   def set_work
     @work = Work.find( params[:id] || params[:work_id] )
-    redirect_to root_path, alert: "U heeft ook geen toegang tot dit werk via deze collectie!" unless @work.collection == @collection
+    redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
