@@ -111,7 +111,7 @@ class Artist < ApplicationRecord
   end
 
   def touch_works
-    works.all.each{|work| work.touch}
+    works.all.each{|work| work.update_artist_name_rendered!; work.save}
   end
 
   def to_parameters
