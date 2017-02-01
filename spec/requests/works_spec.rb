@@ -10,6 +10,12 @@ RSpec.describe "Works", type: :request do
     it "should be accessible when logged in as admin" do
       user = users(:admin)
       sign_in user
+      get edit_collection_work_path(works(:work1).collection, works(:work1))
+      expect(response).to have_http_status(200)
+    end
+    it "admin should be able to access edit page" do
+      user = users(:admin)
+      sign_in user
       collection = collections(:collection1)
       get collection_works_path(collection)
       expect(response).to have_http_status(200)

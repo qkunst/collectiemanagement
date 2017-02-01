@@ -381,7 +381,7 @@ class WorksController < ApplicationController
 
   def set_work
     @work = Work.find( params[:id] || params[:work_id] )
-    redirect_to collection_work_path(@work.collection, @work) unless collection_work_path(@work.collection, @work) == request.path
+    redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
