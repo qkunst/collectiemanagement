@@ -15,6 +15,7 @@ class Message < ApplicationRecord
   belongs_to :to_user, class_name: 'User'
   belongs_to :in_reply_to_message, class_name: 'Message'
   belongs_to :conversation_start_message, class_name: 'Message'
+  belongs_to :reminder
 
   scope :order_by_creation_date, -> {order(:created_at)}
   scope :order_by_reverse_creation_date, -> {order(created_at: :desc)}
@@ -22,6 +23,7 @@ class Message < ApplicationRecord
   scope :thread_can_be_accessed_by_user, ->(user) { where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id,user.id,user.id,user.id)}
   scope :not_qkunst_private, -> {where(qkunst_private: [nil, false])}
   scope :for, ->(subject_object) { where(subject_object: subject_object )}
+  scope :sent_at_date, ->(date) {where("messages.created_at > ? AND messages.created_at < ?", date.to_time.beginning_of_day, date.to_time.end_of_day)}
 
   after_create :send_notification
 

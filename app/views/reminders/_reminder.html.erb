@@ -14,8 +14,12 @@
       <%= distance_of_time_in_words(Time.now, (Time.now + reminder.additional_time)) %> na <%= I18n.l reminder.reference_date, format: :long %>.
     <% end %>
     <% if reminder.collection %>
+    <% begin %>
     <% if reminder.next_date and reminder.reference_date %>
       De volgende herinnering wordt verstuurd over <%= distance_of_time_in_words(Time.now, reminder.next_date )%>.
+    <% end %>
+    <% rescue NoMethodError %>
+      <strong>Let op: </strong> Deze herinnering is gebaseerd op een projectfase, maar dit project kent deze projectfase niet!
     <% end %>
     <% end%>
   </footer>
