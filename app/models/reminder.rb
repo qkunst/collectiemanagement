@@ -21,7 +21,7 @@ class Reminder < ApplicationRecord
   end
 
   def next_dates(amount=10)
-    if reference_date and repeat
+    if reference_date and repeat and collection
       dates = []
       time = 1
       while dates.count < 10
@@ -30,7 +30,7 @@ class Reminder < ApplicationRecord
         time += 1
       end
       return dates
-    elsif reference_date
+    elsif reference_date and collection
       date = (reference_date + additional_time(1)).to_date
       return (date > Time.now.to_date) ? [date] : []
     end

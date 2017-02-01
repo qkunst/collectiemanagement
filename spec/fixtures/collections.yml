@@ -15,3 +15,6 @@ collection3:
 collection4:
   name: Collection 4
   parent_collection: :collection2
+
+collection_with_stages:
+  name: Collection with stages

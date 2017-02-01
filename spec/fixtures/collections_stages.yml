@@ -1,0 +1,8 @@
+col_stage1:
+  collection: collection_with_stages
+  stage: stage1
+  completed_at: 2000-01-01T12:00
+
+col_stage2:
+  collection: collection_with_stages
+  stage: stage2a
