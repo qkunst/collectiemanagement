@@ -48,6 +48,21 @@ RSpec.describe Artist, type: :model do
     end
   end
 
+  describe "#save" do
+    it "should update artist name at work" do
+      w = Work.create
+      a = Artist.create(first_name: "Antony", last_name: "Hopkins")
+      w.artists << a
+      w.save
+      expect(w.artist_name_rendered).to eq("Hopkins, Antony")
+      a.first_name = 'Charly'
+      a.save
+      w.reload
+      expect(w.artist_name_rendered).to eq("Hopkins, Charly")
+
+    end
+  end
+
   describe "#import" do
     it "should import basic params" do
       a = Artist.create(first_name: "A")
