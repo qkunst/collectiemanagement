@@ -146,6 +146,11 @@ class CollectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def collection_params
-      params.require(:collection).permit(:name, :description, :external_reference_code, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, exposable_fields:[], stage_ids: [])
+      params.require(:collection).permit(:name, :description, :external_reference_code, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, exposable_fields:[], stage_ids: [], geoname_summary_ids: [])
+      if rv[:geoname_summary_ids]
+        rv[:geoname_summaries] = GeonameSummary.where(geoname_id: rv[:geoname_summary_ids])
+        rv.delete(:geoname_summary_ids)
+      end
+      rv
     end
 end

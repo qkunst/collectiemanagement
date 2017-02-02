@@ -24,7 +24,11 @@ class Collection < ApplicationRecord
   has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_and_belongs_to_many :users
   has_many :attachments, as: :attache
+  has_many :collections_geoname_summaries
+  has_many :geoname_summaries, through: :collections_geoname_summaries
+
   default_scope ->{order(:name)}
+
   scope :without_parent, ->{where(parent_collection_id: nil)}
   has_and_belongs_to_many :stages
   has_many :collections_stages
@@ -156,6 +160,14 @@ class Collection < ApplicationRecord
 
   def label_override_work_alt_number_3_with_inheritance
     self_and_parent_collections_flattened.collect{|a| a.label_override_work_alt_number_3 unless a.label_override_work_alt_number_3.to_s.strip == ""}.compact.last
+  end
+
+  def geoname_summary_values
+    rv = {}
+    geoname_summaries.each do |gs|
+      rv[gs.name]=gs.geoname_id
+    end
+    rv
   end
 
   def report

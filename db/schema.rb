@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201084149) do
+ActiveRecord::Schema.define(version: 20170202161033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,11 @@ ActiveRecord::Schema.define(version: 20170201084149) do
     t.string   "label_override_work_alt_number_3"
     t.text     "internal_comments"
     t.string   "external_reference_code"
+  end
+
+  create_table "collections_geoname_summaries", force: :cascade do |t|
+    t.integer "collection_id"
+    t.integer "geoname_id"
   end
 
   create_table "collections_stages", force: :cascade do |t|
