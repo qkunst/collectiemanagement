@@ -82,7 +82,6 @@
     </fieldset>
     <fieldset>
       <legend>Overig</legend>
-      <%= f.input :public_description %>
       <%= f.input :other_comments  %>
       <%= f.association( :sources, input_html: {class: 'chosen-select'}) %>
       <%= f.input :source_comments  %>
@@ -112,6 +111,7 @@
         <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
       </fieldset>
     <fieldset>
+      <%= f.input :public_description %>
       <%= f.input :internal_comments %>
       <!-- make sure manually fixed works aren't removed on rollback-->
       <%= f.input :imported_at, input_html: { value: ""}, as: :hidden %>
