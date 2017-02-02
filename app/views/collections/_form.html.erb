@@ -51,7 +51,7 @@
             </div>
           </div>
         </div>
-        <label>Collection lokaliteiten</label>
+        <label>Collectie lokaliteiten</label>
         <%= f.select :geoname_summary_ids, @collection.geoname_summary_values, {}, multiple: true, class: 'select2 ajax' %>
         <% unless @parent_collection %>
           <%= f.association :parent_collection, collection: @collection.possible_parent_collections%>

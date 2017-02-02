@@ -72,6 +72,25 @@ class Collection < ApplicationRecord
     return nil
   end
 
+  def geoname_summaries?
+    geoname_summaries.count > 0
+  end
+
+  def geoname_ids
+    geoname_summaries.collect{|a| a.geoname_id}
+  end
+
+  def self_or_parent_collection_with_geoname_summaries
+    if geoname_summaries?
+      return self
+    else
+      parent_collections_flattened.reverse.each do |coll|
+        return coll if coll.geoname_summaries?
+      end
+    end
+    return nil
+  end
+
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)
   end
