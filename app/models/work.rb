@@ -4,9 +4,8 @@ class Work < ApplicationRecord
   before_save :set_empty_values_to_nil
   before_save :update_artist_name_rendered!
 
-  include Elasticsearch::Model
-
   include ActionView::Helpers::NumberHelper
+  include Searchable
 
   belongs_to :collection
   belongs_to :created_by, :class_name=>User
@@ -34,22 +33,6 @@ class Work < ApplicationRecord
 
   normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail
 
-  after_commit on: [:create] do
-    __elasticsearch__.index_document #if self.published?
-  end
-
-  after_commit on: [:update] do
-    self.reindex! #if self.published?
-  end
-
-  after_commit on: [:destroy] do
-    begin
-      __elasticsearch__.delete_document
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-      # document already deleted :)
-    end
-  end
-
   mount_uploader :photo_front, PictureUploader
   mount_uploader :photo_back, PictureUploader
   mount_uploader :photo_detail_1, PictureUploader
@@ -68,8 +51,6 @@ class Work < ApplicationRecord
       indexes :location_raw, type: 'string', index: "not_analyzed"
     end
   end
-
-  after_touch() { __elasticsearch__.index_document }
 
   def title_rendered
     title_nil = title.nil? or title.to_s.strip.empty?
@@ -145,10 +126,7 @@ class Work < ApplicationRecord
   end
 
   def alt_numbers
-    nrs = []
-    nrs << alt_number_1 if alt_number_1?
-    nrs << alt_number_2 if alt_number_2?
-    nrs << alt_number_3 if alt_number_3?
+    nrs = [alt_number_1, alt_number_2, alt_number_3]
     nrs if nrs.count > 0
   end
 
@@ -173,17 +151,30 @@ class Work < ApplicationRecord
     purchase_price_currency ? purchase_price_currency.symbol : "€"
   end
 
-  def frame_size
-    if frame_height or frame_width or frame_depth or frame_diameter
-      "#{frame_height ? number_with_precision(frame_height, precision: 5, significant: true, strip_insignificant_zeros: true) : '?'}#{frame_width ? " x #{number_with_precision(frame_width, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}#{frame_depth ? " x #{number_with_precision(frame_depth, precision: 5, significant: true, strip_insignificant_zeros: true)}#{"(D)" if !frame_width}" : ''}#{frame_diameter ? "; ⌀ #{number_with_precision(frame_diameter, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}"
+  def dimension_to_s value, nil_value=nil
+    value ? number_with_precision(value, precision: 5, significant: true, strip_insignificant_zeros: true) : nil_value
+  end
+
+  def whd_to_s width=nil, height=nil, depth=nil, diameter=nil
+    whd_values = [width, height, depth].collect{|a| dimension_to_s(a)}.compact
+    rv = whd_values.join(" x ")
+    if whd_values.count < 3 and whd_values.count > 0
+      legend = []
+      legend << "b" unless width.to_s == ""
+      legend << "h" unless height.to_s == ""
+      legend << "d" unless depth.to_s == ""
+      rv = "#{rv} (#{legend.join("x")})"
     end
+    rv = [rv, "⌀ #{dimension_to_s(diameter)}"].compact.join("; ") if dimension_to_s(diameter)
+    rv
+  end
+
+  def frame_size
+    whd_to_s(frame_width, frame_height, frame_depth, frame_diameter)
   end
 
   def work_size
-    if height or width or depth or diameter
-      "#{height ? number_with_precision(height, precision: 5, significant: true, strip_insignificant_zeros: true) : '?'}#{width ? " x #{number_with_precision(width, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}#{depth ? " x #{number_with_precision(depth, precision: 5, significant: true, strip_insignificant_zeros: true)}#{"(d)" if !width}" : ''}#{diameter ? "; ⌀ #{number_with_precision(diameter, precision: 5, significant: true, strip_insignificant_zeros: true)}" : ''}"
-    end
-
+    whd_to_s(width, height, depth, diameter)
   end
 
   def hpd_height
@@ -230,11 +221,6 @@ class Work < ApplicationRecord
       self.grade_within_collection=nil
     end
   end
-
-  # TODO: in future versions make more stable, this might break cluster-functionality!
-  # def collection= collection
-  #
-  # end
 
   def collection_name_extended
     self.collection.collection_name_extended
@@ -290,7 +276,7 @@ class Work < ApplicationRecord
   end
   def object_format_code
     size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max
-    ofc = nil
+    ofc = :xl
     if size
       if size < 30
         ofc = :xs
@@ -300,8 +286,6 @@ class Work < ApplicationRecord
         ofc = :m
       elsif size < 120
         ofc = :l
-      else
-        ofc = :xl
       end
     end
     return ofc
@@ -309,14 +293,6 @@ class Work < ApplicationRecord
 
   def add_lognoteline note
     self.lognotes = self.lognotes.to_s + "\n#{note}"
-  end
-
-  def reindex!
-    begin
-      __elasticsearch__.update_document
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-      __elasticsearch__.index_document
-    end
   end
 
   def title= titel
@@ -381,7 +357,6 @@ class Work < ApplicationRecord
         elsif attribute == :geoname_ids
           ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
           artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
-          # TODO: \/\/ This might become too expensive \/\/
           artists.each do |artist|
             ids += artist.geoname_ids
           end
@@ -397,7 +372,6 @@ class Work < ApplicationRecord
           attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
             rv[attribute][a] ||= {count: 999999, name: a.name }
           end
-        # self.joins(attribute).select("themes.id AS id").distinct.collect(&:id)
         end
       end
       rv
@@ -435,13 +409,6 @@ class Work < ApplicationRecord
       rv
     end
 
-    def reindex!(recreate_index=false)
-      if recreate_index
-        Work.__elasticsearch__.create_index! force: true
-        Work.__elasticsearch__.refresh_index!
-      end
-      self.all.each{|a| a.reindex!}
-    end
     def collect_locations
       rv = {}
       self.group(:location).count.sort{|a,b| a[0].to_s.downcase<=>b[0].to_s.downcase }.each{|a| rv[a[0]] = {count: a[1], subs:[]} }

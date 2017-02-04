@@ -34,7 +34,28 @@ RSpec.describe Work, type: :model do
         expect(aggregations[:themes][themes(:wind)][:count]).to eq 999999
         expect(aggregations[:grade_within_collection][:a][:count]).to eq 999999
         expect(aggregations[:grade_within_collection][:h]).to eq nil
-
+      end
+    end
+    describe ".whd_to_s" do
+      it "should render nil if all are nil" do
+        expect(Work.new.whd_to_s).to eq("")
+      end
+      it "should render w x h x d if set" do
+        expect(Work.new.whd_to_s(1, 2, 3)).to eq("1 x 2 x 3")
+      end
+      it "should round w x h x d" do
+        expect(Work.new.whd_to_s(1.002345, 2.2323543, 3.777777)).to eq("1,0023 x 2,2324 x 3,7778")
+      end
+      it "should add diameter if set" do
+        expect(Work.new.whd_to_s(1, 2, 3, 4)).to eq("1 x 2 x 3; ⌀ 4")
+      end
+      it "should add diameter if set" do
+        expect(Work.new.whd_to_s(1, nil, 3, 4)).to eq("1 x 3 (bxd); ⌀ 4")
+      end
+    end
+    describe ".frame_size" do
+      it "should use whd_to_s" do
+        expect(Work.new(frame_width: 1, frame_height: nil, frame_depth: 3, frame_diameter: 4).frame_size).to eq("1 x 3 (bxd); ⌀ 4")
       end
     end
   end
