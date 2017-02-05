@@ -60,6 +60,7 @@
   <ul>
     <% if current_user.admin? %>
       <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
+      <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li>
     <% end %>
     <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
     <li><%=link_to "Foto's.zip", collection_works_path(@collection, format: :zip) %> <small>(geschatte grootte: <%= number_to_human_size(@collection.works_including_child_works.count * 2 * 400000 )%>)</small></li>

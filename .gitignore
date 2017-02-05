@@ -20,8 +20,8 @@
 
 *.sql
 .DS_Store
-/config/deploy/*
-/config/deploy.rb
+/config/deploy/production.rb
+/config/deploy/staging.rb
 ./backup.sh
 bin/backup
 erd.pdf
