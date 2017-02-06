@@ -95,21 +95,9 @@
       <%= f.label :locality_geoname_id, "Lokaliteit" %>
       <%= f.select :locality_geoname_id, { @work.locality_geoname_name => @work.locality_geoname_id}, {}, class: 'select2 ajax'  %>
     </fieldset>
-      <fieldset>
-        <legend>Waardebepaling</legend>
-        <div class="row">
-        <% if current_user and current_user.can_appraise?%>
-            <div class="row">
-            <div class="medium-5 columns"><%= f.input(:purchased_on, html5:true )  %></div>
-            <div class="medium-5 columns"><%= f.input(:purchase_price, input_html: {type: :text})  %></div>
-            <div class="medium-2 columns"><%=f.association( :purchase_price_currency, value: 1 )  %></div>
-            </div>
-            <div class="large-12 medium-12 columns"><%= f.input(:price_reference)  %></div>
-        <% end %>
-
-        </div>
-        <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
-      </fieldset>
+    <fieldset>
+      <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
+    </fieldset>
     <fieldset>
       <%= f.input :public_description %>
       <%= f.input :internal_comments %>

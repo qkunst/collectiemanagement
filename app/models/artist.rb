@@ -30,6 +30,16 @@ class Artist < ApplicationRecord
     return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
   end
 
+  def place_of_birth
+    rv = read_attribute(:place_of_birth)
+    rv if !rv.nil? and !rv.to_s.strip.empty?
+  end
+
+  def place_of_death
+    rv = read_attribute(:place_of_birth)
+    rv if !rv.nil? and !rv.to_s.strip.empty?
+  end
+
   def search_name
     last_name_part = [first_name,prefix].join(" ").strip
     [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")

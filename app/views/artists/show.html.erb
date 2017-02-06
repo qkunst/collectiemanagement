@@ -5,11 +5,11 @@
     <dl>
     <% if @artist.born? %>
       <dt>Geboren:</dt>
-      <dd><%= @artist.place_of_birth %> (<%=@artist.year_of_birth%>)
+      <dd><%=@artist.year_of_birth%> <% if @artist.place_of_birth %>(<%= @artist.place_of_birth %>)<% end%>
     <% end %>
     <% if @artist.died? %>
       <dt>Gestorven:</dt>
-      <dd><%=  @artist.place_of_death %> (<%=@artist.year_of_death%>)
+      <dd><%=@artist.year_of_death%> <% if @artist.place_of_birth %>(<%=  @artist.place_of_death %>)<% end %>
     <% end %>
       <% if @artist.techniques.to_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.to_sentence %></dd><% end %>
       <% if @artist.subsets.to_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.to_sentence %></dd><% end %>

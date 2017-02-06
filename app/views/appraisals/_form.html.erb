@@ -3,16 +3,27 @@
 
   <div class="form-inputs">
   <div class="row">
-    <div class="medium-6 columns"><%= f.input :appraised_by %></div>
-    <div class="medium-6 columns"><%= f.input :appraised_on, html5: true %></div>
+    <div class="medium-12 columns"><%= f.input :appraised_by %></div>
+    <div class="medium-12 columns"><%= f.input :appraised_on, html5: true %></div>
   </div>
 
   <div class="row">
-    <div class="medium-6 columns"><%= f.input :market_value, as: :string %></div>
-    <div class="medium-6 columns"><%= f.input :replacement_value, as: :string %></div>
+    <div class="medium-12 columns"><%= f.input :market_value, as: :string %></div>
+    <div class="medium-12 columns"><%= f.input :replacement_value, as: :string %></div>
   </div>
 
     <%= f.input :reference %>
+
+    <fieldset>
+      <legend>Aankoopgegevens</legend>
+      <%= f.simple_fields_for :work do |wf| %>
+        <%= wf.input :purchased_on, html5: true%>
+        <div class="row">
+          <div class="medium-8 columns"><%= wf.input :purchase_price, as: :string %></div>
+          <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
+        </div>
+      <% end %>
+    </fieldset>
   </div>
 
   <div class="form-actions">

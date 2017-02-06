@@ -6,7 +6,7 @@ class AppraisalsController < ApplicationController
 
   # GET /appraisals/new
   def new
-    @appraisal = Appraisal.new(appraised_by: current_user.name, appraised_on: Time.now.to_date)
+    @appraisal = Appraisal.new(appraised_by: current_user.name, appraised_on: Time.now.to_date, work: @work)
     @latest_appraisal = @work.appraisals.descending_appraisal_on.first
   end
 
@@ -20,7 +20,10 @@ class AppraisalsController < ApplicationController
   # POST /appraisals
   # POST /appraisals.json
   def create
-    @appraisal = Appraisal.new(appraisal_params)
+    @work.update(appraisal_params[:work_attributes])
+    params = appraisal_params
+    params.delete(:work_attributes)
+    @appraisal = Appraisal.new(params)
     @appraisal.user = current_user
     @appraisal.work = @work
     respond_to do |format|
@@ -76,6 +79,6 @@ class AppraisalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appraisal_params
-      params.require(:appraisal).permit(:appraised_on, :market_value, :replacement_value, :appraised_by, :user_id, :reference)
+      params.require(:appraisal).permit(:appraised_on, :market_value, :replacement_value, :appraised_by, :user_id, :reference, work_attributes: [:id, :purchased_on, :purchase_price, :purchase_price_currency_id] )
     end
 end

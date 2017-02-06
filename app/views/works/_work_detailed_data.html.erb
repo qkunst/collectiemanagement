@@ -5,7 +5,12 @@
       <tr><th><%=Work.human_attribute_name(:location)%></th><td><%=work.location%><% if current_user.can_edit_location? and work.id %>
         (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
       <% end %></td></tr>
-      <tr><th><%=Work.human_attribute_name(:location_detail)%></th><td><%=work.location_floor%> <%=work.location_detail%><% if current_user.can_edit_location? and work.id  %>
+      <% if work.location_floor %>
+      <tr><th><%=Work.human_attribute_name(:location_floor)%></th><td><%=work.location_floor%><% if current_user.can_edit_location? and work.id  %>
+        (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
+      <% end %></td></tr>
+      <% end %>
+      <tr><th><%=Work.human_attribute_name(:location_detail)%></th><td><%=work.location_detail%><% if current_user.can_edit_location? and work.id  %>
         (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
       <% end %></td></tr>
     <% end %>
@@ -46,7 +51,10 @@
     <%= define_unless_blank :other_comments, description: "Overige opm." %>
     <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if current_user.qkunst? %>
     <% if current_user.can_access_valuations? %>
-      <%= define_unless_blank :purchase_price, modifier: :number_to_currency, description: "Aankoopwaarde" %>
+      <%= define_unless_blank :purchased_on %>
+      <% if work.purchase_price %>
+      <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
+      <% end %>
       <%= define_unless_blank :market_value, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: "Vervangingswaarde" %>
       <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete if current_user.qkunst? %>

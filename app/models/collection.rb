@@ -91,6 +91,21 @@ class Collection < ApplicationRecord
     return nil
   end
 
+  def collections_stage_delivery_on
+    if collections_stages.delivery.count > 0
+      rv = collections_stages.delivery.first.completed_at
+      rv.to_date if rv
+    end
+  end
+
+  def collections_stage_delivery_on= date
+    if collections_stages.delivery.count > 0
+      collections_stage = collections_stages.delivery.first
+      collections_stage.completed_at = date
+      collections_stage.save
+    end
+  end
+
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)
   end

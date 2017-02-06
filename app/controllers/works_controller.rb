@@ -367,7 +367,7 @@ class WorksController < ApplicationController
   end
   def sort_works works
     if @selection[:sort].to_s == "artist_name"
-      works = works.sort{|a,b| a.artist_name_rendered <=> b.artist_name_rendered}
+      works = works.sort{|a,b| a.artist_name_rendered.to_s.downcase <=> b.artist_name_rendered.to_s.downcase}
     else
       works = works.sort{|a,b| a.stock_number.to_s.downcase <=> b.stock_number.to_s.downcase}
     end
@@ -395,7 +395,6 @@ class WorksController < ApplicationController
     end
     permitted_fields = []
     permitted_fields += [:location_detail, :location, :location_floor] if current_user.can_edit_location?
-    permitted_fields += [:valuation_on, :market_value, :replacement_value] if current_user.can_edit_valuation?
     permitted_fields += [:internal_comments] if current_user.qkunst?
     permitted_fields += [
       :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
@@ -406,9 +405,8 @@ class WorksController < ApplicationController
       :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id,
       :signature_comments, :no_signature_present, :print, :frame_height, :frame_width, :frame_depth, :frame_diameter,
       :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
-      :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :purchase_price, :price_reference,
+      :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :public_description,
       :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-      :purchase_price_currency_id, :public_description,
       :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[],
       theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
         :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description

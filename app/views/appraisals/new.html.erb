@@ -11,7 +11,7 @@
 
 <h3>Eerdere waarderingen</h3>
 <%= render partial: 'appraisals'%>
-<h4>Laatste referentie</h4>
-<%= simple_format @latest_appraisal.reference%>
+<h4>Uitgebreid</h4>
+<%= render @work.appraisals %>
 </div>
 <% end %>

@@ -146,8 +146,8 @@ nl:
       appraisal:
         appraised_by: Waardering door
         reference: Referentie / Opmerkingen
-        replacement_value: Vervangingswaarde
-        market_value: Marktwaarde
+        replacement_value: Vervangingswaarde (€)
+        market_value: Marktwaarde (€)
         appraised_on: Gewaardeerd op
       attachment:
         file: Bestand
@@ -181,7 +181,7 @@ nl:
         locations: Locaties
         figurative: Figuratief
         abstract: Abstract
-        public_description: Informatie over het werk voor publiek
+        public_description: Toelichting bij kunstwerk
         abstract_or_figurative: Abstract of figuratief
         abstract_or_figurative_rendered: Abstract of figuratief
         object_format_code: Formaatcode
@@ -276,7 +276,7 @@ nl:
         hide: Verberg
       collection:
         name: Naam
-        description: Beschrijving
+        description: Toelichting bij collectie
         external_reference_code: Externe referentiecode
         exposable_fields: Beschikbare velden
         stages: Procesfases die gelden voor deze (en onderliggende) collectie
@@ -287,6 +287,7 @@ nl:
         label_override_work_alt_number_1: Label voor alternatief nummer 1
         label_override_work_alt_number_2: Label voor alternatief nummer 2
         label_override_work_alt_number_3: Label voor alternatief nummer 3
+        collections_stage_delivery_on: Opleverdatum
       condition:
         name: Naam
         order: Volgorde

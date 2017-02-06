@@ -6,6 +6,8 @@ class Appraisal < ApplicationRecord
 
   include ActionView::Helpers::NumberHelper
 
+  accepts_nested_attributes_for :work
+
   scope :descending_appraisal_on, -> { order("appraisals.appraised_on is null, appraisals.appraised_on desc") }
 
   def name

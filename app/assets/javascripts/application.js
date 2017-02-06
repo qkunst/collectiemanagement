@@ -90,23 +90,6 @@ var collectieBeheerInit = function() {
           if (subset.length > 30) break;
           if (dat.name.match(regex_start)) subset.push(dat);
         }
-        for (var dat in data) {
-          dat = data[dat]
-          if (subset.length > 30) break;
-          if (dat.name.match(regex_middle) && subset.indexOf(dat) === -1) subset.push(dat);
-        }
-        for (var dat in data) {
-          dat = data[dat]
-          if (subset.length > 30) break;
-          if (dat.desc.match(regex_start) && subset.indexOf(dat) === -1) subset.push(dat);
-        }
-        for (var dat in data) {
-          dat = data[dat]
-          if (subset.length > 30) break;
-          if (dat.desc.match(regex_middle) && subset.indexOf(dat) === -1) subset.push(dat);
-        }
-
-        // params.page = params.page || 1;
 
         return {
           results: subset

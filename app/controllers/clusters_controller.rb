@@ -31,7 +31,7 @@ class ClustersController < ApplicationController
     @cluster.collection = @collection
     respond_to do |format|
       if @cluster.save
-        format.html { redirect_to collection_cluster_path(@collection,@cluster), notice: "Het cluster '#{@cluster.name}' is aangemaakt." }
+        format.html { redirect_to collection_path(@collection), notice: "Het cluster '#{@cluster.name}' is aangemaakt." }
         format.json { render :show, status: :created, location: @cluster }
       else
         format.html { render :new }
@@ -59,7 +59,7 @@ class ClustersController < ApplicationController
   def destroy
     @cluster.destroy
     respond_to do |format|
-      format.html { redirect_to collection_clusters_url(@collection), notice: 'Het cluster is verwijderd.' }
+      format.html { redirect_to collection_works_url(@collection), notice: 'Het cluster is verwijderd.' }
       format.json { head :no_content }
     end
   end

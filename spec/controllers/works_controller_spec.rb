@@ -41,7 +41,7 @@ RSpec.describe WorksController, type: :controller do
       sign_in users(:admin)
       expect(work.location).to eq(nil)
       valid_data = {
-        location: "werk", internal_comments: "Interne beslommering", title: "Titel", market_value: 1000
+        location: "werk", internal_comments: "Interne beslommering", title: "Titel"
       }
       put :update, params: {collection_id: work.collection.to_param, id: work.to_param, work: valid_data }
       work.reload

@@ -6,7 +6,7 @@ class AttachmentsController < ApplicationController
   # GET /attachments
   # GET /attachments.json
   def index
-    @attachments = Attachment.all
+    @attachments = @collection.attachments.all
   end
 
   # GET /attachments/new

@@ -15,7 +15,8 @@ module DefineTasticHelper
   def render_unless_blank_definition description, value, options={}
     classname = options[:classname]
     if @define_tastic_render_as == :table
-      "<tr#{" class=\"#{classname}\"" if classname}><th>#{description}:</th><td>#{value}</td></tr>".html_safe unless value.blank?
+      style = " style=\"width: #{@define_tastic_key_width}\"" if @define_tastic_key_width
+      "<tr#{" class=\"#{classname}\"" if classname}><th#{style}>#{description}:</th><td>#{value}</td></tr>".html_safe unless value.blank?
     else
       "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{value}</dd>".html_safe unless value.blank?
     end
@@ -113,6 +114,9 @@ module DefineTasticHelper
       else
         if args[0][:render_as]
           @define_tastic_render_as = args[0][:render_as] == :table ? :table : :dl
+        end
+        if args[0][:key_width]
+          @define_tastic_key_width = args[0][:key_width]
         end
       end
 

@@ -1,0 +1,9 @@
+<h5>Waardering <%= I18n.l appraisal.appraised_on, format: :short_month_year if appraisal.appraised_on%> <small>(<%= link_to 'Bewerk', edit_collection_work_appraisal_path(@collection, @work, appraisal), data: { open_in_context: true} %>)</small></h5>
+<div class="detailed_data">
+  <%= definition_list_for appraisal, {render_as: :table, key_width: '40%'} do %>
+  <%= define_unless_blank :appraised_by %>
+  <%= define_unless_blank :market_value, modifier: :number_to_currency, description: 'Marktwaarde' %>
+  <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: 'Vervangingswaarde' %>
+  <%= define_unless_blank :reference %>
+  <% end %>
+</div>

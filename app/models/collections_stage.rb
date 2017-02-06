@@ -4,6 +4,8 @@ class CollectionsStage < ApplicationRecord
 
   time_as_boolean :completed
 
+  scope :delivery, ->{ joins(:stage).where(stages: {name: "Oplevering"})}
+
   def previous_collections_stage
     @previous_collections_stage ||= collection.find_state_of_stage(stage.previous_stage)
   end

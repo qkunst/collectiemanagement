@@ -9,7 +9,7 @@
   <div class="row columns">
 
   <% if @work.id %>
-  <label><%= check_box_tag 'submit_and_edit_photos_in_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
+  <label style="float: left; clear: both; width: 100%"><%= check_box_tag 'submit_and_edit_photos_in_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
   <% end %>
   </div>
 <%= f.submit class: :submit, class: :button%>

@@ -60,7 +60,7 @@
   <ul>
     <% if current_user.admin? %>
       <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
-      <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li>
+      <!-- <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li> -->
     <% end %>
     <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
     <li><%=link_to "Foto's.zip", collection_works_path(@collection, format: :zip) %> <small>(geschatte grootte: <%= number_to_human_size(@collection.works_including_child_works.count * 2 * 400000 )%>)</small></li>
@@ -68,11 +68,11 @@
   <hr/>
   <ul>
     <% @collection.attachments.for_me(current_user).each do |attachment| %>
-      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name %> <small>(grootte: <%= number_to_human_size(attachment.file.size)%>)</small></li>
+      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(grootte: <%= number_to_human_size(attachment.file.size)%>)</small></li>
     <% end %>
   </ul>
   <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
-  <p><%= link_to 'Beheer bijlagen', collection_attachments_path(@collection), data: {open_in_context:true}%>
+  <p><%= link_to 'Beheer bijlagen', collection_attachments_path(@collection) %></p>
 </aside>
 <% end %>
 </div>
