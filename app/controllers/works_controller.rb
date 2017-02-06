@@ -45,9 +45,10 @@ class WorksController < ApplicationController
 
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] and !@reset
+    @no_child_works = params[:no_child_works] ? true : false
 
     begin
-      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: (params[:no_child_works] ? true : false)})
+      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."

@@ -26,9 +26,8 @@ newWorkButton.href = "/collections/"+collectionId+"/works/new";
 
 var offline_stored_count = (FormStore.Store.count_by_key_start(protocol+"//"+host+"/collections/"+collectionId+"/works/new"));
 if (offline_stored_count > 0) {
-  $('#offline').text("Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd");
+  $('#offline').css({display: 'block'}).text("Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd");
 } else {
-  $('#offline').hide()
 }
 
 </script>

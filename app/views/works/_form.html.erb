@@ -69,13 +69,13 @@
     <fieldset>
       <legend>Conditie</legend>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.association( :condition_work, input_html: {class: 'chosen-select'})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.association( :damage_types, input_html: {class: 'chosen-select'})  %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :condition_work, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :damage_types, input_html: {class: 'chosen-select'}, collection: DamageType.not_hidden)  %></div>
         <div class="large-6 medium-6 columns"><%= f.input :condition_work_comments  %></div>
       </div>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.association( :condition_frame, input_html: {class: 'chosen-select'})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'} ) %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :condition_frame, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
+        <div class="large-3 medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'}, collection: FrameDamageType.not_hidden ) %></div>
         <div class="large-6 medium-6 columns"><%= f.input :condition_frame_comments  %></div>
       </div>
       <%= f.association( :placeability, input_html: {class: 'chosen-select'})  %>
@@ -83,7 +83,7 @@
     <fieldset>
       <legend>Overig</legend>
       <%= f.input :other_comments  %>
-      <%= f.association( :sources, input_html: {class: 'chosen-select'}) %>
+      <%= f.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
       <%= f.input :source_comments  %>
     </fieldset>
     <fieldset>

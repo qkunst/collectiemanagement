@@ -399,6 +399,9 @@ body.offline {
   }
 
 }
+.callout#offline {
+  display: none;
+}
 .tabs.in-columns {
   .tab-head {
     width:25%;
