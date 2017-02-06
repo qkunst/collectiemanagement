@@ -6,7 +6,7 @@
     <% end %>
 
     <h1><%= @collection.name %>  <% if qkunst_user? %>
-          (<%= link_to 'Bewerk gegevens', edit_collection_path(@collection) %>)
+          <small>(<%= link_to 'Bewerk gegevens', edit_collection_path(@collection) %>)</small>
         <% end %></h1>
   </div>
 
