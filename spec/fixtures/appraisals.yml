@@ -6,3 +6,11 @@ appraisal1:
   user: :admin
   reference: "Reference"
   work: :work1
+
+appraisal_without_date:
+  market_value: 1000
+  replacement_value: 2000
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
