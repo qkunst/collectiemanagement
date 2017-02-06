@@ -22,14 +22,29 @@ queries mogelijk maakt. De belangrijkste zijn:
 * *~*: fuzzy~ (ik weet de juiste spelling niet van dit woord, maar ik kan een paar letters verkeerd )
 * ***: hottentottente* (het woord begint zo, maar verder…; hotten*tentoonstelling (het woord begint en eindigd zo…; *tentoonstelling (woord dat eindigt op tentoonstelling)
 * *?*: l?tter (als je een letter niet meer weet)
-* *OR*: Als een van de woorden er in moet voorkomen ("schretlen paard", levert 13 werken op (impliciet wordt "schretlen AND paard" uitgevoerd), "schretlen OR paard” levert 53 werken op).
-* *()*: "(schretlen OR paard) AND direct inzetbaar” (iets met schretlen of met een paard én direct inzetbaar).
+* *OR*: Als één van de woorden er in moet voorkomen (“tentoonstelling expo”, levert 13 werken op (impliciet wordt “tentoonstelling AND expo” uitgevoerd), "tentoonstelling OR expo” levert veel meer werken op).
+* *()*: "(tentoonstelling OR expo) AND direct inzetbaar” (iets met tentoonstelling of expo én direct inzetbaar).
 
 Wanneer geen van dit soort tekens / commando's worden gebruikt wordt getracht de applicatie 'fuzzy' te doorzoeken; hetgeen betekend dat de zoekmachine iets vergevingsgezinder is t.a.v. typfouten/spelfouten.
 
 ### Langere teksten
 
-Vele van de langere teksten in de applicatie kunnen worden opgemaakt middels MarkDown
+Vele van de langere teksten in de applicatie kunnen worden opgemaakt middels [Markdown](https://nl.wikipedia.org/wiki/Markdown). In deze tekstvelden kun je beperkt de tekst opmaken. Hier een kort voorbeeld:
+
+	  # Kop 1
+	  ## Kop 2
+	  …
+	  ###### Kop 6
+	
+	  **Vet** *Cursief*
+	
+	  * Opsomming
+	  * Opsomming
+	
+	  1. Opsomming genummerd
+	  2. Opsomming genummerd
+	
+	  [Link](http://example.com)
 
 ## Installatie
 
@@ -38,7 +53,19 @@ de source code (README.md). Deze handleiding verondersteld basiskennis Linux.
 Wanneer je reeds ervaring hebt met Capistrano voor de uitrol van applicaties zal
 deze handleiding grotendeels overbodig zijn.
 
-### Server
+### Over versies & OTAP
+
+Er is een ontwikkelstraat, een teststraat, een acceptatie-straat en een productiestraat.
+
+De code zelf staat in een git-repository. Deze kent twee branches, develop en master, en waar nodig tijdelijke feature branches. De code op de develop branch wordt geïnstalleerd op de staging server, de master branch wordt na goedkeuring van de werking door QKunst geïnstalleerd op de applicatie server voor productie.
+
+De code in develop wordt ook gebruikt om actief in te ontwikkelen. Deze wordt ook uitgerold op de acceptatie-server. Automatische tests vinden op beide branches plaats, en zijn ingeregeld op travisci.
+
+Er worden geen versienummers toegekend, de applicatie is in principe continue in ontwikkeling. Er kan gecommuniceerd worden over de geïnstalleerde versie dmv commit ids, een lange string die op basis van datum en tijd en omgeving gemakkelijk teruggevonden kan worden in het deployment logboek dat automatisch door de deployment-tool wordt bijgehouden.
+
+Updates van de applicatie worden door de leverancier van de software uitgevoerd middels Capistrano, maar een ander update mechanisme kan gebruikt worden. Door gebruik te maken van Capistrano kunnen updates op de acceptatie en productie omgevingen bijna onmerkbaar uitgevoerd worden.
+
+### Pakketten die aanwezig dienen te zijn
 
 Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst Collectiedatabase draait op moment van schrijven op een Debian Jessie server met voorgeïnstalleerd de volgende zaken:
 
@@ -62,23 +89,11 @@ Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde v
 
 * [Basis server inrichting handleiding voor Rails op basis van Debian, nginx, passenger en rbenv](https://murb.nl/articles/204-a-somewhat-secure-debian-server-with-nginx-passenger-rbenv-for-hosting-ruby-on-rails-with-mail-support-and-deployment-with-capistrano)
 
-### Over versies & OTAP
-
-Er is een ontwikkelstraat, een teststraat, een acceptatie-straat en een productiestraat.
-
-De code zelf staat in een git-repository. Deze kent twee branches, develop en master, en waar nodig tijdelijke feature branches. De code op de develop branch wordt geïnstalleerd op de staging server, de master branch wordt na goedkeuring van de werking door QKunst geïnstalleerd op de applicatie server voor productie.
-
-De code in develop wordt ook gebruikt om actief in te ontwikkelen. Deze wordt ook uitgerold op de acceptatie-server. Automatische tests vinden op beide branches plaats, en zijn ingeregeld op travisci.
-
-Er worden geen versienummers toegekend, de applicatie is in principe continue in ontwikkeling. Er kan gecommuniceerd worden over de geïnstalleerde versie dmv commit ids, een lange string die op basis van datum en tijd en omgeving gemakkelijk teruggevonden kan worden in het deployment logboek dat automatisch door de deployment-tool wordt bijgehouden.
-
-Updates van de applicatie worden door de leverancier van de software uitgevoerd middels Capistrano, maar een ander update mechanisme kan gebruikt worden. Door gebruik te maken van Capistrano kunnen updates op de acceptatie en productie omgevingen bijna onmerkbaar uitgevoerd worden.
-
 ### Inrichting ontwikkelomgeving
 
-Verondersteld dat git en alle andere eerder genoemde server software aanwezig is op het ontwikkelsysteem (op nginx en passenger na).
-Op macOS kunnen deze pakketten eventueel ook via homebrew worden geinstalleerd.
-Of de applicatie op Windows zou kunnen draaien is onduidelijk. Een *nix-achtig systeem wordt (eigenlijk altijd) aanbevolen.
+Verondersteld wordt dat `git` en alle andere eerder genoemde server software aanwezig is op het ontwikkelsysteem (op nginx en passenger na).
+
+Op macOS kunnen deze pakketten eventueel ook via homebrew worden geïnstalleerd. Of de applicatie op Windows zou kunnen draaien is onduidelijk. Een *nix-achtig systeem wordt (eigenlijk altijd) aanbevolen.
 
 Clone de repository:
 
@@ -89,7 +104,7 @@ navigeer hier naartoe (`cd collectiebeheer`)
 
 #### Installatie afhankelijkheden
 
-De QKunst collectiedatabase is gebaseerd op het Ruby On Rails framework en andere opensource libraries, zogenaamde gems. Deze zijn gemakkelijk te installeren middels het bundler commando:
+De QKunst collectiedatabase is gebaseerd op het Ruby On Rails framework en andere opensource bibliotheken, zogenaamde gems. Deze zijn gemakkelijk te installeren middels het `bundler` commando:
 
     bundle install
 
@@ -97,12 +112,12 @@ Is het commando `bundle` niet aanwezig op het systeem, typ dan eerst `gem instal
 
 #### Inrichting van de database
 
-Het Ruby on Rails framework komt met een ingebouwd migratiesysteem om een volledige database in te richten. Hiervoor dient de connectie met de database server geconfigureerd worden. Dit kan in het bestand database.yml.
+Het Ruby on Rails framework komt met een ingebouwd migratiesysteem om een volledige database in te richten. Hiervoor dient de connectie met de database server geconfigureerd worden. Dit kan in het bestand `database.yml`.
 Na configuratie dient het volgende commando uitgevoerd te worden:
 
     RAILS_ENV=production rails db:migrate
 
-Het bestand [db/schema.rb](db/schema.rb) kan geraadpleegt worden om een indruk te krijgen van alle tabellen.
+Het bestand [`db/schema.rb`](db/schema.rb) kan geraadpleegd worden om een indruk te krijgen van alle tabellen.
 
 #### Applicatie starten
 
@@ -117,7 +132,7 @@ de eerste gebruiker dient handmatig tot administrator worden benoemd. Doorloop d
 
     rails c [environment_name]
 
-(de environment_name is standaard 'development' (voor lokale ontwikkeling, op server typ hier 'production' (zonder aanhalingstekens))
+(de environment_name is standaard ‘`development`’ (voor lokale ontwikkeling, op server typ hier ‘`production`’ (zonder aanhalingstekens))
 
 Type vervolgens de volgende commando's:
 
@@ -125,7 +140,7 @@ Type vervolgens de volgende commando's:
     u.admin = true
     u.save
 
-De gebruiker met 'jouw_email' als e-mailadres kan vervolgens andere gebruikers administrator rechten geven etc.
+De gebruiker met 'jouw_email' als e-mailadres kan vervolgens andere gebruikers administrator rechten geven via de administratie functie binnen de applicatie.
 
 ### Installatie van de applicatie op een server voor acceptatie en productie
 
@@ -143,8 +158,8 @@ De eerste keer zal deze falen, maar door het eenmaal te draaien worden veel van 
 directories klaargezet op de server.
 
 Vervolgens is het zaak om de `database.yml` en `secrets.yml` configuratie voor productie gereed te zetten.
-Dit is een eenmalige operatie die plaats vind op de server. De structuur is gelijk aan de config/database.yml en config/secrets.yml files, maar
-de files in deze repository bevatten (om veiligheidsredenen) geen productiegegevens.
+Dit is een eenmalige operatie die plaats vind op de server. De structuur is gelijk aan de `config/database.yml` en `config/secrets.yml` files, maar
+de files in deze publieke repository bevatten (om veiligheidsredenen) geen productiegegevens.
 
 Kopieer deze bestanden naar de server in de `shared/config` folder (de folder `shared` zal na `cap production deploy` al aangemaakt zijn)
 
@@ -160,7 +175,7 @@ De applicatie wordt echter wel ontwikkeld op een macOS systeem.
 
 ### Herstellen met een databasebackup
 
-Er wordt dagelijks een pg_dump gedaan van alle informatie in de database. Deze wordt beveiligd opgeslagen en verstuurd op de server en bij QKunst en bij de leverancier. Deze backups zijn niet te gebruiken door een enkele afnemer van de QKunst collectiedatabase omdat deze informatie bevat van alle klanten. Wel is deze backup te gebruiken om een backup terug te halen.
+Er wordt dagelijks een `pg_dump` (een standaard export functie van PostgreSQL) gedaan van alle informatie in de database. Deze wordt beveiligd opgeslagen en verstuurd op de server en bij QKunst en bij de leverancier. Deze backups zijn niet te gebruiken door een enkele afnemer van de QKunst collectiedatabase omdat deze informatie bevat van alle klanten. Wel is deze backup te gebruiken om een backup terug te halen.
 
 ### Herstellen met een export
 
@@ -178,8 +193,7 @@ Toegangsrechten dienen wel opnieuw ingesteld te worden.
 
 ### Token based authentication
 
-To authenticate the user has to send a token-header with every request, a token that is a bcrypted string representing
-the external ip, the url and the secret api key:
+Er is een zeer beperkte API beschikbaar om informatie te lezen uit het systeem. Hiervoor dient een gebruiker een API key toegewezen te krijgen via de console (`rails c`). Om te authentiseren dient er bij iedere request een token-header meegestuurd worden, het geen een met `bcrypt` geencodeerde string is van het externe ip adres, de url en de api key.
 
     data = "#{self.externalip}#{url}#{method}#{request_body}"
     user_id # known user id; send as header HTTP_API_USER_ID
@@ -188,7 +202,7 @@ the external ip, the url and the secret api key:
     digest = OpenSSL::Digest.new('sha512')
     hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data) # send as HTTP_HMAC_TOKEN
 
-To make the full request in ruby:
+Om een volledige ruby request te doen:
 
     data = "#{external_ip}#{url}"
     digest = OpenSSL::Digest.new('sha512')
@@ -201,3 +215,4 @@ To make the full request in ruby:
     res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
     response_data = JSON.parse(res.body)
 
+Als je via de browser ingelogd bent kun je ook op die manier toegang krijgen.
