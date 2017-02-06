@@ -226,7 +226,7 @@ class Work < ApplicationRecord
     self.collection.collection_name_extended
   end
 
-  def as_indexed_json(options={})
+  def as_indexed_json(*)
     self.as_json(
       include: {
         sources: { only: [:id, :name]},
@@ -349,7 +349,7 @@ class Work < ApplicationRecord
           end
         elsif column_names.include? "#{attribute}_id"
           ids = self.group("#{attribute}_id").select("#{attribute}_id").collect{|a| a.send("#{attribute}_id")}
-          if ids.include?(nil)
+          if ids.compact.length < ids.length
             rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
           end
           attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
@@ -367,7 +367,7 @@ class Work < ApplicationRecord
           end
         else
           ids = self.left_outer_joins(attribute).select("#{attribute}.id AS id").distinct.collect(&:id)
-          if ids.include?(nil)
+          if ids.compact.length < ids.length
             rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
           end
           attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
