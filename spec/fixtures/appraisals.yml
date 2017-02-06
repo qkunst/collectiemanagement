@@ -1,0 +1,8 @@
+appraisal1:
+  appraised_on: 2000-01-01
+  market_value: 1000
+  replacement_value: 2000
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1

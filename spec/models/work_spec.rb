@@ -58,5 +58,14 @@ RSpec.describe Work, type: :model do
         expect(Work.new(frame_width: 1, frame_height: nil, frame_depth: 3, frame_diameter: 4).frame_size).to eq("1 x 3 (bxd); ⌀ 4")
       end
     end
+    describe ".to_workbook" do
+      it "should be callable and return a workbook" do
+        expect(Work.to_workbook.class).to eq(Workbook::Book)
+      end
+      it "should be work even with complex fieldset" do
+        collection = collections(:collection4)
+        expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
+      end
+    end
   end
 end
