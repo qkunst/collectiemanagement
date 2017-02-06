@@ -35,15 +35,15 @@ Vele van de langere teksten in de applicatie kunnen worden opgemaakt middels [Ma
 	  ## Kop 2
 	  …
 	  ###### Kop 6
-	
+
 	  **Vet** *Cursief*
-	
+
 	  * Opsomming
 	  * Opsomming
-	
+
 	  1. Opsomming genummerd
 	  2. Opsomming genummerd
-	
+
 	  [Link](http://example.com)
 
 ## Installatie
@@ -76,7 +76,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * passenger
 * Ruby 2.3.3 (geïnstalleerd via rbenv)
 
-Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv-soursecode pagina](https://github.com/rbenv/rbenv).
+Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
 Op het moment van schrijven worden de volgende repositories hiervoor geraadpleegd:
 
