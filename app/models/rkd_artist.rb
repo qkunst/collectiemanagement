@@ -140,7 +140,7 @@ class RkdArtist < ApplicationRecord
   def substring
     rv = ""
     rv += "#{year_of_birth} (#{place_of_birth})" if year_of_birth
-    rv += year_of_death ? " - #{year_of_death} (#{place_of_death})" : " - heden(?)"
+    rv += year_of_death ? " - #{year_of_death} (#{place_of_death})" : ""
   end
 
   def to_param

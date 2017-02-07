@@ -51,6 +51,11 @@
       <h4>Filteren</h4>
 
       <% unless current_user.read_only? %>
+        <% if current_user.can_filter_and_group?(:object_categories) %>
+          <h5>Categorie</h5>
+          <%= filter_checkboxes(@aggregations[:object_categories], "techniques.id") %>
+        <% end %>
+
         <h5>Cluster</h5>
         <%= filter_checkboxes(@aggregations[:cluster], "cluster_id") %>
 
@@ -68,16 +73,14 @@
         <h5>Plaatsbaarheid</h5>
         <%= filter_checkboxes(@aggregations[:placeability], "placeability_id") %>
 
-        <% if current_user.can_filter_and_group?(:techniques) %>
-          <h5>Techniek</h5>
-          <%= filter_checkboxes(@aggregations[:techniques], "techniques.id") %>
-        <% end %>
+
       <% end %>
 
       <h5>Thema</h5>
       <%= filter_checkboxes(@aggregations[:themes], "themes.id") %>
 
       <% if current_user.can_filter_and_group?(:locality_geonames_id) %>
+      <hr/>
         <h5>Lokaliteit</h5>
         <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), multiple: true, class: 'select2'%>
       <% end %>

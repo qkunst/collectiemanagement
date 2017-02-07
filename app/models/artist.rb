@@ -36,7 +36,7 @@ class Artist < ApplicationRecord
   end
 
   def place_of_death
-    rv = read_attribute(:place_of_birth)
+    rv = read_attribute(:place_of_death)
     rv if !rv.nil? and !rv.to_s.strip.empty?
   end
 
