@@ -115,7 +115,7 @@ class User < ApplicationRecord
   def can_filter_and_group?( grouping )
     return true if grouping == :themes
     return false if read_only?
-    return false if [:techniques, :sources].include?(grouping) and facility_manager?
+    return false if [:techniques, :sources, :locality_geonames_id].include?(grouping) and facility_manager?
     return true
   end
 
