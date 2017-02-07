@@ -22,6 +22,8 @@
           <div class="medium-8 columns"><%= wf.input :purchase_price, as: :string %></div>
           <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
         </div>
+        <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
+
       <% end %>
     </fieldset>
   </div>
