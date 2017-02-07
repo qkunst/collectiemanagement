@@ -29,7 +29,7 @@ class Reminder < ApplicationRecord
       time = 1
       while dates.count < 10
         date = (reference_date + additional_time(time)).to_date
-        dates << date if date > Time.now.to_date
+        dates << date if date >= Time.now.to_date
         time += 1
       end
       return dates

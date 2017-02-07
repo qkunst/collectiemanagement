@@ -47,6 +47,23 @@ RSpec.describe Reminder, type: :model do
         ])
         expect(r.next_date).to eq(("2000-01-01T12:00".to_time+50.years).to_date)
       end
+      it "should return today for event that triggers today" do
+        c = collections(:collection_with_stages)
+        s1 = stages(:stage1)
+        r = Reminder.create(interval_unit: :day, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: true)
+        expect(r.next_dates).to eq([
+          Time.now.to_date,
+          Time.now.to_date+1.day,
+          Time.now.to_date+2.day,
+          Time.now.to_date+3.day,
+          Time.now.to_date+4.day,
+          Time.now.to_date+5.day,
+          Time.now.to_date+6.day,
+          Time.now.to_date+7.day,
+          Time.now.to_date+8.day,
+          Time.now.to_date+9.day
+        ])
+      end
       it "should return nil for event that hasn't passed yet" do
         c = collections(:collection_with_stages)
         s2 = stages(:stage2a)
