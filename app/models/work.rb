@@ -328,6 +328,7 @@ class Work < ApplicationRecord
     self.market_value = latest_appraisal.market_value
     self.replacement_value = latest_appraisal.replacement_value
     self.price_reference = latest_appraisal.reference
+    self.valuation_on = latest_appraisal.appraised_on
     self.save
   end
 

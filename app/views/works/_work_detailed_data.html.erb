@@ -57,6 +57,7 @@
       <% end %>
       <%= define_unless_blank :market_value, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+      <%= define_unless_blank :valuation_on %>
       <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete if current_user.qkunst? %>
     <% end %>
     <% artist_involvements_texts = []%>
