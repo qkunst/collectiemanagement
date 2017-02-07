@@ -70,6 +70,6 @@ class InvolvementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def involvement_params
-      params.require(:involvement).permit(:name, :city, :country, :type)
+      params.require(:involvement).permit(:name, :city, :country, :type, :place_geoname_id)
     end
 end
