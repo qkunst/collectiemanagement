@@ -61,12 +61,13 @@
       <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete if current_user.qkunst? %>
     <% end %>
     <% artist_involvements_texts = []%>
-    <% if @selection_filter and @selection_filter["locality_geoname_id"] and @selection_filter["locality_geoname_id"].length > 0 %>
-      <% artist_involvements_texts = work.artists.collect{|a| a.artist_involvements.related_to_geoname_ids(@selection_filter["locality_geoname_id"])}.flatten.collect{|a| a.to_s}%>
-    <% elsif work.collection.self_or_parent_collection_with_geoname_summaries %>
-      <% artist_involvements_texts = work.artists.collect{|a| a.artist_involvements.related_to_geoname_ids(work.collection.self_or_parent_collection_with_geoname_summaries.geoname_ids)}.flatten.collect{|a| a.to_s}%>
-    <% end %>
-    <% if artist_involvements_texts.length > 0 %>
+    <%
+    if @selection_filter and @selection_filter["locality_geoname_id"] and @selection_filter["locality_geoname_id"].length > 0
+      artist_involvements_texts = work.artists.collect{|a| a.artist_involvements.related_to_geoname_ids(@selection_filter["locality_geoname_id"])}.flatten.collect{|a| a.to_s(format: :short)}
+    elsif work.collection.self_or_parent_collection_with_geoname_summaries
+      artist_involvements_texts = work.artists.collect{|a| a.artist_involvements.related_to_geoname_ids(work.collection.self_or_parent_collection_with_geoname_summaries.geoname_ids)}.flatten.collect{|a| a.to_s(format: :short)}
+    end
+    if artist_involvements_texts.length > 0 %>
     <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
     <% end %>
     <%= define_unless_blank :created_at, {classname: :complete_data} if @selection[:display] == :complete %>

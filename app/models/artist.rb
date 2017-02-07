@@ -69,12 +69,15 @@ class Artist < ApplicationRecord
 
   def rkd_artists
     return [rkd_artist] if rkd_artist
-    RkdArtist.search_rkd_by_artist(self)
+    begin
+      RkdArtist.search_rkd_by_artist(self)
+    rescue SocketError
+      []
+    end
   end
 
   def retrieve_rkd_artists!
     return [rkd_artist] if rkd_artist
-    rkd_artists = RkdArtist.search_rkd_by_artist(self)
     rkd_artists
   end
 

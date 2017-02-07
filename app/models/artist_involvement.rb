@@ -7,7 +7,7 @@ class ArtistInvolvement < ApplicationRecord
 
   validates_presence_of :involvement_type
 
-  scope :educational, -> {where(involvement_type: :educational)}
+  scope :educational, -> {where(involvement_type: [:educational, :education])}
   scope :professional, -> {where(involvement_type: :professional)}
   scope :related_to_geoname_ids, ->(geoname_ids) do
     geoname_ids = [geoname_ids].flatten.collect{|a| a if a.to_i > 9999}.compact
@@ -21,7 +21,8 @@ class ArtistInvolvement < ApplicationRecord
     involvement_type.to_s == "educational"
   end
 
-  def to_s
+  def to_s(options={})
+    return name if options[:format] == :short
     "#{name} (#{[place_geoname_name, "#{start_year}-#{end_year}"].compact.join(", ")})"
   end
 
