@@ -34,6 +34,8 @@ class Collection < ApplicationRecord
   has_many :collections_stages
   has_many :reminders
 
+  after_create :copy_default_reminders!
+
   KEY_MODEL_RELATIONS={
     "artists"=>Artist,
     "themes"=>Theme,
@@ -483,6 +485,14 @@ class Collection < ApplicationRecord
 
   def can_be_accessed_by_user user
     users_including_parent_users.include? user or user.admin?
+  end
+
+  def copy_default_reminders!
+    if reminders.count == 0
+      Reminder.prototypes.each do |a|
+        self.reminders << Reminder.new(a.to_hash)
+      end
+    end
   end
 
   class << Collection
