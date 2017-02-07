@@ -1,4 +1,4 @@
-<h1>Editing Stage</h1>
+<h1>Fase bewerken <small>(<%=link_to 'verwijder', stage_path(@stage), method: :delete, data: {confirm: 'Weet u zeker dat u deze fase wilt verwijderen?'}%>)</h1>
 
 <%= render 'form', stage: @stage %>
 

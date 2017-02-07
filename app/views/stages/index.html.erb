@@ -2,5 +2,10 @@
 <p>Projecten doorlopen meerdere fases.</p>
 <%= render :partial => 'stages_graph', locals: {collection: nil, action: :link_to} %>
 
-
+<h3>Lijstweergave</h3>
+<ul>
+<% Stage.all.each do |stage| %>
+<li><%= link_to stage.name, stage %></li>
+<% end %>
+</ul>
 <%= link_to 'Nieuw fase', new_stage_path %>

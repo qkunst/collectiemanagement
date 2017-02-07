@@ -62,7 +62,6 @@
       <h3>Projectfasering</h3>
       <p>Hieronder kies je de fases die geldig zijn voor deze collectie. Op de overzichtspagina kan een fase als voltooid worden gemarkeerd.</p>
       <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
-      <%= f.input :collections_stage_delivery_on, as: :date, html5: true%>
 
     </section>
     <section id="numbering">
