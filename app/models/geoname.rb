@@ -16,7 +16,7 @@ class Geoname < ApplicationRecord
   end
 
   def localized_name locale=:nl
-    localized_names.first
+    localized_names.last
   end
 
   def localized_names locale=:nl
