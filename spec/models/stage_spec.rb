@@ -48,13 +48,43 @@ RSpec.describe Stage, type: :model do
             if leaf and leaf == stages(:stage1)
               expect(leaf.completed?).to eq(true)
               expect(leaf.enabled?).to eq(true)
+              expect(leaf.active?).to be_falsy
             elsif leaf
               expect(leaf.completed?).to be_falsy
+              expect(leaf.active?).to be_falsy
               expect(leaf.enabled?).to be_falsy
             end
           end
         end
       end
+      it "should not mark the combination stage as active when stages before are inactive" do
+        collection = Collection.new(collections_stages: [
+          CollectionsStage.new(stage:stages(:stage1), completed: false),
+          CollectionsStage.new(stage:stages(:stage3), completed: false)
+        ])
+        tree = Stage.start.non_cyclic_graph_from_here(collection)
+        expect(tree).to eq([
+          [stages(:stage1),stages(:stage2a),stages(:stage3)],
+          [nil            ,stages(:stage2b)]
+        ])
+        tree.each do |branch|
+          branch.each do |leaf|
+            if leaf and leaf == stages(:stage1)
+              expect(leaf.completed?).to eq(false)
+              expect(leaf.enabled?).to eq(true)
+            elsif leaf and (leaf == stages(:stage2a) or leaf == stages(:stage2b))
+              expect(leaf.completed?).to be_falsy
+              expect(leaf.active?).to be_falsy
+              expect(leaf.enabled?).to be_falsy
+            elsif leaf
+              expect(leaf.completed?).to be_falsy
+              expect(leaf.active?).to be_falsy
+              expect(leaf.enabled?).to eq(true)
+            end
+          end
+        end
+      end
+
     end
   end
   describe "Class methods" do

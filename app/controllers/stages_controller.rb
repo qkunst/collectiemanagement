@@ -32,7 +32,7 @@ class StagesController < ApplicationController
 
     respond_to do |format|
       if @stage.save
-        format.html { redirect_to @stage, notice: 'Stage was successfully created.' }
+        format.html { redirect_to @stage, notice: 'Fase is aangemaakt' }
         format.json { render :show, status: :created, location: @stage }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class StagesController < ApplicationController
   def update
     respond_to do |format|
       if @stage.update(stage_params)
-        format.html { redirect_to @stage, notice: 'Stage was successfully updated.' }
+        format.html { redirect_to @stage, notice: 'Fase is bijgewerkt' }
         format.json { render :show, status: :ok, location: @stage }
       else
         format.html { render :edit }
@@ -60,7 +60,7 @@ class StagesController < ApplicationController
   def destroy
     @stage.destroy
     respond_to do |format|
-      format.html { redirect_to stages_url, notice: 'Stage was successfully destroyed.' }
+      format.html { redirect_to stages_url, notice: 'Fase is verwijderd' }
       format.json { head :no_content }
     end
   end
