@@ -294,7 +294,7 @@ class Collection < ApplicationRecord
           default_field: :_all,
           query: search,
           default_operator: :and,
-          fuzziness: 3
+          fuzziness: 2
         }
       }
     end
