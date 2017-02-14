@@ -41,13 +41,13 @@ RSpec.describe Work, type: :model do
         expect(Work.new.whd_to_s).to eq("")
       end
       it "should render w x h x d if set" do
-        expect(Work.new.whd_to_s(1, 2, 3)).to eq("1 x 2 x 3")
+        expect(Work.new.whd_to_s(1, 2, 3)).to eq("1 x 2 x 3 (bxhxd)")
       end
       it "should round w x h x d" do
-        expect(Work.new.whd_to_s(1.002345, 2.2323543, 3.777777)).to eq("1,0023 x 2,2324 x 3,7778")
+        expect(Work.new.whd_to_s(1.002345, 2.2323543, 3.777777)).to eq("1,0023 x 2,2324 x 3,7778 (bxhxd)")
       end
       it "should add diameter if set" do
-        expect(Work.new.whd_to_s(1, 2, 3, 4)).to eq("1 x 2 x 3; ⌀ 4")
+        expect(Work.new.whd_to_s(1, 2, 3, 4)).to eq("1 x 2 x 3 (bxhxd); ⌀ 4")
       end
       it "should add diameter if set" do
         expect(Work.new.whd_to_s(1, nil, 3, 4)).to eq("1 x 3 (bxd); ⌀ 4")
