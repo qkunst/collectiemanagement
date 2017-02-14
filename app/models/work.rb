@@ -158,7 +158,7 @@ class Work < ApplicationRecord
   def whd_to_s width=nil, height=nil, depth=nil, diameter=nil
     whd_values = [width, height, depth].collect{|a| dimension_to_s(a)}.compact
     rv = whd_values.join(" x ")
-    if whd_values.count < 3 and whd_values.count > 0
+    if whd_values.count > 0
       legend = []
       legend << "b" unless width.to_s == ""
       legend << "h" unless height.to_s == ""
