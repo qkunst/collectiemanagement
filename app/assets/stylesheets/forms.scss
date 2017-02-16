@@ -33,6 +33,14 @@ input.radio_buttons {
   margin-right: 1em;
 }
 
+
+.field_with_errors {
+  .input .error {
+    color: $qkunst-orange;
+  }
+}
+
+
 .input .hint {
   font-size: 0.825em;
   color: #666;

@@ -2,7 +2,9 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :file %>
+    <%= f.input :file, required: @attachment.id ? false : true, hint: @attachment.file? ? "Bijlage #{@attachment.name} wordt niet vervangen of verwijderd wanneer er geen nieuw bestand wordt geupload" : "" %>
+    <%= f.hidden_field :file_cache %>
+
     <%= f.input :name %>
     <%= f.input :visibility, collection: {"Readonly": "readonly", "Facility Manager": "facility", "QKunst": "qkunst", "Taxateur": "appraiser"}, multiple: true, as: :check_boxes if current_user.admin? %>
   </div>
