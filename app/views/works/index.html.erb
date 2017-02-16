@@ -9,7 +9,7 @@
     <div class="large-5 columns print-12">
       <p>Deze
         <% if @collection_works_count > @works_count %> (gefilterde) <% end %>
-        collectie <% unless @selection[:group] == :no_gropuing%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
+        collectie <% unless @selection[:group] == :no_grouping%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
         <%= I18n.translate 'count.works', count:  @works_count %>
         <% if @collection_works_count > @works_count %>
           (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)

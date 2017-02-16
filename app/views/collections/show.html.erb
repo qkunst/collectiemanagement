@@ -68,7 +68,7 @@
   <hr/>
   <ul>
     <% @collection.attachments.for_me(current_user).each do |attachment| %>
-      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(grootte: <%= number_to_human_size(attachment.file.size)%>)</small></li>
+      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
     <% end %>
   </ul>
   <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
