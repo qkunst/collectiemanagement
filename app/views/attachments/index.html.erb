@@ -15,10 +15,12 @@
       <tr>
         <td><%= link_to attachment.file_name, attachment.file.url %></td>
         <td><%= attachment.visibility.to_sentence %></td>
+<% if current_user.admin? %>
         <td><%= link_to 'Bewerk', edit_attachment_path(attachment) %></td>
         <td><%= link_to 'Verwijder', [attachment.attache, attachment], method: :delete, data: { confirm: "Weet je zeker dat je '#{attachment.file_name}' wilt  verwijderen?" } %></td>
+<% end %>
       </tr>
     <% end %>
   </tbody>
-  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
+  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if current_user.admin?%>
 </table>

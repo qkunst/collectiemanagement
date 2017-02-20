@@ -37,7 +37,7 @@
 
         <div class="top-bar-left">
           <ul class="vertical medium-horizontal menu" data-dropdown-menu>
-            <li><%= menu_link_to 'Collecties', collections_path%></li>
+            <li><%= menu_link_to 'Collecties', collections_path if current_user %></li>
             <% if current_user && current_user.can_receive_messages? %>
             <li><%= menu_link_to 'Berichten', messages_path%></li>
 

@@ -100,7 +100,8 @@
           <% works = @works_grouped[nil] %>
           <div class="select_all_scope cluster">
             <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
-            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>  <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span></p><% end %>
+            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>
+              <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span></p><% end %>
             <%= render works[0..@max_index]%>
             <% if works.count > @max_index+1%>
             <p><%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>
@@ -112,7 +113,12 @@
           <% if cluster %>
             <div class="select_all_scope cluster">
               <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
-              <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>.  <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>. <% if cluster.is_a? Cluster %><span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span><% end %></p>
+              <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>
+                <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>
+                <% if cluster.is_a? Cluster %>
+                  <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span>
+                <% end %>
+              </p>
               <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
               <%= render works[0..@max_index]%>
               <% if works.count > @max_index+1%>
