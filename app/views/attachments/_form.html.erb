@@ -6,7 +6,7 @@
     <%= f.hidden_field :file_cache %>
 
     <%= f.input :name %>
-    <%= f.input :visibility, collection: {"Readonly": "readonly", "Facility Manager": "facility", "QKunst": "qkunst", "Taxateur": "appraiser"}, multiple: true, as: :check_boxes if current_user.admin? %>
+    <%= f.input :visibility, collection: (User::ROLES - [:admin]).collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, multiple: true, as: :check_boxes if current_user.admin? %>
   </div>
 
   <div class="form-actions">

@@ -77,6 +77,13 @@ nl:
       stage: Workflow stadium
       reminder: Herinnering
     values:
+      user:
+        role:
+          admin: Administrator
+          qkunst: Registrator
+          appraiser: Taxateur
+          facility_manager: Facility Manager
+          read_only: Read-only
       import_collection:
         split_nothing: "Splits niets"
         split_space: "Splits op spatie"
