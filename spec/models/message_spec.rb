@@ -47,5 +47,20 @@ RSpec.describe Message, type: :model do
         expect(Message.sent_at_date(Time.now.to_date+1.day).count).to eq(0)
       end
     end
+    describe "thread_can_be_accessed_by_user" do
+      it "should work" do
+        u1 = users(:user1)
+        u2 = users(:user2)
+        u3 = users(:user3)
+        m = Message.create(from_user: u1, to_user: u2, subject: "sub", message: "messss")
+        expect(Message.thread_can_be_accessed_by_user(u1)).to include(m)
+        expect(Message.thread_can_be_accessed_by_user(u2)).to include(m)
+        expect(Message.thread_can_be_accessed_by_user(u3)).not_to include(m)
+        m2 = Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
+        expect(Message.thread_can_be_accessed_by_user(u1)).to include(m2)
+        expect(Message.thread_can_be_accessed_by_user(u2)).to include(m2)
+        expect(Message.thread_can_be_accessed_by_user(u3)).to include(m2)
+      end
+    end
   end
 end

@@ -1,10 +1,16 @@
 <h1>Conversaties</h1>
 <p>Stel een vraag of laat een opmerking achter. Gaat het om een specifiek werk of collectie, maak dan gebruik van de knop om een vraag te stellen of een opmerking te maken bij die collectie of dat werk. Alle berichten zijn in te zien door QKunst administratoren.</p>
 <div id="main">
-<% if @collection or @work %>
-  <p>Stel een vraag aan een QKunst medewerker of plaats een opmerking.</p>
-<%= render 'form' %>
+<% if @work %>
+  <p>Stel een vraag aan een QKunst medewerker over dit werk of plaats een opmerking.</p>
+<% elsif @collection %>
+  <p>Stel een vraag aan een QKunst medewerker over deze collectie of plaats een opmerking.</p>
+<% end %>
+<% if @work or @collection%>
 <hr/>
+<%= render 'form' %>
+
+
 <% end %>
 <h3>Eerdere conversaties</h3>
 <table class="conversations">

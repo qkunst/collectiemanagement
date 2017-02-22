@@ -6,6 +6,7 @@
     <%= f.input :subject %>
     <%= f.input :message %>
     <%= f.input :in_reply_to_message_id, as: :hidden%>
+    <input type="hidden" value="<%=request.path%>" name="referrer">
     <%#= f.input :just_a_note %>
     <% if current_user.qkunst? %>
       <%= f.input :qkunst_private %>

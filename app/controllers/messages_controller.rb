@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   before_action :authenticate_admin_or_facility_user!
-  before_action :set_collection
   before_action :set_work
+  before_action :set_collection
   before_action :set_message, only: [:show, :edit, :update, :destroy]
 
   # GET /messages
@@ -61,7 +61,8 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.from_user = current_user
     @message.subject_object = subject_object
-    @message.subject_url = request.referrer unless request.referrer.match(/\/messages\//)
+    referrer = url_for([@collection, @work].compact) || params[:referrer] || request.referrer
+    @message.subject_url = referrer unless request.referrer.match(/\/messages\//)
 
     if message_params[:in_reply_to_message_id].to_i > 0
       original_message = Message.find(message_params[:in_reply_to_message_id].to_i)
