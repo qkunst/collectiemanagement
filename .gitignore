@@ -25,3 +25,4 @@
 ./backup.sh
 bin/backup
 erd.pdf
+.~*

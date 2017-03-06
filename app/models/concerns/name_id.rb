@@ -4,6 +4,7 @@ module NameId
   included do
 
     default_scope ->{ order(:name) }
+    scope :find_by_case_insensitive_name, ->(name){ where(arel_table[:name].matches(name)) }
 
     def <=> other
       self.name <=> other.name
@@ -47,10 +48,6 @@ module NameId
 
     def to_sym
       self.to_s.downcase.to_sym
-    end
-
-    def find_by_case_insensitive_name name
-      self.where(arel_table[:name].matches(name))
     end
   end
 end
