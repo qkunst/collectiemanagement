@@ -22,7 +22,13 @@ class ArtistInvolvement < ApplicationRecord
   end
 
   def to_s(options={})
-    return name if options[:format] == :short
+    if options[:format] == :short
+      if start_year or end_year
+        return "#{name} (#{start_year}-#{end_year})"
+      else
+        return name
+      end
+    end
     "#{name} (#{[place_geoname_name, "#{start_year}-#{end_year}"].compact.join(", ")})"
   end
 
