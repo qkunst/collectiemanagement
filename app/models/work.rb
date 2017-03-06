@@ -12,15 +12,15 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :sources
   belongs_to :style
   belongs_to :cluster
-  has_and_belongs_to_many :artists
-  has_and_belongs_to_many :object_categories
-  has_and_belongs_to_many :techniques
+  has_and_belongs_to_many :artists, -> { uniq }
+  has_and_belongs_to_many :object_categories, -> { uniq }
+  has_and_belongs_to_many :techniques, -> { uniq }
   belongs_to :medium
   belongs_to :condition_work, :class_name=>Condition
   has_and_belongs_to_many :damage_types
   belongs_to :condition_frame, :class_name=>Condition
-  has_and_belongs_to_many :frame_damage_types
-  has_and_belongs_to_many :themes
+  has_and_belongs_to_many :frame_damage_types, -> { uniq }
+  has_and_belongs_to_many :themes, -> { uniq }
 
 
   has_many :appraisals
