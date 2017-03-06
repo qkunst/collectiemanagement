@@ -162,7 +162,7 @@ class WorksController < ApplicationController
       alert = nil
       selected_works = @collection.works_including_child_works.where(id:params[:selected_works].collect{|a| a.to_i})
 
-      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location", "subset_id", "theme.id", "technique.id", "source.id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
+      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location_floor", "location", "subset_id", "theme.id", "technique.id", "source.id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
 
       if property_being_edited
         if property_being_edited.ends_with?("_id")
@@ -302,7 +302,8 @@ class WorksController < ApplicationController
       @batch_edit_options["Deelcollectie"]["Zet in deelcollectie “#{subset.name}”"] = "subset_id_#{subset.id}"
     end
 
-    @batch_edit_options["Locatie"]["Nieuwe locatie"] = "location_new"
+    @batch_edit_options["Locatie"]["Nieuwe adres en/of gebouw(deel)"] = "location_new"
+    @batch_edit_options["Locatie"]["Nieuwe verdieping"] = "location_floor_new"
     @batch_edit_options["Locatie"]["Nieuwe locatie specificatie"] = "location_detail_new"
 
     Technique.all.each do |technique|
