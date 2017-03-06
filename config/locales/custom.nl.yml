@@ -105,6 +105,9 @@ nl:
           not_set: Onbekend
         cluster_id:
           not_set: Niet in cluster
+        object_categories:
+          id:
+            not_set: Geen categorie
         techniques:
           id:
             not_set: Techniek onbekend
