@@ -42,7 +42,7 @@ namespace :qkunst do
       unless line.header?
         c = nil
         if line[:bankcode].value
-          c = Collection.find_or_initialize_by(external_reference_code: line[:bankcode].value)
+          c = Collection.find_or_initialize_by(external_reference_code: line[:bankcode].value.to_i)
           name = "Rabobank #{line[:roepnaam_bank].value}"
           if c.parent_collection.nil?
             if Collection.find_by_name(name)
