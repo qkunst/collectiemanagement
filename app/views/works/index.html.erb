@@ -53,7 +53,7 @@
       <% unless current_user.read_only? %>
         <% if current_user.can_filter_and_group?(:object_categories) %>
           <h5>Categorie</h5>
-          <%= filter_checkboxes(@aggregations[:object_categories], "techniques.id") %>
+          <%= filter_checkboxes(@aggregations[:object_categories], "object_categories.id") %>
         <% end %>
 
         <h5>Cluster</h5>
