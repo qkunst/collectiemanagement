@@ -15,6 +15,18 @@ class GeonamesCountry < ApplicationRecord
     GeonamesAdmindiv.where("geonames_admindivs.admin_code LIKE ?", "#{iso.to_s.upcase}%")
   end
 
+  def geonames_continent
+    GeonamesCountry.find_by(iso3: continent, iso: continent)
+  end
+
+  def parent_geoname_ids
+    if geonames_continent
+      [geonames_continent.geoname_id]
+    else
+      []
+    end
+  end
+
   def geonameid
     geoname_id
   end

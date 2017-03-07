@@ -26,7 +26,7 @@ class GeonameSummary < ApplicationRecord
   end
 
   def parent_geoname_ids
-    base = Geoname.find_by(geonameid: geoname_id) || GeonamesAdmindiv.find_by(geonameid: geoname_id)
+    base = Geoname.find_by(geonameid: geoname_id) || GeonamesAdmindiv.find_by(geonameid: geoname_id) || GeonamesCountry.find_by(geoname_id: geoname_id)
     base ? base.parent_geoname_ids : []
   end
 
