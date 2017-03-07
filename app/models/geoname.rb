@@ -1,5 +1,5 @@
 class Geoname < ApplicationRecord
-  scope :populated_places, -> { where(feature_code: ["PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX"]) }
+  scope :populated_places, -> { where(feature_code: ["PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX", "ISL"]) }
 
   has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: 'GeonameTranslation'
 
