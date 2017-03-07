@@ -1,5 +1,5 @@
 class GeonameSummary < ApplicationRecord
-  scope :selectable, -> { where(type_code: ["AREA","PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX", "COUNTRY", "ADM1", "ADM2-NL"]) }
+  scope :selectable, -> { where(type_code: ["AREA","PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "COUNTRY", "ADM1", "ISL"]) }
 
   def to_s
     "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description[0..30]}\">"
