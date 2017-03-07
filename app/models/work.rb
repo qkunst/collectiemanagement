@@ -419,6 +419,9 @@ class Work < ApplicationRecord
       rv
     end
 
+    def update_artist_name_rendered!
+      Work.where(artist_name_rendered: [nil,""]).each{|a| a.touch; a.save}
+    end
     def human_attribute_name_overridden(field, collection)
       if collection
         return collection.label_override_work_alt_number_1_with_inheritance if collection.label_override_work_alt_number_1_with_inheritance and field.to_sym == :alt_number_1

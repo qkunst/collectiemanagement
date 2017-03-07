@@ -227,10 +227,6 @@ class Artist < ApplicationRecord
       groups
     end
 
-    def remove_artist_with_no_works
-
-    end
-
     def collapse_by_name!(options = {})
       options = {only_when_created_at_date_is_equal: true}.merge(options)
       self.group_by_name.each do |name, ids|
