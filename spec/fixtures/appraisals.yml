@@ -7,6 +7,36 @@ appraisal1:
   reference: "Reference"
   work: :work1
 
+appraisal2:
+  appraised_on: 2001-01-01
+  market_value: 1000
+  replacement_value: 2000
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
+  id: 1
+
+appraisal3:
+  appraised_on: 2001-01-01
+  market_value: 2000
+  replacement_value: 2000
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
+  id: 2
+
+appraisal3:
+  appraised_on: 2001-01-01
+  market_value: 3000
+  replacement_value: 2000
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
+  id: 3
+
 appraisal_without_date:
   market_value: 1000
   replacement_value: 2000

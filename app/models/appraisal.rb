@@ -8,7 +8,7 @@ class Appraisal < ApplicationRecord
 
   accepts_nested_attributes_for :work
 
-  scope :descending_appraisal_on, -> { order("appraisals.appraised_on is null, appraisals.appraised_on desc") }
+  scope :descending_appraisal_on, -> { order("appraisals.appraised_on is null, appraisals.appraised_on desc, appraisals.id desc") }
 
   def name
     mw = market_value ? "MW #{number_to_currency(market_value)}" : nil

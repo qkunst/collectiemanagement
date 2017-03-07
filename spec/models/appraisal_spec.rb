@@ -11,4 +11,11 @@ RSpec.describe Appraisal, type: :model do
       end
     end
   end
+  describe "scopes" do
+    describe ".descending_appraisal_on" do
+      it "should return the latest by date and then id" do
+        expect(Appraisal.descending_appraisal_on.first.market_value).to eq(3000)
+      end
+    end
+  end
 end
