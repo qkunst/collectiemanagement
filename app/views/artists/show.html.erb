@@ -11,8 +11,8 @@
       <dt>Gestorven:</dt>
       <dd><%=@artist.year_of_death%> <% if @artist.place_of_birth %>(<%=  @artist.place_of_death %>)<% end %>
     <% end %>
-      <% if @artist.techniques.to_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.to_sentence %></dd><% end %>
-      <% if @artist.subsets.to_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.to_sentence %></dd><% end %>
+      <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
+      <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
     </dl>
 
     <div class="row">

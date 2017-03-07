@@ -4,7 +4,7 @@
   <% themes = @show_hidden ? collection.themes : collection.themes.not_hidden %>
   <% if themes.count > 0 or (defined?(parent_has_themes) && parent_has_themes) %>
     <li><%= link_to collection.name, collection_themes_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %>
-      (<%= themes.collect(&:name).to_sentence%>)
+      (<%= themes.as_sentence%>)
        <ul>
   <% end %>
 <% else %>

@@ -16,7 +16,7 @@
         (<%= artist.place_of_death %><% if artist.place_of_death and artist.place_of_death_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%>)
       <% end %>
     <% end %></p>
-    <p><% if artist.techniques.to_sentence != ""%>Technieken: <%= artist.techniques.to_sentence %><% end %><% if artist.subsets.to_sentence != ""%>; Deelcollecties: <%= artist.subsets.to_sentence %><% end %></p>
+    <p><% if artist.techniques.as_sentence != ""%>Technieken: <%= artist.techniques.as_sentence %><% end %><% if artist.subsets.as_sentence != ""%>; Deelcollecties: <%= artist.subsets.as_sentence %><% end %></p>
   </header>
   <% if @show_full_artists %>
   <footer>

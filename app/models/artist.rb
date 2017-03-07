@@ -3,7 +3,7 @@ class Artist < ApplicationRecord
   has_many :artist_involvements
   has_and_belongs_to_many :works
   belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id
-  has_many :involvements, through: :artist_involvement
+  has_many :involvements, -> { distinct },  through: :artist_involvement
   has_many :techniques, through: :works
   has_many :subsets, through: :works
   after_save :touch_works

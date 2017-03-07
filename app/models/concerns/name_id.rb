@@ -45,6 +45,7 @@ module NameId
     def to_sentence
       self.all.collect(&:name).compact.uniq.to_sentence
     end
+    alias_method :as_sentence, :to_sentence
 
     def to_sym
       self.to_s.downcase.to_sym
