@@ -2,17 +2,17 @@ class GeonamesCountry < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: 'GeonameTranslation'
 
   def localized_name locale=:nl
-    lname = translations.locale(locale).first
-    lname ? lname.label : name
+    localized_names.last
+  end
+
+  def localized_names locale=:nl
+    names = translations.locale(locale).order(:priority).collect{|a| a.label}
+    names = [country_name] if names.count == 0
+    names
   end
 
   def admin_divisions
     GeonamesAdmindiv.where("geonames_admindivs.admin_code LIKE ?", "#{iso.to_s.upcase}%")
-  end
-
-  def localized_name locale=:nl
-    lname = translations.locale(locale).first
-    lname ? lname.label : country_name
   end
 
   def geonameid

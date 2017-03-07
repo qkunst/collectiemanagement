@@ -4,8 +4,13 @@ class GeonamesAdmindiv < ApplicationRecord
   scope :netherlands, -> { where("geonames_admindivs.admin_code LIKE 'NL%'")}
 
   def localized_name locale=:nl
-    lname = translations.locale(locale).first
-    lname ? lname.label : name
+    localized_names.last
+  end
+
+  def localized_names locale=:nl
+    names = translations.locale(locale).order(:priority).collect{|a| a.label}
+    names = [name] if names.count == 0
+    names
   end
 
   def childeren
