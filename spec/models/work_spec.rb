@@ -1,6 +1,45 @@
 require 'rails_helper'
 
 RSpec.describe Work, type: :model do
+  describe "instance methods" do
+    describe "#height" do
+      it "should accept integer" do
+        w = works(:work1)
+        w.height = 1
+        w.save
+        w.reload
+        expect(w.height).to eq 1.0
+      end
+      it "should accept string" do
+        w = works(:work1)
+        w.height = "12"
+        w.save
+        w.reload
+        expect(w.height).to eq 12.0
+      end
+      it "should accept us-localized string" do
+        w = works(:work1)
+        w.height = "12.1"
+        w.save
+        w.reload
+        expect(w.height).to eq 12.1
+      end
+      it "should accept nl-localized string" do
+        w = works(:work1)
+        w.height = "12,1"
+        w.save
+        w.reload
+        expect(w.height).to eq 12.1
+      end
+      it "should accept long nl-localized string" do
+        w = works(:work1)
+        w.height = "12.012,1"
+        w.save
+        w.reload
+        expect(w.height).to eq 12012.1
+      end
+    end
+  end
   describe  "class methods" do
     describe ".aggregations" do
       it "should allow to be initialized" do

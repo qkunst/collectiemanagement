@@ -38,6 +38,8 @@ class Work < ApplicationRecord
   mount_uploader :photo_detail_1, PictureUploader
   mount_uploader :photo_detail_2, PictureUploader
 
+  attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
+
   def photos?
     photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
   end

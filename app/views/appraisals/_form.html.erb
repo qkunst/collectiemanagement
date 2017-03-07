@@ -8,8 +8,8 @@
   </div>
 
   <div class="row">
-    <div class="medium-12 columns"><%= f.input :market_value, as: :string %></div>
-    <div class="medium-12 columns"><%= f.input :replacement_value, as: :string %></div>
+    <div class="medium-12 columns"><%= f.input :market_value %></div>
+    <div class="medium-12 columns"><%= f.input :replacement_value %></div>
   </div>
 
     <%= f.input :reference %>
@@ -19,7 +19,7 @@
       <%= f.simple_fields_for :work do |wf| %>
         <%= wf.input :purchased_on, html5: true%>
         <div class="row">
-          <div class="medium-8 columns"><%= wf.input :purchase_price, as: :string %></div>
+          <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
           <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
         </div>
         <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
