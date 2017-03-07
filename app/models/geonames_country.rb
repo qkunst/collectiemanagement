@@ -60,6 +60,18 @@ class GeonamesCountry < ApplicationRecord
           neighbours: a[17],
           equivalent_fips_code: a[18]) }
       end
+      self.transaction do
+        continents = [["AF", "Africa", 6255146],
+          ["AS", "Asia", 6255147],
+          ["EU", "Europe", 6255148],
+          ["NA", "North America", 6255149],
+          ["OC", "Oceania", 6255151],
+          ["SA", "South America", 6255150],
+          ["AN", "Antarctica", 6255152]]
+        continents.each do |c|
+          GeonamesCountry.create(iso: c[0], iso3: c[0], fips: c[0], country_name: c[1], geoname_id: c[2])
+        end
+      end
       self.find_or_create_corresponding_geoname_summary
     end
 
