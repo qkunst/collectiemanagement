@@ -1,6 +1,7 @@
 <h1>Rapportage</h1>
 <p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.   <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :secondary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if admin_user?%></p>
 <div class="tabs">
+<% if @sections.keys.count > 1 %>
 <nav class="tab-head">
 <ul>
   <% @sections.each do |head, contents| %>
@@ -8,9 +9,13 @@
   <% end %>
 </ul>
 </nav>
+<% end %>
   <% @sections.each do |head, contents| %>
     <section id="<%=head.to_s.parameterize%>">
+      <% if @sections.keys.count > 1 %>
+
       <h3><%=head%></h3>
+      <% end %>
       <div class="row">
         <% contents.each do |column| %>
           <div class="large-<%=(12.0/contents.length).to_i%> column float-left">
