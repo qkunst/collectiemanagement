@@ -420,7 +420,7 @@ class Work < ApplicationRecord
     end
 
     def update_artist_name_rendered!
-      Work.where(artist_name_rendered: [nil,""]).each{|a| a.touch; a.save}
+      self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
     end
     def human_attribute_name_overridden(field, collection)
       if collection
