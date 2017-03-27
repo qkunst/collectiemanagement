@@ -2,9 +2,11 @@ class WorksController < ApplicationController
   before_action :authenticate_admin_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update]
-
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos]
   before_action :set_collection # set_collection includes authentication
+
+  # NOTE: every now and then an error is raised, and the app will try to repost the same request, which results in an error. It is accepted that an external party could create additional, unwanted records (though highly unlikely due to the obscureness of this app (and they would still need login credentials))
+  skip_before_action :verify_authenticity_token, only: [:create]
 
   # GET /works
   # GET /works.json
