@@ -54,29 +54,29 @@
     <fieldset>
       <legend>Afmetingen</legend>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.input(:frame_width, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:frame_height, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:frame_depth, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:frame_diameter, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:frame_width, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:frame_height, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:frame_depth, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:frame_diameter, input_html: {type: :text})  %></div>
       </div>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.input(:width, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:height, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:depth, input_html: {type: :text})  %></div>
-        <div class="large-3 medium-3 columns"><%= f.input(:diameter, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:width, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:height, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:depth, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input(:diameter, input_html: {type: :text})  %></div>
       </div>
     </fieldset>
     <fieldset>
       <legend>Conditie</legend>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.association( :condition_work, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
-        <div class="large-3 medium-3 columns"><%= f.association( :damage_types, input_html: {class: 'chosen-select'}, collection: DamageType.not_hidden)  %></div>
-        <div class="large-6 medium-6 columns"><%= f.input :condition_work_comments  %></div>
+        <div class="medium-3 columns"><%= f.association( :condition_work, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
+        <div class="medium-3 columns"><%= f.association( :damage_types, input_html: {class: 'chosen-select'}, collection: DamageType.not_hidden)  %></div>
+        <div class="medium-6 columns"><%= f.input :condition_work_comments  %></div>
       </div>
       <div class="row">
-        <div class="large-3 medium-3 columns"><%= f.association( :condition_frame, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
-        <div class="large-3 medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'}, collection: FrameDamageType.not_hidden ) %></div>
-        <div class="large-6 medium-6 columns"><%= f.input :condition_frame_comments  %></div>
+        <div class="medium-3 columns"><%= f.association( :condition_frame, input_html: {class: 'chosen-select'}, collection: Condition.not_hidden)  %></div>
+        <div class="medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'}, collection: FrameDamageType.not_hidden ) %></div>
+        <div class="medium-6 columns"><%= f.input :condition_frame_comments  %></div>
       </div>
       <%= f.association( :placeability, input_html: {class: 'chosen-select'})  %>
     </fieldset>
@@ -97,9 +97,14 @@
     </fieldset>
     <fieldset>
       <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
+      <%= f.input(:main_collection)  %>
     </fieldset>
     <fieldset>
       <%= f.input :public_description %>
+      <div class="row">
+      <div class="medium-6 columns"><%= f.input :publish, collection: {"Ja"=>true, "Nee"=>false, "Onbekend"=>""}, as: :radio_buttons %></div>
+      <div class="medium-6 columns"><%= f.input :image_rights, collection: {"Ja"=>true, "Nee"=>false, "Onbekend"=>""}, as: :radio_buttons %></div>
+      </div>
       <%= f.input :internal_comments %>
       <!-- make sure manually fixed works aren't removed on rollback-->
       <%= f.input :imported_at, input_html: { value: ""}, as: :hidden %>

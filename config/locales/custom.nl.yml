@@ -191,6 +191,7 @@ nl:
         locations: Locaties
         figurative: Figuratief
         abstract: Abstract
+        main_collection: Kerncollectie
         public_description: Toelichting bij kunstwerk
         abstract_or_figurative: Abstract of figuratief
         abstract_or_figurative_rendered: Abstract of figuratief
@@ -212,6 +213,8 @@ nl:
         photo_back: Foto achterkant
         photo_detail_1: Foto detail 1
         photo_detail_2: Foto detail 2
+        image_rights: Beeldrecht aanwezig
+        publish: Publiceer
         artist_unknown: Onbekend
         title_unknown: Zonder titel
         description: Beschrijving

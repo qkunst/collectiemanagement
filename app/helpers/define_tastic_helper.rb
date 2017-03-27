@@ -59,6 +59,10 @@ module DefineTasticHelper
           val = I18n.l(val, {format: :short})
         elsif (val.is_a? DateTime or val.is_a? Time)
           val = I18n.l(val, {format: :short})
+        elsif (val.is_a? TrueClass)
+          val = "Ja"
+        elsif (val.is_a? FalseClass)
+          val = "Nee"
         end
         if options[:human_attributize_value]
           val = @define_tastic_object_klass.send(:human_attribute_name,val)

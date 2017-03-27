@@ -171,6 +171,10 @@ class Work < ApplicationRecord
     rv
   end
 
+  def main_collection
+    read_attribute(:main_collection) ? true : nil
+  end
+
   def frame_size
     whd_to_s(frame_width, frame_height, frame_depth, frame_diameter)
   end

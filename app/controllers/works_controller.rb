@@ -410,6 +410,7 @@ class WorksController < ApplicationController
       :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
       :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :public_description,
       :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+      :main_collection, :image_rights, :publish,
       :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[],
       theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
         :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description

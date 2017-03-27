@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170207120635) do
+ActiveRecord::Schema.define(version: 20170327111744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -513,6 +513,9 @@ ActiveRecord::Schema.define(version: 20170207120635) do
     t.string   "location_floor"
     t.date     "purchased_on"
     t.string   "artist_name_rendered"
+    t.boolean  "main_collection"
+    t.boolean  "image_rights"
+    t.boolean  "publish"
   end
 
 end
