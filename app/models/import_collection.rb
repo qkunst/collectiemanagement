@@ -67,10 +67,15 @@ class ImportCollection < ApplicationRecord
     {"fields" => [], "split_strategy" => "split_nothing", "assign_strategy" => "append"}.merge(settings)
   end
 
+  def internal_header_row_offset
+    offset = 0
+    offset += (header_row.to_i - 1) if header_row and header_row.to_i > 0
+    offset
+  end
+
   def import_file_snippet_to_workbook_table
     return nil if import_file_snippet.nil? or import_file_snippet.empty?
-    offset = 0
-    offset += (header_row.to_i - 1) if header_row
+    offset = internal_header_row_offset
     table = Workbook::Table.new()
     Workbook::Book.read(import_file_snippet, :csv, {converters: [ ]}).sheet.table.each_with_index do |row, index|
       if index >= offset
@@ -82,8 +87,7 @@ class ImportCollection < ApplicationRecord
 
   def import_file_to_workbook_table
     return nil if import_file_snippet.nil? or import_file_snippet.empty?
-    offset = 0
-    offset += (header_row.to_i - 1) if header_row
+    offset = internal_header_row_offset
     table = Workbook::Table.new()
     workbook.sheet.table.each_with_index do |row, index|
       if index >= offset
@@ -245,9 +249,11 @@ class ImportCollection < ApplicationRecord
         elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
           parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
         end
+        p parameters if debug
         result << ImportCollection.import_type.new(parameters)
       end
     end
+    p result if debug
     result
   end
 

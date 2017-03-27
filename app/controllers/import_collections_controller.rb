@@ -50,10 +50,14 @@ class ImportCollectionsController < ApplicationController
   # PATCH/PUT /import_collections/1
   # PATCH/PUT /import_collections/1.json
   def update
-    import_settings = params.require(:import_settings)
+    import_settings = params.require(:import_settings).to_unsafe_h
+
+    update_parameters = import_collection_params.to_h
+    update_parameters[:import_settings] = import_settings
+
     respond_to do |format|
-      if @import_collection.update(import_collection_params.merge(import_settings: import_settings))
-        format.html { redirect_to collection_import_collection_preview_path(@collection, @import_collection), notice: 'Import collection was successfully updated.' }
+      if @import_collection.update(update_parameters)
+        format.html { redirect_to collection_import_collection_preview_path(@collection, @import_collection), notice: 'Import is bijgewerkt.' }
         format.json { render :show, status: :ok, location: @import_collection }
       else
         format.html { render :edit }
