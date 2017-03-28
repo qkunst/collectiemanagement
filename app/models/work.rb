@@ -2,7 +2,7 @@ require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   has_paper_trail
   before_save :set_empty_values_to_nil
-  before_save :update_artist_name_rendered!
+  after_save :update_artist_name_rendered!
 
   include ActionView::Helpers::NumberHelper
   include Searchable
@@ -108,7 +108,7 @@ class Work < ApplicationRecord
   end
 
   def update_artist_name_rendered!
-    self.artist_name_rendered = artist_name_rendered({rebuild:true})
+    self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true}))
   end
 
   def signature_rendered

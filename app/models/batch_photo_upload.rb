@@ -1,8 +1,7 @@
 class BatchPhotoUpload < ApplicationRecord
   # store :images
   store :settings, accessors: [:column]
-  mount_uploader :zip_file, ZipUploader
-  mount_uploaders :images, BasicPictureUploader
+  mount_uploaders :images, UnsecureTmpBasicPictureUploader
   after_save :schedule_process_images!
 
   belongs_to :collection
