@@ -128,7 +128,7 @@ class ImportCollection < ApplicationRecord
               puts "FIND KEYWORDS! #{fields.first}" if debug
               analyzed_field_props = analyze_field_properties(fields.first)
               association = analyzed_field_props[:association]
-              p analyzed_field_props
+              # p analyzed_field_props
               if association and association.findable_by_name?
                 options = association.klass.not_hidden.all
                 names = options.collect{|a| a.name.to_s.downcase}
@@ -143,7 +143,6 @@ class ImportCollection < ApplicationRecord
 
             field_value_indexes = table_values.count > fields.count ? table_values.count : fields.count
 
-            puts table_values
 
             field_value_indexes.times do |index|
               # puts index
