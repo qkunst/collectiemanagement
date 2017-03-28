@@ -143,7 +143,6 @@ class ImportCollection < ApplicationRecord
 
             field_value_indexes = table_values.count > fields.count ? table_values.count : fields.count
 
-
             field_value_indexes.times do |index|
               # puts index
               field = fields[index] ? fields[index] : fields.last
