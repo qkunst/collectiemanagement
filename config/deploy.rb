@@ -88,5 +88,5 @@ namespace :delayed_job do
   end
 end
 
-# before :deploy, "delayed_job:stop" # Niet aanzetten in het begin
+before :deploy, "delayed_job:stop" # Niet aanzetten in het begin
 after :deploy, "delayed_job:start"
