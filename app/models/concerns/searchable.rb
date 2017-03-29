@@ -28,6 +28,8 @@ module Searchable
         __elasticsearch__.update_document
       rescue Elasticsearch::Transport::Transport::Errors::NotFound
         __elasticsearch__.index_document
+      rescue Faraday::ConnectionFailed
+        # don't complain; it's search
       end
     end
 

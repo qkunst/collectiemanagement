@@ -39,6 +39,40 @@ RSpec.describe Work, type: :model do
         expect(w.height).to eq 12012.1
       end
     end
+    describe ".purchased_on" do
+      it "should accept a date" do
+        w = works(:work1)
+        date =  Date.new(1978, 12, 22)
+        w.purchased_on = date
+        w.save
+        w.reload
+        expect(w.purchased_on).to eq(date)
+      end
+      it "should accept a string" do
+        w = works(:work1)
+        date =  Date.new(1978, 12, 22)
+        date_string = date.to_s
+        w.purchased_on = date_string
+        w.save
+        w.reload
+        expect(w.purchased_on).to eq(date)
+      end
+      it "should accept a nil" do
+        w = works(:work1)
+        w.purchased_on = nil
+        w.save
+        w.reload
+        expect(w.purchased_on).to be_nil
+      end
+      it "should accept a number" do
+        w = works(:work1)
+        date =  2012
+        w.purchased_on = date
+        w.save
+        w.reload
+        expect(w.purchased_on).to eq(Date.new(2012,6,1))
+      end
+    end
   end
   describe  "class methods" do
     describe ".aggregations" do

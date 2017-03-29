@@ -84,6 +84,22 @@ class Work < ApplicationRecord
     return gs.label if gs
   end
 
+  def purchased_on= date
+    if date.is_a? String
+      begin
+        date = date.to_date
+      rescue ArgumentError
+      end
+    end
+    if date.is_a? Numeric or date.is_a? String
+      new_date = date.to_i
+      if new_date > 1900 and new_date < 2100
+        date = Date.new(new_date, 6, 1)
+      end
+    end
+    self.update_column(:purchased_on, date)
+  end
+
   def geoname_ids
     ids = []
     artists.each do |artist|
