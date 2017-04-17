@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
+    describe "frame_type" do
+      it "should be able to set a FrameType" do
+        w = works(:work1)
+        w.frame_type = FrameType.create(name: "test")
+        w.save
+        expect(w.frame_type.name).to eq("test")
+      end
+    end
     describe "#height" do
       it "should accept integer" do
         w = works(:work1)
