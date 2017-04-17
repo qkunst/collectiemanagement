@@ -16,6 +16,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :object_categories, -> { distinct }
   has_and_belongs_to_many :techniques, -> { distinct }
   belongs_to :medium
+  belongs_to :frame_type
   belongs_to :condition_work, :class_name=>Condition
   has_and_belongs_to_many :damage_types
   belongs_to :condition_frame, :class_name=>Condition
@@ -85,19 +86,25 @@ class Work < ApplicationRecord
   end
 
   def purchased_on= date
-    if date.is_a? String
+    if date.is_a? String or date.is_a? Date or date.is_a? Time or date.is_a? DateTime
       begin
         date = date.to_date
+        self.update_column(:purchased_on, date)
+        self.update_column(:purchase_year, date.year)
       rescue ArgumentError
       end
     end
     if date.is_a? Numeric or date.is_a? String
       new_date = date.to_i
       if new_date > 1900 and new_date < 2100
-        date = Date.new(new_date, 6, 1)
+        self.update_column(:purchase_year, date)
       end
     end
-    self.update_column(:purchased_on, date)
+  end
+
+  def purchased_on_with_fallback
+    return purchased_on if purchased_on
+    return purchase_year if purchase_year
   end
 
   def geoname_ids

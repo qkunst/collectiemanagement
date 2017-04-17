@@ -405,7 +405,7 @@ class WorksController < ApplicationController
     ] if current_user.can_edit_photos?
     permitted_fields += [
       :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
-      :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id,
+      :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
       :signature_comments, :no_signature_present, :print, :frame_height, :frame_width, :frame_depth, :frame_diameter,
       :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
       :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :public_description,

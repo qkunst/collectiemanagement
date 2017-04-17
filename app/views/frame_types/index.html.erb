@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Frame Types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Hide</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @frame_types.each do |frame_type| %>
+      <tr>
+        <td><%= frame_type.name %></td>
+        <td><%= frame_type.hide %></td>
+        <td><%= link_to 'Show', frame_type %></td>
+        <td><%= link_to 'Edit', edit_frame_type_path(frame_type) %></td>
+        <td><%= link_to 'Destroy', frame_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Frame Type', new_frame_type_path %>

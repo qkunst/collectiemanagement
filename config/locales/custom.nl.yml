@@ -241,6 +241,7 @@ nl:
         diameter: Diameter beeld (cm)
         condition_work: Conditie beeld
         damage_types: Type schade beeld
+        frame_type: Lijsttype
         frame_damage_types:  Type schade lijst
         condition_work_comments: "Conditie beeld toelichting & locatie"
         condition_frame: Conditie lijst
@@ -259,6 +260,8 @@ nl:
         replacement_value: Vervangingswaarde (€)
         purchase_price: Aankoopprijs
         purchased_on: Aankoopdatum
+        purchase_year: Aankoopjaar
+        purchased_on_with_fallback: Aankoopjaar/datum
         purchase_price_currency: Eenheid
         price_reference: Prijsreferentie
         grade_within_collection: Niveau binnen collectie

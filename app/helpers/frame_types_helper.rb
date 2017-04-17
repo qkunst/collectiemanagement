@@ -1,0 +1,2 @@
+module FrameTypesHelper
+end

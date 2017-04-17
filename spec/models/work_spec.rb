@@ -47,6 +47,7 @@ RSpec.describe Work, type: :model do
         w.save
         w.reload
         expect(w.purchased_on).to eq(date)
+        expect(w.purchase_year).to eq(1978)
       end
       it "should accept a string" do
         w = works(:work1)
@@ -56,6 +57,7 @@ RSpec.describe Work, type: :model do
         w.save
         w.reload
         expect(w.purchased_on).to eq(date)
+        expect(w.purchase_year).to eq(1978)
       end
       it "should accept a nil" do
         w = works(:work1)
@@ -70,7 +72,25 @@ RSpec.describe Work, type: :model do
         w.purchased_on = date
         w.save
         w.reload
-        expect(w.purchased_on).to eq(Date.new(2012,6,1))
+        expect(w.purchased_on).to eq(nil)
+        expect(w.purchase_year).to eq(2012)
+      end
+    end
+    describe ".purchased_on_with_fallback" do
+      it "should return nil when not set" do
+        w = works(:work1)
+        expect(w.purchased_on_with_fallback).to eq(nil)
+      end
+      it "should return date both year and date are present" do
+        w = works(:work1)
+        w.purchased_on = Date.new(1978, 12, 22)
+        w.purchase_year = 1978
+        expect(w.purchased_on_with_fallback).to eq(Date.new(1978, 12, 22))
+      end
+      it "should return year if only year is present" do
+        w = works(:work1)
+        w.purchase_year = 1978
+        expect(w.purchased_on_with_fallback).to eq(1978)
       end
     end
   end

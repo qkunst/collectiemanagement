@@ -18,6 +18,7 @@
       <legend>Aankoopgegevens</legend>
       <%= f.simple_fields_for :work do |wf| %>
         <%= wf.input :purchased_on, html5: true%>
+        <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
         <div class="row">
           <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
           <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>

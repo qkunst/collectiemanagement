@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :frame_types
   resources :reminders
   resources :stages
   get 'offline/work_form'

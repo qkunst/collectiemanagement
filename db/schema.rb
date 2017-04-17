@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327111744) do
+ActiveRecord::Schema.define(version: 20170416211249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,13 @@ ActiveRecord::Schema.define(version: 20170327111744) do
   create_table "frame_damage_types_works", force: :cascade do |t|
     t.integer "frame_damage_type_id"
     t.integer "work_id"
+  end
+
+  create_table "frame_types", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "hide"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "geoname_summaries", force: :cascade do |t|
@@ -516,6 +523,8 @@ ActiveRecord::Schema.define(version: 20170327111744) do
     t.boolean  "main_collection"
     t.boolean  "image_rights"
     t.boolean  "publish"
+    t.integer  "purchase_year"
+    t.integer  "frame_type_id"
   end
 
 end

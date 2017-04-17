@@ -170,22 +170,25 @@ class RkdArtist < ApplicationRecord
       search_rkd_by_artist(search) if search.is_a? Artist
       json_response = nil
       rkd_artists = []
-      if !search.nil? and !search.empty?
-        search = search.strip
-        if search.strip.match(/\d*/).to_s == search.strip
-          rkd_artists << get_rkd_artist_by_rkd_id(search)
-        else
-          encoded_search_name = ERB::Util.url_encode(search)
-          json_search_response = CachedApi.query("https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=#{encoded_search_name}")
-          rkd_artists = json_search_response["response"]["docs"].collect do | doc |
-            rkd_id = doc['priref'].to_i
-            get_rkd_artist_by_rkd_id(rkd_id)
-          end.compact
-          rkd_artists.delete_if{|a| a.api_response["voorkeursnaam_naam"]}
+      begin
+        if !search.nil? and !search.empty?
+          search = search.strip
+          if search.strip.match(/\d*/).to_s == search.strip
+            rkd_artists << get_rkd_artist_by_rkd_id(search)
+          else
+            encoded_search_name = ERB::Util.url_encode(search)
+            json_search_response = CachedApi.query("https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=#{encoded_search_name}")
+            rkd_artists = json_search_response["response"]["docs"].collect do | doc |
+              rkd_id = doc['priref'].to_i
+              get_rkd_artist_by_rkd_id(rkd_id)
+            end.compact
+            rkd_artists.delete_if{|a| a.api_response["voorkeursnaam_naam"]}
+          end
         end
+        rkd_artists.compact
+      rescue OpenURI::HTTPError
+        []
       end
-
-      rkd_artists.compact
     end
   end
 
