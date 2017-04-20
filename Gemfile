@@ -43,6 +43,7 @@ gem 'devise'
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem 'carrierwave', '>= 1.0.0.rc'  # uploading
+gem 'carrierwave-imageoptimizer'
 gem 'mini_magick' # transforming images
 gem 'nokogiri'
 gem 'attribute_normalizer' # keeps the database clean

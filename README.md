@@ -74,6 +74,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * imagemagick
 * elasticsearch
 * passenger
+* redis
 * Ruby 2.3.3 (geïnstalleerd via rbenv)
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).

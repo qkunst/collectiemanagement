@@ -78,6 +78,9 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-imageoptimizer (1.4.0)
+      carrierwave (>= 0.8, < 2.0)
+      image_optimizer (~> 1.6)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -130,6 +133,7 @@ GEM
     hashie (3.5.5)
     htmlentities (4.3.4)
     i18n (0.8.1)
+    image_optimizer (1.7.0)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
@@ -319,6 +323,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   carrierwave (>= 1.0.0.rc)
+  carrierwave-imageoptimizer
   coffee-rails (~> 4.1.0)
   daemons
   delayed_job_active_record
