@@ -76,6 +76,7 @@ nl:
       attachment: Bijlage
       stage: Workflow stadium
       reminder: Herinnering
+      frame_type: Lijsttype
     values:
       user:
         role:
@@ -321,6 +322,10 @@ nl:
         order: Volgorde
         hide: Verberg
       medium:
+        name: Naam
+        order: Volgorde
+        hide: Verberg
+      frame_type:
         name: Naam
         order: Volgorde
         hide: Verberg
