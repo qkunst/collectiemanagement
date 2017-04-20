@@ -116,7 +116,7 @@ class Work < ApplicationRecord
     GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end
 
-  def cache_key(additional)
+  def cache_key(additional=[])
     [self, "v1.7", collection, collection.self_or_parent_collection_with_geoname_summaries]+additional
   end
 
