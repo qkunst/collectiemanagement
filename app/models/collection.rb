@@ -503,6 +503,9 @@ class Collection < ApplicationRecord
       return self if user.admin?
       return self.joins(:users).where(users: {id: user.id})
     end
+    def last_updated
+      order(:updated_at).last
+    end
     def possible_exposable_fields
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
       set = []
