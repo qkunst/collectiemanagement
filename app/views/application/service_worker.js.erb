@@ -1,4 +1,4 @@
-var CACHE = "cache-and-update7";
+var CACHE = "cache-and-update8";
 var CACHE_TYPES = [".json", ".js", ".css", ".svg"];
 var OFFLINE_CACHE = "offline-cache";
 
@@ -24,7 +24,7 @@ self.addEventListener("fetch", function(evt) {
       var request = evt.request;
       var path = request.url.split("//")[1].split("/").slice(1,1000).join("/");
 
-      if (request.method === "GET" && path != "heartbeat") {
+      if (request.method === "GET" && path != "heartbeat" && !path.match(/\.jpg(\?\d*)?$/)) {
         evt.respondWith(
           fetch(request).then(function(response){
             caches.open(CACHE).then(function(cache) {
