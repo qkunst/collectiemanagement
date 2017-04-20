@@ -117,7 +117,7 @@ class Work < ApplicationRecord
   end
 
   def cache_key(additional)
-    [self, "v1.7", work.collection, work.collection.self_or_parent_collection_with_geoname_summaries]+additional
+    [self, "v1.7", collection, collection.self_or_parent_collection_with_geoname_summaries]+additional
   end
 
   def artist_name_rendered(options={})
