@@ -12,7 +12,7 @@
   <div class="row">
     <div class="medium-9 columns">
       <label>Zoek op naam van de collectie<input type="search" class="list-filter" data-filters="list-to-filter"></label>
-      <% cache([Collection.last_updated, @user]) do %>
+      <% cache([Collection.last_updated, Work.count, @user]) do %>
       <ul id="list-to-filter" class="collapsable">
         <% @collections.each do |collection| %>
           <%= render collection%>
