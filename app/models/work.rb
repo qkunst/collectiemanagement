@@ -116,6 +116,10 @@ class Work < ApplicationRecord
     GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end
 
+  def cache_key(additional)
+    [self, "v1.7", work.collection, work.collection.self_or_parent_collection_with_geoname_summaries]+additional
+  end
+
   def artist_name_rendered(options={})
     if options[:rebuild]
       artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence

@@ -96,6 +96,7 @@ gem 'paper_trail'#, '~>4.0.0.rc1'
 gem 'keyword_finder'
 gem 'daemons'
 gem 'delayed_job_active_record'
+gem 'redis-rails'
 gem 'exception_notification'
 
 source 'https://rails-assets.org' do
@@ -105,3 +106,4 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-fetch'
   gem 'rails-assets-morphdom'
 end
+
