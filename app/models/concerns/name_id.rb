@@ -4,7 +4,7 @@ module NameId
   included do
 
     default_scope ->{ order(:name) }
-    scope :find_by_case_insensitive_name, ->(name){ where(arel_table[:name].matches(name)) }
+    scope :find_by_case_insensitive_name, ->(name){ where(arel_table[:name].matches_any([name].flatten)) }
 
     def <=> other
       self.name <=> other.name
@@ -40,6 +40,20 @@ module NameId
         rv[id] = names_hash[id]
       end
       return rv
+    end
+
+    def keyword_finder
+      unless defined?(@@keyword_finder) and  @@keyword_finder[self.to_s]
+        @@keyword_finder = {} unless defined?(@@keyword_finder)
+        @@keyword_finder[self.to_s] = KeywordFinder::Keywords.new(names_hash.collect{|a,v| v})
+      end
+    end
+
+    def find_in_string string
+      keywords = keyword_finder.find_in(string)
+      if keywords
+        return self.find_by_case_insensitive_name(keywords)
+      end
     end
 
     def to_sentence

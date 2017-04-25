@@ -12,7 +12,37 @@ RSpec.describe NameId, type: :model do
     end
   end
 
-  # describe "Class methods" do
+  describe "#find_in_string" do
+    it "should find single strings" do
+      returned = Subset.find_in_string("A Modern style work")
+      expect(returned.first.class).to eq(Subset)
+      expect(returned.first.name).to eq("Modern")
+    end
+    it "should work" do
+      returned = Theme.find_in_string("Inspired by the band earth wind & fire")
+      expect(returned).to include(Theme.find_by_name("earth"))
+      expect(returned).to include(Theme.find_by_name("wind"))
+      expect(returned).to include(Theme.find_by_name("fire"))
+    end
+  end
+
+
+
+  describe "Class methods" do
+    describe ".find_by_case_insensitive_name" do
+      it "should find by string" do
+        returned = Subset.find_by_case_insensitive_name("modern")
+        expect(returned.count).to eq(1)
+        expect(returned.first.name).to eq("Modern")
+      end
+      it "should find by array" do
+        returned = Subset.find_by_case_insensitive_name(["modern", "historical"])
+        expect(returned.count).to eq(2)
+        expect(returned.collect(&:name)).to include("Modern")
+        expect(returned.collect(&:name)).to include("Historical")
+      end
+    end
+  end
  #    describe ".empty_artists" do
  #      it "should list all workless-artists" do
  #        expect(Artist.empty_artists.count).to eq 1
