@@ -47,6 +47,7 @@ module NameId
         @@keyword_finder = {} unless defined?(@@keyword_finder)
         @@keyword_finder[self.to_s] = KeywordFinder::Keywords.new(names_hash.collect{|a,v| v})
       end
+      @@keyword_finder[self.to_s]
     end
 
     def find_in_string string

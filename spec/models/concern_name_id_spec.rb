@@ -18,6 +18,12 @@ RSpec.describe NameId, type: :model do
       expect(returned.first.class).to eq(Subset)
       expect(returned.first.name).to eq("Modern")
     end
+    it "can be repeated strings" do
+      returned = Subset.find_in_string("A Modern style work")
+      returned = Subset.find_in_string("A Contemporary style work")
+      expect(returned.first.class).to eq(Subset)
+      expect(returned.first.name).to eq("Contemporary")
+    end
     it "should work" do
       returned = Theme.find_in_string("Inspired by the band earth wind & fire")
       expect(returned).to include(Theme.find_by_name("earth"))
