@@ -86,9 +86,11 @@ class Work < ApplicationRecord
   end
 
   def purchased_on= date
-    if date.is_a? String or date.is_a? Date or date.is_a? Time or date.is_a? DateTime
+    if date.is_a? String
+      date = date.to_date
+    end
+    if date.is_a? Date or date.is_a? Time or date.is_a? DateTime
       begin
-        date = date.to_date
         self.update_column(:purchased_on, date)
         self.update_column(:purchase_year, date.year)
       rescue ArgumentError

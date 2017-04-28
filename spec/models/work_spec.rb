@@ -47,7 +47,7 @@ RSpec.describe Work, type: :model do
         expect(w.height).to eq 12012.1
       end
     end
-    describe ".purchased_on" do
+    describe ".purchased_on=" do
       it "should accept a date" do
         w = works(:work1)
         date =  Date.new(1978, 12, 22)
@@ -56,6 +56,14 @@ RSpec.describe Work, type: :model do
         w.reload
         expect(w.purchased_on).to eq(date)
         expect(w.purchase_year).to eq(1978)
+      end
+      it "should not fail on an empty string" do
+        w = works(:work1)
+        w.purchased_on = ""
+        w.save
+        w.reload
+        expect(w.purchased_on).to eq(nil)
+        expect(w.purchase_year).to eq(nil)
       end
       it "should accept a string" do
         w = works(:work1)
