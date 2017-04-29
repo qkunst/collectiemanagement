@@ -5,4 +5,10 @@ class Api::V1::WorksController < Api::V1::ApiController
 
     @works = @collection.works
   end
+
+  def show
+    @collection = Collection.find(params[:collection_id])
+    @work = Work.find(params[:id])
+
+  end
 end

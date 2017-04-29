@@ -41,6 +41,7 @@ json.array!(@works) do |work|
   json.placeability{ json.extract! work.placeability, :name, :id } if work.placeability
 
   json.artist_name_rendered work.artist_name_rendered
+  json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
   json.frame_size work.frame_size
   json.work_size work.work_size
   json.object_format_code work.object_format_code

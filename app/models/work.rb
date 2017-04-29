@@ -122,11 +122,15 @@ class Work < ApplicationRecord
     [self, "v1.7", collection, collection.self_or_parent_collection_with_geoname_summaries]+additional
   end
 
+  def artist_name_rendered_without_years_nor_locality
+    artist_name_rendered({include_years: false, include_locality: false})
+  end
+
   def artist_name_rendered(options={})
     if options[:rebuild]
-      artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
+      self.artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
       if artist_unknown and (artist_name_rendered.nil? or artist_name_rendered.empty?)
-        artist_name_rendered = "Onbekend"
+        self.artist_name_rendered = "Onbekend"
       end
       return artist_name_rendered
     else
@@ -451,6 +455,7 @@ class Work < ApplicationRecord
       self.group(:location).count.sort{|a,b| a[0].to_s.downcase<=>b[0].to_s.downcase }.each{|a| rv[a[0]] = {count: a[1], subs:[]} }
       rv
     end
+
 
     def update_artist_name_rendered!
       self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
