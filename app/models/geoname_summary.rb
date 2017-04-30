@@ -6,7 +6,7 @@ class GeonameSummary < ApplicationRecord
   end
 
   def label
-    "#{name} (#{parent_description})"
+    "#{name} (#{parent_description})".gsub("()","").strip
   end
 
   def priority

@@ -29,17 +29,19 @@ class ArtistInvolvement < ApplicationRecord
         return name
       end
     end
-    "#{name} (#{[place_geoname_name, "#{start_year}-#{end_year}"].compact.join(", ")})"
+    pgn = place_geoname_name == name ? nil : place_geoname_name
+    "#{name} (#{[pgn, "#{start_year}-#{end_year}"].delete_if{|a| a == "-"}.compact.join(", ")})".gsub("()","").strip
   end
 
   def place_geoname_name
-    gs = GeonameSummary.where(geoname_id: place_geoname_id).first
+    gs = geoname_summary
     gs ||= GeonameSummary.where(geoname_id: involvement.place_geoname_id).first if involvement
     return gs.label if gs
   end
 
   def name
     return involvement.name if involvement
-    return place
+    return place if place
+    return place_geoname_name
   end
 end
