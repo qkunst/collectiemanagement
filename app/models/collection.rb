@@ -35,6 +35,7 @@ class Collection < ApplicationRecord
   has_many :reminders
 
   after_create :copy_default_reminders!
+  after_save :touch_works_including_child_works!
 
   KEY_MODEL_RELATIONS={
     "artists"=>Artist,
@@ -110,6 +111,10 @@ class Collection < ApplicationRecord
 
   def works_including_child_works
     Work.where(collection_id: id_plus_child_ids)
+  end
+
+  def touch_works_including_child_works!
+    works_including_child_works.each{|a| a.touch}
   end
 
   def clusters_including_parent_clusters

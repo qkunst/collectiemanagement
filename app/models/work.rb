@@ -119,7 +119,7 @@ class Work < ApplicationRecord
   end
 
   def cache_key(additional=[])
-    [self, "v1.8", collection, collection.self_or_parent_collection_with_geoname_summaries]+additional
+    [self, "v1.8"]+additional
   end
 
   def artist_name_rendered_without_years_nor_locality
