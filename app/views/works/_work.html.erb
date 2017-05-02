@@ -21,8 +21,9 @@
           <h4><%= work.title_rendered%></h4>
 
           <p><%= work.description%></p>
-
-          <%= render :partial => 'works/work_detailed_data', locals: {work: work} %>
+          <% if @selection[:display] != :compact %>
+            <%= render :partial => 'works/work_detailed_data', locals: {work: work} %>
+          <% end %>
         <% end %>
       </div>
   <% end %>
