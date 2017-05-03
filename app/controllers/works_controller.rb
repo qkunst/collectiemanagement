@@ -78,7 +78,7 @@ class WorksController < ApplicationController
           works_grouped.each do |key, works|
             works_grouped[key] = sort_works(works)
           end
-          @max_index ||= @works_count < 247 ? 99999 : 7
+          @max_index ||= @works_count < 159 ? 99999 : 7
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
             @works_grouped[key] = works_grouped[key]
@@ -88,7 +88,8 @@ class WorksController < ApplicationController
           end
         else
           @works = sort_works(@works)
-          @max_index ||= 247
+          @max_index ||= 159
+          @max_index = 159 if @max_index < 159
         end
       }
       format.xlsx {
