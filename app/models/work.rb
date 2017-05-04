@@ -476,7 +476,7 @@ class Work < ApplicationRecord
           if value.class == PictureUploader
             value = value.file ? value.file.filename : nil
           end
-          if [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster].include? value.class
+          if [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
             value = value.name
           end
           if value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
