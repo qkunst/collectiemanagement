@@ -50,6 +50,7 @@ class WorksController < ApplicationController
     @no_child_works = (params[:no_child_works] == 1 or params[:no_child_works] == "true") ? true : false
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
+      @works_count = @works.count
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
@@ -60,7 +61,6 @@ class WorksController < ApplicationController
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids])
 
-    @works_count = @works.count
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
