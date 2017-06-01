@@ -53,9 +53,11 @@ class WorksController < ApplicationController
       @works_count = @works.count
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
+      @works_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
     rescue Faraday::ConnectionFailed
       @works = []
+      @works_count = 0
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
     end
 
