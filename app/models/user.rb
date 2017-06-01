@@ -4,7 +4,7 @@ class User < ApplicationRecord
   ROLES = [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   store :filter_params
   has_and_belongs_to_many :collections
