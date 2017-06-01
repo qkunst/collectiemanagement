@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  has_paper_trail
+
   ROLES = [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
 
   devise :database_authenticatable, :registerable,
