@@ -277,16 +277,12 @@ class Collection < ApplicationRecord
       _source: [:id], #major speedup!
       size: options[:limit],
       query:{
-        filtered:{
-          filter:{
-            bool: {
-              must: [
-                terms:{
-                  "collection_id"=> options[:no_child_works] ? [id] : id_plus_child_ids
-                }
-              ]
+        bool: {
+          must: [
+            terms:{
+              "collection_id"=> options[:no_child_works] ? [id] : id_plus_child_ids
             }
-          }
+          ]
         }
       }
     }
@@ -294,7 +290,7 @@ class Collection < ApplicationRecord
     if (search and search.to_s.strip != "")
       # search.split("/\s/").each do |search_t
       search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
-      query[:query][:filtered][:query] = {
+      query[:query][:bool][:must] << {
         query_string: {
           default_field: :_all,
           query: search,
@@ -316,15 +312,17 @@ class Collection < ApplicationRecord
             if key.ends_with?(".id")
               new_bool[:bool][:should] << {not: {exists: {field: key}}}
             else
-              new_bool[:bool][:should] << {missing: {field: key }}
+              new_bool[:bool][:should] << {bool:{must_not: {exists: {field: key }}}}
             end
           end
         end
       end
-      query[:query][:filtered][:filter][:bool][:must] << new_bool
+      query[:query][:bool][:must] << new_bool
     end
 
     query[:aggs] = options[:aggregations] if options[:aggregations]
+
+    Rails.logger.debug query.inspect
 
     if options[:return_records]
       return Work.search(query).records
@@ -342,7 +340,7 @@ class Collection < ApplicationRecord
       },
       market_value: {
         terms: {
-          field: :market_value, size: 0
+          field: :market_value, size: 999
         }
       },
       market_value_missing: {
@@ -352,7 +350,7 @@ class Collection < ApplicationRecord
       },
       replacement_value:  {
         terms: {
-          field: :replacement_value, size: 0
+          field: :replacement_value, size: 999
         }
       },
       replacement_value_missing: {
@@ -362,7 +360,7 @@ class Collection < ApplicationRecord
       },
       artists: {
         terms: {
-          field: :report_val_sorted_artist_ids, size: 0
+          field: :report_val_sorted_artist_ids, size: 999
         }
       },
       artists_missing: {
@@ -372,12 +370,12 @@ class Collection < ApplicationRecord
       },
       object_categories: {
         terms: {
-          field: :report_val_sorted_object_category_ids, size: 0
+          field: :report_val_sorted_object_category_ids, size: 999
         },
         aggs: {
           techniques: {
             terms: {
-              field: :report_val_sorted_technique_ids, size: 0
+              field: :report_val_sorted_technique_ids, size: 999
             }
           },
           techniques_missing: {
@@ -403,7 +401,7 @@ class Collection < ApplicationRecord
         aggs: {
           techniques: {
             terms: {
-              field: :report_val_sorted_technique_ids, size: 0
+              field: :report_val_sorted_technique_ids, size: 999
             }
           },
           techniques_missing: {
@@ -415,12 +413,12 @@ class Collection < ApplicationRecord
       },
       object_categories_split: {
         terms: {
-          field: :report_val_sorted_object_category_ids, size: 0
+          field: :report_val_sorted_object_category_ids, size: 999
         },
         aggs: {
           techniques: {
             terms: {
-              field: "techniques.id", size: 0
+              field: "techniques.id", size: 999
             }
           },
           techniques_missing: {
@@ -437,7 +435,7 @@ class Collection < ApplicationRecord
         aggs: {
           techniques: {
             terms: {
-              field: "techniques.id", size: 0
+              field: "techniques.id", size: 999
             }
           },
           techniques_missing: {
@@ -471,7 +469,7 @@ class Collection < ApplicationRecord
     {
       key => {
         terms: {
-          field:  "#{key}#{postfix}", size: 0
+          field:  "#{key}#{postfix}", size: 999
         }
       }
     }

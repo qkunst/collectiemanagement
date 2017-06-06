@@ -51,7 +51,13 @@ class Work < ApplicationRecord
     mappings do
       indexes :title, analyzer: 'dutch', index_options: 'offsets'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
-      indexes :location_raw, type: 'string', index: "not_analyzed"
+      indexes :location_raw, type: 'keyword' #, index: "not_analyzed"
+      indexes :report_val_sorted_technique_ids, type: 'keyword'
+      indexes :report_val_sorted_artist_ids, type: 'keyword'
+      indexes :report_val_sorted_object_category_ids, type: 'keyword'
+      indexes :grade_within_collection, type: 'keyword'
+      indexes :abstract_or_figurative, type: 'keyword'
+      indexes :object_format_code, type: 'keyword'
     end
   end
 

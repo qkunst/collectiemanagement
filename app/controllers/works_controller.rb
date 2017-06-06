@@ -51,7 +51,8 @@ class WorksController < ApplicationController
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works_count = @works.count
-    rescue Elasticsearch::Transport::Transport::Errors::BadRequest
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+      raise e if Rails.env.development?
       @works = []
       @works_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."

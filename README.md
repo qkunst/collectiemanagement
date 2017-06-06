@@ -83,7 +83,7 @@ Op het moment van schrijven worden de volgende repositories hiervoor geraadpleeg
 
     deb http://debian.directvps.nl/debian jessie main
     deb http://debian.directvps.nl/security jessie/updates main
-    deb http://packages.elastic.co/elasticsearch/1.7/debian stable main
+    deb https://artifacts.elastic.co/packages/5.x/apt stable main
     deb https://oss-binaries.phusionpassenger.com/apt/passenger jessie main
 
 Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde versies gehanteerd en alle server pakketten worden dagelijks automatisch voorzien van veiligheidsupdates. Voor een basis inrichting kan het volgende artikel worden geraadpleegd:

@@ -118,6 +118,10 @@ class CollectionsController < ApplicationController
       end
     else
       @collection.works.destroy_all
+      @collection.collections.each do |collection|
+        collection.parent_collection = nil
+        collection.save
+      end
       @collection.destroy
       notice = "De collectie is verwijderd inclusief bijbehorende werken."
     end
