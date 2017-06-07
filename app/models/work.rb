@@ -17,6 +17,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :artists, -> { distinct }
   has_and_belongs_to_many :object_categories, -> { distinct }
   has_and_belongs_to_many :techniques, -> { distinct }
+  has_many :attachments, as: :attache
   belongs_to :medium
   belongs_to :frame_type
   belongs_to :condition_work, :class_name=>Condition

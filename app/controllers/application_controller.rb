@@ -65,6 +65,10 @@ class ApplicationController < ActionController::Base
     authenticate_activated_user!
     if params[:collection_id]
       @collection = Collection.find(params[:collection_id])
+    elsif @work
+      @collection = @work.collection
+    end
+    if @collection
       unless current_user.admin?
         redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
         redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)

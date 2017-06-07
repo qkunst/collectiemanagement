@@ -1,18 +1,19 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_qkunst_user!
+  before_action :set_work
   before_action :set_collection
   before_action :set_attachment, only: [:show, :edit, :update, :destroy]
 
   # GET /attachments
   # GET /attachments.json
   def index
-    @attachments = @collection.attachments.all
+    @attachments = (@work || @collection).attachments.all
   end
 
   # GET /attachments/new
   def new
     @attachment = Attachment.new()
-    @attachment.attache = @collection
+    @attachment.attache = @work || @collection
     @attachment.visibility = ["readonly", "facility", "qkunst", "appraiser"]
   end
 
@@ -24,7 +25,7 @@ class AttachmentsController < ApplicationController
   # POST /attachments.json
   def create
     @attachment = Attachment.new(attachment_params)
-    @attachment.attache = @collection # TODO: in future this may change
+    @attachment.attache = @work || @collection # TODO: in future this may change
 
     respond_to do |format|
       if @attachment.save
@@ -56,7 +57,7 @@ class AttachmentsController < ApplicationController
   def destroy
     @attachment.destroy
     respond_to do |format|
-      format.html { redirect_to @collection, notice: 'Attachment verwijderd' }
+      format.html { redirect_to (@work || @collection), notice: 'Attachment verwijderd' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +66,12 @@ class AttachmentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_attachment
       @attachment = Attachment.find(params[:id])
+    end
+
+    def set_work
+      if params[:work_id]
+        @work = Work.find(params[:work_id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

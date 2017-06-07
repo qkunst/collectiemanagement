@@ -46,6 +46,10 @@ Rails.application.routes.draw do
     patch 'copy' => 'rkd_artists#copy'
   end
 
+  resources :works do
+    resources :attachments
+  end
+
   resources :involvements
   resources :collections do
     resources :reminders
@@ -67,6 +71,7 @@ Rails.application.routes.draw do
       patch 'import_works' => 'import_collections#import_works'
     end
     resources :works do
+      resources :attachments
       resources :appraisals
       resources :messages
       get 'edit_location' => 'works#edit_location'
