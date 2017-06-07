@@ -1,6 +1,6 @@
 <h1>Overzicht plaatsbaarheid-labels</h1>
 <ul>
-    <% @object_categories.each do |item| %>
+    <% @placeabilities.each do |item| %>
       <li><%= link_to item.name, item %> (<%= item.hide? ? "verborgen" : item.order%>)</li>
     <% end %>
 </ul>
