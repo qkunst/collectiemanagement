@@ -32,6 +32,17 @@
 <%= kramdown( @collection.description) %>
 
 <h3>Werken</h3>
+<%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true}, class: [:secondary, :callout] do %>
+<label for="q">Doorzoek de werken:</label>
+<div class="input-group">
+  <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoeken... ", class: "input-group-field"%>
+  <div class="input-group-button">
+  <%= submit_tag("Zoeken", class: :button)%>
+  </div>
+</div>
+<p class="hint"><small>Probeer ook eens: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
+<% end %>
+
 <div class="row">
   <div class="large-12 columns">
 <%= render @collection.works_including_child_works.order(grade_within_collection: :asc, market_value: :desc)[0..3]%>
