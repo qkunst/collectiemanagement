@@ -53,6 +53,7 @@ class Collection < ApplicationRecord
     "subset"=>Subset,
     "source"=>Source,
     "cluster"=>Cluster,
+    "frame_type"=>FrameType
   }
 
   def find_state_of_stage(stage)
@@ -447,7 +448,7 @@ class Collection < ApplicationRecord
       }
     }
 
-    [:subset, :cluster, :style].each do |key|
+    [:subset, :cluster, :style, :frame_type].each do |key|
       aggregation.merge!(basic_aggregation_snippet(key,"_id"))
     end
 
@@ -459,7 +460,7 @@ class Collection < ApplicationRecord
       aggregation.merge!(basic_aggregation_snippet(key,".id"))
     end
 
-    [:abstract_or_figurative, :grade_within_collection, :location_raw, :object_format_code, :object_creation_year].each do |key|
+    [:abstract_or_figurative, :grade_within_collection, :location_raw, :object_format_code, :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
       aggregation.merge!(basic_aggregation_snippet_with_missing(key))
     end
     return aggregation

@@ -20,7 +20,7 @@ module CollectionsHelper
       id_separator = "_" unless group.to_s.ends_with?("s") or group.to_s.ends_with?("split") #or [:style].include?(group) #([:arti].include?(group)) ? "_" : "."
       @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
       link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
-    elsif [:abstract_or_figurative, :grade_within_collection, :object_format_code, :replacement_value, :market_value, :object_creation_year].include? group
+    elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :object_format_code, :replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
       selection = selection.first if selection.is_a? Array
       if selection == :missing
         @params = @params.merge({"filter[#{group}][]"=>:not_set})
@@ -67,7 +67,7 @@ module CollectionsHelper
     if depth > 0
       # raise contents
       if contents
-        if [:replacement_value, :market_value, :object_creation_year].include? group
+        if [:replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
           contents = contents.collect{|a| a}.sort{|a,b| (b[0][0].to_i)<=>(a[0][0].to_i)}
         elsif [:grade_within_collection].include? group
           contents = contents.collect{|a| a}.sort{|a,b| (a[0].to_s)<=>(b[0].to_s)}

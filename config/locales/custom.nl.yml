@@ -135,6 +135,12 @@ nl:
           l: L
           xl: XL
           xxl: XXL
+        image_rights:
+          "0": Nee
+          "1": Ja
+        publish:
+          "0": Nee
+          "1": Ja
     attributes:
       stage:
         name: Naam

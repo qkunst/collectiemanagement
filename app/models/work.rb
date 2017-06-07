@@ -2,6 +2,7 @@ require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   has_paper_trail
   before_save :set_empty_values_to_nil
+  before_save :sync_purchase_year
   after_save :update_artist_name_rendered!
 
   include ActionView::Helpers::NumberHelper
@@ -107,6 +108,12 @@ class Work < ApplicationRecord
       if new_date > 1900 and new_date < 2100
         self.update_column(:purchase_year, date)
       end
+    end
+  end
+
+  def sync_purchase_year
+    if purchased_on
+      self.purchase_year = purchased_on.year
     end
   end
 

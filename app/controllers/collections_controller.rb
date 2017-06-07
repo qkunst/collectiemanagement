@@ -38,9 +38,10 @@ class CollectionsController < ApplicationController
     @sections.deep_merge!({"Vervaardigers": [[:artists]],
       "Conditie": [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
       "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-      "Waardering": [[:grade_within_collection]],
-      "Object": [[:object_categories_split],[:object_format_code], [:object_creation_year]],
-      "Overige": [[:source]]
+      "Waardering": [[:purchase_year],[:grade_within_collection]],
+      "Object": [[:object_categories_split],[:object_format_code, :frame_type], [:object_creation_year]],
+      "Ontsluiting": [[:image_rights],[:publish]],
+      "Overige": [[:source]],
       }) if current_user.can_access_extended_report?
 
     if current_user.can_access_valuations? and @sections[:Waardering]
