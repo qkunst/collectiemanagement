@@ -35,7 +35,7 @@
       <%= image_tag (root_url + message.image.to_be_path(:thumb)), class: 'thumb right' %>
       <% end%>
     <% end %>
-    <%= Kramdown::Document.new( message.message).to_html.html_safe if message.message %>
+    <%= kramdown( message.message)  %>
 
   </blockquote>
   <footer>

@@ -1,5 +1,5 @@
 <h1><%= @artist.name%> <small>(<%= link_to 'Bewerk gegevens', edit_artist_path(@artist) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small></h1>
-<%= simple_format @artist.description %>
+<%= kramdown(@artist.description) %>
 <div class="row">
   <div  class="large-9 medium-9 columns">
     <dl>

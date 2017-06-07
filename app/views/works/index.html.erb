@@ -79,7 +79,7 @@
     </aside>
     <div class="large-10 medium-10 columns print-12" id="works-list">
 
-      <%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
+      <%= kramdown( @collection.description) %>
 
 
       <% if defined?(@works_grouped) %>
@@ -106,7 +106,7 @@
                   <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span>
                 <% end %>
               </p>
-              <%= Kramdown::Document.new(cluster.description).to_html.html_safe if cluster.methods.include?(:description) and cluster.description%>
+              <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
               <%= render works[0..@max_index]%>
               <% if works.count > @max_index+1%>
               <p><%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>

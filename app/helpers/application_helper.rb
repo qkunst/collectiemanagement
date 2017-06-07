@@ -3,6 +3,14 @@ module ApplicationHelper
     @offline
   end
 
+  def kramdown string
+    if string and string.is_a? String
+      Kramdown::Document.new(string).to_html.html_safe
+    else
+      string
+    end
+  end
+
   def admin_user?
     current_user && current_user.admin?
   end

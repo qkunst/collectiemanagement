@@ -29,7 +29,7 @@
   <p><em>Let op:</em> Deze fasering komt uit de bovenliggende collectie <%= link_to parent_collection.name, parent_collection %>.</p>
   <%= render :partial => 'stages/stages_graph', locals: {collection: parent_collection, compact: true} %>
 <% end %>
-<%= Kramdown::Document.new( @collection.description).to_html.html_safe if @collection.description %>
+<%= kramdown( @collection.description) %>
 
 <h3>Werken</h3>
 <div class="row">
@@ -40,7 +40,7 @@
 <p><%= link_to "Toon alle #{@collection.works_including_child_works.count} werken", collection_works_path(@collection) %></p>
 <% if @collection.internal_comments? and qkunst_user? %>
 <h3>Interne opmerkingen</h3>
-<%= Kramdown::Document.new( @collection.internal_comments).to_html.html_safe %>
+<%= kramdown(@collection.internal_comments) %>
 <% end %>
   <h3>Subcollecties</h3>
   <% if @collection.child_collections.count > 0 %>
