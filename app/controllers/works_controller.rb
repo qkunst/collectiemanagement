@@ -62,7 +62,7 @@ class WorksController < ApplicationController
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
     end
 
-    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids])
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
 
 
     @title = "Werken van #{@collection.name}"
@@ -329,7 +329,6 @@ class WorksController < ApplicationController
 
   def set_selection_filter
     @selection_filter = current_user.filter_params[:filter] ? current_user.filter_params[:filter] : {}
-    # raise @selection_filter
     if params[:filter] or params[:group] or params[:sort] or params[:display]
       @selection_filter = {}
     end
@@ -337,13 +336,14 @@ class WorksController < ApplicationController
       params[:filter].each do |field, values|
         if field == "reset"
           @reset = true
-        elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw"].include?(field)
+        elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw", "main_collection"].include?(field)
           @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
         else
           @selection_filter[field] = clean_ids(values)
         end
       end
     end
+    # raise @selection_filter
     return @selection_filter
   end
   def set_selection thing, list

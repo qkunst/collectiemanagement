@@ -52,35 +52,22 @@
 
       <% unless current_user.read_only? %>
         <% if current_user.can_filter_and_group?(:object_categories) %>
-          <h5>Categorie</h5>
-          <%= filter_checkboxes(@aggregations[:object_categories], "object_categories.id") %>
+          <%= filter_checkboxes_with_header("Categorie", @aggregations[:object_categories], "object_categories.id") %>
         <% end %>
-
-        <h5>Cluster</h5>
-        <%= filter_checkboxes(@aggregations[:cluster], "cluster_id") %>
-
-        <h5>Deelcollectie</h5>
-        <%= filter_checkboxes(@aggregations[:subset], "subset_id") %>
-
+        <%= filter_checkboxes_with_header("Cluster", @aggregations[:cluster], "cluster_id") %>
+        <%= filter_checkboxes_with_header("Kerncollectie", @aggregations[:main_collection], "main_collection") %>
+        <%= filter_checkboxes_with_header("Deelcollectie", @aggregations[:subset], "subset_id") %>
         <% if current_user.can_filter_and_group?(:sources) %>
-          <h5>Herkomst</h5>
-          <%= filter_checkboxes(@aggregations[:sources], "sources.id") %>
+          <%= filter_checkboxes_with_header("Herkomst", @aggregations[:sources], "sources.id") %>
         <% end %>
 
-        <h5>Niveau</h5>
-        <%= filter_checkboxes(@aggregations[:grade_within_collection], "grade_within_collection") %>
-
-        <h5>Plaatsbaarheid</h5>
-        <%= filter_checkboxes(@aggregations[:placeability], "placeability_id") %>
-
-
+        <%= filter_checkboxes_with_header("Niveau", @aggregations[:grade_within_collection], "grade_within_collection") %>
+        <%= filter_checkboxes_with_header("Plaatsbaarheid", @aggregations[:placeability], "placeability_id") %>
       <% end %>
 
-      <h5>Thema</h5>
-      <%= filter_checkboxes(@aggregations[:themes], "themes.id") %>
+      <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
 
       <% if current_user.can_filter_and_group?(:locality_geonames_id) %>
-      <hr/>
         <h5>Lokaliteit</h5>
         <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), multiple: true, class: 'select2'%>
       <% end %>

@@ -3,6 +3,7 @@ class Work < ApplicationRecord
   has_paper_trail
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
+  before_save :enforce_nil_or_true
   after_save :update_artist_name_rendered!
 
   include ActionView::Helpers::NumberHelper
@@ -382,6 +383,10 @@ class Work < ApplicationRecord
     self.price_reference = latest_appraisal.reference
     self.valuation_on = latest_appraisal.appraised_on
     self.save
+  end
+
+  def enforce_nil_or_true
+    self.main_collection = nil if self.main_collection == false
   end
 
   class << self

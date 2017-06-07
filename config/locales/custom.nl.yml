@@ -135,12 +135,17 @@ nl:
           l: L
           xl: XL
           xxl: XXL
+        main_collection:
+          not_set: Niet in kerncollectie
+          "0": Buiten kerncollectie
+          "1": In kerncollectie
+          "true": In kerncollectie
         image_rights:
           "0": Nee
           "1": Ja
         publish:
-          "0": Nee
-          "1": Ja
+          "0": Niet publiceren
+          "1": Publiceer
     attributes:
       stage:
         name: Naam
