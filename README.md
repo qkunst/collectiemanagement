@@ -72,9 +72,10 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * postgresql
 * nginx
 * imagemagick
-* elasticsearch
+* elasticsearch 5.4
 * passenger
 * redis
+* Java 8 (geïnstalleerd met behulp van webupd8team ppa package, zie beneden en `apt-get install oracle-java8-installer`)
 * Ruby 2.3.3 (geïnstalleerd via rbenv)
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
@@ -83,6 +84,7 @@ Op het moment van schrijven worden de volgende repositories hiervoor geraadpleeg
 
     deb http://debian.directvps.nl/debian jessie main
     deb http://debian.directvps.nl/security jessie/updates main
+    deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main # let op: voeg key toe: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
     deb https://artifacts.elastic.co/packages/5.x/apt stable main
     deb https://oss-binaries.phusionpassenger.com/apt/passenger jessie main
 
