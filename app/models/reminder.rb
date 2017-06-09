@@ -23,6 +23,11 @@ class Reminder < ApplicationRecord
     next_dates.first if next_dates
   end
 
+  def last_sent_at
+    last_message = messages.order(:created_at).last
+    return last_message.created_at if last_message
+  end
+
   def next_dates(amount=10)
     if reference_date and repeat and collection
       dates = []
@@ -35,7 +40,7 @@ class Reminder < ApplicationRecord
       return dates
     elsif reference_date and collection
       date = (reference_date + additional_time(1)).to_date
-      return (date > Time.now.to_date) ? [date] : []
+      return (date >= Time.now.to_date) ? [date] : []
     end
   end
 

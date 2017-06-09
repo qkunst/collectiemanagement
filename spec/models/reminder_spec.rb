@@ -9,6 +9,19 @@ RSpec.describe Reminder, type: :model do
         end
       end
     end
+    describe "#last_sent_at" do
+      it "should return nil by default" do
+        c = collections(:collection_with_stages)
+        r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", collection: c)
+        expect(r.last_sent_at).to eq(nil)
+      end
+      it "should return nil by default" do
+        c = collections(:collection_with_stages)
+        r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", collection: c)
+        r.to_message!
+        expect(r.last_sent_at).to eq(Time.now.to_date)
+      end
+    end
     describe "#next_dates / #next_date" do
       it "should return one date for non repeating" do
         c = collections(:collection_with_stages)
@@ -62,6 +75,16 @@ RSpec.describe Reminder, type: :model do
           Time.now.to_date+7.day,
           Time.now.to_date+8.day,
           Time.now.to_date+9.day
+        ])
+      end
+      it "should return today for singular event that triggers today" do
+        c = collections(:collection_with_stages)
+        s1 = stages(:stage1)
+        cs1 = c.find_state_of_stage(s1)
+        cs1.completed_at = Time.now - 1.day
+        r = Reminder.create(interval_unit: :day, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: false)
+        expect(r.next_dates).to eq([
+          Time.now.to_date
         ])
       end
       it "should return nil for event that hasn't passed yet" do
