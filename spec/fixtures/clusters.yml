@@ -1,0 +1,6 @@
+cluster1:
+  name: cluster1
+  collection: :collection_with_works
+cluster2:
+  name: cluster2
+  collection: :collection_with_works

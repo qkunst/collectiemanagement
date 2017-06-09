@@ -96,7 +96,10 @@ class Work < ApplicationRecord
 
   def purchased_on= date
     if date.is_a? String
-      date = date.to_date
+      begin
+        date = date.to_date
+      rescue ArgumentError
+      end
     end
     if date.is_a? Date or date.is_a? Time or date.is_a? DateTime
       begin
@@ -110,6 +113,24 @@ class Work < ApplicationRecord
       if new_date > 1900 and new_date < 2100
         self.update_column(:purchase_year, date)
       end
+    end
+  end
+
+  def cluster_name= name
+    if name == "" or name == nil
+      self.cluster = nil
+    else
+      clust = self.collection.clusters_including_parent_clusters.find_by_case_insensitive_name(name.strip).first
+      self.cluster = clust
+      if self.cluster.nil?
+        self.cluster = self.collection.clusters.new(name: name.strip)
+      end
+    end
+  end
+
+  def cluster_name
+    if cluster
+      cluster.name
     end
   end
 

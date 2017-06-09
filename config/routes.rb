@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
 
 
+
+
   resources :frame_types
   resources :reminders
   resources :stages
@@ -70,6 +72,10 @@ Rails.application.routes.draw do
       patch 'delete_works' => 'import_collections#delete_works'
       patch 'import_works' => 'import_collections#import_works'
     end
+
+    get 'works/batch' => 'works_batch#index'
+    get 'works/batch/edit' => 'works_batch#edit'
+    patch 'works/batch' => 'works_batch#update'
     resources :works do
       resources :attachments
       resources :appraisals
@@ -77,6 +83,7 @@ Rails.application.routes.draw do
       get 'edit_location' => 'works#edit_location'
       get 'edit_photos' => 'works#edit_photos'
     end
+
     resources :clusters
     get 'report' => 'collections#report'
   end

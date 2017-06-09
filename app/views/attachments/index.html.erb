@@ -24,7 +24,7 @@
     <% end %>
   </tbody>
   <% if @work %>
-  <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'primary button', data: { open_in_context: true} if current_user.admin?%>
+  <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'primary button', data: { open_in_context: true} if current_user.qkunst?%>
   <% else %>
   <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if current_user.admin?%>
   <% end %>

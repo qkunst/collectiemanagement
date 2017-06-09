@@ -1,0 +1,47 @@
+<div id="main">
+<h1>Gegevens wijzigen</h1>
+<%= simple_form_for @collection.works.new, url: collection_works_batch_path, method: :patch do |f| %>
+  <% @works.each do |w| %>
+<input type="hidden" name="works[]" value="<%= w.id %>" />
+  <% end %>
+<% multiple_values = false%>
+<% case @edit_property  %>
+  <% when :location %>
+    <%= f.input :location %>
+    <%= f.input :location_floor %>
+    <%= f.input :location_detail %>
+    <% multiple_values = true %>
+  <% when :cluster_id_nil %>
+    <p>De werken zullen uit uit de clusters gehaald worden waarin ze nu zitten</p>
+    <%= f.input :cluster, as: :hidden, value: nil%>
+  <% when :cluster_id_new %>
+    <%= f.input :cluster_name %>
+  <% when :cluster, /cluster_id_\d*/ %>
+    <%= f.association :cluster, collection: @collection.clusters_including_parent_clusters, input_html: {class: 'chosen-select'}%>
+  <% when :grade_within_collection%>
+    <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
+  <% when :collection %>
+    <%= f.association :collection, collection: Collection.all, input_html: {class: 'chosen-select'} %>
+    <p>Let op: als je de collectie aanpast kan het zijn dat de werken verwijzen naar thema's en clusters die niet meer beschikbaar zijn binnen die collectie. </p>
+  <% when :themes %>
+    <%= f.association :themes, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
+  <% when :subset, :techniques, :sources %>
+    <%= f.association @edit_property, input_html: {class: 'chosen-select'} %>
+  <% else %>
+
+  <p> Geen eigenschap meegestuurd of herkend, de geselecteerde werken zullen niet worden aangepast</p>
+<% end %>
+
+
+<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan", class: :button%>
+<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn", name: :update_unless_empty, class: [:button, :secondary] if multiple_values%>
+<% if multiple_values %>
+<p><strong>Toelichting:</strong> Je wijzigt meerdere werken in één keer. De standaard actie is om lege velden leeg te maken. Wil je echter niet dat alle velden worden aangepast, zorg er dan voor dat alleen in het te wijzigen veld een waarde staat en klik op de tweede knop: <em><%="Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn"%></em>.</p>
+<% end %>
+<% end %>
+
+</div>
+<hr/>
+<h3 id="works">Werken</h3>
+<p>De volgende werken zullen hiermee worden aangepast</p>
+<%= render @works.all %>

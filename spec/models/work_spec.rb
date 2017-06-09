@@ -91,6 +91,50 @@ RSpec.describe Work, type: :model do
         expect(w.purchased_on).to eq(nil)
         expect(w.purchase_year).to eq(2012)
       end
+      it "should accept a number in a string" do
+        w = works(:work1)
+        date =  "2012"
+        w.purchased_on = date
+        w.save
+        w.reload
+        expect(w.purchased_on).to eq(nil)
+        expect(w.purchase_year).to eq(2012)
+      end
+    end
+    describe "#cluster_name" do
+      it "should set cluster to nil when name is nil or empty" do
+        w = works(:work1)
+        expect(w.cluster).to eq(clusters(:cluster1))
+        w.cluster_name= ""
+        expect(w.cluster).to eq(nil)
+        w = works(:work1)
+        w.reload
+        expect(w.cluster).to eq(clusters(:cluster1))
+        w.cluster_name= nil
+        expect(w.cluster).to eq(nil)
+        w.save
+        w.reload
+        w = works(:work1)
+        expect(w.cluster).to eq(nil)
+      end
+      it "should reset cluster when set to a different name" do
+        w = works(:work1)
+        expect(w.cluster).to eq(clusters(:cluster1))
+        w.cluster_name= "cluster2"
+        expect(w.cluster).to eq(clusters(:cluster2))
+        w.save
+        w.reload
+        expect(w.cluster).to eq(clusters(:cluster2))
+      end
+      it "should create cluster when set to a different name" do
+        w = works(:work1)
+        expect(w.cluster).to eq(clusters(:cluster1))
+        w.cluster_name= "cluster new"
+        expect(w.cluster.class).to eq(Cluster)
+        w.save
+        w.reload
+        expect(w.cluster_name).to eq("cluster new")
+      end
     end
     describe ".purchased_on_with_fallback" do
       it "should return nil when not set" do

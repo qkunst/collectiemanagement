@@ -7,11 +7,6 @@ show_or_hide_selected_works = ->
   if selected_works_count > 0
     $("#selected-works-count").html(selected_works_count)
     $("#selected-works").show()
-    batch_edit_property = $("#batch_edit_property").val()
-    if batch_edit_property.endsWith("_new")
-      $("#new-batch-edit-name").show()
-    else
-      $("#new-batch-edit-name").hide()
   else
     $("#selected-works").hide()
 
@@ -47,7 +42,7 @@ $(document).on("turbolinks:load", ->
 )
 
 $(document).on("click", "span.select_all", (e)->
-  container_div = $(e.target).parents("form,.select_all_scope")[0]
+  container_div = $(e.target).parents(".select_all_scope, body")[0]
   inputs = container_div.querySelectorAll("input[name='selected_works[]']")
   for elem in inputs
     elem.checked = true

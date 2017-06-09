@@ -43,8 +43,6 @@ class WorksController < ApplicationController
 
     update_current_user_with_params
 
-    prepare_batch_editor_selection
-
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] and !@reset
     @no_child_works = (params[:no_child_works] == 1 or params[:no_child_works] == "true") ? true : false
@@ -163,72 +161,6 @@ class WorksController < ApplicationController
   # POST /works
   # POST /works.json
   def create
-    if params[:batch_edit] == "batch_edit" and params[:batch_edit_property]
-      notice = nil
-      alert = nil
-      selected_works = @collection.works_including_child_works.where(id:params[:selected_works].collect{|a| a.to_i})
-
-      property_being_edited = ["collection_id", "grade_within_collection", "cluster_id", "location_detail", "location_floor", "location", "subset_id", "theme.id", "technique.id", "source.id"].select{|a| params[:batch_edit_property].starts_with?(a) }.first
-
-      if property_being_edited
-        if property_being_edited.ends_with?("_id")
-          id = params[:batch_edit_property].gsub("#{property_being_edited}_","")
-          value = nil
-          unless id == "nil"
-            klass = property_being_edited.gsub("_id","").classify.constantize
-            if id.to_i.to_s == id
-              value = klass.find(id)
-            elsif id == "new"
-              if current_user.qkunst?
-                value = klass.new(name: params[:batch_edit_new_name])
-                value.collection = @collection if value.methods.include?(:collection)
-                value.save
-              end
-            else
-              raise id
-            end
-
-          end
-          selected_works.each{|a| a.send("#{property_being_edited}=", value ? value.id : nil); a.save}
-          notice = "Wijziging (#{I18n.t property_being_edited.gsub("_id",""), scope: [:activerecord, :attributes, :work]} = #{ value ? value.name : "geen"}) doorgevoerd voor #{selected_works.count} werken."
-        elsif property_being_edited.ends_with?(".id")
-            id = params[:batch_edit_property].gsub("#{property_being_edited}_","")
-            value = nil
-            unless id == "nil"
-              klass = property_being_edited.gsub(".id","").classify.constantize
-              if id.to_i.to_s == id
-                value = klass.find(id)
-              else
-                raise id
-              end
-            end
-            property_name = "#{property_being_edited.gsub(".id","")}s"
-            selected_works.each{|a| a.send(property_name).push(value); a.reindex! }
-            notice = "Wijziging (#{I18n.t property_name, scope: [:activerecord, :attributes, :work]} = #{ value ? value.name : "geen"}) doorgevoerd voor #{selected_works.count} werken."
-
-        else
-          value = params[:batch_edit_property].gsub("#{property_being_edited}_","")
-          value = nil if value == "nil"
-          value = params[:batch_edit_new_name] if value == "new"
-          selected_works.each{|a| a.send("#{property_being_edited}=", value); a.save}
-          notice = "Wijziging (#{I18n.t property_being_edited, scope: [:activerecord, :attributes, :work]} = #{value}) doorgevoerd voor #{selected_works.count} werken."
-        end
-      end
-
-      params[:batch_edit] = nil
-      params[:selected_works] = []
-      params[:cluster_new] = nil
-      params[:action] = nil
-      params[:id] = nil
-      params[:format] = :html
-      params[:authenticity_token] = nil
-      respond_to do |format|
-        format.html {
-          redirect_to collection_works_path(@collection), notice: notice, alert: alert
-
-        }
-      end
-    else
       # raise "fail"
       @work = Work.new(work_params)
       @work.collection = @collection
@@ -242,7 +174,6 @@ class WorksController < ApplicationController
           format.json { render json: @work.errors, status: :unprocessable_entity }
         end
       end
-    end
 
   end
 
@@ -282,50 +213,6 @@ class WorksController < ApplicationController
 
   private
 
-  def prepare_batch_editor_selection
-    @batch_edit_options = {"Cluster" => {}, "Deelcollectie" => {}, "Collectie" => {}, "Herkomst" => {}, "Niveau" => {}, "Locatie" => {}, "Technieken"=>{}, "Thema's"=>{}}
-
-    @collection.clusters_including_parent_clusters.each do |cluster|
-      @batch_edit_options["Cluster"]["Zet in cluster “#{cluster.name}”"] = "cluster_id_#{cluster.id}"
-    end
-    @batch_edit_options["Cluster"]["Haal uit cluster (geen cluster)"] = :cluster_id_nil
-    @batch_edit_options["Cluster"]["Zet in nieuw cluster"] = :cluster_id_new
-
-    %w{A B C D E F G}.each do |grade|
-      @batch_edit_options["Niveau"]["Niveau #{grade}"] = "grade_within_collection_#{grade}"
-    end
-
-    @collection.child_collections.each do |collection|
-      @batch_edit_options["Collectie"]["Verplaats naar collectie “#{collection.name}”"] = "collection_id_#{collection.id}"
-    end
-
-    if @collection.child_collections.count > 0
-      collection = @collection
-      @batch_edit_options["Collectie"]["Verplaats naar collectie “#{collection.name}”*"] = "collection_id_#{collection.id}"
-    end
-
-    Subset.all.each do |subset|
-      @batch_edit_options["Deelcollectie"]["Zet in deelcollectie “#{subset.name}”"] = "subset_id_#{subset.id}"
-    end
-
-    @batch_edit_options["Locatie"]["Nieuwe adres en/of gebouw(deel)"] = "location_new"
-    @batch_edit_options["Locatie"]["Nieuwe verdieping"] = "location_floor_new"
-    @batch_edit_options["Locatie"]["Nieuwe locatie specificatie"] = "location_detail_new"
-
-    Technique.all.each do |technique|
-      @batch_edit_options["Technieken"]["Voeg ook techniek “#{technique.name}” toe"] = "technique.id_#{technique.id}"
-    end
-
-    Source.all.each do |source|
-      @batch_edit_options["Herkomst"]["Voeg herkomst “#{source.name}” toe"] = "source.id_#{source.id}"
-    end
-
-    @collection.available_themes.each do |theme|
-      @batch_edit_options["Thema's"]["Voeg thema “#{theme.name}” toe"] = "theme.id_#{theme.id}"
-
-    end
-
-  end
 
   def set_selection_filter
     @selection_filter = current_user.filter_params[:filter] ? current_user.filter_params[:filter] : {}
@@ -391,8 +278,12 @@ class WorksController < ApplicationController
     redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def work_params
+    reusable_work_params( params, current_user )
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def reusable_work_params params, current_user
     if params[:work] and params[:work][:artists_attributes]
       params[:work][:artists_attributes].each do |index, values|
         if values[:id] or values[:_destroy].to_i == "1"
@@ -414,7 +305,7 @@ class WorksController < ApplicationController
       :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
       :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :public_description,
       :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-      :main_collection, :image_rights, :publish,
+      :main_collection, :image_rights, :publish, :cluster_name, :collection_id,
       :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[],
       theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
         :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description

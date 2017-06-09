@@ -285,10 +285,12 @@ body.complete tr.complete_data {
   width: 60%;
   left: 20%;
   padding: 0.5em 0 0;
+
   p {
-    text-align: center;
+    text-align: left;
     padding: 0;
     margin:0 ;
+    font-size: 0.75rem;
   }
   select, input {
     display: inline;
@@ -299,11 +301,23 @@ body.complete tr.complete_data {
   select {
     padding: 2px 1em 2px 2px;
   }
-  button {
-    margin: 0 0 0 1em;
-    line-height: 2em;
-    font-size: 0.85em;
-    padding: 1px 5px;
+  .button-row {
+    font-size: 0rem;
+  }
+  .button-group {
+    font-size: 0rem;
+    display: inline-block;
+    margin-right: 0.25rem;
+    margin-bottom: 0;
+
+    button {
+      margin-right: 1px;
+    }
+  }
+  button, .button {
+    margin-right: 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
   }
   label {
     display: inline;

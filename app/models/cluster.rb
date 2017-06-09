@@ -1,6 +1,7 @@
 class Cluster < ApplicationRecord
   has_many :works
   belongs_to :collection
+  validates_uniqueness_of :name, scope: :collection_id
 
   include NameId
 

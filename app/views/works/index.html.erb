@@ -1,11 +1,12 @@
 <h1>Collectie <%= @collection.name %></h1>
-<%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
-  <input type="hidden" name="max_index" value="<%=@max_index%>" />
-  <input type="hidden" name="no_child_works" value="<%=@no_child_works ? 1 : 0%>" />
 
   <p id="offline" class="callout alert hide-for-print"></p>
 
   <div class="row">
+    <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
+      <input type="hidden" name="max_index" value="<%=@max_index%>" />
+      <input type="hidden" name="no_child_works" value="<%=@no_child_works ? 1 : 0%>" />
+
     <div class="large-5 columns print-12">
       <p>Deze
         <% if @collection_works_count > @works_count %> (gefilterde) <% end %>
@@ -36,15 +37,14 @@
         }, @selection[:sort]), data: {auto_submit: true}  %></label>
         <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
       </div>
-  </div>
-  </div>
+    </div>
+    <div class="columns"></div>
     <% if @works_count > @max_index+1%>
-  <div class="row columns callout" style="text-align: center">
-    <p>Momenteel wordt slechts een beperkt aantal werken getoond <%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button inline small secondary"%></p>
-  </div>
+    <div class="columns callout" style="text-align: center">
+      <p>Momenteel wordt slechts een beperkt aantal werken getoond <%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button inline small secondary"%></p>
+    </div>
     <% end %>
-  <div class="row">
-    <aside class="large-2 medium-2 columns filter hide-for-print">
+    <aside class="large-2 medium-2 columns filter hide-for-print end">
       <h4>Zoeken</h4>
       <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoeken... "%>
       <p class="hint"><small>Probeer ook: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
@@ -77,10 +77,10 @@
 
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
     </aside>
+    <% end #formtag /works?q... %>
+    <%= form_tag collection_works_batch_edit_path, method: :get, authenticity_token: false do %>
     <div class="large-10 medium-10 columns print-12" id="works-list">
-
       <%= kramdown( @collection.description) %>
-
 
       <% if defined?(@works_grouped) %>
         <% if @works_grouped[nil] %>
@@ -89,10 +89,7 @@
             <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
             <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>
               <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span></p><% end %>
-            <%= render works[0..@max_index]%>
-            <% if works.count > @max_index+1%>
-            <p><%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>
-            <% end %>
+              <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
             </div>
           <hr/>
         <% end %>
@@ -107,39 +104,44 @@
                 <% end %>
               </p>
               <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
-              <%= render works[0..@max_index]%>
-              <% if works.count > @max_index+1%>
-              <p><%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>
-              <% end %>
+              <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
             </div>
             <hr/>
           <% end %>
         <% end %>
       <% else %>
-        <%= render @works[0..@max_index] %>
-        <% if @works_count > (@max_index + 1)%>
-          <p><%= link_to "Toon alle werken", collection_works_path(@collection, params: {max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>
-        <% end %>
+        <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
       <% end %>
     </div>
+    <% if current_user.qkunst? %>
+      <div id="selected-works" class="row">
+
+        <div class="medium-12 columns">
+            <p>Beschikbare acties en aanpasbare eigenschappen op de <span id="selected-works-count">x</span> geselecteerde werken:</p>
+            <div class="button-row">
+              <div class="button-group">
+                <%= button_tag type: :submit, name: :batch_edit_property, value: :cluster, class: :button do %>Verplaats naar cluster<% end %>
+                <%= button_tag type: :submit, name: :batch_edit_property, value: :cluster_id_nil, class: :button do %>Haal uit cluster<% end %>
+                <%= button_tag type: :submit, name: :batch_edit_property, value: :cluster_id_new, class: :button do %>Nieuw cluster<% end %>
+              </div>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :grade_within_collection, class: :button do %>Niveau<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :location, class: :button do %>Locatie<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :collection, class: :button do %>Collectie<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :subset, class: :button do %>Deelcollectie<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :techniques, class: :button do %>Technieken<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :sources, class: :button do %>Herkomst<% end %>
+              <%= button_tag type: :submit, name: :batch_edit_property, value: :themes, class: :button do %>Thema’s<% end %>
+            </div>
+        </div>
+      </div>
+    <% end %>
+    <% end #//formtag%>
   </div>
 
   <% content_for :footer do %>
   <p>Dit overzicht is gemaakt op <%= I18n.l Time.now, format: :long %>.</p>
   <% end %>
-  <div id="selected-works" class="row">
 
-    <div class="medium-12 columns">
-
-    <p>Verander <span id="selected-works-count">x</span> werken:
-      <%= select_tag "batch_edit_property", grouped_options_for_select(@batch_edit_options, params[:batch_edit_property])
-%> <label id="new-batch-edit-name">met naam <input name="batch_edit_new_name" type="text" /></label>
-<%= button_tag type: :submit, method: :post, value: :batch_edit, name: :batch_edit, class: :button, data: {confirm: "Weet u zeker dat u deze werken wilt aanpassen?"} do %>Opslaan<% end %>
-    </div>
-  </div>
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-
-<% end %>
 
 <script type="text/javascript">
   $(function() {

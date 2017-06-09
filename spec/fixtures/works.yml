@@ -6,6 +6,7 @@ work1:
     - :wind
   subset: :contemporary
   collection: :collection_with_works
+  cluster: :cluster1
   artists:
     - :artist1
 work2:
@@ -16,6 +17,7 @@ work2:
     - :fire
   subset: :modern
   collection: :collection_with_works
+  cluster: :cluster2
   artists:
     - :artist2
     - :artist_no_name

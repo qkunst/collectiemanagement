@@ -84,6 +84,10 @@ class Collection < ApplicationRecord
     geoname_summaries.collect{|a| a.geoname_id}
   end
 
+  def to_label
+    self_and_parent_collections_flattened.select(&:name).collect(&:name).reverse.join(" > ")
+  end
+
   def self_or_parent_collection_with_geoname_summaries
     if geoname_summaries?
       return self

@@ -213,6 +213,7 @@ nl:
         collection_name_extended: Collectie
         created_at: Opgeslagen op
         created_by: Invoerder
+        cluster: Cluster
         location: Adres en/of gebouw(deel)
         location_floor: Verdieping
         location_detail: Locatie specificatie
