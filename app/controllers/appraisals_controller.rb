@@ -57,7 +57,6 @@ class AppraisalsController < ApplicationController
   # DELETE /appraisals/1.json
   def destroy
     @appraisal.destroy
-    @work.update_latest_appraisal_data!
 
     respond_to do |format|
       format.html { redirect_to collection_work_path(@collection, @work), notice: 'De waardering is verwijderd' }

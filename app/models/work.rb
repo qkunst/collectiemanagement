@@ -400,10 +400,17 @@ class Work < ApplicationRecord
 
   def update_latest_appraisal_data!
     latest_appraisal = appraisals.descending_appraisal_on.first
-    self.market_value = latest_appraisal.market_value
-    self.replacement_value = latest_appraisal.replacement_value
-    self.price_reference = latest_appraisal.reference
-    self.valuation_on = latest_appraisal.appraised_on
+    if latest_appraisal
+      self.market_value = latest_appraisal.market_value
+      self.replacement_value = latest_appraisal.replacement_value
+      self.price_reference = latest_appraisal.reference
+      self.valuation_on = latest_appraisal.appraised_on
+    else
+      self.market_value = nil
+      self.replacement_value = nil
+      self.price_reference = nil
+      self.valuation_on = nil
+    end
     self.save
   end
 

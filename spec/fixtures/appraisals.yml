@@ -8,8 +8,8 @@ appraisal1:
   work: :work1
 
 appraisal2:
-  appraised_on: 2001-01-01
-  market_value: 1000
+  appraised_on: 2001-01-02
+  market_value: 2000
   replacement_value: 2000
   appraised_by: "test"
   user: :admin
@@ -18,8 +18,8 @@ appraisal2:
   id: 1
 
 appraisal3:
-  appraised_on: 2001-01-01
-  market_value: 2000
+  appraised_on: 2001-01-03
+  market_value: 3000
   replacement_value: 2000
   appraised_by: "test"
   user: :admin
@@ -27,9 +27,9 @@ appraisal3:
   work: :work1
   id: 2
 
-appraisal3:
-  appraised_on: 2001-01-01
-  market_value: 3000
+appraisal4:
+  appraised_on: 2001-01-04
+  market_value: 4000
   replacement_value: 2000
   appraised_by: "test"
   user: :admin
