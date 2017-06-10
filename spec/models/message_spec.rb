@@ -2,6 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Message, type: :model do
   describe "methods" do
+    describe "set_from_user_name!" do
+      it "should set on save" do
+        u1 = users(:user1)
+        u2 = users(:user2)
+        m = Message.new(from_user: u1, to_user: u2)
+        m.save
+        expect(m.from_user_name).to eq(u1.name)
+      end
+    end
     describe "#notifyable_users" do
       it "should return current_users" do
         u1 = users(:user1)

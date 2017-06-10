@@ -25,10 +25,11 @@ class Message < ApplicationRecord
   scope :for, ->(subject_object) { where(subject_object: subject_object )}
   scope :sent_at_date, ->(date) {where("messages.created_at >= ? AND messages.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day)}
 
+  before_save :set_from_user_name!
   after_create :send_notification
 
-  def from_user_name
-    from_user ? from_user.name.to_s : ""
+  def set_from_user_name!
+    self.from_user_name = (from_user ? from_user.name.to_s : "")
   end
 
   def from_user?(user)
