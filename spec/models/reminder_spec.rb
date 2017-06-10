@@ -108,7 +108,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
         expect(r.to_message.to_json).to eq(Message.new(
-          subject: "Naam",
+          subject: "Herinnering: Naam",
           message: "Uitgebreid bericht",
           to_user: User.find_by(email: "veronique@qkunst.nl"),
           created_at: Time.now.to_date,

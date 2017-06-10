@@ -90,6 +90,7 @@ class Message < ApplicationRecord
   def notifyable_users
     users = conversation_users.receive_mails.all
     users += User.admin.receive_mails.all
+    users += [self.to_user]
     users -= [self.from_user]
     users.delete_if{|user| !user.qkunst? } if self.qkunst_private?
     users.compact.uniq

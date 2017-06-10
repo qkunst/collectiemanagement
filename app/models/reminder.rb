@@ -70,14 +70,18 @@ class Reminder < ApplicationRecord
     end
   end
 
+  def text?
+    !(text.nil? or text.empty?)
+  end
+
   def to_message
     if collection
       messages.new(
         to_user: User.find_by(email: "veronique@qkunst.nl"),
         qkunst_private: true,
         created_at: current_date,
-        subject: name,
-        message: text || "Deze herinnering heeft geen beschrijving.",
+        subject: "Herinnering: #{name}",
+        message: text? ? text : "Deze herinnering heeft geen beschrijving.",
         subject_object: collection
       )
     end

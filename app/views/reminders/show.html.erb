@@ -18,10 +18,12 @@
       <% end %>
     </ul>
   <% elsif @reminder.reference_date %>
+    <% elsif @reminder.last_sent_at %>
+      <p>De herinnering is reeds verstuurd op  <%= I18n.l @reminder.last_sent_at, format: :long %>.</p>
     <% if @reminder.next_date %>
       <p>Een herinnering zal worden verstuurd op <%= I18n.l @reminder.next_date, format: :long %>.</p>
     <% else %>
-      <p>De herinnering is reeds verstuurd.</p>
+      <p>Er is iets mis gegaan bij het versturen van deze herinnering.</p>
     <% end %>
   <% else %>
     <p>De fase <%= @reminder.stage.name %> is nog niet afgesloten.</p>
