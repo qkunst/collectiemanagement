@@ -114,7 +114,8 @@ RSpec.describe Reminder, type: :model do
           created_at: Time.now.to_date,
           qkunst_private: true,
           subject_object: c,
-          reminder: r
+          reminder: r,
+          from_user_name: "QKunst Herinneringen"
         ).to_json)
       end
     end

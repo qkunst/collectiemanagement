@@ -70,9 +70,6 @@
   <div class="small-6 column">
     <nav>
       <ul class="menu">
-        <% if current_user.can_write_messages? %>
-          <li class="right"><%= link_to 'Vraag of opmerking?', collection_work_messages_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
-        <% end %>
         <% if current_user.can_appraise? %>
           <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'primary small button right', data: { open_in_context: true}%></li>
         <% end %>

@@ -19,12 +19,17 @@
 //= require fetch
 //= require select2
 //= require jquery_nested_form
+//= require Stickyfill
 //= require_directory .
 
 var collectieBeheerInit = function() {
   FormStore.init();
 
+  var stickyElements = document.getElementsByClassName('sub-nav');
 
+  for (var i = stickyElements.length - 1; i >= 0; i--) {
+      Stickyfill.add(stickyElements[i]);
+  }
   function formatRepo (result) {
     if (result.loading || !result.name) return result.text;
 
@@ -124,7 +129,6 @@ var collectieBeheerInit = function() {
     $(".tabs section"+anchor).show();
     return false;
   });
-
 
   $(document).foundation();
 }

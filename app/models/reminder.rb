@@ -82,7 +82,8 @@ class Reminder < ApplicationRecord
         created_at: current_date,
         subject: "Herinnering: #{name}",
         message: text? ? text : "Deze herinnering heeft geen beschrijving.",
-        subject_object: collection
+        subject_object: collection,
+        from_user_name: "QKunst Herinneringen"
       )
     end
   end
