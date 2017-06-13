@@ -223,6 +223,7 @@ class Collection < ApplicationRecord
     elastic_aggragations.each do |key, set|
       counts = parse_aggregation(set, key)
       key = key.gsub(/_missing$/,"")
+      key = key.gsub(/.keyword/,"")
       @report[key.to_sym] = {} unless @report[key.to_sym]
       @report[key.to_sym].deep_merge!(counts) if counts
     end
@@ -262,7 +263,7 @@ class Collection < ApplicationRecord
   def parse_bucket_key aggregation_key, bucket_key
     bucket_key_parsed = bucket_key
 
-    unless ["abstract_or_figurative", "object_format_code", "grade_within_collection", "location", "location_raw"].include?(aggregation_key)
+    unless ["abstract_or_figurative.keyword", "object_format_code.keyword", "grade_within_collection.keyword", "location_raw.keyword"].include?(aggregation_key)
       bucket_key_parsed = bucket_key.to_s.split(",").map(&:to_i)
     end
     return bucket_key_parsed
@@ -365,27 +366,27 @@ class Collection < ApplicationRecord
       },
       artists: {
         terms: {
-          field: "report_val_sorted_artist_ids.keywords", size: 999
+          field: "report_val_sorted_artist_ids.keyword", size: 999
         }
       },
       artists_missing: {
         missing: {
-          field: "report_val_sorted_artist_ids.keywords"
+          field: "report_val_sorted_artist_ids.keyword"
         }
       },
       object_categories: {
         terms: {
-          field: "report_val_sorted_object_category_ids.keywords", size: 999
+          field: "report_val_sorted_object_category_ids.keyword", size: 999
         },
         aggs: {
           techniques: {
             terms: {
-              field: "report_val_sorted_technique_ids.keywords", size: 999
+              field: "report_val_sorted_technique_ids.keyword", size: 999
             }
           },
           techniques_missing: {
             missing: {
-              field: "report_val_sorted_technique_ids.keywords"
+              field: "report_val_sorted_technique_ids.keyword"
             }
           }
         }
@@ -401,24 +402,24 @@ class Collection < ApplicationRecord
       # },
       object_categories_missing: {
         missing: {
-          field: "report_val_sorted_object_category_ids.keywords"
+          field: "report_val_sorted_object_category_ids.keyword"
         },
         aggs: {
           techniques: {
             terms: {
-              field: "report_val_sorted_technique_ids.keywords", size: 999
+              field: "report_val_sorted_technique_ids.keyword", size: 999
             }
           },
           techniques_missing: {
             missing: {
-              field: "report_val_sorted_technique_ids.keywords"
+              field: "report_val_sorted_technique_ids.keyword"
             }
           }
         }
       },
       object_categories_split: {
         terms: {
-          field: "report_val_sorted_object_category_ids.keywords", size: 999
+          field: "report_val_sorted_object_category_ids.keyword", size: 999
         },
         aggs: {
           techniques: {
@@ -464,7 +465,7 @@ class Collection < ApplicationRecord
       aggregation.merge!(basic_aggregation_snippet(key,".id"))
     end
 
-    ["abstract_or_figurative.keywords", "grade_within_collection.keywords", "location_raw.keywords", "object_format_code.keywords", :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
+    ["abstract_or_figurative.keyword", "grade_within_collection.keyword", "location_raw.keyword", "object_format_code.keyword", :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
       aggregation.merge!(basic_aggregation_snippet_with_missing(key))
     end
     return aggregation
@@ -482,7 +483,7 @@ class Collection < ApplicationRecord
 
   def basic_aggregation_snippet_with_missing key, postfix = "", field = nil
     rv = basic_aggregation_snippet(key, postfix, field)
-    rv["#{key}_missing".to_sym] = {
+    rv["#{key}_missing"] = {
       missing: {
         field: "#{key}#{postfix}"
       }

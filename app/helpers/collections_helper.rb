@@ -1,5 +1,6 @@
 module CollectionsHelper
   def report
+    # raise @collection.report
     @report ||= @collection.report
 
   end
