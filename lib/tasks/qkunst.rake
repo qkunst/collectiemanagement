@@ -21,7 +21,7 @@ namespace :qkunst do
 
   desc "Bouw nieuwe index op en herindexeer alle werken (traag)"
   task new_index: :environment do
-    # Work.__elasticsearch__.delete_index!
+    Work.__elasticsearch__.delete_index!
     Work.reindex!(true)
 
   end

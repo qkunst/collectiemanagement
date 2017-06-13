@@ -365,27 +365,27 @@ class Collection < ApplicationRecord
       },
       artists: {
         terms: {
-          field: :report_val_sorted_artist_ids, size: 999
+          field: "report_val_sorted_artist_ids.keywords", size: 999
         }
       },
       artists_missing: {
         missing: {
-          field: :report_val_sorted_artist_ids
+          field: "report_val_sorted_artist_ids.keywords"
         }
       },
       object_categories: {
         terms: {
-          field: :report_val_sorted_object_category_ids, size: 999
+          field: "report_val_sorted_object_category_ids.keywords", size: 999
         },
         aggs: {
           techniques: {
             terms: {
-              field: :report_val_sorted_technique_ids, size: 999
+              field: "report_val_sorted_technique_ids.keywords", size: 999
             }
           },
           techniques_missing: {
             missing: {
-              field: :report_val_sorted_technique_ids
+              field: "report_val_sorted_technique_ids.keywords"
             }
           }
         }
@@ -401,24 +401,24 @@ class Collection < ApplicationRecord
       # },
       object_categories_missing: {
         missing: {
-          field: :report_val_sorted_object_category_ids
+          field: "report_val_sorted_object_category_ids.keywords"
         },
         aggs: {
           techniques: {
             terms: {
-              field: :report_val_sorted_technique_ids, size: 999
+              field: "report_val_sorted_technique_ids.keywords", size: 999
             }
           },
           techniques_missing: {
             missing: {
-              field: :report_val_sorted_technique_ids
+              field: "report_val_sorted_technique_ids.keywords"
             }
           }
         }
       },
       object_categories_split: {
         terms: {
-          field: :report_val_sorted_object_category_ids, size: 999
+          field: "report_val_sorted_object_category_ids.keywords", size: 999
         },
         aggs: {
           techniques: {
@@ -435,7 +435,7 @@ class Collection < ApplicationRecord
       },
       object_categories_split_missing: {
         missing: {
-          field: :report_val_sorted_object_category_ids
+          field: "report_val_sorted_object_category_ids.keywords"
         },
         aggs: {
           techniques: {
