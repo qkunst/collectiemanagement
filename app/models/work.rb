@@ -44,7 +44,7 @@ class Work < ApplicationRecord
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
-  settings index: { number_of_shards: 1 } do
+  settings index: { number_of_shards: 2 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
@@ -59,6 +59,8 @@ class Work < ApplicationRecord
       indexes :title, analyzer: 'dutch', index_options: 'offsets'
     end
   end
+
+  index_name "works-a"
 
   def photos?
     photo_front? or photo_back? or photo_detail_1? or photo_detail_2?

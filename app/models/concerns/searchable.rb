@@ -20,7 +20,7 @@ module Searchable
     end
 
     after_touch do
-      __elasticsearch__.index_document
+      reindex!
     end
 
     def reindex!
