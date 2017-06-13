@@ -101,6 +101,20 @@ RSpec.describe Work, type: :model do
         expect(w.purchase_year).to eq(2012)
       end
     end
+    describe ".damage_types" do
+      it "should be an empty by default" do
+        w = works(:work1)
+        expect(w.damage_types).to eq([])
+      end
+      it "should should touch work on add (and should only return once)" do
+        w = works(:work1)
+        original_updated_at = w.updated_at
+        w.damage_types << damage_types(:a)
+        w.damage_types << damage_types(:a)
+        expect(w.damage_types).to eq([damage_types(:a)])
+        expect(w.updated_at - original_updated_at).to be > 0.001
+      end
+    end
     describe "#cluster_name" do
       it "should set cluster to nil when name is nil or empty" do
         w = works(:work1)
