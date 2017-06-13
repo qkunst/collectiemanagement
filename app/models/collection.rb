@@ -464,7 +464,7 @@ class Collection < ApplicationRecord
       aggregation.merge!(basic_aggregation_snippet(key,".id"))
     end
 
-    [:abstract_or_figurative, "grade_within_collection.keywords", "location_raw.keywords", :object_format_code, :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
+    ["abstract_or_figurative.keywords", "grade_within_collection.keywords", "location_raw.keywords", "object_format_code.keywords", :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
       aggregation.merge!(basic_aggregation_snippet_with_missing(key))
     end
     return aggregation
