@@ -53,7 +53,9 @@ class Work < ApplicationRecord
       indexes :abstract_or_figurative, type: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
       indexes :grade_within_collection, type: 'keyword'
-      indexes :location_raw, type: 'keyword' #, index: "not_analyzed"
+      indexes :location_raw, type: 'keyword'
+      indexes :location_floor_raw, type: 'keyword'
+      indexes :location_detail_raw, type: 'keyword'
       indexes :object_format_code, type: 'keyword'
       indexes :report_val_sorted_artist_ids, type: 'keyword'
       indexes :report_val_sorted_object_category_ids, type: 'keyword'
@@ -80,6 +82,12 @@ class Work < ApplicationRecord
 
   def location_raw
     location if location && location.to_s.strip != ""
+  end
+  def location_floor_raw
+    location_floor if location_floor && location_floor.to_s.strip != ""
+  end
+  def location_detail_raw
+    location_detail if location_detail && location_detail.to_s.strip != ""
   end
 
   def abstract_or_figurative_rendered
