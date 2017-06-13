@@ -20,17 +20,20 @@ class Work < ApplicationRecord
   belongs_to :purchase_price_currency, :class_name=>Currency
   belongs_to :style
   belongs_to :subset
-  has_and_belongs_to_many :artists, -> { distinct }
-  has_and_belongs_to_many :damage_types
-  has_and_belongs_to_many :frame_damage_types, -> { distinct }
-  has_and_belongs_to_many :object_categories, -> { distinct }
-  has_and_belongs_to_many :sources
-  has_and_belongs_to_many :techniques, -> { distinct }
-  has_and_belongs_to_many :themes, -> { distinct }
+  has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :frame_damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :object_categories, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :sources, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :techniques, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :themes, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_many :appraisals
   has_many :attachments, as: :attache
 
   scope :no_photo_front, -> { where(photo_front: nil)}
+
+  accepts_nested_attributes_for :artists
+  accepts_nested_attributes_for :appraisals
 
   normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail
 
@@ -40,13 +43,6 @@ class Work < ApplicationRecord
   mount_uploader :photo_detail_2, PictureUploader
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
-
-  def photos?
-    photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
-  end
-
-  accepts_nested_attributes_for :artists
-  accepts_nested_attributes_for :appraisals
 
   settings index: { number_of_shards: 1 } do
     mappings do
@@ -61,8 +57,11 @@ class Work < ApplicationRecord
       indexes :report_val_sorted_object_category_ids, type: 'keyword'
       indexes :report_val_sorted_technique_ids, type: 'keyword'
       indexes :title, analyzer: 'dutch', index_options: 'offsets'
-
     end
+  end
+
+  def photos?
+    photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
   end
 
   def title_rendered
@@ -423,6 +422,10 @@ class Work < ApplicationRecord
 
   def enforce_nil_or_true
     self.main_collection = nil if self.main_collection == false
+  end
+
+  def touch_updated_at(objekt)
+    self.touch if persisted?
   end
 
   class << self
