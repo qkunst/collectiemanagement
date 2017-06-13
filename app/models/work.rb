@@ -44,7 +44,7 @@ class Work < ApplicationRecord
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
-  settings index: { number_of_shards: 2 } do
+  settings index: { number_of_shards: 5 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
