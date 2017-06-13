@@ -9,29 +9,26 @@ class Work < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Searchable
 
-  belongs_to :collection
-  belongs_to :created_by, :class_name=>User
-  has_and_belongs_to_many :sources
-  belongs_to :style
   belongs_to :cluster
-  has_and_belongs_to_many :artists, -> { distinct }
-  has_and_belongs_to_many :object_categories, -> { distinct }
-  has_and_belongs_to_many :techniques, -> { distinct }
-  has_many :attachments, as: :attache
-  belongs_to :medium
-  belongs_to :frame_type
-  belongs_to :condition_work, :class_name=>Condition
-  has_and_belongs_to_many :damage_types
+  belongs_to :collection
   belongs_to :condition_frame, :class_name=>Condition
-  has_and_belongs_to_many :frame_damage_types, -> { distinct }
-  has_and_belongs_to_many :themes, -> { distinct }
-
-
-  has_many :appraisals
-
-  belongs_to :subset
+  belongs_to :condition_work, :class_name=>Condition
+  belongs_to :created_by, :class_name=>User
+  belongs_to :frame_type
+  belongs_to :medium
   belongs_to :placeability
   belongs_to :purchase_price_currency, :class_name=>Currency
+  belongs_to :style
+  belongs_to :subset
+  has_and_belongs_to_many :artists, -> { distinct }
+  has_and_belongs_to_many :damage_types
+  has_and_belongs_to_many :frame_damage_types, -> { distinct }
+  has_and_belongs_to_many :object_categories, -> { distinct }
+  has_and_belongs_to_many :sources
+  has_and_belongs_to_many :techniques, -> { distinct }
+  has_and_belongs_to_many :themes, -> { distinct }
+  has_many :appraisals
+  has_many :attachments, as: :attache
 
   scope :no_photo_front, -> { where(photo_front: nil)}
 
@@ -49,18 +46,20 @@ class Work < ApplicationRecord
   end
 
   accepts_nested_attributes_for :artists
+  accepts_nested_attributes_for :appraisals
 
   settings index: { number_of_shards: 1 } do
     mappings do
-      indexes :title, analyzer: 'dutch', index_options: 'offsets'
+      indexes :abstract_or_figurative, type: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
+      indexes :grade_within_collection, type: 'keyword'
       indexes :location_raw, type: 'keyword' #, index: "not_analyzed"
-      indexes :report_val_sorted_technique_ids, type: 'keyword'
+      indexes :object_format_code, type: 'keyword'
       indexes :report_val_sorted_artist_ids, type: 'keyword'
       indexes :report_val_sorted_object_category_ids, type: 'keyword'
-      indexes :grade_within_collection, type: 'keyword'
-      indexes :abstract_or_figurative, type: 'keyword'
-      indexes :object_format_code, type: 'keyword'
+      indexes :report_val_sorted_technique_ids, type: 'keyword'
+      indexes :title, analyzer: 'dutch', index_options: 'offsets'
+
     end
   end
 
