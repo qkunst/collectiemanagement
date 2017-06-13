@@ -3,6 +3,7 @@ class Appraisal < ApplicationRecord
   belongs_to :user
 
   after_destroy :update_work_appraisal_data!
+  after_save :update_work_appraisal_data!
 
   validates_presence_of :appraised_on
 

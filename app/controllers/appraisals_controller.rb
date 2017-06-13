@@ -28,7 +28,6 @@ class AppraisalsController < ApplicationController
     @appraisal.work = @work
     respond_to do |format|
       if @appraisal.save
-        @work.update_latest_appraisal_data!
         format.html { redirect_to collection_work_path(@collection, @work), notice: 'De waardering is toegevoegd.' }
         format.json { render :show, status: :created, location: @appraisal }
       else
@@ -43,7 +42,6 @@ class AppraisalsController < ApplicationController
   def update
     respond_to do |format|
       if @appraisal.update(appraisal_params)
-        @work.update_latest_appraisal_data!
         format.html { redirect_to collection_work_path(@collection, @work), notice: 'De waardering is bijgewerkt' }
         format.json { render :show, status: :ok, location: @appraisal }
       else

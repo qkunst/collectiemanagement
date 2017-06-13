@@ -355,7 +355,7 @@ class Collection < ApplicationRecord
       },
       replacement_value:  {
         terms: {
-          field: :replacement_value, size: 999
+          field: :replacement_value, size: 9999
         }
       },
       replacement_value_missing: {
