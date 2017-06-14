@@ -223,7 +223,7 @@ class WorksController < ApplicationController
       params[:filter].each do |field, values|
         if field == "reset"
           @reset = true
-        elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw", "main_collection"].include?(field)
+        elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw.keyword", "location_floor_raw.keyword", "location_detail_raw.keyword", "main_collection"].include?(field)
           @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
         else
           @selection_filter[field] = clean_ids(values)

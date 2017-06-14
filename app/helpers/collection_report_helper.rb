@@ -1,13 +1,11 @@
-module CollectionsHelper
+module CollectionReportHelper
   def report
-    # raise @collection.report
     @report ||= @collection.report
-
   end
   def render_report_section(section_parts)
     html = "<table>"
     section_parts.each do |report_section|
-      html += iterate_report_sections(report_section,report[report_section],6)
+      html += iterate_report_sections(report_section,report[report_section],7)
       report.except!(report_section)
     end
     html += "</table>"
@@ -30,12 +28,12 @@ module CollectionsHelper
         @params = @params.merge({"filter[#{group}][]"=>selection})
         link_to(I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection),collection_works_path(@collection, @params))
       end
-    elsif [:location, :location_raw].include? group
+    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword"].include? group
       @params = @params.merge({"filter[#{group}][]"=>(selection == :missing ? :not_set : selection)})
-      link_to((selection == :missing ? "Locatie onbekend" : selection),collection_works_path(@collection, @params))
+      link_to((selection == :missing ? "#{I18n.t group, scope: "activerecord.attributes.work"} onbekend" : selection),collection_works_path(@collection, @params))
     elsif selection == :missing
       @params = @params.merge({"filter[#{group}][]"=>:not_set})
-      link_to("Niets ingevuld",collection_works_path(@collection, @params))
+      link_to("Niets ingevuld #{group}",collection_works_path(@collection, @params))
     else
       selection
     end
@@ -66,7 +64,6 @@ module CollectionsHelper
   def iterate_groups(group, contents,depth)
     html=""
     if depth > 0
-      # raise contents
       if contents
         if [:replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
           contents = contents.collect{|a| a}.sort{|a,b| (b[0][0].to_i)<=>(a[0][0].to_i)}
@@ -78,7 +75,7 @@ module CollectionsHelper
         contents.each do |s|
           sk = s[0]
           sv = s[1]
-          @params={} if depth == 5
+          @params={} if depth == 6
           sk = link(group,sk)
           html += "<tr class=\"content\""
           html +=">"
@@ -90,6 +87,7 @@ module CollectionsHelper
         end
       end
       html += "<tr class=\"group_separator\"><td colspan=\"7\"></td</tr>"
+      @params.delete(@params.keys.last)
     end
     return html
   end

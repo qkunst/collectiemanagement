@@ -192,7 +192,7 @@ class Collection < ApplicationRecord
   end
 
   def elastic_aggragations
-    elastic_report = search_works("",{},{force_elastic: true, return_records: false, limit: 1, aggregations: aggregation_builder})
+    elastic_report = search_works("",{},{force_elastic: true, return_records: false, limit: 1, aggregations: Report::Builder.aggregations})
     return elastic_report.aggregations
   end
 
@@ -218,55 +218,8 @@ class Collection < ApplicationRecord
 
   def report
     return @report if @report
-    @report = {}
-
-    elastic_aggragations.each do |key, set|
-      counts = parse_aggregation(set, key)
-      key = key.gsub(/_missing$/,"")
-      key = key.gsub(/.keyword/,"")
-      @report[key.to_sym] = {} unless @report[key.to_sym]
-      @report[key.to_sym].deep_merge!(counts) if counts
-    end
-
-
-    return @report
-  end
-
-  def parse_aggregation aggregation, aggregation_key
-    counts = {}
-    # raise aggregation
-    if aggregation.is_a? Hash and aggregation[:doc_count] and aggregation_key.to_s.match(/^.*\_missing$/)
-      counts[:missing] = {count: aggregation[:doc_count], subs: {}}
-    elsif aggregation.is_a? Hash and aggregation[:buckets]
-      buckets = aggregation.buckets #.sort{|a,b| a[:key]<=>b[:key]}
-      # raise buckets
-      buckets.each do |bucket|
-        subcounts_in_hash = {}
-        bucket.each do |subkey, subset|
-          sub_counts = parse_aggregation(subset,subkey)
-          subkey = subkey.gsub(/_missing$/,"")
-
-          subcounts_in_hash[subkey.to_sym] = sub_counts if sub_counts
-        end
-        key = parse_bucket_key(aggregation_key,bucket["key"])
-
-        key_model = KEY_MODEL_RELATIONS[aggregation_key]
-        if key_model
-          key = key_model.send(:names, key)
-        end
-        counts[key] = {count: bucket.doc_count, subs: subcounts_in_hash }
-      end
-    end
-    return counts unless ["key","doc_count", "total"].include?(aggregation_key)
-  end
-
-  def parse_bucket_key aggregation_key, bucket_key
-    bucket_key_parsed = bucket_key
-
-    unless ["abstract_or_figurative.keyword", "object_format_code.keyword", "grade_within_collection.keyword", "location_raw.keyword"].include?(aggregation_key)
-      bucket_key_parsed = bucket_key.to_s.split(",").map(&:to_i)
-    end
-    return bucket_key_parsed
+    Report::Parser.key_model_relations= KEY_MODEL_RELATIONS
+    @report = Report::Parser.parse(elastic_aggragations)
   end
 
   # search (to be implemented)
@@ -337,159 +290,7 @@ class Collection < ApplicationRecord
     end
   end
 
-  def aggregation_builder
-    aggregation = {
-      total: {
-        value_count: {
-          field: :id
-        }
-      },
-      market_value: {
-        terms: {
-          field: :market_value, size: 999
-        }
-      },
-      market_value_missing: {
-        missing: {
-          field: :market_value
-        }
-      },
-      replacement_value:  {
-        terms: {
-          field: :replacement_value, size: 9999
-        }
-      },
-      replacement_value_missing: {
-        missing: {
-          field: :replacement_value
-        }
-      },
-      artists: {
-        terms: {
-          field: "report_val_sorted_artist_ids.keyword", size: 999
-        }
-      },
-      artists_missing: {
-        missing: {
-          field: "report_val_sorted_artist_ids.keyword"
-        }
-      },
-      object_categories: {
-        terms: {
-          field: "report_val_sorted_object_category_ids.keyword", size: 999
-        },
-        aggs: {
-          techniques: {
-            terms: {
-              field: "report_val_sorted_technique_ids.keyword", size: 999
-            }
-          },
-          techniques_missing: {
-            missing: {
-              field: "report_val_sorted_technique_ids.keyword"
-            }
-          }
-        }
-      },
-      # geoname_ids: {
-      #   aggs: {
-      #     geoname_ids: {
-      #       terms: {
-      #         field: :geoname_ids
-      #       }
-      #     }
-      #   }
-      # },
-      object_categories_missing: {
-        missing: {
-          field: "report_val_sorted_object_category_ids.keyword"
-        },
-        aggs: {
-          techniques: {
-            terms: {
-              field: "report_val_sorted_technique_ids.keyword", size: 999
-            }
-          },
-          techniques_missing: {
-            missing: {
-              field: "report_val_sorted_technique_ids.keyword"
-            }
-          }
-        }
-      },
-      object_categories_split: {
-        terms: {
-          field: "report_val_sorted_object_category_ids.keyword", size: 999
-        },
-        aggs: {
-          techniques: {
-            terms: {
-              field: "techniques.id", size: 999
-            }
-          },
-          techniques_missing: {
-            missing: {
-              field: "techniques.id"
-            }
-          }
-        }
-      },
-      object_categories_split_missing: {
-        missing: {
-          field: "report_val_sorted_object_category_ids.keywords"
-        },
-        aggs: {
-          techniques: {
-            terms: {
-              field: "techniques.id", size: 999
-            }
-          },
-          techniques_missing: {
-            missing: {
-              field: "techniques.id"
-            }
-          }
-        }
-      }
-    }
 
-    [:subset, :cluster, :style, :frame_type].each do |key|
-      aggregation.merge!(basic_aggregation_snippet(key,"_id"))
-    end
-
-    [:condition_work, :condition_frame, :sources, :placeability, :themes ].each do |key|
-      aggregation.merge!(basic_aggregation_snippet_with_missing(key,".id"))
-    end
-
-    [:damage_types, :frame_damage_types].each do |key|
-      aggregation.merge!(basic_aggregation_snippet(key,".id"))
-    end
-
-    ["abstract_or_figurative.keyword", "grade_within_collection.keyword", "location_raw.keyword", "object_format_code.keyword", :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
-      aggregation.merge!(basic_aggregation_snippet_with_missing(key))
-    end
-    return aggregation
-  end
-
-  def basic_aggregation_snippet key, postfix = "", field = nil
-    {
-      key => {
-        terms: {
-          field:  "#{key}#{postfix}", size: 999
-        }
-      }
-    }
-  end
-
-  def basic_aggregation_snippet_with_missing key, postfix = "", field = nil
-    rv = basic_aggregation_snippet(key, postfix, field)
-    rv["#{key}_missing"] = {
-      missing: {
-        field: "#{key}#{postfix}"
-      }
-    }
-    rv
-  end
 
 
   def can_be_accessed_by_user user

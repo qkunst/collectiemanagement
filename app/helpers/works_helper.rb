@@ -15,7 +15,10 @@ module WorksHelper
 
     options = { render_count: false }.merge(options)
     str = ""
-    hash = hash.sort{|a,b| a[1][:name] <=> b[1][:name]}
+    begin
+      hash = hash.sort{|a,b| a[1][:name] <=> b[1][:name]}
+    rescue ArgumentError
+    end
     hash.each do | former_pair |
       value = former_pair[0]
       data = former_pair[1]
@@ -37,7 +40,11 @@ module WorksHelper
       if value_methods.include?(:name)
         label_str << data[:name]
       else
-        label_str << I18n.t(value, scope: i18n_scope)
+        begin
+          label_str << I18n.t!(value, scope: i18n_scope)
+        rescue I18n::MissingTranslationData
+          label_str << value
+        end
       end
       label_str << " (#{data[:count]})" if options[:render_count]
       label_str

@@ -32,7 +32,7 @@ class CollectionsController < ApplicationController
     @collection = @parent_collection
     @title = "Rapportage voor #{@collection.name}"
     @sections = {
-      "Locaties": [[:location_raw]],
+      "Locaties": [[:"location_raw.keyword"]],
     }
 
     @sections.deep_merge!({"Vervaardigers": [[:artists]],

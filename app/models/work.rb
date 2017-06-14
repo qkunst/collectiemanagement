@@ -336,6 +336,8 @@ class Work < ApplicationRecord
         :report_val_sorted_technique_ids,
         :report_val_sorted_theme_ids,
         :location_raw,
+        :location_floor_raw,
+        :location_detail_raw,
         :object_format_code
       ]
 
