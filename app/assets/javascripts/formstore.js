@@ -432,7 +432,7 @@ var FormStore = {
 
       $(form).find('[type=submit].no-reload').on("click keydown",backgroundFormSubmit);
 
-      if (typeof form.dataset.offline !== 'undefined') {
+      if (form && form.dataset && typeof form.dataset.offline !== 'undefined') {
         form.addEventListener("submit", function(e){
           e.preventDefault();
           if (e.target.checkValidity()) {

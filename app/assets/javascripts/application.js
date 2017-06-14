@@ -25,11 +25,16 @@
 var collectieBeheerInit = function() {
   FormStore.init();
 
-  var stickyElements = document.getElementsByClassName('sub-nav');
-
-  for (var i = stickyElements.length - 1; i >= 0; i--) {
+  // stickyfill
+  setTimeout(function(){
+    var stickyElements = document.getElementsByClassName('sub-nav');
+    for (var i = stickyElements.length - 1; i >= 0; i--) {
       Stickyfill.add(stickyElements[i]);
-  }
+    }
+  },30)
+
+
+
   function formatRepo (result) {
     if (result.loading || !result.name) return result.text;
 
@@ -180,4 +185,13 @@ $(document).ready(function(){
 
 $(document).on("turbolinks:load", function(){
   collectieBeheerInit()
+})
+
+$(document).on("turbolinks:request-start", function() {
+  var stickyElements = document.getElementsByClassName('sub-nav');
+  for (var i = stickyElements.length - 1; i >= 0; i--) {
+    Stickyfill.remove(stickyElements[i]);
+  }
+  Stickyfill.kill();
+
 })

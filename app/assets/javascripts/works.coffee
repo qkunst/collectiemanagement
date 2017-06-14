@@ -34,6 +34,9 @@ $(document).on("submit","form#new_work", ->
 
 $(document).on("ready", ->
   show_or_hide_selected_works()
+  setTimeout(->
+    show_or_hide_selected_works()
+  , 500)
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"));
 )
 $(document).on("turbolinks:load", ->
