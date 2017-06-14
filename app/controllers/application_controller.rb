@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # before_action :authenticate_qkunst_user!, except: [:heartbeat, :home]
   before_action :offline?
   before_action :show_hidden
+  before_action :set_time_zone
 
   def home
 
@@ -137,6 +138,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
+  def set_time_zone
+    Time.zone = 'Amsterdam'
+  end
 
 end
