@@ -19,7 +19,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", collection: c)
         r.to_message!
-        expect(r.last_sent_at).to eq(Time.now.to_date)
+        expect(r.last_sent_at.to_date).to eq(Time.now.to_date)
       end
     end
     describe "#next_dates / #next_date" do
