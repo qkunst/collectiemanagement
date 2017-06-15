@@ -139,6 +139,8 @@ RSpec.describe Reminder, type: :model do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
+        expect(r.current_date).to eq(Time.now.to_date)
+        expect(r.next_date).to eq((Time.now + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)
         expect(Message.count).to eq(message_count_before)
       end

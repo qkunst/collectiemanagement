@@ -12,6 +12,12 @@ RSpec.describe User, type: :model do
         expect(u.roles).to eq([:admin, :qkunst, :read_only])
       end
     end
+    pending "#collection_accessibility_log" do
+      u = User.new
+      u.save
+      u.reload
+      expect(u.collection_accessibility_serialization).to eq({})
+    end
     describe "#role" do
       it "should return read_only by default" do
         u = User.new

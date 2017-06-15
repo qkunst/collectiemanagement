@@ -174,6 +174,20 @@ Rails bied ook ondersteuning voor andere databases, en draait ook op diverse ser
 We testen echter niet actief in andere omgevingen dan de hierboven beschreven omgeving.
 De applicatie wordt echter wel ontwikkeld op een macOS systeem.
 
+## Identity Access Management
+
+QKunst collectiebeheer kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
+
+* Administrator
+* Taxateur
+* Registrator
+* Facility Manager
+* Read only
+* Inactieve gebruiker (read only gebruiker zonder toegang tot enige collectie)
+
+Administratoren hebben toegang tot alle collecties, en zijn ook in staat de rollen
+van gebruikers aan te passen. Alle rolaanpassingen worden gelogd.
+
 ## Backup
 
 ### Herstellen met een databasebackup
