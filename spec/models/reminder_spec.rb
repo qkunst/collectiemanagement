@@ -163,6 +163,8 @@ RSpec.describe Reminder, type: :model do
         expect(r.next_date).to eq((r.created_at+50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)
         expect(Message.count).to eq(message_count_before+1)
+        expect(r.current_date).to eq((r.created_at+50.years).to_date)
+        expect(r.next_date).to eq((Time.now + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)
         expect(Message.count).to eq(message_count_before+1)
       end
