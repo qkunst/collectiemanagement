@@ -168,8 +168,8 @@ RSpec.describe Reminder, type: :model do
         expect(Message.where(reminder: r).count).to eq(1)
         expect(Message.where(reminder: r).first.created_at.to_date).to eq((r.created_at+50.years).to_date)
         p Message.where(reminder: r).first
-        p r.messages.sent_at_date(current_date).to_sql
-        p r.messages.sent_at_date(current_date)
+        p r.messages.sent_at_date(r.current_date).to_sql
+        p r.messages.sent_at_date(r.current_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)
         expect(Message.count).to eq(message_count_before+1)
       end
