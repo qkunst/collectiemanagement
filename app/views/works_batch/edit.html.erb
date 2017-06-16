@@ -13,7 +13,7 @@
     <% multiple_values = true %>
   <% when :cluster_id_nil %>
     <p>De werken zullen uit uit de clusters gehaald worden waarin ze nu zitten</p>
-    <%= f.input :cluster, as: :hidden, value: nil%>
+    <%= f.input :cluster_id, as: :hidden, value: nil%>
   <% when :cluster_id_new %>
     <%= f.input :cluster_name %>
   <% when :cluster, /cluster_id_\d*/ %>
