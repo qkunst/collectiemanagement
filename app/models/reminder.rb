@@ -60,8 +60,12 @@ class Reminder < ApplicationRecord
     message.save if message
   end
 
+  def current_time
+    Time.now
+  end
+
   def current_date
-    Time.now.to_date
+    current_time.to_date
   end
 
   def send_message_if_current_date_is_next_date!
@@ -79,7 +83,7 @@ class Reminder < ApplicationRecord
       messages.new(
         to_user: User.find_by(email: "veronique@qkunst.nl"),
         qkunst_private: true,
-        created_at: current_date,
+        created_at: current_time,
         subject: "Herinnering: #{name}",
         message: text? ? text : "Deze herinnering heeft geen beschrijving.",
         subject_object: collection,

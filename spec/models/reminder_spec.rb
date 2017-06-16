@@ -107,11 +107,12 @@ RSpec.describe Reminder, type: :model do
       it "should return message if collection is given" do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
+        allow(r).to receive(:current_time).and_return (r.created_at)
         expect(r.to_message.to_json).to eq(Message.new(
           subject: "Herinnering: Naam",
           message: "Uitgebreid bericht",
           to_user: User.find_by(email: "veronique@qkunst.nl"),
-          created_at: Time.now.to_date,
+          created_at: r.created_at,
           qkunst_private: true,
           subject_object: c,
           reminder: r,
@@ -158,7 +159,7 @@ RSpec.describe Reminder, type: :model do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
-        allow(r).to receive(:current_date).and_return (r.created_at+50.years).to_date
+        allow(r).to receive(:current_time).and_return (r.created_at+50.years)
         expect(r.current_date).to eq((r.created_at+50.years).to_date)
         expect(r.next_date).to eq((r.created_at+50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)
