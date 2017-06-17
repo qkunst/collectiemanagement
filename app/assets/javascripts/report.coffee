@@ -3,7 +3,7 @@ reportInit = ->
   $('#locaties tr.location_raw, #locaties tr.span-6').show()
 
 $(document).on 'ready', reportInit
-$(document).on 'turbolinks:request-start', reportInit
+$(document).on 'turbolinks:load', reportInit
 
 
 $(document).on 'click', '#locaties tr.span-6 td[colspan], #locaties tr.span-4 td[colspan]', (event_super_row_click)->
