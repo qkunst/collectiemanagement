@@ -50,7 +50,7 @@ module CollectionReportHelper
 
   def iterate_report_sections(section_head, section, depth)
     if section and section.keys.count > 0
-      html = "<tr class=\"section #{section_head}\">"
+      html = "<tr class=\"section #{section_head.to_s.gsub(".keyword","")} span-#{depth}\">"
       html += render_spacers(depth)
       html += "<th colspan=\"#{depth+1}\">#{I18n.t section_head, scope: "activerecord.attributes.work"}</th>"
       html += "</tr>"
@@ -77,7 +77,7 @@ module CollectionReportHelper
           sv = s[1]
           @params={} if depth == 6
           sk = link(group,sk)
-          html += "<tr class=\"content\""
+          html += "<tr class=\"content span-#{depth}\""
           html +=">"
           html += render_spacers(depth)
           html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>"
