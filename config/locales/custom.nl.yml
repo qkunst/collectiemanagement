@@ -217,12 +217,9 @@ nl:
         location: Adres en/of gebouw(deel)
         location_floor: Verdieping
         location_detail: Locatie specificatie
-        location_raw:
-          keyword: Adres en/of gebouw(deel)
-        location_floor_raw:
-          keyword: Verdieping
-        location_detail_raw:
-          keyword: Locatie specificatie
+        location_raw: Adres en/of gebouw(deel)
+        location_floor_raw: Verdieping
+        location_detail_raw: Locatie specificatie
         stock_number: Inventarisnummer
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2

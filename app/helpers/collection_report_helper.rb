@@ -9,6 +9,7 @@ module CollectionReportHelper
       report.except!(report_section)
     end
     html += "</table>"
+    html.gsub!("<table></table>","")
     return html.html_safe
   end
 
@@ -17,6 +18,7 @@ module CollectionReportHelper
       group = group.to_s.gsub(/(.*)\_split$/,'\1')
       id_separator = "."
       id_separator = "_" unless group.to_s.ends_with?("s") or group.to_s.ends_with?("split") #or [:style].include?(group) #([:arti].include?(group)) ? "_" : "."
+      @params = @params.merge({"filter[#{group}][]"=>nil})
       @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
       link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
     elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :object_format_code, :replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
@@ -28,12 +30,14 @@ module CollectionReportHelper
         @params = @params.merge({"filter[#{group}][]"=>selection})
         link_to(I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection),collection_works_path(@collection, @params))
       end
-    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword"].include? group
+    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword", :"object_format_code.keyword"].include? group
       @params = @params.merge({"filter[#{group}][]"=>(selection == :missing ? :not_set : selection)})
-      link_to((selection == :missing ? "#{I18n.t group, scope: "activerecord.attributes.work"} onbekend" : selection),collection_works_path(@collection, @params))
+      link_to((selection == :missing ? "#{I18n.t group.to_s.gsub(".keyword",""), scope: "activerecord.attributes.work"} onbekend" : selection),collection_works_path(@collection, @params))
     elsif selection == :missing
+      @params = @params.merge({"filter[#{group}.id]"=>nil})
+      @params = @params.merge({"filter[#{group}_id]"=>nil})
       @params = @params.merge({"filter[#{group}][]"=>:not_set})
-      link_to("Niets ingevuld #{group}",collection_works_path(@collection, @params))
+      link_to("Niets ingevuld",collection_works_path(@collection, @params))
     else
       selection
     end
@@ -52,7 +56,7 @@ module CollectionReportHelper
     if section and section.keys.count > 0
       html = "<tr class=\"section #{section_head.to_s.gsub(".keyword","")} span-#{depth}\">"
       html += render_spacers(depth)
-      html += "<th colspan=\"#{depth+1}\">#{I18n.t section_head, scope: "activerecord.attributes.work"}</th>"
+      html += "<th colspan=\"#{depth+1}\">#{I18n.t section_head.to_s.gsub(".keyword",""), scope: "activerecord.attributes.work"}</th>"
       html += "</tr>"
       html += iterate_groups(section_head,section,depth-1)
       html
@@ -86,11 +90,10 @@ module CollectionReportHelper
           end
         end
       end
-      html += "<tr class=\"group_separator\"><td colspan=\"7\"></td</tr>"
+      html += "<tr class=\"group_separator\"><td colspan=\"7\"></td></tr>"
       @params.delete(@params.keys.last)
     end
     return html
   end
 
 end
-

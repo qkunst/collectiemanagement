@@ -39,7 +39,7 @@ class CollectionsController < ApplicationController
       "Conditie": [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
       "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
       "Waardering": [[:purchase_year],[:grade_within_collection]],
-      "Object": [[:object_categories_split],[:object_format_code, :frame_type], [:object_creation_year]],
+      "Object": [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]],
       "Ontsluiting": [[:image_rights],[:publish]],
       "Overige": [[:source]],
       }) if current_user.can_access_extended_report?
