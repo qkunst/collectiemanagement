@@ -21,7 +21,7 @@ module CollectionReportHelper
       @params = @params.merge({"filter[#{group}][]"=>nil})
       @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
       link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
-    elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :object_format_code, :replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
+    elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
       selection = selection.first if selection.is_a? Array
       if selection == :missing
         @params = @params.merge({"filter[#{group}][]"=>:not_set})
@@ -30,7 +30,7 @@ module CollectionReportHelper
         @params = @params.merge({"filter[#{group}][]"=>selection})
         link_to(I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection),collection_works_path(@collection, @params))
       end
-    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword", :"object_format_code.keyword"].include? group
+    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword", :"object_format_code.keyword", :"tag_list.keyword"].include? group
       @params = @params.merge({"filter[#{group}][]"=>(selection == :missing ? :not_set : selection)})
       link_to((selection == :missing ? "#{I18n.t group.to_s.gsub(".keyword",""), scope: "activerecord.attributes.work"} onbekend" : selection),collection_works_path(@collection, @params))
     elsif selection == :missing

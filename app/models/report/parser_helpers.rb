@@ -37,7 +37,7 @@ module Report
     def parse_bucket_key aggregation_key, bucket_key
       bucket_key_parsed = bucket_key
 
-      unless ["abstract_or_figurative.keyword", "object_format_code.keyword", "grade_within_collection.keyword", "location_raw.keyword", "location_floor_raw.keyword", "location_detail_raw.keyword"].include?(aggregation_key)
+      unless ["abstract_or_figurative.keyword", "object_format_code.keyword", "grade_within_collection.keyword", "location_raw.keyword", "location_floor_raw.keyword", "location_detail_raw.keyword", "tag_list.keyword"].include?(aggregation_key)
         bucket_key_parsed = bucket_key.to_s.split(",").map(&:to_i)
       end
       return bucket_key_parsed

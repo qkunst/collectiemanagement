@@ -102,7 +102,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet(key,".id"))
         end
 
-        ["abstract_or_figurative.keyword", "grade_within_collection.keyword", "object_format_code.keyword", :market_value, :replacement_value, :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
+        ["abstract_or_figurative.keyword", "grade_within_collection.keyword", "object_format_code.keyword", "tag_list.keyword", :market_value, :replacement_value, :object_creation_year, :purchase_year, :publish, :image_rights].each do |key|
           aggregation.merge!(basic_aggregation_snippet_with_missing(key))
         end
 

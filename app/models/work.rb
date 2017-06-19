@@ -549,6 +549,9 @@ class Work < ApplicationRecord
           elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
             if value.first.is_a? PaperTrail::Version
               "Versie"
+            elsif value.first.is_a? ActsAsTaggableOn::Tagging
+              value.collect{|a| a.tag.name}.join(", ")
+
             else
               value.collect{|a| a.name}.join(", ")
             end

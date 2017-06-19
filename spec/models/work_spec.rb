@@ -231,8 +231,17 @@ RSpec.describe Work, type: :model do
       end
       it "should be work even with complex fieldset" do
         collection = collections(:collection4)
+
         expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
       end
+      it "should work with tags" do
+        collection = collections(:collection_with_works)
+        work = collection.works.first
+        work.tag_list = "kaas"
+        work.save
+        expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
+      end
+
     end
   end
 end

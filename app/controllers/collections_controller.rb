@@ -40,7 +40,7 @@ class CollectionsController < ApplicationController
       "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
       "Waardering": [[:purchase_year],[:grade_within_collection]],
       "Object": [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]],
-      "Ontsluiting": [[:image_rights],[:publish]],
+      "Ontsluiting": [[:image_rights, :publish],[:"tag_list.keyword"]],
       "Overige": [[:source]],
       }) if current_user.can_access_extended_report?
 
