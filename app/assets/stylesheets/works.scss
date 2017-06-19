@@ -90,7 +90,6 @@
 #group_sort_display {
   label {
     float: right;
-    margin-left: 1em;
   }
 }
 .detailed .work.panel, .complete .work.panel {
@@ -184,7 +183,7 @@ body.complete tr.complete_data {
 
   ul.thumbs {
     transition: height 2s;
-    transition-delay: 2s;
+    transition-delay: 0.5s;
     position: absolute;
     top: 0;
     left: 0;
