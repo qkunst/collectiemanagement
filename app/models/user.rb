@@ -61,6 +61,10 @@ class User < ApplicationRecord
     admin? or facility_manager?
   end
 
+  def can_tag?
+    admin? or facility_manager? or appraiser?
+  end
+
   def can_write_messages?
     admin? or facility_manager?
   end

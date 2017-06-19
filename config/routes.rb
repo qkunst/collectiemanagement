@@ -1,10 +1,8 @@
 
 Rails.application.routes.draw do
 
-
-
-
-
+  get 'tags.json' => "application#tags"
+  get 'geoname_summaries.json' => "application#geoname_summaries"
 
   resources :frame_types
   resources :reminders
@@ -75,12 +73,14 @@ Rails.application.routes.draw do
 
     get 'works/batch' => 'works_batch#index'
     get 'works/batch/edit' => 'works_batch#edit'
+    post 'works/batch/edit' => 'works_batch#edit'
     patch 'works/batch' => 'works_batch#update'
     resources :works do
       resources :attachments
       resources :appraisals
       resources :messages
       get 'edit_location' => 'works#edit_location'
+      get 'edit_tags' => 'works#edit_tags'
       get 'edit_photos' => 'works#edit_photos'
     end
 
@@ -104,7 +104,6 @@ Rails.application.routes.draw do
   get "debug-offline" => 'application#debug_offline'
   get "heartbeat" => 'application#heartbeat'
   get "admin" => 'application#admin'
-  get "geoname_summaries" => 'application#geoname_summaries'
   get "sw" => 'application#service_worker'
   # You can have the root of your site routed with "root"
   root 'application#home'

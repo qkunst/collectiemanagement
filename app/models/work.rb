@@ -35,6 +35,8 @@ class Work < ApplicationRecord
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
 
+  acts_as_taggable
+
   normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail
 
   mount_uploader :photo_front, PictureUploader
@@ -47,6 +49,7 @@ class Work < ApplicationRecord
   settings index: { number_of_shards: 5 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'
+      indexes :tag_list, type: 'keyword', tokenizer: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
       indexes :grade_within_collection, type: 'keyword'
       indexes :location_raw, type: 'keyword'
@@ -56,7 +59,7 @@ class Work < ApplicationRecord
       indexes :report_val_sorted_artist_ids, type: 'keyword'
       indexes :report_val_sorted_object_category_ids, type: 'keyword'
       indexes :report_val_sorted_technique_ids, type: 'keyword'
-      indexes :title, analyzer: 'dutch', index_options: 'offsets'
+      indexes :title, analyzer: 'dutch'
     end
   end
 
@@ -328,6 +331,7 @@ class Work < ApplicationRecord
         cluster: { only: [:id, :name]},
       },
       methods: [
+        :tag_list,
         :geoname_ids,
         :title_rendered,
         :artist_name_rendered,
@@ -536,27 +540,24 @@ class Work < ApplicationRecord
       self.all.each do |work|
         values = fields.collect do |field|
           value = work.send(field)
-          if value.class == PictureUploader
-            value = value.file ? value.file.filename : nil
-          end
-          if [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
-            value = value.name
-          end
-          if value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
-            value = work.artist_name_rendered
-          end
-          if value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
+          cleaned_value = if value.class == PictureUploader
+            value.file ? value.file.filename : nil
+          elsif [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
+            value.name
+          elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
+            work.artist_name_rendered
+          elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
             if value.first.is_a? PaperTrail::Version
-              value = "Versie"
+              "Versie"
             else
-              value = value.collect{|a| a.name}.join(", ")
+              value.collect{|a| a.name}.join(", ")
             end
+          elsif value.is_a? Hash
+            value.to_s
+          elsif value.is_a? Array
+            value.join(",")
           end
-          if value.is_a? Hash
-            value = value.to_s
-          end
-
-          value
+          cleaned_value
         end
         w.sheet.table << values
       end

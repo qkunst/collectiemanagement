@@ -27,7 +27,10 @@
               console.warn("No #main-section found in the url ("+urlToOpen+")")
             }
             contextContainer.html( body.html() );
+
             contextContainer.data('url', urlToOpen);
+            collectieBeheerInit();
+
           }, closeFunction
         );
         return false;

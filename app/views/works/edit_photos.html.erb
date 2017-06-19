@@ -7,11 +7,10 @@
   <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_1.thumb) %></div><%= f.input :photo_detail_1  %></div>
   <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_2.thumb) %></div><%= f.input :photo_detail_2  %></div>
   <div class="row columns">
-
   <% if @work.id %>
   <label style="float: left; clear: both; width: 100%"><%= check_box_tag 'submit_and_edit_photos_in_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
   <% end %>
   </div>
-<%= f.submit class: :submit, class: :button%>
+  <%= f.submit class: :button%>
 <% end%>
 </div>

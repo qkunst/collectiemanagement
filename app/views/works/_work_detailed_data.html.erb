@@ -44,6 +44,7 @@
 
   <%= definition_list_for work, {render_as: :table} do %>
 
+    <%= define_unless_blank :tag_list %>
     <%= define_unless_blank :condition_work_rendered %>
     <%= define_unless_blank :condition_frame_rendered %>
     <%= define_unless_blank :placeability, {classname: :complete_data} if @selection[:display] == :complete %>

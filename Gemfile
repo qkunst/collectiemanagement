@@ -6,9 +6,9 @@ gem 'rails' #, '>= 5.0.0.rc1', '< 5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
-gem 'webrick'
+# gem 'webrick'
 gem 'markdown-rails'
-# gem 'puma', '~> 3.0'
+gem 'puma' #, '~> 3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -89,6 +89,7 @@ gem 'foundation-rails'
 ## OTHER FREQUENTLY USED
 ##
 
+gem 'acts-as-taggable-on'
 gem 'act_as_time_as_boolean'
 gem 'workbook'#, git: 'https://github.com/murb/workbook.git'
 gem "nested_form"

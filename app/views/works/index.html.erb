@@ -27,15 +27,15 @@
 
     </div>
     <div class="large-7 columns">
-      <div class="right hide-for-print" id="group_sort_display">
+      <div class="right hide-for-print row" id="group_sort_display">
         <% unless current_user.read_only? %>
-          <label>Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
+          <label class="small-4 columns">Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
         <% end %>
-        <label>Sorteer: <%= select_tag :sort, options_for_select({
+        <label class="small-4 columns">Sorteer: <%= select_tag :sort, options_for_select({
           "Inventarisnummer"=>:stock_number,
           "Kunstenaar"=>:artist_name
         }, @selection[:sort]), data: {auto_submit: true}  %></label>
-        <label>Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
+        <label class="small-4 columns">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
       </div>
     </div>
     <div class="columns"></div>
@@ -69,7 +69,15 @@
 
       <% if current_user.can_filter_and_group?(:locality_geonames_id) %>
         <h5>Lokaliteit</h5>
-        <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), multiple: true, class: 'select2'%>
+        <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
+      <% end %>
+      <% if current_user.can_filter_and_group?(:locality_geonames_id) %>
+        <h5>Tags</h5>
+        <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list][]">
+          <% (@selection_filter["tag_list"] || []).each do |tag|%>
+            <option selected="selected" value="<%=tag%>"><%=tag%></option>
+          <% end %>
+        </select>
       <% end %>
 
       <hr/>
@@ -78,7 +86,7 @@
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
     </aside>
     <% end #formtag /works?q... %>
-    <%= form_tag collection_works_batch_edit_path, method: :get, authenticity_token: false do %>
+    <%= form_tag collection_works_batch_edit_path, method: :post do %>
     <div class="large-10 medium-10 columns print-12" id="works-list">
       <%= kramdown( @collection.description) %>
 

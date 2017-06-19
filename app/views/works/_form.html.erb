@@ -94,7 +94,7 @@
       <%= f.association(:themes, input_html: {class: 'chosen-select', :multiple => true }, as: :grouped_select, collection: @collection.self_and_parent_collections_flattened.all_plus_a_fake_super_collection, group_method: :not_hidden_themes)  %>
       <%= f.association(:subset, input_html: {class: 'chosen-select'}, collection: Subset.not_hidden)  %>
       <%= f.label :locality_geoname_id, "Lokaliteit" %>
-      <%= f.select :locality_geoname_id, { @work.locality_geoname_name => @work.locality_geoname_id}, {}, class: 'select2 ajax'  %>
+      <%= f.select :locality_geoname_id, { @work.locality_geoname_name => @work.locality_geoname_id}, {}, class: 'select2 geoname-select'  %>
     </fieldset>
     <fieldset>
       <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>

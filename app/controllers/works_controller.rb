@@ -1,8 +1,8 @@
 class WorksController < ApplicationController
   before_action :authenticate_admin_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
-  before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update]
-  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos]
+  before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags]
   before_action :set_collection # set_collection includes authentication
 
   # NOTE: every now and then an error is raised, and the app will try to repost the same request, which results in an error. It is accepted that an external party could create additional, unwanted records (though highly unlikely due to the obscureness of this app (and they would still need login credentials))
@@ -147,6 +147,10 @@ class WorksController < ApplicationController
 
   end
 
+  def edit_tags
+
+  end
+
   # GET /works/new
   def new
     @work = Work.new
@@ -186,6 +190,8 @@ class WorksController < ApplicationController
           format.html { redirect_to edit_collection_work_path(@collection, @work.next), notice: 'Het werk is bijgewerkt, nu de volgende.' }
         elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]
           format.html { redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.' }
+        elsif ["1", 1, true].include? params["submit_and_edit_tags_in_next"]
+          format.html { redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_tags_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.' }
         else
           format.html { redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.' }
         end
@@ -306,7 +312,7 @@ class WorksController < ApplicationController
       :information_back, :other_comments, :source_comments, :style_id, :subset_id,  :public_description,
       :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
       :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id,
-      :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[],
+      :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], tag_list: [],
       theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
         :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
         ]

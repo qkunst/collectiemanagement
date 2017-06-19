@@ -261,8 +261,8 @@ class Collection < ApplicationRecord
 
     filter.each do |key, values|
       new_bool = {bool: {should: []}}
-      if key == "locality_geoname_id"
-        new_bool = {terms: {geoname_ids: values}}
+      if key == "locality_geoname_id" or key == "tag_list" or key == "tag_list.keyword"
+        new_bool = {terms: {key=> values}}
       else
         values.each do |value|
           if value != nil

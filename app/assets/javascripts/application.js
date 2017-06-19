@@ -60,7 +60,7 @@ var collectieBeheerInit = function() {
   });
 
 
-  $(".select2.ajax").select2({
+  $(".select2.geoname-select").select2({
     placeholder: "Type een lokaliteit...",
     language: {
       // You can find all of the options in the language files provided in the
@@ -111,6 +111,25 @@ var collectieBeheerInit = function() {
     minimumInputLength: 1,
     templateResult: formatRepo,
     templateSelection: formatRepo
+  });
+
+  $(".select2.tags").select2({
+    placeholder: "Voer tags in...",
+    language: {
+      // You can find all of the options in the language files provided in the
+      // build. They all must be functions that return the string that should be
+      // displayed.
+      inputTooShort: function() {return "Begin met zoeken door te typen..." },
+      searching: function() { return "Bezig met zoeken..."}
+    },
+    allowClear: true,
+    ajax: {
+      url: "/tags.json",
+      dataType: 'json',
+      delay: 250,
+      cache: true
+    },
+    minimumInputLength: 1,
   });
 
   $(".chosen-select").chosen({

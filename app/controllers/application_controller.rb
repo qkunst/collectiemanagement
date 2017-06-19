@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, except: [:service_worker]
-  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries]
+  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries, :tags]
   # before_action :authenticate_qkunst_user!, except: [:heartbeat, :home]
   before_action :offline?
   before_action :show_hidden
@@ -18,6 +18,16 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = (Time.now+1.week).rfc822
 
     render json: GeonameSummary.selectable.to_array.to_json
+  end
+
+  def tags
+    response.headers["Cache-Control"] = "public"
+    response.headers["Pragma"] = "cache"
+
+    return_tags = ActsAsTaggableOn::Tag.all.where(ActsAsTaggableOn::Tag.arel_table[:name].matches("#{params[:q]}%")).collect{|a| {id: a.name, text: a.name}}
+    return_tags += [{id: params[:q], text: "Nieuwe tag: #{params[:q]}"}]
+
+    render json: {results: return_tags}
   end
 
   def offline?

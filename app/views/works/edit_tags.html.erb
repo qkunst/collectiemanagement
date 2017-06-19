@@ -1,0 +1,19 @@
+<div id="main">
+<h1>Beheer tags</h1>
+<p>Beheer tags voor <%= @work.stock_number%> <%= @work.name%></p>
+<%= image_tag(@work.photo_front.screen, style: "margin-bottom: 1em; ") %>
+<%= simple_form_for([@collection,@work]) do |f| %>
+<div  style="margin-bottom: 8em">
+  <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]">
+    <% @work.tags.each do |tag|%>
+      <option selected="selected" value="<%=tag.name%>"><%=tag.name%></option>
+    <% end %>
+  </select>
+</div>
+  <% if @work.id %>
+  <label style="float: left; clear: both; width: 100%"><%= check_box_tag 'submit_and_edit_tags_in_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
+  <% end %>
+<%= f.submit class: :button%>
+<% end%>
+
+</div>
