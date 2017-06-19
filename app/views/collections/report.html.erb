@@ -2,29 +2,33 @@
 <p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.
   <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :secondary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if admin_user?%>
 </p>
-<div class="tabs">
-<% if @sections.keys.count > 1 %>
-<nav class="tab-head">
-<ul>
-  <% @sections.each do |head, contents| %>
-    <li><a href="#<%=head.to_s.parameterize%>"><%= head %></a></li>
-  <% end %>
-</ul>
-</nav>
-<% end %>
-  <% @sections.each do |head, contents| %>
-    <section id="<%=head.to_s.parameterize%>">
-      <% if @sections.keys.count > 1 %>
-
-      <h3><%=head%></h3>
+<% begin %>
+  <div class="tabs">
+    <% if @sections.keys.count > 1 %>
+    <nav class="tab-head">
+    <ul>
+      <% @sections.each do |head, contents| %>
+        <li><a href="#<%=head.to_s.parameterize%>"><%= head %></a></li>
       <% end %>
-      <div class="row">
-        <% contents.each do |column| %>
-          <div class="large-<%=(12.0/contents.length).to_i%> column float-left">
-            <%= render_report_section(column)%>
-          </div>
+    </ul>
+    </nav>
+    <% end %>
+    <% @sections.each do |head, contents| %>
+      <section id="<%=head.to_s.parameterize%>">
+        <% if @sections.keys.count > 1 %>
+
+        <h3><%=head%></h3>
         <% end %>
-      </div>
-    </section>
-  <% end %>
-</div>
+        <div class="row">
+          <% contents.each do |column| %>
+            <div class="large-<%=(12.0/contents.length).to_i%> column float-left">
+              <%= render_report_section(column)%>
+            </div>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+<% rescue Elasticsearch::Transport::Transport::Errors::NotFound %>
+<p>De rapportage kon niet gedraaid worden</p>
+<% end %>
