@@ -63,6 +63,17 @@ RSpec.describe User, type: :model do
         u.reload
         expect(u.collection_accessibility_serialization).to eq({c.id => c.name})
       end
+      it "should be retrievable from an earlier version" do
+        u = users(:user3)
+        expect(u.collection_accessibility_serialization).to eq({})
+        c1 = collections(:collection1)
+        u.update(collections: [c1])
+        u.reload
+        c2 = collections(:collection2)
+        u.update(collections: [c2])
+        u.reload
+        expect(u.versions.last.reify.collection_accessibility_serialization).to eq({c1.id => c1.name})
+      end
     end
     describe "#role" do
       it "should return read_only by default" do
