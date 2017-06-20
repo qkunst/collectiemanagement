@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
-    describe "frame_type" do
+    describe "#frame_type" do
       it "should be able to set a FrameType" do
         w = works(:work1)
         w.frame_type = FrameType.create(name: "test")
@@ -47,7 +47,7 @@ RSpec.describe Work, type: :model do
         expect(w.height).to eq 12012.1
       end
     end
-    describe ".purchased_on=" do
+    describe "#purchased_on=" do
       it "should accept a date" do
         w = works(:work1)
         date =  Date.new(1978, 12, 22)
@@ -101,7 +101,7 @@ RSpec.describe Work, type: :model do
         expect(w.purchase_year).to eq(2012)
       end
     end
-    describe ".damage_types" do
+    describe "#damage_types" do
       it "should be an empty by default" do
         w = works(:work1)
         expect(w.damage_types).to eq([])
@@ -150,7 +150,7 @@ RSpec.describe Work, type: :model do
         expect(w.cluster_name).to eq("cluster new")
       end
     end
-    describe ".purchased_on_with_fallback" do
+    describe "#purchased_on_with_fallback" do
       it "should return nil when not set" do
         w = works(:work1)
         expect(w.purchased_on_with_fallback).to eq(nil)
@@ -167,6 +167,26 @@ RSpec.describe Work, type: :model do
         expect(w.purchased_on_with_fallback).to eq(1978)
       end
     end
+    describe "#next" do
+      it "should redirect to the next work" do
+        w = works(:work1)
+        expect(w.next).to eq(works(:work5))
+        expect(w.next.next).to eq(works(:work2))
+      end
+      it "should return first if no next" do
+        expect(works(:work2).next).to eq(works(:work1))
+      end
+    end
+    describe "#previous" do
+      it "should redirect to the previous work" do
+        w = works(:work2)
+        expect(w.previous).to eq(works(:work5))
+        expect(w.previous.previous).to eq(works(:work1))
+      end
+      it "should return last if no previous" do
+        expect(works(:work1).previous).to eq(works(:work2))
+      end
+    end
   end
   describe  "class methods" do
     describe ".aggregations" do
@@ -177,7 +197,7 @@ RSpec.describe Work, type: :model do
         expect(aggregations.count).to eq 4
         expect(aggregations[:title][:work1][:count]).to eq 1
         expect(aggregations[:themes][themes(:wind)][:count]).to eq 2
-        expect(aggregations[:grade_within_collection][:a][:count]).to eq 2
+        expect(aggregations[:grade_within_collection][:a][:count]).to eq 3
 
       end
     end

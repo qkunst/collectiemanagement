@@ -1,5 +1,6 @@
 work1:
   title: Work1
+  stock_number: Q001
   grade_within_collection: A
   themes:
     - :earth
@@ -11,6 +12,7 @@ work1:
     - :artist1
 work2:
   title: Work2
+  stock_number: Q005
   grade_within_collection: A (of B)
   themes:
     - :wind
@@ -23,9 +25,21 @@ work2:
     - :artist_no_name
 work3:
   title: Work3
+  stock_number: Q002
   artists:
     - :artist3
 work4:
   title: Work4
+  stock_number: Q004
   artists:
     - :artist4
+work5:
+  title: Work5
+  stock_number: Q002
+  grade_within_collection: A (of B)
+  subset: :modern
+  collection: :collection_with_works
+  cluster: :cluster2
+  artists:
+    - :artist2
+    - :artist_no_name

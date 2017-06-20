@@ -5,6 +5,27 @@
 
 @import 'variables';
 
+.stocknumber {
+  background: $qkunst-grey;
+  color: #fff;
+  font-size: 1.2em;
+  line-height: 1.2;
+  margin-top: 3px;
+  padding: 3px 5px;
+  border-radius: 2px;
+  width: auto;
+}
+#stocknumber-nav {
+  a {
+    color: $qkunst-grey;
+    text-decoration: none;
+    padding: 2px 2px 2px 3px;
+    transition: color 0.2s;
+    &:hover {
+      color: lighten($qkunst-grey, 20);
+    }
+  }
+}
 
 .work.panel {
   position: relative;

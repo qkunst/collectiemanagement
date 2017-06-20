@@ -295,10 +295,20 @@ class Work < ApplicationRecord
   def hpd_contact
   end
 
+  def all_work_ids_in_collection
+    order = [:stock_number, :id]
+    @all_works ||= collection.works.select(:id).order(order).collect{|a| a.id}
+  end
+  def work_index_in_collection
+    work_index_in_collection ||= all_work_ids_in_collection.index(self.id)
+  end
   def next
-    all_works = collection.works.select(:id).order([:stock_number,:id]).collect{|a| a.id}
-    next_work_id = all_works[all_works.index(self.id)+1]
-    next_work_id ? Work.find(next_work_id) : Work.find(all_works[0])
+    next_work_id = all_work_ids_in_collection[work_index_in_collection+1]
+    next_work_id ? Work.find(next_work_id) : Work.find(all_work_ids_in_collection.first)
+  end
+  def previous
+    prev_work_id = all_work_ids_in_collection[work_index_in_collection-1]
+    prev_work_id ? Work.find(prev_work_id) : Work.find(all_work_ids_in_collection.last)
   end
 
   def set_empty_values_to_nil
