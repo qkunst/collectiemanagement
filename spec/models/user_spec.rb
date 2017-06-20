@@ -30,11 +30,39 @@ RSpec.describe User, type: :model do
         end
       end
     end
-    pending "#collection_accessibility_log" do
-      u = User.new
-      u.save
-      u.reload
-      expect(u.collection_accessibility_serialization).to eq({})
+    describe "#collection_accessibility_log" do
+      it "should be empty when new" do
+        u = User.new({ email: 'test@example.com', password: "tops3crt!", password_confirmation: "tops3crt!" })
+        expect(u.collection_accessibility_serialization).to eq({})
+        u.save
+        u.reload
+        expect(u.collection_accessibility_serialization).to eq({})
+      end
+      it "should log accessible projects with name and id on save" do
+        u = users(:user3)
+        expect(u.collection_accessibility_serialization).to eq({})
+        c = collections(:collection1)
+        u.collections << c
+        u.save
+        u.reload
+        expect(u.collection_accessibility_serialization).to eq({c.id => c.name})
+      end
+      it "should log accessible projects with name and id on update" do
+        u = users(:user3)
+        expect(u.collection_accessibility_serialization).to eq({})
+        c = collections(:collection1)
+        u.update(collections: [c])
+        u.reload
+        expect(u.collection_accessibility_serialization).to eq({c.id => c.name})
+      end
+      it "should log accessible projects with name and id on update with ids" do
+        u = users(:user3)
+        expect(u.collection_accessibility_serialization).to eq({})
+        c = collections(:collection1)
+        u.update(collection_ids: [c.id])
+        u.reload
+        expect(u.collection_accessibility_serialization).to eq({c.id => c.name})
+      end
     end
     describe "#role" do
       it "should return read_only by default" do

@@ -8,7 +8,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
+  store :collection_accessibility_serialization
   store :filter_params
+
   has_and_belongs_to_many :collections
 
   scope :admin, ->{ where(admin: true) }
@@ -17,6 +19,8 @@ class User < ApplicationRecord
   scope :other, ->{ where(qkunst: [false,nil]).where(admin: [false, nil]).where(appraiser: [false, nil]) }
   scope :has_collections, ->{ joins(:collections).uniq }
   scope :receive_mails, ->{ where(receive_mails: true)}
+
+  before_save :serialize_collection_accessibility!
 
   def qkunst?
     read_attribute(:qkunst) or admin? or appraiser?
@@ -156,6 +160,13 @@ class User < ApplicationRecord
     }
     self.filter_params = {}.merge(group_sorting_and_display)
     self.save
+  end
+
+  private
+
+  def serialize_collection_accessibility!
+    to_store = self.collections.inject({}){|h, c| h[c.id]=c.name; h }
+    self.collection_accessibility_serialization = to_store
   end
 
   class << self
