@@ -26,3 +26,4 @@
 bin/backup
 erd.pdf
 .~*
+/coverage

@@ -110,3 +110,8 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-Stickyfill'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'simplecov', :require => false
+end
+
