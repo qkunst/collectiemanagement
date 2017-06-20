@@ -10,6 +10,11 @@ RSpec.describe Collection, type: :model do
         expect(collection.parent_collections_flattened[2]).to eq(nil)
       end
     end
+    describe "#child_collections_flattened" do
+      it "should return all childs" do
+        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works)].map(&:id).sort)
+      end
+    end
     describe "#fields_to_expose" do
       it "should return almost all fields when fields_to_expose(:default)" do
         collection = collections(:collection4)
@@ -20,6 +25,28 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Class methods" do
+    describe ".expand_with_child_collections" do
+      it "returns child collections" do
+        set = Collection.where(name: "Collection 1").expand_with_child_collections
+        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+      end
+      it "returns child collections until depth 1" do
+        set = Collection.where(name: "Collection 1").expand_with_child_collections(2)
+        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection_with_works)].map(&:id).sort)
+      end
+      it "works with larger start-set that includes child" do
+        set = Collection.where(name: ["Collection 1", "Collection 2"]).expand_with_child_collections
+        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+      end
+      it "works with larger start-set that does not  include child" do
+        set = Collection.where(name: ["Collection 1", "Collection 3"]).expand_with_child_collections
+        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection3),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+      end
+    end
   end
   describe "Scopes" do
   end

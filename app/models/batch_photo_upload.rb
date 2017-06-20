@@ -43,6 +43,16 @@ class BatchPhotoUpload < ApplicationRecord
     "#{images[0..9].collect(&:filename).to_sentence}#{images.count>10 ? '...': ''}"
   end
 
+  def image_directory
+    path = images.first.path
+    directory = @batch_photo_upload.images.first.path.gsub(@batch_photo_upload.images.first.filename,'')
+    directory = Dir.new(directory)
+  end
+
+  def unmatched_files
+    image_directory.collect{|a| a unless a.starts_with?("big_thumb_") or a == "." or a == ".."}.compact
+  end
+
   def column_values
     return @column_values if @column_values
     self.column ||= :stock_number

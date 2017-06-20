@@ -75,7 +75,12 @@ class ApplicationController < ActionController::Base
   def set_collection
     authenticate_activated_user!
     if params[:collection_id]
-      @collection = Collection.find(params[:collection_id])
+      # @collection = Collection.find(params[:collection_id])
+      begin
+        @collection = current_user.accessible_collections.find(params[:collection_id])
+      rescue
+        redirect_to root_path, {alert: "U heeft geen toegang tot deze collectie"}
+      end
     elsif @work
       @collection = @work.collection
     end
@@ -90,7 +95,11 @@ class ApplicationController < ActionController::Base
   def set_work
     authenticate_activated_user!
     if params[:work_id]
-      @work = Work.find(params[:work_id])
+      begin
+        @work = current_user.accessible_works.find(params[:work_id])
+      rescue
+        redirect_to root_path, alert: "U heeft geen toegang tot dit werk." unless @work.collection == @collection
+      end
     end
   end
 

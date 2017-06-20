@@ -1,14 +1,19 @@
 class Api::V1::WorksController < Api::V1::ApiController
   def index
-    @collection = Collection.find(params[:collection_id])
-    return not_authorized unless (@user.admin? or @collection.users.include?(@user))
-
+    begin
+      @collection = @user.accessible_collections.find(params[:collection_id])
+    rescue
+      return not_authorized
+    end
     @works = @collection.works
   end
 
   def show
-    @collection = Collection.find(params[:collection_id])
-    @work = Work.find(params[:id])
-
+    begin
+      @collection = @user.accessible_collections.find(params[:collection_id])
+    rescue
+      return not_authorized
+    end
+    @work = @collection.works.find(params[:id])
   end
 end

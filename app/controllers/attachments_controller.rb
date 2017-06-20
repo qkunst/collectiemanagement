@@ -65,12 +65,12 @@ class AttachmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_attachment
-      @attachment = Attachment.find(params[:id])
+      @attachment = @work.attachments.find(params[:id])
     end
 
     def set_work
       if params[:work_id]
-        @work = Work.find(params[:work_id])
+        @work = current_user.accessible_works.find(params[:work_id])
       end
     end
 

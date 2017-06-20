@@ -453,6 +453,8 @@ class Work < ApplicationRecord
       rv = {}
       attributes.each do |attribute|
         rv[attribute] ||= {}
+        attribute_id = "#{attribute}_id"
+        attribute_dot_id = "#{attribute}.id"
         if column_names.include? attribute.to_s
           self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
             value = (a ? a : :not_set)
@@ -464,8 +466,10 @@ class Work < ApplicationRecord
             end
             rv[attribute][value] ||= {count: 999999, name: value }
           end
-        elsif column_names.include? "#{attribute}_id"
-          ids = self.group("#{attribute}_id").select("#{attribute}_id").collect{|a| a.send("#{attribute}_id")}
+        elsif column_names.include? attribute_id
+          # Can ignore the brakeman warning on SQL injection
+          # the attribute will have to be a valid column
+          ids = self.group(attribute_id).select(attribute_id).collect{|a| a.send(attribute_id)}
           if ids.compact.length < ids.length
             rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
           end
@@ -482,8 +486,10 @@ class Work < ApplicationRecord
           GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
             rv[attribute][geoname] = {count: 10000, name: geoname.name}
           end
-        else
-          ids = self.left_outer_joins(attribute).select("#{attribute}.id AS id").distinct.collect(&:id)
+        else Work.new.methods.include? attribute.to_sym
+          # Can ignore the brakeman warning on SQL injection
+          # the attribute will have to be a valid instance method
+          ids = self.left_outer_joins(attribute).select("#{attribute_dot_id} AS id").distinct.collect(&:id)
           if ids.compact.length < ids.length
             rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
           end

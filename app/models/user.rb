@@ -34,6 +34,17 @@ class User < ApplicationRecord
     rv
   end
 
+  def accessible_collections
+    return Collection.all if admin?
+    collections.expand_with_child_collections
+  end
+
+  def accessible_works
+    return Work.all if admin?
+    Work.where(collection_id: accessible_collections)
+  end
+
+
   def role= new_role
     User::ROLES.each do |r|
       self.send("#{r}=", r.to_s == new_role.to_s) if self.methods.include?(r)

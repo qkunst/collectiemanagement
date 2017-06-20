@@ -115,3 +115,7 @@ group :test do
   gem 'simplecov', :require => false
 end
 
+group :development do
+  gem 'rubocop'
+  gem "brakeman", :require => false
+end

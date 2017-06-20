@@ -13,19 +13,20 @@ class FakeSuperCollection
 end
 
 class Collection < ApplicationRecord
-  has_many :works
-  has_many :clusters
-  has_many :import_collections
-  has_many :themes
-  has_many :artists, through: :works
-  has_many :batch_photo_uploads
   belongs_to :parent_collection, class_name: 'Collection'
-  has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
-  has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_and_belongs_to_many :users
+  has_many :artists, through: :works
   has_many :attachments, as: :attache
+  has_many :batch_photo_uploads
+  has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
+  has_many :clusters
+  has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_many :collections_geoname_summaries
   has_many :geoname_summaries, through: :collections_geoname_summaries
+  has_many :import_collections
+  has_many :themes
+  has_many :works
+
 
   default_scope ->{order(:name)}
 
@@ -135,7 +136,7 @@ class Collection < ApplicationRecord
   end
 
   def id_plus_child_ids
-    child_collections_flattened.collect{|a| a.id} + [self.id]
+    child_collections_flattened.map(&:id) + [self.id]
   end
 
   def id_plus_parent_ids
@@ -151,7 +152,7 @@ class Collection < ApplicationRecord
   end
 
   def child_collections_flattened
-    a = child_collections
+    a = Collection.find(self.id).child_collections
     a += child_collections.collect{|a| a.child_collections_flattened}
     a.flatten
   end
@@ -315,6 +316,19 @@ class Collection < ApplicationRecord
     end
     def last_updated
       order(:updated_at).last
+    end
+    def expand_with_child_collections(depth=5)
+      join_sql = "LEFT OUTER JOIN collections c1_cs ON collections.id = c1_cs.parent_collection_id "
+      select_sql = "collections.id AS _child_level0, c1_cs.id AS _child_level1"
+      raise "depth can't be < 1" if depth < 1
+      depth -= 1 # we already have depth = 1
+      depth.times do |dept|
+        join_sql += "LEFT OUTER JOIN collections c#{(2+dept).to_i}_cs ON c#{(1+dept).to_i}_cs.id = c#{(2+dept).to_i}_cs.parent_collection_id "
+        select_sql += ", c#{(2+dept).to_i}_cs.id AS _child_level#{(2+dept).to_i}"
+      end
+      ids = []
+      self.joins(join_sql).select(select_sql).each{|r| (depth+1).times{|a| ids << r.send("_child_level#{a}".to_sym)} }
+      ::Collection.unscoped.where(id: ids.compact.uniq)
     end
     def possible_exposable_fields
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
