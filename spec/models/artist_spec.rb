@@ -20,7 +20,28 @@ RSpec.describe Artist, type: :model do
       expect(a.works.count).to eq(3)
     end
   end
-
+  describe "#import" do
+    it "should import from another artist" do
+      b = Artist.create(first_name: "B", last_name: "A")
+      b_newer = Artist.new(first_name: "Bernard", last_name: "A", year_of_birth: 1973)
+      b.import!(b_newer)
+      b.reload
+      expect(b.first_name).to eq("Bernard")
+      expect(b.last_name).to eq("A")
+      expect(b.year_of_birth).to eq(1973)
+    end
+    it "should not overwrite name when prefix is present" do
+      # rationale: when prefix is given, the name has probably gotten some attention already
+      b = Artist.create(first_name: "B", prefix: "van", last_name: "A")
+      b_newer = Artist.new(first_name: "Bernard", last_name: "A", year_of_birth: 1973)
+      b.import!(b_newer)
+      b.reload
+      expect(b.first_name).to eq("B")
+      expect(b.prefix).to eq("van")
+      expect(b.last_name).to eq("A")
+      expect(b.year_of_birth).to eq(1973)
+    end
+  end
   describe "#to_parameters" do
     it "should return basic params" do
       b = Artist.new(first_name: "B", last_name: "A")

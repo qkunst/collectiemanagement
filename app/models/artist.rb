@@ -136,7 +136,15 @@ class Artist < ApplicationRecord
 
   def import!(other)
     other.to_parameters.each do |k,v|
-      self.send("#{k}=".to_sym, v) unless (v.nil? or v.to_s.empty? or (!(k == "firstname" or k == "lastname") and self.prefix?))
+      name_fields = false
+      skip_name_fields = self.prefix?
+      empty_value = (v.nil? or v.to_s.empty?)
+      name_fields = (k == "first_name" or k == "last_name")
+
+      # p "k: #{k} #{k.class}, v: #{v}, name_fields: #{name_fields} skip_name_fields: #{skip_name_fields} empty_value: #{empty_value}" if !empty_value
+      if !empty_value and !(name_fields and skip_name_fields)
+        self.send("#{k}=".to_sym, v)
+      end
     end
     educational_involvements = []
     professional_involvements = []
