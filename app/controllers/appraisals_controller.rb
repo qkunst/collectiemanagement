@@ -66,7 +66,7 @@ class AppraisalsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_appraisal
       begin
-        @work.appraisals.find(params[:id])
+        @appraisal = @work.appraisals.find(params[:id])
       rescue
         redirect_to root_path, alert: "U heeft ook geen toegang tot deze waardering via dit werk!" unless @appraisal.work == @work
       end
