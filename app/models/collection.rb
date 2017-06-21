@@ -252,7 +252,6 @@ class Collection < ApplicationRecord
         query_string: {
           default_field: :_all,
           query: search,
-          analyzer: :dutch,
           default_operator: :and,
           fuzziness: 2
         }
