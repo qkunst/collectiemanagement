@@ -263,6 +263,8 @@ Toegang tot de applicatie is slechts mogelijk via een HTTPS verbinding (min. TLS
 
 Zie voor meer details (en up to date): [Qualys SSL Report: collectiebeheer.qkunst.nl](https://www.ssllabs.com/ssltest/analyze.html?d=collectiebeheer.qkunst.nl).
 
+Certificaat wordt een maand voor verlopen vernieuwd.
+
 #### Hashing wachtwoorden
 
 Wachtwoorden worden 10x gehashed met [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
@@ -270,6 +272,7 @@ Wachtwoorden worden 10x gehashed met [bcrypt](https://en.wikipedia.org/wiki/Bcry
 #### API
 
 De API loopt over dezelfde HTTPS verbinding als de eindgebruikersinterface. Voor de ondertekening van de berichten wordt [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) gebruikt welke gebruik maakt van een SHA512 digest.
+Sleutels voor API's kennen geen beperking in levensduur, maar kunnen op verzoek worden gereset. Wanneer er geen API-key verzoek is gedaan, is API toegang voor die 'gebruiker' niet mogelijk.
 
 #### Servertoegang
 
