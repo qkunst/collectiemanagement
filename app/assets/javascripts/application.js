@@ -129,14 +129,14 @@ var collectieBeheerInit = function() {
       delay: 250,
       cache: true
     },
-    minimumInputLength: 1,
+    minimumInputLength: 1
   });
 
   $(".chosen-select").chosen({
     placeholder_text_single: "Selecteer een optie",
     placeholder_text_multiple: "Type de opties",
     no_results_text: "Geen optie gevonden",
-    allow_single_deselect: true,
+    allow_single_deselect: true
   })
 
 

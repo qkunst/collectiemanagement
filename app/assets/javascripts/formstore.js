@@ -83,7 +83,7 @@ var FormStore = {
     forEach: function(callback) {
       var keys = Object.keys(localStorage);
       keys.forEach(function(key){
-        if (key.search(FormStore.Store.name) == 0 && key.search("lastStoreIndex") == -1) {
+        if (key.search(FormStore.Store.name) === 0 && key.search("lastStoreIndex") === -1) {
           callback(key.replace("FormStore",""))
         }
       })
@@ -91,7 +91,7 @@ var FormStore = {
     first: function() {
       var f = null;
       FormStore.Store.forEach(function(a){
-        if (f == null ) f = a;
+        if (f === null ) f = a;
       });
       return f;
     },
@@ -135,7 +135,7 @@ var FormStore = {
 
       if (equaldata) {
         FormStore.Store.remove(key);
-      };
+      }
     },
     markPublic: function(key) {
       private_data = FormStore.Store.read(key,{"prefix":"private"}); //read private variant
@@ -196,7 +196,7 @@ var FormStore = {
       var tmp = new FormData();
       for (elem_key in this.data) {
         elem_data = this.data[elem_key]
-        if (elem_key == "authenticity_token") {
+        if (elem_key === "authenticity_token") {
           csrf_token = document.getElementsByName("csrf-token")[0].content
           elem_data = csrf_token ? csrf_token : elem_data
         }
@@ -338,7 +338,7 @@ var FormStore = {
       oReq.open(method, loc, true);
       oReq.onload = function(oEvent) {
         // console.log(oReq)
-        if (oReq.status == 200 && !FormStore.signInMatcher.exec(oReq.responseURL)) {
+        if (oReq.status === 200 && !FormStore.signInMatcher.exec(oReq.responseURL)) {
           clearTimeout(noResponseTimer);
           FormStore.fireEvent("connectionSuccess", {request: oReq, source: source});
           if (onSuccess) onSuccess(source);
@@ -410,11 +410,11 @@ var FormStore = {
       var backgroundFormSubmit = function(e) {
         var target = e.target
         var continue_submit = true;
-        if (target.dataset.skipConfirm != "true") {
+        if (target.dataset.skipConfirm !== "true" || target.dataset.skipConfirm !== true) {
            continue_submit = confirm(target.dataset.confirm);
         }
         e.preventDefault();
-        if (continue_submit || target.dataset.skipConfirm == "true") {
+        if (continue_submit || target.dataset.skipConfirm === "true" || target.dataset.skipConfirm === true) {
           f = FormStore.Form.parseForm(target.form);
           f.submitForm({no_reload:true});
           document.location = (""+document.location).split("#")[0] + "#new_work"

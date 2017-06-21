@@ -80,7 +80,7 @@ class Work < ApplicationRecord
     end
   end
 
-  def name(options={})
+  def name
     "#{artist_name_rendered} - #{title_rendered}"
   end
 
@@ -105,23 +105,25 @@ class Work < ApplicationRecord
     return gs.label if gs
   end
 
+  # This method is built to be fault tolerant and tries to make the best out of user given input.
   def purchased_on= date
     if date.is_a? String
       begin
         date = date.to_date
+        if date
+          self.update_columns(purchased_on: date, purchase_year: date.year)
+        end
       rescue ArgumentError
+        new_date = date.to_i
+        if new_date > 1900 and new_date < 2100
+          self.update_column(:purchase_year, date)
+        end
       end
-    end
-    if date.is_a? Date or date.is_a? Time or date.is_a? DateTime
-      begin
-        self.update_column(:purchased_on, date)
-        self.update_column(:purchase_year, date.year)
-      rescue ArgumentError
-      end
-    end
-    if date.is_a? Numeric or date.is_a? String
-      new_date = date.to_i
-      if new_date > 1900 and new_date < 2100
+    elsif date.is_a? Date or date.is_a? Time or date.is_a? DateTime
+      self.update_column(:purchased_on, date)
+      self.update_column(:purchase_year, date.year)
+    elsif date.is_a? Numeric
+      if date > 1900 and date < 2100
         self.update_column(:purchase_year, date)
       end
     end
@@ -300,7 +302,7 @@ class Work < ApplicationRecord
     @all_works ||= collection.works.select(:id).order(order).collect{|a| a.id}
   end
   def work_index_in_collection
-    work_index_in_collection ||= all_work_ids_in_collection.index(self.id)
+    @work_index_in_collection ||= all_work_ids_in_collection.index(self.id)
   end
   def next
     next_work_id = all_work_ids_in_collection[work_index_in_collection+1]
@@ -444,7 +446,7 @@ class Work < ApplicationRecord
     self.main_collection = nil if self.main_collection == false
   end
 
-  def touch_updated_at(objekt)
+  def touch_updated_at(*)
     self.touch if persisted?
   end
 

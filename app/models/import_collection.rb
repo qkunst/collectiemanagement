@@ -8,7 +8,7 @@ class ImportCollectionClassAssociation
   end
 
   def klass
-    eval(class_name)
+    class_name.constantize
   end
 
   def implements_find_by_name?
