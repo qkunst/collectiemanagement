@@ -99,8 +99,6 @@ class ImportCollection < ApplicationRecord
 
   def read(table=import_file_snippet_to_workbook_table)
     result = [ ]
-    # TODO: to be replaced by reading the entire workbook again
-    debug = false
 
     table.each do |row|
       unless row.header?
@@ -121,11 +119,11 @@ class ImportCollection < ApplicationRecord
 
           field_value_indexes = 0
 
-          puts "Key: #{key}" if debug
+          Rails.logger.debug "Key: #{key}"
 
           if fields.count > 0
             if fields.count == 1 and split_strategy == :find_keywords
-              puts "FIND KEYWORDS! #{fields.first}" if debug
+              Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
               analyzed_field_props = analyze_field_properties(fields.first)
               association = analyzed_field_props[:association]
               # p analyzed_field_props
@@ -135,10 +133,10 @@ class ImportCollection < ApplicationRecord
                 keyword_finder = KeywordFinder::Keywords.new(names)
                 search_string = table_values[1]
                 table_values = keyword_finder.find_in(search_string.to_s.downcase)
-                puts "  find kerwords from string '#{search_string}' in: #{names.join(", ")}: #{table_values.join(", ")}" if debug
+                Rails.logger.debug "  find kerwords from string '#{search_string}' in: #{names.join(", ")}: #{table_values.join(", ")}"
               end
             elsif split_strategy == :find_keywords
-              error = "Keywords zoeken werkt alleen met 1 outputveld"
+              Rails.logger.debug "Keywords zoeken werkt alleen met 1 outputveld"
             end
 
             field_value_indexes = table_values.count > fields.count ? table_values.count : fields.count
@@ -157,15 +155,13 @@ class ImportCollection < ApplicationRecord
               objekt = analyzed_field_props[:objekt]
               field_type = analyzed_field_props[:field_type]
 
-              puts "#{field} #{index}: #{property} (#{association.klass if association}) (has may? #{has_many_association}; copmlex? #{complex_association}, field_type: #{field_type})" if debug
+              Rails.logger.debug "#{field} #{index}: #{property} (#{association.klass if association}) (has may? #{has_many_association}; copmlex? #{complex_association}, field_type: #{field_type})"
 
               current_value = nil
 
               # Get current value: preparing object
 
               if complex_association
-                # TODO: complex associations doesn't implement has many properly...
-                #       forget for now, implemented as single
                 unless parameters[property]
                   parameters[property] = { 7382983741 => {fieldname => nil}}
                 end
@@ -187,8 +183,6 @@ class ImportCollection < ApplicationRecord
               else
                 corresponding_value = corresponding_table_value
               end
-
-              puts "  corresponding_value: #{corresponding_value}" if debug
 
               # Think of new value
 
@@ -216,13 +210,11 @@ class ImportCollection < ApplicationRecord
                 end
               end
 
-              puts "  new_value: #{new_value}" if debug
+              Rails.logger.debug "  new_value: #{new_value}"
 
               # Set the new value
 
               if complex_association
-                # TODO: complex associations doesn't implement has many properly...
-                #       forget for now, implemented as single (currently only applicable to 'authors')
                 parameters[property][7382983741][fieldname] = new_value
               else
                 parameters[property] = new_value
@@ -247,11 +239,10 @@ class ImportCollection < ApplicationRecord
         elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
           parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
         end
-        p parameters if debug
         result << ImportCollection.import_type.new(parameters)
       end
     end
-    p result if debug
+    Rails.logger.debug "  result: #{result.inspect}"
     result
   end
 

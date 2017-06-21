@@ -451,6 +451,7 @@ class Work < ApplicationRecord
   end
 
   class << self
+
     def fast_aggregations attributes
       rv = {}
       attributes.each do |attribute|
@@ -458,46 +459,13 @@ class Work < ApplicationRecord
         attribute_id = "#{attribute}_id"
         attribute_dot_id = "#{attribute}.id"
         if column_names.include? attribute.to_s
-          self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
-            value = (a ? a : :not_set)
-            if value.is_a? String
-              if attribute == :grade_within_collection
-                value = value[0]
-              end
-              value = value.downcase.to_sym
-            end
-            rv[attribute][value] ||= {count: 999999, name: value }
-          end
+          _fast_aggregate_column_values(rv, attribute)
         elsif column_names.include? attribute_id
-          # Can ignore the brakeman warning on SQL injection
-          # the attribute will have to be a valid column
-          ids = self.group(attribute_id).select(attribute_id).collect{|a| a.send(attribute_id)}
-          if ids.compact.length < ids.length
-            rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
-          end
-          attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
-            rv[attribute][a] ||= {count: 10000, name: a.name }
-          end
+          _fast_aggregate_belongs_to_values(rv, attribute)
         elsif attribute == :geoname_ids
-          ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
-          artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
-          artists.each do |artist|
-            ids += artist.geoname_ids
-          end
-          ids = ids.compact.uniq
-          GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
-            rv[attribute][geoname] = {count: 10000, name: geoname.name}
-          end
-        else Work.new.methods.include? attribute.to_sym
-          # Can ignore the brakeman warning on SQL injection
-          # the attribute will have to be a valid instance method
-          ids = self.left_outer_joins(attribute).select("#{attribute_dot_id} AS id").distinct.collect(&:id)
-          if ids.compact.length < ids.length
-            rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
-          end
-          attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
-            rv[attribute][a] ||= {count: 999999, name: a.name }
-          end
+          _fast_aggregate_geoname_ids(rv)
+        elsif Work.new.methods.include? attribute.to_sym
+          _fast_aggregate_belongs_to_many rv, attribute
         end
       end
       rv
@@ -558,7 +526,7 @@ class Work < ApplicationRecord
       self.all.each do |work|
         values = fields.collect do |field|
           value = work.send(field)
-          cleaned_value = if value.class == PictureUploader
+          if value.class == PictureUploader
             value.file ? value.file.filename : nil
           elsif [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
             value.name
@@ -569,7 +537,6 @@ class Work < ApplicationRecord
               "Versie"
             elsif value.first.is_a? ActsAsTaggableOn::Tagging
               value.collect{|a| a.tag.name}.join(", ")
-
             else
               value.collect{|a| a.name}.join(", ")
             end
@@ -578,11 +545,61 @@ class Work < ApplicationRecord
           elsif value.is_a? Array
             value.join(",")
           end
-          cleaned_value
         end
         w.sheet.table << values
       end
       return w
+    end
+
+    private def _fast_aggregate_column_values rv, attribute
+      self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
+        value = (a ? a : :not_set)
+        if value.is_a? String
+          if attribute == :grade_within_collection
+            value = value[0]
+          end
+          value = value.downcase.to_sym
+        end
+        rv[attribute][value] ||= {count: 999999, name: value }
+      end
+      rv
+    end
+    private def _fast_aggregate_belongs_to_values rv, attribute
+      attribute_id = "#{attribute}_id"
+      # Can ignore the brakeman warning on SQL injection
+      # the attribute will have to be a valid column name
+      ids = self.group(attribute_id).select(attribute_id).collect{|a| a.send(attribute_id)}
+      if ids.include? nil
+        rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
+      end
+      attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+        rv[attribute][a] ||= {count: 10000, name: a.name }
+      end
+      rv
+    end
+    private def _fast_aggregate_belongs_to_many rv, attribute
+      attribute_id = "#{attribute}.id"
+      # Can ignore the brakeman warning on SQL injection
+      # the attribute will have to be a valid column name
+      ids = self.left_outer_joins(attribute).select("#{attribute_id} AS id").distinct.collect(&:id)
+      if ids.include? nil
+        rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
+      end
+      attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+        rv[attribute][a] ||= {count: 999999, name: a.name }
+      end
+    end
+    private def _fast_aggregate_geoname_ids rv
+      ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
+      artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
+      artists.each do |artist|
+        ids += artist.geoname_ids
+      end
+      ids = ids.compact.uniq
+      GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
+        rv[:geoname_ids][geoname] = {count: 10000, name: geoname.name}
+      end
+      rv
     end
   end
 end
