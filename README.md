@@ -176,6 +176,27 @@ De applicatie wordt echter wel ontwikkeld op een macOS systeem.
 
 ## Identity Access Management
 
+### Identificatie
+
+Identificatie geschied door invoer van een e-mail/wachtwoord inlog. De identiteit
+wordt na registratie geverifieerd door een administrator. Pas daarna krijgt een
+geregistreerde gebruiker toegang tot enige collectie.
+
+### Toegang
+
+#### Tot collecties
+
+Administratoren hebben toegang tot alle collecties, en zijn ook in staat de rollen
+van gebruikers aan te passen. Alle rol- en collectieaanpassingen worden op gebruikersmodel niveau automatisch gelogd.
+
+Collecties zijn hierarchisch georganiseerd. Er zijn dus super- en sub-collecties.
+Iemand met toegang tot een een collectie hoger in de hierarchie heeft automatisch
+toegang tot alle onderliggende collecties.
+
+Toegang tot een bepaald werk kan niet op het niveau van het individuele werk worden bepaald.
+
+#### Tot functionaliteit
+
 QKunst collectiebeheer kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
 
 * Administrator
@@ -185,8 +206,15 @@ QKunst collectiebeheer kent een simpel rollenmodel. De rollen die worden ondersc
 * Read only
 * Inactieve gebruiker (read only gebruiker zonder toegang tot enige collectie)
 
-Administratoren hebben toegang tot alle collecties, en zijn ook in staat de rollen
-van gebruikers aan te passen. Alle rolaanpassingen worden gelogd.
+Een gebruiker heeft slechts 1 rol, al is de functionaliteit van de rollen overlappend.
+
+Belangrijk onderscheid tussen Registrator en Taxateur is de toegang tot waarderingen van de werken (en deze kunnen toevoegen).
+Belangrijk onderscheid tussen Read only en Facility Manager is de toegang tot waarderingen. Een Facility Manager kan echter geen taxaties toevoegen of aanpassen.
+Read only gebruikers beschikken ook niet over alle filtermogelijkheden.
+
+### Management
+
+Het beheer van rollen en koppeling aan een collectie kan slechts gedaan worden door een administrator.
 
 ## Backup
 
