@@ -197,7 +197,7 @@ class ImportCollection < ApplicationRecord
                 new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
               else
                 if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
-                  corresponding_value = corresponding_value.to_s.gsub(",",".")
+                  corresponding_value = corresponding_value.to_s.tr(",",".")
                 end
                 if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
                   new_value = corresponding_value

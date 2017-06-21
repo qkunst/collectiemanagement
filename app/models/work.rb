@@ -508,18 +508,19 @@ class Work < ApplicationRecord
       self.group(:location).count.sort{|a,b| a[0].to_s.downcase<=>b[0].to_s.downcase }.each{|a| rv[a[0]] = {count: a[1], subs:[]} }
       rv
     end
-
-
     def update_artist_name_rendered!
       self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
     end
-    def human_attribute_name_overridden(field, collection)
-      if collection
-        return collection.label_override_work_alt_number_1_with_inheritance if collection.label_override_work_alt_number_1_with_inheritance and field.to_sym == :alt_number_1
-        return collection.label_override_work_alt_number_2_with_inheritance if collection.label_override_work_alt_number_2_with_inheritance and field.to_sym == :alt_number_2
-        return collection.label_override_work_alt_number_3_with_inheritance if collection.label_override_work_alt_number_3_with_inheritance and field.to_sym == :alt_number_3
+    def human_attribute_name_for_alt_number_field( field_name, collection )
+      custom_label_name = collection ? collection.send("label_override_work_#{field_name}_with_inheritance".to_sym) : nil
+      custom_label_name || Work.human_attribute_name(field_name)
+    end
+    def human_attribute_name_overridden( field_name, collection )
+      if [:alt_number_1, :alt_number_2, :alt_number_3].include? field_name
+        human_attribute_name_for_alt_number_field( field_name, collection )
+      else
+        Work.human_attribute_name(field_name)
       end
-      Work.human_attribute_name(field)
     end
     def to_workbook(fields=[:id,:title_rendered], collection = nil)
       w = Workbook::Book.new([fields.collect{|a| Work.human_attribute_name_overridden(a, collection)}])

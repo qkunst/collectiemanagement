@@ -247,13 +247,14 @@ class Collection < ApplicationRecord
       }
     }
 
-    if (search and search.to_s.strip != "")
+    if (search and search.to_s.strip.empty?)
       # search.split("/\s/").each do |search_t
       search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
       query[:query][:bool][:must] << {
         query_string: {
           default_field: :_all,
           query: search,
+          analyzer: :dutch,
           default_operator: :and,
           fuzziness: 2
         }
@@ -332,10 +333,10 @@ class Collection < ApplicationRecord
     end
     def possible_exposable_fields
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
-      set = []
+
       fields = Work.new.methods.collect do |method|
         if method.to_s.match(/=/) and !method.to_s.match(/^(before|after|\_|\=|\<|\!|\[|photo_|remote\_|remove\_|defined\_enums|find\_by\_statement\_cache|validation\_context|record\_timestamps|aggregate\_reflections|include\_root\_in\_json|destroyed\_by\_association|attributes|entry_status_description|entry_status|paper_trail|verions)(.*)/) and !method.to_s.match(/(.*)\_(id|ids|attributes|class_name|association_name|cache)\=$/)
-          method.to_s.gsub(/\=/,'')
+          method.to_s.delete("=")
         end
       end.compact
 
