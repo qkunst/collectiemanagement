@@ -234,6 +234,47 @@ Toegangsrechten dienen wel opnieuw ingesteld te worden.
 3. Vraag een pull request aan en beschrijf wat je hebt aangepast
 4. Wees behulpzaam en vriendelijk bij evt. vragen van de maintainer (QKunst)
 
+## Toegepaste cryptografie-technieken
+
+### Connectie
+
+Toegang tot de applicatie is slechts mogelijk via een HTTPS verbinding (min. TLS 1.0). Dit wordt afgedwongen door zowel de applicatie als de webserver. De webserver staat slechts een beperkte set aan verlesutelingscombinaties toe. Zie onderstaand:
+
+> ##### TLS 1.2 (suites in voorkeursvolgorde van de server)
+>
+> * TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+> * TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+> * TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+> * TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
+> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+>
+> ##### TLS 1.1 (suites in voorkeursvolgorde van de server)
+>
+> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+>
+> ##### TLS 1.0 (suites in voorkeursvolgorde van de server)
+>
+> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
+
+Zie voor meer details (en up to date): [Qualys SSL Report: collectiebeheer.qkunst.nl](https://www.ssllabs.com/ssltest/analyze.html?d=collectiebeheer.qkunst.nl).
+
+#### Hashing wachtwoorden
+
+Wachtwoorden worden 10x gehashed met [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
+
+#### API
+
+De API loopt over dezelfde HTTPS verbinding als de eindgebruikersinterface. Voor de ondertekening van de berichten wordt [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) gebruikt welke gebruik maakt van een SHA512 digest.
+
+#### Servertoegang
+
+Voor deployment wordt gebruikt van een OpenSSH (dagelijks wordt gecontroleerd op veiligheids updates) SSL verbinding, waartoe slechts toegang wordt verleend middels SSH-sleutels. Directe root-toegang via SSH is uitgesloten. Configuratie van de gebruikte ciphers voor SSH wijkt niet af van de standaard configuratie die komt met Debian Jessie package voor OpenSSL.
+
 ## API
 
 ### Token based authentication
