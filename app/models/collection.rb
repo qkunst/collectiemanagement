@@ -245,13 +245,14 @@ class Collection < ApplicationRecord
       }
     }
 
-    if (search and search.to_s.strip.empty?)
+    if (search and !search.to_s.strip.empty?)
       # search.split("/\s/").each do |search_t
       search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
       query[:query][:bool][:must] << {
         query_string: {
           default_field: :_all,
           query: search,
+          analyzer: :dutch,
           default_operator: :and,
           fuzziness: 2
         }
