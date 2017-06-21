@@ -152,9 +152,7 @@ class Collection < ApplicationRecord
   end
 
   def child_collections_flattened
-    a = Collection.find(self.id).child_collections
-    a += child_collections.collect{|a| a.child_collections_flattened}
-    a.flatten
+    Collection.find(self.id).child_collections.expand_with_child_collections
   end
 
   def parent_collections_flattened
