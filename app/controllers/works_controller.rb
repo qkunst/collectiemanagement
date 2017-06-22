@@ -1,4 +1,7 @@
 class WorksController < ApplicationController
+  include ActionController::Streaming
+  include Zipline
+
   before_action :authenticate_admin_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
@@ -107,26 +110,24 @@ class WorksController < ApplicationController
       }
       format.zip {
         if current_user.can_download?
-          zipfile_name = File.join(Rails.root,["tmp",[Digest::SHA256.new.update("#{@collection.name}#{@collection.id}sec1ure#{Time.now.hour.to_s}#{Time.now.to_date.to_s}").digest].pack("m0").strip.gsub(/[\/\.\=\+]/,"")])
-          unless File.exists?(zipfile_name)
-            io = Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-              @works.each do |work|
-                base_file_name = work.base_file_name
-                ["photo_front","photo_back","photo_detail_1", "photo_detail_2"].each do |field|
-                  if work.send("#{field}?".to_sym)
-                    filename = "#{base_file_name}_#{field.gsub('photo_','')}.jpg"
-                    begin
-                      zipfile.add(filename, work.send(field.to_sym).screen.path)
-                    rescue Zip::ZipEntryExistsError
-                      zipfile.add(filename+" (#{work.id})", work.send(field.to_sym).screen.path)
-                    end
-                  end
-                end
+          files = [] # users.map{ |user| [user.avatar, "#{user.username}.png"] }
+
+          @works.each do |work|
+            base_file_name = work.base_file_name
+            ["photo_front","photo_back","photo_detail_1", "photo_detail_2"].each do |field|
+              if work.send("#{field}?".to_sym)
+                filename = "#{base_file_name}_#{field.gsub('photo_','')}.jpg"
+                file = File.open(work.send(field.to_sym).screen.path)
+                p file
+                files << [file, filename]
+                # zip.write_stored_file(filename) do |sink|
+                #   File.open(file.screen.path, 'rb'){|source| IO.copy_stream(source, sink) }
+                # end
               end
             end
           end
-          puts "sending #{zipfile_name}..."
-          send_file zipfile_name, :filename => "fotos #{@collection.name}.zip"
+          zipline( files, "werken #{@collection.name}.zip")
+
         else
           redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
         end

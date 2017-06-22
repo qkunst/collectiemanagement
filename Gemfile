@@ -100,6 +100,7 @@ gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'redis-rails'
 gem 'exception_notification'
+gem 'zipline'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-jquery', '~>2.2'
