@@ -6,7 +6,10 @@ class WorksBatchController < ApplicationController
 
   def edit
     @selection = {display: :complete}
-    @edit_property = (params[:property] || params[:batch_edit_property]).to_sym
+    @edit_property = (params[:property] || params[:batch_edit_property])
+    if @edit_property
+      @edit_property = @edit_property.to_sym
+    end
   end
 
   def update
