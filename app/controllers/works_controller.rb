@@ -117,7 +117,7 @@ class WorksController < ApplicationController
             ["photo_front","photo_back","photo_detail_1", "photo_detail_2"].each do |field|
               if work.send("#{field}?".to_sym)
                 filename = "#{base_file_name}_#{field.gsub('photo_','')}.jpg"
-                file = File.open(work.send(field.to_sym).screen.path)
+                file = work.send(field.to_sym).screen.path
                 p file
                 files << [file, filename]
                 # zip.write_stored_file(filename) do |sink|
@@ -126,7 +126,7 @@ class WorksController < ApplicationController
               end
             end
           end
-          zipline( files, "werken #{@collection.name}.zip")
+          zipline( files.lazy.map{|path, name| [File.open(path), name]}, "werken #{@collection.name}.zip")
 
         else
           redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
