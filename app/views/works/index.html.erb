@@ -71,14 +71,12 @@
         <h5>Lokaliteit</h5>
         <%= select_tag "filter[locality_geoname_id][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
       <% end %>
-      <% if current_user.can_filter_and_group?(:locality_geonames_id) %>
-        <h5>Tags</h5>
-        <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list.keyword][]">
-          <% (@selection_filter["tag_list.keyword"] || []).each do |tag|%>
-            <option selected="selected" value="<%=tag%>"><%=tag%></option>
-          <% end %>
-        </select>
-      <% end %>
+      <h5>Tags</h5>
+      <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list.keyword][]">
+        <% (@selection_filter["tag_list.keyword"] || []).each do |tag|%>
+          <option selected="selected" value="<%=tag%>"><%=tag%></option>
+        <% end %>
+      </select>
 
       <hr/>
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>
