@@ -77,7 +77,7 @@ class User < ApplicationRecord
   end
 
   def can_tag?
-    admin? or appraiser?
+    qkunst? or appraiser?
   end
 
   def can_write_messages?

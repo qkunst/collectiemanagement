@@ -32,12 +32,12 @@
   <p> Geen eigenschap meegestuurd of herkend, de geselecteerde werken zullen niet worden aangepast.<br/>Probeer het <a href="javascript:window.history.back();">nog een keer</a>.</p>
 <% end %>
 
-
-<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan", class: :button%>
-<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn", name: :update_unless_empty, class: [:button, :secondary] if multiple_values%>
 <% if multiple_values %>
 <p><strong>Toelichting:</strong> Je wijzigt meerdere werken in één keer. De standaard actie is om lege velden leeg te maken. Wil je echter niet dat alle velden worden aangepast, zorg er dan voor dat alleen in het te wijzigen veld een waarde staat en klik op de tweede knop: <em><%="Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn"%></em>.</p>
 <% end %>
+<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan", class: :button%>
+<%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn", name: :update_unless_empty, class: [:button, :secondary] if multiple_values%>
+
 <% end %>
 
 </div>
