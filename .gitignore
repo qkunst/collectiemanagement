@@ -27,3 +27,4 @@ bin/backup
 erd.pdf
 .~*
 /coverage
+results.html
