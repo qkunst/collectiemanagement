@@ -1,7 +1,14 @@
-<% parent_has_themes = defined?(parent_has_themes) ? parent_has_themes : nil %>
+<%
+  parent_has_themes = defined?(parent_has_themes) ? parent_has_themes : nil
+  render_themes = (defined?(render_themes) && render_themes) ? true : false
+  themes = []
+  if render_themes
+    themes = @show_hidden ? collection.themes : collection.themes.not_hidden
+  end
 
-<% if defined?(render_themes) && render_themes %>
-  <% themes = @show_hidden ? collection.themes : collection.themes.not_hidden %>
+%>
+<% cache(["collection/_collection", "1.0", collection, parent_has_themes, render_themes, themes, @collections]) do %>
+<% if render_themes %>
   <% if themes.count > 0 or (defined?(parent_has_themes) && parent_has_themes) %>
     <li><%= link_to collection.name, collection_themes_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %>
       (<%= themes.as_sentence%>)
@@ -11,15 +18,17 @@
     <li><%= link_to collection.name, collection_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %> (<%= link_to  I18n.translate('count.works', count: collection.works_including_child_works.count), collection_works_path(collection)  %><% if collection.works.count > 0 and collection.works.count != collection.works_including_child_works.count %>; in deze collectie <%= link_to  I18n.translate('count.works', count: collection.works.count), collection_works_path(collection, params: {show_hidden: @show_hidden, no_child_works: true})  %><% end %>)
        <ul>
 <% end %>
+  <% if collection.child_collections.count > 0 %>
+    <%
+    locals = {}
+    locals[:render_themes] = render_themes if defined?(render_themes)
+    locals[:parent_has_themes] = collection.themes.count > 0
+    %>
+    <%= render collection.child_collections, locals %>
+  <% end %>
 
-<% if collection.child_collections.count > 0 %>
-  <%
-  locals = {}
-  locals[:render_themes] = render_themes if defined?(render_themes)
-  locals[:parent_has_themes] = collection.themes.count > 0
-  %>
-  <%= render collection.child_collections, locals %>
+        </ul>
+      </li>
+
 <% end %>
 
-      </ul>
-    </li>
