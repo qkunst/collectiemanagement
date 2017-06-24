@@ -221,8 +221,6 @@ class Collection < ApplicationRecord
     @report = Report::Parser.parse(elastic_aggragations)
   end
 
-  # search (to be implemented)
-  # filter
   def search_works(search="", filter={}, options={})
     options = {force_elastic: false, return_records: true, limit: 10000}.merge(options)
     if ((search == "" or search == nil) and (filter == nil or filter == {} or (
@@ -261,15 +259,22 @@ class Collection < ApplicationRecord
 
     filter.each do |key, values|
       new_bool = {bool: {should: []}}
-      if key == "locality_geoname_id" or key == "tag_list" or key == "tag_list.keyword"
-        new_bool = {terms: {key=> values}}
+      if key == "locality_geoname_id" or key == "geoname_ids" or key == "tag_list.keyword"
+        values = values.compact
+        if values.count == 0
+          new_bool[:bool]= {mustNot: {exists: {field: key}}}
+        else
+          new_bool[:bool][:should] << {terms: {key=> values}}
+
+          # new_bool = {terms: {key=> values}}
+        end
       else
         values.each do |value|
           if value != nil
             new_bool[:bool][:should] << {term: {key=>value}}
           else
             if key.ends_with?(".id")
-              new_bool[:bool][:should] << {not: {exists: {field: key}}}
+              new_bool[:bool][:should] << {mustNot: {exists: {field: key}}}
             else
               new_bool[:bool][:should] << {bool:{must_not: {exists: {field: key }}}}
             end

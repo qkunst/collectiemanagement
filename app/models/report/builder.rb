@@ -106,12 +106,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet_with_missing(key))
         end
 
-        location_sub_sub = basic_aggregation_snippet("location_detail_raw.keyword")
-        location_sub_sub["location_detail_raw.keyword_missing"] = {
-          missing: {
-            field: "location_detail_raw.keyword"
-          }
-        }
+        location_sub_sub = basic_aggregation_snippet_with_missing("location_detail_raw.keyword")
 
         location_sub = basic_aggregation_snippet_with_missing("location_floor_raw.keyword")
         location_sub.keys.each do |key|
@@ -124,8 +119,6 @@ module Report
         end
 
         aggregation.merge!(location)
-        # p aggregation["location_raw.keyword"]
-        # p aggregation["location_raw.keyword_missing"]
 
         return aggregation
       end

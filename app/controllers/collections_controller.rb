@@ -35,18 +35,28 @@ class CollectionsController < ApplicationController
       "Locaties": [[:"location_raw.keyword"]],
     }
 
-    @sections.deep_merge!({"Vervaardigers": [[:artists]],
-      "Conditie": [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-      "Typering": [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-      "Waardering": [[:purchase_year],[:grade_within_collection]],
-      "Object": [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]],
-      "Ontsluiting": [[:image_rights, :publish],[:"tag_list.keyword"]],
-      "Overige": [[:source]],
-      }) if current_user.can_access_extended_report?
+    @sections.deep_merge!({
+      "Vervaardigers" => [[:artists]],
+      "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
+      "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
+      "Waardering" => [[:purchase_year],[:grade_within_collection]],
+      "Object" => [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]]
+    }) if current_user.can_access_extended_report?
+
+    @sections.deep_merge!({
+      "Ontsluiting" => [[:image_rights, :publish],[:"tag_list.keyword"]]
+    })
+
+    @sections["Ontsluiting"] = [[:"tag_list.keyword"]] unless current_user.can_access_extended_report?
+
+    @sections.deep_merge!({
+      "Overige" => [[:source]],
+    }) if current_user.can_access_extended_report?
+
 
     if current_user.can_access_valuations? and @sections[:Waardering]
-      @sections[:Waardering] << [:market_value]
-      @sections[:Waardering] << [:replacement_value]
+      @sections["Waardering"] << [:market_value]
+      @sections["Waardering"] << [:replacement_value]
     end
     current_user.reset_filters!
   end

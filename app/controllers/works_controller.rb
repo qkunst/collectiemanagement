@@ -42,7 +42,7 @@ class WorksController < ApplicationController
       @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
     end
     @filter_localities = []
-    @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["locality_geoname_id"]) if @selection_filter["locality_geoname_id"]
+    @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
 
     update_current_user_with_params
 
