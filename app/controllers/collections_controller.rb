@@ -54,7 +54,7 @@ class CollectionsController < ApplicationController
     }) if current_user.can_access_extended_report?
 
 
-    if current_user.can_access_valuations? and @sections[:Waardering]
+    if current_user.can_access_valuations? and @sections["Waardering"]
       @sections["Waardering"] << [:market_value]
       @sections["Waardering"] << [:replacement_value]
     end
