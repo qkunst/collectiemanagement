@@ -32,11 +32,21 @@ RSpec.describe Message, type: :model do
         expect(m2.notifyable_users).to include(u1)
         expect(m2.notifyable_users).to include(users(:admin))
       end
-      it "should return conversation users" do
+      it "should return only qkunst admin when private" do
         u1 = users(:user1)
         u2 = users(:user2)
         u3 = users(:user3)
         m = Message.new(from_user: u1, to_user: u2, subject: "sub", message: "messss", qkunst_private: true)
+        expect(m.notifyable_users).not_to include(u2)
+        expect(m.notifyable_users).not_to include(u3)
+        expect(m.notifyable_users).not_to include(u1)
+        expect(m.notifyable_users).to include(users(:admin))
+      end
+      it "should return only admin when qkunst private and no to user" do
+        u1 = users(:user1)
+        u2 = users(:user2)
+        u3 = users(:user3)
+        m = Message.new(from_user: u1, subject: "sub", message: "messss", qkunst_private: true)
         expect(m.notifyable_users).not_to include(u2)
         expect(m.notifyable_users).not_to include(u3)
         expect(m.notifyable_users).not_to include(u1)

@@ -93,8 +93,10 @@ class Message < ApplicationRecord
     users += User.admin.receive_mails.all
     users += [self.to_user]
     users -= [self.from_user]
-    users.compact
-    users.delete_if{|user| !user.qkunst? } if self.qkunst_private?
+    users.compact!
+    if self.qkunst_private?
+      users.delete_if{|user| !user.qkunst? }
+    end
     users.compact.uniq
   end
 
