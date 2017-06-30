@@ -261,7 +261,16 @@ RSpec.describe Work, type: :model do
         work.save
         expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
       end
-
+      it "should return basic types" do
+        collection = collections(:collection_with_works)
+        work = collection.works.order(:stock_number).first
+        work.save
+        workbook = Work.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
+        expect(workbook.class).to eq(Workbook::Book)
+        expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
+        expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname (1900 - 2000)")
+      end
     end
   end
 end

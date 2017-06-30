@@ -529,7 +529,7 @@ class Work < ApplicationRecord
           value = work.send(field)
           if value.class == PictureUploader
             value.file ? value.file.filename : nil
-          elsif [Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
+          elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
             value.name
           elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
             work.artist_name_rendered
@@ -545,6 +545,8 @@ class Work < ApplicationRecord
             value.to_s
           elsif value.is_a? Array
             value.join(",")
+          else
+            value
           end
         end
         w.sheet.table << values
