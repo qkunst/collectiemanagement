@@ -53,6 +53,7 @@ class Collection < ApplicationRecord
     "style"=>Style,
     "subset"=>Subset,
     "source"=>Source,
+    "sources"=>Source,
     "cluster"=>Cluster,
     "frame_type"=>FrameType
   }
