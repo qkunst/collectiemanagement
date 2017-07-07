@@ -83,7 +83,7 @@ gem 'kramdown' # parsing markdown
 ## STYLING
 ##
 
-gem 'foundation-rails'
+gem 'foundation-rails', '~> 6.3.0'
 
 ##
 ## OTHER FREQUENTLY USED
