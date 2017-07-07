@@ -29,8 +29,9 @@ module WorksHelper
 
   def filter_checkbox field_name, value, data={}, options={}
     reference = @selection_filter
-    i18n_scope = [:activerecord,:values,:work] << field_name.to_sym
     field_name = field_name.to_s
+    field_name.gsub!(".id","") if value == :not_set
+    i18n_scope = [:activerecord,:values,:work] << field_name.to_sym
     value_methods = value.methods
     check_box_value = (value_methods.include?(:id) ? value.id : value)
     checked =  reference[field_name] && ( reference[field_name].include?(check_box_value) || reference[field_name].include?(check_box_value.to_s) || (value == :not_set and reference[field_name].include?(nil)))

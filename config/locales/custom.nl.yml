@@ -107,17 +107,13 @@ nl:
         cluster_id:
           not_set: Niet in cluster
         object_categories:
-          id:
-            not_set: Geen categorie
+          not_set: Geen categorie
         techniques:
-          id:
-            not_set: Techniek onbekend
+          not_set: Techniek onbekend
         sources:
-          id:
-            not_set: Onbekende herkomst
+          not_set: Onbekende herkomst
         themes:
-          id:
-            not_set: Geen thema
+          not_set: Geen thema
         grade_within_collection:
           a: A
           b: B
