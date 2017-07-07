@@ -5,7 +5,7 @@ module ApplicationHelper
 
   def kramdown string
     if string and string.is_a? String
-      Kramdown::Document.new(string).to_html.html_safe
+      sanitize Kramdown::Document.new(string).to_html
     else
       string
     end
