@@ -9,6 +9,12 @@ RSpec.describe Reminder, type: :model do
         end
       end
     end
+    describe "reference_date" do
+      it "should be the created at date by default" do
+        r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam")
+        expect(r.reference_date).to eq(r.created_at.to_date)
+      end
+    end
     describe "#last_sent_at" do
       it "should return nil by default" do
         c = collections(:collection_with_stages)
