@@ -5,6 +5,7 @@ class Work < ApplicationRecord
   before_save :sync_purchase_year
   before_save :enforce_nil_or_true
   after_save :update_artist_name_rendered!
+  after_save :touch_collection!
 
   include ActionView::Helpers::NumberHelper
   include Searchable
@@ -552,6 +553,9 @@ class Work < ApplicationRecord
         w.sheet.table << values
       end
       return w
+    end
+    private def touch_collection!
+      collection.touch if collection
     end
 
     private def _fast_aggregate_column_values rv, attribute
