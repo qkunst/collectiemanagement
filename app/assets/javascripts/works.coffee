@@ -61,7 +61,7 @@ $(document).on("click", "span.select_all", (e)->
 )
 
 $(document).on("click", "span.unselect_all", (e)->
-  container_div = $(e.target).parents("form,.select_all_scope")[0]
+  container_div = $(e.target).parents(".select_all_scope, body")[0]
   inputs = container_div.querySelectorAll("input[name='selected_works[]']")
   for elem in inputs
     elem.checked = false
