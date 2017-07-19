@@ -27,4 +27,14 @@ RSpec.describe ApplicationHelper, :type => :helper do
       expect(helper.menu_link_to("description","http://example.com/books/1")).to eq("<a class=\"active\" href=\"http://example.com/books/1\">description</a>")
     end
   end
+
+  describe "#kramdown" do
+    it "understands bold" do
+      expect(helper.kramdown("**strong**")).to eq("<p><strong>strong</strong></p>\n")
+    end
+    it "doesn't parse tables" do
+      expect(helper.kramdown("a | b")).to eq("<p>a | b</p>\n")
+    end
+
+  end
 end
