@@ -1,19 +1,22 @@
 class Artist < ApplicationRecord
   has_paper_trail
-  has_many :artist_involvements
-  has_and_belongs_to_many :works
+
   belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id
+  has_and_belongs_to_many :works
+  has_many :artist_involvements
   has_many :involvements, -> { distinct },  through: :artist_involvement
-  has_many :techniques, through: :works
   has_many :subsets, through: :works
+  has_many :techniques, through: :works
+
   after_save :touch_works
+  before_save :sync_dates_and_years
   belongs_to :import_collection
 
   scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
   scope :exclude_artist, ->(artist){where("artists.id != ?", artist.id)}
-  scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
-  scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
   scope :have_name, ->{where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)")}
+  scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
+  scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
 
   accepts_nested_attributes_for :artist_involvements
 
@@ -83,6 +86,11 @@ class Artist < ApplicationRecord
 
   def artists_with_same_name
     Artist.all
+  end
+
+  def sync_dates_and_years
+    self.year_of_death = date_of_death.year? if date_of_death
+    self.year_of_birth = date_of_birth.year? if date_of_birth
   end
 
   def died?

@@ -17,13 +17,16 @@
     <div class="large-offset-2 large-5 columns">
       <%= f.select :place_of_birth_geoname_id, { @artist.place_of_birth_geoname_name => @artist.place_of_birth_geoname_id}, {}, class: 'select2 geoname-select' %>
       <%= f.input :place_of_birth, required: false  %>
-      <%= f.input :year_of_birth, as: :integer, required: false  %>
+      <%= f.input(:year_of_birth, as: :integer, required: false) unless f.object.date_of_birth  %>
+      <%= f.input :date_of_birth, as: :date, required: false, html5: true  %>
     </div>
     <div class="large-5 columns end">
       <%= f.select :place_of_death_geoname_id, { @artist.place_of_death_geoname_name => @artist.place_of_death_geoname_id}, {}, class: 'select2 geoname-select' %>
 
       <%= f.input :place_of_death, required: false  %>
-      <%= f.input :year_of_death, as: :integer, required: false  %>
+      <%= f.input(:year_of_death, as: :integer, required: false) unless f.object.date_of_death  %>
+      <%= f.input :date_of_death, as: :date, required: false, html5: true  %>
+
     </div>
   </div>
 
