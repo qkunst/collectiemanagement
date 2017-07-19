@@ -43,3 +43,9 @@ work5:
   artists:
     - :artist2
     - :artist_no_name
+work6:
+  title: Work6
+  stock_number: Q006
+  artists:
+    - :artist4
+  collection: :collection3

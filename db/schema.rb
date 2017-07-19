@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170629150429) do
+ActiveRecord::Schema.define(version: 20170719162918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20170629150429) do
     t.integer  "rkd_artist_id"
     t.integer  "place_of_death_geoname_id"
     t.integer  "place_of_birth_geoname_id"
+    t.date     "date_of_birth"
+    t.date     "date_of_death"
   end
 
   create_table "artists_works", force: :cascade do |t|
