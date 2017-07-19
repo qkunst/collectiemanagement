@@ -4,6 +4,7 @@ class CollectionsStagesController < ApplicationController
   before_action :set_collections_stage
 
   def update
+    authorize! :update_status, @collection
     respond_to do |format|
       if @collections_stage.update(collections_stage_params)
         format.html { redirect_to @collection, notice: 'De workflow voor deze collectie is bijgewerkt' }

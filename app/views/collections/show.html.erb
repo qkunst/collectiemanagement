@@ -5,25 +5,17 @@
       <%= @collection.parent_collections_flattened.collect{|a| a.can_be_accessed_by_user(current_user) ? link_to(a.name,a) : a.name}.join(" &raquo; ").html_safe%>
     <% end %>
 
-    <h1><%= @collection.name %>  <% if qkunst_user? %>
+    <h1><%= @collection.name %>  <% if can?(:edit, @collection) %>
           <small>(<%= link_to 'Bewerk gegevens', edit_collection_path(@collection) %>)</small>
         <% end %></h1>
   </div>
 
 </header>
-
-
-
-
-
-
-
-
 <div class="row">
 <div class="large-9 medium-9 columns">
 <% if @collection.collections_stages? %>
   <h3>Projectfase</h3>
-  <%= render :partial => 'stages/stages_graph', locals: {collection: @collection, compact: true} %>
+  <%= render :partial => 'stages/stages_graph', locals: {collection: @collection, compact: true} if can? :read_status, @collection%>
 <% elsif parent_collection = @collection.parent_collection_with_stages %>
   <h3>Projectfasering</h3>
   <p><em>Let op:</em> Deze fasering komt uit de bovenliggende collectie <%= link_to parent_collection.name, parent_collection %>.</p>
@@ -64,17 +56,18 @@
   <%= link_to 'Nieuwe subcollectie voor deze collectie', new_collection_collection_path(@collection), class: 'small button' if admin_user?%>
 
 </div>
-<% if current_user.can_download? %>
-
+<% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) or @collection.attachments.for_me(current_user).count > 0 %>
 <aside class="large-3 medium-3 columns" style="margin-top: 1em">
   <h3>Downloads</h3>
   <ul>
-    <% if current_user.admin? %>
+    <% if can? :download_datadump, @collection  %>
       <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
       <!-- <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li> -->
     <% end %>
+    <% if can? :download_photos, @collection  %>
     <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
-    <li><%=link_to "Foto's.zip", collection_works_path(@collection, format: :zip) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.count * 2 * 417582 )%> (schatting))</small></li>
+      <li><%=link_to "Foto's.zip", collection_works_path(@collection, format: :zip) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.count * 2 * 417582 )%> (schatting))</small></li>
+    <% end %>
   </ul>
   <hr/>
   <ul>

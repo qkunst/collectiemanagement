@@ -21,7 +21,7 @@
           <% if leaf %>
             <td class="<%= leaf.enabled? ? 'enabled' : 'disabled' %><%= leaf.completed? ? ' completed' : '' %><%= leaf.active? ? ' active' : '' %>" rowspan="<%=branch_count - non_cyclic_graph_from_start.collect{|a| a[index]}.compact.count + 1%>" title="<%= leaf.completed? ? "Voltooid op #{I18n.l leaf.completed_at.to_date, format: :long}" : "" %>">
               <% if collection and collection.id %>
-                <% if leaf.enabled and !leaf.completed? %>
+                <% if leaf.enabled and !leaf.completed? and can?(:update_status, collection) %>
                   <%= button_to(leaf.name, collection_collections_stage_path(collection, leaf.collection_stage), params: {collections_stage: {completed: true}}, method: :patch, data: {confirm: "Weet u zeker dat u dit stadium als voltooid wilt beschouwen?"})%>
                 <% else %>
                   <%= leaf.name%>

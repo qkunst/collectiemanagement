@@ -161,4 +161,13 @@ class ApplicationController < ActionController::Base
     Time.zone = 'Amsterdam'
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    if current_user
+      redirect_to root_path, :alert => "Je hebt geen toegang tot deze pagina"
+    else
+      redirect_to new_user_session_url(redirect_to: request.url), alert: "Je moet ingelogd zijn om deze pagina te kunnen bekijken."
+      # raise exception
+    end
+  end
+
 end

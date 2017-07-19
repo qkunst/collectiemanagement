@@ -60,10 +60,6 @@ class User < ApplicationRecord
     qkunst? or collections.count > 0
   end
 
-  def can_access_report?
-    qkunst? or facility_manager?
-  end
-
   def can_access_location_info?
     qkunst? or facility_manager?
   end
@@ -116,15 +112,6 @@ class User < ApplicationRecord
     qkunst? or facility_manager?
   end
 
-  def can_edit_valuation?
-    admin? or appraiser?
-  end
-  alias_method :can_appraise?, :can_edit_valuation?
-
-  def can_access_valuations?
-    admin? or facility_manager? or can_edit_valuation?
-  end
-
   def can_edit_most_of_work?
     qkunst? or appraiser?
   end
@@ -142,10 +129,6 @@ class User < ApplicationRecord
 
   def can_access_extended_report?
     qkunst?
-  end
-
-  def can_download?
-    admin? or facility_manager?
   end
 
   def read_only?

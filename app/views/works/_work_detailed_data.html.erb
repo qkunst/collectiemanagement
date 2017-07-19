@@ -50,10 +50,10 @@
     <%= define_unless_blank :placeability, {classname: :complete_data} if @selection[:display] == :complete %>
     <%= define_unless_blank :grade_within_collection, {classname: :complete_data} if @selection[:display] == :complete%>
     <%= define_unless_blank :main_collection, {classname: :complete_data} if @selection[:display] == :complete%>
-    <%= define_unless_blank :information_back, description: "Info. achterz." %>
+    <%= define_unless_blank :information_back, description: "Info. achterz." if can?(:read_information_back, work) %>
     <%= define_unless_blank :other_comments, description: "Overige opm." %>
-    <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if current_user.qkunst? %>
-    <% if current_user.can_access_valuations? %>
+    <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) %>
+    <% if can?(:read_valuation, work.collection) %>
       <%= define_unless_blank :purchased_on_with_fallback %>
       <% if work.purchase_price %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
@@ -61,7 +61,9 @@
       <%= define_unless_blank :market_value, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: "Vervangingswaarde" %>
       <%= define_unless_blank :valuation_on %>
-      <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete if current_user.qkunst? %>
+      <% if can?(:read_valuation_reference, work.collection) %>
+        <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>
+      <% end %>
     <% end %>
     <% artist_involvements_texts = []%>
     <%

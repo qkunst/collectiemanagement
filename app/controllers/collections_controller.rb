@@ -1,6 +1,5 @@
 class CollectionsController < ApplicationController
-  before_action :authenticate_admin_user!, only: [:destroy, :create, :new, :refresh_works]
-  before_action :authenticate_qkunst_user!, only: [:edit, :update]
+  before_action :authenticate_admin_user!, only: [:edit, :update, :destroy, :create, :new]
   before_action :authenticate_qkunst_or_facility_user!, only: [:report]
   before_action :set_collection, only: [:show, :edit, :update, :destroy] #includes authentication
   before_action :set_parent_collection
@@ -17,6 +16,7 @@ class CollectionsController < ApplicationController
   end
 
   def refresh_works
+    authorize! :refresh, @parent_collection
     @parent_collection.works_including_child_works.all.reindex!
     redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
   end
@@ -54,7 +54,7 @@ class CollectionsController < ApplicationController
     }) if current_user.can_access_extended_report?
 
 
-    if current_user.can_access_valuations? and @sections["Waardering"]
+    if can?(:read_valuation, @collection) and @sections["Waardering"]
       @sections["Waardering"] << [:market_value]
       @sections["Waardering"] << [:replacement_value]
     end
