@@ -5,11 +5,11 @@
     <dl>
     <% if @artist.born? %>
       <dt>Geboren:</dt>
-      <dd><%=@artist.year_of_birth%> <% if @artist.place_of_birth %>(<%= @artist.place_of_birth %>)<% end%>
+      <dd><%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%><% if @artist.place_of_birth %> te <%= @artist.place_of_birth %><% end%>
     <% end %>
     <% if @artist.died? %>
       <dt>Gestorven:</dt>
-      <dd><%=@artist.year_of_death%> <% if @artist.place_of_birth %>(<%=  @artist.place_of_death %>)<% end %>
+      <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
     <% end %>
       <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
       <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>

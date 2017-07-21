@@ -10,6 +10,7 @@ class Artist < ApplicationRecord
 
   after_save :touch_works
   before_save :sync_dates_and_years
+  before_save :sync_places
   belongs_to :import_collection
 
   scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
@@ -89,8 +90,13 @@ class Artist < ApplicationRecord
   end
 
   def sync_dates_and_years
-    self.year_of_death = date_of_death.year? if date_of_death
-    self.year_of_birth = date_of_birth.year? if date_of_birth
+    self.year_of_death = date_of_death.year if date_of_death
+    self.year_of_birth = date_of_birth.year if date_of_birth
+  end
+
+  def sync_places
+    self.place_of_death = place_of_death_geoname_name if self.place_of_death.nil?
+    self.place_of_birth = place_of_birth_geoname_name if self.place_of_birth.nil?
   end
 
   def died?

@@ -1,0 +1,472 @@
+{"id":"artists_123124"
+,"priref":123124
+,"allowedproductstrings":["DOWNLOAD"]
+,"database":"artists"
+,"modification":"2016-04-19T13:04:48Z"
+,"kunstenaarsnaam":"Zwartvrouw, Muhly"
+,"voorkeursnaam":"x"
+,"geslacht":"m"
+,"nationaliteit":["Nederlands"]
+,"nationaliteit_search":["Nederlands"]
+,"nationaliteit_lref":[92956]
+,"opmerking_nationaliteit":[]
+,"voorkeursnaam_naam":null
+,"spellingsvariant":["Zwartvrouw, Muhlyluss"]
+,"opmerking_kunstenaarsnaam_var":[]
+,"zie_ook":[]
+,"opmerking_groep_samenwerking":null
+,"familierelatie":[]
+,"monogram":[]
+,"monogrammeert_als":[]
+,"opmerking_monogrammeert_als":null
+,"permutatie_monogram":[]
+,"opmerking_permutatie_monogram":null
+,"geboorteplaats_lref":[17234]
+,"geboorteplaats":["Nieuwendam (Amsterdam)"]
+,"geboorteplaats_search":["Amsterdam"
+,"Nederland"
+,"Noord-Holland (prov.)"
+,"Nieuwendam (Amsterdam)"
+,"Europa"
+,"Wereld"]
+,"geboortedatum_begin":"1903-10-04"
+,"geboortedatum_eind":"1903-10-04"
+,"geboorte_bijzonderheid":[]
+,"label_geboortedatum":["1903-1924"]
+,"label_geboortedatum_lref":[35129]
+,"sterfplaats":["Amsterdam"]
+,"sterfplaats_search":["Amsterdam"
+,"Nederland"
+,"Noord-Holland (prov.)"
+,"Europa"
+,"Wereld"
+,"[Amsterdam]"]
+,"sterfplaats_lref":[29]
+,"sterfdatum_begin":"1975-01-15"
+,"sterfdatum_eind":"1975-01-15"
+,"sterfdata_plaats_bijzonderheid":[]
+,"label_sterfdatum":["1975-1999"]
+,"label_sterfdatum_lref":[35138]
+,"werkzame_periode_begin":[]
+,"werkzame_periode_eind":[]
+,"werkzame_periode_bijzonderheid":[]
+,"label_periode_werkzaamheid":[]
+,"label_periode_werkzaamh_lref":[]
+,"werkzaamheid":[]
+,"afbeeldingsnummer_rkd_picturae_mapping":[]
+,"picturae_images":[]
+,"plaats_van_werkzaamheid_lref":[]
+,"plaats_van_werkzaamheid":[]
+,"plaats_van_werkzaamheid_search":[]
+,"plaats_van_werkzaamheid_linkref":[]
+,"kwalificatie":["beeldhouwer"
+,"medailleur"
+,"glasschilder"
+,"edelsmid"
+,"sieraadontwerper"]
+,"kwalificatie_lref":[12,291,363,290,45297]
+,"kwalificatie_search":["ontwerper"
+,"sieraadontwerper"
+,"beeldhouwer"
+,"medailleur"
+,"glasschilder"
+,"edelsmid"]
+,"opmerking_kwalificatie":null
+,"materiaal":[]
+,"materiaal_lref":[]
+,"materiaal_search":[]
+,"opmerking_materiaal":null
+,"product":["sieraad"]
+,"product_lref":[63716]
+,"product_search":["sieraden"
+,"dracht (guideterm)"
+,"accessoire (guideterm)"
+,"sieraad"
+,"Topterm Onderwerpstrefwoorden"
+,"objecttype (guideterm)"]
+,"opmerking_product":null
+,"onderwerp_werkvorm":[]
+,"onderwerp_werkvorm_search":[]
+,"onderwerp_werkvorm_lref":[]
+,"opmerking_onderwerp_werkvorm":null
+,"leerling_van":[]
+,"opmerking_leerling_leraar":null
+,"leraar_van":["Elders, Jan"
+,"Noyons, Jan"]
+,"opmerking_leraar_van":null
+,"nagevolgd_door":[]
+,"opmerking_navolging":null
+,"navolger_van":[]
+,"opmerking_navolger_van":null
+,"beinvloed_door":[]
+,"opmerking_beinvloed_door":[]
+,"invloed_op":[]
+,"opmerking_invloed":null
+,"school_stroming":[]
+,"school_stroming_search":[]
+,"school_stroming_lref":[]
+,"opmerking_school_stroming":null
+,"academies":[{"academie_en":"Kunstnijverheidsschool Quellinus (Amsterdam)"
+,"academie":"Kunstnijverheidsschool Quellinus (Amsterdam)"
+,"academie_linkref":"32789"},{"academie_en":"München: opleiding"
+,"academie":"München: opleiding"
+,"academie_linkref":"32504"
+,"opmerking_academie":"Kunstgwerbeschule München"}]
+,"academie":["Kunstnijverheidsschool Quellinus (Amsterdam)"
+,"München: opleiding"]
+,"academie_linkref":[32789,32504]
+,"academie_search":["München: opleiding"
+,"Duitsland: opleiding"
+,"Europa: opleiding"
+,"Wereld: opleiding"
+,"Kunstnijverheidsschool Quellinus (Amsterdam)"]
+,"opmerking_academie":["Kunstgwerbeschule München"]
+,"vereniging":[]
+,"vereniging_lid":[]
+,"vereniging_lid_lref":[]
+,"vereniging_lid_search":[]
+,"l_academie":[]
+,"leraar_academie":[]
+,"leraar_academie_linkref":[]
+,"leraar_academie_search":[]
+,"opmerking_leraar_academie":[]
+,"winnaar":[]
+,"winnaar_linkref":[]
+,"winnaar_van_prijs":[]
+,"winnaar_van_prijs_search":[]
+,"winnaar_van_prijs_linkref":[]
+,"bronnen":[{"bron_deel_pag":"p. 616"
+,"bron_literatuur":"Scheen 1969-1970"
+,"bron_literatuur_linkref":"107586"
+,"bron_opmerking":"as: Zwartvrouw, Muhlylaas Adrianus Franciscus ('Muhly*)"},{"bron_deel_pag":"p. 162"
+,"bron_literatuur":"Scharten 1996"
+,"bron_literatuur_linkref":"45297"}]
+,"literatuur":[]
+,"bronnen_overig":[]
+,"standplaats":["MHK/Ned./Monumentale Kunst/Glasschilderkunst"
+,"MHK/Ned./Schilder- en tekenkunst"
+,"MHK/Ned./Vormgeving"
+,"PDO/Nederlandse kunstenaars"]
+,"standplaats_lref":[29000,27214,27763,28127]
+,"standplaats_search":["PDO/Nederlandse kunstenaars"
+,"MHK/Ned./Monumentale Kunst/Glasschilderkunst"
+,"MHK/Ned./Schilder- en tekenkunst"
+,"MHK/Ned./Vormgeving"]
+,"opmerking_standplaats":[]
+,"opmerking_algemeen":[]
+,"urls":[]
+,"archiefint":[]
+,"standplaats_archief":[]
+,"standplaats_archief_lref":[]
+,"project":[]
+,"project_search":[]
+,"project_lref":[]
+,"copyright":[]
+,"archieflocatie":[]
+,"collectienaam":null
+,"collectienaam_linkref":null
+,"auteur":null
+,"auteur_linkref":null
+,"domein":[]
+,"kunstwerk":[]
+,"gewijzigd_op":"2012-04-19"
+,"ingevoerd_op":"1992-11-24"
+,"periode":[1935,1936,1937,1938,1939,1940,1941,1942,1943,1944,1945,1946,1947,1948,1949,1950,1951,1952,1953,1954,1955,1956,1957,1958,1959,1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1975]
+,"plaatsen":["Nieuwendam (Amsterdam)"
+,"Amsterdam"]
+,"plaatsen_search":["Amsterdam"
+,"Nederland"
+,"Noord-Holland (prov.)"
+,"Nieuwendam (Amsterdam)"
+,"Europa"
+,"Wereld"
+,"[Amsterdam]"]
+,"sort_name":"Zwartvrouw, Muhly"
+,"results_in_other_databases":{"collections_trefwoord_persoon":{"displayDatabase":"RKDcollections"
+,"field":"kunstenaarsnaam"
+,"filterField":"inhoudelijke_beschr.trefw.pers"
+,"filterFieldSolr":"tstrings_collections_inhoudelijke_beschr.trefw.pers"
+,"database":"collections"
+,"displayRole":null
+,"count":0}
+,"images_kunstenaar":{"displayDatabase":"RKDimages"
+,"field":"kunstenaarsnaam"
+,"filterField":"kunstenaar"
+,"filterFieldSolr":"tstrings_images_naam"
+,"database":"images"
+,"displayRole":"kunstenaar"
+,"count":0}
+,"images_provenance":{"displayDatabase":"RKDimages"
+,"field":"collectienaam"
+,"filterField":"collectienaam"
+,"filterFieldSolr":"tstrings_images_collectienaam"
+,"database":"images"
+,"displayRole":"provenance"
+,"count":0}
+,"library_onderwerp":{"displayDatabase":"RKDlibrary"
+,"field":"kunstenaarsnaam"
+,"filterField":"artist"
+,"filterFieldSolr":"tstrings_library_artist"
+,"database":"library"
+,"displayRole":"onderwerp"
+,"count":4}
+,"library_auteur":{"displayDatabase":"RKDlibrary"
+,"field":"auteur"
+,"filterField":"author.name"
+,"filterFieldSolr":"strings_library_author.name"
+,"database":"library"
+,"displayRole":"auteur"
+,"count":0}
+,"library_illustrator":{"displayDatabase":"RKDlibrary"
+,"field":"kunstenaarsnaam"
+,"filterField":"illustrator.name"
+,"filterFieldSolr":"tstrings_library_illustrator.name_search"
+,"database":"library"
+,"displayRole":"illustrator"
+,"count":0}
+,"excerpts_artists":{"displayDatabase":"RKDexcerpts"
+,"field":"kunstenaarsnaam"
+,"filterField":"kunstenaar"
+,"filterFieldSolr":"strings_excerpts_kunstenaar"
+,"database":"excerpts"
+,"displayRole":"kunstenaar"
+,"count":0}
+,"noa":{"configKey":"noa"
+,"localSearchField":"kunstenaarsnaam"
+,"foreignSearchField":"archive_creator"
+,"urlPlaceholder":"http://www.nationaalontwerparchief.nl/ontwerper/%s"
+,"urlReplaceField":"kunstenaarsnaam"
+,"displayDatabase":"Nationaal Ontwerp Archief (NOA)"
+,"database":"noa"
+,"count":0
+,"url":"http://www.nationaalontwerparchief.nl/ontwerper/Zwartvrouw, Muhly"}}
+,"detail_url":null
+,"geboortedatum_display":"1903-10-04"
+,"werkzame_periode_display":false
+,"permalink":"https://rkd.nl/explore/artists/123124"
+,"opensearchPermalink":"https://rkd.nl/opensearch-eac-cpf?q=kunstenaarsnummer:123124"
+,"virtualFields":{"hoofdTitel":{"kunstenaarsnaam":{"label":"Voorkeursnaam"
+,"contents":"Muhly Zwartvrouw"}
+,"voorkeursnaam_naam":{"label":"Zie voorkeursnaam"
+,"contents":null}
+,"geslacht_nationaliteit":{"contents":[{"type":"field"
+,"name":"geslacht"
+,"value":"man"},{"type":"concat"
+,"value":" "},{"type":"concat"
+,"value":"/"},{"type":"concat"
+,"value":" "}]}
+,"opmerking_nationaliteit":{"contents":[]}
+,"kwalificaties":{"contents":[{"type":"field"
+,"name":"kwalificatie"
+,"value":"beeldhouwer"},{"type":"concat"
+,"name":""
+,"value":", "},{"type":"field"
+,"name":"kwalificatie"
+,"value":"medailleur"},{"type":"concat"
+,"name":""
+,"value":", "},{"type":"field"
+,"name":"kwalificatie"
+,"value":"glasschilder"},{"type":"concat"
+,"name":""
+,"value":", "},{"type":"field"
+,"name":"kwalificatie"
+,"value":"edelsmid"},{"type":"concat"
+,"name":""
+,"value":", "},{"type":"field"
+,"name":"kwalificatie"
+,"value":"sieraadontwerper"}]}
+,"opmerking_kwalificatie":{"contents":null}}
+,"naamsvarianten":{"label":"Naamsvarianten"
+,"contents":{"spellingsvarianten":{"contents":["Zwartvrouw, Muhlylaas Adrianus Franciscus"]}
+,"opmerkingen":{"contents":[]}}}
+,"monogram":{"contents":{"monogrammeert_als":{"label":"Monogrammeert als"
+,"contents":{"monogrammeert_als":{"contents":[]}
+,"opmerking":{"contents":null}}}
+,"permutatie":{"label":"Permutatie"
+,"contents":{"permutatie_monogram":{"contents":[]}
+,"opmerking_permutatie_monogram":{"contents":null}}}}}
+,"geboorte_sterf":{"contents":{"geboorte":{"label":"Geboren"
+,"contents":[{"type":"field"
+,"value":"1903-10-04"}]}
+,"gestorven":{"label":"Gestorven"
+,"contents":[{"type":"field"
+,"value":"1975-01-15"
+,"field":"sterfdatum_begin"},{"type":"concat"
+,"value":" "}]}
+,"gestorven_bijzonderheden":{"contents":[]}}}
+,"familierelatie":{"label":"Familierelatie"
+,"contents":[]}
+,"zie_ook":{"label":"Zie ook"
+,"contents":[]}
+,"werkzame_periode":{"label":"Werkzame periode"
+,"contents":{"periode":{"contents":[]}
+,"bijzonderheden":{"contents":[]}}}
+,"academies":{"label":"Opleiding"
+,"contents":[{"academie":"Kunstnijverheidsschool Quellinus (Amsterdam)"
+,"opmerking":null},{"academie":"München: opleiding"
+,"opmerking":"Kunstgwerbeschule München"}]}
+,"werkzaam_in":{"label":"Werkzaam in"
+,"contents":[]}
+,"leraar_aan":{"label":"Leraar aan"
+,"contents":[]}
+,"relaties_met_andere_kunstenaars":{"label":"Relaties met andere kunstenaars"
+,"contents":{"leerling_van":{"label":"Leerling van"
+,"contents":[]}
+,"opmerking_leerling_leraar":{"contents":null}
+,"leraar_van":{"label":"Leraar van"
+,"contents":["Elders, Jan"
+,"Noyons, Jan"]}
+,"opmerking_leraar_van":{"contents":null}
+,"navolger_van":{"label":"Navolger van"
+,"contents":[]}
+,"opmerking_navolger_van":{"contents":null}
+,"nagevolgd_door":{"label":"Nagevolgd door"
+,"contents":[]}
+,"opmerking_navolging":{"contents":null}
+,"beinvloed_door":{"contents":[]}
+,"opmerking_beinvloed_door":{"contents":[]}
+,"invloed_op":{"contents":[]}
+,"opmerking_invloed_op":{"contents":null}}}
+,"onderwerpen":{"label":"Onderwerpen"
+,"contents":{"werkvormen":{"contents":[]}
+,"opmerking":{"contents":null}}}
+,"materialen":{"contents":{"materialen":{"label":"Materialen"
+,"contents":[]}
+,"opmerking_materialen":{"contents":null}
+,"producten":{"label":"Producten"
+,"contents":[{"type":"field"
+,"name":"product"
+,"value":"sieraad"}]}
+,"opmerking_producten":{"contents":null}}}
+,"stroming":{"contents":{"stromingen":{"label":"Stroming"
+,"contents":[]}
+,"opmerking":{"contents":null}}}
+,"prijzen":{"contents":[]
+,"label":"Prijzen"}
+,"lid_van":{"contents":[]
+,"label":"Lid van"}
+,"overige_literatuur":{"label":"Overige literatuur"
+,"contents":{"bronnen":{"contents":[[{"type":"field"
+,"value":"Scheen 1969-1970"},{"type":"concat"
+,"value":", "},{"type":"field"
+,"value":"p. 616"},{"type":"concat"
+,"value":"("},{"type":"field"
+,"value":"as: Zwartvrouw, Muhlylaas Adrianus Franciscus ('Muhly*)"},{"type":"concat"
+,"value":")"}],[{"type":"field"
+,"value":"Scharten 1996"},{"type":"concat"
+,"value":", "},{"type":"field"
+,"value":"p. 162"}]]}
+,"literatuur":{"contents":[]}
+,"bronnen_overig":{"contents":[]}}}
+,"documentatie_komt_voor_project":{"contents":{"komt_voor_in":{"label":"Komt voor in"
+,"contents":[]}
+,"projecten":{"label":"Projecten"
+,"contents":[]}}}
+,"archief_berust_bij":{"contents":[]}
+,"overige_opmerkingen":[""]
+,"suggested":[{"field":"geboortedatum_begin"
+,"database":"artists"
+,"value":"1903-10-04"
+,"filterField":"geboortedatum_begin"
+,"url":"/nl/explore/artists?filters%5Bgeboortedatum_begin%5D=1903-10-04"},{"field":"sterfplaats"
+,"database":"artists"
+,"value":"Amsterdam"
+,"filterField":"sterfplaats"
+,"url":"/nl/explore/artists?filters%5Bsterfplaats%5D=Amsterdam"},{"field":"kwalificatie"
+,"database":"artists"
+,"value":"beeldhouwer"
+,"filterField":"kwalificatie"
+,"url":"/nl/explore/artists?filters%5Bkwalificatie%5D=beeldhouwer"},{"field":"kwalificatie"
+,"database":"artists"
+,"value":"medailleur"
+,"filterField":"kwalificatie"
+,"url":"/nl/explore/artists?filters%5Bkwalificatie%5D=medailleur"},{"field":"kwalificatie"
+,"database":"artists"
+,"value":"glasschilder"
+,"filterField":"kwalificatie"
+,"url":"/nl/explore/artists?filters%5Bkwalificatie%5D=glasschilder"},{"field":"kwalificatie"
+,"database":"artists"
+,"value":"edelsmid"
+,"filterField":"kwalificatie"
+,"url":"/nl/explore/artists?filters%5Bkwalificatie%5D=edelsmid"},{"field":"kwalificatie"
+,"database":"artists"
+,"value":"sieraadontwerper"
+,"filterField":"kwalificatie"
+,"url":"/nl/explore/artists?filters%5Bkwalificatie%5D=sieraadontwerper"},{"field":"product"
+,"database":"artists"
+,"value":"sieraad"
+,"filterField":"product"
+,"url":"/nl/explore/artists?filters%5Bproduct%5D=sieraad"},{"field":"academie"
+,"database":"artists"
+,"value":"Kunstnijverheidsschool Quellinus (Amsterdam)"
+,"filterField":"academie"
+,"url":"/nl/explore/artists?filters%5Bacademie%5D=Kunstnijverheidsschool+Quellinus+%28Amsterdam%29"},{"field":"academie"
+,"database":"artists"
+,"value":"München: opleiding"
+,"filterField":"academie"
+,"url":"/nl/explore/artists?filters%5Bacademie%5D=M%C3%BCnchen%3A+opleiding"}]
+,"results_in_other_databases":{"collections_trefwoord_persoon":{"displayDatabase":"RKDcollections"
+,"field":"kunstenaarsnaam"
+,"filterField":"inhoudelijke_beschr.trefw.pers"
+,"filterFieldSolr":"tstrings_collections_inhoudelijke_beschr.trefw.pers"
+,"database":"collections"
+,"displayRole":null
+,"count":0
+,"url":"/nl/explore/collections?filters%5Binhoudelijke_beschr.trefw.pers%5D=Zwartvrouw%2C+Muhly"}
+,"images_kunstenaar":{"displayDatabase":"RKDimages"
+,"field":"kunstenaarsnaam"
+,"filterField":"kunstenaar"
+,"filterFieldSolr":"tstrings_images_naam"
+,"database":"images"
+,"displayRole":"kunstenaar"
+,"count":0
+,"url":"/nl/explore/images?filters%5Bkunstenaar%5D=Zwartvrouw%2C+Muhly"}
+,"images_provenance":{"displayDatabase":"RKDimages"
+,"field":"collectienaam"
+,"filterField":"collectienaam"
+,"filterFieldSolr":"tstrings_images_collectienaam"
+,"database":"images"
+,"displayRole":"provenance"
+,"count":0
+,"url":"/nl/explore/images?"}
+,"library_onderwerp":{"displayDatabase":"RKDlibrary"
+,"field":"kunstenaarsnaam"
+,"filterField":"artist"
+,"filterFieldSolr":"tstrings_library_artist"
+,"database":"library"
+,"displayRole":"onderwerp"
+,"count":4
+,"url":"/nl/explore/library?filters%5Bartist%5D=Zwartvrouw%2C+Muhly"}
+,"library_auteur":{"displayDatabase":"RKDlibrary"
+,"field":"auteur"
+,"filterField":"author.name"
+,"filterFieldSolr":"strings_library_author.name"
+,"database":"library"
+,"displayRole":"auteur"
+,"count":0
+,"url":"/nl/explore/library?"}
+,"library_illustrator":{"displayDatabase":"RKDlibrary"
+,"field":"kunstenaarsnaam"
+,"filterField":"illustrator.name"
+,"filterFieldSolr":"tstrings_library_illustrator.name_search"
+,"database":"library"
+,"displayRole":"illustrator"
+,"count":0
+,"url":"/nl/explore/library?filters%5Billustrator.name%5D=Zwartvrouw%2C+Muhly"}
+,"excerpts_artists":{"displayDatabase":"RKDexcerpts"
+,"field":"kunstenaarsnaam"
+,"filterField":"kunstenaar"
+,"filterFieldSolr":"strings_excerpts_kunstenaar"
+,"database":"excerpts"
+,"displayRole":"kunstenaar"
+,"count":0
+,"url":"/nl/explore/excerpts?filters%5Bkunstenaar%5D=Zwartvrouw%2C+Muhly"}
+,"noa":{"configKey":"noa"
+,"localSearchField":"kunstenaarsnaam"
+,"foreignSearchField":"archive_creator"
+,"urlPlaceholder":"http://www.nationaalontwerparchief.nl/ontwerper/%s"
+,"urlReplaceField":"kunstenaarsnaam"
+,"displayDatabase":"Nationaal Ontwerp Archief (NOA)"
+,"database":"noa"
+,"count":0
+,"url":"http://www.nationaalontwerparchief.nl/ontwerper/Zwartvrouw, Muhly"}}}}

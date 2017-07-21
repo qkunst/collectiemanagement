@@ -17,8 +17,15 @@ class RkdArtist < ApplicationRecord
       if api_response["sterfdatum_eind"].match /\d\d\d\d/
         api_response["sterfdatum_eind"].to_i
       else
-        api_response["sterfdatum_eind"].to_date.year
+        api_response["sterfdatum_eind"].to_date.year if api_response["sterfdatum_eind"].length > 4
       end
+    rescue
+    end
+  end
+
+  def date_of_death
+    begin
+      api_response["sterfdatum_eind"].to_date if api_response["sterfdatum_eind"].length > 4
     rescue
     end
   end
@@ -42,8 +49,15 @@ class RkdArtist < ApplicationRecord
       if api_response["geboortedatum_eind"].match /\d\d\d\d/
         api_response["geboortedatum_eind"].to_i
       else
-        api_response["geboortedatum_eind"].to_date.year
+        api_response["geboortedatum_eind"].to_date.year if api_response["geboortedatum_eind"].length > 4
       end
+    rescue
+    end
+  end
+
+  def date_of_birth
+    begin
+      api_response["geboortedatum_eind"].to_date if api_response["geboortedatum_eind"].length > 4
     rescue
     end
   end
@@ -62,6 +76,8 @@ class RkdArtist < ApplicationRecord
 
   def to_artist_params
     {
+      date_of_birth: date_of_birth,
+      date_of_death: date_of_death,
       year_of_birth: year_of_birth,
       year_of_death: year_of_death,
       place_of_birth: place_of_birth,

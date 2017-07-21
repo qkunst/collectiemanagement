@@ -451,6 +451,10 @@ class Work < ApplicationRecord
     self.touch if persisted?
   end
 
+  def touch_collection!
+    collection.touch if collection
+  end
+
   class << self
 
     def fast_aggregations attributes
@@ -554,9 +558,7 @@ class Work < ApplicationRecord
       end
       return w
     end
-    private def touch_collection!
-      collection.touch if collection
-    end
+
 
     private def _fast_aggregate_column_values rv, attribute
       self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
