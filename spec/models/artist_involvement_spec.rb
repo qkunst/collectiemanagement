@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe ArtistInvolvement, type: :model do
+  describe "#copy_place_geoname_id_from_involvement_when_nil" do
+    it "should work copy geoname from involvement" do
+      i = involvements(:involvement1)
+      a = artists(:artist1)
+      ai = ArtistInvolvement.new(involvement: i, artist: a, involvement_type: :professional)
+      ai.save
+      expect(ai.geoname_summary.geoname_id).to eq(123)
+    end
+
+
+  end
   describe  "#to_s" do
     it "should include name" do
       a = Involvement.new(name: "Naam Involvment")

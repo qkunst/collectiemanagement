@@ -1,11 +1,13 @@
 class ArtistInvolvement < ApplicationRecord
-  belongs_to :artist
+  belongs_to :artist, touch: true
   belongs_to :involvement
   belongs_to :geoname_summary, foreign_key: :place_geoname_id, primary_key: :geoname_id
 
   accepts_nested_attributes_for :involvement
 
   validates_presence_of :involvement_type
+
+  before_save :copy_place_geoname_id_from_involvement_when_nil
 
   scope :educational, -> {where(involvement_type: [:educational, :education])}
   scope :professional, -> {where(involvement_type: :professional)}
@@ -20,6 +22,7 @@ class ArtistInvolvement < ApplicationRecord
   def educational?
     involvement_type.to_s == "educational"
   end
+
 
   def to_s(options={})
     if options[:format] == :short
@@ -43,5 +46,11 @@ class ArtistInvolvement < ApplicationRecord
     return involvement.name if involvement
     return place if place
     return place_geoname_name
+  end
+
+  def copy_place_geoname_id_from_involvement_when_nil
+    if involvement and place_geoname_id.nil?
+      self.place_geoname_id = involvement.place_geoname_id
+    end
   end
 end

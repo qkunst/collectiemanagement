@@ -9,6 +9,7 @@ class Artist < ApplicationRecord
   has_many :techniques, through: :works
 
   after_save :touch_works
+  after_touch :touch_works
   before_save :sync_dates_and_years
   before_save :sync_places
   belongs_to :import_collection
