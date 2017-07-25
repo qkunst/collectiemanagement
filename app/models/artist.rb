@@ -19,6 +19,7 @@ class Artist < ApplicationRecord
   scope :have_name, ->{where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)")}
   scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
   scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
+  scope :works, ->(work){ joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: [work].flatten.map(&:id)})}
 
   accepts_nested_attributes_for :artist_involvements
 

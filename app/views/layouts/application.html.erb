@@ -43,8 +43,8 @@
 
             <% end %>
             <% unless offline? %>
-              <li><%= menu_link_to 'Vervaardigers', artists_path if qkunst_user?%></li>
-              <li><%= menu_link_to 'Beheren', admin_path if admin_user?%></li>
+              <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
+              <li><%= menu_link_to 'Beheren', admin_path if can?(:manage, :all) %></li>
             <% end %>
           </ul>
         </div>

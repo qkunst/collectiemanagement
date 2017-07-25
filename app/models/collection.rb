@@ -15,7 +15,6 @@ end
 class Collection < ApplicationRecord
   belongs_to :parent_collection, class_name: 'Collection'
   has_and_belongs_to_many :users
-  has_many :artists, through: :works
   has_many :attachments, as: :attache
   has_many :batch_photo_uploads
   has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
@@ -115,6 +114,10 @@ class Collection < ApplicationRecord
       collections_stage.completed_at = date
       collections_stage.save
     end
+  end
+
+  def artists
+    Artist.works(works_including_child_works)
   end
 
   def works_including_child_works

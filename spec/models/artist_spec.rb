@@ -119,7 +119,7 @@ RSpec.describe Artist, type: :model do
   describe "Class methods" do
     describe ".empty_artists" do
       it "should list all workless-artists" do
-        expect(Artist.empty_artists.count).to eq 1
+        expect(Artist.empty_artists.count).to eq 3
         expect(Artist.empty_artists.first.id).to eq artists(:artist_no_works).id
       end
     end
@@ -127,12 +127,12 @@ RSpec.describe Artist, type: :model do
       it "should destroy all workless-artists" do
         to_destroy_artist_id = artists(:artist_no_works).id
         destroyed_artists = Artist.destroy_all_empty_artists!
-        expect(destroyed_artists.count).to eq 1
+        expect(destroyed_artists.count).to eq 3
         expect(destroyed_artists.first.id).to eq to_destroy_artist_id
         expect(Artist.empty_artists.count).to eq 0
       end
       it "should list all workless-artists (check check)" do
-        expect(Artist.empty_artists.count).to eq 1
+        expect(Artist.empty_artists.count).to eq 3
         expect(Artist.empty_artists.first.id).to eq artists(:artist_no_works).id
       end
     end

@@ -7,6 +7,12 @@ class Ability
       if user.admin?
         can :manage, :all
 
+        can :clean, Artist
+        can :combine, Artist
+
+        can :show, RkdArtist
+        can :copy, RkdArtist
+
         can :access_valuation, Collection
         can :download_datadump, Collection
         can :download_photos, Collection
@@ -20,6 +26,12 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
       elsif user.appraiser?
+        can [:create, :update], Artist
+        can [:create, :update], ArtistInvolvement
+
+        can :show, RkdArtist
+        can :copy, RkdArtist
+
         can :manage, Appraisal
 
         can :read_report, Collection
@@ -31,6 +43,11 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
       elsif user.qkunst?
+        can [:create, :update], Artist
+        can [:create, :update], ArtistInvolvement
+
+        can :show, RkdArtist
+
         can :read_report, Collection
         can :read_status, Collection
         can :refresh, Collection

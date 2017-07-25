@@ -1,4 +1,4 @@
-<%= simple_form_for([@artist,@artist_involvement]) do |f| %>
+<%= simple_form_for([@collection, @artist,@artist_involvement].compact) do |f| %>
   <fieldset class="row">
     <div class="field medium-4 columns">
       <%= f.input :start_year %><br>

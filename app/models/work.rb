@@ -32,6 +32,7 @@ class Work < ApplicationRecord
   has_many :attachments, as: :attache
 
   scope :no_photo_front, -> { where(photo_front: nil)}
+  scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

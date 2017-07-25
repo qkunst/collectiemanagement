@@ -49,5 +49,28 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Scopes" do
+    describe ".works_including_child_works" do
+      it "should return all child works" do
+        child_works = collections(:collection3).works_including_child_works
+        expect(child_works).to include(works(:work6))
+      end
+    end
+    describe ".artist" do
+      it "should return all works by certain artist" do
+        artist_works = Work.artist(artists(:artist1))
+        artists(:artist1).works.each do |work|
+          expect(artist_works).to include(work)
+        end
+      end
+      it "should return all works by certain artist, but not expand scope" do
+        artist_works = collections(:collection3).works_including_child_works.artist(artists(:artist4))
+        artist_works.each do |work|
+          expect(work.artists).to include(artists(:artist4))
+        end
+        artist_works.each do |work|
+          expect(work.collection).to eq(collections(:collection3))
+        end
+      end
+    end
   end
 end

@@ -1,19 +1,22 @@
 <% if admin_user? and @artist %>
-<p><%= link_to '← Terug naar de vervaardigerspagina', artist_path(@artist)%></p>
+<p><%= link_to '← Terug naar de vervaardigerspagina', [@collection,@artist].compact%></p>
+<% else %>
+<p><%= link_to '← Terug ', 'javascript:history.back(1)'%></p>
+
 <% end %>
-<h1>RKDartist: <%= link_to @rkd_artist.end_user_link do %><%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %><% end %></h1>
+<h1>RKDartist <%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %></h1>
 <p><%= @rkd_artist.substring%></p>
-  <% if admin_user? and @artist %>
+  <% if can?(:copy, RkdArtist) and @artist %>
 
     <nav class="actions">
       <ul class="menu">
         <% if @artist.rkd_artist == @rkd_artist %>
           <li class="right"><%= link_to 'Toon artist op RKD ➔',  @rkd_artist.end_user_link, class: [:small, :secondary, :button], target: "_blank" %></li>
 
-          <li><%= button_to 'Neem informatie over uit het RKD', rkd_artist_copy_path(@rkd_artist), params: {artist_id: @artist.id}, class: [:small, :button], method: :patch, data: {confirm: "Weet je zeker dat je de gegevens in de QKunst database wilt vervangen door de RKD gegevens?"}%></li>
-          <li><%= button_to 'Ontkoppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
+          <li><%= button_to 'Neem informatie over uit het RKD', @collection ? collection_rkd_artist_copy_path(@collection, @rkd_artist) : rkd_artist_copy_path(@rkd_artist), params: {artist_id: @artist.id}, class: [:small, :button], method: :patch, data: {confirm: "Weet je zeker dat je de gegevens in de QKunst database wilt vervangen door de RKD gegevens?"}%></li>
+          <li><%= button_to 'Ontkoppel', [@collection,@artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
         <% else %>
-          <li><%= button_to 'Koppel met deze vervaardiger', artist_path(@artist), params: {"artist[rkd_artist_id]" => @rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %></li>
+          <li><%= button_to 'Koppel met deze vervaardiger', [@collection,@artist].compact, params: {"artist[rkd_artist_id]" => @rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %></li>
 
         <% end %>
       </ul>

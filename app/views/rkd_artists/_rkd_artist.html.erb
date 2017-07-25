@@ -1,15 +1,15 @@
 <article class="rkd_artist">
   <header>
-    <h4><small>RKDartist:<br/></small><%= link_to rkd_artist_path(rkd_artist, @artist ? {artist_id: @artist.id} : {})  do %><%= rkd_artist.rkd_id%>: <%= rkd_artist.name %><% end %></h4>
+    <h4><small>RKDartist:<br/></small><%= link_to @collection ? collection_rkd_artist_path(@collection, rkd_artist, @artist ? {artist_id: @artist.id} : {}) : rkd_artist_path(rkd_artist, @artist ? {artist_id: @artist.id} : {})  do %><%= rkd_artist.rkd_id%>: <%= rkd_artist.name %><% end %></h4>
     <p><%= rkd_artist.substring%></p>
   </header>
-  <% if admin_user? and @artist %>
+  <% if can?(:update, Artist) and @artist %>
   <nav class="actions">
     <ul class="menu">
       <% if @artist.rkd_artist == rkd_artist %>
-        <%= button_to 'Ontkoppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
+        <%= button_to 'Ontkoppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
       <% else %>
-        <%= button_to 'Koppel', artist_path(@artist), params: {"artist[rkd_artist_id]" => rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
+        <%= button_to 'Koppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
       <% end %>
     </ul>
   </nav>

@@ -64,7 +64,15 @@ Rails.application.routes.draw do
     resources :batch_photo_uploads do
       post 'match_works' => 'batch_photo_uploads#match_works'
     end
-    resources :artists
+    resources :artists do
+      get 'combine_prepare' => 'artists#combine_prepare'
+      patch 'combine' => 'artists#combine'
+      get 'rkd_artists' => 'artists#rkd_artists'
+      resources :artist_involvements
+    end
+    resources :rkd_artists do
+      patch 'copy' => 'rkd_artists#copy'
+    end
     resources :import_collections do
       get 'preview' => 'import_collections#preview'
       patch 'delete_works' => 'import_collections#delete_works'

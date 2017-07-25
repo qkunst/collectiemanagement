@@ -1,4 +1,4 @@
-<%= simple_form_for(@artist) do |f| %>
+<%= simple_form_for([@collection,@artist].compact) do |f| %>
 <div class="artist">
   <div class="row">
     <div class="large-4 medium-4 columns">

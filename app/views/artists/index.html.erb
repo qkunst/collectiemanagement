@@ -1,23 +1,26 @@
 <div class="row">
-<div class="large-9 medium-9 columns">
-<h1><%=@title%></h1>
-
-  <ul>
-    <% @artists.each do |artist| %>
-      <li>
-        <%= link_to artist.name, artist %>
-      </li>
+<div class="columns">
+  <h1><%=@title%></h1>
+  <div class="panel">
+    <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] if qkunst_user? %>
+    <% if current_user.admin? and !@collection %>
+    <%= button_to 'Schoon kunstenaars op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %>
     <% end %>
-  </ul>
+  </div>
+  <table>
+    <thead>
+      <th>Achternaam, Tussenv.</th><th>Voornaam</th><th>Geboren</th><th>Gestorven</th>
+    </thead>
+    <tbody>
+      <% @artists.each do |artist| %>
+      <tr>
+        <td><%= link_to [artist.last_name, artist.prefix].compact.join(", "), [@collection, artist].compact %></td>
+        <td><%= link_to artist.first_name.to_s, [@collection, artist].compact %></td>
+        <td><%= link_to [@collection, artist].compact do %><%=artist.date_of_birth ? I18n.l(artist.date_of_birth, format: :long) : artist.year_of_birth%><% if artist.place_of_birth? %> te <%= artist.place_of_birth %><% end %><% end %></td>
+        <td><%= link_to [@collection, artist].compact do %><%=artist.date_of_death ? I18n.l(artist.date_of_death, format: :long) : artist.year_of_death%><% if artist.place_of_death? %> te <%= artist.place_of_death %><% end %><% end %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
-<aside class="large-3 medium-3 columns">
-  <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: :button if qkunst_user? %>
-  <% if current_user.admin? %>
-    <h3>Administratie</h3>
-    <p>
-      <small>Onderstaande operatie past veel aan in de database, zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is.</small></p>
-    <%= button_to 'Schoon kunstenaars op', artists_clean_path, confirm: "Weet u zeker dat u verder wilt gaan?", class: [:button, :warning], method: :post %>
-  <% end %>
-</aside>
 </div>

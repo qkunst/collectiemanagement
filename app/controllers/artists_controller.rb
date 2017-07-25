@@ -5,15 +5,16 @@ class ArtistsController < ApplicationController
   before_action :authenticate_qkunst_user_if_no_collection!
   before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :rkd_artists]
   before_action :retrieve_rkd_artists, only: [:show]
-  skip_before_action :verify_authenticity_token, only: [:create]
+  before_action :authenticate_admin_user_when_no_collection
 
   # GET /artists
   # GET /artists.json
   def index
     if @collection
-      @artists = @collection.artists.order_by_name.uniq.all
+      @artists = @collection.artists.order_by_name.distinct.all
       @title = "Vervaardigers in collectie #{@collection.name}"
     else
+      authorize! :manage, Artist
       @artists = Artist.order_by_name.all
       @title = "Alle vervaardigers"
     end
@@ -21,6 +22,8 @@ class ArtistsController < ApplicationController
 
   # POST
   def clean
+    authorize! :clean, Artist
+
     artist_count_before = Artist.count
     Artist.destroy_all_empty_artists!
     Artist.destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
@@ -33,16 +36,24 @@ class ArtistsController < ApplicationController
   # GET /artists/1
   # GET /artists/1.json
   def show
-
+    if @collection
+      @works = @collection.works_including_child_works.artist(@artist)
+    else
+      authorize! :manage, Artist
+      @works = @artist.works
+    end
   end
 
   # GET
   def combine_prepare
+    authorize! :combine, Artist
 
   end
 
   # POST
   def combine
+    authorize! :combine, Artist
+
     combine_params = params.require(:artist).permit(artists_with_same_name:[])
     artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if{|a| a == ""}
     count = @artist.combine_artists_with_ids(artist_ids_to_combine_with)
@@ -57,12 +68,14 @@ class ArtistsController < ApplicationController
 
   # GET /artists/1/edit
   def edit
+    authorize! :update, @artist
   end
 
   # POST /artists
   # POST /artists.json
   def create
     @artist = Artist.new(artist_params)
+    authorize! :create, @artist
 
     respond_to do |format|
       if @artist.save
@@ -81,9 +94,9 @@ class ArtistsController < ApplicationController
     respond_to do |format|
       if @artist.update(artist_params)
         if artist_params["rkd_artist_id"] and artist_params["rkd_artist_id"].to_i > 0 and artist_params.keys.count == 1
-          format.html { redirect_to rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: 'De vervaardiger is gekoppeld met een RKD artist' }
+          format.html { redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: 'De vervaardiger is gekoppeld met een RKD artist' }
         else
-          format.html { redirect_to @artist, notice: 'De vervaardiger is bijgewerkt' }
+          format.html { redirect_to [@collection,@artist].compact, notice: 'De vervaardiger is bijgewerkt' }
         end
         format.json { render :show, status: :ok, location: @artist }
       else
@@ -116,7 +129,15 @@ class ArtistsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_artist
-      @artist = Artist.find(params[:artist_id] || params[:id])
+      if @collection
+        @artist = @collection.artists.find(params[:artist_id] || params[:id])
+      else
+        @artist = Artist.find(params[:artist_id] || params[:id])
+      end
+    end
+
+    def authenticate_admin_user_when_no_collection
+      authorize! :manage, Artist if @collection.nil?
     end
 
     def retrieve_rkd_artists

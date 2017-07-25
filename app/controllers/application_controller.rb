@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_qkunst_user_if_no_collection!
     set_collection
-    unless current_user.qkunst?
+    unless current_user.qkunst? or @collection
       redirect_options = offline? ? {} : {alert: "U dient een QKunst medewerker te zijn"}
       redirect_to root_path, redirect_options
     end

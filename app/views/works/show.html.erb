@@ -1,12 +1,8 @@
 <header class="row">
   <div class="large-10 columns">
-    <% if @work.artists.count > 0 %>
-      <% if current_user.qkunst? %>
-        <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to_with_name artist %> <% end %></h2>
-      <% else %>
-        <h2 class="subheader"><%= @work.artist_name_rendered(include_years: true, include_locality: true, rebuild: true) %></h2>
+      <% if @work.artists.count > 0 %>
+        <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h2>
       <% end %>
-    <% end %>
 
     <h1><%= @work.title_rendered %> <small>         <% if qkunst_user? %>
           (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)

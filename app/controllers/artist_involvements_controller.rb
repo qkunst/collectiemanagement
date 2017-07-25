@@ -1,7 +1,7 @@
 class ArtistInvolvementsController < ApplicationController
-  before_action :authenticate_admin_user!
-  before_action :set_artist_involvement, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource :artist_involvement
   before_action :set_artist
+  before_action :set_collection
 
   # GET /artist_involvements/new
   def new
@@ -20,7 +20,7 @@ class ArtistInvolvementsController < ApplicationController
     @artist_involvement.artist = @artist
     respond_to do |format|
       if @artist_involvement.save
-        format.html { redirect_to @artist, notice: 'Artist involvement was successfully created.' }
+        format.html { redirect_to [@collection, @artist].compact, notice: 'Betrekking toegevoegd.' }
         format.json { render :show, status: :created, location: @artist_involvement }
       else
         format.html { render :new }
@@ -34,7 +34,7 @@ class ArtistInvolvementsController < ApplicationController
   def update
     respond_to do |format|
       if @artist_involvement.update(artist_involvement_params)
-        format.html { redirect_to @artist, notice: 'Artist involvement was successfully updated.' }
+        format.html { redirect_to [@collection, @artist].compact, notice: 'Betrekking bijgewerkt.' }
         format.json { render :show, status: :ok, location: @artist_involvement }
       else
         format.html { render :edit }
@@ -55,9 +55,7 @@ class ArtistInvolvementsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_artist_involvement
-      @artist_involvement = ArtistInvolvement.find(params[:id])
-    end
+
     def set_artist
       @artist = Artist.find(params[:artist_id])
     end

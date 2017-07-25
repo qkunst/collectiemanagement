@@ -15,11 +15,14 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     expect(page).to have_content('Ingelogd als qkunst-test-read_only_user@murb.nl')
     expect(page).to have_content('Collection 3')
     expect(page).not_to have_content("+ Voeg werk toe")
+    expect(page).not_to have_content('Bewerk')
     expect(page).to have_content('Doorzoek de werken')
     click_on "Werken"
     expect(page).to have_content('Deze collectie bevat 1 werk')
+    expect(page).not_to have_content('Bewerk')
     click_on "Work6"
     expect(page).to have_content('Details')
+    expect(page).not_to have_content('Bewerk')
 
   end
   scenario "registrator" do
@@ -60,5 +63,22 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     click_on "Kunstwerk bewaren"
     expect(page).to have_content('Het werk is bijgewerkt')
     expect(page).to have_content("VerdiepingvurdiepB (bewerk)")
+  end
+  scenario "facility" do
+    visit root_path
+    first(".large-12.columns .button").click
+    fill_in("E-mailadres", with: "qkunst-test-facility_manager@murb.nl")
+    fill_in("Wachtwoord", with: "password")
+    first("#new_user input[type=submit]").click
+    click_on "Collecties"
+    expect(page).to have_content('Ingelogd als qkunst-test-facility_manager@murb.nl')
+    click_on "Work1"
+    expect(page).not_to have_content('Bewerk gegevens')
+    expect(page).to have_content('bewerk')
+    first(".detailed_data table tr a").click
+    expect(page).to have_content('Bewerk locatie')
+    fill_in('Verdieping', with: 'Nieuwe verdieping')
+    click_on "Kunstwerk bewaren"
+    expect(page).to have_content('Nieuwe verdieping')
   end
 end

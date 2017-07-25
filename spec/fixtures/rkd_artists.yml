@@ -1,0 +1,4 @@
+rkd_artist2:
+  rkd_id: 123
+  name: "Artist 2"
+  api_response: '{"id":"artists_123123", "priref":123123,"allowedproductstrings":["DOWNLOAD"],"database":"artists", "modification":"2015-11-11T13:36:29Z", "kunstenaarsnaam":"Haas, Konijn", "voorkeursnaam":"x", "geslacht":"v", "nationaliteit":["Nederlands"], "geboorteplaats":["Amsterdam"], "sterfplaats":["Amsterdam"], "werkzaamheid":[]}'
