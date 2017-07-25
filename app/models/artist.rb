@@ -82,6 +82,11 @@ class Artist < ApplicationRecord
     end
   end
 
+  def prefix
+    rv = read_attribute(:prefix)
+    (rv.nil? or rv.empty?) ? nil : rv
+  end
+
   def retrieve_rkd_artists!
     return [rkd_artist] if rkd_artist
     rkd_artists
