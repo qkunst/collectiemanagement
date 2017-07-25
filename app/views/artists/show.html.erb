@@ -55,7 +55,7 @@
 </div>
 <h2>Werken van deze vervaardiger</h2>
 <p>Overzicht van werken van deze vervaardiger in
-  <% if @collection %>de collectie <%= link_to @collection.name, @collection%> (<%= link_to "toon werken uitgebreid", collection_works_path(@collection, params: {filter: {"artists.id"=>[744]}}) %>)
+  <% if @collection %>de collectie <%= link_to @collection.name, @collection%> (<%= link_to "toon werken uitgebreid", collection_works_path(@collection, params: {filter: {"artists.id"=>[@artist.id]}}) %>)
   <% else %>de QKunst database<% end %>.</p>
 <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
 <%= render @works%>
