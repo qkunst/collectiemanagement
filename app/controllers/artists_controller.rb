@@ -10,6 +10,8 @@ class ArtistsController < ApplicationController
   # GET /artists
   # GET /artists.json
   def index
+    authorize! :index, Artist
+
     if @collection
       @artists = @collection.artists.order_by_name.distinct.all
       @title = "Vervaardigers in collectie #{@collection.name}"
@@ -36,6 +38,8 @@ class ArtistsController < ApplicationController
   # GET /artists/1
   # GET /artists/1.json
   def show
+    authorize! :show, @artist
+
     if @collection
       @works = @collection.works_including_child_works.artist(@artist)
     else
@@ -46,13 +50,12 @@ class ArtistsController < ApplicationController
 
   # GET
   def combine_prepare
-    authorize! :combine, Artist
-
+    authorize! :combine, @artist
   end
 
   # POST
   def combine
-    authorize! :combine, Artist
+    authorize! :combine, @artist
 
     combine_params = params.require(:artist).permit(artists_with_same_name:[])
     artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if{|a| a == ""}
@@ -63,6 +66,8 @@ class ArtistsController < ApplicationController
 
   # GET /artists/new
   def new
+    authorize! :create, Artist
+
     @artist = Artist.new
   end
 
