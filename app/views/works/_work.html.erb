@@ -15,7 +15,7 @@
           <% if @selection[:display] == :compact%>
           <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
           <% else %>
-          <h3><%= work.artist_name_rendered(rebuild: true)%></h3>
+          <h3><%= work.artist_name_rendered(rebuild: true, include_years: true, include_locality: true)%></h3>
           <% end %>
 
           <h4><%= work.title_rendered%></h4>
