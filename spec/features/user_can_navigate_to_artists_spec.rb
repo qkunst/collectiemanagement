@@ -12,7 +12,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     first("#new_user input[type=submit]").click
     click_on "Collecties"
     expect(page).not_to have_content('Bewerk')
-    click_on "Vervaardigers"
+    expect(page).not_to have_content('Vervaardigers')
+    click_on "Werken"
+    click_on "Work6"
     expect(page).to have_content('artist_4 achternaam')
     expect(page).not_to have_content('Bewerk')
     click_on "artist_4 achternaam"

@@ -26,7 +26,7 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
       elsif user.appraiser?
-        can [:create, :update], Artist
+        can [:create, :update, :read], Artist
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
@@ -43,7 +43,7 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
       elsif user.qkunst?
-        can [:create, :update], Artist
+        can [:create, :update, :read], Artist
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
@@ -55,6 +55,8 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
       elsif user.facility_manager?
+        can [:read], Artist
+
         can :read_report, Collection
         can :download_photos, Collection
         can :read_status, Collection
@@ -62,7 +64,7 @@ class Ability
 
         can :read_information_back, Work
       elsif user.read_only?
-
+        can [:show], Artist
       end
     end
 
