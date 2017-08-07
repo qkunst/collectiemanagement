@@ -287,14 +287,14 @@ nl:
         valuation_on: Datum waardebepaling
         internal_comments: Opmerkingen voor intern gebruik
         artist_name_rendered: Vervaardiger(s)
-        hpd_height: Hoogte (HPD)
-        hpd_width: Breedte (HPD)
-        hpd_depth: Diepte (HPD)
-        hpd_diameter: Diameter (HPD)
+        hpd_height: Hoogte
+        hpd_width: Breedte
+        hpd_depth: Diepte
+        hpd_diameter: Diameter
         hpd_keywords: Trefwoord
         hpd_materials: Materiaal
         hpd_condition: Fysieke staat
-        hpd_photo_file_name: Fotonummer
+        hpd_photo_file_name: Foto-bestandsnaam
         hpd_comments: Opmerkingen
         hpd_contact: Contactpersoon
         object_categories_split: Categorieën (technieken afzonderlijk geteld)

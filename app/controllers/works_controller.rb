@@ -97,7 +97,7 @@ class WorksController < ApplicationController
         end
       }
       format.xlsx {
-        if current_user.can_download?
+        if can?(:download_datadump, @collection)
           w = nil
           audience = params[:audience] ? params[:audience].to_s.to_sym : :default
           fields_to_expose = @collection.fields_to_expose(audience)
@@ -109,7 +109,7 @@ class WorksController < ApplicationController
         end
       }
       format.zip {
-        if current_user.can_download?
+        if can?(:download_photos, @collection)
           files = [] # users.map{ |user| [user.avatar, "#{user.username}.png"] }
 
           @works.each do |work|
