@@ -50,7 +50,6 @@ gem 'carrierwave-imageoptimizer'
 gem 'mini_magick' # transforming images
 gem 'nokogiri'
 gem 'attribute_normalizer' # keeps the database clean
-
 ##
 ## SEARCH
 ##
@@ -118,6 +117,8 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'simplecov', :require => false
+  gem 'bullet'
+
 end
 
 group :development do
