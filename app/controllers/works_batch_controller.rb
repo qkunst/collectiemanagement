@@ -19,12 +19,38 @@ class WorksBatchController < ApplicationController
       work_params.each do |k, v|
         work_parameters[k] = v unless v == nil or v.to_s.strip.empty?
       end
-    end
-    if @works.update(work_parameters)
-      redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+      if @works.update(work_parameters)
+        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+      else
+        render :edit
+      end
+    elsif params[:update_and_add]
+      save_results = []
+      @works.each do |work|
+        combined_work_parameters = {}
+        work_parameters.each do | parameter, values |
+          if values.is_a? Array and parameter.to_s.match(/_ids$/)
+            new_values = (work.send(parameter.gsub(/_ids$/,"s").to_sym).collect{|a| a.id} + values).uniq
+            combined_work_parameters[parameter] = new_values
+          else
+            combined_work_parameters[parameter] = values
+          end
+        end
+        save_results << work.update(combined_work_parameters)
+      end
+      if !save_results.include?(false)
+        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+      else
+        render :edit
+      end
     else
-      render :edit
+      if @works.update(work_parameters)
+        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+      else
+        render :edit
+      end
     end
+
   end
 
   def index
