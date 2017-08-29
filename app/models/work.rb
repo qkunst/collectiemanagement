@@ -463,7 +463,6 @@ class Work < ApplicationRecord
       attributes.each do |attribute|
         rv[attribute] ||= {}
         attribute_id = "#{attribute}_id"
-        attribute_dot_id = "#{attribute}.id"
         if column_names.include? attribute.to_s
           _fast_aggregate_column_values(rv, attribute)
         elsif column_names.include? attribute_id

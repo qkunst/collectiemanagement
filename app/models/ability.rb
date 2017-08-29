@@ -47,6 +47,7 @@ class Ability
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
+        can :copy, RkdArtist
 
         can :read_report, Collection
         can :read_status, Collection
