@@ -55,17 +55,17 @@ $foundation-palette: (
   primary: $qkunst-blue,
   secondary: #777,
   success: #3adb76,
-  warning: $qkunst-orange,
+  warning: $qkunst-brown,
   alert: $qkunst-orange,
 );
 
 $body-background: $white;
-$body-font-color: $black;
-$body-font-family: Trebuchet, "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$body-font-color: $qkunst-grey;
+$body-font-family: 'Roboto Slab', serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
-$global-weight-normal: normal;
+$global-weight-normal: 300;
 $global-weight-bold: bold;
 $global-radius: 0;
 $global-text-direction: ltr;
@@ -102,11 +102,11 @@ $block-grid-max: 8;
 // 4. Base Typography
 // ------------------
 
-$header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+// $header-font-family: 'Poppins', 'Futura', 'Arial Black';
+$header-font-weight: 700;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
-$header-color: $qkunst-orange;
+$header-color: $qkunst-brown;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
 $header-styles: (

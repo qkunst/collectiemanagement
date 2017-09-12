@@ -1,3 +1,11 @@
+@import 'variables';
+
+a {
+  font-family: $navigation-font-family;
+  font-weight: 700;
+  color: $qkunst-grey;
+}
+
 aside {
   h5 {
     margin-top: 0.5rem;

@@ -20,7 +20,8 @@ $jet         : #222222;
 $black       : #000000;
 
 $qkunst-orange: #EA8830;
-$qkunst-grey : #7A7E80;
+$qkunst-brown: #AF917D;
+$qkunst-grey : #676a6a;
 $qkunst-dark : #1A1A18;
 $qkunst-blue: #008CBA;
 $qkunst-green: #99DF95;
@@ -37,6 +38,8 @@ $white: #fff;
 
 $navbar-height: 1.5rem;
 
+$navigation-font-family: "Poppins", "Futura", sans-serif;
+$header-font-family: 'Poppins', 'Futura', 'Arial Black';
 
 
 
@@ -78,5 +81,5 @@ $topbar-menu-icon-color-toggled: $jumbo;
 
 
 .label.qkunst {
-  background:  $qkunst-orange;
+  background:  $qkunst-brown;
 }

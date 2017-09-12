@@ -10,6 +10,7 @@ table {
 
   thead {
     th {
+      font-family: $header-font-family;
       vertical-align: bottom;
     }
     th[colspan] {
@@ -36,7 +37,7 @@ table {
     th {
       border-bottom: 1px solid #ccc;
       text-align: left;
-      color: $qkunst-orange;
+      color: $qkunst-brown;
       padding-left: 0.5em;
       padding-bottom: 0.5em;
       padding-top: 0.5em;
@@ -106,7 +107,7 @@ table.non_cyclic_graph {
         background: $qkunst-green;
       }
       &.active {
-        background: $qkunst-orange;
+        background: $qkunst-brown;
       }
     }
   }
