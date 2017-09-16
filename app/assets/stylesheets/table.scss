@@ -28,7 +28,7 @@ table {
     background: none;
     td {
       background: none;
-      padding: 0.5em;
+      padding: 0.25em;
       min-width: 1em;
       &.count {
         text-align: right;
@@ -38,10 +38,10 @@ table {
       border-bottom: 1px solid #ccc;
       text-align: left;
       color: $qkunst-brown;
-      padding-left: 0.5em;
+      padding-left: 0.25em;
       padding-bottom: 0.5em;
       padding-top: 0.5em;
-      padding-right: 0.5em;
+      padding-right: 0.25em;
     }
   }
   tr.group_separator {
@@ -77,6 +77,10 @@ table.non_cyclic_graph {
       overflow: hidden;
       padding-left: 25px;
       position: relative;
+      font-family: $header-font-family;
+      input[type=submit] {
+        font-family:  $header-font-family;
+      }
       &[rowspan='3'] {
         border-top: 30px solid #fff;
         border-bottom: 30px solid #fff;
@@ -108,6 +112,9 @@ table.non_cyclic_graph {
       }
       &.active {
         background: $qkunst-brown;
+        .button_to input[type=button] {
+          color: #fff;
+        }
       }
     }
   }
