@@ -6,6 +6,10 @@ a {
   color: $qkunst-grey;
 }
 
+small, small a {
+  font-weight: 300;
+}
+
 aside {
   h5 {
     margin-top: 0.5rem;
