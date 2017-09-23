@@ -5,7 +5,7 @@ class Api::V1::WorksController < Api::V1::ApiController
     rescue
       return not_authorized
     end
-    @works = @collection.works
+    @works = @collection.works_including_child_works.all
   end
 
   def show
@@ -14,6 +14,6 @@ class Api::V1::WorksController < Api::V1::ApiController
     rescue
       return not_authorized
     end
-    @work = @collection.works.find(params[:id])
+    @work = @collection.works_including_child_works.find(params[:id])
   end
 end
