@@ -10,15 +10,21 @@
   margin-bottom: 1em;
 }
 
-.button.tertiary {
-  background: #eee;
-  color: #777;
-}
-.button.primary {
-  color: #fff;
-  &:hover {
+.button {
+  &.tertiary {
+    background: #eee;
+    color: #777;
+  }
+  &.primary {
     color: #fff;
-  };
+    &:hover {
+      color: #fff;
+    };
+  }
+}
+
+aside .button {
+  width: 100%;
 }
 
 fieldset {
