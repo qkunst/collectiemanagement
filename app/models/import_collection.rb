@@ -239,10 +239,16 @@ class ImportCollection < ApplicationRecord
         elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
           parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
         end
-        result << ImportCollection.import_type.new(parameters)
+        new_obj = ImportCollection.import_type.new(parameters)
+
+        Rails.logger.debug "  result: #{new_obj.inspect}"
+        if !new_obj.valid?
+          raise ImportCollectionRuntimeError.new(new_obj.errors.full_messages)
+        end
+        result << new_obj
       end
     end
-    Rails.logger.debug "  result: #{result.inspect}"
+    # Rails.logger.debug "  result: #{result.inspect}"
     result
   end
 
@@ -361,3 +367,6 @@ class ImportCollection < ApplicationRecord
 end
 
 
+class ImportCollectionRuntimeError < RuntimeError
+
+end

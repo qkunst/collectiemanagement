@@ -68,8 +68,12 @@ class ImportCollectionsController < ApplicationController
 
   def import_works
     delete_works({redirect: false})
-    @import_collection.write
-    redirect_to collection_works_path(@collection), notice: 'De werken zijn geïmporeerd.'
+    begin
+      @import_collection.write
+      redirect_to collection_works_path(@collection), notice: 'De werken zijn geïmporeerd.'
+    rescue ImportCollectionRuntimeError => error
+      redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het importeren, verbeter de import file: #{error.message}..."
+    end
   end
 
 
