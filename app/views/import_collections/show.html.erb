@@ -10,7 +10,7 @@
   </div>
   <aside class="large-3 columns">
     <%= link_to 'Bewerk de importintstellingen', edit_collection_import_collection_path(@collection,@import_collection), class: 'button' %><br/>
-    <% if @import_collection.works.count > 0 %><%= link_to 'Draai import terug', collection_import_collection_delete_works_path(@collection,@import_collection), class: 'button alert', method: 'post', data: {confirm: 'Weet u zeker dat u de eerder geimporteerde werken wilt verwijderen?'} %><br/><% end %>
+    <% if @import_collection.works.count > 0 %><%= button_to 'Draai import terug', collection_import_collection_delete_works_path(@collection,@import_collection), class: 'button alert', method: 'patch', data: {confirm: 'Weet u zeker dat u de eerder geimporteerde werken wilt verwijderen?'} %><br/><% end %>
     <%= link_to 'Bekijk een preview', collection_import_collection_preview_path(@collection,@import_collection), class: '' %> (op de previewpagina kun je ook daadwerkelijk de import uitvoeren)
   </aside>
 </div>
