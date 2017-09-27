@@ -230,7 +230,7 @@ class ImportCollection < ApplicationRecord
           imported_at: Time.now,
           external_inventory: self.external_inventory
         })
-        # prefent regeneration of artists
+        # prevent regeneration of artists
         # raise parameters
         artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
         if artist

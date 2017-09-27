@@ -403,7 +403,7 @@ class Work < ApplicationRecord
   def title= titel
     if titel.to_s.strip == ""
       write_attribute(:title, nil)
-    elsif titel.to_s.strip.downcase == "zonder titel"
+    elsif ["zonder titel", "onbekend"].include? titel.to_s.strip.downcase
       write_attribute(:title_unknown, true)
     else
       write_attribute(:title, titel)
@@ -413,7 +413,7 @@ class Work < ApplicationRecord
   def object_creation_year= year
     if year.to_i > 0
       write_attribute(:object_creation_year, year)
-    elsif ["geen jaar", "zonder jaartal"].include? year.to_s
+    elsif ["geen jaar", "zonder jaartal", "onbekend"].include? year.to_s
       write_attribute(:object_creation_year_unknown, true)
     end
   end

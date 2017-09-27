@@ -44,9 +44,9 @@ RSpec.describe ImportCollection, type: :model do
         i.update("import_settings"=>{
           "work_title"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"append", "fields"=>["work.title"]},
           "artist_name"=>{"split_strategy"=>"split_space", "assign_strategy"=>"append", "fields"=>["artist.first_name", "artist.last_name"]},
-          "Drager"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
+          "Drager"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
           "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
-          "Thema's"=>{"split_strategy"=>"split_natural", "assign_strategy"=>"append", "fields"=>["work.themes"]},
+          "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
         })
         expect(i.read.count).to eq(4)
         expect(i.read[0].title).to eq(nil)
@@ -60,6 +60,8 @@ RSpec.describe ImportCollection, type: :model do
         expect(i.read[2].medium).to be_nil
         expect(i.read[0].grade_within_collection).to eq("A")
         expect(i.read[1].grade_within_collection).to eq("C")
+        # expect(i.read[3].artists).to eq([])
+        # expect(i.read[2].artists).to eq([])
       end
     end
   end
