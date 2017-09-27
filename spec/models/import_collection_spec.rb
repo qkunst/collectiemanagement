@@ -24,7 +24,10 @@ RSpec.describe ImportCollection, type: :model do
       it "should return the table" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_collection_file.csv")))
         expect(i.import_file_to_workbook_table.class).to eq(Workbook::Table)
-        expect(i.import_file_to_workbook_table.to_csv).to eq("artist_name,work_title\nAchternaam,Zonder Titel\nAndere Achternaam,Zonder Unieke Titel\n")
+        expect(i.import_file_to_workbook_table.to_csv).to match("artist_name,work_title,Drager,Niveau")
+        expect(i.import_file_to_workbook_table.to_csv).to match("Achternaam,Zonder Titel,doek,A")
+        expect(i.import_file_to_workbook_table.to_csv).to match("Andere Achternaam,Zonder Unieke Titel,Papier,C")
+        expect(i.import_file_to_workbook_table.to_csv).to match("onbekend,Uniek,,D,\"earth, wind\"\nOnbekend,Uniek2,,G")
       end
     end
     describe "#update" do
@@ -38,12 +41,25 @@ RSpec.describe ImportCollection, type: :model do
       it "should work" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_collection_file.csv")))
         i.collection = collections(:collection1)
-        i.update("import_settings"=>{"work_title"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"append", "fields"=>["work.title"]}})
-        expect(i.read.count).to eq(2)
+        i.update("import_settings"=>{
+          "work_title"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"append", "fields"=>["work.title"]},
+          "artist_name"=>{"split_strategy"=>"split_space", "assign_strategy"=>"append", "fields"=>["artist.first_name", "artist.last_name"]},
+          "Drager"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
+          "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
+          "Thema's"=>{"split_strategy"=>"split_natural", "assign_strategy"=>"append", "fields"=>["work.themes"]},
+        })
+        expect(i.read.count).to eq(4)
         expect(i.read[0].title).to eq(nil)
         expect(i.read[0].title_unknown).to eq(true)
         expect(i.read[1].title).to eq("Zonder Unieke Titel")
         expect(i.read[1].title_unknown).to be_falsy
+        expect(i.read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
+        expect(i.read[0].themes.collect{|a| a.name}).to eq(["earth"])
+        expect(i.read[3].themes.collect{|a| a.name}).to eq(["fire"])
+        expect(i.read[1].medium.name).to eq("Papier")
+        expect(i.read[2].medium).to be_nil
+        expect(i.read[0].grade_within_collection).to eq("A")
+        expect(i.read[1].grade_within_collection).to eq("C")
       end
     end
   end
