@@ -45,7 +45,7 @@ class BatchPhotoUpload < ApplicationRecord
 
   def image_directory
     path = images.first.path
-    directory = @batch_photo_upload.images.first.path.gsub(@batch_photo_upload.images.first.filename,'')
+    directory = self.images.first.path.gsub(self.images.first.filename,'')
     directory = Dir.new(directory)
   end
 
