@@ -26,7 +26,7 @@ json.extract! work, *database_fields
 # belongs_to :purchase_price_currency, :class_name=>Currency
 #
 json.sources(work.sources){ |attribute| json.extract! attribute, :name, :id  }
-json.artists(work.artists){ |attribute| json.extract! attribute, :name, :id  }
+json.artists(work.artists){ |attribute| json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death }
 json.object_categories(work.object_categories){ |attribute| json.extract! attribute, :name, :id  }
 json.techniques(work.techniques){ |attribute| json.extract! attribute, :name, :id  }
 json.damage_types(work.damage_types){ |attribute| json.extract! attribute, :name, :id  }
