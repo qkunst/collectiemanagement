@@ -60,6 +60,24 @@ RSpec.describe ImportCollection, type: :model do
         expect(i.read[2].medium).to be_nil
         expect(i.read[0].grade_within_collection).to eq("A")
         expect(i.read[1].grade_within_collection).to eq("C")
+        # expect(i.read[1].save)
+
+        i.read.each{|a| a.save}
+        expect(i.read[0].title).to eq(nil)
+        expect(i.read[0].title_unknown).to eq(true)
+        expect(i.read[0].id).to be > 0
+        expect(i.read[1].id).to be > 0
+        expect(i.read[2].id).to be > 0
+        expect(i.read[3].id).to be > 0
+        expect(i.read[1].title).to eq("Zonder Unieke Titel")
+        expect(i.read[1].title_unknown).to be_falsy
+        expect(i.read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
+        expect(i.read[0].themes.collect{|a| a.name}).to eq(["earth"])
+        expect(i.read[3].themes.collect{|a| a.name}).to eq(["fire"])
+        expect(i.read[1].medium.name).to eq("Papier")
+        expect(i.read[2].medium).to be_nil
+        expect(i.read[0].grade_within_collection).to eq("A")
+        expect(i.read[1].grade_within_collection).to eq("C")
         # expect(i.read[3].artists).to eq([])
         # expect(i.read[2].artists).to eq([])
       end
