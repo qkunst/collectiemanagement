@@ -48,36 +48,36 @@ RSpec.describe ImportCollection, type: :model do
           "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
           "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
         })
-        expect(i.read.count).to eq(4)
-        expect(i.read[0].title).to eq(nil)
-        expect(i.read[0].title_unknown).to eq(true)
-        expect(i.read[1].title).to eq("Zonder Unieke Titel")
-        expect(i.read[1].title_unknown).to be_falsy
-        expect(i.read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
-        expect(i.read[0].themes.collect{|a| a.name}).to eq(["earth"])
-        expect(i.read[3].themes.collect{|a| a.name}).to eq(["fire"])
-        expect(i.read[1].medium.name).to eq("Papier")
-        expect(i.read[2].medium).to be_nil
-        expect(i.read[0].grade_within_collection).to eq("A")
-        expect(i.read[1].grade_within_collection).to eq("C")
-        # expect(i.read[1].save)
+        read = i.read
+        expect(read.count).to eq(4)
+        expect(read[0].title).to eq(nil)
+        expect(read[0].title_unknown).to eq(true)
+        expect(read[1].title).to eq("Zonder Unieke Titel")
+        expect(read[1].title_unknown).to be_falsy
+        expect(read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
+        expect(read[0].themes.collect{|a| a.name}).to eq(["earth"])
+        expect(read[3].themes.collect{|a| a.name}).to eq(["fire"])
+        expect(read[1].medium.name).to eq("Papier")
+        expect(read[2].medium).to be_nil
+        expect(read[0].grade_within_collection).to eq("A")
+        expect(read[1].grade_within_collection).to eq("C")
 
-        i.read.each{|a| a.save}
-        expect(i.read[0].title).to eq(nil)
-        expect(i.read[0].title_unknown).to eq(true)
-        expect(i.read[0].id).to be > 0
-        expect(i.read[1].id).to be > 0
-        expect(i.read[2].id).to be > 0
-        expect(i.read[3].id).to be > 0
-        expect(i.read[1].title).to eq("Zonder Unieke Titel")
-        expect(i.read[1].title_unknown).to be_falsy
-        expect(i.read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
-        expect(i.read[0].themes.collect{|a| a.name}).to eq(["earth"])
-        expect(i.read[3].themes.collect{|a| a.name}).to eq(["fire"])
-        expect(i.read[1].medium.name).to eq("Papier")
-        expect(i.read[2].medium).to be_nil
-        expect(i.read[0].grade_within_collection).to eq("A")
-        expect(i.read[1].grade_within_collection).to eq("C")
+        read.each{|a| a.save}
+        expect(read[0].title).to eq(nil)
+        expect(read[0].title_unknown).to eq(true)
+        expect(read[0].id).to be > 0
+        expect(read[1].id).to be > 0
+        expect(read[2].id).to be > 0
+        expect(read[3].id).to be > 0
+        expect(read[1].title).to eq("Zonder Unieke Titel")
+        expect(read[1].title_unknown).to be_falsy
+        expect(read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
+        expect(read[0].themes.collect{|a| a.name}).to eq(["earth"])
+        expect(read[3].themes.collect{|a| a.name}).to eq(["fire"])
+        expect(read[1].medium.name).to eq("Papier")
+        expect(read[2].medium).to be_nil
+        expect(read[0].grade_within_collection).to eq("A")
+        expect(read[1].grade_within_collection).to eq("C")
         # expect(i.read[3].artists).to eq([])
         # expect(i.read[2].artists).to eq([])
       end
