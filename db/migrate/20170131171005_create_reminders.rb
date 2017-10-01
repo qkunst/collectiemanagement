@@ -25,7 +25,7 @@ class CreateReminders < ActiveRecord::Migration[5.0]
     )
     Reminder.create(
       name: "Herziening waardering gewenst",
-      text: "Het is een drie jaar geleden dat QKunst de waardering heeft verzorgt van de werken in deze collectie.",
+      text: "Het is een drie jaar geleden dat QKunst de waardering heeft verzorgd van de werken in deze collectie.",
       stage: Stage.where(name: "Waardering").first,
       repeat: true,
       interval_length: 3,
