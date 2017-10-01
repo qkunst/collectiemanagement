@@ -37,11 +37,12 @@ module Searchable
 
   class_methods do
     def reindex!(recreate_index=false)
+      seconds_to_sleep = recreate_index ? 0 : 1
       if recreate_index
         Work.__elasticsearch__.create_index! force: true
         Work.__elasticsearch__.refresh_index!
       end
-      self.all.each{|a| a.reindex!}
+      self.all.each{|a| a.reindex!; sleep(seconds_to_sleep)}
     end
   end
 end
