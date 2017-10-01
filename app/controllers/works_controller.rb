@@ -12,7 +12,8 @@ class WorksController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
   # GET /works
-  # GET /works.json
+  # GET /works.zip
+  # GET /works.xlsx
 
   def index
     @selection = {}
@@ -20,6 +21,7 @@ class WorksController < ApplicationController
     set_selection_group
     set_selection_sort
     set_selection_display
+    set_selection_group_options
 
     @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count
@@ -27,20 +29,6 @@ class WorksController < ApplicationController
     @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
     @selection_display_options["Compleet"] = :complete unless current_user.read_only?
 
-    proto_selection_group_options = {
-      "Niet"=>:no_grouping,
-      "Cluster"=>:cluster,
-      "Deelcollectie"=>:subset,
-      "Herkomst"=>:sources,
-      "Niveau"=>:grade_within_collection,
-      "Plaatsbaarheid"=>:placeability,
-      "Techniek"=>:techniques,
-      "Thema"=>:themes,
-    }
-    @selection_group_options = {}
-    proto_selection_group_options.each do |k,v|
-      @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
-    end
     @filter_localities = []
     @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
 
@@ -64,7 +52,6 @@ class WorksController < ApplicationController
     end
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
-
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
@@ -109,24 +96,18 @@ class WorksController < ApplicationController
       }
       format.zip {
         if can?(:download_photos, @collection)
-          files = [] # users.map{ |user| [user.avatar, "#{user.username}.png"] }
-
+          files = []
           @works.each do |work|
             base_file_name = work.base_file_name
             ["photo_front","photo_back","photo_detail_1", "photo_detail_2"].each do |field|
               if work.send("#{field}?".to_sym)
                 filename = "#{base_file_name}_#{field.gsub('photo_','')}.jpg"
                 file = work.send(field.to_sym).screen.path
-                p file
                 files << [file, filename]
-                # zip.write_stored_file(filename) do |sink|
-                #   File.open(file.screen.path, 'rb'){|source| IO.copy_stream(source, sink) }
-                # end
               end
             end
           end
-          zipline( files.lazy.map{|path, name| [File.open(path), name]}, "werken #{@collection.name}.zip")
-
+          zipline(files.lazy.map{|path, name| [File.open(path), name]}, "werken #{@collection.name}.zip")
         else
           redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
         end
@@ -135,7 +116,6 @@ class WorksController < ApplicationController
   end
 
   # GET /works/1
-  # GET /works/1.json
   def show
     @selection = {}
     @selection[:display] = current_user.can_see_details? ? :complete : :detailed
@@ -163,62 +143,44 @@ class WorksController < ApplicationController
   end
 
   # POST /works
-  # POST /works.json
   def create
-      # raise "fail"
-      @work = Work.new(work_params)
-      @work.collection = @collection
-      @work.created_by = current_user
-      respond_to do |format|
-        if @work.save
-          format.html { redirect_to collection_work_path(@collection,@work), notice: 'Het werk is aangemaakt' }
-          format.json { render :show, status: :created, location: collection_work_path(@collection,@work) }
-        else
-          format.html { render :new }
-          format.json { render json: @work.errors, status: :unprocessable_entity }
-        end
-      end
-
+    @work = Work.new(work_params)
+    @work.collection = @collection
+    @work.created_by = current_user
+    if @work.save
+      redirect_to collection_work_path(@collection,@work), notice: 'Het werk is aangemaakt'
+    else
+      render :new
+    end
   end
 
   # PATCH/PUT /works/1
-  # PATCH/PUT /works/1.json
   def update
-    respond_to do |format|
-      if @work.update(work_params)
-        if ["1", 1, true].include? params["submit_and_edit_next"]
-          format.html { redirect_to edit_collection_work_path(@collection, @work.next), notice: 'Het werk is bijgewerkt, nu de volgende.' }
-        elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]
-          format.html { redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.' }
-        elsif ["1", 1, true].include? params["submit_and_edit_tags_in_next"]
-          format.html { redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_tags_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.' }
-        else
-          format.html { redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.' }
-        end
-        format.json { render :show, status: :ok, location: collection_work_path(@collection,@work) }
+    if @work.update(work_params)
+      if ["1", 1, true].include? params["submit_and_edit_next"]
+        redirect_to edit_collection_work_path(@collection, @work.next), notice: 'Het werk is bijgewerkt, nu de volgende.'
+      elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]
+        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.'
+      elsif ["1", 1, true].include? params["submit_and_edit_tags_in_next"]
+        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_tags_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.'
       else
-        format.html { render :edit }
-        format.json { render json: @work.errors, status: :unprocessable_entity }
+        redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.'
       end
+    else
+      render :edit
     end
   end
 
   def edit_location
-
   end
 
   # DELETE /works/1
-  # DELETE /works/1.json
   def destroy
     @work.destroy
-    respond_to do |format|
-      format.html { redirect_to collection_works_url(@collection), notice: 'Het werk is definitief verwijderd uit de QKunst database' }
-      format.json { head :no_content }
-    end
+    redirect_to collection_works_url(@collection), notice: 'Het werk is definitief verwijderd uit de QKunst database'
   end
 
   private
-
 
   def set_selection_filter
     @selection_filter = current_user.filter_params[:filter] ? current_user.filter_params[:filter] : {}
@@ -256,6 +218,23 @@ class WorksController < ApplicationController
   end
   def set_selection_display
     set_selection :display, [:compact, :detailed, :complete]
+  end
+
+  def set_selection_group_options
+    proto_selection_group_options = {
+      "Niet"=>:no_grouping,
+      "Cluster"=>:cluster,
+      "Deelcollectie"=>:subset,
+      "Herkomst"=>:sources,
+      "Niveau"=>:grade_within_collection,
+      "Plaatsbaarheid"=>:placeability,
+      "Techniek"=>:techniques,
+      "Thema"=>:themes,
+    }
+    @selection_group_options = {}
+    proto_selection_group_options.each do |k,v|
+      @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
+    end
   end
 
   def update_current_user_with_params
