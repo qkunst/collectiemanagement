@@ -125,7 +125,7 @@ class CollectionsController < ApplicationController
       end
       if @collection.works.count == 0
         @collection.destroy
-        notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{@collection.parent_collection}”"
+        notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{parent_name}”"
       end
     else
       @collection.works.destroy_all

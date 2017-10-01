@@ -11,7 +11,6 @@ module WorksHelper
   def filter_checkboxes hash, field_name, options={}
     return "Geen verfijning mogelijk" if hash.nil?
     return "Niet van toepassing" if hash.count == 1
-    reference = @selection_filter
 
     options = { render_count: false }.merge(options)
     str = ""

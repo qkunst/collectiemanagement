@@ -72,9 +72,9 @@ class WorksController < ApplicationController
         if @selection[:group] != :no_grouping
           works_grouped = {}
           @works.each do |work|
-            group = work.send(@selection[:group])
-            group = nil if group.methods.include?(:count) and group.methods.include?(:all) and group.count == 0
-            [group].flatten.each do | group |
+            groups = work.send(@selection[:group])
+            groups = nil if groups.methods.include?(:count) and groups.methods.include?(:all) and groups.count == 0
+            [groups].flatten.compact.each do | group |
               works_grouped[group] ||= []
               works_grouped[group] << work
             end
@@ -98,12 +98,11 @@ class WorksController < ApplicationController
       }
       format.xlsx {
         if can?(:download_datadump, @collection)
-          w = nil
           audience = params[:audience] ? params[:audience].to_s.to_sym : :default
           fields_to_expose = @collection.fields_to_expose(audience)
           fields_to_expose = fields_to_expose - ["internal_comments"] unless current_user.qkunst?
           w = @works.to_workbook(fields_to_expose, @collection)
-          send_data  w.stream_xlsx, :filename => "werken #{@collection.name}.xlsx"
+          send_data w.stream_xlsx, :filename => "werken #{@collection.name}.xlsx"
         else
           redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
         end

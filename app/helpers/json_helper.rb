@@ -6,7 +6,6 @@ module JsonHelper
   end
 
   def render_hash json, options={}
-    options = {render_empty: false}.merge(options)
     html = ""
     if json.methods.include? :keys
       html += "<dl>"

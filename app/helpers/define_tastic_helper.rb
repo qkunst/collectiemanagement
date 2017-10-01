@@ -68,7 +68,6 @@ module DefineTasticHelper
           val = @define_tastic_object_klass.send(:human_attribute_name,val)
         end
         val
-        val = val
 
       end.to_sentence
 

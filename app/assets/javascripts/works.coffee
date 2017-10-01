@@ -29,18 +29,19 @@ $(document).on("click",".imageviewer .thumbs a", click_thumb_event)
 $(document).on("submit","form#new_work", ->
   d = new Date()
   d.setHours(24)
-  docCookies.setItem("lastLocation", $("form#new_work input#work_location").val(), d);
-);
+  lastLocation = $("form#new_work input#work_location").val();
+  docCookies.setItem("lastLocation", lastLocation, d)
+)
 
 $(document).on("ready", ->
   show_or_hide_selected_works()
   setTimeout(->
     show_or_hide_selected_works()
   , 500)
-  $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"));
+  $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
 )
 $(document).on("turbolinks:load", ->
-  $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"));
+  $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   show_or_hide_selected_works()
 )
 

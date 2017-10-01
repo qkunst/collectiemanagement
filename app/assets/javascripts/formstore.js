@@ -131,7 +131,7 @@ var FormStore = {
       data = FormStore.Store.read(key);
       FormStore.Store.store(key,data,{"prefix":"private"});
       private_data = FormStore.Store.read(key,{"prefix":"private"});
-      equaldata = JSON.stringify(data.data)==JSON.stringify(private_data.data)
+      equaldata = JSON.stringify(data.data)===JSON.stringify(private_data.data)
 
       if (equaldata) {
         FormStore.Store.remove(key);
@@ -145,7 +145,7 @@ var FormStore = {
 
         new_public_data = FormStore.Store.read(key);
 
-        equaldata = JSON.stringify(new_public_data.data)==JSON.stringify(private_data.data)
+        equaldata = JSON.stringify(new_public_data.data)===JSON.stringify(private_data.data)
         if (equaldata) {
           FormStore.Store.remove(key,{"prefix":"private"});
         }

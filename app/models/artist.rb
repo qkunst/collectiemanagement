@@ -221,11 +221,11 @@ class Artist < ApplicationRecord
     end
 
     def empty_artists
-      _empty_artists = []
+      rv = []
       self.select(:id).each do |a|
-        _empty_artists << a if a.works.count == 0
+        rv << a if a.works.count == 0
       end
-      _empty_artists
+      rv
     end
 
     def destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!

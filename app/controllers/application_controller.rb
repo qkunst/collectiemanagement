@@ -161,7 +161,7 @@ class ApplicationController < ActionController::Base
     Time.zone = 'Amsterdam'
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do
     if current_user
       redirect_to root_path, :alert => "Je hebt geen toegang tot deze pagina"
     else
