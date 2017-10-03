@@ -60,7 +60,7 @@ class WorksController < ApplicationController
           @works.each do |work|
             groups = work.send(@selection[:group])
             groups = nil if groups.methods.include?(:count) and groups.methods.include?(:all) and groups.count == 0
-            [groups].flatten.compact.each do | group |
+            [groups].flatten.each do | group |
               works_grouped[group] ||= []
               works_grouped[group] << work
             end
