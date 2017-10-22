@@ -144,7 +144,7 @@ var collectieBeheerInit = function() {
   $(".tabs section").hide();
   $(".tabs section").first().show();
   $(".tabs ul li a").first().addClass("selected");
-  $(".tabs ul li a").click(function(e) {
+  $(".tabs ul li a").on('click touch', function(e) {
     $(".tabs ul li a").removeClass("selected");
     $(".tabs section").hide();
 
@@ -165,12 +165,12 @@ $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=tru
   return false;
 })
 
-$(document).on("click keydown", "button[method=post]", function(e) {
+$(document).on("click keydown touch", "button[method=post]", function(e) {
   var form = $(e.target).parents("form[data-auto-submit=true]");
   form.attr("method","post")
 });
 
-$(document).on("click", ".collapsable li", function(e) {
+$(document).on("click touch", ".collapsable li", function(e) {
   var $target = $(e.target);
   if ($target.hasClass("expanded")) {
     setTimeout(function(e){
