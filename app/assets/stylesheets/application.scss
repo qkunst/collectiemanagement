@@ -166,18 +166,21 @@ nav.top-bar {
 }
 
 a {
- &:hover {
-  text-decoration: underline;
- };
-
- &.block {
-   color: inherit;
- }
- &.block:hover {
-   text-decoration: none;
-
-   color: inherit;
- }
+  &:hover {
+    text-decoration: underline;
+  };
+  &.block {
+    font-family: inherit;
+    color: inherit;
+  }
+  &.block:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+ul a {
+  font-family: inherit;
+  color: $black;
 }
 
 aside {

@@ -53,6 +53,10 @@ table {
   }
 }
 
+.detailed_data .medium-6 table td {
+  width: 50%;
+}
+
 table.non_cyclic_graph {
   border-collapse: separate;
   thead {
@@ -73,7 +77,8 @@ table.non_cyclic_graph {
   }
   tbody {
     td {
-      background: #ccc;
+      background: $light-grey;
+
       overflow: hidden;
       padding-left: 25px;
       position: relative;
@@ -108,12 +113,14 @@ table.non_cyclic_graph {
         opacity: 0.2;
       }
       &.completed {
-        background: $qkunst-green;
+        background: $qkunst-grey;
+        color: $white;
       }
       &.active {
         background: $qkunst-brown;
-        .button_to input[type=button] {
-          color: #fff;
+        color: $white;
+        .button_to input[type=button], .button_to input[type=submit] {
+          color: $white;
         }
       }
     }
@@ -136,6 +143,7 @@ table.non_cyclic_graph {
     border: 0;
     display: inline-block;
     cursor: pointer;
+    color: #fff;
     &:hover {
       color: #666;
       &::after{
