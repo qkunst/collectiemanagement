@@ -1,0 +1,30 @@
+@import url('//fonts.googleapis.com/css?family=Poppins:400,700,300,600,500|Droid+Serif:400,700|Roboto+Slab:300&subset=latin,latin-ext&ver=1.0');
+
+body {
+  font-family: "Roboto Slab", serif;
+  font-weight: 300;
+  color: #676a6a;
+}
+#errorpane {
+  margin: auto;
+  width: 50%;
+  border: solid #AF917D 10px;
+  border-radius: 0px;
+  margin-top: 4em;
+  padding: 0 1em 1em;
+}
+
+a {
+  color: #AF917D;
+}
+
+h1,h3 {
+    font-family: "Poppins", "Futura", "Arial Black";
+    font-style: normal;
+    font-weight: 700;
+  color: #AF917D;
+}
+em {
+    font-style: normal;
+    text-decoration: underline;
+}
