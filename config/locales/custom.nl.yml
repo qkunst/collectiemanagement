@@ -76,6 +76,7 @@ nl:
       attachment: Bijlage
       stage: Workflow stadium
       reminder: Herinnering
+      tagging: Tags
       frame_type: Lijsttype
     values:
       user:
@@ -157,6 +158,8 @@ nl:
         year_of_death: Jaar van overlijden
         description: Opmerkingen
         involvement: Betrekking
+        date_of_birth: Geboortedatum
+        date_of_death: Datum van overlijden
       artist_involvement:
         involvement: Instelling
         start_year: Vanaf (jaar)

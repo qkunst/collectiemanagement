@@ -187,6 +187,18 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).previous).to eq(works(:work2))
       end
     end
+    describe "#save" do
+      it "should save, even without info" do
+        w = Work.new
+        w.save
+        expect(w.id).to be > 1
+      end
+      # it "should save, even with just comments set" do
+      #   w = Work.new
+      #   w.save
+      #   expect(w.id).to be > 1
+      # end
+    end
   end
   describe  "class methods" do
     describe ".aggregations" do
