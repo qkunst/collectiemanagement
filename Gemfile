@@ -111,7 +111,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-select2'
   gem 'rails-assets-fetch'
   gem 'rails-assets-morphdom'
-  gem 'rails-assets-Stickyfill'
+  gem 'rails-assets-Stickyfill', '~>1.1'
 end
 
 group :test do
