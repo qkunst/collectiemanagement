@@ -197,6 +197,16 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).previous).to eq(works(:work2))
       end
     end
+    describe "#object_format_code" do
+      it "should return proper format code" do
+        expect(works(:work1).object_format_code).to eq(nil)
+        w = works(:work1)
+        w.height = 200
+        expect(w.object_format_code).to eq(:xl)
+        w.height = 90
+        expect(w.object_format_code).to eq(:l)        
+      end
+    end
     describe "#save" do
       it "should save, even without info" do
         w = Work.new

@@ -395,18 +395,17 @@ class Work < ApplicationRecord
   def object_format_code
     size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max
     ofc = nil
-    if size
-      if size < 30
-        ofc = :xs
-      elsif size < 50
-        ofc = :s
-      elsif size < 80
-        ofc = :m
-      elsif size < 120
-        ofc = :l
-      elsif size >= 120
-        ofc = :xl
-      end
+    if !size
+    elsif size < 30
+      ofc = :xs
+    elsif size < 50
+      ofc = :s
+    elsif size < 80
+      ofc = :m
+    elsif size < 120
+      ofc = :l
+    elsif size >= 120
+      ofc = :xl
     end
     return ofc
   end
