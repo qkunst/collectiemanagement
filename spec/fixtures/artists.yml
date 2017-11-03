@@ -3,7 +3,9 @@ artist1:
   last_name: artist_1
   year_of_birth: 1900
   year_of_death: 2000
+  place_of_birth: YAC
 artist2:
+  first_name: firstie
   last_name: artist_2 achternaam
 artist3:
   last_name: artist_3 achternaam

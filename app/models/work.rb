@@ -182,23 +182,23 @@ class Work < ApplicationRecord
     artist_name_rendered({include_years: false, include_locality: false, join: ";"})
   end
 
-  def artist_name_rendered(options={})
-    options = { join: :to_sentence }.merge(options)
+  def artist_name_rendered(opts={})
+    options = { join: :to_sentence }.merge(opts)
     rv = read_attribute(:artist_name_rendered).to_s
     if options[:rebuild]
-      rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join("|||")
+      rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join(" ||| ")
       if artist_unknown and (rv.nil? or rv.empty?)
         rv = "Onbekend"
       end
       self.artist_name_rendered = rv
     end
     rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
-    rv = options[:join] === :to_sentence ? rv.split("|||").to_sentence : rv.split("|||").join(options[:join])
+    rv = options[:join] === :to_sentence ? rv.split(" ||| ").to_sentence : rv.split(" ||| ").join(options[:join])
     rv unless rv == ""
   end
 
   def update_artist_name_rendered!
-    self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true}))
+    self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true, join: " ||| "}))
   end
 
   def signature_rendered

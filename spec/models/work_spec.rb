@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../rails_helper'
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
@@ -236,6 +236,28 @@ RSpec.describe Work, type: :model do
       it "should respect include_years option" do
         works(:work1).save
         expect(works(:work1).artist_name_rendered(include_years: false)).to eq("artist_1, firstname")
+      end
+    end
+    describe ".artist_name_rendered_without_years_nor_locality" do
+      it "should summarize the artist nicely" do
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname")
+      end
+      it "should summarize the artists nicely" do
+        works(:work1).artists << artists(:artist2)
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname en artist_2 achternaam, firstie")
+      end
+    end
+    describe ".artist_name_rendered_without_years_nor_locality_semicolon_separated" do
+      it "should summarize the artist nicely" do
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname")
+      end
+      it "should summarize the artists nicely" do
+        works(:work1).artists << artists(:artist2)
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname;artist_2 achternaam, firstie")
       end
     end
     describe ".fast_aggregations" do

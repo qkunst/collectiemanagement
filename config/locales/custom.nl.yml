@@ -292,6 +292,7 @@ nl:
         valuation_on: Datum waardebepaling
         internal_comments: Opmerkingen voor intern gebruik
         artist_name_rendered: Vervaardiger(s)
+        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
         hpd_height: Hoogte
         hpd_width: Breedte
         hpd_depth: Diepte
