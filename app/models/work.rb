@@ -33,6 +33,7 @@ class Work < ApplicationRecord
 
   scope :no_photo_front, -> { where(photo_front: nil)}
   scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
+  scope :published, ->{ where(publish: true) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -176,19 +177,24 @@ class Work < ApplicationRecord
   def artist_name_rendered_without_years_nor_locality
     artist_name_rendered({include_years: false, include_locality: false})
   end
+  
+  def artist_name_rendered_without_years_nor_locality_semicolon_separated
+    artist_name_rendered({include_years: false, include_locality: false, join: ";"})
+  end
 
   def artist_name_rendered(options={})
+    options = { join: :to_sentence }.merge(options)
+    rv = read_attribute(:artist_name_rendered).to_s
     if options[:rebuild]
-      self.artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
-      if artist_unknown and (artist_name_rendered.nil? or artist_name_rendered.empty?)
-        self.artist_name_rendered = "Onbekend"
+      rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join("|||")
+      if artist_unknown and (rv.nil? or rv.empty?)
+        rv = "Onbekend"
       end
-      return artist_name_rendered
-    else
-      rv = read_attribute(:artist_name_rendered)
-      rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
-      rv
+      self.artist_name_rendered = rv
     end
+    rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
+    rv = options[:join] === :to_sentence ? rv.split("|||").to_sentence : rv.split("|||").join(options[:join])
+    rv unless rv == ""
   end
 
   def update_artist_name_rendered!
@@ -268,16 +274,20 @@ class Work < ApplicationRecord
   end
 
   def hpd_height
-    frame_height? ? frame_height : height
+    rv = frame_height? ? frame_height : height
+    rv if rv and rv > 0
   end
   def hpd_width
-    frame_width? ? frame_width : width
+    rv = frame_width? ? frame_width : width
+    rv if rv and rv > 0
   end
   def hpd_depth
-     frame_depth? ? frame_depth : depth
+    rv = frame_depth? ? frame_depth : depth
+    rv if rv and rv > 0
   end
   def hpd_diameter
-    frame_diameter? ? frame_diameter : diameter
+    rv = frame_diameter? ? frame_diameter : diameter
+    rv if rv and rv > 0
   end
   def hpd_keywords
      object_categories.collect{|a| a.name}.join(",")
@@ -288,11 +298,14 @@ class Work < ApplicationRecord
   def hpd_condition
     condition_work_rendered
   end
+  def stock_number_file_safe
+    stock_number.to_s.gsub(/[\/\\\:]/,"-")
+  end
   def base_file_name
-    stock_number? ? stock_number : "AUTO_DB_ID_#{id}"
+    stock_number? ? stock_number_file_safe : "AUTO_DB_ID_#{id}"
   end
   def hpd_photo_file_name
-    "#{base_file_name}_front.jpg"
+    "#{base_file_name}.jpg"
   end
   def hpd_comments
   end
@@ -537,19 +550,19 @@ class Work < ApplicationRecord
           elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
             value.name
           elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
-            work.artist_name_rendered
+            work.artist_name_rendered_without_years_nor_locality_semicolon_separated
           elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
             if value.first.is_a? PaperTrail::Version
               "Versie"
             elsif value.first.is_a? ActsAsTaggableOn::Tagging
-              value.collect{|a| a.tag.name}.join(", ")
+              value.collect{|a| a.tag.name}.join(";")
             else
-              value.collect{|a| a.name}.join(", ")
+              value.collect{|a| a.name}.join(";")
             end
           elsif value.is_a? Hash
             value.to_s
           elsif value.is_a? Array
-            value.join(",")
+            value.join(";")
           else
             value
           end

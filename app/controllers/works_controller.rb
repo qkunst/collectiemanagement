@@ -52,6 +52,8 @@ class WorksController < ApplicationController
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
 
+    @works = @works.published if params[:published]
+
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.html {
@@ -95,14 +97,19 @@ class WorksController < ApplicationController
       }
       format.zip {
         if can?(:download_photos, @collection)
+          only_front = params[:only_front]
           files = []
+          file_editions = only_front ? ["photo_front"] : ["photo_front","photo_back","photo_detail_1", "photo_detail_2"]
           @works.each do |work|
             base_file_name = work.base_file_name
-            ["photo_front","photo_back","photo_detail_1", "photo_detail_2"].each do |field|
+            file_editions.each do |field|
               if work.send("#{field}?".to_sym)
-                filename = "#{base_file_name}_#{field.gsub('photo_','')}.jpg"
-                file = work.send(field.to_sym).screen.path
-                files << [file, filename]
+                filename_components = [base_file_name]
+                filename_components << field.gsub('photo_','') unless only_front
+                filename = "#{filename_components.join("_")}.jpg"
+                file = work.send(field.to_sym)
+                file_path = params[:hq] ? file.path : file.screen.path
+                files << [file_path, filename]
               end
             end
           end

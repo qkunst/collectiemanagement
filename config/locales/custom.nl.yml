@@ -208,6 +208,7 @@ nl:
         abstract_or_figurative_rendered: Abstract of figuratief
         object_format_code: Formaatcode
         title: Titel
+        title_rendered: Titel
         collection: Collectie
         collection_name_extended: Collectie
         created_at: Opgeslagen op
@@ -220,6 +221,7 @@ nl:
         location_floor_raw: Verdieping
         location_detail_raw: Locatie specificatie
         stock_number: Inventarisnummer
+        Stock number file safe: Inventarisnummer (bestandsnaamveilig)
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3

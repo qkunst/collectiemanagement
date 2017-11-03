@@ -10,6 +10,16 @@ RSpec.describe Work, type: :model do
         expect(w.frame_type.name).to eq("test")
       end
     end
+    describe "#stock_number_file_safe" do
+      it "should not change good number" do
+        expect(Work.new(stock_number: 123).stock_number_file_safe).to eq "123"
+      end
+      it "should change risky number" do
+        expect(Work.new(stock_number: "12/3").stock_number_file_safe).to eq "12-3"
+        expect(Work.new(stock_number: "12//3").stock_number_file_safe).to eq "12--3"
+        expect(Work.new(stock_number: "1:\\2//3").stock_number_file_safe).to eq "1--2--3"
+      end
+    end
     describe "#height" do
       it "should accept integer" do
         w = works(:work1)
@@ -214,6 +224,11 @@ RSpec.describe Work, type: :model do
       end
     end
     describe ".artist_name_rendered" do
+      it "should not fail on an empty name" do
+        w = Work.new
+        w.save
+        expect(w.artist_name_rendered).to eq(nil)
+      end
       it "should summarize the artists nicely" do
         works(:work1).save
         expect(works(:work1).artist_name_rendered).to eq("artist_1, firstname (1900 - 2000)")
