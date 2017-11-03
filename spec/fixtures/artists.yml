@@ -17,7 +17,9 @@ artist_no_name:
 artist_no_works:
   last_name: "artist no works"
 artist2_dup1:
+  first_name: firstie
   last_name: artist_2 achternaam
 artist2_dup2:
+  first_name: firstie
   last_name: artist_2 achternaam
   created_at: 2000-01-01
