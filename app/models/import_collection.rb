@@ -28,7 +28,7 @@ class ImportCollectionClassAssociation
   end
 
   def importable?
-    unless ["PaperTrail::Version","Currency"].include? class_name
+    unless ["PaperTrail::Version","Currency","Attachment","ActsAsTaggableOn::Tag","ActsAsTaggableOn::Tagging","::ActsAsTaggableOn::Tag","::ActsAsTaggableOn::Tagging"].include? class_name
       return true
     end
     return false
@@ -346,8 +346,8 @@ class ImportCollection < ApplicationRecord
       {
         split_nothing: ->(field){ [field] },
         split_space: ->(field){ field.to_s.split(/[\s\n]/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        split_comma: ->(field){ field.to_s.split(/\,/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        split_natural: ->(field){ field.to_s.split(/\sen\s|\,/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
+        split_comma: ->(field){ field.to_s.split(/\,|\;/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
+        split_natural: ->(field){ field.to_s.split(/\sen\s|\,|\;/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
         split_cross: ->(field){ field.to_s.split(/[x\*]/i).collect{|a| a.strip == "" ? nil : a.strip}.compact },
         find_keywords: ->(field){ [:find_keywords, field]}
       }

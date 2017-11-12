@@ -33,6 +33,7 @@ class Work < ApplicationRecord
 
   scope :no_photo_front, -> { where(photo_front: nil)}
   scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
+  scope :published, ->{ where(publish: true) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -176,23 +177,30 @@ class Work < ApplicationRecord
   def artist_name_rendered_without_years_nor_locality
     artist_name_rendered({include_years: false, include_locality: false})
   end
-
-  def artist_name_rendered(options={})
-    if options[:rebuild]
-      self.artist_name_rendered = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.to_sentence
-      if artist_unknown and (artist_name_rendered.nil? or artist_name_rendered.empty?)
-        self.artist_name_rendered = "Onbekend"
-      end
-      return artist_name_rendered
-    else
-      rv = read_attribute(:artist_name_rendered)
-      rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
-      rv
+  
+  def artist_name_rendered_without_years_nor_locality_semicolon_separated
+    artist_name_rendered({include_years: false, include_locality: false, join: ";"})
+  end
+  
+  def rebuild_artist_name_rendered(options={})
+    rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join(" ||| ")
+    if artist_unknown and (rv.nil? or rv.empty?)
+      rv = "Onbekend"
     end
+    self.artist_name_rendered = rv
+  end
+  
+  def artist_name_rendered(opts={})
+    options = { join: :to_sentence }.merge(opts)
+    rv = read_attribute(:artist_name_rendered).to_s
+    rv = rebuild_artist_name_rendered(options) if options[:rebuild]
+    rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
+    rv = options[:join] === :to_sentence ? rv.split(" ||| ").to_sentence : rv.split(" ||| ").join(options[:join])
+    rv unless rv == ""
   end
 
   def update_artist_name_rendered!
-    self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true}))
+    self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true, join: " ||| "}))
   end
 
   def signature_rendered
@@ -268,16 +276,20 @@ class Work < ApplicationRecord
   end
 
   def hpd_height
-    frame_height? ? frame_height : height
+    rv = frame_height? ? frame_height : height
+    rv if rv and rv > 0
   end
   def hpd_width
-    frame_width? ? frame_width : width
+    rv = frame_width? ? frame_width : width
+    rv if rv and rv > 0
   end
   def hpd_depth
-     frame_depth? ? frame_depth : depth
+    rv = frame_depth? ? frame_depth : depth
+    rv if rv and rv > 0
   end
   def hpd_diameter
-    frame_diameter? ? frame_diameter : diameter
+    rv = frame_diameter? ? frame_diameter : diameter
+    rv if rv and rv > 0
   end
   def hpd_keywords
      object_categories.collect{|a| a.name}.join(",")
@@ -288,11 +300,14 @@ class Work < ApplicationRecord
   def hpd_condition
     condition_work_rendered
   end
+  def stock_number_file_safe
+    stock_number.to_s.gsub(/[\/\\\:]/,"-")
+  end
   def base_file_name
-    stock_number? ? stock_number : "AUTO_DB_ID_#{id}"
+    stock_number? ? stock_number_file_safe : "AUTO_DB_ID_#{id}"
   end
   def hpd_photo_file_name
-    "#{base_file_name}_front.jpg"
+    "#{base_file_name}.jpg"
   end
   def hpd_comments
   end
@@ -380,18 +395,17 @@ class Work < ApplicationRecord
   def object_format_code
     size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max
     ofc = nil
-    if size
-      if size < 30
-        ofc = :xs
-      elsif size < 50
-        ofc = :s
-      elsif size < 80
-        ofc = :m
-      elsif size < 120
-        ofc = :l
-      elsif size >= 120
-        ofc = :xl
-      end
+    if !size
+    elsif size < 30
+      ofc = :xs
+    elsif size < 50
+      ofc = :s
+    elsif size < 80
+      ofc = :m
+    elsif size < 120
+      ofc = :l
+    elsif size >= 120
+      ofc = :xl
     end
     return ofc
   end
@@ -455,6 +469,33 @@ class Work < ApplicationRecord
   def touch_collection!
     collection.touch if collection
   end
+  
+  def collect_values_for_fields(fields)
+    return fields.collect do |field|
+      value = self.send(field)
+      if value.class == PictureUploader
+        value.file ? value.file.filename : nil
+      elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
+        value.name
+      elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
+        artist_name_rendered_without_years_nor_locality_semicolon_separated
+      elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
+        if value.first.is_a? PaperTrail::Version
+          "Versie"
+        elsif value.first.is_a? ActsAsTaggableOn::Tagging
+          value.collect{|a| a.tag.name}.join(";")
+        else
+          value.collect{|a| a.name}.join(";")
+        end
+      elsif value.is_a? Hash
+        value.to_s
+      elsif value.is_a? Array
+        value.join(";")
+      else
+        value
+      end
+    end
+  end
 
   class << self
 
@@ -471,38 +512,6 @@ class Work < ApplicationRecord
           _fast_aggregate_geoname_ids(rv)
         elsif Work.new.methods.include? attribute.to_sym
           _fast_aggregate_belongs_to_many rv, attribute
-        end
-      end
-      rv
-    end
-
-    def aggregations attributes
-      rv = {}
-      self.all.each do |work|
-        attributes.each do |attribute|
-          rv[attribute] ||= {}
-          values = work.send(attribute)
-          if values.is_a? ActiveRecord::Associations::CollectionProxy
-            values.each do |value|
-              rv[attribute][value] ||= {count: 0, name: value.name}
-              rv[attribute][value][:count] += 1
-            end
-            if values.empty?
-              rv[attribute][:not_set] ||= {count: 0, name: :not_set }
-              rv[attribute][:not_set][:count] += 1
-            end
-          else
-            value = values
-            if value.is_a? String
-              if attribute == :grade_within_collection
-                value = value[0]
-              end
-              value = value.downcase.to_sym
-            end
-            value = :not_set if value.nil?
-            rv[attribute][value] ||= {count: 0, name: value }
-            rv[attribute][value][:count] += 1
-          end
         end
       end
       rv
@@ -530,31 +539,7 @@ class Work < ApplicationRecord
     def to_workbook(fields=[:id,:title_rendered], collection = nil)
       w = Workbook::Book.new([fields.collect{|a| Work.human_attribute_name_overridden(a, collection)}])
       self.all.each do |work|
-        values = fields.collect do |field|
-          value = work.send(field)
-          if value.class == PictureUploader
-            value.file ? value.file.filename : nil
-          elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
-            value.name
-          elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
-            work.artist_name_rendered
-          elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
-            if value.first.is_a? PaperTrail::Version
-              "Versie"
-            elsif value.first.is_a? ActsAsTaggableOn::Tagging
-              value.collect{|a| a.tag.name}.join(", ")
-            else
-              value.collect{|a| a.name}.join(", ")
-            end
-          elsif value.is_a? Hash
-            value.to_s
-          elsif value.is_a? Array
-            value.join(",")
-          else
-            value
-          end
-        end
-        w.sheet.table << values
+        w.sheet.table << work.collect_values_for_fields(fields)
       end
       return w
     end

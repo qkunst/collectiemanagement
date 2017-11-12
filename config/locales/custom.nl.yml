@@ -76,6 +76,7 @@ nl:
       attachment: Bijlage
       stage: Workflow stadium
       reminder: Herinnering
+      tagging: Tags
       frame_type: Lijsttype
     values:
       user:
@@ -157,6 +158,8 @@ nl:
         year_of_death: Jaar van overlijden
         description: Opmerkingen
         involvement: Betrekking
+        date_of_birth: Geboortedatum
+        date_of_death: Datum van overlijden
       artist_involvement:
         involvement: Instelling
         start_year: Vanaf (jaar)
@@ -205,6 +208,7 @@ nl:
         abstract_or_figurative_rendered: Abstract of figuratief
         object_format_code: Formaatcode
         title: Titel
+        title_rendered: Titel
         collection: Collectie
         collection_name_extended: Collectie
         created_at: Opgeslagen op
@@ -217,6 +221,7 @@ nl:
         location_floor_raw: Verdieping
         location_detail_raw: Locatie specificatie
         stock_number: Inventarisnummer
+        Stock number file safe: Inventarisnummer (bestandsnaamveilig)
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
@@ -287,6 +292,7 @@ nl:
         valuation_on: Datum waardebepaling
         internal_comments: Opmerkingen voor intern gebruik
         artist_name_rendered: Vervaardiger(s)
+        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
         hpd_height: Hoogte
         hpd_width: Breedte
         hpd_depth: Diepte

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../rails_helper'
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
@@ -8,6 +8,16 @@ RSpec.describe Work, type: :model do
         w.frame_type = FrameType.create(name: "test")
         w.save
         expect(w.frame_type.name).to eq("test")
+      end
+    end
+    describe "#stock_number_file_safe" do
+      it "should not change good number" do
+        expect(Work.new(stock_number: 123).stock_number_file_safe).to eq "123"
+      end
+      it "should change risky number" do
+        expect(Work.new(stock_number: "12/3").stock_number_file_safe).to eq "12-3"
+        expect(Work.new(stock_number: "12//3").stock_number_file_safe).to eq "12--3"
+        expect(Work.new(stock_number: "1:\\2//3").stock_number_file_safe).to eq "1--2--3"
       end
     end
     describe "#height" do
@@ -187,21 +197,36 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).previous).to eq(works(:work2))
       end
     end
-  end
-  describe  "class methods" do
-    describe ".aggregations" do
-      it "should allow to be initialized" do
-        works = [works(:work1),works(:work2)]
-        # expect()
-        aggregations = Work.aggregations [:title, :themes, :subset, :grade_within_collection]
-        expect(aggregations.count).to eq 4
-        expect(aggregations[:title][:work1][:count]).to eq 1
-        expect(aggregations[:themes][themes(:wind)][:count]).to eq 2
-        expect(aggregations[:grade_within_collection][:a][:count]).to eq 3
-
+    describe "#object_format_code" do
+      it "should return proper format code" do
+        expect(works(:work1).object_format_code).to eq(nil)
+        w = works(:work1)
+        w.height = 200
+        expect(w.object_format_code).to eq(:xl)
+        w.height = 90
+        expect(w.object_format_code).to eq(:l)        
       end
     end
+    describe "#save" do
+      it "should save, even without info" do
+        w = Work.new
+        w.save
+        expect(w.id).to be > 1
+      end
+      # it "should save, even with just comments set" do
+      #   w = Work.new
+      #   w.save
+      #   expect(w.id).to be > 1
+      # end
+    end
+  end
+  describe  "class methods" do
     describe ".artist_name_rendered" do
+      it "should not fail on an empty name" do
+        w = Work.new
+        w.save
+        expect(w.artist_name_rendered).to eq(nil)
+      end
       it "should summarize the artists nicely" do
         works(:work1).save
         expect(works(:work1).artist_name_rendered).to eq("artist_1, firstname (1900 - 2000)")
@@ -209,6 +234,28 @@ RSpec.describe Work, type: :model do
       it "should respect include_years option" do
         works(:work1).save
         expect(works(:work1).artist_name_rendered(include_years: false)).to eq("artist_1, firstname")
+      end
+    end
+    describe ".artist_name_rendered_without_years_nor_locality" do
+      it "should summarize the artist nicely" do
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname")
+      end
+      it "should summarize the artists nicely" do
+        works(:work1).artists << artists(:artist2)
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname en artist_2 achternaam, firstie")
+      end
+    end
+    describe ".artist_name_rendered_without_years_nor_locality_semicolon_separated" do
+      it "should summarize the artist nicely" do
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname")
+      end
+      it "should summarize the artists nicely" do
+        works(:work1).artists << artists(:artist2)
+        works(:work1).save
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname;artist_2 achternaam, firstie")
       end
     end
     describe ".fast_aggregations" do
