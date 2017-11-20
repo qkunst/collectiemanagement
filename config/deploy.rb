@@ -120,7 +120,7 @@ namespace :server do
     puts "mkdir /home/#{fetch(:remote_user)}"
     puts "mkdir /home/#{fetch(:remote_user)}/.ssh"
     puts "chmod 700 /home/#{fetch(:remote_user)}/.ssh"
-    puts "cp /home/#{fetch(:local_user)}/.ssh/authorized_keys /home/#{fetch(:remote_user)}/.ssh/authorized_keys"
+    puts "cp /home/#{fetch(:local_user)}/.ssh/id_rsa.pub /home/#{fetch(:remote_user)}/.ssh/authorized_keys"
     puts "chmod 400 /home/#{fetch(:remote_user)}/.ssh/authorized_keys"
     puts "chown #{fetch(:remote_user)}:#{fetch(:remote_user)} /home/#{fetch(:remote_user)} -R"
 
