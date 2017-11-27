@@ -16,9 +16,9 @@ module DefineTasticHelper
     classname = options[:classname]
     if @define_tastic_render_as == :table
       style = " style=\"width: #{@define_tastic_key_width}\"" if @define_tastic_key_width
-      "<tr#{" class=\"#{classname}\"" if classname}><th#{style}>#{description}:</th><td>#{value}</td></tr>".html_safe unless value.blank?
+      "<tr#{" class=\"#{classname}\"" if classname}><th#{style}>#{description}:</th><td>#{sanitize value}</td></tr>".html_safe unless value.blank?
     else
-      "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{value}</dd>".html_safe unless value.blank?
+      "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{sanitize value}</dd>".html_safe unless value.blank?
     end
   end
 
