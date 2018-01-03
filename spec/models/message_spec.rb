@@ -61,6 +61,8 @@ RSpec.describe Message, type: :model do
         u2 = users(:user2)
         u3 = users(:user3)
         m = Message.create(from_user: u1, to_user: u2, subject: "sub", message: "messss")
+        p m.inspect.gsub("<","")
+        p m.errors
         m2 = Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
         expect(Message.sent_at_date(Time.now.to_date).count).to eq(2)
         expect(Message.sent_at_date(Time.now.to_date+1.day).count).to eq(0)

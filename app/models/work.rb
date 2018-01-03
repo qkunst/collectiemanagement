@@ -12,13 +12,13 @@ class Work < ApplicationRecord
 
   belongs_to :cluster
   belongs_to :collection
-  belongs_to :condition_frame, :class_name=>Condition
-  belongs_to :condition_work, :class_name=>Condition
-  belongs_to :created_by, :class_name=>User
+  belongs_to :condition_frame, class_name: "Condition"
+  belongs_to :condition_work, class_name: "Condition"
+  belongs_to :created_by, class_name: "User"
   belongs_to :frame_type
   belongs_to :medium
   belongs_to :placeability
-  belongs_to :purchase_price_currency, :class_name=>Currency
+  belongs_to :purchase_price_currency, class_name: "Currency"
   belongs_to :style
   belongs_to :subset
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
@@ -177,11 +177,11 @@ class Work < ApplicationRecord
   def artist_name_rendered_without_years_nor_locality
     artist_name_rendered({include_years: false, include_locality: false})
   end
-  
+
   def artist_name_rendered_without_years_nor_locality_semicolon_separated
     artist_name_rendered({include_years: false, include_locality: false, join: ";"})
   end
-  
+
   def rebuild_artist_name_rendered(options={})
     rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join(" ||| ")
     if artist_unknown and (rv.nil? or rv.empty?)
@@ -189,7 +189,7 @@ class Work < ApplicationRecord
     end
     self.artist_name_rendered = rv
   end
-  
+
   def artist_name_rendered(opts={})
     options = { join: :to_sentence }.merge(opts)
     rv = read_attribute(:artist_name_rendered).to_s
@@ -469,7 +469,7 @@ class Work < ApplicationRecord
   def touch_collection!
     collection.touch if collection
   end
-  
+
   def collect_values_for_fields(fields)
     return fields.collect do |field|
       value = self.send(field)
