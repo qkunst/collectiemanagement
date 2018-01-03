@@ -7,13 +7,13 @@ RSpec.describe Attachment, type: :model do
     describe "for_me" do
       it "should always work for admin" do
         admin = users(:admin)
-        a = Attachment.create(file: File.open('Gemfile'))
+        a = works(:work1).attachments.create(file: File.open('Gemfile'))
         expect(Attachment.for_me(admin)).to include(a)
       end
       it "should always work for admin" do
         admin = users(:admin)
-        a = Attachment.create(file: File.open('Gemfile'))
-        b = Attachment.create(file: File.open('Gemfile'))
+        a = works(:work1).attachments.create(file: File.open('Gemfile'))
+        b = works(:work1).attachments.create(file: File.open('Gemfile'))
         #ROLES = [:admin, :qkunst, :read_only, :facility_manager, :appraiser]
         a.visibility = [:qkunst,:facility_manager]
         b.visibility = [:read_only]
@@ -24,8 +24,8 @@ RSpec.describe Attachment, type: :model do
       end
       it "should always work correctly for readonly" do
         admin = users(:read_only_user)
-        a = Attachment.create(file: File.open('Gemfile'))
-        b = Attachment.create(file: File.open('Gemfile'))
+        a = works(:work1).attachments.create(file: File.open('Gemfile'))
+        b = works(:work1).attachments.create(file: File.open('Gemfile'))
         a.visibility = [:qkunst,:facility_manager]
         b.visibility = [:read_only]
         a.save

@@ -4,15 +4,16 @@ RSpec.describe Artist, type: :model do
   describe  "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work" do
       ids = []
+      c = collections(:collection1)
       a = Artist.create(first_name: "a")
-      wa = Work.create(title: "by a")
+      wa = c.works.create(title: "by a")
       wa.artists << a
       b = Artist.create(first_name: "b")
       ids << b.id
 
-      wb = Work.create(title: "by a")
+      wb = c.works.create(title: "by a")
       wb.artists << b
-      wb = Work.create(title: "by a")
+      wb = c.works.create(title: "by a")
       wb.artists << b
 
       expect(a.combine_artists_with_ids(ids)).to eq(2)
@@ -71,9 +72,9 @@ RSpec.describe Artist, type: :model do
 
   describe "#save" do
     it "should update artist name at work" do
-      w = Work.create
+      w = works(:work1)
       a = Artist.create(first_name: "Antony", last_name: "Hopkins")
-      w.artists << a
+      w.artists = [a]
       w.save
       expect(w.artist_name_rendered).to eq("Hopkins, Antony")
       a.first_name = 'Charly'

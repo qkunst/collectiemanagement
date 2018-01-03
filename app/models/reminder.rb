@@ -1,8 +1,8 @@
 class Reminder < ApplicationRecord
   INTERVAL_UNITS = {"Dagen"=>:days, "Weken"=>:weeks, "Maanden"=>:months, "Jaren"=>:years}
 
-  belongs_to :stage
-  belongs_to :collection
+  belongs_to :stage, optional: true
+  belongs_to :collection, optional: true
 
   scope :prototypes, ->{ where(collection_id: nil)}
   scope :actual, ->{ where.not(collection_id: nil)}

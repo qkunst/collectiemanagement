@@ -7,15 +7,15 @@ class Message < ApplicationRecord
   has_many :replies, class_name: 'Message', foreign_key: :in_reply_to_message_id
   has_many :conversation, class_name: 'Message', foreign_key: :conversation_start_message_id
 
-  validates_presence_of :subject
-  validates_presence_of :message
+  # validates_presence_of :subject
+  # validates_presence_of :message
 
-  belongs_to :subject_object, polymorphic: true
-  belongs_to :from_user, class_name: 'User'
-  belongs_to :to_user, class_name: 'User'
-  belongs_to :in_reply_to_message, class_name: 'Message'
-  belongs_to :conversation_start_message, class_name: 'Message'
-  belongs_to :reminder
+  belongs_to :subject_object, polymorphic: true, optional: true
+  belongs_to :from_user, class_name: 'User', optional: true
+  belongs_to :to_user, class_name: 'User', optional: true
+  belongs_to :in_reply_to_message, class_name: 'Message', optional: true
+  belongs_to :conversation_start_message, class_name: 'Message', optional: true
+  belongs_to :reminder, optional: true
 
   scope :order_by_creation_date, -> {order(:created_at)}
   scope :order_by_reverse_creation_date, -> {order(created_at: :desc)}

@@ -13,7 +13,7 @@ class FakeSuperCollection
 end
 
 class Collection < ApplicationRecord
-  belongs_to :parent_collection, class_name: 'Collection'
+  belongs_to :parent_collection, class_name: 'Collection', optional: true
   has_and_belongs_to_many :users
   has_many :attachments, as: :attache
   has_many :batch_photo_uploads

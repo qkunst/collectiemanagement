@@ -1,7 +1,7 @@
 class ArtistInvolvement < ApplicationRecord
   belongs_to :artist, touch: true
-  belongs_to :involvement
-  belongs_to :geoname_summary, foreign_key: :place_geoname_id, primary_key: :geoname_id
+  belongs_to :involvement, optional: true
+  belongs_to :geoname_summary, foreign_key: :place_geoname_id, primary_key: :geoname_id, optional: true
 
   accepts_nested_attributes_for :involvement
 

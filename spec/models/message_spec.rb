@@ -8,7 +8,7 @@ RSpec.describe Message, type: :model do
         u2 = users(:user2)
         m = Message.new(from_user: u1, to_user: u2)
         m.save
-        expect(m.from_user_name).to eq(u1.name)
+        expect(m.from_user_name).to eq(u1.name.to_s)
       end
     end
     describe "#notifyable_users" do

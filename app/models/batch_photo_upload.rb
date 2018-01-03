@@ -20,7 +20,7 @@ class BatchPhotoUpload < ApplicationRecord
           work.save
         end
       else
-        p "Image #{image.filename} bestaat niet (meer)..."
+        # p "Image #{image.filename} bestaat niet (meer)..."
       end
     end
   end

@@ -204,12 +204,12 @@ RSpec.describe Work, type: :model do
         w.height = 200
         expect(w.object_format_code).to eq(:xl)
         w.height = 90
-        expect(w.object_format_code).to eq(:l)        
+        expect(w.object_format_code).to eq(:l)
       end
     end
     describe "#save" do
       it "should save, even without info" do
-        w = Work.new
+        w = collections(:collection1).works.new
         w.save
         expect(w.id).to be > 1
       end

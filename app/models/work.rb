@@ -10,17 +10,17 @@ class Work < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Searchable
 
-  belongs_to :cluster
+  belongs_to :cluster, optional: true
   belongs_to :collection
-  belongs_to :condition_frame, class_name: "Condition"
-  belongs_to :condition_work, class_name: "Condition"
-  belongs_to :created_by, class_name: "User"
-  belongs_to :frame_type
-  belongs_to :medium
-  belongs_to :placeability
-  belongs_to :purchase_price_currency, class_name: "Currency"
-  belongs_to :style
-  belongs_to :subset
+  belongs_to :condition_frame, class_name: "Condition", optional: true
+  belongs_to :condition_work, class_name: "Condition", optional: true
+  belongs_to :created_by, class_name: "User", optional: true
+  belongs_to :frame_type, optional: true
+  belongs_to :medium, optional: true
+  belongs_to :placeability, optional: true
+  belongs_to :purchase_price_currency, class_name: "Currency", optional: true
+  belongs_to :style, optional: true
+  belongs_to :subset, optional: true
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :frame_damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
@@ -477,7 +477,7 @@ class Work < ApplicationRecord
         value.file ? value.file.filename : nil
       elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
         value.name
-      elsif value.is_a? Artist::ActiveRecord_Associations_CollectionProxy
+      elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
         artist_name_rendered_without_years_nor_locality_semicolon_separated
       elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
         if value.first.is_a? PaperTrail::Version

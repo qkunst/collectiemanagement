@@ -14,6 +14,7 @@ RSpec.describe Appraisal, type: :model do
       it "should be destroyable" do
         work = works(:work1)
         work.update_latest_appraisal_data!
+        work.reload
         expect(work.market_value).to eq(4000)
         appraisals(:appraisal2).destroy
         work.reload

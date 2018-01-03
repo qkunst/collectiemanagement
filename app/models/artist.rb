@@ -1,7 +1,9 @@
 class Artist < ApplicationRecord
   has_paper_trail
 
-  belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id
+  belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id, optional: true
+  belongs_to :import_collection, optional: true
+
   has_and_belongs_to_many :works
   has_many :artist_involvements
   has_many :involvements, -> { distinct },  through: :artist_involvement
@@ -12,7 +14,6 @@ class Artist < ApplicationRecord
   after_touch :touch_works
   before_save :sync_dates_and_years
   before_save :sync_places
-  belongs_to :import_collection
 
   scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
   scope :exclude_artist, ->(artist){where("artists.id != ?", artist.id)}

@@ -1,7 +1,7 @@
 class Involvement < ApplicationRecord
   before_save :set_geoname_id_from_name!
 
-  belongs_to :geoname_summary, foreign_key: :place_geoname_id, primary_key: :geoname_id
+  belongs_to :geoname_summary, foreign_key: :place_geoname_id, primary_key: :geoname_id, optional: true
 
   scope :related_to_geoname_id, ->(geoname_id){ (geoname_id > 9999) ? joins(:geoname_summary).where(GeonameSummary.arel_table[:geoname_ids].matches("%#{geoname_id}%")) : where("true = false") }
 

@@ -1,6 +1,6 @@
 class Stage < ApplicationRecord
-  belongs_to :previous_stage, primary_key: :id, class_name: "Stage"
-  belongs_to :actual_stage, primary_key: :id, class_name: "Stage"
+  belongs_to :previous_stage, primary_key: :id, class_name: "Stage", optional: true
+  belongs_to :actual_stage, primary_key: :id, class_name: "Stage", optional: true
   has_many :next_stages, foreign_key: :previous_stage_id, class_name: "Stage"
   has_and_belongs_to_many :collections
 
