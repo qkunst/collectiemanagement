@@ -25,6 +25,7 @@ gem 'turbolinks' #, '~> 5.x'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder' #, '~> 2.0'
 gem 'cancancan'
+gem 'appsignal'
 
 
 group :development, :test do
