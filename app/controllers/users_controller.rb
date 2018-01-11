@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @appraisal_users = User.appraiser.order(:email).all
     @qkunst_users = User.qkunst.order(:email).all
     other_users = User.other.order(:email)
-    @external_users = other_users.has_collections.all
+    @external_users = other_users.has_collections.to_a
     @unregistered_users = other_users.all - @external_users
   end
 
