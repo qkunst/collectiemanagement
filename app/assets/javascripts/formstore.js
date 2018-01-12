@@ -22,8 +22,8 @@ var FormStore = {
     filesCannotBeStoredOffline: "Bestanden kunnen niet offline worden opgeslagen, de data wordt wel verwerkt.",
     validationErrorsOccurred: "Niet alle velden zijn juist ingevuld, controleer de invoer."
   },
-  heartBeatLocation: "/heartbeat",
-  heartBeatSpacing: 10000,
+  heartBeatSpacing: 1000,
+  heartBeatLastSentAt: null,
   signInMatcher: /sign_in/,
   fireEvent: function(name, data) {
     var e = document.createEvent("Event");
@@ -31,8 +31,6 @@ var FormStore = {
     e.data = data;
     window.dispatchEvent(e);
   },
-
-  heartBeatLastSentAt: null,
   setBodyTagOnline: function() {
     var elem = document.getElementsByTagName("body")[0]
     elem.classList.remove("offline");
@@ -46,34 +44,24 @@ var FormStore = {
   checkOnlineState: function() {
     if (!FormStore.heartBeatLastSentAt || ((Date.now() - FormStore.heartBeatLastSentAt) > FormStore.heartBeatSpacing) ) {
       FormStore.heartBeatLastSentAt = Date.now();
-      FormStore.send(FormStore.heartBeatLocation, {
-        timeout: 10000,
-        onSuccess: function(source){
-          if (FormStore.online !== true) {
-            FormStore.fireEvent("connectionBackOnline");
-          }
+      if (window.navigator.onLine) {
+        if (FormStore.online !== true) {
+          FormStore.fireEvent("connectionBackOnline");
+        }
+        FormStore.setBodyTagOnline();
+        FormStore.online = true;
+      } else {
+        if (FormStore.online !== false) {
+          FormStore.fireEvent("connectionWentOffline");
+        }
 
-          FormStore.setBodyTagOnline();
+        FormStore.setBodyTagOffline();
 
-          FormStore.online = true;
-          setTimeout(function() {
-            FormStore.checkOnlineState();
-          }, 10000);
-        },
-        onFail: function(source){
-          if (FormStore.online !== false) {
-            FormStore.fireEvent("connectionWentOffline");
-          }
-
-          FormStore.setBodyTagOffline();
-
-          FormStore.online = false;
-          setTimeout(function() {
-            FormStore.checkOnlineState();
-          }, 50000);
-        },
-        forceCheck: true
-      });
+        FormStore.online = false;
+      }
+      setTimeout(function() {
+        FormStore.checkOnlineState();
+      }, 10000);
     }
   },
   online: null,
