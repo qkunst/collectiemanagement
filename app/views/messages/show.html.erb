@@ -12,10 +12,14 @@
   <p>Deze conversatie vindt plaats in de context van:</p>
   <div class="row">
     <div class="large-12 columns">
-      <%= render @message.subject_object if @message.subject_url%>
+      <% if @message.subject_object %>
+        <%= render @message.subject_object %>
+      <% else %>
+        <p><em>Het onderwerp is verwijderd</em></p>
+      <% end %>
     </div>
   </div>
-  <%= link_to 'Ga naar het object →', @message.subject_url, class: 'small button'%>
+  <%= link_to 'Ga naar het onderwerp →', @message.subject_url, class: 'small button'%>
 </aside>
 <% end %>
 </div>

@@ -68,9 +68,9 @@ GEM
     bcrypt (3.1.11)
     bindex (0.5.0)
     builder (3.2.3)
-    bullet (5.7.0)
+    bullet (5.7.1)
       activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.10.0)
+      uniform_notifier (~> 1.11.0)
     byebug (9.1.0)
     cancancan (2.1.2)
     capistrano (3.10.1)
@@ -157,7 +157,7 @@ GEM
     htmlentities (4.3.4)
     i18n (0.9.1)
       concurrent-ruby (~> 1.0)
-    image_optimizer (1.7.1)
+    image_optimizer (1.7.2)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -168,6 +168,7 @@ GEM
     json (2.1.0)
     keyword_finder (0.3.1)
     kramdown (1.16.2)
+    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -188,7 +189,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.1)
-    multi_json (1.12.2)
+    multi_json (1.13.1)
     multipart-post (2.0.0)
     nested_form (0.3.2)
     net-scp (1.2.1)
@@ -240,7 +241,7 @@ GEM
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    rchardet (1.6.1)
+    rchardet (1.7.0)
     rdiscount (1.6.8)
     redis (4.0.1)
     redis-actionpack (5.0.2)
@@ -259,6 +260,7 @@ GEM
       redis-store (>= 1.2, < 2)
     redis-store (1.4.1)
       redis (>= 2.2, < 5)
+    ref (2.0.0)
     request_store (1.4.0)
       rack (>= 1.4)
     responders (2.4.0)
@@ -320,17 +322,20 @@ GEM
     sshkit (1.15.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    therubyracer (0.12.3)
+      libv8 (~> 3.16.14.15)
+      ref
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    turbolinks (5.0.1)
-      turbolinks-source (~> 5)
-    turbolinks-source (5.0.3)
+    turbolinks (5.1.0)
+      turbolinks-source (~> 5.1)
+    turbolinks-source (5.1.0)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
-    uglifier (4.1.2)
+    uglifier (4.1.3)
       execjs (>= 0.3.0, < 3)
-    uniform_notifier (1.10.0)
+    uniform_notifier (1.11.0)
     warden (1.2.7)
       rack (>= 1.0)
     web-console (3.5.1)
@@ -351,7 +356,7 @@ GEM
     xpath (3.0.0)
       nokogiri (~> 1.8)
     zip_tricks (4.5.2)
-    zipline (0.0.13)
+    zipline (1.0.0)
       curb (>= 0.8.0, < 0.10)
       rails (>= 3.2.1, < 5.2)
       zip_tricks (>= 4.2.1, <= 5.0.0)
@@ -394,7 +399,7 @@ DEPENDENCIES
   nested_form
   nokogiri
   paper_trail
-  pg
+  pg (~> 0.21)
   puma
   rails
   rails-assets-Stickyfill (~> 1.1)!
@@ -410,6 +415,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen
+  therubyracer
   turbolinks
   uglifier
   web-console
