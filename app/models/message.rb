@@ -89,7 +89,7 @@ class Message < ApplicationRecord
   end
 
   def notifyable_users
-    users = conversation_users.receive_mails.all
+    users = conversation_users.all
     users += User.admin.receive_mails.all
     users += [self.to_user]
     users -= [self.from_user]
