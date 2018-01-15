@@ -206,6 +206,7 @@ GEM
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
+    rack-headers_filter (0.0.1)
     rack-test (0.8.2)
       rack (>= 1.0, < 3)
     rails (5.1.4)
@@ -401,6 +402,7 @@ DEPENDENCIES
   paper_trail
   pg (~> 0.21)
   puma
+  rack-headers_filter
   rails
   rails-assets-Stickyfill (~> 1.1)!
   rails-assets-chosen!
