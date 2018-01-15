@@ -4,6 +4,12 @@ RSpec.describe Attachment, type: :model do
   describe "Class methods" do
   end
   describe "Scopes" do
+    describe "for_role" do
+      it "should always work for admin" do
+        a = works(:work1).attachments.create(file: File.open('Gemfile'))
+        expect(Attachment.for_role(:admin)).to include(a)
+      end
+    end
     describe "for_me" do
       it "should always work for admin" do
         admin = users(:admin)

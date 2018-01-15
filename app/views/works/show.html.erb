@@ -78,6 +78,13 @@
         <% if current_user.can_tag? %>
           <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
         <% end %>
+        <% if can? :manage, Attachment %>
+          <% if @work.attachments.count == 0 %>
+          <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
+          <% else %>
+          <li class="right"><%= link_to 'Beheer bijlagen', collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
+          <% end %>
+        <% end %>
       </ul>
   </div>
 </div>
@@ -85,15 +92,4 @@
   <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
 
 </div>
-<h4>Bijlagen</h4>
-
-  <ul>
-    <% @work.attachments.for_me(current_user).each do |attachment| %>
-      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
-    <% end %>
-  </ul>
-  <% if current_user.admin? %>
-    <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'primary button', data: { open_in_context: true}%>
-    <p><%= link_to 'Beheer bijlagen', collection_work_attachments_path(@collection, @work) %></p>
-  <% end %>
 

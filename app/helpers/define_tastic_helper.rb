@@ -125,7 +125,7 @@ module DefineTasticHelper
 
     end
     html_string += "<#{@define_tastic_render_as}>" #inpsired by the form_for helper
-    html_string += capture(&block)
+    html_string += capture(&block).to_s
     html_string += "</#{@define_tastic_render_as}>"
     @define_tastic_object = object
     @define_tastic_object_klass = nil

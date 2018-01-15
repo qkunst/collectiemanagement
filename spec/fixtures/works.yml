@@ -49,3 +49,9 @@ work6:
   artists:
     - :artist4
   collection: :collection3
+work_with_attachments:
+  title: Work with attachment
+  stock_number: QA01
+  artists:
+    - :artist4
+  collection: :collection3

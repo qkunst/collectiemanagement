@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "works/show", type: :view do
   include Devise::Test::ControllerHelpers
 
-  before(:each) do
+  it "renders attributes in <p>" do
     @collection = collections(:collection1)
     @selection = {display: :complete}
     @work = assign(:work, Work.create!(
@@ -18,14 +18,21 @@ RSpec.describe "works/show", type: :view do
       signature_comments: "aul07<script>alert(1)</script>kviak",
       collection: @collection
     ))
-  end
-
-  it "renders attributes in <p>" do
-    user = users(:admin)
-    sign_in user
+    sign_in users(:admin)
 
     render
     expect(rendered).not_to match(/<script>alert\(1\)<\/script>/)
     expect(rendered).to match(/aul07alert\(1\)kviak/)
+  end
+
+  it "renders attachments" do
+    @collection = collections(:collection1)
+    @selection = {display: :complete}
+    @work = works(:work_with_attachments)
+    sign_in users(:admin)
+
+    render
+    expect(rendered).to match(/Work with attachment/)
+    expect(rendered).to match(/unpredictableattachmentname/)
   end
 end

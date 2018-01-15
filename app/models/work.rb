@@ -171,7 +171,7 @@ class Work < ApplicationRecord
   end
 
   def cache_key(additional=[])
-    [self, "v1.10"]+additional
+    [self, "v1.2"]+additional
   end
 
   def artist_name_rendered_without_years_nor_locality

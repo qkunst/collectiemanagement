@@ -3,7 +3,10 @@ class Attachment < ApplicationRecord
 
   validates_presence_of :file
 
-  scope :for_me, ->(user){ user.admin? ? where("") : where(arel_table[:visibility].matches_any(user.roles.collect{|role| "%#{role}%"}))}
+
+  scope :for_roles, ->(roles){ roles.include?(:admin) ? where("") : where(arel_table[:visibility].matches_any(roles.collect{|role| "%#{role}%"}))}
+  scope :for_role, ->(role){ for_roles([role]) }
+  scope :for_me, ->(user){ for_roles(user.roles) }
 
   mount_uploader :file, BasicFileUploader
 

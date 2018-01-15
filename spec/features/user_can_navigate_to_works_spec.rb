@@ -18,7 +18,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     expect(page).not_to have_content('Bewerk')
     expect(page).to have_content('Doorzoek de werken')
     click_on "Werken"
-    expect(page).to have_content('Deze collectie bevat 1 werk')
+    expect(page).to have_content('Deze collectie bevat 2 werken')
     expect(page).not_to have_content('Bewerk')
     click_on "Work6"
     expect(page).to have_content('Details')
