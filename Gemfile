@@ -105,7 +105,7 @@ gem 'redis-rails'
 gem 'exception_notification'
 gem 'zipline'
 gem 'activerecord-session_store'
-gem 'rack-headers_filter'
+# gem 'rack-headers_filter'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-jquery' #, '~>2.2'
