@@ -48,6 +48,16 @@ RSpec.describe NameId, type: :model do
         expect(returned.collect(&:name)).to include("Historical")
       end
     end
+    describe ".names" do
+      it "should return a proper name kv" do
+        name = "Contemporary"
+        id = Subset.where(name: name).first.id
+        expect(Subset.names(id)).to eq({id => name})
+      end
+      it "should return 'Naamloos' when nil" do
+        expect(Subset.names(-1)).to eq({-1 => 'Naamloos'})
+      end
+    end
   end
  #    describe ".empty_artists" do
  #      it "should list all workless-artists" do

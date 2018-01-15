@@ -37,7 +37,7 @@ module NameId
       end
       rv = {}
       ids.each do |id|
-        rv[id] = names_hash[id]
+        rv[id] = names_hash[id] || 'Naamloos'
       end
       return rv
     end
