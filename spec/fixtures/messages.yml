@@ -1,0 +1,11 @@
+conversation_starter:
+  from_user: :facility_manager
+  subject_object: collection1 (Collection)
+  subject: Collectie 1
+
+conversation_reply:
+  from_user: :facility_manager
+  subject_object: collection1 (Collection)
+  in_reply_to_message: :conversation_starter
+  subject: "Re: Collectie 1"
+  conversation_start_message: :conversation_starter

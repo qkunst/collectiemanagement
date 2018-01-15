@@ -35,9 +35,13 @@ class MessagesController < ApplicationController
       @work ||= @message.subject_object
       @collection ||= @work.collection
     end
+    if current_user.admin?
+      @message.update_attributes(actioned_upon_by_qkunst_admin_at: Time.now)
+      @message.conversation.update_all(actioned_upon_by_qkunst_admin_at: Time.now)
+    end
     @new_reply_message = Message.new
     @new_reply_message.in_reply_to_message = @message
-    @new_reply_message.subject = @message.subject.match(/^re\:(.*)/i) ? @message.subject : "Re: #{@message.subject}"
+    @new_reply_message.subject = @message.subject.to_s.match(/^re\:(.*)/i) ? @message.subject : "Re: #{@message.subject}"
   end
 
   # GET /messages/new
@@ -100,13 +104,6 @@ class MessagesController < ApplicationController
         return nil
       end
       mparams=message_params
-      if mparams[:actioned_upon_by_qkunst_admin_at].to_s == "now"
-        unless current_user.admin?
-          redirect_to @message.conversation_start_message || @message, {alert: "U probeert iets aan te passen dat u niet mag aanpassen."}
-          return nil
-        end
-        mparams[:actioned_upon_by_qkunst_admin_at] = Time.now
-      end
       if @message.update(mparams)
         format.html { redirect_to @message.conversation_start_message || @message, notice: 'Het bericht is aangepast' }
         format.json { render :show, status: :ok, location: @message }
@@ -146,6 +143,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image, :actioned_upon_by_qkunst_admin_at)
+      params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image)
     end
 end
