@@ -16,7 +16,7 @@ class Reminder < ApplicationRecord
   end
 
   def reference_date
-    (stage.nil? or collection_stage_stage.nil?) ? created_at.to_date : collection_stage_stage.completed_at
+    stage.nil? ? created_at.to_date : collection_stage_stage.completed_at
   end
 
   def next_date
@@ -89,6 +89,18 @@ class Reminder < ApplicationRecord
         subject_object: collection,
         from_user_name: "QKunst Herinneringen"
       )
+    end
+  end
+
+  class << self
+    def send_reminders!
+      Reminder.actual.all.each do |reminder|
+        begin
+          reminder.send_message_if_current_date_is_next_date!
+        rescue NoMethodError
+
+        end
+      end
     end
   end
 end

@@ -27,13 +27,7 @@ namespace :qkunst do
 
   desc "Send all reminders"
   task send_reminders: :environment do
-    Reminder.actual.all.each do |reminder|
-      begin
-        reminder.send_message_if_current_date_is_next_date!
-      rescue NoMethodError
-
-      end
-    end
+    Reminder.send_reminders!
   end
 
   desc "test availability of the search engine"

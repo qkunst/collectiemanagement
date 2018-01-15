@@ -1,0 +1,14 @@
+herziening:
+  name: "Herziening waardering gewenst"
+  text: "Het is een drie jaar geleden dat QKunst de waarder..."
+  stage: :stage2b
+  interval_length: 3
+  interval_unit: "year"
+  repeat: true
+controle_nodig:
+  name: "Controle nodig"
+  text: "Het is een jaar geleden sinds QKunst heeft gekeken..."
+  stage: :stage3
+  interval_length: 1
+  interval_unit: "years"
+  repeat: true
