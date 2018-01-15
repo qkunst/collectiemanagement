@@ -23,7 +23,6 @@ namespace :qkunst do
   task new_index: :environment do
     Work.__elasticsearch__.delete_index!
     Work.reindex!(true)
-
   end
 
   desc "Send all reminders"
@@ -34,6 +33,16 @@ namespace :qkunst do
       rescue NoMethodError
 
       end
+    end
+  end
+
+  desc "test availability of the search engine"
+  task test_search: :environment do
+    begin
+      Work.search("demo").first
+    rescue Exception => e
+      puts "Search werkt niet"
+      ExceptionNotifier.notify_exception(e, :data => {:msg => "Search werkt niet!"})
     end
   end
 
