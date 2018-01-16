@@ -27,14 +27,10 @@ class StylesController < ApplicationController
   def create
     @style = Style.new(style_params)
 
-    respond_to do |format|
-      if @style.save
-        format.html { redirect_to styles_url, notice: 'Style was successfully created.' }
-        format.json { render :show, status: :created, location: @style }
-      else
-        format.html { render :new }
-        format.json { render json: @style.errors, status: :unprocessable_entity }
-      end
+    if @style.save
+      redirect_to styles_url, notice: 'Stijl is aangemaakt.'
+    else
+      render :new
     end
   end
 
