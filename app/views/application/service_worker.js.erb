@@ -1,4 +1,4 @@
-var CACHE = "cache-and-update9";
+var CACHE = "cache-and-update10";
 var CACHE_TYPES = [".json", ".js", ".css", ".svg"];
 var OFFLINE_CACHE = "offline-cache";
 
@@ -9,14 +9,19 @@ self.addEventListener("install", function(evt) {
   evt.waitUntil(precache());
 });
 
+//clean!
+self.addEventListener('activate', function(event) {
+  event.waitUntil(clearOtherCaches());
+});
+
 self.addEventListener("fetch", function(evt) {
   if (evt.respondWith) {
     var serveCachedAsset = CACHE_TYPES.map(function(a){
       return evt.request.url.endsWith(a) || evt.request.url.endsWith(a+"?body=1");
-      }).includes(true);
+    }).includes(true);
 
     if (serveCachedAsset) {
-      // console.log("The service worker is serving the asset: "+evt.request.url);
+      // because of how rails caching works, can be served from cache without a thought
       evt.respondWith(fromCache(evt.request));
       evt.waitUntil(update(evt.request));
     }
@@ -24,7 +29,7 @@ self.addEventListener("fetch", function(evt) {
       var request = evt.request;
       var path = request.url.split("//")[1].split("/").slice(1,1000).join("/");
 
-      if (request.method === "GET" && path != "heartbeat" && !path.match(/\.jpg(\?\d*)?$/)) {
+      if (request.method === "GET" && !path.match(/\.jpg(\?\d*)?$/) && !path.match(/collections\/(\d+)\/works/i)) {
         evt.respondWith(
           fetch(request).then(function(response){
             caches.open(CACHE).then(function(cache) {
@@ -94,4 +99,16 @@ function update(request) {
       return cache.put(request, response);
     });
   });
+}
+
+function clearOtherCaches() {
+  caches.keys().then(function(cacheNames) {
+    return Promise.all(
+      cacheNames.filter(function(cacheName) {
+        return cacheName != CACHE
+      }).map(function(cacheName) {
+        return caches.delete(cacheName);
+      })
+    );
+  })
 }
