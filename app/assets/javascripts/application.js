@@ -184,17 +184,20 @@ $(document).on("click touch", ".collapsable li", function(e) {
 
 });
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js', {scope: '/'})
-  .then(function(reg) {
-    // registration worked
-    console.log('Registration succeeded. Scope is ' + reg.scope);
-  }).catch(function(error) {
-    // registration failed
-    console.log('Registration failed with ' + error);
-  });
+if (window.isSecureContext) {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', {scope: '/'})
+    .then(function(reg) {
+      // registration worked
+      console.log('Registration succeeded. Scope is ' + reg.scope);
+    }).catch(function(error) {
+      // registration failed
+      console.log('Registration failed with ', error);
+    });
+  }
+} else {
+  console.log('Not in secure context')
 }
-
 // f = FormStore.Form.parseForm(document.forms[0])
 // f.submitForm()
 

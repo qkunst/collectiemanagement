@@ -4,7 +4,7 @@ var OFFLINE_CACHE = "offline-cache";
 
 self.addEventListener("install", function(evt) {
 
-  // console.log("The service worker is being installed.");
+  console.log("The service worker is being installed.");
 
   evt.waitUntil(precache());
 });
@@ -16,6 +16,7 @@ self.addEventListener('activate', function(event) {
 
 self.addEventListener("fetch", function(evt) {
   if (evt.respondWith) {
+    // console.log(evt)
     var serveCachedAsset = CACHE_TYPES.map(function(a){
       return evt.request.url.endsWith(a) || evt.request.url.endsWith(a+"?body=1");
     }).includes(true);
@@ -29,16 +30,16 @@ self.addEventListener("fetch", function(evt) {
       var request = evt.request;
       var path = request.url.split("//")[1].split("/").slice(1,1000).join("/");
 
-      if (request.method === "GET" && !path.match(/\.jpg(\?\d*)?$/) && !path.match(/collections\/(\d+)\/works/i)) {
+      if (request.method === "GET" && !path.match(/\.jpg(\?\d*)?$/) && !path.match(/collections\/(\d+)\/works\/$/i)) {
         evt.respondWith(
           fetch(request).then(function(response){
             caches.open(CACHE).then(function(cache) {
-              // console.log("Adding to cache: " + path)
+              // console.log("Adding to cache: " + path);
               cache.put(request.url, response);
             });
             return response.clone();
           }).catch(function(error){
-            console.log("[onfetch] Failed. Serving cached version" + error);
+            // console.log("[onfetch] Failed. Serving cached version" + error);
             var collectionId = path.match(/collections\/(\d+)/i);
             collectionId = collectionId ? collectionId[1] : null;
             var workId = path.match(/works\/([\da-z]+)/i);
@@ -63,6 +64,7 @@ self.addEventListener("fetch", function(evt) {
 });
 
 function precache() {
+  console.log("preCache!")
   return caches.open(CACHE).then(function (cache) {
     return cache.addAll([
       "./offline/offline",
