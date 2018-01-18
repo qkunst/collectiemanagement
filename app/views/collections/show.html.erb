@@ -46,9 +46,9 @@
 <%= kramdown(@collection.internal_comments) %>
 <% end %>
   <h3>Subcollecties</h3>
-  <% if @collection.child_collections.count > 0 %>
+  <% if @collections.count > 0 %>
     <ul>
-      <%= render @collection.child_collections%>
+      <%= render @collections%>
     </ul>
   <% else %>
   <p>Deze collectie kent geen subcollecties.</p>

@@ -25,6 +25,7 @@ class CollectionsController < ApplicationController
   # GET /collections/1.json
   def show
     @title = @collection.name
+    @collections = @collection.child_collections
     current_user.reset_filters!
   end
 
