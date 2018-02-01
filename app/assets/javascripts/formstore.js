@@ -115,7 +115,6 @@ var FormStore = {
       return count;
     },
     markPrivate: function(key) {
-      // console.log("marking "+ key + "as private...")
       data = FormStore.Store.read(key);
       FormStore.Store.store(key,data,{"prefix":"private"});
       private_data = FormStore.Store.read(key,{"prefix":"private"});
@@ -147,7 +146,6 @@ var FormStore = {
       return int_key;
     },
     remove: function(key, options) {
-      // console.log ("REMOVING!!! "+ key)
       int_key = FormStore.Store.generateInternalKey(key, options);
       jsonifiedValueStore = localStorage.getItem(int_key);
       return localStorage.removeItem(int_key);
@@ -163,7 +161,6 @@ var FormStore = {
         value: value
       };
       var jsonifiedValueStore = JSON.stringify(valueStore);
-      // console.log("Storing on: "+key+", value: "+value);
       return localStorage.setItem(key, jsonifiedValueStore);
     },
     read: function(key,options){
@@ -202,7 +199,6 @@ var FormStore = {
       options = options ? options : {}
       options.background = options.background ? true : false;
       options.reload = options.no_reload ? false : true;
-      // console.log("SubmittingForm (reload:"+ options.reload)
       var formAction = this.action;
       var formMethod = this.method;
 
@@ -216,11 +212,8 @@ var FormStore = {
         forceCheck: options.forceCheck,
         onSuccess: function(source) {
           if (options["storeKey"]) {
-            // console.log("Submit succesful, removing key from store.");
             FormStore.Store.remove(options["storeKey"]);
             FormStore.Store.remove(options["storeKey"],{"prefix":"private"});
-          } else {
-            // console.log("Submit succesful, never stored in keystore");
           }
           if (options['onSuccess']) options['onSuccess']();
         },
@@ -325,12 +318,12 @@ var FormStore = {
 
       oReq.open(method, loc, true);
       oReq.onload = function(oEvent) {
-        // console.log(oReq)
         if (oReq.status === 200 && !FormStore.signInMatcher.exec(oReq.responseURL)) {
           clearTimeout(noResponseTimer);
           FormStore.fireEvent("connectionSuccess", {request: oReq, source: source});
           if (onSuccess) onSuccess(source);
-          if (redirectOnSuccess && !background) document.location = oReq.responseURL;
+          // fallback to loc is provided for browsers that do not support oReq.responseURL (looking at you IE11)
+          if (redirectOnSuccess && !background) document.location = (oReq.responseURL || loc);
         } else {
           FormStore.fireEvent("connectionError", {request: oReq, source: source});
           if (onFail) onFail(source);
@@ -346,7 +339,6 @@ var FormStore = {
   },
   retryStoredForms: function() {
     key = FormStore.Store.first();
-
     if (key){
       storedform = FormStore.Store.read(key);
       FormStore.Store.markPrivate(key);
