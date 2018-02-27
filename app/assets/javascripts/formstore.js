@@ -376,6 +376,11 @@ var FormStore = {
 
   },
   init: function() {
+    if (navigator.userAgent.search(/Trident/) > 0 && navigator.userAgent.search(/rv:11/) > 0) {
+      // no support for IE 11
+      return false;
+    }
+
     FormStore.checkOnlineState();
 
     for (var i=0; i<document.forms.length; i++){
