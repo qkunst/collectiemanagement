@@ -2,24 +2,24 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails' #, '>= 5.0.0.rc1', '< 5.1'
+gem 'rails' , '>= 5.1.4' #, '>= 5.0.0.rc1', '< 5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
 # gem 'webrick'
-gem 'markdown-rails'
+gem 'markdown-rails', '>= 0.2.1'
 gem 'puma' #, '~> 3.0'
 # Use SCSS for stylesheets
-gem 'sass-rails'#, '~> 5.0'
+gem 'sass-rails', '>= 5.0.7' #, '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'#, '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'#, '~> 4.1.0'
+gem 'coffee-rails', '>= 4.2.2' #, '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 4.3.1'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks' #, '~> 5.x'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -30,7 +30,7 @@ gem 'appsignal'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "capybara"
+  gem "capybara", ">= 2.17.0"
   gem "byebug", platform: :mri
 end
 
@@ -43,13 +43,13 @@ end
 ##
 
 gem 'pg', '~>0.21'
-gem 'devise'
+gem 'devise', '>= 4.4.0'
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem 'carrierwave'#, '~> 1.0'
 gem 'carrierwave-imageoptimizer'
 gem 'mini_magick' # transforming images
-gem 'nokogiri'
+gem 'nokogiri', '>= 1.8.2'
 gem 'attribute_normalizer' # keeps the database clean
 ##
 ## SEARCH
@@ -57,7 +57,7 @@ gem 'attribute_normalizer' # keeps the database clean
 
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
-gem 'rspec-rails', group: [:development, :test]
+gem 'rspec-rails', '>= 3.7.2', group: [:development, :test]
 
 ##
 ## DEVELOPMENT
@@ -67,7 +67,7 @@ group :development do
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
-  gem 'web-console' #, '~> 2.0'
+  gem 'web-console' , '>= 3.5.1' #, '~> 2.0'
   gem 'listen' #, '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
@@ -78,7 +78,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem 'simple_form'
+gem 'simple_form', '>= 3.5.0'
 gem 'kramdown' # parsing markdown
 
 
@@ -86,7 +86,7 @@ gem 'kramdown' # parsing markdown
 ## STYLING
 ##
 
-gem 'foundation-rails', '~> 6.3.0'
+gem 'foundation-rails', '~> 6.3.1', '>= 6.3.1.0'
 
 ##
 ## OTHER FREQUENTLY USED
@@ -94,17 +94,17 @@ gem 'foundation-rails', '~> 6.3.0'
 
 gem 'acts-as-taggable-on'
 gem 'act_as_time_as_boolean'
-gem 'workbook'#, git: 'https://github.com/murb/workbook.git'
+gem 'workbook', '>= 0.7.2' #, git: 'https://github.com/murb/workbook.git'
 gem "nested_form"
 # gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
 gem 'paper_trail'#, '~>4.0.0.rc1'
 gem 'keyword_finder'
 gem 'daemons'
 gem 'delayed_job_active_record'
-gem 'redis-rails'
-gem 'exception_notification'
-gem 'zipline'
-gem 'activerecord-session_store'
+gem 'redis-rails', '>= 5.0.2'
+gem 'exception_notification', '>= 4.2.2'
+gem 'zipline', '>= 1.0.0'
+gem 'activerecord-session_store', '>= 1.1.0'
 gem 'rack-headers_filter'
 
 source 'https://rails-assets.org' do
