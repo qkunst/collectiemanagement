@@ -267,6 +267,10 @@ class Work < ApplicationRecord
     read_attribute(:main_collection) ? true : nil
   end
 
+  def collection_external_reference_code
+    collection.external_reference_code
+  end
+
   def frame_size
     whd_to_s(frame_width, frame_height, frame_depth, frame_diameter)
   end

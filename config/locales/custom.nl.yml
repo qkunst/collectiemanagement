@@ -194,6 +194,7 @@ nl:
         repeat: Herhaal herinnering?
         stage: Vanaf moment
       work:
+        collection_external_reference_code: Collectie (externe) referentiecode
         locality_geoname_name: Lokaliteit
         locality_geoname_id: Lokaliteit
         locality_geoname: Lokaliteit
