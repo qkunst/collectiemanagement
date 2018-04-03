@@ -354,6 +354,8 @@ class Collection < ApplicationRecord
         end
       end.compact
 
+      fields += ["collection_external_reference_code"]
+
       #sort_according_to_form
       #
       formstring = File.open('app/views/works/_form.html.erb').read
