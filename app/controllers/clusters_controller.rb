@@ -8,6 +8,7 @@ class ClustersController < ApplicationController
   # GET /clusters.json
   def index
     @clusters = @collection.clusters.all
+    @clusters_in_child_collections = Cluster.where(collection_id: (@collection.child_collections_flattened - @collection)).includes(:collection)
   end
 
   # GET /clusters/1
@@ -72,6 +73,6 @@ class ClustersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def cluster_params
-      params.require(:cluster).permit(:name, :description)
+      params.require(:cluster).permit(:name, :description, :collection_id)
     end
 end

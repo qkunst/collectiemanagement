@@ -1,12 +1,10 @@
-
 <h1>Cluster: <%= @cluster.name%> (<%= link_to 'bewerk', edit_collection_cluster_path(@collection,@cluster) %>)</h1>
-<p>Dit cluster maakt deel uit van de collectie <%= link_to @cluster.collection.name, @cluster.collection %>.
+<p>Dit cluster maakt deel uit van de collectie <%= link_to @cluster.collection.name, @cluster.collection %>
+  en bevat <strong><%= cluster.works.count %></strong> werken,
+  <%= link_to 'toon de werken', collection_works_path(@collection, {filter: {"cluster_id"=>[cluster.id]}, group: :cluster}) %>
+</p>
 <% if @cluster.description? %>
 <h2>Meer informatie</h2>
-
   <%= simple_format @cluster.description %>
 <% end %>
-<% if @cluster.works.count > 0 %>
-<h2>Werken</h2>
-  <%= render @cluster.works%>
-<% end %>
+
