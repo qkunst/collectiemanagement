@@ -50,6 +50,10 @@ class Message < ApplicationRecord
     @unread_messages_in_thread = !(unreads.count == 1 and unreads.first == false)
   end
 
+  def subject_rendered
+    (subject.nil? or subject.empty?) ? "[Geen onderwerp]" : subject
+  end
+
   def actioned_upon_by_qkunst_admin!
     self.actioned_upon_by_qkunst_admin_at = Time.now
     self.save
