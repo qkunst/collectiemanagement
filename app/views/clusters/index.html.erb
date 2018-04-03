@@ -13,12 +13,14 @@
   <% end %>
 </ul>
 
+<% if @clusters_in_child_collections.count > 0 %>
 <h2>Clusters in onderliggende collecties</h2>
 <ul>
   <% @clusters_in_child_collections.each do |cluster| %>
     <li><%= link_to cluster.name, collection_cluster_path(cluster.collection, cluster) %> (<%= cluster.works.count %> werken; behoort toe aan <%= link_to cluster.collection.name, cluster.collection%>)</li>
   <% end %>
 </ul>
+<% end %>
 
 </div>
 
