@@ -268,7 +268,7 @@ class Work < ApplicationRecord
   end
 
   def collection_external_reference_code
-    collection.external_reference_code
+    collection.external_reference_code if collection
   end
 
   def frame_size
