@@ -46,7 +46,7 @@ class ClustersController < ApplicationController
   def update
     respond_to do |format|
       if @cluster.update(cluster_params)
-        format.html { redirect_to collection_works_path(@collection, {filter: {"cluster_id"=>[@cluster.id]}}), notice: 'Het cluster is bijgewerkt' }
+        format.html { redirect_to collection_clusters_path(@collection, notice: 'Het cluster is bijgewerkt' }
         format.json { render :show, status: :ok, location: @cluster }
       else
         format.html { render :edit }
