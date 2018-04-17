@@ -1,6 +1,6 @@
 class Appraisal < ApplicationRecord
   belongs_to :work
-  belongs_to :user
+  belongs_to :user, optional: true
 
   after_destroy :update_work_appraisal_data!
   after_save :update_work_appraisal_data!
