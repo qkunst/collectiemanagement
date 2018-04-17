@@ -398,20 +398,18 @@ class Work < ApplicationRecord
   end
   def object_format_code
     size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max
-    ofc = nil
     if !size
     elsif size < 30
-      ofc = :xs
+      :xs
     elsif size < 50
-      ofc = :s
+      :s
     elsif size < 80
-      ofc = :m
+      :m
     elsif size < 120
-      ofc = :l
+      :l
     elsif size >= 120
-      ofc = :xl
+      :xl
     end
-    return ofc
   end
 
   def add_lognoteline note

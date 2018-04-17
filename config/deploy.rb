@@ -26,7 +26,7 @@ set :repo_url, 'https://github.com/qkunst/collectiebeheer.git'
 
 # Default value for :linked_files is []
 # Default value for :linked_files is []
-set :linked_files, %w{config/secrets.yml config/database.yml config/appsignal.yml}
+set :linked_files, %w{config/secrets.yml config/database.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{log tmp public/uploads storage}
