@@ -114,20 +114,21 @@ class Work < ApplicationRecord
       begin
         date = date.to_date
         if date
-          self.update_columns(purchased_on: date, purchase_year: date.year)
+          self.write_attribute(:purchased_on, date)
+          self.write_attribute(:purchase_year, date.year)
         end
       rescue ArgumentError
         new_date = date.to_i
         if new_date > 1900 and new_date < 2100
-          self.update_column(:purchase_year, date)
+          self.write_attribute(:purchase_year, date)
         end
       end
     elsif date.is_a? Date or date.is_a? Time or date.is_a? DateTime
-      self.update_column(:purchased_on, date)
-      self.update_column(:purchase_year, date.year)
+      self.write_attribute(:purchased_on, date)
+      self.write_attribute(:purchase_year, date.year)
     elsif date.is_a? Numeric
       if date > 1900 and date < 2100
-        self.update_column(:purchase_year, date)
+        self.write_attribute(:purchase_year, date)
       end
     end
   end

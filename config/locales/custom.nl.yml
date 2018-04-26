@@ -305,6 +305,7 @@ nl:
         hpd_comments: Opmerkingen
         hpd_contact: Contactpersoon
         object_categories_split: Categorieën (technieken afzonderlijk geteld)
+        appraisals: Waarderingen
       category:
         name: Naam
         order: Volgorde

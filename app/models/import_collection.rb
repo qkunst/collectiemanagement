@@ -243,7 +243,11 @@ class ImportCollection < ApplicationRecord
 
         Rails.logger.debug "  result: #{new_obj.inspect}"
         if !new_obj.valid?
-          raise ImportCollectionRuntimeError.new(new_obj.errors.full_messages)
+          error_message = new_obj.errors.full_messages.to_sentence
+          if new_obj.is_a? Work
+            error_message = "Werk met inventarisnummer #{new_obj.stock_number} geeft fouten: #{error_message}"
+          end
+          raise ImportCollectionRuntimeError.new(error_message)
         end
         result << new_obj
       end
