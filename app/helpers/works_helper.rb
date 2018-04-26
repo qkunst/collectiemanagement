@@ -25,7 +25,7 @@ module WorksHelper
     end
     raw str
   end
-  
+
   def reference
     @selection_filter
   end
@@ -52,6 +52,10 @@ module WorksHelper
       label_str << " (#{data[:count]})" if options[:render_count]
       label_str
     end
+  end
+
+  def filter_hidden field_name
+    hidden_field_tag "filter[#{field_name}][]", reference[field_name]
   end
 
   def options_from_aggregation_for_select aggregation, selected=nil

@@ -48,3 +48,13 @@ Location::params = ->
     else
       params[key].push(decodeURIComponent(value));
   params
+
+# document.addDelegatedEventListener("click", "a[href^='http']", -> confirm("external link") )
+HTMLDocument::addDelegatedEventListener = (event, matcher, cb) ->
+  newCB = (event) ->
+    if (event.target.matches(matcher))
+      return cb(event);
+  this.addEventListener(event, newCB)
+
+if (!Element::matches)
+  Element::matches = Element::msMatchesSelector

@@ -67,6 +67,7 @@
 
       <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
 
+      <%= filter_hidden "location_raw.keyword" %>
       <% if current_user.can_filter_and_group?(:geoname_ids) %>
         <h5>Lokaliteit</h5>
         <%= select_tag "filter[geoname_ids][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
