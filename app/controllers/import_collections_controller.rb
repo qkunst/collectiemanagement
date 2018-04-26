@@ -26,9 +26,13 @@ class ImportCollectionsController < ApplicationController
   end
 
   def preview
-    @selection ||= {}
-    @selection[:display] = :complete
-    @works = @import_collection.read
+    begin
+      @selection ||= {}
+      @selection[:display] = :complete
+      @works = @import_collection.read
+    rescue ImportCollectionRuntimeError => error
+      redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het maken van de preview, verbeter de import file: #{error.message}..."
+    end
   end
 
   # POST /import_collections
