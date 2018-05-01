@@ -2,13 +2,17 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, except: [:service_worker]
-  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries, :tags]
+  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries, :tags, :privacy, :data_policy]
   # before_action :authenticate_qkunst_user!, except: [:heartbeat, :home]
   before_action :offline?
   before_action :show_hidden
   before_action :set_time_zone
 
   def home
+
+  end
+
+  def privacy
 
   end
 
@@ -39,6 +43,10 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
+
+  end
+
+  def data_policy
 
   end
 

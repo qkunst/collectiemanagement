@@ -1,6 +1,8 @@
 <h2>Log in</h2>
 <div class="row">
 <div class="medium-8 columns">
+  <p>Welkom bij QKunst Collectiebeheer. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de bedrijfscollectie van uw organisatie.  </p>
+
 <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="form-inputs">
     <%= f.input :email, required: false, autofocus: true %>
@@ -18,5 +20,7 @@
   <h4>Nog geen account?</h4>
   <p>Heeft u nog geen toegang tot de QKunst collectiedatabase? U kunt alvast registreren. Een QKunst administrator kan vervolgens uw account activeren.</p>
   <p><%= link_to 'Registreer', new_registration_path(:user), class: [:button, :expanded] %></p>
+  <p>Bekijk ons <a href="/data-policy">gegevensbeleid</a>.</p>
+
 </div>
 </div>

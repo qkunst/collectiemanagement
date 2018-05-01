@@ -113,6 +113,8 @@ Rails.application.routes.draw do
   get "heartbeat" => 'application#heartbeat'
   get "admin" => 'application#admin'
   get "sw" => 'application#service_worker'
+  get "privacy" => "application#privacy"
+  get "data-policy" => "application#data_policy"
   # You can have the root of your site routed with "root"
   root 'application#home'
 
