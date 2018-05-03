@@ -55,7 +55,7 @@ module WorksHelper
   end
 
   def filter_hidden field_name
-    hidden_field_tag "filter[#{field_name}][]", reference[field_name]
+    hidden_field_tag "filter[#{field_name}][]", reference[field_name] || :not_set
   end
 
   def options_from_aggregation_for_select aggregation, selected=nil
