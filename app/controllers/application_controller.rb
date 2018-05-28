@@ -12,9 +12,6 @@ class ApplicationController < ActionController::Base
 
   end
 
-  def privacy
-
-  end
 
   def geoname_summaries
     response.headers["Cache-Control"] = "public"
@@ -43,10 +40,6 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
-
-  end
-
-  def data_policy
 
   end
 
