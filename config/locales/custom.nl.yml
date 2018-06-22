@@ -78,6 +78,8 @@ nl:
       reminder: Herinnering
       tagging: Tags
       frame_type: Lijsttype
+      custom_report: Rapport
+      custom_report_template: Rapporttemplate
     values:
       user:
         role:
@@ -327,6 +329,10 @@ nl:
       custom_report_template:
         title: Titel
         text: Template text
+      custom_report:
+        title: Titel
+        works: Werken
+        custom_report_template: Template
       condition:
         name: Naam
         order: Volgorde

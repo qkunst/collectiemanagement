@@ -1,0 +1,19 @@
+<%= simple_form_for([@collection, @custom_report]) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :custom_report_template %>
+    <%= f.input :title %>
+
+    <% @custom_report.template_fields.each do |field_name| %>
+      <label>
+        <%= field_name.capitalize %>
+        <%= text_field_tag "custom_report[variables][#{field_name}]", @custom_report.variables[field_name]%>
+      </label>
+    <% end %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

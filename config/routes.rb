@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     resources :reminders
+    resources :custom_reports
 
     resources :attachments
     resources :collections_stages

@@ -1,24 +1,25 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @custom_report_template.title %>
-</p>
-
-<p>
-  <strong>Text:</strong>
-  <%= @custom_report_template.text %>
-</p>
-
-<p>
-  <strong>Collection:</strong>
-  <%= @custom_report_template.collection_id %>
-</p>
-
-<p>
-  <strong>Work fields:</strong>
-  <%= @custom_report_template.work_fields %>
-</p>
-
-<%= link_to 'Edit', edit_custom_report_template_path(@custom_report_template) %> |
-<%= link_to 'Back', custom_report_templates_path %>
+<div class="row">
+  <div class="medium-9 columns">
+    <h1><%= @custom_report_template.title %></h1>
+    <div class="preview-a4">
+      <%= sanitize @custom_report_template.contents_as_html %>
+    </div>
+  </div>
+  <aside class="medium-3 columns">
+    <%= link_to 'Bewerk', edit_custom_report_template_path(@custom_report_template), class: :button %>
+    <h5>Velden</h5>
+    <ul>
+    <% @custom_report_template.fields.each do |v| %>
+      <li><%=sanitize v%></li>
+    <% end %>
+    </ul>
+    <h5>Werkvelden</h5>
+    <p>
+      <%= @custom_report_template.work_fields %>
+    </p>
+    <% if @custom_report_template.collection%>
+    <p>Hoort bij <%= link_to @custom_report_template.collection.name, @custom_report_template.collection %>.</p>
+    <% end %>
+    <h5>
+  </aside>
+</div>

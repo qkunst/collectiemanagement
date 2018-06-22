@@ -305,3 +305,10 @@ Om een volledige ruby request te doen:
     response_data = JSON.parse(res.body)
 
 Als je via de browser ingelogd bent kun je ook op die manier toegang krijgen.
+
+## Ontwikkelen
+
+### Afhankelijkheden
+
+curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
+curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'

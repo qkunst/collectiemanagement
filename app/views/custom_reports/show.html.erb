@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="medium-9 columns">
+    <h1><small><%= link_to @custom_report.custom_report_template.title, edit_custom_report_template_path(@custom_report.custom_report_template) %></small><br/><%= @custom_report.title %></h1>
+    <div class="preview-a4">
+      <%= sanitize @custom_report.merged_content.gsub("{{@works}}", "<div class=\"row columns\">#{render(@custom_report.works)}</div>") %>
+    </div>
+  </div>
+  <aside class="medium-3 columns">
+    <%= link_to 'Download PDF', edit_collection_custom_report_path(@collection, @custom_report), class: :button %>
+    <%= link_to 'Bewerk', edit_collection_custom_report_path(@collection, @custom_report), class: [:secondary, :button] %>
+    <h5>Variabelen</h5>
+    <dl>
+    <% @custom_report.variables.each do |k,v| %>
+      <dt><%=sanitize k%></dt><dd><%=sanitize v%></dd>
+    <% end %>
+    </dl>
+  </aside>
+</div>

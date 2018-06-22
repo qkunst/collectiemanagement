@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622093640) do
+ActiveRecord::Schema.define(version: 20180622132002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,22 @@ ActiveRecord::Schema.define(version: 20180622093640) do
     t.boolean "hide"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "custom_reports", force: :cascade do |t|
+    t.integer "custom_report_template_id"
+    t.string "title"
+    t.string "variables"
+    t.string "html_cache"
+    t.integer "collection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "custom_reports_works", id: false, force: :cascade do |t|
+    t.bigint "custom_report_id", null: false
+    t.bigint "work_id", null: false
+    t.index ["custom_report_id", "work_id"], name: "index_custom_reports_works_on_custom_report_id_and_work_id", unique: true
   end
 
   create_table "damage_types", id: :serial, force: :cascade do |t|

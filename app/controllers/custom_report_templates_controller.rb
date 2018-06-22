@@ -14,6 +14,10 @@ class CustomReportTemplatesController < ApplicationController
   def edit
   end
 
+  def show
+
+  end
+
   def create
     @custom_report_template = CustomReportTemplate.new(custom_report_template_params)
     if @custom_report_template.save
