@@ -9,3 +9,13 @@ conversation_reply:
   in_reply_to_message: :conversation_starter
   subject: "Re: Collectie 1"
   conversation_start_message: :conversation_starter
+
+conversation_starter_about_collection_with_works:
+  from_user: :facility_manager
+  subject_object: collection_with_works (Collection)
+  subject: Collectie 1
+
+conversation_starter_about_work:
+  from_user: :facility_manager
+  subject_object: work1 (Work)
+  subject: Work 1

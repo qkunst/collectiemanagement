@@ -92,5 +92,23 @@ RSpec.describe Message, type: :model do
         expect(Message.thread_can_be_accessed_by_user(u3)).to include(m2)
       end
     end
+    describe "collections" do
+      it "should not contain messages with another collection message subject" do
+        expect(Message.collections([collections(:collection2)])).not_to include(messages(:conversation_starter_about_collection_with_works))
+        expect(Message.collections([collections(:collection2)])).not_to include(messages(:conversation_reply))
+
+      end
+      it "should include message about a collection's work" do
+        expect(Message.collections([collections(:collection_with_works)])).to include(messages(:conversation_starter_about_collection_with_works))
+        expect(Message.collections([collections(:collection_with_works)])).not_to include(messages(:conversation_starter))
+        expect(Message.collections([collections(:collection_with_works)])).to include(messages(:conversation_starter_about_work))
+      end
+
+      it "should include messages about child collections (and works in those)" do
+        expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter_about_collection_with_works))
+        expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter))
+        expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter_about_work))
+      end
+    end
   end
 end
