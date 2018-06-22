@@ -21,7 +21,11 @@ namespace :qkunst do
 
   desc "Bouw nieuwe index op en herindexeer alle werken (traag)"
   task new_index: :environment do
-    Work.__elasticsearch__.delete_index!
+    begin
+      Work.__elasticsearch__.delete_index!
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      puts "Already deleted..."
+    end
     Work.reindex!(true)
   end
 

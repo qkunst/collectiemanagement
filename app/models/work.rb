@@ -52,7 +52,7 @@ class Work < ApplicationRecord
   settings index: { number_of_shards: 5 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'
-      indexes :tag_list, type: 'keyword', tokenizer: 'keyword'
+      indexes :tag_list, type: 'keyword'#, tokenizer: 'keyword'
       indexes :description, analyzer: 'dutch', index_options: 'offsets'
       indexes :grade_within_collection, type: 'keyword'
       indexes :location_raw, type: 'keyword'
