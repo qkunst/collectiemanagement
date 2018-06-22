@@ -9,17 +9,27 @@
   </div>
   <table class="sortable">
     <thead>
-      <th>Achternaam, Tussenv.</th><th>Voornaam</th><th>Geboortedatum</th><th>Geboorteplaats</th><th>Sterfdatum</th><th>Sterfplaats</th>
+      <th class="asc">Achternaam, Tussenv.</th><th>Voornaam</th><th>Geboortedatum</th><th>Geboorteplaats</th><th>Sterfdatum</th><th>Sterfplaats</th>
     </thead>
     <tbody>
-      <% @artists.each do |artist| %>
+      <% @artists.each do |artist|
+      context_artist_path = [@collection, artist].compact
+      %>
       <tr>
-        <td><%= link_to [artist.last_name, artist.prefix].compact.join(", "), [@collection, artist].compact %></td>
-        <td><%= link_to artist.first_name.to_s, [@collection, artist].compact %></td>
-        <td><%= link_to [@collection, artist].compact do %><%=artist.date_of_birth ? I18n.l(artist.date_of_birth, format: :long) : artist.year_of_birth%><% end %></td>
-        <td><%= link_to [@collection, artist].compact do %><%= artist.place_of_birth %><% end %></td>
-        <td><%= link_to [@collection, artist].compact do %><%=artist.date_of_death ? I18n.l(artist.date_of_death, format: :long) : artist.year_of_death%><% end %></td>
-        <td><%= link_to [@collection, artist].compact do %><%= artist.place_of_death %><% end %></td>
+        <td><%= link_to [artist.last_name, artist.prefix].compact.join(", "), context_artist_path %></td>
+        <td><%= link_to artist.first_name.to_s, context_artist_path %></td>
+        <% if artist.date_of_birth %>
+          <td data-sortkey="<%=artist.date_of_birth.iso8601 %>"><%= link_to I18n.l(artist.date_of_birth, format: :long), context_artist_path %></td>
+        <% else %>
+          <td data-sortkey="<%=artist.year_of_birth%>"><%= link_to context_artist_path do %><%=artist.year_of_birth%><% end %></td>
+        <% end %>
+        <td><%= link_to context_artist_path do %><%= artist.place_of_birth %><% end %></td>
+        <% if artist.date_of_death %>
+          <td data-sortkey="<%=artist.date_of_death.iso8601 %>"><%= link_to I18n.l(artist.date_of_death, format: :long), context_artist_path %></td>
+        <% else %>
+          <td data-sortkey="<%=artist.year_of_death%>"><%= link_to context_artist_path do %><%=artist.year_of_death%><% end %></td>
+        <% end %>
+        <td><%= link_to context_artist_path do %><%= artist.place_of_death %><% end %></td>
       </tr>
       <% end %>
     </tbody>

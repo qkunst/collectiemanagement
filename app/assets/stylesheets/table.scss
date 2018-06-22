@@ -152,3 +152,18 @@ table.non_cyclic_graph {
     }
   }
 }
+
+table.sortable {
+  thead td, thead th {
+    &.desc {
+      &::after {
+        content: '▼';
+      }
+    }
+    &.asc {
+      &::after {
+        content: '▲';
+      }
+    }
+  }
+}
