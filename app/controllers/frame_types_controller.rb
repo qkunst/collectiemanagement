@@ -27,14 +27,10 @@ class FrameTypesController < ApplicationController
   def create
     @frame_type = FrameType.new(frame_type_params)
 
-    respond_to do |format|
-      if @frame_type.save
-        format.html { redirect_to frame_types_url, notice: 'Frame type was successfully created.' }
-        format.json { render :show, status: :created, location: @frame_type }
-      else
-        format.html { render :new }
-        format.json { render json: @frame_type.errors, status: :unprocessable_entity }
-      end
+    if @frame_type.save
+      redirect_to frame_types_url, notice: 'Frame type was successfully created.'
+    else
+      render :new
     end
   end
 

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @custom_report_template.title %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @custom_report_template.text %>
+</p>
+
+<p>
+  <strong>Collection:</strong>
+  <%= @custom_report_template.collection_id %>
+</p>
+
+<p>
+  <strong>Work fields:</strong>
+  <%= @custom_report_template.work_fields %>
+</p>
+
+<%= link_to 'Edit', edit_custom_report_template_path(@custom_report_template) %> |
+<%= link_to 'Back', custom_report_templates_path %>

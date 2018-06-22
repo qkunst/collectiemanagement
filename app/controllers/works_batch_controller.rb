@@ -7,8 +7,11 @@ class WorksBatchController < ApplicationController
   def edit
     @selection = {display: :complete}
     @edit_property = (params[:property] || params[:batch_edit_property])
+    @process_property = (params[:batch_process_property])
     if @edit_property
       @edit_property = @edit_property.to_sym
+    elsif @process_property
+      redirect_to new_collection_works_custom_report_path
     end
   end
 

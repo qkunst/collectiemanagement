@@ -49,7 +49,7 @@ Rails.application.configure do
   config.elasticsearch = {
     hosts: [{
       host: 'localhost',
-      port: '9200'
+      port: '59200'
     }]
   }
 

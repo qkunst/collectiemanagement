@@ -324,6 +324,9 @@ nl:
         label_override_work_alt_number_2: Label voor alternatief nummer 2
         label_override_work_alt_number_3: Label voor alternatief nummer 3
         collections_stage_delivery_on: Opleverdatum
+      custom_report_template:
+        title: Titel
+        text: Template text
       condition:
         name: Naam
         order: Volgorde

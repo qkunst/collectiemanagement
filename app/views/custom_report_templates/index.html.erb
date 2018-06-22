@@ -1,0 +1,10 @@
+
+
+<h1>Rapportagetemplates</h1>
+
+  <ul>
+    <% @custom_report_templates.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+  </ul>
+<%= link_to 'Nieuwe template', new_custom_report_template_path %>

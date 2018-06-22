@@ -1,6 +1,7 @@
 
 Rails.application.routes.draw do
 
+  resources :custom_report_templates
   get 'tags.json' => "application#tags"
   get 'geoname_summaries.json' => "application#geoname_summaries"
 
