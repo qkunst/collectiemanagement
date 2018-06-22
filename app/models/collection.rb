@@ -326,7 +326,7 @@ class Collection < ApplicationRecord
       [FakeSuperCollection.new] + self.all
     end
     def for_user user
-      return self if user.admin?
+      return self.without_parent if user.admin? and !user.admin_with_favorites?
       return self.joins(:users).where(users: {id: user.id})
     end
     def last_updated

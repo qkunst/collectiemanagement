@@ -38,6 +38,10 @@ class User < ApplicationRecord
     rv
   end
 
+  def admin_with_favorites?
+    collections.count > 0
+  end
+
   def accessible_collections
     return Collection.all if admin?
     collections.expand_with_child_collections

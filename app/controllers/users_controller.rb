@@ -16,6 +16,7 @@ class UsersController < ApplicationController
 
   def update
     user_params = params.require(:user).permit(:role, :receive_mails, :name, collection_ids: [])
+    user_params["collection_ids"] = user_params["collection_ids"] - ["0"] if user_params["collection_ids"].include? "0"
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to users_path, notice: 'De gebruiker is bijgewerkt.' }

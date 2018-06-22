@@ -7,7 +7,7 @@ class CollectionsController < ApplicationController
   # GET /collections
   # GET /collections.json
   def index
-    @collections = admin_user? ? Collection.without_parent.all : Collection.for_user(current_user).all
+    @collections = Collection.for_user(current_user).all
     @title = "Collecties"
     current_user.reset_filters!
     if @collections.count == 1
