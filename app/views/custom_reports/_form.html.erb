@@ -1,19 +1,27 @@
-<%= simple_form_for([@collection, @custom_report]) do |f| %>
-  <%= f.error_notification %>
+<div class="row">
+  <div class="medium-6 columns">
+  <%= simple_form_for([@collection, @custom_report]) do |f| %>
+    <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.association :custom_report_template %>
-    <%= f.input :title %>
+    <div class="form-inputs">
+      <%= f.association :custom_report_template %>
+      <%= f.input :title %>
+      <hr/>
+      <% @custom_report.template_fields.each do |field_name| %>
+        <label>
+          <%= field_name.capitalize.gsub('_',' ') %>
+          <%= text_field_tag "custom_report[variables][#{field_name}]", @custom_report.variables[field_name]%>
+        </label>
+      <% end %>
+    </div>
 
-    <% @custom_report.template_fields.each do |field_name| %>
-      <label>
-        <%= field_name.capitalize %>
-        <%= text_field_tag "custom_report[variables][#{field_name}]", @custom_report.variables[field_name]%>
-      </label>
-    <% end %>
+    <div class="form-actions">
+      <%= f.button :submit, class: :button %>
+    </div>
+  <% end %>
+  </div>
+  <div class="medium-6 columns" style="overflow: scroll">
+    <%= render partial: 'custom_report_rendered', locals: { style: "transform: scale(0.5); transform-origin: top left" } %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: :button %>
-  </div>
-<% end %>
+</div>

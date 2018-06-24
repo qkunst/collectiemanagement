@@ -11,7 +11,7 @@ class WorksBatchController < ApplicationController
     if @edit_property
       @edit_property = @edit_property.to_sym
     elsif @process_property
-      redirect_to new_collection_works_custom_report_path
+      redirect_to new_collection_custom_report_path(works: @works.map(&:id))
     end
   end
 

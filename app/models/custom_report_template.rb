@@ -3,6 +3,8 @@ class CustomReportTemplate < ApplicationRecord
 
   belongs_to :collection, optional: true
 
+  has_many :custom_reports
+
   validates_presence_of :title
 
   alias_attribute :name, :title

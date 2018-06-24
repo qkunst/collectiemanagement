@@ -79,10 +79,10 @@
           <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
         <% end %>
         <% if can? :manage, Attachment %>
-          <% if @work.attachments.count == 0 %>
+          <% if @work.attachments.count == 0 and @custom_reports.count == 0 %>
           <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
           <% else %>
-          <li class="right"><%= link_to 'Beheer bijlagen', collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
+          <li class="right"><%= link_to "Beheer bijlagen (#{@work.attachments.count+@custom_reports.count})", collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
           <% end %>
         <% end %>
       </ul>
@@ -92,4 +92,3 @@
   <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
 
 </div>
-

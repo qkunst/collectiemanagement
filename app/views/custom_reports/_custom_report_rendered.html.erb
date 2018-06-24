@@ -1,0 +1,3 @@
+    <div class="preview-a4" style="<%=defined?(style) ? style : nil%>">
+      <%= sanitize @custom_report.merged_content.gsub("{{@works}}", "<div class=\"row columns\">#{render(@custom_report.works)}</div>") %>
+    </div>

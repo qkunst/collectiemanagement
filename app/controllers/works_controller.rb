@@ -125,6 +125,7 @@ class WorksController < ApplicationController
   def show
     @selection = {}
     @selection[:display] = current_user.can_see_details? ? :complete : :detailed
+    @custom_reports = @work.custom_reports.to_a
     @title = @work.name
 
   end

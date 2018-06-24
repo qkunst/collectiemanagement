@@ -29,3 +29,15 @@
   <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if current_user.admin?%>
   <% end %>
 </table>
+
+
+<% if @work %>
+<% @custom_reports = @work.custom_reports.to_a %>
+<% if @custom_reports.count > 0 and qkunst_user? %>
+<hr />
+  <h3>Rapportages</h3>
+  <p>Rapportages worden automatisch aan een werk gekoppeld zodra hiernaar wordt verwezen in de rapportage.</p>
+    <%= render partial: 'custom_reports/index' %>
+<% end %>
+
+<% end %>

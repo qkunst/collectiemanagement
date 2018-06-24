@@ -159,10 +159,14 @@ var collectieBeheerInit = function() {
 
 $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function(event) {
   var form = $(event.target).parents("form[data-auto-submit=true]");
-  var action = form.attr("action");
-  var url = action+(action.indexOf('?') == -1 ? '?' : '&')+form.serialize();
-  Turbolinks.visit(url);
-  return false;
+  if (form[0].method=='get') {
+    var action = form.attr("action");
+    var url = action+(action.indexOf('?') == -1 ? '?' : '&')+form.serialize();
+    Turbolinks.visit(url);
+    return false;
+  } else if (form[0].method == 'post') {
+    // ignore for now
+  }
 })
 
 $(document).on("click keydown touch", "button[method=post]", function(e) {

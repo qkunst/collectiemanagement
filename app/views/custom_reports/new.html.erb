@@ -6,9 +6,8 @@
   <div class="form-inputs">
     <%= f.association :custom_report_template %>
     <div style="<%= "display:none" if @custom_report.works.to_a.count > 0 %>">
-    <%= f.association :works, collection: @collection.works_including_child_works %>
+      <%= f.association :works, collection: @collection.works_including_child_works %>
     </div>
-    <%= f.input :title %>
   </div>
 
   <div class="form-actions">

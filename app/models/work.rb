@@ -28,6 +28,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :sources, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :techniques, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :themes, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :custom_reports
   has_many :appraisals
   has_many :attachments, as: :attache
 

@@ -1,0 +1,17 @@
+<table>
+  <thead>
+    <tr>
+      <th>Aangemaakt op</th>
+      <th>Template</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @custom_reports.each do |custom_report| %>
+      <tr>
+        <td><%= link_to (I18n.l custom_report.created_at, format: :long), [custom_report.collection, custom_report] %></td>
+        <td><%= link_to custom_report.custom_report_template.title, [custom_report.collection, custom_report] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

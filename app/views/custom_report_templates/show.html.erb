@@ -4,13 +4,21 @@
     <div class="preview-a4">
       <%= sanitize @custom_report_template.contents_as_html %>
     </div>
+    <% @custom_report_template.custom_reports.count > 0 %>
+    <h5>Wordt gebruikt in</h5>
+    <ul>
+      <% @custom_report_template.custom_reports.each do |report| %>
+        <li><%= link_to report.title_with_collection, [report.collection, report]  %></li>
+      <% end %>
+
+
   </div>
   <aside class="medium-3 columns">
     <%= link_to 'Bewerk', edit_custom_report_template_path(@custom_report_template), class: :button %>
     <h5>Velden</h5>
     <ul>
     <% @custom_report_template.fields.each do |v| %>
-      <li><%=sanitize v%></li>
+      <li><%=sanitize v.gsub('_',' ')%></li>
     <% end %>
     </ul>
     <h5>Werkvelden</h5>

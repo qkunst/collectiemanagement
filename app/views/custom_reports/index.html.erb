@@ -3,25 +3,7 @@
 
 <h1>Opgeslagen rapportages</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Aangemaakt op</th>
-      <th>Template</th>
-      <th>Titel</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @custom_reports.each do |custom_report| %>
-      <tr>
-        <td><%= I18n.l custom_report.created_at, format: :long %></td>
-        <td><%= link_to custom_report.custom_report_template.title, custom_report.custom_report_template %></td>
-        <td><%= link_to custom_report.title, [custom_report.collection, custom_report] %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render partial: 'index' %>
 </div>
   <aside class="large-3 medium-3 columns">
     <%= link_to 'Maak rapportage', new_collection_custom_report_path(@collection), class: :button %>

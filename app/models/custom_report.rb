@@ -3,13 +3,25 @@ class CustomReport < ApplicationRecord
   belongs_to :custom_report_template
   has_and_belongs_to_many :works
 
-  validates_presence_of :collection
-  validates_presence_of :custom_report_template
+  validates_presence_of :collection, :custom_report_template
 
   store :variables
 
   def template_fields
     custom_report_template.fields
+  end
+
+  def title
+    tmp = read_attribute(:title)
+    if tmp.nil? or tmp == ""
+      [custom_report_template.name, I18n.l(created_at.to_date, format: :long)].join(", ")
+    else
+      return tmp
+    end
+  end
+
+  def title_with_collection
+    [collection.name, title].compact.join(": ")
   end
 
   def merged_content

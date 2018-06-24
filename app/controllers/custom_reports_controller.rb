@@ -16,6 +16,10 @@ class CustomReportsController < ApplicationController
   # GET /custom_reports/new
   def new
     @custom_report = CustomReport.new
+    if params[:works]
+      work_ids = params[:works].map{|w| w.to_i};
+      @custom_report.works = @collection.works_including_child_works.where(id: work_ids)
+    end
   end
 
   # GET /custom_reports/1/edit
@@ -29,7 +33,7 @@ class CustomReportsController < ApplicationController
     @custom_report.collection = @collection
     respond_to do |format|
       if @custom_report.save
-        format.html { redirect_to [@collection, @custom_report], notice: 'Rapport is gemaakt' }
+        format.html { redirect_to edit_collection_custom_report_path(@collection, @custom_report), notice: 'Rapport is gemaakt, vul de variabelen aan' }
         format.json { render :show, status: :created, location: @custom_report }
       else
         format.html { render :new }
