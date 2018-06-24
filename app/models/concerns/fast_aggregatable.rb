@@ -1,4 +1,4 @@
-module Work::Aggregations
+module FastAggregatable
   extend ActiveSupport::Concern
 
   class_methods do

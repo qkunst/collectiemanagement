@@ -8,7 +8,7 @@ class Work < ApplicationRecord
   after_save :touch_collection!
 
   include ActionView::Helpers::NumberHelper
-  include Work::Aggregations
+  include FastAggregatable
   include Searchable
 
   belongs_to :cluster, optional: true
