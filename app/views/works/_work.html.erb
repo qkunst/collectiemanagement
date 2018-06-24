@@ -4,7 +4,7 @@
 <div class="panel work<%=' external_inventory' if work.external_inventory?%>">
   <% cache_if((work.id and work.updated_at < 1.minute.ago), work.cache_key( [@selection[:display], @show_work_checkbox, (@selection_filter ? @selection_filter["geoname_ids"] : nil), current_user.role]  )) do %>
     <%= link_to [work.collection, work].compact, class: :block do %>
-      <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show") if work.photo_front? %></div>
+      <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async') if work.photo_front? %></div>
     <% end %>
       <div class="data">
       <label class="work-selector hide-for-print">
