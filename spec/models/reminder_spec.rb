@@ -14,6 +14,12 @@ RSpec.describe Reminder, type: :model do
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam")
         expect(r.reference_date).to eq(r.created_at.to_date)
       end
+      it "should return nil when stage is set and no collection has no stages" do
+        c = collections(:collection1)
+        s1 = stages(:stage1)
+        r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", stage: s1, collection: c)
+        expect(r.reference_date).to eq(nil)
+      end
     end
     describe "#last_sent_at" do
       it "should return nil by default" do

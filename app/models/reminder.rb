@@ -16,6 +16,7 @@ class Reminder < ApplicationRecord
   end
 
   def reference_date
+    return nil if (!stage.nil? and collection_stage_stage.nil?)
     stage.nil? ? created_at.to_date : collection_stage_stage.completed_at
   end
 
