@@ -1,6 +1,7 @@
 class WorksController < ApplicationController
   include ActionController::Streaming
-  include Zipline
+  include Works::ZipResponse
+  include Works::XlsxResponse
 
   before_action :authenticate_admin_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
@@ -37,6 +38,9 @@ class WorksController < ApplicationController
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] and !@reset
     @no_child_works = (params[:no_child_works] == 1 or params[:no_child_works] == "true") ? true : false
+
+    # try_direct_access_using_search_text
+
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works_count = @works.count
@@ -85,38 +89,10 @@ class WorksController < ApplicationController
         end
       }
       format.xlsx {
-        if can?(:download_datadump, @collection)
-          audience = params[:audience] ? params[:audience].to_s.to_sym : :default
-          fields_to_expose = @collection.fields_to_expose(audience)
-          fields_to_expose = fields_to_expose - ["internal_comments"] unless current_user.qkunst?
-          w = @works.to_workbook(fields_to_expose, @collection)
-          send_data w.stream_xlsx, :filename => "werken #{@collection.name}.xlsx"
-        else
-          redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
-        end
+        show_xlsx_response
       }
       format.zip {
-        if can?(:download_photos, @collection)
-          only_front = params[:only_front]
-          files = []
-          file_editions = only_front ? ["photo_front"] : ["photo_front","photo_back","photo_detail_1", "photo_detail_2"]
-          @works.each do |work|
-            base_file_name = work.base_file_name
-            file_editions.each do |field|
-              if work.send("#{field}?".to_sym)
-                filename_components = [base_file_name]
-                filename_components << field.gsub('photo_','') unless only_front
-                filename = "#{filename_components.join("_")}.jpg"
-                file = work.send(field.to_sym)
-                file_path = params[:hq] ? file.path : file.screen.path
-                files << [file_path, filename]
-              end
-            end
-          end
-          zipline(files.lazy.map{|path, name| [File.open(path), name]}, "werken #{@collection.name}.zip")
-        else
-          redirect_to collection_path(@collection), alert: 'U heeft onvoldoende rechten om te kunnen downloaden'
-        end
+        show_zip_response
       }
     end
   end
@@ -127,15 +103,12 @@ class WorksController < ApplicationController
     @selection[:display] = current_user.can_see_details? ? :complete : :detailed
     @custom_reports = @work.custom_reports.to_a
     @title = @work.name
-
   end
 
   def edit_photos
-
   end
 
   def edit_tags
-
   end
 
   # GET /works/new
@@ -204,7 +177,6 @@ class WorksController < ApplicationController
         end
       end
     end
-    # raise @selection_filter
     return @selection_filter
   end
   def set_selection thing, list
@@ -308,4 +280,6 @@ class WorksController < ApplicationController
       ] if current_user.can_edit_most_of_work?
     params[:work] ? params.require(:work).permit(permitted_fields) : {}
   end
+
+
 end

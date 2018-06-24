@@ -58,7 +58,14 @@
 .button {
   vertical-align: inherit;
 }
-
-.menu > li > a {
-  display: inline-block;
+.menu {
+  &.left {
+    float: left;
+  }
+  & > li > a {
+    display: inline-block;
+  }
+  a.button, input {
+    height: 2.2rem;
+  }
 }

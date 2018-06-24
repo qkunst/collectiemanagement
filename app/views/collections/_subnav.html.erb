@@ -1,20 +1,6 @@
 <nav class="row columns sub-nav hide-for-print">
-<ul class="menu right">
-  <% if qkunst_user? %>
-    <li class="right"><%= link_to "+ Voeg werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
-  <% end %>
-  <% if current_user.can_write_messages? %>
-    <% if @work%>
-      <% if @work.id %>
-        <li class="right"><%= link_to (current_user.admin? ? 'Vraag of opmerking?' : 'Vraag of opmerking over dit werk?'), collection_work_messages_path(@collection, @work), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
-      <% end%>
-    <% else %>
-      <li class="right"><%= link_to (current_user.admin? ? 'Vraag of opmerking?' : 'Vraag of opmerking over deze collectie?'), collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
-    <% end%>
-  <% end %>
 
-</ul>
-<ul class="menu simple">
+<ul class="menu simple left">
 
   <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
@@ -24,6 +10,29 @@
   <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if admin_user? %></li>
   <li><%= menu_link_to "Rapporten", collection_custom_reports_path(@collection) if admin_user?%></li>
 
+
+</ul>
+
+<ul class="menu right">
+  <li>
+    <%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true} do %>
+      <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoek of scan... ", class: "input-group-field"%>
+    <% end %>
+  </li>
+
+  <% if current_user.can_write_messages? %>
+    <% if @work%>
+      <% if @work.id %>
+        <li><%= link_to (current_user.admin? ? 'Vraag of opmerking?' : 'Vraag of opmerking over dit werk?'), collection_work_messages_path(@collection, @work), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
+      <% end%>
+    <% else %>
+      <li><%= link_to (current_user.admin? ? 'Vraag of opmerking?' : 'Vraag of opmerking over deze collectie?'), collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} if current_user.can_write_messages?%></li>
+    <% end%>
+  <% end %>
+
+  <% if qkunst_user? %>
+    <li><%= link_to "+ Voeg werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
+  <% end %>
 
 </ul>
 </nav>
