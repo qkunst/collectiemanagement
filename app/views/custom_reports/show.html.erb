@@ -3,7 +3,8 @@
     <%= render partial: 'custom_report_rendered'%>
   </div>
   <aside class="medium-3 columns">
-    <%= link_to 'Download PDF', edit_collection_custom_report_path(@collection, @custom_report), class: :button %>
+    <%= link_to 'Verstuur link', "mailto:?subject=#{@custom_report.title}&body=#{url_encode("Geachte heer, mevrouw,\n\nEr staat een rapport voor u klaar. Open het rapport door te klikken op de volgende link:\n#{collection_custom_report_url(@collection, @custom_report)}")}", class: :button %>
+    <%= link_to 'Download PDF', collection_custom_report_path(@collection, @custom_report), class: [:secondary, :button] %>
     <%= link_to 'Bewerk', edit_collection_custom_report_path(@collection, @custom_report), class: [:secondary, :button] %>
     <% if @custom_report.variables.count > 0 %>
       <h5>Variabelen</h5>
