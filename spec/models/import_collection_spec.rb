@@ -84,12 +84,6 @@ RSpec.describe ImportCollection, type: :model do
     end
   end
   describe "class methods" do
-    describe ".split_strategies" do
-      it "should work" do
-        expect(ImportCollection.split_strategies[:split_space].call("ad sf")).to eq(["ad","sf"])
-        expect(ImportCollection.split_strategies[:split_nothing].call("ad sf")).to eq(["ad sf"])
-      end
-    end
     describe ".import_type.new(parameters)" do
       it "should create a new work" do
         expect(ImportCollection.import_type.new(title: "abc").title).to eq("abc")

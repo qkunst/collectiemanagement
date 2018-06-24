@@ -30,7 +30,7 @@ class ImportCollectionsController < ApplicationController
       @selection ||= {}
       @selection[:display] = :complete
       @works = @import_collection.read
-    rescue ImportCollectionRuntimeError => error
+    rescue ImportCollectionSupport::FailedImportError => error
       redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het maken van de preview, verbeter de import file: #{error.message}..."
     end
   end
@@ -75,7 +75,7 @@ class ImportCollectionsController < ApplicationController
     begin
       @import_collection.write
       redirect_to collection_works_path(@collection), notice: 'De werken zijn geïmporeerd.'
-    rescue ImportCollectionRuntimeError => error
+    rescue ImportCollectionSupport::FailedImportError => error
       redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het importeren, verbeter de import file: #{error.message}..."
     end
   end

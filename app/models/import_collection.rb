@@ -1,48 +1,3 @@
-class ImportCollectionClassAssociation
-  attr_accessor :relation, :name, :class_name
-
-  def initialize(options={})
-    options.each do |k,v|
-      self.send("#{k}=",v)
-    end
-  end
-
-  def klass
-    class_name.constantize
-  end
-
-  def implements_find_by_name?
-    klass.methods.include? :find_by_name
-  end
-
-  def has_name_column?
-     klass.column_names.include? "name"
-  end
-
-  def findable_by_name?
-    has_name_column? || implements_find_by_name?
-  end
-
-  def has_many_and_maybe_belongs_to_many?
-    [:has_many, :has_and_belongs_to_many].include?(relation)
-  end
-
-  def importable?
-    unless ["PaperTrail::Version","Currency","Attachment","ActsAsTaggableOn::Tag","ActsAsTaggableOn::Tagging","::ActsAsTaggableOn::Tag","::ActsAsTaggableOn::Tagging"].include? class_name
-      return true
-    end
-    return false
-  end
-
-  def find_by_name name
-    if implements_find_by_name?
-      klass.find_by_name(name)
-    elsif has_name_column?
-      klass.where(klass.arel_table[:name].matches(name)).first
-    end
-  end
-end
-
 class ImportCollection < ApplicationRecord
   belongs_to :collection
   has_many :artists
@@ -102,154 +57,7 @@ class ImportCollection < ApplicationRecord
 
     table.each do |row|
       unless row.header?
-        parameters = {}
-
-        import_settings.each do |key, import_setting|
-          next if row[key].nil?
-          error = nil
-
-          table_value = row[key].value
-          split_strategy = import_setting["split_strategy"].to_sym
-          assign_strategy = import_setting["assign_strategy"].to_sym
-
-          table_values = ImportCollection.split_strategies[split_strategy].call(table_value)
-          fields = import_setting["fields"] ? import_setting["fields"] : []
-
-          # Iterate over all fields and/or values selected for this value
-
-          field_value_indexes = 0
-
-          Rails.logger.debug "Key: #{key}"
-
-          if fields.count > 0
-            if fields.count == 1 and split_strategy == :find_keywords
-              Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
-              analyzed_field_props = analyze_field_properties(fields.first)
-              association = analyzed_field_props[:association]
-              # p analyzed_field_props
-              if association and association.findable_by_name?
-                options = association.klass.not_hidden.all
-                names = options.collect{|a| a.name.to_s.downcase}
-                keyword_finder = KeywordFinder::Keywords.new(names)
-                search_string = table_values[1]
-                table_values = keyword_finder.find_in(search_string.to_s.downcase)
-                Rails.logger.debug "  find kerwords from string '#{search_string}' in: #{names.join(", ")}: #{table_values.join(", ")}"
-              end
-            elsif split_strategy == :find_keywords
-              Rails.logger.debug "Keywords zoeken werkt alleen met 1 outputveld"
-            end
-
-            field_value_indexes = table_values.count > fields.count ? table_values.count : fields.count
-
-            field_value_indexes.times do |index|
-              # puts index
-              field = fields[index] ? fields[index] : fields.last
-
-              analyzed_field_props = analyze_field_properties(field)
-
-              property = analyzed_field_props[:property]
-              association = analyzed_field_props[:association]
-              has_many_association = analyzed_field_props[:has_many_association]
-              complex_association = analyzed_field_props[:complex_association]
-              fieldname = analyzed_field_props[:fieldname]
-              objekt = analyzed_field_props[:objekt]
-              field_type = analyzed_field_props[:field_type]
-
-              Rails.logger.debug "#{field} #{index}: #{property} (#{association.klass if association}) (has may? #{has_many_association}; copmlex? #{complex_association}, field_type: #{field_type})"
-
-              current_value = nil
-
-              # Get current value: preparing object
-
-              if complex_association
-                unless parameters[property]
-                  parameters[property] = { 7382983741 => {fieldname => nil}}
-                end
-                current_value = parameters[property][7382983741][fieldname]
-              else
-                if has_many_association and !parameters[property]
-                  parameters[property] = [ ]
-                end
-                current_value = parameters[property]
-              end
-
-              # Get the value from the table
-
-              corresponding_value = nil
-              corresponding_table_value = table_values[index]
-              if association and !complex_association
-                corresponding_value = association.find_by_name(corresponding_table_value)
-                corresponding_value = corresponding_value.id if corresponding_value
-              else
-                corresponding_value = corresponding_table_value
-              end
-
-              # Think of new value
-
-              new_value = nil
-              if association and !complex_association and has_many_association
-                if assign_strategy == :replace
-                  new_value = [corresponding_value].compact
-                else
-                  new_value = ([current_value] + [corresponding_value]).flatten.compact
-                end
-              elsif association and !complex_association and !has_many_association
-                new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
-              else
-                if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
-                  corresponding_value = corresponding_value.to_s.tr(",",".")
-                end
-                if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
-                  new_value = corresponding_value
-                else
-                  separator = " "
-                  if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""
-                    separator = "; "
-                  end
-                  new_value = current_value ? "#{current_value}#{separator}#{corresponding_value}" : corresponding_value
-                end
-              end
-
-              Rails.logger.debug "  new_value: #{new_value}"
-
-              # Set the new value
-
-              if complex_association
-                parameters[property][7382983741][fieldname] = new_value
-              else
-                parameters[property] = new_value
-              end
-
-            end
-          end
-        end
-
-        parameters.merge!({
-          collection_id: collection.id,
-          import_collection_id: self.id,
-          imported_at: Time.now,
-          external_inventory: self.external_inventory
-        })
-        # prevent regeneration of artists
-        # raise parameters
-        artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
-        if artist
-          parameters.delete("artists_attributes")
-          parameters[:artists] = [artist]
-        elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
-          parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
-        end
-        new_obj = ImportCollection.import_type.new(parameters)
-
-        Rails.logger.debug "  result: #{new_obj.inspect}"
-        if !new_obj.valid?
-          error_message = new_obj.errors.full_messages.to_sentence
-          if new_obj.is_a? Work
-            error_message = "Werk met inventarisnummer #{new_obj.stock_number} geeft fouten: #{error_message}"
-          end
-          raise ImportCollectionRuntimeError.new(error_message)
-        end
-        result << new_obj
+        result << process_table_data_row(row)
       end
     end
     # Rails.logger.debug "  result: #{result.inspect}"
@@ -305,6 +113,157 @@ class ImportCollection < ApplicationRecord
     collection.works.reindex!
   end
 
+  def process_table_data_row(row)
+    parameters = {}
+
+    import_settings.each do |key, import_setting|
+      next if row[key].nil?
+      error = nil
+
+      table_value = row[key].value
+      split_strategy = import_setting["split_strategy"].to_sym
+      assign_strategy = import_setting["assign_strategy"].to_sym
+
+      table_values = ImportCollectionSupport::Strategies::SplitStrategies.send(split_strategy, table_value)
+      fields = import_setting["fields"] ? import_setting["fields"] : []
+
+      # Iterate over all fields and/or values selected for this value
+
+      field_value_indexes = 0
+
+      Rails.logger.debug "Key: #{key}"
+
+      if fields.count > 0
+        if fields.count == 1 and split_strategy == :find_keywords
+          Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
+          analyzed_field_props = analyze_field_properties(fields.first)
+          association = analyzed_field_props[:association]
+          # p analyzed_field_props
+          if association and association.findable_by_name?
+            options = association.klass.not_hidden.all
+            names = options.collect{|a| a.name.to_s.downcase}
+            keyword_finder = KeywordFinder::Keywords.new(names)
+            search_string = table_values[1]
+            table_values = keyword_finder.find_in(search_string.to_s.downcase)
+            Rails.logger.debug "  find kerwords from string '#{search_string}' in: #{names.join(", ")}: #{table_values.join(", ")}"
+          end
+        elsif split_strategy == :find_keywords
+          Rails.logger.debug "Keywords zoeken werkt alleen met 1 outputveld"
+        end
+
+        field_value_indexes = [table_values.count, fields.count].max
+
+        field_value_indexes.times do |index|
+          # puts index
+          field = fields[index] ? fields[index] : fields.last
+
+          field_props = analyze_field_properties(field)
+
+          property = field_props[:property]
+          association = field_props[:association]
+          has_many_association = field_props[:has_many_association]
+          complex_association = field_props[:complex_association]
+          fieldname = field_props[:fieldname]
+          objekt = field_props[:objekt]
+          field_type = field_props[:field_type]
+
+          Rails.logger.debug "#{field} #{index}: #{property} (#{association.klass if association}) (has may? #{has_many_association}; copmlex? #{complex_association}, field_type: #{field_type})"
+
+          current_value = nil
+
+          # Get current value: preparing object
+
+          if complex_association
+            unless parameters[property]
+              parameters[property] = { 7382983741 => {fieldname => nil}}
+            end
+            current_value = parameters[property][7382983741][fieldname]
+          else
+            if has_many_association and !parameters[property]
+              parameters[property] = [ ]
+            end
+            current_value = parameters[property]
+          end
+
+          # Get the value from the table
+
+          corresponding_value = nil
+          corresponding_table_value = table_values[index]
+          if association and !complex_association
+            corresponding_value = association.find_by_name(corresponding_table_value)
+            corresponding_value = corresponding_value.id if corresponding_value
+          else
+            corresponding_value = corresponding_table_value
+          end
+
+          # Think of new value
+          new_value = nil
+          if association and !complex_association and has_many_association
+            if assign_strategy == :replace
+              new_value = [corresponding_value].compact
+            else
+              new_value = ([current_value] + [corresponding_value]).flatten.compact
+            end
+          elsif association and !complex_association and !has_many_association
+            new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
+          else
+            if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
+              corresponding_value = corresponding_value.to_s.tr(",",".")
+            end
+            if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
+              new_value = corresponding_value
+            else
+              separator = " "
+              if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""
+                separator = "; "
+              end
+              new_value = current_value ? "#{current_value}#{separator}#{corresponding_value}" : corresponding_value
+            end
+          end
+
+          Rails.logger.debug "  new_value: #{new_value}"
+
+          # Set the new value
+
+          if complex_association
+            parameters[property][7382983741][fieldname] = new_value
+          else
+            parameters[property] = new_value
+          end
+
+        end
+      end
+    end
+
+    parameters.merge!({
+      collection_id: collection.id,
+      import_collection_id: self.id,
+      imported_at: Time.now,
+      external_inventory: self.external_inventory
+    })
+    # prevent regeneration of artists
+    # raise parameters
+    artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
+    if artist
+      parameters.delete("artists_attributes")
+      parameters[:artists] = [artist]
+    elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
+      parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
+    end
+    new_obj = ImportCollection.import_type.new(parameters)
+
+    Rails.logger.debug "  result: #{new_obj.inspect}"
+    if !new_obj.valid?
+      error_message = new_obj.errors.full_messages.to_sentence
+      if new_obj.is_a? Work
+        error_message = "Werk met inventarisnummer #{new_obj.stock_number} geeft fouten: #{error_message}"
+      end
+      raise ImportCollectionSupport::FailedImportError.new(error_message)
+    end
+
+    return new_obj
+  end
+
   class << self
     def ignore_columns
       ["id","created_at","updated_at","imported_at","collection_id", "created_by_id", "lognotes", "external_inventory"]
@@ -323,7 +282,7 @@ class ImportCollection < ApplicationRecord
     end
 
     def import_associations
-      @@import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollectionClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name}) }
+      @@import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollectionSupport::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name}) }
     end
 
     def find_import_association_by_name(name)
@@ -346,31 +305,9 @@ class ImportCollection < ApplicationRecord
       })
     end
 
-    def split_strategies
-      {
-        split_nothing: ->(field){ [field] },
-        split_space: ->(field){ field.to_s.split(/[\s\n]/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        split_comma: ->(field){ field.to_s.split(/\,|\;/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        split_natural: ->(field){ field.to_s.split(/\sen\s|\,|\;/).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        split_cross: ->(field){ field.to_s.split(/[x\*]/i).collect{|a| a.strip == "" ? nil : a.strip}.compact },
-        find_keywords: ->(field){ [:find_keywords, field]}
-      }
-    end
 
-    def assign_strategies
-      {
-        replace: ->(fields, values){ values.each_with_index{|value,index| update_field(fields[index], value) } },
-        append: ->(fields, values){ },
-        # append_with_fieldname_prefix: ->(fields, values){ },
-        first_then_join_rest: ->(fields, values){ values.each_with_index{|value,index| update_field(fields[index], value) } },
-        first_then_join_rest_separated: ->(fields, values){ values.each_with_index{|value,index| update_field(fields[index], value) } }
-      }
-    end
+
+
   end
-
-end
-
-
-class ImportCollectionRuntimeError < RuntimeError
 
 end

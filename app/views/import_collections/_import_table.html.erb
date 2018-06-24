@@ -34,7 +34,7 @@ if @import_collection.import_file_snippet_to_workbook_table
   def split_strategy_options_html fieldname
     selected = @import_collection.import_setting_for(fieldname)["split_strategy"]
     html = ""
-    ImportCollection.split_strategies.each do |key, value|
+    ImportCollectionSupport::Strategies::SplitStrategies.strategies.each do |key|
       html += "<option value=\"#{key}\""
       html += " selected=\"selected\"" if selected == key.to_s
       html += ">#{I18n.t key, scope: 'activerecord.values.import_collection'}</option>"
@@ -45,7 +45,7 @@ if @import_collection.import_file_snippet_to_workbook_table
   def assign_strategy_options_html fieldname
     selected = @import_collection.import_setting_for(fieldname)["assign_strategy"]
     html = ""
-    ImportCollection.assign_strategies.each do |key, value|
+    ImportCollectionSupport::Strategies::AssignStrategies.strategies.each do |key|
       html += "<option value=\"#{key}\""
       html += " selected=\"selected\"" if selected == key.to_s
       html += ">#{I18n.t key, scope: 'activerecord.values.import_collection'}</option>"
