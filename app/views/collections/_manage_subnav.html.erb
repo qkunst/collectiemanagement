@@ -1,0 +1,10 @@
+<nav class="row columns sub-nav hide-for-print">
+<ul class="menu simple">
+  <li>Beheer <%=@collection.name%>:</li>
+  <li><%= menu_link_to "Herinneringen", collection_reminders_path(@collection) if admin_user? %></li>
+  <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if admin_user? %></li>
+  <li><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></li>
+  <li><%= menu_link_to "Import", collection_import_collections_path(@collection) if admin_user?%></li>
+
+</ul>
+</nav>

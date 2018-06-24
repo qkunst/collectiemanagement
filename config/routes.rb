@@ -53,7 +53,18 @@ Rails.application.routes.draw do
 
   resources :involvements
   resources :collections do
-    resources :reminders
+    get 'manage' => 'collections#manage'
+
+    resources :reminders, path: 'manage/reminders'
+    resources :themes, path: 'manage/themes'
+    resources :clusters, path: 'manage/clusters'
+    resources :import_collections, path: 'manage/import_collections' do
+      get 'preview' => 'import_collections#preview'
+      patch 'delete_works' => 'import_collections#delete_works'
+      patch 'import_works' => 'import_collections#import_works'
+    end
+
+
     resources :custom_reports
 
     resources :attachments
@@ -62,7 +73,6 @@ Rails.application.routes.draw do
     post 'refresh_works' => 'collections#refresh_works'
     resources :collections do
     end
-    resources :themes
     resources :batch_photo_uploads do
       post 'match_works' => 'batch_photo_uploads#match_works'
     end
@@ -74,11 +84,6 @@ Rails.application.routes.draw do
     end
     resources :rkd_artists do
       patch 'copy' => 'rkd_artists#copy'
-    end
-    resources :import_collections do
-      get 'preview' => 'import_collections#preview'
-      patch 'delete_works' => 'import_collections#delete_works'
-      patch 'import_works' => 'import_collections#import_works'
     end
 
     get 'works/batch' => 'works_batch#index'
@@ -94,7 +99,6 @@ Rails.application.routes.draw do
       get 'edit_photos' => 'works#edit_photos'
     end
 
-    resources :clusters
     get 'report' => 'collections#report'
   end
   resources :artists do

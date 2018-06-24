@@ -1,7 +1,7 @@
 class CollectionsController < ApplicationController
-  before_action :authenticate_admin_user!, only: [:edit, :update, :destroy, :create, :new]
+  before_action :authenticate_admin_user!, only: [:edit, :update, :destroy, :create, :new, :manage]
   before_action :authenticate_qkunst_or_facility_user!, only: [:report]
-  before_action :set_collection, only: [:show, :edit, :update, :destroy] #includes authentication
+  before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] #includes authentication
   before_action :set_parent_collection
 
   # GET /collections
@@ -19,6 +19,12 @@ class CollectionsController < ApplicationController
     authorize! :refresh, @parent_collection
     @parent_collection.works_including_child_works.all.reindex!
     redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
+  end
+
+  def manage
+    @title = @collection.name
+    @collections = @collection.child_collections
+    current_user.reset_filters!
   end
 
   # GET /collections/1
@@ -153,7 +159,7 @@ class CollectionsController < ApplicationController
 
     def set_collection
       authenticate_activated_user!
-      @collection = Collection.find(params[:id])
+      @collection = Collection.find(params[:collection_id] || params[:id])
       unless current_user.admin?
         redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
         redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
