@@ -19,7 +19,7 @@ RSpec.describe "works/show", type: :view do
       collection: @collection
     ))
     sign_in users(:admin)
-
+    @custom_reports = []
     render
     expect(rendered).not_to match(/<script>alert\(1\)<\/script>/)
     expect(rendered).to match(/aul07alert\(1\)kviak/)
@@ -29,6 +29,7 @@ RSpec.describe "works/show", type: :view do
     @collection = collections(:collection1)
     @selection = {display: :complete}
     @work = works(:work_with_attachments)
+    @custom_reports = []
     sign_in users(:admin)
 
     render
