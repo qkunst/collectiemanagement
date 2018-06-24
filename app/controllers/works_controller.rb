@@ -39,7 +39,9 @@ class WorksController < ApplicationController
     @search_text = params["q"].to_s if params["q"] and !@reset
     @no_child_works = (params[:no_child_works] == 1 or params[:no_child_works] == "true") ? true : false
 
-    # try_direct_access_using_search_text
+    if redirect_directly_to_work_using_search_text
+      return true
+    end
 
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
@@ -281,5 +283,17 @@ class WorksController < ApplicationController
     params[:work] ? params.require(:work).permit(permitted_fields) : {}
   end
 
+  def redirect_directly_to_work_using_search_text
+    if @search_text and @search_text.length > 3
+      works = @collection.works_including_child_works.has_number(@search_text).to_a
+
+      if works.count == 1
+        work = works[0]
+        redirect_to collection_work_path(work.collection, work)
+        return true
+      end
+    end
+    return false
+  end
 
 end

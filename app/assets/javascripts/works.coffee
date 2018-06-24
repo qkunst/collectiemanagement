@@ -45,6 +45,12 @@ $(document).on("turbolinks:load", ->
   show_or_hide_selected_works()
 )
 
+$(document).on "keydown", "input[data-catch-return]", (e)->
+  if e.originalEvent.code == "Enter"
+    return false
+  else
+    return true
+
 $(document).on("click", "span.select_all", (e)->
   container_div = $(e.target).parents(".select_all_scope, body")[0]
   inputs = container_div.querySelectorAll("input[name='selected_works[]']")
