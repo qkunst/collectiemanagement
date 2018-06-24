@@ -195,29 +195,42 @@ textarea {
 h3 {
   width: 100%;
 }
-.sub-nav.row.columns {
-  border-bottom: 1px solid #999;
-  padding-bottom: 10px;
-  padding-top: 1em;
-  position: sticky;
-  top: 0;
-  background: #fff;
-  z-index: 20;
+.sub-nav {
+  &.row.columns {
+    border-bottom: 1px solid #999;
+    padding-bottom: 10px;
+    padding-top: 1em;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 20;
 
-  margin-left: -1.3%!important;
-  padding-left: 1.3%!important;
-  margin-right: -1.3%!important;
-  padding-right: 1.3%!important;
-  width: 102.6%;
-  a {
-    font-family: $navigation-font-family;
-    color: $qkunst-grey;
-    font-weight: normal;
-    &.active {
-      color: $qkunst-brown;
+    margin-left: -1.3%!important;
+    padding-left: 1.3%!important;
+    margin-right: -1.3%!important;
+    padding-right: 1.3%!important;
+    width: 102.6%;
+    a {
+      font-family: $navigation-font-family;
+      color: $qkunst-grey;
+      font-weight: normal;
+      &.active {
+        color: $qkunst-brown;
+      }
     }
   }
+  .right form {
+    text-align: right;
+  }
+  input[type=search] {
+    width: 7em;
+    transition: width 0.25s;
+    &:focus {
+      width: 100%;
+    };
+  }
 }
+
 nav, .sub-nav.row.columns {
   a.button {
     margin-bottom: 0;
