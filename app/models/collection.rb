@@ -21,6 +21,7 @@ class Collection < ApplicationRecord
   has_many :clusters
   has_many :collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
   has_many :collections_geoname_summaries
+  has_many :custom_reports
   has_many :geoname_summaries, through: :collections_geoname_summaries
   has_many :import_collections
   has_many :themes

@@ -30,7 +30,12 @@ RSpec.describe CustomReportsController, type: :controller do
   # CustomReport. As you add validations to CustomReport, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      title: "kaas",
+      collection_id: collections(:collection1).id,
+      custom_report_template_id: custom_report_templates(:minimal_custom_report_template).id
+    }
+    # skip("Add a hash of attributes valid for your model")
   }
 
   let(:invalid_attributes) {
@@ -44,16 +49,18 @@ RSpec.describe CustomReportsController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
+      sign_in users(:admin)
       custom_report = CustomReport.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      get :index, params: {collection_id: custom_report.collection_id}, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "GET #show" do
     it "returns a success response" do
+      sign_in users(:admin)
       custom_report = CustomReport.create! valid_attributes
-      get :show, params: {id: custom_report.to_param}, session: valid_session
+      get :show, params: {id: custom_report.to_param, collection_id: custom_report.collection_id}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -67,9 +74,15 @@ RSpec.describe CustomReportsController, type: :controller do
   end
 
   describe "GET #edit" do
-    it "returns a success response" do
+    it "returns no success response by default" do
       custom_report = CustomReport.create! valid_attributes
-      get :edit, params: {id: custom_report.to_param}, session: valid_session
+      get :edit, params: {id: custom_report.to_param, collection_id: custom_report.collection_id}, session: valid_session
+      expect(response).to redirect_to(new_user_session_path)
+    end
+    it "returns success response when admin" do
+      sign_in(users(:admin))
+      custom_report = CustomReport.create! valid_attributes
+      get :edit, params: {id: custom_report.to_param, collection_id: custom_report.collection_id}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -77,14 +90,16 @@ RSpec.describe CustomReportsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new CustomReport" do
+        sign_in(users(:admin))
         expect {
-          post :create, params: {custom_report: valid_attributes}, session: valid_session
+          post :create, params: {custom_report: valid_attributes, collection_id: collections(:collection1).id}, session: valid_session
         }.to change(CustomReport, :count).by(1)
       end
 
       it "redirects to the created custom_report" do
-        post :create, params: {custom_report: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(CustomReport.last)
+        sign_in(users(:admin))
+        post :create, params: {custom_report: valid_attributes, collection_id: collections(:collection1).id}, session: valid_session
+        expect(response).to redirect_to(edit_collection_custom_report_path(collections(:collection1), CustomReport.last))
       end
     end
 
@@ -103,6 +118,7 @@ RSpec.describe CustomReportsController, type: :controller do
       }
 
       it "updates the requested custom_report" do
+        sign_in users(:admin)
         custom_report = CustomReport.create! valid_attributes
         put :update, params: {id: custom_report.to_param, custom_report: new_attributes}, session: valid_session
         custom_report.reload
@@ -110,16 +126,17 @@ RSpec.describe CustomReportsController, type: :controller do
       end
 
       it "redirects to the custom_report" do
+        sign_in users(:admin)
         custom_report = CustomReport.create! valid_attributes
-        put :update, params: {id: custom_report.to_param, custom_report: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(custom_report)
+        put :update, params: {id: custom_report.to_param, custom_report: valid_attributes, collection_id: custom_report.collection_id}, session: valid_session
+        expect(response).to redirect_to([custom_report.collection,custom_report])
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         custom_report = CustomReport.create! valid_attributes
-        put :update, params: {id: custom_report.to_param, custom_report: invalid_attributes}, session: valid_session
+        put :update, params: {id: custom_report.to_param, custom_report: invalid_attributes, collection_id: custom_report.collection_id}, session: valid_session
         expect(response).to be_success
       end
     end
@@ -127,16 +144,18 @@ RSpec.describe CustomReportsController, type: :controller do
 
   describe "DELETE #destroy" do
     it "destroys the requested custom_report" do
+      sign_in users(:admin)
       custom_report = CustomReport.create! valid_attributes
       expect {
-        delete :destroy, params: {id: custom_report.to_param}, session: valid_session
+        delete :destroy, params: {id: custom_report.to_param, collection_id: custom_report.collection_id}, session: valid_session
       }.to change(CustomReport, :count).by(-1)
     end
 
     it "redirects to the custom_reports list" do
+      sign_in users(:admin)
       custom_report = CustomReport.create! valid_attributes
-      delete :destroy, params: {id: custom_report.to_param}, session: valid_session
-      expect(response).to redirect_to(custom_reports_url)
+      delete :destroy, params: {id: custom_report.to_param, collection_id: custom_report.collection_id}, session: valid_session
+      expect(response).to redirect_to(collection_custom_reports_url(custom_report.collection))
     end
   end
 

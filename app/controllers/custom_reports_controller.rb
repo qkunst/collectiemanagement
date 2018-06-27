@@ -5,7 +5,7 @@ class CustomReportsController < ApplicationController
   # GET /custom_reports
   # GET /custom_reports.json
   def index
-    @custom_reports = CustomReport.all
+    @custom_reports = @collection.custom_reports.all
   end
 
   # GET /custom_reports/1
@@ -15,7 +15,7 @@ class CustomReportsController < ApplicationController
 
   # GET /custom_reports/new
   def new
-    @custom_report = CustomReport.new
+    @custom_report = @collection.custom_reports.new
     if params[:works]
       work_ids = params[:works].map{|w| w.to_i};
       @custom_report.works = @collection.works_including_child_works.where(id: work_ids)
@@ -70,7 +70,7 @@ class CustomReportsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_custom_report
-      @custom_report = CustomReport.find(params[:id])
+      @custom_report = @collection.custom_reports.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
