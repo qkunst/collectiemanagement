@@ -16,6 +16,7 @@ class FilterableTableField
     columns = @table.querySelectorAll("thead th, thead td")
     tableBody = @table.querySelector('tbody')
 
+    tableBody.setAttribute("hidden", "hidden")
     index = 0
     filterColumnIndexes = []
     columns.forEach (column) ->
@@ -37,6 +38,7 @@ class FilterableTableField
         row.removeAttribute("hidden")
       else
         row.setAttribute("hidden", "hidden")
+    tableBody.removeAttribute("hidden")
 
   @changeListener = (e) ->
     if (e.target.dataset.filters)
