@@ -89,10 +89,12 @@ class SortableTable
     rows = @nodeListToArray(@table.querySelectorAll("tbody tr"))
     rows.sort rowSortFunction
 
-document.addEventListener 'click', (e) ->
-  if (e.target.parentNode.parentNode.nodeName.toLowerCase() == 'thead' && e.target.parentNode.parentNode.parentNode.classList.contains('sortable'))
-    clickedColumnHead = e.target
+  @registerSortableTableEventCallback: (e) ->
+    if (e.target.parentNode.parentNode.nodeName.toLowerCase() == 'thead' && e.target.parentNode.parentNode.parentNode.classList.contains('sortable'))
+      clickedColumnHead = e.target
 
-    table = new SortableTable(clickedColumnHead.parentNode.parentNode.parentNode)
-    table.sort(clickedColumnHead)
-, true
+      table = new SortableTable(clickedColumnHead.parentNode.parentNode.parentNode)
+      table.sort(clickedColumnHead)
+
+document.addEventListener 'click', SortableTable.registerSortableTableEventCallback, true
+document.addEventListener 'touchstart', SortableTable.registerSortableTableEventCallback, true

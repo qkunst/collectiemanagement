@@ -12,6 +12,8 @@
       contextContainer.removeClass("opened");
       root.off('click.contextContainer.closeArea');
       root.off('click.contextContainer.clickLink');
+      root.off('touchstart.contextContainer.closeArea');
+      root.off('touchstart.contextContainer.clickLink');
       $("#context-container-almost-hidden-overlay").remove();
     }
 
@@ -38,24 +40,28 @@
     }
 
     openInContextContainerFunction(urlToOpen);
-
-
-    root.on('click.contextContainer.clickLink', "a", function(e) {
+    var openInContextContainerFunctionEventCallback = function(e) {
       openInContextContainerFunction(e.target.href);
       return false;
-    });
+    }
+
+    root.on('click.contextContainer.clickLink', "a", openInContextContainerFunctionEventCallback);
     root.on('click.contextContainer.closeArea', "#context-container-almost-hidden-overlay", closeFunction);
+    root.on('touchstart.contextContainer.clickLink', "a", openInContextContainerFunctionEventCallback);
+    root.on('touchstart.contextContainer.closeArea', "#context-container-almost-hidden-overlay", closeFunction);
 
   };
   $.fn.openInContext = function(options) {
     var opts = $.extend( {}, $.fn.openInContext.defaults, options );
     root = this;
-
-    this.on('click.contextContainer.openLink', "a[data-open-in-context]", function(e){
+    var openLinkEventCallback = function(e){
       var urlToOpen = e.target.href;
       createAndOpenUrlInContextContainer(urlToOpen);
       return false;
-    });
+    }
+
+    this.on('click.contextContainer.openLink', "a[data-open-in-context]", openLinkEventCallback);
+    this.on('touchstart.contextContainer.openLink', "a[data-open-in-context]", openLinkEventCallback);
     $(function(e) {
       if (document.location.params) {
         // https://gist.github.com/murb/a8823e7a2d6fc9613b3c5c00a0225809
