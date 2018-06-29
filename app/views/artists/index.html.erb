@@ -1,15 +1,19 @@
 <div class="row">
 <div class="columns">
   <h1><%=@title%></h1>
-  <div class="panel">
-    <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] if qkunst_user? %>
-    <% if current_user.admin? and !@collection %>
-    <%= button_to 'Schoon kunstenaars op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %>
-    <% end %>
-  </div>
-  <table class="sortable">
+  <% if qkunst_user? %>
+    <div class="panel">
+      <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %>
+      <% if current_user.admin? and !@collection %>
+      <%= button_to 'Schoon kunstenaars op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %>
+      <% end %>
+    </div>
+  <% end %>
+  <label>Filter tabel <input type="text" id="generic-table-filter" data-filters="artists-table"></label>
+
+  <table class="sortable" id="artists-table">
     <thead>
-      <th class="asc">Achternaam, Tussenv.</th><th>Voornaam</th><th>Geboortedatum</th><th>Geboorteplaats</th><th>Sterfdatum</th><th>Sterfplaats</th>
+      <th data-filtered-by="generic-table-filter" class="asc">Achternaam, Tussenv.</th><th data-filtered-by="generic-table-filter" >Voornaam</th><th data-filtered-by="generic-table-filter" >Geboortedatum</th><th data-filtered-by="generic-table-filter" >Geboorteplaats</th><th data-filtered-by="generic-table-filter" >Sterfdatum</th><th data-filtered-by="generic-table-filter" >Sterfplaats</th>
     </thead>
     <tbody>
       <% @artists.each do |artist|
