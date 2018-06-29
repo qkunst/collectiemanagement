@@ -1,0 +1,13 @@
+<label>Filter <input type="text" id="filter" data-filters="filtertable"></label>
+
+<table id="filtertable">
+  <thead>
+    <th  data-filtered-by="filter">Column 1</th>
+    <th  data-filtered-by="filter">Column 2</th>
+  </thead>
+  <tbody>
+    <% 10000.times do |a| %>
+      <tr><td><%=a%></td><td><%=a%22 %></td></tr>
+    <% end %>
+  </tbody>
+</table>

@@ -43,6 +43,12 @@ class ApplicationController < ActionController::Base
 
   end
 
+  def style_guide
+
+  end
+
+
+
   def service_worker
 
   end

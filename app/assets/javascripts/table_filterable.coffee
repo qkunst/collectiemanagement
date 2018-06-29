@@ -16,6 +16,7 @@ class FilterableTableField
     columns = @table.querySelectorAll("thead th, thead td")
     tableBody = @table.querySelector('tbody')
 
+    # by temporarily hiding the table body; intermediate reflows are prevented
     tableBody.setAttribute("hidden", "hidden")
     index = 0
     filterColumnIndexes = []
@@ -32,7 +33,7 @@ class FilterableTableField
       rowValues = filterColumnIndexes.map (index) ->
         cleanTxt(row.children[index].innerText)
 
-      rowFilteredText = rowValues.join(' ')
+      rowFilteredText = " #{rowValues.join(' ')} "
 
       if rowFilteredText.search(cleanedValueText) >= 0
         row.removeAttribute("hidden")
