@@ -1,9 +1,9 @@
-# <label>Filter op kenteken <input type="text" id="registration-id-filter" data-filters="cars-table"></label>
+# <label>Filter <input type="text" id="id-of-input-for-filter" data-filters="id-of-table-to-filter"></label>
 # <div class="columns row">
-#   <table class="sortable" id="cars-table">
+#   <table class="sortable" id="id-of-table-to-filter">
 #     <thead>
 #       <tr>
-#         <td date-filtered-by="registration-id-filter">Kenteken</td>
+#         <th date-filtered-by="id-of-input-for-filter">Column A</th>
 
 class FilterableTableField
   constructor: (@table) ->
@@ -21,7 +21,6 @@ class FilterableTableField
     index = 0
     filterColumnIndexes = []
     columns.forEach (column) ->
-      console.log column.dataset.filteredBy, field
       if column.dataset.filteredBy == field
         filterColumnIndexes.push index
       index++
