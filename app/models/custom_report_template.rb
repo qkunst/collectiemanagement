@@ -1,5 +1,5 @@
 class CustomReportTemplate < ApplicationRecord
-  include Template
+  include Template, Hidable
 
   belongs_to :collection, optional: true
 

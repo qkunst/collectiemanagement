@@ -1,8 +1,7 @@
 class Condition < ApplicationRecord
-  scope :not_hidden, ->{where(hide:[nil,false])}
   default_scope ->{order(:order)}
 
-  include NameId
+  include NameId, Hidable
 
   class << self
     def find_by_name name
