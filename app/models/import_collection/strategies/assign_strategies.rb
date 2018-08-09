@@ -1,4 +1,4 @@
-module ImportCollectionSupport::Strategies
+module ImportCollection::Strategies
   class AssignStrategies < Strategies
     class << self
       def replace fields, values

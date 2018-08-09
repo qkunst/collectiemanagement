@@ -1,4 +1,4 @@
-module ImportCollectionSupport::Strategies
+module ImportCollection::Strategies
   class SplitStrategies < Strategies
     class << self
       def split_nothing field

@@ -124,7 +124,7 @@ class ImportCollection < ApplicationRecord
       split_strategy = import_setting["split_strategy"].to_sym
       assign_strategy = import_setting["assign_strategy"].to_sym
 
-      table_values = ImportCollectionSupport::Strategies::SplitStrategies.send(split_strategy, table_value)
+      table_values = ImportCollection::Strategies::SplitStrategies.send(split_strategy, table_value)
       fields = import_setting["fields"] ? import_setting["fields"] : []
 
       # Iterate over all fields and/or values selected for this value
@@ -258,7 +258,7 @@ class ImportCollection < ApplicationRecord
       if new_obj.is_a? Work
         error_message = "Werk met inventarisnummer #{new_obj.stock_number} geeft fouten: #{error_message}"
       end
-      raise ImportCollectionSupport::FailedImportError.new(error_message)
+      raise ImportCollection::FailedImportError.new(error_message)
     end
 
     return new_obj
@@ -282,7 +282,7 @@ class ImportCollection < ApplicationRecord
     end
 
     def import_associations
-      @@import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollectionSupport::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name}) }
+      @@import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name}) }
     end
 
     def find_import_association_by_name(name)

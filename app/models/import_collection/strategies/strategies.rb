@@ -1,4 +1,4 @@
-module ImportCollectionSupport::Strategies
+module ImportCollection::Strategies
   class Strategies
     class << self
       def strategies
