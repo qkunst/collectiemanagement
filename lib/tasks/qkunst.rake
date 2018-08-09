@@ -17,6 +17,7 @@ namespace :qkunst do
     Work.update_artist_name_rendered!
     Artist.destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
     Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
+    CachedApi.purge
   end
 
   desc "Bouw nieuwe index op en herindexeer alle werken (traag)"
