@@ -1,6 +1,7 @@
 class Cluster < ApplicationRecord
   has_many :works
   belongs_to :collection, optional: true
+  validates_presence_of :name
   validates_uniqueness_of :name, scope: :collection_id
   before_destroy :remove_cluster_id_at_works
 
