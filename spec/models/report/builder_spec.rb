@@ -7,13 +7,14 @@ RSpec.describe Report::Builder, type: :model do
       # puts Report::Builder.aggregations
       expected = {
         :total=>{:value_count=>{:field=>:id}},
-        :artists=>{:terms=>{:field=>"report_val_sorted_artist_ids.keyword", :size=>999}}, :artists_missing=>{:missing=>{:field=>"report_val_sorted_artist_ids.keyword"}},
+        :artists=>{:terms=>{:field=>"report_val_sorted_artist_ids.keyword", :size=>999}},
         :object_categories=>{:terms=>{:field=>"report_val_sorted_object_category_ids.keyword", :size=>999}, :aggs=>{:techniques=>{:terms=>{:field=>"report_val_sorted_technique_ids.keyword", :size=>999}}, :techniques_missing=>{:missing=>{:field=>"report_val_sorted_technique_ids.keyword"}}}},
-        :object_categories_missing=>{:missing=>{:field=>"report_val_sorted_object_category_ids.keyword"}, :aggs=>{:techniques=>{:terms=>{:field=>"report_val_sorted_technique_ids.keyword", :size=>999}}, :techniques_missing=>{:missing=>{:field=>"report_val_sorted_technique_ids.keyword"}}}},
         :object_categories_split=>{:terms=>{:field=>"report_val_sorted_object_category_ids.keyword", :size=>999}, :aggs=>{:techniques=>{:terms=>{:field=>"techniques.id", :size=>999}}, :techniques_missing=>{:missing=>{:field=>"techniques.id"}}}},
-        :object_categories_split_missing=>{:missing=>{:field=>"report_val_sorted_object_category_ids.keywords"}, :aggs=>{:techniques=>{:terms=>{:field=>"techniques.id", :size=>999}}, :techniques_missing=>{:missing=>{:field=>"techniques.id"}}}},
         :subset=>{:terms=>{:field=>"subset_id", :size=>999}},
-        :cluster=>{:terms=>{:field=>"cluster_id", :size=>999}},
+        :cluster=>{:terms=>{:field=>"cluster.id", :size=>999}},
+        "cluster_missing" => {:missing=>{:field=>"cluster.id"}},
+        "owner_missing" => {:missing=>{:field=>"owner.id"}},
+        :owner => {:terms=>{:field=>"owner.id", :size=>999}},
         :style=>{:terms=>{:field=>"style_id", :size=>999}},
         :frame_type=>{:terms=>{:field=>"frame_type_id", :size=>999}},
         :condition_work=>{:terms=>{:field=>"condition_work.id", :size=>999}}, "condition_work_missing"=>{:missing=>{:field=>"condition_work.id"}},

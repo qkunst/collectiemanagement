@@ -80,6 +80,7 @@ nl:
       frame_type: Lijsttype
       custom_report: Rapport
       custom_report_template: Rapporttemplate
+      owner: Eigenaar
     values:
       user:
         role:
@@ -195,119 +196,124 @@ nl:
         interval_unit: Dagen/Weken...
         repeat: Herhaal herinnering?
         stage: Vanaf moment
+      owner:
+        name: Naam
+        hide: Verberg
+        collection: Collectie
       work:
-        collection_external_reference_code: Collectie (externe) referentiecode
-        locality_geoname_name: Lokaliteit
-        locality_geoname_id: Lokaliteit
-        locality_geoname: Lokaliteit
-        created_by: Gemaakt door
-        cluster: Cluster
-        locations: Locaties
-        figurative: Figuratief
         abstract: Abstract
-        main_collection: Kerncollectie
-        public_description: Toelichting bij kunstwerk
         abstract_or_figurative: Abstract of figuratief
         abstract_or_figurative_rendered: Abstract of figuratief
-        object_format_code: Formaatcode
-        title: Titel
-        title_rendered: Titel
-        collection: Collectie
-        collection_name_extended: Collectie
-        created_at: Opgeslagen op
-        created_by: Invoerder
-        cluster: Cluster
-        location: Adres en/of gebouw(deel)
-        location_floor: Verdieping
-        location_detail: Locatie specificatie
-        location_raw: Adres en/of gebouw(deel)
-        location_floor_raw: Verdieping
-        location_detail_raw: Locatie specificatie
-        stock_number: Inventarisnummer
-        Stock number file safe: Inventarisnummer (bestandsnaamveilig)
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
-        photo_front: Foto voorkant
+        appraisals: Waarderingen
+        appraisals: Waarderingen (log)
+        artists: Vervaardigers
+        artist_name_rendered: Vervaardiger(s)
+        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
+        artist_unknown: Onbekend
+        cluster: Cluster
+        cluster: Cluster
+        collection: Collectie
+        collection_external_reference_code: Collectie (externe) referentiecode
+        collection_name_extended: Collectie
+        condition_frame: Conditie lijst
+        condition_frame_comments: "Conditie lijst toelichting & locatie"
+        condition_frame_rendered: Conditie lijst
+        condition_work: Conditie beeld
+        condition_work_comments: "Conditie beeld toelichting & locatie"
+        condition_work_rendered: Conditie werk
+        created_at: Gemaakt op
+        created_at: Opgeslagen op
+        created_by: Gemaakt door
+        created_by: Invoerder
+        damage_types: Type schade beeld
+        depth: Diepte beeld (cm)
+        description: Beschrijving
+        diameter: Diameter beeld (cm)
+        entry_status: Invoerstatus
+        entry_status_description: Invoerstatus opmerkingen
+        figurative: Figuratief
+        frame_damage_types:  Type schade lijst
+        frame_depth: Diepte lijst (cm)
+        frame_diameter: Diameter lijst (cm)
+        frame_height: Hoogte lijst (cm)
+        frame_size: Lijstafmetingen (cm)
+        frame_type: Lijsttype
+        frame_width: Breedte lijst (cm)
+        grade_within_collection: Niveau binnen collectie
+        height: Hoogte beeld (cm)
+        hpd_comments: Opmerkingen
+        hpd_condition: Fysieke staat
+        hpd_contact: Contactpersoon
+        hpd_depth: Diepte
+        hpd_diameter: Diameter
+        hpd_height: Hoogte
+        hpd_keywords: Trefwoord
+        hpd_materials: Materiaal
+        hpd_photo_file_name: Foto-bestandsnaam
+        hpd_width: Breedte
+        image_rights: Beeldrecht aanwezig
+        information_back: Informatie achterkant
+        internal_comments: Opmerkingen voor intern gebruik
+        locality_geoname: Lokaliteit
+        locality_geoname_id: Lokaliteit
+        locality_geoname_name: Lokaliteit
+        location: Adres en/of gebouw(deel)
+        locations: Locaties
+        location_detail: Locatie specificatie
+        location_detail_raw: Locatie specificatie
+        location_floor: Verdieping
+        location_floor_raw: Verdieping
+        location_raw: Adres en/of gebouw(deel)
+        main_collection: Kerncollectie
+        market_value: Marktwaarde (€)
+        medium: Drager
+        medium_comments: Toelichting drager
+        no_signature_present: Geen signatuur aanwezig
+        object_categories: Categorieën
+        object_categories_split: Categorieën (technieken afzonderlijk geteld)
+        object_creation_year: Datering (jaar)
+        object_creation_year_unknown: Onbekend
+        object_format_code: Formaatcode
+        other_comments: Overige opmerkingen
+        owner: Eigendom
         photo_back: Foto achterkant
         photo_detail_1: Foto detail 1
         photo_detail_2: Foto detail 2
-        image_rights: Beeldrecht aanwezig
-        publish: Publiceer
-        tag_list: Tags
-        artist_unknown: Onbekend
-        title_unknown: Zonder titel
-        description: Beschrijving
-        object_creation_year: Datering (jaar)
-        object_creation_year_unknown: Onbekend
-        medium: Drager
-        medium_comments: Toelichting drager
-        signature: Signatuur
+        photo_front: Foto voorkant
         placeability: Plaatsbaarheid
-        signature_comments: Signatuur (incl. locatie)
-        no_signature_present: Geen signatuur aanwezig
-        techniques: Technieken
-        object_categories: Categorieën
+        price_reference: Prijsreferentie
         print: Oplage
-        frame_size: Lijstafmetingen (cm)
-        work_size: Afmetingen beeld (cm)
-        frame_height: Hoogte lijst (cm)
-        frame_width: Breedte lijst (cm)
-        frame_depth: Diepte lijst (cm)
-        frame_diameter: Diameter lijst (cm)
-        height: Hoogte beeld (cm)
-        width: Breedte beeld (cm)
-        depth: Diepte beeld (cm)
-        diameter: Diameter beeld (cm)
-        condition_work: Conditie beeld
-        damage_types: Type schade beeld
-        frame_type: Lijsttype
-        frame_damage_types:  Type schade lijst
-        condition_work_comments: "Conditie beeld toelichting & locatie"
-        condition_frame: Conditie lijst
-        condition_frame_comments: "Conditie lijst toelichting & locatie"
-        information_back: Informatie achterkant
-        other_comments: Overige opmerkingen
-        appraisals: Waarderingen (log)
+        public_description: Toelichting bij kunstwerk
+        publish: Publiceer
+        purchased_on: Aankoopdatum
+        purchased_on_with_fallback: Aankoopjaar/datum
+        purchase_price: Aankoopprijs
+        purchase_price_currency: Eenheid
+        purchase_year: Aankoopjaar
+        replacement_value: Vervangingswaarde (€)
+        signature: Signatuur
+        signature_comments: Signatuur (incl. locatie)
+        signature_rendered: Signatuur
         source: Herkomst
         sources: Herkomst
         source_comments: Herkomst opmerkingen
+        Stock number file safe: Inventarisnummer (bestandsnaamveilig)
+        stock_number: Inventarisnummer
         style: Stijl
-        artists: Vervaardigers
-        themes: "Thema's"
         subset: Deelcollectie
-        market_value: Marktwaarde (€)
-        replacement_value: Vervangingswaarde (€)
-        purchase_price: Aankoopprijs
-        purchased_on: Aankoopdatum
-        purchase_year: Aankoopjaar
-        purchased_on_with_fallback: Aankoopjaar/datum
-        purchase_price_currency: Eenheid
-        price_reference: Prijsreferentie
-        grade_within_collection: Niveau binnen collectie
-        created_at: Gemaakt op
+        tag_list: Tags
+        techniques: Technieken
+        themes: "Thema's"
+        title: Titel
+        title_rendered: Titel
+        title_unknown: Zonder titel
         updated_at: Bijgewerkt op
-        entry_status: Invoerstatus
-        entry_status_description: Invoerstatus opmerkingen
-        signature_rendered: Signatuur
-        condition_work_rendered: Conditie werk
-        condition_frame_rendered: Conditie lijst
         valuation_on: Datum waardebepaling
-        internal_comments: Opmerkingen voor intern gebruik
-        artist_name_rendered: Vervaardiger(s)
-        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
-        hpd_height: Hoogte
-        hpd_width: Breedte
-        hpd_depth: Diepte
-        hpd_diameter: Diameter
-        hpd_keywords: Trefwoord
-        hpd_materials: Materiaal
-        hpd_condition: Fysieke staat
-        hpd_photo_file_name: Foto-bestandsnaam
-        hpd_comments: Opmerkingen
-        hpd_contact: Contactpersoon
-        object_categories_split: Categorieën (technieken afzonderlijk geteld)
-        appraisals: Waarderingen
+        width: Breedte beeld (cm)
+        work_size: Afmetingen beeld (cm)
       category:
         name: Naam
         order: Volgorde

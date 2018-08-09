@@ -1,0 +1,3 @@
+<% if (owner.hide? == true and @show_hidden) or owner.hide? == false %>
+  <li><%= link_to_edit [owner.collection,owner].compact %> (collectie <%=link_to owner.collection.name, owner.collection%>)<span class="meta"><%=owner.hide? ? "(verborgen)" : ""%></span></li>
+<% end %>

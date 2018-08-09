@@ -46,7 +46,6 @@ class CustomReportsController < ApplicationController
   # PATCH/PUT /custom_reports/1.json
   def update
     respond_to do |format|
-      puts custom_report_params
       if @custom_report.update(custom_report_params)
         format.html { redirect_to [@collection, @custom_report], notice: 'Custom report was successfully updated.' }
         format.json { render :show, status: :ok, location: @custom_report }

@@ -15,11 +15,6 @@ module Report
               field: "report_val_sorted_artist_ids.keyword", size: 999
             }
           },
-          artists_missing: {
-            missing: {
-              field: "report_val_sorted_artist_ids.keyword"
-            }
-          },
           object_categories: {
             terms: {
               field: "report_val_sorted_object_category_ids.keyword", size: 999
@@ -37,23 +32,7 @@ module Report
               }
             }
           },
-          object_categories_missing: {
-            missing: {
-              field: "report_val_sorted_object_category_ids.keyword"
-            },
-            aggs: {
-              techniques: {
-                terms: {
-                  field: "report_val_sorted_technique_ids.keyword", size: 999
-                }
-              },
-              techniques_missing: {
-                missing: {
-                  field: "report_val_sorted_technique_ids.keyword"
-                }
-              }
-            }
-          },
+
           object_categories_split: {
             terms: {
               field: "report_val_sorted_object_category_ids.keyword", size: 999
@@ -70,31 +49,14 @@ module Report
                 }
               }
             }
-          },
-          object_categories_split_missing: {
-            missing: {
-              field: "report_val_sorted_object_category_ids.keywords"
-            },
-            aggs: {
-              techniques: {
-                terms: {
-                  field: "techniques.id", size: 999
-                }
-              },
-              techniques_missing: {
-                missing: {
-                  field: "techniques.id"
-                }
-              }
             }
-          }
         }
 
-        [:subset, :cluster, :style, :frame_type].each do |key|
+        [:subset, :style, :frame_type].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key,"_id"))
         end
 
-        [:condition_work, :condition_frame, :sources, :placeability, :themes ].each do |key|
+        [:condition_work, :condition_frame, :sources, :placeability, :themes, :owner, :cluster].each do |key|
           aggregation.merge!(basic_aggregation_snippet_with_missing(key,".id"))
         end
 

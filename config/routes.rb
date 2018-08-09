@@ -64,7 +64,7 @@ Rails.application.routes.draw do
       patch 'import_works' => 'import_collections#import_works'
     end
 
-
+    resources :owners
     resources :custom_reports
 
     resources :attachments

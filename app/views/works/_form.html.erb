@@ -86,6 +86,7 @@
       <%= f.input :other_comments  %>
       <%= f.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
       <%= f.input :source_comments  %>
+      <%= f.association( :owner, input_html: {class: 'chosen-select'}, collection: @collection.owners_including_parent_owners.not_hidden) %>
     </fieldset>
     <fieldset>
       <legend>Typering</legend>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180622132002) do
+ActiveRecord::Schema.define(version: 20180809110105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -359,6 +359,14 @@ ActiveRecord::Schema.define(version: 20180622132002) do
     t.integer "work_id"
   end
 
+  create_table "owners", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "hide", default: false
+    t.integer "collection_id"
+  end
+
   create_table "placeabilities", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "order"
@@ -592,6 +600,7 @@ ActiveRecord::Schema.define(version: 20180622132002) do
     t.boolean "publish"
     t.integer "purchase_year"
     t.integer "frame_type_id"
+    t.integer "owner_id"
   end
 
 end

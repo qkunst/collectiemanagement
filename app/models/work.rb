@@ -13,6 +13,7 @@ class Work < ApplicationRecord
 
   belongs_to :cluster, optional: true
   belongs_to :collection
+  belongs_to :owner, optional: true
   belongs_to :condition_frame, class_name: "Condition", optional: true
   belongs_to :condition_work, class_name: "Condition", optional: true
   belongs_to :created_by, class_name: "User", optional: true
@@ -353,7 +354,8 @@ class Work < ApplicationRecord
     self.as_json(
       include: {
         sources: { only: [:id, :name]},
-        style: { only: :name},
+        style: { only: [:id, :name]},
+        owner: { only: [:id, :name]},
         artists: { only: [:id, :name], methods: [:name]},
         object_categories: { only: [:id, :name]},
         medium: { only: [:id, :name]},

@@ -17,10 +17,16 @@ module CollectionReportHelper
     if selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)\_split$/,'\1')
       id_separator = "."
-      id_separator = "_" unless group.to_s.ends_with?("s") or group.to_s.ends_with?("split") #or [:style].include?(group) #([:arti].include?(group)) ? "_" : "."
-      @params = @params.merge({"filter[#{group}][]"=>nil})
-      @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
-      link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
+      id_separator = "_" unless group.to_s.ends_with?("s") or group.to_s.ends_with?("split")
+       #or [:style].include?(group) #([:arti].include?(group)) ? "_" : "."
+      if (selection.values.count == 0)
+        @params = @params.merge({"filter[#{group}][]"=>:not_set})
+        link_to("Niets ingevuld",collection_works_path(@collection, @params))
+      else
+        @params = @params.merge({"filter[#{group}][]"=>nil})
+        @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
+        link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
+      end
     elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :replacement_value, :market_value, :object_creation_year, :purchase_year].include? group
       selection = selection.first if selection.is_a? Array
       if selection == :missing
@@ -39,7 +45,7 @@ module CollectionReportHelper
       @params = @params.merge({"filter[#{group}][]"=>:not_set})
       link_to("Niets ingevuld",collection_works_path(@collection, @params))
     else
-      selection
+      "#{selection}"
     end
 
   end
@@ -57,7 +63,7 @@ module CollectionReportHelper
       html = "<tr class=\"section #{section_head.to_s.gsub(".keyword","")} span-#{depth}\">"
       html += render_spacers(depth)
       html += "<th colspan=\"#{depth+1}\">#{I18n.t section_head.to_s.gsub(".keyword",""), scope: "activerecord.attributes.work"}</th>"
-      html += "</tr>"
+      html += "</tr>\n"
       html += iterate_groups(section_head,section,depth-1)
       html
     else
@@ -84,7 +90,7 @@ module CollectionReportHelper
           html += "<tr class=\"content span-#{depth}\""
           html +=">"
           html += render_spacers(depth)
-          html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>"
+          html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
           sv[:subs].each do |subbucketgroupname, subbucketgroup|
             html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth-1))
           end

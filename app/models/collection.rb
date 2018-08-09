@@ -56,6 +56,7 @@ class Collection < ApplicationRecord
     "source"=>Source,
     "sources"=>Source,
     "cluster"=>Cluster,
+    "owner"=>Owner,
     "frame_type"=>FrameType
   }
 
@@ -135,6 +136,10 @@ class Collection < ApplicationRecord
 
   def clusters_including_parent_clusters
     Cluster.where(collection_id: id_plus_parent_ids)
+  end
+
+  def owners_including_parent_owners
+    Owner.where(collection_id: id_plus_parent_ids)
   end
 
   def not_hidden_themes
