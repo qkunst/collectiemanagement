@@ -129,6 +129,7 @@ class ImportCollection < ApplicationRecord
 
       # Iterate over all fields and/or values selected for this value
 
+
       field_value_indexes = 0
 
       Rails.logger.debug "Key: #{key}"
@@ -173,62 +174,18 @@ class ImportCollection < ApplicationRecord
 
           # Get current value: preparing object
 
-          if complex_association
-            unless parameters[property]
-              parameters[property] = { 7382983741 => {fieldname => nil}}
-            end
-            current_value = parameters[property][7382983741][fieldname]
-          else
-            if has_many_association and !parameters[property]
-              parameters[property] = [ ]
-            end
-            current_value = parameters[property]
-          end
-
           # Get the value from the table
 
-          corresponding_value = nil
-          corresponding_table_value = table_values[index]
-          if association and !complex_association
-            corresponding_value = association.find_by_name(corresponding_table_value)
-            corresponding_value = corresponding_value.id if corresponding_value
-          else
-            corresponding_value = corresponding_table_value
-          end
-
-          # Think of new value
-          new_value = nil
-          if association and !complex_association and has_many_association
-            if assign_strategy == :replace
-              new_value = [corresponding_value].compact
-            else
-              new_value = ([current_value] + [corresponding_value]).flatten.compact
-            end
-          elsif association and !complex_association and !has_many_association
-            new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
-          else
-            if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
-              corresponding_value = corresponding_value.to_s.tr(",",".")
-            end
-            if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
-              new_value = corresponding_value
-            else
-              separator = " "
-              if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""
-                separator = "; "
-              end
-              new_value = current_value ? "#{current_value}#{separator}#{corresponding_value}" : corresponding_value
-            end
-          end
-
-          Rails.logger.debug "  new_value: #{new_value}"
+          current_value = get_current_value(field_props, parameters)
+          parsed_value = parse_table_value(field_props, table_values[index])
+          new_object_value = generate_new_value(field_props, assign_strategy, parsed_value, current_value)
 
           # Set the new value
 
           if complex_association
-            parameters[property][7382983741][fieldname] = new_value
+            parameters[property][7382983741][fieldname] = new_object_value
           else
-            parameters[property] = new_value
+            parameters[property] = new_object_value
           end
 
         end
@@ -262,6 +219,74 @@ class ImportCollection < ApplicationRecord
     end
 
     return new_obj
+  end
+
+  private
+
+  def get_current_value(field_props, parameters)
+    property = field_props[:property]
+    fieldname = field_props[:fieldname]
+    has_many_association = field_props[:has_many_association]
+    complex_association = field_props[:complex_association]
+    if complex_association
+      unless parameters[property]
+        parameters[property] = { 7382983741 => {fieldname => nil}}
+      end
+      return parameters[property][7382983741][fieldname]
+    else
+      if has_many_association and !parameters[property]
+        parameters[property] = [ ]
+      end
+      return parameters[property]
+    end
+  end
+
+  def parse_table_value(field_props, table_value)
+    association = field_props[:association]
+    complex_association = field_props[:complex_association]
+    if association and !complex_association
+      corresponding_value = association.find_by_name(table_value)
+      corresponding_value = corresponding_value.id if corresponding_value
+      return corresponding_value
+    else
+      return table_value
+    end
+  end
+
+  def generate_new_value(field_props, assign_strategy, corresponding_value, current_value)
+    association = field_props[:association]
+    has_many_association = field_props[:has_many_association]
+    complex_association = field_props[:complex_association]
+    fieldname = field_props[:fieldname]
+    objekt = field_props[:objekt]
+    field_type = field_props[:field_type]
+
+    # Think of new value
+    new_value = nil
+    if association and !complex_association and has_many_association
+      if assign_strategy == :replace
+        new_value = [corresponding_value].compact
+      else
+        new_value = ([current_value] + [corresponding_value]).flatten.compact
+      end
+    elsif association and !complex_association and !has_many_association
+      new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
+    else
+      if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
+        corresponding_value = corresponding_value.to_s.tr(",",".")
+      end
+      if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
+        new_value = corresponding_value
+      else
+        separator = " "
+        if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""
+          separator = "; "
+        end
+        new_value = current_value ? "#{current_value}#{separator}#{corresponding_value}" : corresponding_value
+      end
+    end
+
+    new_value
   end
 
   class << self
