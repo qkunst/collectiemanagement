@@ -80,7 +80,6 @@ end
 gem 'simple_form'
 gem 'kramdown' # parsing markdown
 
-
 ##
 ## STYLING
 ##
