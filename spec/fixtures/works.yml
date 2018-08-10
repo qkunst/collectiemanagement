@@ -8,6 +8,7 @@ work1:
   subset: :contemporary
   collection: :collection_with_works
   cluster: :cluster1
+  created_by: :admin
   artists:
     - :artist1
 work2:
@@ -20,6 +21,7 @@ work2:
   subset: :modern
   collection: :collection_with_works
   cluster: :cluster2
+  created_by: :admin
   artists:
     - :artist2
     - :artist_no_name

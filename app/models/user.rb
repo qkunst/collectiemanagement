@@ -11,6 +11,8 @@ class User < ApplicationRecord
   store :collection_accessibility_serialization
   store :filter_params
 
+  after_update :schedule_sync_stored_user_names
+
   has_and_belongs_to_many :collections
 
   scope :admin, ->{ where(admin: true) }
@@ -92,6 +94,10 @@ class User < ApplicationRecord
     self.api_key = SecureRandom.hex(64)
   end
 
+  def schedule_sync_stored_user_names
+    UpdateCachedUserNamesJob.perform_later(self) if saved_change_to_attribute?(:name)
+  end
+
   def can_access_message? message=nil
     admin? or (message &&
       message.from_user == self ||
@@ -147,6 +153,10 @@ class User < ApplicationRecord
     }
     self.filter_params = {}.merge(group_sorting_and_display)
     self.save
+  end
+
+  def works_created
+    Work.where(created_by_id: self.id)
   end
 
   private

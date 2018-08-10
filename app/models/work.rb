@@ -11,6 +11,7 @@ class Work < ApplicationRecord
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
   before_save :enforce_nil_or_true
+  before_save :update_created_by_name
   after_save :touch_collection!
   after_save :update_artist_name_rendered!
 

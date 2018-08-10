@@ -85,9 +85,30 @@ RSpec.describe User, type: :model do
         expect(u.role).to eq(:admin)
       end
     end
+    describe "#works_created" do
+      it "should count 2 for admin" do
+        u = users(:admin)
+        expect(u.works_created.count).to eq(2)
+      end
+    end
   end
   describe "Class methods" do
   end
   describe "Scopes" do
+  end
+  describe "Callbacks" do
+    describe "name change should result in name changes with work" do
+      it "should change" do
+        u = users(:admin)
+        w = collections(:collection1).works.create(created_by: u)
+        expect(w.created_by_name).to eq("Administrator")
+        u.name = "Administrateur"
+        u.save
+        sleep(0.1)
+        w.reload
+        expect(w.created_by_name).to eq("Administrateur")
+
+      end
+    end
   end
 end
