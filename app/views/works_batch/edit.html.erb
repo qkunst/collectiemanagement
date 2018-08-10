@@ -24,6 +24,8 @@
   <% when :collection %>
     <%= f.association :collection, collection: Collection.all, input_html: {class: 'chosen-select'} %>
     <p>Let op: als je de collectie aanpast kan het zijn dat de werken verwijzen naar thema's en clusters die niet meer beschikbaar zijn binnen die collectie. </p>
+  <% when :placeability %>
+    <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>
   <% when :themes %>
     <%= f.association :themes, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
     <% update_and_add = true %>
