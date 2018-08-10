@@ -23,7 +23,6 @@ var FormStore = {
     validationErrorsOccurred: "Niet alle velden zijn juist ingevuld, controleer de invoer."
   },
   heartBeatSpacing: 1000,
-  heartBeatLastSentAt: null,
   signInMatcher: /sign_in/,
   fireEvent: function(name, data) {
     var e = document.createEvent("Event");
@@ -31,37 +30,37 @@ var FormStore = {
     e.data = data;
     window.dispatchEvent(e);
   },
+  bodyElem: function() {
+    return document.getElementsByTagName("body")[0];
+  },
   setBodyTagOnline: function() {
-    var elem = document.getElementsByTagName("body")[0]
-    elem.classList.remove("offline");
-    elem.classList.add("online");
+    var classList = FormStore.bodyElem().classList;
+    classList.remove("offline");
+    classList.add("online");
   },
   setBodyTagOffline: function() {
-    var elem = document.getElementsByTagName("body")[0]
-    elem.classList.remove("online");
-    elem.classList.add("offline");
+    var classList = FormStore.bodyElem().classList;
+    classList.remove("online");
+    classList.add("offline");
   },
+  checkOnlineStateTimer: null,
   checkOnlineState: function() {
-    if (!FormStore.heartBeatLastSentAt || ((Date.now() - FormStore.heartBeatLastSentAt) > FormStore.heartBeatSpacing) ) {
-      FormStore.heartBeatLastSentAt = Date.now();
-      if (window.navigator.onLine) {
-        if (FormStore.online !== true) {
-          FormStore.fireEvent("connectionBackOnline");
-        }
-        FormStore.setBodyTagOnline();
-        FormStore.online = true;
-      } else {
-        if (FormStore.online !== false) {
-          FormStore.fireEvent("connectionWentOffline");
-        }
-
-        FormStore.setBodyTagOffline();
-
-        FormStore.online = false;
+    if (window.navigator.onLine) {
+      if (!FormStore.online) {
+        FormStore.fireEvent("connectionBackOnline");
       }
-      setTimeout(function() {
+      FormStore.online = true;
+    } else {
+      if (FormStore.online !== false) {
+        FormStore.fireEvent("connectionWentOffline");
+      }
+      FormStore.online = false;
+    }
+    if (!FormStore.checkOnlineStateTimer) {
+      FormStore.checkOnlineStateTimer = setTimeout(function() {
+        FormStore.checkOnlineStateTimer = null;
         FormStore.checkOnlineState();
-      }, 10000);
+      }, FormStore.heartBeatSpacing);
     }
   },
   online: null,
@@ -230,7 +229,6 @@ var FormStore = {
     storeForm: function() {
       var rest_method = this.data["_method"] ? this.data["_method"] : "new"
       var key = ""+this.url+"#"+rest_method+"@"+FormStore.Store.lastStoreIndex();
-      // console.log("Storing form under "+key);
       return FormStore.Store.store(key,this);
     },
 
@@ -244,10 +242,8 @@ var FormStore = {
         elem_i = parseInt(elem_key);
         if ((typeof elem_i === 'number') && elem_i != NaN ) {
           var element = form.elements[elem_key];
-          if (element.type === "checkbox" || element.type === "radio") {
-            if (element.checked) {
-              oDataParsed[element.name] = element.value;
-            }
+          if ((element.type === "checkbox" || element.type === "radio") && element.checked) {
+            oDataParsed[element.name] = element.value;
           } else if (element.multiple) {
             selected = Array.prototype.filter.apply(
               element.options, [
@@ -257,13 +253,8 @@ var FormStore = {
               ]
             );
             oDataParsed[element.name] = selected.map(function(a){return a.value});;
-          } else if (element.type === 'file') {
-            if (element.value) {
-              has_files = true
-              // TODO: store it as Base64? Not sure whether this is feasible due to size limits of local store (5MB)
-              // var file_data;
-              // reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-            }
+          } else if (element.type === 'file' && element.value) {
+            has_files = true
           } else {
             oDataParsed[element.name] = element.value;
           }
@@ -281,8 +272,24 @@ var FormStore = {
       return (FormStore.DataContainer(untaggedObj));
     }
   },
-
-
+  BackgroundSubmit: {
+    submitHandler: function(e) {
+      if (e.target.type == 'submit' && e.target.classList.contains("no-reload") && (e.type == 'click' || e.type == 'touchend' || e.key == 'Enter')) {
+        var target = e.target
+        e.preventDefault();
+        f = FormStore.Form.parseForm(target.form);
+        console.log(f);
+        f.submitForm({no_reload:true});
+        document.location = (""+document.location).split("#")[0] + "#new_work"
+        return false;
+      }
+    },
+    init: function() {
+      document.addEventListener('click', FormStore.BackgroundSubmit.submitHandler);
+      document.addEventListener('keydown', FormStore.BackgroundSubmit.submitHandler);
+      document.addEventListener('touchend', FormStore.BackgroundSubmit.submitHandler);
+    }
+  },
   DataContainer: function(options){
     this.method = options['method'];
     this.action = options['action'];
@@ -315,14 +322,12 @@ var FormStore = {
         if (onFail) onFail(source);
         return;
       }, timeout);
-
       oReq.open(method, loc, true);
       oReq.onload = function(oEvent) {
         if (oReq.status === 200 && !FormStore.signInMatcher.exec(oReq.responseURL)) {
           clearTimeout(noResponseTimer);
           FormStore.fireEvent("connectionSuccess", {request: oReq, source: source});
           if (onSuccess) onSuccess(source);
-          // fallback to loc is provided for browsers that do not support oReq.responseURL (looking at you IE11)
           if (redirectOnSuccess && !background) document.location = (oReq.responseURL || loc);
         } else {
           FormStore.fireEvent("connectionError", {request: oReq, source: source});
@@ -354,90 +359,51 @@ var FormStore = {
       });
     }
   },
-  addListeners: function() {
-    document.addEventListener("ready", function(e) {
-      FormStore.setBodyTagOnline();
-    });
-    // window.addEventListener("connectionError", function(e) {
-    // });
-    // window.addEventListener("connectionSuccess", function(e) {
-    // });
-    // window.addEventListener("connectionTimeout", function(e) {
-    // });
-    window.addEventListener("connectionWentOffline", function(e) {
+  EventHandlers: {
+    connectionOfflineHandler: function(e) {
       console.log("triggered: connectionWentOffline");
       FormStore.setBodyTagOffline();
-    });
-    window.addEventListener("connectionBackOnline", function(e) {
+    },
+    connectionOnlineHandler: function(e) {
+      console.log("triggered: connectionBackOnline");
       FormStore.setBodyTagOnline();
       FormStore.retryStoredForms();
-    });
+    },
+    offlineFormSubmitHandler: function(e) {
+      var form = e.target;
+      if (!form.dataset.offline) return true;
 
-
-  },
-  init: function() {
-    if (navigator.userAgent.search(/Trident/) > 0 && navigator.userAgent.search(/rv:11/) > 0) {
-      // no support for IE 11
-      return false;
-    }
-
-    FormStore.checkOnlineState();
-
-    for (var i=0; i<document.forms.length; i++){
-      var form = document.forms[i];
-      for (var j=0; j<form.elements.length; j++){
-        var element = form.elements[j];
-        element.addEventListener('blur', function(e) {
-          e.target.classList.add("blurred");
-        })
-      }
-
-      var backgroundFormSubmit = function(e) {
-        var target = e.target
-        var continue_submit = true;
-        if (target.dataset.skipConfirm !== "true" || target.dataset.skipConfirm !== true) {
-           continue_submit = confirm(target.dataset.confirm);
-        }
-        e.preventDefault();
-        if (continue_submit || target.dataset.skipConfirm === "true" || target.dataset.skipConfirm === true) {
-          f = FormStore.Form.parseForm(target.form);
-          f.submitForm({no_reload:true});
-          document.location = (""+document.location).split("#")[0] + "#new_work"
-        } else {
-          old_value = target.value;
-          target.dataset.skipConfirm = true;
-          target.value = old_value + " ("+FormStore.translation.pressAgainToTryAgain+")"
-          setTimeout(function(){
-            target.value = old_value;
-            target.dataset.skipConfirm = false;
-          }, 3000)
-        }
+      e.preventDefault();
+      if (!e.target.checkValidity()) {
+        alert(FormStore.translation.validationErrorsOccurred)
         return false;
       }
 
-      $(form).find('[type=submit].no-reload').on("click keydown",backgroundFormSubmit);
-
-      if (form && form.dataset && typeof form.dataset.offline !== 'undefined') {
-        form.addEventListener("submit", function(e){
-          e.preventDefault();
-          if (e.target.checkValidity()) {
-            f = FormStore.Form.parseForm(e.target);
-            if (f.has_files && FormStore.online) {
-              e.target.submit();
-            } else if (f.has_files && !FormStore.online) {
-              alert(FormStore.translation.filesCannotBeStoredOffline)
-              f.submitForm();
-            } else {
-              f.submitForm();
-            }
-          } else {
-            alert(FormStore.translation.validationErrorsOccurred)
-          }
-          return false;
-        });
+      f = FormStore.Form.parseForm(form);
+      if (FormStore.online) {
+        f.has_files ? form.submit() : f.submitForm();
+      } else {
+        if (f.has_files) alert(FormStore.translation.filesCannotBeStoredOffline);
+        f.submitForm();
       }
+      return false;
+    }
+  },
+  addListeners: function() {
+    window.addEventListener("connectionWentOffline", FormStore.EventHandlers.connectionOfflineHandler );
+    window.addEventListener("connectionBackOnline", FormStore.EventHandlers.connectionOnlineHandler );
+    document.addEventListener("submit", FormStore.EventHandlers.offlineFormSubmitHandler);
+  },
+  supportedBrowser: function() {
+    return !(navigator.userAgent.search(/Trident/) > 0 && navigator.userAgent.search(/rv:11/) > 0)
+  },
+
+  init: function() {
+    if (!FormStore.supportedBrowser()) {
+      return false;
     }
     FormStore.addListeners();
-
+    FormStore.checkOnlineState();
+    FormStore.BackgroundSubmit.init();
   }
 };
