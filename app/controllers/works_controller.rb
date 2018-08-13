@@ -59,6 +59,8 @@ class WorksController < ApplicationController
 
     @works = @works.published if params[:published]
 
+    @cleaned_params = params.to_unsafe_h.merge(cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil}) )
+
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.html {
