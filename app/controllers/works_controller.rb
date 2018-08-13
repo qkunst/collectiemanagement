@@ -23,12 +23,11 @@ class WorksController < ApplicationController
     set_selection_sort
     set_selection_display
     set_selection_group_options
+    set_selection_display_options
 
     @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count
 
-    @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
-    @selection_display_options["Compleet"] = :complete unless current_user.read_only?
 
     @filter_localities = []
     @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
@@ -197,7 +196,7 @@ class WorksController < ApplicationController
     set_selection :sort, [:stock_number, :artist_name]
   end
   def set_selection_display
-    set_selection :display, [:compact, :detailed, :complete]
+    set_selection :display, [:compact, :detailed, :complete, :limited, :limited_auction]
   end
 
   def set_selection_group_options
@@ -214,6 +213,15 @@ class WorksController < ApplicationController
     @selection_group_options = {}
     proto_selection_group_options.each do |k,v|
       @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
+    end
+  end
+
+  def set_selection_display_options
+    @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
+    @selection_display_options["Compleet"] = :complete unless current_user.read_only?
+    if current_user.qkunst?
+      @selection_display_options["Beperkt"] = :limited
+      @selection_display_options["Veilinghuis"] = :limited_auction
     end
   end
 

@@ -1,0 +1,15 @@
+<div class="detailed_data row">
+  <div class="medium-12 columns">
+  <%= definition_list_for work, {render_as: :table} do %>
+    <%= define_unless_blank :object_creation_year, description: 'Datering' %>
+    <%= define_unless_blank :object_categories, {human_attributize_value: true} %>
+    <%= define_unless_blank :techniques %>
+    <%= define_unless_blank :medium, {classname: :complete_data} %>
+    <% if @selection[:display] == :limited_auction %>
+      <%= define_unless_blank :signature_rendered  %>
+      <%= define_unless_blank :condition_work_rendered %>
+      <%= define_unless_blank :condition_frame_rendered %>
+    <% end %>
+  <% end %>
+  </div>
+</div>

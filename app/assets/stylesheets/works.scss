@@ -132,14 +132,34 @@
   }
 }
 
+.limited.work.panel, .limited_auction.work.panel {
+  width: 100%;
+  height: auto;
+  margin: 0 0 1em 0;
+  .image {
+    width: 33%;
+    height: auto;
+    min-height: 1em;
+    float: left;
+    border-bottom: 0;
+    img {
+      max-height: 16em;
+
+    }
+  }
+  .data {
+    float: left;
+    width: 67%;
+    padding-left: 1em;
+  }
+}
+
 
 .detailed_data, .complete_data {
-  display: none;
   table {
     width: 100%;
     float: left;
     overflow: hidden;
-//    display: block;
     margin: 1em 0;
     border: 0;
     border-collapse: collapse;
@@ -176,7 +196,9 @@
     }
   }
 }
-.complete_data {
+
+body.compact .complete_data,
+body.compact .detailed_data {
   display: none;
 }
 
