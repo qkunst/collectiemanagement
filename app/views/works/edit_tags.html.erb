@@ -4,6 +4,7 @@
 <%= image_tag(@work.photo_front.screen, style: "margin-bottom: 1em; ") %>
 <%= simple_form_for([@collection,@work]) do |f| %>
 <div  style="margin-bottom: 8em">
+  <input type="hidden" name="work[tag_list][]" value=""/>
   <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]">
     <% @work.tags.each do |tag|%>
       <option selected="selected" value="<%=tag.name%>"><%=tag.name%></option>
