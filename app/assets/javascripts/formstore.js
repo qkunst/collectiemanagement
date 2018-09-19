@@ -242,8 +242,10 @@ var FormStore = {
         elem_i = parseInt(elem_key);
         if ((typeof elem_i === 'number') && elem_i != NaN ) {
           var element = form.elements[elem_key];
-          if ((element.type === "checkbox" || element.type === "radio") && element.checked) {
-            oDataParsed[element.name] = element.value;
+          if (element.type === "checkbox" || element.type === "radio") {
+            if (element.checked) {
+              oDataParsed[element.name] = element.value;
+            }
           } else if (element.multiple) {
             selected = Array.prototype.filter.apply(
               element.options, [
@@ -253,8 +255,10 @@ var FormStore = {
               ]
             );
             oDataParsed[element.name] = selected.map(function(a){return a.value});;
-          } else if (element.type === 'file' && element.value) {
-            has_files = true
+          } else if (element.type === 'file') {
+            if (element.value) {
+              has_files = true;
+            }
           } else {
             oDataParsed[element.name] = element.value;
           }
@@ -381,7 +385,7 @@ var FormStore = {
 
       f = FormStore.Form.parseForm(form);
       if (FormStore.online) {
-        f.has_files ? form.submit() : f.submitForm();
+        form.submit();
       } else {
         if (f.has_files) alert(FormStore.translation.filesCannotBeStoredOffline);
         f.submitForm();
