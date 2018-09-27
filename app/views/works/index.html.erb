@@ -1,4 +1,4 @@
-<h1>Collectie <%= @collection.name %></h1>
+<h1 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h1>
 
   <p id="offline" class="callout alert hide-for-print"></p>
 
@@ -7,7 +7,7 @@
       <input type="hidden" name="max_index" value="<%=@max_index%>" />
       <input type="hidden" name="no_child_works" value="<%=@no_child_works ? 1 : 0%>" />
 
-    <div class="large-5 columns print-12">
+    <div class="large-5 columns print-12<%= " hide-for-print" if @limit_collection_information%>">
       <p>Deze
         <% if @collection_works_count > @works_count %> (gefilterde) <% end %>
         collectie <% unless @selection[:group] == :no_grouping%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
@@ -87,8 +87,9 @@
     <% end #formtag /works?q... %>
     <%= form_tag collection_works_batch_edit_path, method: :post do %>
     <div class="large-10 medium-10 columns print-12" id="works-list">
+      <div class="<%= "hide-for-print" if @limit_collection_information%>">
       <%= kramdown( @collection.description) %>
-
+      </div>
       <% if defined?(@works_grouped) %>
         <% if @works_grouped[nil] %>
           <% works = @works_grouped[nil] %>
