@@ -5,6 +5,7 @@
     <%= define_unless_blank :object_categories, {human_attributize_value: true} %>
     <%= define_unless_blank :techniques %>
     <%= define_unless_blank :medium, {classname: :complete_data} %>
+    <%= define_unless_blank :frame_size_with_fallback%>
     <% if @selection[:display] == :limited_auction %>
       <%= define_unless_blank :signature_rendered  %>
       <%= define_unless_blank :condition_work_rendered %>

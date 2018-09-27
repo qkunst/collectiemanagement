@@ -240,6 +240,7 @@ nl:
         frame_diameter: Diameter lijst (cm)
         frame_height: Hoogte lijst (cm)
         frame_size: Lijstafmetingen (cm)
+        frame_size_with_fallback: Afmetingen (cm)
         frame_type: Lijsttype
         frame_width: Breedte lijst (cm)
         grade_within_collection: Niveau binnen collectie

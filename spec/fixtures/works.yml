@@ -9,6 +9,8 @@ work1:
   collection: :collection_with_works
   cluster: :cluster1
   created_by: :admin
+  frame_height: 50
+  frame_width: 100
   artists:
     - :artist1
 work2:

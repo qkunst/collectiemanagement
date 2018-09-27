@@ -199,12 +199,27 @@ RSpec.describe Work, type: :model do
     end
     describe "#object_format_code" do
       it "should return proper format code" do
-        expect(works(:work1).object_format_code).to eq(nil)
-        w = works(:work1)
+        expect(works(:work2).object_format_code).to eq(nil)
+        w = works(:work2)
         w.height = 200
         expect(w.object_format_code).to eq(:xl)
         w.height = 90
         expect(w.object_format_code).to eq(:l)
+      end
+    end
+    describe "#frame_size_with_fallback" do
+      it "should return frame size by default" do
+        expect(works(:work1).frame_size_with_fallback).to eq(works(:work1).frame_size)
+        expect(works(:work2).frame_size_with_fallback).to eq(nil)
+        # expect(works(:work2).frame_size_with_fallback).to eq(works(:work2).frame_size)
+      end
+      it "should return work size if frame size is not present" do
+        w = works(:work2)
+        w.height = 90
+        w.width = 180
+        expect(works(:work2).frame_size_with_fallback).not_to eq(nil)
+        expect(works(:work2).frame_size_with_fallback).to eq("180 × 90 (b×h)")
+
       end
     end
     describe "#save" do
@@ -272,24 +287,24 @@ RSpec.describe Work, type: :model do
     end
     describe ".whd_to_s" do
       it "should render nil if all are nil" do
-        expect(Work.new.whd_to_s).to eq("")
+        expect(Work.new.whd_to_s).to eq(nil)
       end
       it "should render w x h x d if set" do
-        expect(Work.new.whd_to_s(1, 2, 3)).to eq("1 x 2 x 3 (bxhxd)")
+        expect(Work.new.whd_to_s(1, 2, 3)).to eq("1 × 2 × 3 (b×h×d)")
       end
       it "should round w x h x d" do
-        expect(Work.new.whd_to_s(1.002345, 2.2323543, 3.777777)).to eq("1,0023 x 2,2324 x 3,7778 (bxhxd)")
+        expect(Work.new.whd_to_s(1.002345, 2.2323543, 3.777777)).to eq("1,0023 × 2,2324 × 3,7778 (b×h×d)")
       end
       it "should add diameter if set" do
-        expect(Work.new.whd_to_s(1, 2, 3, 4)).to eq("1 x 2 x 3 (bxhxd); ⌀ 4")
+        expect(Work.new.whd_to_s(1, 2, 3, 4)).to eq("1 × 2 × 3 (b×h×d); ⌀ 4")
       end
       it "should add diameter if set" do
-        expect(Work.new.whd_to_s(1, nil, 3, 4)).to eq("1 x 3 (bxd); ⌀ 4")
+        expect(Work.new.whd_to_s(1, nil, 3, 4)).to eq("1 × 3 (b×d); ⌀ 4")
       end
     end
     describe ".frame_size" do
       it "should use whd_to_s" do
-        expect(Work.new(frame_width: 1, frame_height: nil, frame_depth: 3, frame_diameter: 4).frame_size).to eq("1 x 3 (bxd); ⌀ 4")
+        expect(Work.new(frame_width: 1, frame_height: nil, frame_depth: 3, frame_diameter: 4).frame_size).to eq("1 × 3 (b×d); ⌀ 4")
       end
     end
     describe ".to_workbook" do
