@@ -234,7 +234,7 @@ GEM
       sprockets-rails (>= 2.0.0)
     rails-assets-Stickyfill (1.1.4)
     rails-assets-chosen (1.8.7)
-    rails-assets-fetch (3.0.0)
+    rails-assets-fetch (2.0.4)
     rails-assets-jquery (3.3.1)
     rails-assets-morphdom (2.3.2)
     rails-assets-select2 (4.0.5)
@@ -345,7 +345,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.18)
+    uglifier (4.1.19)
       execjs (>= 0.3.0, < 3)
     uniform_notifier (1.11.0)
     warden (1.2.7)
@@ -417,7 +417,7 @@ DEPENDENCIES
   rails
   rails-assets-Stickyfill (~> 1.1)!
   rails-assets-chosen!
-  rails-assets-fetch!
+  rails-assets-fetch (= 2.0.4)!
   rails-assets-jquery!
   rails-assets-morphdom!
   rails-assets-select2!
