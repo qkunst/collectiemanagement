@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature "UserCanEditTags", type: :feature do
-  scenario "facility" do
+  scenario "admin" do
     visit root_path
     first(".large-12.columns .button").click
     fill_in("E-mailadres", with: "qkunst-admin-user@murb.nl")

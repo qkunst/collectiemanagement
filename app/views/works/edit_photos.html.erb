@@ -2,10 +2,10 @@
 <h1>Beheer foto's</h1>
 <p>Beheer foto's van <%= @work.stock_number%> <%= @work.name%></p>
 <%= simple_form_for([@collection,@work]) do |f| %>
-  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_front.thumb) %></div><%= f.input :photo_front  %></div>
-  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_back.thumb) %></div><%= f.input :photo_back  %></div>
-  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_1.thumb) %></div><%= f.input :photo_detail_1  %></div>
-  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_2.thumb) %></div><%= f.input :photo_detail_2  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_front.url :thumb) if @work.photo_front? %></div><%= f.input :photo_front  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_back.url :thumb) if @work.photo_back? %></div><%= f.input :photo_back  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_1.url :thumb) if @work.photo_detail_1? %></div><%= f.input :photo_detail_1  %></div>
+  <div class="image_upload"><div class="image"><%= image_tag(@work.photo_detail_2.url :thumb) if @work.photo_detail_2? %></div><%= f.input :photo_detail_2  %></div>
   <div class="row columns">
   <% if @work.id %>
   <label style="float: left; clear: both; width: 100%"><%= check_box_tag 'submit_and_edit_photos_in_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
