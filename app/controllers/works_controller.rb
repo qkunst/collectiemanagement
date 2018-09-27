@@ -58,6 +58,7 @@ class WorksController < ApplicationController
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
 
     @works = @works.published if params[:published]
+    @works.includes(:collection)
 
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 

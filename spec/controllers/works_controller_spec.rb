@@ -9,14 +9,14 @@ RSpec.describe WorksController, type: :controller do
 
       c = collections(:collection1)
       get :index, params: {collection_id: c.id}
-      expect(response).to be_success
+      expect(response).to be_successful
     end
     it "should be able to get an index als xlsx" do
       sign_in users(:admin)
 
       c = collections(:collection1)
       get :index, params: {collection_id: c.id, format: :xlsx}
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
