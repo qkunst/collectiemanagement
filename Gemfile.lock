@@ -430,7 +430,7 @@ DEPENDENCIES
   spring-watcher-listen
   therubyracer
   turbolinks
-  uglifier (= 4.1.18)
+  uglifier
   web-console
   workbook
   zipline
