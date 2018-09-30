@@ -1,8 +1,8 @@
 <%
 @selection ||= {display: :compact}
 %>
-<div class="panel work<%=' external_inventory' if work.external_inventory?%>">
-  <% cache_if((work.id and work.updated_at < 1.minute.ago), work.cache_key( [@selection[:display], @show_work_checkbox, (@selection_filter ? @selection_filter["geoname_ids"] : nil), current_user.role]  )) do %>
+<div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@selection[:display]%>">
+  <% cache_if((work.id and work.updated_at < 1.minute.ago), work.cache_key( [1,@selection[:display], @show_work_checkbox, (@selection_filter ? @selection_filter["geoname_ids"] : nil), current_user.role]  )) do %>
     <%= link_to [work.collection, work].compact, class: :block do %>
       <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async') if work.photo_front? %></div>
     <% end %>
@@ -21,9 +21,16 @@
           <h4><%= work.title_rendered%></h4>
 
           <p><%= work.description%></p>
-          <% if @selection[:display] != :compact %>
-            <%= render :partial => 'works/work_detailed_data', locals: {work: work} %>
-          <% end %>
+          <%=
+          case @selection[:display]
+          when :compact
+            ""
+          when :complete, :detailed
+            render :partial => 'works/work_detailed_data', locals: {work: work}
+          when :limited, :limited_auction
+            render :partial => 'works/work_limited_data', locals: {work: work}
+          end
+          %>
         <% end %>
       </div>
   <% end %>

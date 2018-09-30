@@ -24,7 +24,7 @@ RSpec.describe ClustersController, type: :controller do
       sign_in users(:admin)
       cluster = Cluster.create! valid_attributes
       get :index, params: {collection_id: collections(:collection3).id}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe ClustersController, type: :controller do
       sign_in users(:admin)
       cluster = Cluster.create! valid_attributes
       get :show, params: {id: cluster.to_param, collection_id: collections(:collection3).id }, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe ClustersController, type: :controller do
     it "returns a success response" do
       sign_in users(:admin)
       get :new, params: {collection_id: collections(:collection3).id}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe ClustersController, type: :controller do
       sign_in users(:admin)
       cluster = Cluster.create! valid_attributes
       get :edit, params: {id: cluster.to_param, collection_id: collections(:collection3).id}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe ClustersController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         sign_in users(:admin)
         post :create, params: {cluster: invalid_attributes, collection_id: collections(:collection3).id}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -106,7 +106,7 @@ RSpec.describe ClustersController, type: :controller do
         sign_in users(:admin)
         cluster = Cluster.create! valid_attributes
         put :update, params: {id: cluster.to_param, collection_id: collections(:collection3).id, cluster: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

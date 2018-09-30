@@ -79,7 +79,7 @@
         <div class="medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'}, collection: FrameDamageType.not_hidden ) %></div>
         <div class="medium-6 columns"><%= f.input :condition_frame_comments  %></div>
       </div>
-      <%= f.association( :placeability, input_html: {class: 'chosen-select'})  %>
+      <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>
     </fieldset>
     <fieldset>
       <legend>Overig</legend>

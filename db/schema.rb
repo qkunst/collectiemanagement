@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180809110105) do
+ActiveRecord::Schema.define(version: 20180810130900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -601,6 +601,7 @@ ActiveRecord::Schema.define(version: 20180809110105) do
     t.integer "purchase_year"
     t.integer "frame_type_id"
     t.integer "owner_id"
+    t.string "created_by_name"
   end
 
 end

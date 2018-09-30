@@ -114,15 +114,16 @@ module Work::ParameterRerendering
     end
     def whd_to_s width=nil, height=nil, depth=nil, diameter=nil
       whd_values = [width, height, depth].collect{|a| dimension_to_s(a)}.compact
-      rv = whd_values.join(" x ")
+      rv = whd_values.join(" × ")
       if whd_values.count > 0
         legend = []
         legend << "b" unless width.to_s == ""
         legend << "h" unless height.to_s == ""
         legend << "d" unless depth.to_s == ""
-        rv = "#{rv} (#{legend.join("x")})"
+        rv = "#{rv} (#{legend.join("×")})"
       end
       rv = [rv, "⌀ #{dimension_to_s(diameter)}"].compact.join("; ") if dimension_to_s(diameter)
+      return nil if rv.empty?
       rv
     end
     def frame_size
@@ -132,6 +133,11 @@ module Work::ParameterRerendering
     def work_size
       whd_to_s(width, height, depth, diameter)
     end
+
+    def frame_size_with_fallback
+      frame_size || work_size
+    end
+
     def collection_name_extended
       self.collection.collection_name_extended
     end

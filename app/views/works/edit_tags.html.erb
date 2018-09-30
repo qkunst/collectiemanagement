@@ -1,7 +1,7 @@
 <div id="main">
 <h1>Beheer tags</h1>
 <p>Beheer tags voor <%= @work.stock_number%> <%= @work.name%></p>
-<%= image_tag(@work.photo_front.screen, style: "margin-bottom: 1em; ") %>
+<%= image_tag(@work.photo_front.url(:screen), style: "margin-bottom: 1em; ") if @work.photo_front?%>
 <%= simple_form_for([@collection,@work]) do |f| %>
 <div  style="margin-bottom: 8em">
   <input type="hidden" name="work[tag_list][]" value=""/>

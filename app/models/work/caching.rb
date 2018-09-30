@@ -31,6 +31,10 @@ module Work::Caching
       rv unless rv == ""
     end
 
+    def update_created_by_name
+      self.created_by_name = created_by.name if created_by
+    end
+
     def update_artist_name_rendered!
       self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true, join: " ||| "}))
     end

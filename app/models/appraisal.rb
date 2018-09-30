@@ -11,7 +11,7 @@ class Appraisal < ApplicationRecord
 
   accepts_nested_attributes_for :work
 
-  scope :descending_appraisal_on, -> { order("appraisals.appraised_on is null, appraisals.appraised_on desc, appraisals.id desc") }
+  scope :descending_appraisal_on, -> { order(Arel.sql("appraisals.appraised_on is null, appraisals.appraised_on desc, appraisals.id desc")) }
 
   def update_work_appraisal_data!
     if work

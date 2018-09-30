@@ -10,7 +10,7 @@
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav"><%= link_to "◀", [@collection, @work.previous] %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next] %></nav>
-    <p class="meta">Toegevoegd <%= "door #{@work.created_by.email}" if @work.created_by and current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, {format: :short}%></p>
+    <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, {format: :short}%></p>
   </div>
   <div class="large-12 columns">
     <p>
@@ -50,7 +50,7 @@
 <% else %>
   <div class="callout">
     <% if current_user.can_edit_photos? %>
-    <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto's toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
+    <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
     <% else %>
     <p>Er zijn aan dit werk nog geen foto's toegekend.</p>
     <% end %>

@@ -50,7 +50,7 @@ RSpec.describe CustomReportTemplatesController, type: :controller do
       sign_in users(:admin)
       custom_report_template = CustomReportTemplate.create! valid_attributes
       get :index, params: {}, session: valid_session
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -97,7 +97,7 @@ RSpec.describe CustomReportTemplatesController, type: :controller do
       it "returns a success response (i.e. to display the 'new' template)" do
         sign_in users(:admin)
         post :create, params: {custom_report_template: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -129,7 +129,7 @@ RSpec.describe CustomReportTemplatesController, type: :controller do
         sign_in users(:admin)
         custom_report_template = CustomReportTemplate.create! valid_attributes
         put :update, params: {id: custom_report_template.to_param, custom_report_template: invalid_attributes}, session: valid_session
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '<5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
+gem 'rails' #, '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -21,11 +21,11 @@ gem 'therubyracer', platforms: :ruby
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks' #, '~> 5.x'
+gem 'turbolinks' #, '5.1.1' #, '~> 5.x'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder' #, '~> 2.0'
 gem 'cancancan'
-
+gem 'bootsnap'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -54,8 +54,8 @@ gem 'attribute_normalizer' # keeps the database clean
 ## SEARCH
 ##
 
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
+gem 'elasticsearch-model', '~> 5'
+gem 'elasticsearch-rails', '~> 5'
 gem 'rspec-rails', group: [:development, :test]
 
 ##
@@ -96,6 +96,7 @@ gem 'workbook' #, git: 'https://github.com/murb/workbook.git'
 gem "nested_form"
 # gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
 gem 'paper_trail'#, '~>4.0.0.rc1'
+gem 'paper_trail-association_tracking'
 gem 'keyword_finder'
 gem 'daemons'
 gem 'delayed_job_active_record'
@@ -109,7 +110,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-jquery' #, '~>2.2'
   gem 'rails-assets-chosen'
   gem 'rails-assets-select2'
-  gem 'rails-assets-fetch'
+  gem 'rails-assets-fetch', '2.0.4'
   gem 'rails-assets-morphdom'
   gem 'rails-assets-Stickyfill', '~>1.1'
 end
