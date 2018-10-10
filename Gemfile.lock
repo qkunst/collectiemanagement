@@ -377,7 +377,7 @@ PLATFORMS
 
 DEPENDENCIES
   act_as_time_as_boolean
-  activerecord-session_store
+  activerecord-session_store (>= 1.1.1)
   acts-as-taggable-on
   attribute_normalizer
   bootsnap
@@ -388,52 +388,52 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rbenv
-  capybara
+  capybara (>= 3.8.2)
   carrierwave
   carrierwave-imageoptimizer
-  coffee-rails
+  coffee-rails (>= 4.2.2)
   daemons
   database_cleaner
   delayed_job_active_record
-  devise
+  devise (>= 4.5.0)
   elasticsearch-model (~> 5)
   elasticsearch-rails (~> 5)
-  exception_notification
-  foundation-rails (~> 6.3.0)
+  exception_notification (>= 4.2.2)
+  foundation-rails (~> 6.3.1, >= 6.3.1.0)
   jbuilder
-  jquery-rails
+  jquery-rails (>= 4.3.3)
   keyword_finder
   kramdown
   listen
-  markdown-rails
+  markdown-rails (>= 0.2.1)
   mini_magick
   nested_form
-  nokogiri
+  nokogiri (>= 1.8.5)
   paper_trail
   paper_trail-association_tracking
   pg (~> 0.21)
   puma
   rack-headers_filter
-  rails
+  rails (>= 5.2.1)
   rails-assets-Stickyfill (~> 1.1)!
   rails-assets-chosen!
   rails-assets-fetch (= 2.0.4)!
   rails-assets-jquery!
   rails-assets-morphdom!
   rails-assets-select2!
-  redis-rails
-  rspec-rails
-  sass-rails
-  simple_form
+  redis-rails (>= 5.0.2)
+  rspec-rails (>= 3.8.0)
+  sass-rails (>= 5.0.7)
+  simple_form (>= 4.0.1)
   simplecov
   spring
   spring-watcher-listen
   therubyracer
   turbolinks
   uglifier
-  web-console
-  workbook
-  zipline
+  web-console (>= 3.7.0)
+  workbook (>= 0.7.6)
+  zipline (>= 1.0.2)
 
 BUNDLED WITH
-   1.16.1
+   1.16.6
