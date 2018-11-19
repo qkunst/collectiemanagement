@@ -47,6 +47,8 @@ class Work < ApplicationRecord
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
 
+  validates_with Validators::CollectionScopeValidator
+
   acts_as_taggable
 
   normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail
@@ -103,13 +105,14 @@ class Work < ApplicationRecord
   end
 
   def cluster_name= name
-    if name == "" or name == nil
+    stripped_name = name.to_s.strip
+    if stripped_name == ""
       self.cluster = nil
     else
-      clust = self.collection.clusters_including_parent_clusters.find_by_case_insensitive_name(name.strip).first
+      clust = self.collection.available_clusters.find_by_case_insensitive_name(stripped_name).first
       self.cluster = clust
       if self.cluster.nil?
-        self.cluster = self.collection.clusters.new(name: name.strip)
+        self.cluster = self.collection.clusters.create!(name: stripped_name)
       end
     end
   end

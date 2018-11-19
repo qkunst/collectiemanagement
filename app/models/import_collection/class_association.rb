@@ -1,5 +1,5 @@
 class ImportCollection::ClassAssociation
-  attr_accessor :relation, :name, :class_name
+  attr_accessor :relation, :name, :class_name, :collection
 
   def initialize(options={})
     options.each do |k,v|
@@ -7,8 +7,12 @@ class ImportCollection::ClassAssociation
     end
   end
 
+  def scoped_klass
+    @scoped_klass ||= collection.methods.include?(:"available_#{name}") ? collection.send(:"available_#{name}") : class_name.constantize
+  end
+
   def klass
-    class_name.constantize
+    scoped_klass || class_name.constantize
   end
 
   def implements_find_by_name?

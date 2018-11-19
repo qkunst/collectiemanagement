@@ -31,6 +31,7 @@ class Collection < ApplicationRecord
   default_scope ->{order(:name)}
 
   scope :without_parent, ->{where(parent_collection_id: nil)}
+  scope :not_hidden, ->{ where("1=1")}
   has_and_belongs_to_many :stages
   has_many :collections_stages
   has_many :reminders
@@ -134,12 +135,16 @@ class Collection < ApplicationRecord
     works_including_child_works.each{|a| a.touch}
   end
 
-  def clusters_including_parent_clusters
-    Cluster.where(collection_id: id_plus_parent_ids)
+  def available_clusters
+    Cluster.for_collection(self)
   end
 
-  def owners_including_parent_owners
-    Owner.where(collection_id: id_plus_parent_ids)
+  def available_owners
+    Owner.for_collection(self)
+  end
+
+  def available_themes
+    Theme.for_collection_including_generic(self).not_hidden
   end
 
   def not_hidden_themes
@@ -187,10 +192,6 @@ class Collection < ApplicationRecord
       names << c.name if c
     end
     names.join(" » ")
-  end
-
-  def available_themes
-    (self_and_parent_collections_flattened.collect{|a| a.themes.not_hidden} + Theme.all.not_hidden.general).flatten.uniq.compact
   end
 
   def exposable_fields

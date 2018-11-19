@@ -2,7 +2,7 @@ class OwnersController < ApplicationController
   include BaseController
 
   def index
-    @owners = @collection.owners_including_parent_owners
+    @owners = @collection.available_owners
   end
 
   private

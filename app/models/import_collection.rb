@@ -78,7 +78,7 @@ class ImportCollection < ApplicationRecord
     field_type = :string
 
     if objekt == ImportCollection.import_type_symbolized.to_s
-      association = ImportCollection.find_import_association_by_name(fieldname.to_sym)
+      association = find_import_association_by_name(fieldname.to_sym)
       property = fieldname
       if association
         property = "#{property.to_s.singularize}_id"
@@ -93,7 +93,7 @@ class ImportCollection < ApplicationRecord
     else
       property = objekt
       # assuming association...
-      association = ImportCollection.find_import_association_by_name(objekt)
+      association = find_import_association_by_name(objekt)
       #has_many_association = association.has_many_and_maybe_belongs_to_many?
       property = property.pluralize# if has_many_association
       property = "#{property}_attributes"
@@ -113,8 +113,47 @@ class ImportCollection < ApplicationRecord
     collection.works.reindex!
   end
 
+  def find_keywords table_value, fields
+    if fields.count != 1
+      Rails.logger.warn "Keywords zoeken werkt alleen met 1 outputveld"
+    else
+      Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
+      analyzed_field_props = analyze_field_properties(fields.first)
+      association = analyzed_field_props[:association]
+      # p analyzed_field_props
+      if association and association.findable_by_name?
+        # p association.klass
+        options = association.klass.not_hidden.all
+        names = options.collect{|a| a.name.to_s.downcase}
+        keyword_finder = KeywordFinder::Keywords.new(names)
+        table_values = keyword_finder.find_in(table_value.to_s.downcase)
+        Rails.logger.debug "  find kerwords from string '#{table_value}' in: #{names.join(", ")}: #{table_values.join(", ")}"
+        return table_values
+      end
+    end
+  end
+
+  def lookup_artists! parameters
+    artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
+    if artist
+      parameters.delete("artists_attributes")
+      parameters[:artists] = [artist]
+    elsif "#{parameters["artists_attributes"][7382983741]["first_name"]}#{parameters["artists_attributes"][7382983741]["last_name"]}".strip.downcase == "onbekend"
+      parameters.delete("artists_attributes")
+      parameters["artist_unknown"] = true
+    elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
+      parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
+    end
+  end
+
+  def prevent_non_child_colection_association_on_import!(parameters, collection_to_test)
+    unless collection_to_test == collection or collection.child_collections_flattened.include?(collection_to_test)
+      parameters[:collection_id] = nil
+    end
+  end
+
   def process_table_data_row(row)
-    parameters = {}
+    parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     import_settings.each do |key, import_setting|
       next if row[key].nil?
@@ -129,58 +168,26 @@ class ImportCollection < ApplicationRecord
 
       # Iterate over all fields and/or values selected for this value
 
-
       field_value_indexes = 0
 
-      Rails.logger.debug "Key: #{key}"
-
       if fields.count > 0
-        if fields.count == 1 and split_strategy == :find_keywords
-          Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
-          analyzed_field_props = analyze_field_properties(fields.first)
-          association = analyzed_field_props[:association]
-          # p analyzed_field_props
-          if association and association.findable_by_name?
-            options = association.klass.not_hidden.all
-            names = options.collect{|a| a.name.to_s.downcase}
-            keyword_finder = KeywordFinder::Keywords.new(names)
-            search_string = table_values[1]
-            table_values = keyword_finder.find_in(search_string.to_s.downcase)
-            Rails.logger.debug "  find kerwords from string '#{search_string}' in: #{names.join(", ")}: #{table_values.join(", ")}"
-          end
-        elsif split_strategy == :find_keywords
-          Rails.logger.debug "Keywords zoeken werkt alleen met 1 outputveld"
+        if split_strategy == :find_keywords
+          table_values = find_keywords(table_values[1], fields)
         end
 
         field_value_indexes = [table_values.count, fields.count].max
 
         field_value_indexes.times do |index|
-          # puts index
           field = fields[index] ? fields[index] : fields.last
 
           field_props = analyze_field_properties(field)
 
           property = field_props[:property]
-          association = field_props[:association]
-          has_many_association = field_props[:has_many_association]
           complex_association = field_props[:complex_association]
           fieldname = field_props[:fieldname]
-          objekt = field_props[:objekt]
-          field_type = field_props[:field_type]
-
-          Rails.logger.debug "#{field} #{index}: #{property} (#{association.klass if association}) (has may? #{has_many_association}; copmlex? #{complex_association}, field_type: #{field_type})"
-
-          current_value = nil
-
-          # Get current value: preparing object
-
-          # Get the value from the table
-
-          current_value = get_current_value(field_props, parameters)
           parsed_value = parse_table_value(field_props, table_values[index])
+          current_value = get_current_value(field_props, parameters)
           new_object_value = generate_new_value(field_props, assign_strategy, parsed_value, current_value)
-
-          # Set the new value
 
           if complex_association
             parameters[property][7382983741][fieldname] = new_object_value
@@ -193,23 +200,21 @@ class ImportCollection < ApplicationRecord
     end
 
     parameters.merge!({
-      collection_id: collection.id,
       import_collection_id: self.id,
       imported_at: Time.now,
       external_inventory: self.external_inventory
     })
-    # prevent regeneration of artists
-    # raise parameters
-    artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
-    if artist
-      parameters.delete("artists_attributes")
-      parameters[:artists] = [artist]
-    elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
-      parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
-    end
+
+    parameters[:collection_id] ||= collection.id
+
+    prevent_non_child_colection_association_on_import!(parameters, Collection.find(parameters[:collection_id]))
+
+    lookup_artists!(parameters)
+
     new_obj = ImportCollection.import_type.new(parameters)
 
     Rails.logger.debug "  result: #{new_obj.inspect}"
+
     if !new_obj.valid?
       error_message = new_obj.errors.full_messages.to_sentence
       if new_obj.is_a? Work
@@ -289,9 +294,19 @@ class ImportCollection < ApplicationRecord
     new_value
   end
 
+  def import_associations
+    # scoped_class = collection.send(a.name)
+    @import_associations ||= ImportCollection.import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
+  end
+
+  def find_import_association_by_name(name)
+    import_associations.select{|a| a.name == name.to_sym}.first
+  end
+
+
   class << self
     def ignore_columns
-      ["id","created_at","updated_at","imported_at","collection_id", "created_by_id", "lognotes", "external_inventory"]
+      ["id","created_at","updated_at","imported_at", "created_by_id", "lognotes", "external_inventory"]
     end
 
     def filter_columns_ending_on_id column_names
@@ -306,13 +321,6 @@ class ImportCollection < ApplicationRecord
       import_type.to_s.downcase.to_sym
     end
 
-    def import_associations
-      @@import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name}) }
-    end
-
-    def find_import_association_by_name(name)
-      self.import_associations.select{|a| a.name == name.to_sym}.first
-    end
 
     def columns_for_select
       virtual_columns = [ ]

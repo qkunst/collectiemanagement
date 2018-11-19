@@ -1,11 +1,12 @@
 class Reminder < ApplicationRecord
+  include CollectionOwnable
+
   INTERVAL_UNITS = {"Dagen"=>:days, "Weken"=>:weeks, "Maanden"=>:months, "Jaren"=>:years}
 
   belongs_to :stage, optional: true
-  belongs_to :collection, optional: true
 
-  scope :prototypes, ->{ where(collection_id: nil)}
-  scope :actual, ->{ where.not(collection_id: nil)}
+  scope :prototypes, ->{ general }
+  scope :actual, ->{ collection_specific }
 
   validates_presence_of :interval_unit, :interval_length
 

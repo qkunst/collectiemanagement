@@ -243,8 +243,10 @@ RSpec.describe Work, type: :model do
         expect(w.artist_name_rendered).to eq(nil)
       end
       it "should summarize the artists nicely" do
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered).to eq("artist_1, firstname (1900 - 2000)")
+        w = works(:work1)
+        w.save
+        w.reload
+        expect(w.artist_name_rendered).to eq("artist_1, firstname (1900 - 2000)")
       end
       it "should respect include_years option" do
         works(:work1).save

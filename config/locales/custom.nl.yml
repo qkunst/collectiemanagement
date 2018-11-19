@@ -212,7 +212,7 @@ nl:
         artists: Vervaardigers
         artist_name_rendered: Vervaardiger(s)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
-        artist_unknown: Onbekend
+        artist_unknown: Vervaaridger onbekend
         cluster: Cluster
         cluster: Cluster
         collection: Collectie
@@ -276,7 +276,7 @@ nl:
         object_categories: Categorieën
         object_categories_split: Categorieën (technieken afzonderlijk geteld)
         object_creation_year: Datering (jaar)
-        object_creation_year_unknown: Onbekend
+        object_creation_year_unknown: Datering onbekend
         object_format_code: Formaatcode
         other_comments: Overige opmerkingen
         owner: Eigendom

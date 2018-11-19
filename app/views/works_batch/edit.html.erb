@@ -18,7 +18,7 @@
   <% when :cluster_id_new %>
     <%= f.input :cluster_name %>
   <% when :cluster, /cluster_id_\d*/ %>
-    <%= f.association :cluster, collection: @collection.clusters_including_parent_clusters, input_html: {class: 'chosen-select'}%>
+    <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select'}%>
   <% when :grade_within_collection%>
     <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
   <% when :collection %>

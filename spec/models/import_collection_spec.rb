@@ -49,20 +49,7 @@ RSpec.describe ImportCollection, type: :model do
           "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
         })
         read = i.read
-        expect(read.count).to eq(4)
-        expect(read[0].title).to eq(nil)
-        expect(read[0].title_unknown).to eq(true)
-        expect(read[1].title).to eq("Zonder Unieke Titel")
-        expect(read[1].title_unknown).to be_falsy
-        expect(read[1].themes.collect{|a| a.name}).to eq(["earth", "wind"])
-        expect(read[0].themes.collect{|a| a.name}).to eq(["earth"])
-        expect(read[3].themes.collect{|a| a.name}).to eq(["fire"])
-        expect(read[1].medium.name).to eq("Papier")
-        expect(read[2].medium).to be_nil
-        expect(read[0].grade_within_collection).to eq("A")
-        expect(read[1].grade_within_collection).to eq("C")
-
-        read.each{|a| a.save}
+        read.each{|a| a.save; a.reload}
         expect(read[0].title).to eq(nil)
         expect(read[0].title_unknown).to eq(true)
         expect(read[0].id).to be > 0
@@ -78,8 +65,31 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[2].medium).to be_nil
         expect(read[0].grade_within_collection).to eq("A")
         expect(read[1].grade_within_collection).to eq("C")
-        # expect(i.read[3].artists).to eq([])
-        # expect(i.read[2].artists).to eq([])
+        expect(read[0].artist_unknown).to be_falsy
+
+        expect(read[0].collection).to eq(collections(:collection1))
+        expect(read[1].collection).to eq(collections(:collection1))
+        expect(read[2].collection).to eq(collections(:collection1))
+        expect(read[3].collection).to eq(collections(:collection1))
+        expect(read[3].artists).to eq([])
+        expect(read[3].artist_unknown).to be_truthy
+        expect(read[2].artists).to eq([])
+      end
+      it "should not import into a different collection" do
+        i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_collection_file_edge_cases.csv")))
+        i.collection = collections(:collection1)
+        i.update("import_settings"=>{
+          "work_title"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"append", "fields"=>["work.title"]},
+          "artist_name"=>{"split_strategy"=>"split_space", "assign_strategy"=>"append", "fields"=>["artist.first_name", "artist.last_name"]},
+          "Drager"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
+          "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
+          "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
+          "Collectie"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.collection"]},
+          "Cluster"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.cluster"]},
+        })
+        read = i.read
+        expect(read.count).to eq(4)
+        expect(read[2].collection).to eq(collections(:collection_with_works))
       end
     end
   end

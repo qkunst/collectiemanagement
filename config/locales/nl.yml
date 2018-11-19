@@ -101,6 +101,7 @@ nl:
     messages:
       accepted: moet worden geaccepteerd
       blank:  moet opgegeven zijn
+      required: is verplicht
       present: moet leeg zijn
       confirmation: komt niet overeen
       empty:  moet opgegeven zijn

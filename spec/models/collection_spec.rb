@@ -23,6 +23,39 @@ RSpec.describe Collection, type: :model do
         end
       end
     end
+    describe "#available_clusters" do
+      it "should list all private clusters" do
+        expect(collections(:collection_with_works).available_clusters).to include(clusters(:cluster1))
+        expect(collections(:collection_with_works).available_clusters).to include(clusters(:cluster2))
+        expect(collections(:collection1).available_clusters).to include(clusters(:cluster1))
+        expect(collections(:collection1).available_clusters).to include(clusters(:cluster2))
+      end
+      it "should list not list private clusters" do
+        expect(collections(:collection_with_stages).available_clusters).not_to include(clusters(:cluster1))
+        expect(collections(:collection_with_stages).available_clusters).not_to include(clusters(:cluster2))
+      end
+    end
+    describe "#available_themes" do
+      it "should include all generic themes" do
+        col_1_available_themes = collections(:collection1).available_themes
+        expect(col_1_available_themes).to include(themes(:earth))
+      end
+      it "should not include hidden generic themes" do
+        col_1_available_themes = collections(:collection1).available_themes
+        expect(col_1_available_themes).not_to include(themes(:old))
+      end
+      it "should not include themes that belong to another collection" do
+        col_1_available_themes = collections(:collection1).available_themes
+        expect(col_1_available_themes).not_to include(themes(:wind_private_to_collection_with_stages))
+      end
+      it "should include collection specific themes if any" do
+        col_with_stages_available_themes = collections(:collection_with_stages).available_themes
+        expect(col_with_stages_available_themes).not_to include(themes(:old))
+        expect(col_with_stages_available_themes).to include(themes(:wind_private_to_collection_with_stages))
+        expect(col_with_stages_available_themes).to include(themes(:earth))
+        expect(col_with_stages_available_themes).to include(themes(:wind))
+      end
+    end
   end
   describe "Class methods" do
     describe ".expand_with_child_collections" do
