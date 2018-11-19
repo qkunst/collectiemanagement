@@ -77,7 +77,7 @@ class ImportCollection < ApplicationRecord
     complex_association = false
     field_type = :string
 
-    if objekt == ImportCollection.import_type_symbolized.to_s
+    if objekt == import_type_symbolized.to_s
       association = find_import_association_by_name(fieldname.to_sym)
       property = fieldname
       if association
@@ -94,9 +94,7 @@ class ImportCollection < ApplicationRecord
       property = objekt
       # assuming association...
       association = find_import_association_by_name(objekt)
-      #has_many_association = association.has_many_and_maybe_belongs_to_many?
-      property = property.pluralize# if has_many_association
-      property = "#{property}_attributes"
+      property = "#{property.pluralize}_attributes"
       complex_association = true
     end
     return {fieldname: fieldname, field_type: field_type, objekt: objekt, property: property, association: association, has_many_association: has_many_association, complex_association: complex_association}
@@ -211,7 +209,7 @@ class ImportCollection < ApplicationRecord
 
     lookup_artists!(parameters)
 
-    new_obj = ImportCollection.import_type.new(parameters)
+    new_obj = import_type.new(parameters)
 
     Rails.logger.debug "  result: #{new_obj.inspect}"
 

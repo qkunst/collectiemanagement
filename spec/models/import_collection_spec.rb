@@ -93,11 +93,4 @@ RSpec.describe ImportCollection, type: :model do
       end
     end
   end
-  describe "class methods" do
-    describe ".import_type.new(parameters)" do
-      it "should create a new work" do
-        expect(ImportCollection.import_type.new(title: "abc").title).to eq("abc")
-      end
-    end
-  end
 end
