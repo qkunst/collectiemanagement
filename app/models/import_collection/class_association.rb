@@ -32,7 +32,7 @@ class ImportCollection::ClassAssociation
   end
 
   def importable?
-    unless ["PaperTrail::Version","Currency","Attachment","ActsAsTaggableOn::Tag","ActsAsTaggableOn::Tagging","::ActsAsTaggableOn::Tag","::ActsAsTaggableOn::Tagging"].include? class_name
+    unless ["PaperTrail::Version","Currency","Attachment","ActsAsTaggableOn::Tag","ActsAsTaggableOn::Tagging","::ActsAsTaggableOn::Tag","::ActsAsTaggableOn::Tagging", "CustomReport"].include? class_name
       return true
     end
     return false

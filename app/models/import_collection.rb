@@ -226,6 +226,22 @@ class ImportCollection < ApplicationRecord
     return new_obj
   end
 
+  def columns_for_select
+    virtual_columns = [ :purchase_price_currency ]
+    other_relations = {}
+    import_associations.each do |import_association|
+      if import_association.importable? && import_association.findable_by_name?
+        virtual_columns << import_association.name
+      elsif import_association.importable?
+        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names)-ignore_columns
+      end
+    end
+
+    return other_relations.merge({
+      import_type_symbolized => virtual_columns+filter_columns_ending_on_id(Work.column_names)-ignore_columns
+    })
+  end
+
   private
 
   def get_current_value(field_props, parameters)
@@ -296,51 +312,25 @@ class ImportCollection < ApplicationRecord
 
   def import_associations
     # scoped_class = collection.send(a.name)
-    @import_associations ||= ImportCollection.import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
+    @import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
   end
 
   def find_import_association_by_name(name)
     import_associations.select{|a| a.name == name.to_sym}.first
   end
+  def filter_columns_ending_on_id column_names
+    column_names.select{|a| !a.match(/(.*)_id/) }
+  end
 
+  def ignore_columns
+    ["id","created_at","updated_at","imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
+  end
+  def import_type
+    Work
+  end
 
-  class << self
-    def ignore_columns
-      ["id","created_at","updated_at","imported_at", "created_by_id", "lognotes", "external_inventory"]
-    end
-
-    def filter_columns_ending_on_id column_names
-      column_names.select{|a| !a.match(/(.*)_id/) }
-    end
-
-    def import_type
-      Work
-    end
-
-    def import_type_symbolized
-      import_type.to_s.downcase.to_sym
-    end
-
-
-    def columns_for_select
-      virtual_columns = [ ]
-      other_relations = {}
-      import_associations.each do |import_association|
-        if import_association.importable? && import_association.findable_by_name?
-          virtual_columns << import_association.name
-        elsif import_association.importable?
-          other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names)-ignore_columns
-        end
-      end
-
-      return other_relations.merge({
-        import_type_symbolized => virtual_columns+filter_columns_ending_on_id(Work.column_names)-ignore_columns
-      })
-    end
-
-
-
-
+  def import_type_symbolized
+    import_type.to_s.downcase.to_sym
   end
 
 end

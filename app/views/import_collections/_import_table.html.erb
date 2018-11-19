@@ -7,7 +7,7 @@ if @import_collection.import_file_snippet_to_workbook_table
   def field_options_html fieldname
     selected = @import_collection.import_setting_for(fieldname)["fields"]
     html = ""
-    ImportCollection.columns_for_select.each do | optgroup, options |
+    @import_collection.columns_for_select.each do | optgroup, options |
       html += "<optgroup label=\"#{I18n.t optgroup.to_s.singularize, scope: [:activerecord,:models]}\">"
       options.each do | option |
         value = "#{optgroup}.#{option}"

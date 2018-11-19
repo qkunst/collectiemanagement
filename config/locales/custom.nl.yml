@@ -292,7 +292,7 @@ nl:
         purchased_on: Aankoopdatum
         purchased_on_with_fallback: Aankoopjaar/datum
         purchase_price: Aankoopprijs
-        purchase_price_currency: Eenheid
+        purchase_price_currency: Munteenheid
         purchase_year: Aankoopjaar
         replacement_value: Vervangingswaarde (€)
         signature: Signatuur
