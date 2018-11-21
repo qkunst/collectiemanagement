@@ -88,7 +88,14 @@ class ImportCollection < ApplicationRecord
         end
         field_type = :association
       else
-        field_type = Work.columns.select{|a| a.name == property.to_s}.first.type
+        column = Work.columns.select{|a| a.name == property.to_s}.first
+        if column
+          field_type = column.type
+        else
+          if Work.instance_methods.include?(fieldname.to_sym) and Work.instance_methods.include?("#{fieldname}=".to_sym)
+            field_type = Work.new.send(fieldname).class
+          end
+        end
       end
     else
       property = objekt
@@ -225,7 +232,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def columns_for_select
-    virtual_columns = [ :purchase_price_currency ]
+    virtual_columns = [ :purchase_price_currency, :tag_list ]
     other_relations = {}
     import_associations.each do |import_association|
       if import_association.importable? && import_association.findable_by_name?
@@ -296,6 +303,8 @@ class ImportCollection < ApplicationRecord
       end
       if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
         new_value = corresponding_value
+      elsif [:array, ActsAsTaggableOn::TagList, Array].include? field_type
+        new_value = [current_value, corresponding_value].flatten.compact
       else
         separator = " "
         if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""

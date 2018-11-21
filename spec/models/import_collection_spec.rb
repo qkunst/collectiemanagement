@@ -75,7 +75,7 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[3].artist_unknown).to be_truthy
         expect(read[2].artists).to eq([])
       end
-      it "should not import into a different collection" do
+      it "should import into a different collection when sub" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_collection_file_edge_cases.csv")))
         i.collection = collections(:collection1)
         i.update("import_settings"=>{
@@ -86,10 +86,30 @@ RSpec.describe ImportCollection, type: :model do
           "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
           "Collectie"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.collection"]},
           "Cluster"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.cluster"]},
+          "tags"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
+          "tags more"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
         })
         read = i.read
         expect(read.count).to eq(4)
         expect(read[2].collection).to eq(collections(:collection_with_works))
+        expect(read[1].tag_list).to include("kaas")
+        expect(read[0].tag_list).to include("kaas")
+      end
+      it "should not import into a different collection when not a child" do
+        i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_failing_collection.csv")))
+        i.collection = collections(:collection1)
+        i.update("import_settings"=>{
+          "work_title"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"append", "fields"=>["work.title"]},
+          "artist_name"=>{"split_strategy"=>"split_space", "assign_strategy"=>"append", "fields"=>["artist.first_name", "artist.last_name"]},
+          "Drager"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
+          "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
+          "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
+          "Collectie"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.collection"]},
+          "Cluster"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.cluster"]},
+        })
+        expect do
+          read = i.read
+        end.to raise_error(ImportCollection::FailedImportError)
       end
     end
   end
