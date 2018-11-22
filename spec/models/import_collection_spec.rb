@@ -88,12 +88,17 @@ RSpec.describe ImportCollection, type: :model do
           "Cluster"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.cluster"]},
           "tags"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
           "tags more"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
+          "Nog een thema"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]}
         })
         read = i.read
-        expect(read.count).to eq(4)
+        expect(read.count).to eq(5)
         expect(read[2].collection).to eq(collections(:collection_with_works))
         expect(read[1].tag_list).to include("kaas")
         expect(read[0].tag_list).to include("kaas")
+        expect(read[0].themes.collect{|a| a.name}).to eq(["earth","fire"])
+        expect(read[3].artists).to include(artists(:artist1))
+        expect(read[4].artists.count).to eq 0
+        expect(read[4].artist_unknown).to be_falsy
       end
       it "should not import into a different collection when not a child" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_failing_collection.csv")))

@@ -143,11 +143,13 @@ class ImportCollection < ApplicationRecord
     if artist
       parameters.delete("artists_attributes")
       parameters[:artists] = [artist]
-    elsif "#{parameters["artists_attributes"][7382983741]["first_name"]}#{parameters["artists_attributes"][7382983741]["last_name"]}".strip.downcase == "onbekend"
-      parameters.delete("artists_attributes")
-      parameters["artist_unknown"] = true
     elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
-      parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
+      if "#{parameters["artists_attributes"][7382983741]["first_name"]}#{parameters["artists_attributes"][7382983741]["last_name"]}".strip.downcase == "onbekend"
+        parameters.delete("artists_attributes")
+        parameters["artist_unknown"] = true
+      else
+        parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
+      end
     end
   end
 
