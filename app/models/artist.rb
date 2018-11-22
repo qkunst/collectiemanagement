@@ -1,4 +1,5 @@
 class Artist < ApplicationRecord
+  include ColumnCache
   has_paper_trail
 
   belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id, optional: true
@@ -10,10 +11,15 @@ class Artist < ApplicationRecord
   has_many :subsets, through: :works
   has_many :techniques, through: :works
 
+  has_cache_for_column :geoname_ids
+
   after_save :touch_works
+
+
   after_touch :touch_works
   before_save :sync_dates_and_years
   before_save :sync_places
+  before_save :cache_geoname_ids!
 
   scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
   scope :exclude_artist, ->(artist){where("artists.id != ?", artist.id)}
@@ -63,7 +69,7 @@ class Artist < ApplicationRecord
   end
 
   def localities_to_find_by
-    GeonameSummary.where(geoname_id: geoname_ids).with_parents
+    GeonameSummary.where(geoname_id: cached_geoname_ids).with_parents
   end
 
   def name?

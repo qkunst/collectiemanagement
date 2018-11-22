@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180810130900) do
+ActiveRecord::Schema.define(version: 2018_11_22_190510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20180810130900) do
     t.integer "place_of_birth_geoname_id"
     t.date "date_of_birth"
     t.date "date_of_death"
+    t.text "geoname_ids_cache"
   end
 
   create_table "artists_works", id: :serial, force: :cascade do |t|
