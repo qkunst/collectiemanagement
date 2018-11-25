@@ -42,7 +42,7 @@ module Searchable
         Work.__elasticsearch__.create_index! force: true
         Work.__elasticsearch__.refresh_index!
       end
-      self.all.each{|a| a.reindex!; sleep(seconds_to_sleep)}
+      self.find_each{|a| a.reindex!; sleep(seconds_to_sleep)}
     end
   end
 end
