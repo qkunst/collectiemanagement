@@ -9,7 +9,11 @@
     <% link_path = work ? collection_work_path(work.collection, work.id ? work.id : -1) : '' %>
 
     <%= link_to link_path do %>
-      <div class="image"><%= image_tag(image.big_thumb, class: "nonlinked_show") %></div>
+      <div class="image">
+        <% if image.big_thumb %>
+          <%= image_tag(image.big_thumb.url, class: "nonlinked_show") %>
+        <% end %>
+      </div>
     <% end %>
       <div class="data">
         <p class="stocknumber"><%= work.stock_number if work %></p>

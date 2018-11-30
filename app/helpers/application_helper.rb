@@ -51,6 +51,10 @@ module ApplicationHelper
     link_to name, url
   end
 
+  def batch_photo_upload_url batch_photo_upload
+    collection_batch_photo_upload_url(batch_photo_upload.collection, batch_photo_upload)
+  end
+
   def menu_link_to desc, path, options={}
     test_path = path.include?("//") ? path.sub("//","").split("/")[1..1000].join("/") : path
     if options[:only_exact_path_match]
