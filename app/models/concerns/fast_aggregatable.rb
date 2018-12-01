@@ -41,7 +41,7 @@ module FastAggregatable
         rv[attribute][:not_set] ||= {count: 999999, name: :not_set }
       end
       attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
-        rv[attribute][a] ||= {count: 10000, name: a.name }
+        rv[attribute][a] ||= {count: 20000, name: a.name }
       end
       rv
     end
@@ -65,7 +65,7 @@ module FastAggregatable
       end
       ids = ids.compact.uniq
       GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
-        rv[:geoname_ids][geoname] = {count: 10000, name: geoname.name}
+        rv[:geoname_ids][geoname] = {count: 20000, name: geoname.name}
       end
       rv
     end

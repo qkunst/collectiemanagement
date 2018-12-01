@@ -60,7 +60,7 @@ class Work < ApplicationRecord
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
-  settings index: { number_of_shards: 5 } do
+  settings index: { number_of_shards: 5, max_result_window: 20_000 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'
       indexes :tag_list, type: 'keyword'#, tokenizer: 'keyword'
