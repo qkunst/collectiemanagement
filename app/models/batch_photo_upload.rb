@@ -57,7 +57,7 @@ class BatchPhotoUpload < ApplicationRecord
     return @column_values if @column_values
     self.column ||= :stock_number
     values = {}
-    collection.works.select(column.to_sym, :id).each{|a| values[a.send(column.to_sym)]=a.id }
+    collection.works_including_child_works.select(column.to_sym, :id).each{|a| values[a.send(column.to_sym)]=a.id }
     @column_values = values
   end
 
