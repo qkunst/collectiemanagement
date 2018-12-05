@@ -44,7 +44,6 @@
     min-height: 1em;
   }
   .image {
-    border-bottom: 1px solid #ccc;
     position: relative;
     height: 11em;
     img.show, img.nonlinked_show {
@@ -79,7 +78,7 @@
     font-size: 1rem;
     color: $qkunst-brown;
     line-height: 1;
-    margin: 0;
+    margin: 0.3em 0 0em 0;
   }
   h4 {
     font-size: 1rem;
@@ -160,6 +159,9 @@
   }
 }
 
+.compact.work.panel .image_wrapper {
+  height: 11em;
+}
 
 .detailed_data, .complete_data {
   table {
