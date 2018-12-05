@@ -16,9 +16,10 @@ lazy_load_images = ->
       treshold: [0.0,  0.5, 1.0]
     intersectionObserver = new IntersectionObserver((entries)->
       entries.forEach((entry)->
-        noscript_tag = entry.target.querySelector("noscript")
-        if noscript_tag
-          lazy_load_image_in_noscript_wrapper noscript_tag
+        if entry.intersectionRatio > 0
+          noscript_tag = entry.target.querySelector("noscript")
+          if noscript_tag
+            lazy_load_image_in_noscript_wrapper noscript_tag
       )
     , intersectionObsOptions)
     noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
