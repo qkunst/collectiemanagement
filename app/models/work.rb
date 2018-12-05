@@ -20,6 +20,7 @@ class Work < ApplicationRecord
   after_save :touch_collection!
   after_save :update_artist_name_rendered!
   before_save :cache_tag_list!
+  before_save :cache_collection_locality_artist_involvements_texts!
 
   belongs_to :cluster, optional: true
   belongs_to :collection
