@@ -275,6 +275,12 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname;artist_2 achternaam, firstie")
       end
     end
+    describe ".possible_exposable_fields" do
+      it "should return possible_exposable_fields" do
+        expect(Work.possible_exposable_fields).to include(["Eigendom", "owner"])
+      end
+    end
+
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
         works = [works(:work1),works(:work2)]
@@ -329,7 +335,7 @@ RSpec.describe Work, type: :model do
         collection = collections(:collection_with_works)
         work = collection.works.order(:stock_number).first
         work.save
-        workbook = Work.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
+        workbook = collection.works.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
         expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")

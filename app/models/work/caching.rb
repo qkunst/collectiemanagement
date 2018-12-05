@@ -55,4 +55,9 @@ module Work::Caching
       self.save
     end
   end
+  class_methods do
+    def update_artist_name_rendered!
+      self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
+    end
+  end
 end

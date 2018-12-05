@@ -200,7 +200,7 @@ class Collection < ApplicationRecord
 
   def fields_to_expose(audience=:default)
     if audience == :default
-      return exposable_fields.count == 0 ? Collection.possible_exposable_fields.collect{|k,v| v} : exposable_fields
+      return exposable_fields.count == 0 ? Work.possible_exposable_fields.collect{|k,v| v} : exposable_fields
     elsif audience == :hpd
       return ["stock_number","title_rendered","description","artist_name_rendered","hpd_height","hpd_width","hpd_depth","hpd_diameter","hpd_keywords","hpd_materials","hpd_condition","hpd_photo_file_name","hpd_comments","hpd_contact"]
     elsif audience == :erfgoed_gelderland
@@ -351,27 +351,6 @@ class Collection < ApplicationRecord
       ids = []
       self.joins(join_sql).select(select_sql).each{|r| (depth+1).times{|a| ids << r.send("_child_level#{a}".to_sym)} }
       ::Collection.unscoped.where(id: ids.compact.uniq)
-    end
-    def possible_exposable_fields
-      return @@possible_exposable_fields if defined? @@possible_exposable_fields
-
-      fields = Work.new.methods.collect do |method|
-        if method.to_s.match(/=/) and !method.to_s.match(/^(before|after|\_|\=|\<|\!|\[|photo_|remote\_|remove\_|defined\_enums|find\_by\_statement\_cache|validation\_context|record\_timestamps|aggregate\_reflections|include\_root\_in\_json|destroyed\_by\_association|attributes|entry_status_description|entry_status|paper_trail|verions)(.*)/) and !method.to_s.match(/(.*)\_(id|ids|attributes|class_name|association_name|cache)\=$/)
-          method.to_s.delete("=")
-        end
-      end.compact
-
-      fields += ["collection_external_reference_code"]
-      #sort_according_to_form
-      #
-      formstring = File.open('app/views/works/_form.html.erb').read
-      fields.sort! do |a,b|
-        a1 = formstring.index(":#{a}") ? formstring.index(":#{a}") : 9999999
-        b1 = formstring.index(":#{b}") ? formstring.index(":#{b}") : 9999999
-        a1 <=> b1
-      end
-
-      return @@possible_exposable_fields = fields.collect{|a| [Work.human_attribute_name(a.to_s),a] }
     end
   end
 end

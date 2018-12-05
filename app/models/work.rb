@@ -2,6 +2,7 @@ require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   include Work::Caching
+  include Work::Export
   include Work::ParameterRerendering
   include FastAggregatable
   include Searchable
@@ -271,41 +272,11 @@ class Work < ApplicationRecord
     collection.touch if collection
   end
 
-  def collect_values_for_fields(fields)
-    return fields.collect do |field|
-      value = self.send(field)
-      if value.class == PictureUploader
-        value.file ? value.file.filename : nil
-      elsif [Collection,::Collection,User,Currency,Source,Style,Medium,Condition,Subset,Placeability,Cluster,FrameType].include? value.class
-        value.name
-      elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
-        artist_name_rendered_without_years_nor_locality_semicolon_separated
-      elsif value.class.to_s.match(/ActiveRecord\_Associations\_CollectionProxy/)
-        if value.first.is_a? PaperTrail::Version
-          "Versie"
-        elsif value.first.is_a? ActsAsTaggableOn::Tagging
-          value.collect{|a| a.tag.name}.join(";")
-        else
-          value.collect{|a| a.name}.join(";")
-        end
-      elsif value.is_a? Hash
-        value.to_s
-      elsif value.is_a? Array
-        value.join(";")
-      else
-        value
-      end
-    end
-  end
-
   class << self
     def collect_locations
       rv = {}
       self.group(:location).count.sort{|a,b| a[0].to_s.downcase<=>b[0].to_s.downcase }.each{|a| rv[a[0]] = {count: a[1], subs:[]} }
       rv
-    end
-    def update_artist_name_rendered!
-      self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
     end
     def human_attribute_name_for_alt_number_field( field_name, collection )
       custom_label_name = collection ? collection.send("label_override_work_#{field_name}_with_inheritance".to_sym) : nil
@@ -317,13 +288,6 @@ class Work < ApplicationRecord
       else
         Work.human_attribute_name(field_name)
       end
-    end
-    def to_workbook(fields=[:id,:title_rendered], collection = nil)
-      w = Workbook::Book.new([fields.collect{|a| Work.human_attribute_name_overridden(a, collection)}])
-      self.all.each do |work|
-        w.sheet.table << work.collect_values_for_fields(fields)
-      end
-      return w
     end
   end
 end
