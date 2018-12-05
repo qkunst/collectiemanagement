@@ -1,5 +1,7 @@
 class Artist < ApplicationRecord
   include ColumnCache
+  include Artist::NameRenderer
+
   has_paper_trail
 
   belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id, optional: true
@@ -30,18 +32,7 @@ class Artist < ApplicationRecord
 
   accepts_nested_attributes_for :artist_involvements
 
-  def name(options={})
-    options = {include_years: true, include_locality: false}.merge(options)
-    last_name_part = [first_name,prefix].join(" ").strip
-    namepart = [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
-    birth = (options[:include_locality] and place_of_birth) ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
-    death = (options[:include_locality] and place_of_death) ? [place_of_death, year_of_death].join(", ") : year_of_death
-    birthpart = [birth, death].compact.join(" - ")
-    birthpart = "(#{birthpart})" if birthpart != ""
-    birthpart = "" if options[:include_years] == false and options[:include_locality] == false
-    rname = [namepart,birthpart].delete_if{|a| a==""}.join(" ")
-    return rname == "" ? "-geen naam opgevoerd (#{id})-" : rname
-  end
+
 
   def place_of_birth
     rv = read_attribute(:place_of_birth)

@@ -1,3 +1,6 @@
+# Column Cache helps caching column
+# it introduces the methods #cache_#{column_name}! to refresh the cache and #cached_column_name to retrieve the cached version (explicitly)
+
 module ColumnCache
   extend ActiveSupport::Concern
 

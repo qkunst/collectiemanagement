@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_22_190510) do
+ActiveRecord::Schema.define(version: 2018_12_04_182641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2018_11_22_190510) do
     t.string "label_override_work_alt_number_3"
     t.text "internal_comments"
     t.string "external_reference_code"
+    t.text "geoname_ids_cache"
   end
 
   create_table "collections_geoname_summaries", id: :serial, force: :cascade do |t|
@@ -603,6 +604,7 @@ ActiveRecord::Schema.define(version: 2018_11_22_190510) do
     t.integer "frame_type_id"
     t.integer "owner_id"
     t.string "created_by_name"
+    t.text "tag_list_cache"
   end
 
 end

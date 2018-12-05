@@ -4,10 +4,13 @@ class Work < ApplicationRecord
   include Work::Caching
   include Work::Export
   include Work::ParameterRerendering
+  include Work::PreloadRelationsForDisplay
   include FastAggregatable
   include Searchable
+  include ColumnCache
 
   has_paper_trail
+  has_cache_for_column :tag_list
 
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
@@ -15,7 +18,7 @@ class Work < ApplicationRecord
   before_save :update_created_by_name
   after_save :touch_collection!
   after_save :update_artist_name_rendered!
-
+  before_save :cache_tag_list!
 
   belongs_to :cluster, optional: true
   belongs_to :collection

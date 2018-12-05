@@ -261,7 +261,9 @@ RSpec.describe Work, type: :model do
       it "should summarize the artists nicely" do
         works(:work1).artists << artists(:artist2)
         works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname en artist_2 achternaam, firstie")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_1, firstname")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_2 achternaam, firstie")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match(";")
       end
     end
     describe ".artist_name_rendered_without_years_nor_locality_semicolon_separated" do
@@ -272,7 +274,9 @@ RSpec.describe Work, type: :model do
       it "should summarize the artists nicely" do
         works(:work1).artists << artists(:artist2)
         works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname;artist_2 achternaam, firstie")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_1, firstname")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_2 achternaam, firstie")
+        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match(";")
       end
     end
     describe ".possible_exposable_fields" do

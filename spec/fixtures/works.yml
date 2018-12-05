@@ -11,6 +11,7 @@ work1:
   created_by: :admin
   frame_height: 50
   frame_width: 100
+  owner: :owner1
   artists:
     - :artist1
 work2:
@@ -59,3 +60,8 @@ work_with_attachments:
   artists:
     - :artist4
   collection: :collection3
+collection_less_work:
+  title: Collectionless work
+  stock_number: OH000
+  artists:
+    - :artist4

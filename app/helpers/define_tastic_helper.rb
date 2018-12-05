@@ -28,6 +28,26 @@ module DefineTasticHelper
     render_unless_blank_definition(description, value_render(property,options), options)
   end
 
+  def humanize_value val, options={}
+    if val.is_a? ActiveRecord::Base and (val.methods.include?(:name) or val.methods.include?("name"))
+      val = val.send(:name)
+    end
+    if val.is_a? Date
+      val = I18n.l(val, {format: :short})
+    elsif (val.is_a? DateTime or val.is_a? Time)
+      val = I18n.l(val, {format: :short})
+    elsif (val.is_a? TrueClass)
+      val = "Ja"
+    elsif (val.is_a? FalseClass)
+      val = "Nee"
+    end
+    if options[:human_attributize_value]
+      val = @define_tastic_object_klass.send(:human_attribute_name,val)
+    end
+    val
+  end
+
+
   def value_render property, options={}
     value = nil
 
@@ -50,25 +70,8 @@ module DefineTasticHelper
       values = values.compact
 
       value = values.collect do |val|
-
         val = apply_modifier_to_value(modifier_func, val)
-        if val.is_a? ActiveRecord::Base and (val.methods.include?(:name) or val.methods.include?("name"))
-          val = val.send(:name)
-        end
-        if val.is_a? Date
-          val = I18n.l(val, {format: :short})
-        elsif (val.is_a? DateTime or val.is_a? Time)
-          val = I18n.l(val, {format: :short})
-        elsif (val.is_a? TrueClass)
-          val = "Ja"
-        elsif (val.is_a? FalseClass)
-          val = "Nee"
-        end
-        if options[:human_attributize_value]
-          val = @define_tastic_object_klass.send(:human_attribute_name,val)
-        end
-        val
-
+        humanize_value(val, options.select{|k,v| k == :human_attribute_value})
       end.to_sentence
 
     end

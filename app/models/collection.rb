@@ -13,6 +13,8 @@ class FakeSuperCollection
 end
 
 class Collection < ApplicationRecord
+  include ColumnCache
+
   belongs_to :parent_collection, class_name: 'Collection', optional: true
   has_and_belongs_to_many :users
   has_many :attachments, as: :attache
@@ -27,6 +29,7 @@ class Collection < ApplicationRecord
   has_many :themes
   has_many :works
 
+  has_cache_for_column :geoname_ids
 
   default_scope ->{order(:name)}
 
@@ -35,6 +38,8 @@ class Collection < ApplicationRecord
   has_and_belongs_to_many :stages
   has_many :collections_stages
   has_many :reminders
+
+  before_save :cache_geoname_ids!
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
@@ -81,12 +86,12 @@ class Collection < ApplicationRecord
     return nil
   end
 
-  def geoname_summaries?
-    geoname_summaries.count > 0
-  end
-
   def geoname_ids
     geoname_summaries.collect{|a| a.geoname_id}
+  end
+
+  def geoname_summaries?
+    cached_geoname_ids && cached_geoname_ids.count > 0
   end
 
   def to_label
@@ -180,7 +185,7 @@ class Collection < ApplicationRecord
   end
 
   def self_and_parent_collections_flattened
-    Collection.where(id: id_plus_parent_ids)
+    @self_and_parent_collections_flattened ||= Collection.where(id: id_plus_parent_ids)
   end
 
   def collection_name_extended

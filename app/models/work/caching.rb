@@ -14,21 +14,15 @@ module Work::Caching
       artist_name_rendered({include_years: false, include_locality: false, join: ";"})
     end
 
-    def rebuild_artist_name_rendered(options={})
-      rv = artists.order_by_name.distinct.collect{|a| a.name(options) if a.name(options).to_s.strip != ""}.compact.join(" ||| ")
-      if artist_unknown and (rv.nil? or rv.empty?)
-        rv = "Onbekend"
-      end
-      self.artist_name_rendered = rv
-    end
-
     def artist_name_rendered(opts={})
-      options = { join: :to_sentence }.merge(opts)
-      rv = read_attribute(:artist_name_rendered).to_s
-      rv = rebuild_artist_name_rendered(options) if options[:rebuild]
-      rv = rv.to_s.gsub(/\s\(([\d\-\s]*)\)/,"") if options[:include_years] == false
-      rv = options[:join] === :to_sentence ? rv.split(" ||| ").to_sentence : rv.split(" ||| ").join(options[:join])
-      rv unless rv == ""
+      options = { include_years: true, include_locality: false, join: :to_sentence, render_error: false }.merge(opts)
+      simple_artists = SimpleArtist.new_from_json(read_attribute(:artist_name_rendered))
+
+      names = [simple_artists].flatten.collect{|a| a.name(options)}.delete_if{|a| a == ""}
+
+      return "Onbekend" if artist_unknown and names.empty?
+      return nil if names.empty?
+      (options[:join] == :to_sentence) ? names.to_sentence : names.join(options[:join])
     end
 
     def update_created_by_name
@@ -36,7 +30,7 @@ module Work::Caching
     end
 
     def update_artist_name_rendered!
-      self.update_column(:artist_name_rendered, artist_name_rendered({rebuild:true, join: " ||| "}))
+      self.update_column(:artist_name_rendered, self.artists.to_json_for_simple_artist)
     end
 
     def update_latest_appraisal_data!

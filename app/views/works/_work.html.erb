@@ -1,37 +1,36 @@
 <%
 @selection ||= {display: :compact}
+this_works_collection_work_url = collection_work_path(work.collection_id, work.id)
 %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@selection[:display]%>">
-  <% cache_if((work.id and work.updated_at < 1.minute.ago), work.cache_key( [1,@selection[:display], @show_work_checkbox, (@selection_filter ? @selection_filter["geoname_ids"] : nil), current_user.role]  )) do %>
-    <%= link_to [work.collection, work].compact, class: :block do %>
-      <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async') if work.photo_front? %></div>
-    <% end %>
-      <div class="data">
-      <label class="work-selector hide-for-print">
-        <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" if @show_work_checkbox %>
-      </label>
-        <p class="stocknumber"><%= work.stock_number %><% if work.external_inventory? %><span title="Dit werk is niet door QKunst geïnventariseerd">*</span><% end %></p>
-        <%= link_to [work.collection, work], class: :block do%>
-          <% if @selection[:display] == :compact%>
-          <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
-          <% else %>
-          <h3><%= work.artist_name_rendered(rebuild: true, include_years: true, include_locality: true)%></h3>
-          <% end %>
-
-          <h4><%= work.title_rendered%></h4>
-
-          <p><%= work.description%></p>
-          <%=
-          case @selection[:display]
-          when :compact
-            ""
-          when :complete, :detailed
-            render :partial => 'works/work_detailed_data', locals: {work: work}
-          when :limited, :limited_auction
-            render :partial => 'works/work_limited_data', locals: {work: work}
-          end
-          %>
-        <% end %>
-      </div>
+  <%= link_to this_works_collection_work_url, class: :block do %>
+    <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async') if work.photo_front? %></div>
   <% end %>
+    <div class="data">
+    <label class="work-selector hide-for-print">
+      <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" if @show_work_checkbox %>
+    </label>
+      <p class="stocknumber"><%= work.stock_number %><% if work.external_inventory? %><span title="Dit werk is niet door QKunst geïnventariseerd">*</span><% end %></p>
+      <%= link_to this_works_collection_work_url, class: :block do%>
+        <% if @selection[:display] == :compact%>
+        <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
+        <% else %>
+        <h3><%= work.artist_name_rendered(include_years: true, include_locality: true)%></h3>
+        <% end %>
+
+        <h4><%= work.title_rendered%></h4>
+
+        <p><%= work.description%></p>
+        <%=
+        case @selection[:display]
+        when :compact
+          ""
+        when :complete, :detailed
+          render :partial => 'works/work_detailed_data', locals: {work: work}
+        when :limited, :limited_auction
+          render :partial => 'works/work_limited_data', locals: {work: work}
+        end
+        %>
+      <% end %>
+    </div>
 </div>

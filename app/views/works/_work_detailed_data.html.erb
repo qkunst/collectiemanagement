@@ -47,7 +47,7 @@
   <div class="medium-6 columns">
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :tag_list %>
+    <%= define_unless_blank :cached_tag_list %>
     <%= define_unless_blank :condition_work_rendered %>
     <%= define_unless_blank :condition_frame_rendered %>
     <% if @selection[:display] == :complete %>

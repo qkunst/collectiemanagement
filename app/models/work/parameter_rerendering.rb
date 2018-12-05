@@ -72,7 +72,7 @@ module Work::ParameterRerendering
     end
 
     def locality_geoname_name
-      gs = GeonameSummary.where(geoname_id: locality_geoname_id).first
+      gs = locality_geoname_id ? GeonameSummary.where(geoname_id: locality_geoname_id).first : nil
       return gs.label if gs
     end
 
@@ -98,18 +98,18 @@ module Work::ParameterRerendering
     def condition_work_rendered
       rv = []
       rv.push(condition_work.name) if condition_work
-      rv.push(damage_types.collect{|a| a.name}.join(", ")) if damage_types.count > 0
+      rv.push(damage_types.collect{|a| a.name}.join(", "))
       rv.push(condition_work_comments) if condition_work_comments?
-      rv = rv.join("; ")
+      rv = rv.delete_if{|a| a.nil? || a == ""}.join("; ")
       return rv if rv != ""
     end
 
     def condition_frame_rendered
       rv = []
       rv.push(condition_frame.name) if condition_frame
-      rv.push(frame_damage_types.collect{|a| a.name}.join(", ")) if frame_damage_types.count > 0
+      rv.push(frame_damage_types.collect{|a| a.name}.join(", "))
       rv.push(condition_frame_comments) if condition_frame_comments?
-      rv = rv.join("; ")
+      rv = rv.delete_if{|a| a.nil? || a == ""}.join("; ")
       return rv if rv != ""
     end
     def whd_to_s width=nil, height=nil, depth=nil, diameter=nil
