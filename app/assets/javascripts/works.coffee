@@ -2,10 +2,23 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+decodeEntities = (encodedString)->
+  # required for IE and Safari
+  textArea = document.createElement('textarea')
+  textArea.innerHTML = encodedString
+  textArea.value
+
+
 lazy_load_image_in_noscript_wrapper = (noscript_tag)->
   fragment = noscript_tag.innerHTML
   parent = noscript_tag.parentElement
-  parent.innerHTML = fragment
+  parent.innerHTML = decodeEntities(fragment)
+
+process_intersection_observer_entry = (entry)->
+  if entry.intersectionRatio > 0
+    noscript_tag = entry.target.querySelector("noscript")
+    if noscript_tag
+      lazy_load_image_in_noscript_wrapper noscript_tag
 
 lazy_load_images = ->
   noscript_wrapped_images = document.querySelectorAll("noscript[data-lazy=\"lazy-load\"]")
@@ -13,14 +26,8 @@ lazy_load_images = ->
   if supportsIntersectionObserver
     intersectionObsOptions =
       root_margin: "100px"
-      treshold: [0.0,  0.5, 1.0]
     intersectionObserver = new IntersectionObserver((entries)->
-      entries.forEach((entry)->
-        if entry.intersectionRatio > 0
-          noscript_tag = entry.target.querySelector("noscript")
-          if noscript_tag
-            lazy_load_image_in_noscript_wrapper noscript_tag
-      )
+      entries.forEach(process_intersection_observer_entry)
     , intersectionObsOptions)
     noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
   else
