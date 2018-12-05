@@ -11,13 +11,16 @@ lazy_load_images = ->
   noscript_wrapped_images = document.querySelectorAll("noscript[data-lazy=\"lazy-load\"]")
   supportsIntersectionObserver = typeof IntersectionObserver == "function"
   if supportsIntersectionObserver
+    intersectionObsOptions =
+      root_margin: "100px"
+      treshold: [0.0, 0.1, 1.0]
     intersectionObserver = new IntersectionObserver((entries)->
       # unless entries[0].intersectionRatio <= 0
       target = entries[0].target
       noscript_tag = target.querySelector("noscript")
       if noscript_tag
         lazy_load_image_in_noscript_wrapper noscript_tag
-    )
+    , intersectionObsOptions)
     noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
   else
     noscript_wrapped_images.forEach(lazy_load_image_in_noscript_wrapper)
