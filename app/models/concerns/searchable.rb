@@ -4,7 +4,12 @@ module Searchable
   included do
     include Elasticsearch::Model
     after_commit on: [:create] do
-      __elasticsearch__.index_document #if self.published?
+      begin
+        __elasticsearch__.index_document
+      rescue Faraday::ConnectionFailed
+        sleep(3)
+        __elasticsearch__.index_document
+      end
     end
 
     after_commit on: [:update] do
