@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_05_203708) do
+ActiveRecord::Schema.define(version: 2018_12_05_204345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2018_12_05_203708) do
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["attache_id", "attache_type"], name: "index_attachments_on_attache_id_and_attache_type"
     t.index ["attache_id"], name: "index_attachments_on_attache_id"
   end
 
