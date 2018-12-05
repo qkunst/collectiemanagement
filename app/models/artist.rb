@@ -143,7 +143,7 @@ class Artist < ApplicationRecord
   end
 
   def touch_works
-    works.all.each{|work| work.update_artist_name_rendered!; work.touch; work.save}
+    works.all.each{|work| work.update_artist_name_rendered!; work.cache_collection_locality_artist_involvements_texts!; work.touch}
   end
 
   def to_parameters

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_182641) do
+ActiveRecord::Schema.define(version: 2018_12_05_200226) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -605,6 +605,7 @@ ActiveRecord::Schema.define(version: 2018_12_04_182641) do
     t.integer "owner_id"
     t.string "created_by_name"
     t.text "tag_list_cache"
+    t.text "collection_locality_artist_involvements_texts_cache"
   end
 
 end

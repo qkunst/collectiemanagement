@@ -11,6 +11,7 @@ class Work < ApplicationRecord
 
   has_paper_trail
   has_cache_for_column :tag_list
+  has_cache_for_column :collection_locality_artist_involvements_texts
 
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year

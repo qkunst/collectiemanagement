@@ -160,5 +160,18 @@ module Work::ParameterRerendering
     def cluster_name
       cluster.name if cluster
     end
+
+    def artist_involvements_texts geoname_ids
+      artists.collect{|a| a.artist_involvements.related_to_geoname_ids(geoname_ids)}.flatten.collect{|a| a.to_s(format: :short)}
+    end
+
+    def collection_locality_artist_involvements_texts
+      collection_with_geoname_summaries = collection.self_or_parent_collection_with_geoname_summaries
+      if collection_with_geoname_summaries
+        artist_involvements_texts collection_with_geoname_summaries.cached_geoname_ids
+      else
+        return []
+      end
+    end
   end
 end
