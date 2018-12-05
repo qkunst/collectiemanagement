@@ -40,15 +40,19 @@
   border: 0 none;
 
   border-top: 1px solid #ccc;
+  .image_wrapper {
+    min-height: 1em;
+  }
   .image {
-    text-align: center;
     border-bottom: 1px solid #ccc;
+    position: relative;
     height: 11em;
     img.show, img.nonlinked_show {
       max-height: 11em;
-      margin: -1px 0 0 ;
+      margin: 0 auto;
       padding: 0;
-      position: inline;
+      position: absolute;
+      display: block;
     }
   }
   .work-selector {
@@ -118,12 +122,13 @@
   width: 100%;
   height: auto;
   margin: 0 0 1em 0;
-  .image {
+  .image_wrapper {
     width: 20%;
-    height: auto;
-    min-height: 1em;
     float: left;
     border-bottom: 0;
+  }
+  .image {
+    width: 100%;
   }
   .data {
     float: left;
@@ -136,11 +141,13 @@
   width: 100%;
   height: auto;
   margin: 0 0 1em 0;
-  .image {
+  .image_wrapper {
     width: 33%;
-    height: auto;
-    min-height: 1em;
     float: left;
+  }
+  .image {
+    width: 100%;
+    height: 16em;
     border-bottom: 0;
     img {
       max-height: 16em;

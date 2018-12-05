@@ -2,6 +2,26 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+lazy_load_image_in_noscript_wrapper = (noscript_tag)->
+  fragment = noscript_tag.innerHTML
+  parent = noscript_tag.parentElement
+  parent.innerHTML = fragment
+
+lazy_load_images = ->
+  noscript_wrapped_images = document.querySelectorAll("noscript[data-lazy=\"lazy-load\"]")
+  supportsIntersectionObserver = typeof IntersectionObserver == "function"
+  if supportsIntersectionObserver
+    intersectionObserver = new IntersectionObserver((entries)->
+      unless entries[0].intersectionRatio <= 0
+        target = entries[0].target
+        noscript_tag = target.querySelector("noscript")
+        if noscript_tag
+          lazy_load_image_in_noscript_wrapper noscript_tag
+    )
+    noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
+  else
+    noscript_wrapped_images.forEach(lazy_load_image_in_noscript_wrapper)
+
 show_or_hide_selected_works = ->
   selected_works_count = $(".work.panel input[type=checkbox]:checked").length
   if selected_works_count > 0
@@ -35,6 +55,7 @@ $(document).on("submit","form#new_work", ->
 
 $(document).on("ready", ->
   show_or_hide_selected_works()
+  lazy_load_images()
   setTimeout(->
     show_or_hide_selected_works()
   , 500)
@@ -43,6 +64,8 @@ $(document).on("ready", ->
 $(document).on("turbolinks:load", ->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   show_or_hide_selected_works()
+  lazy_load_images()
+
 )
 
 $(document).on "keydown", "input[data-catch-return]", (e)->

@@ -4,7 +4,15 @@ this_works_collection_work_url = collection_work_path(work.collection_id, work.i
 %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@selection[:display]%>">
   <%= link_to this_works_collection_work_url, class: :block do %>
-    <div class="image"><%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async') if work.photo_front? %></div>
+  <div class="image_wrapper">
+      <% if work.photo_front? %>
+      <div class="image">
+        <noscript data-lazy="lazy-load">
+          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async')  %>
+        </noscript>
+      </div>
+      <% end %>
+  </div>
   <% end %>
     <div class="data">
     <label class="work-selector hide-for-print">
