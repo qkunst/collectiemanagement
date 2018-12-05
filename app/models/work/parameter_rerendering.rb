@@ -139,7 +139,7 @@ module Work::ParameterRerendering
     end
 
     def collection_name_extended
-      self.collection.collection_name_extended
+      self.collection.cached_collection_name_extended
     end
     def object_format_code
       size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max

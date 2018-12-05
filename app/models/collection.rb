@@ -30,6 +30,7 @@ class Collection < ApplicationRecord
   has_many :works
 
   has_cache_for_column :geoname_ids
+  has_cache_for_column :collection_name_extended
 
   default_scope ->{order(:name)}
 
@@ -40,6 +41,7 @@ class Collection < ApplicationRecord
   has_many :reminders
 
   before_save :cache_geoname_ids!
+  before_save :cache_collection_name_extended!
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
