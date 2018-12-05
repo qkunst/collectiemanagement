@@ -12,11 +12,11 @@ lazy_load_images = ->
   supportsIntersectionObserver = typeof IntersectionObserver == "function"
   if supportsIntersectionObserver
     intersectionObserver = new IntersectionObserver((entries)->
-      unless entries[0].intersectionRatio <= 0
-        target = entries[0].target
-        noscript_tag = target.querySelector("noscript")
-        if noscript_tag
-          lazy_load_image_in_noscript_wrapper noscript_tag
+      # unless entries[0].intersectionRatio <= 0
+      target = entries[0].target
+      noscript_tag = target.querySelector("noscript")
+      if noscript_tag
+        lazy_load_image_in_noscript_wrapper noscript_tag
     )
     noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
   else
