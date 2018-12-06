@@ -18,3 +18,7 @@ collection4:
 
 collection_with_stages:
   name: Collection with stages
+
+collection_with_stages_child:
+  name: Collection with stages child
+  parent_collection: :collection_with_stages
