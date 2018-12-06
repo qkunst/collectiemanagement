@@ -130,6 +130,9 @@ class Work < ApplicationRecord
     end
   end
 
+  def can_be_accessed_by_user?(user)
+    user.admin? || collection.can_be_accessed_by_user?(user)
+  end
 
   def geoname_ids
     ids = []

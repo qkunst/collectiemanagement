@@ -6,6 +6,7 @@
   <% end %>
 <% multiple_values = false%>
 <% update_and_add = false%>
+<% update_and_delete = false%>
 <% case @edit_property  %>
   <% when :location %>
     <%= f.input :location %>
@@ -31,6 +32,14 @@
     <% update_and_add = true %>
   <% when :subset %>
     <%= f.association @edit_property, input_html: {class: 'chosen-select'} %>
+  <% when :tags %>
+    <div  style="margin-bottom: 8em">
+      <input type="hidden" name="work[tag_list][]" value=""/>
+      <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]">
+      </select>
+    </div>
+    <% update_and_add = true %>
+    <% update_and_delete = true %>
   <% when :techniques, :sources %>
     <%= f.association @edit_property, input_html: {class: 'chosen-select'} %>
     <% update_and_add = true %>
@@ -45,6 +54,7 @@
 <%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan (vervangt)", class: :button%>
 <%= f.submit "Pas #{I18n.translate 'count.works', count:  @works.count} aan, maar niet wanneer de waarden leeg zijn", name: :update_unless_empty, class: [:button, :secondary] if multiple_values%>
 <%= f.submit "Voeg waarde(n) toe aan #{I18n.translate 'count.works', count:  @works.count}", name: :update_and_add, class: [:button, :secondary] if update_and_add%>
+<%= f.submit "Verwijder waarde(n) bij #{I18n.translate 'count.works', count:  @works.count}", name: :update_and_delete, class: [:button, :alert], data: {confirm: "Weet je het zeker dat je deze waarde(n) wilt verwijderen bij de geselecteerde werken?"} if update_and_delete%>
 <% end %>
 
 </div>

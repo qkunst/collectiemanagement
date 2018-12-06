@@ -52,4 +52,65 @@ RSpec.describe WorksBatchController, type: :controller do
       expect(work2.themes).to include(themes(:wind))
     end
   end
+  describe "PUT #update with tags" do
+    # tags are somewhat different
+    it "replaces params in work when update (default)" do
+      sign_in users(:admin)
+      work1 = works(:work1)
+      work2 = works(:work2)
+      works = [work1, work2]
+      work1.tag_list = ["aarde"]
+      work2.tag_list = ["aarde"]
+      work1.save
+      work2.save
+
+      patch :update, params: {works: works.map{|a| a.id.to_s}, work: {tag_list: ["", "vuur"] }, collection_id: work1.collection_id}
+
+      work1.reload
+      work2.reload
+      expect(work1.tag_list).to include("vuur")
+      expect(work1.tag_list).not_to include("aarde")
+      expect(work2.tag_list).to include("vuur")
+      expect(work2.tag_list).not_to include("aarde")
+    end
+    it "adds to work when update_and_add" do
+      sign_in users(:admin)
+      work1 = works(:work1)
+      work2 = works(:work2)
+      works = [work1, work2]
+      work1.tag_list = ["aarde"]
+      work2.tag_list = ["aarde"]
+      work1.save
+      work2.save
+
+      patch :update, params: {works: works.map{|a| a.id.to_s}, work: {tag_list: ["", "vuur"] }, update_and_add: "jibber", collection_id: work1.collection_id}
+
+      work1.reload
+      work2.reload
+      expect(work1.tag_list).to include("vuur")
+      expect(work1.tag_list).to include("aarde")
+      expect(work2.tag_list).to include("vuur")
+      expect(work2.tag_list).to include("aarde")
+    end
+    it "removes from work when update_and_delete" do
+      sign_in users(:admin)
+      work1 = works(:work1)
+      work2 = works(:work2)
+      works = [work1, work2]
+      work1.tag_list = ["aarde", "vuur"]
+      work2.tag_list = ["aarde", "vuur", "wind"]
+      work1.save
+      work2.save
+
+      patch :update, params: {works: works.map{|a| a.id.to_s}, work: {tag_list: ["", "vuur"] }, update_and_delete: "jibber", collection_id: work1.collection_id}
+
+      work1.reload
+      work2.reload
+      expect(work1.tag_list).not_to include("vuur")
+      expect(work1.tag_list).to include("aarde")
+      expect(work2.tag_list).not_to include("vuur")
+      expect(work2.tag_list).to include("aarde")
+      expect(work2.tag_list).to include("wind")
+    end
+  end
 end

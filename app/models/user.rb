@@ -108,14 +108,7 @@ class User < ApplicationRecord
   end
 
   def can_access_object? objekt=nil
-    return true if admin?
-    return false if objekt == nil
-    if objekt.is_a? Collection
-      return objekt.can_be_accessed_by_user(self)
-    elsif objekt.is_a? Work
-      return objekt.collection.can_be_accessed_by_user(self)
-    end
-    return false
+    admin? or (objekt.methods.include?(:can_be_accessed_by_user?) and objekt.can_be_accessed_by_user?(user))
   end
 
   def can_see_details?
