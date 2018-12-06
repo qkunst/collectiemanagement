@@ -57,7 +57,7 @@ class CollectionsController < ApplicationController
     @sections["Ontsluiting"] = [[:"tag_list.keyword"]] unless current_user.can_access_extended_report?
 
     @sections.deep_merge!({
-      "Overige" => [[:sources],[:owner]],
+      "Overige" => [[:sources],[:owner]], #TODO: [:inventoried, :refound, :new_found]
     }) if current_user.can_access_extended_report?
 
 

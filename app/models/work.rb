@@ -64,6 +64,10 @@ class Work < ApplicationRecord
   mount_uploader :photo_detail_1, PictureUploader
   mount_uploader :photo_detail_2, PictureUploader
 
+  time_as_boolean :inventoried
+  time_as_boolean :refound
+  time_as_boolean :new_found
+
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
   settings index: { number_of_shards: 5, max_result_window: 20_000 } do
@@ -213,7 +217,7 @@ class Work < ApplicationRecord
         :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,
         :report_val_sorted_artist_ids, :report_val_sorted_object_category_ids, :report_val_sorted_technique_ids, :report_val_sorted_theme_ids,
         :location_raw, :location_floor_raw, :location_detail_raw,
-        :object_format_code
+        :object_format_code, :inventoried, :refound, :new_found
       ]
     )
   end

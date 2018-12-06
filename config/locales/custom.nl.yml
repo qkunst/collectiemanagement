@@ -258,6 +258,7 @@ nl:
         image_rights: Beeldrecht aanwezig
         information_back: Informatie achterkant
         internal_comments: Opmerkingen voor intern gebruik
+        inventoried: Geïnventariseerd
         locality_geoname: Lokaliteit
         locality_geoname_id: Lokaliteit
         locality_geoname_name: Lokaliteit
@@ -272,6 +273,7 @@ nl:
         market_value: Marktwaarde (€)
         medium: Drager
         medium_comments: Toelichting drager
+        new_found: Nieuw aangetroffen
         no_signature_present: Geen signatuur aanwezig
         object_categories: Categorieën
         object_categories_split: Categorieën (technieken afzonderlijk geteld)
@@ -294,6 +296,7 @@ nl:
         purchase_price: Aankoopprijs
         purchase_price_currency: Munteenheid
         purchase_year: Aankoopjaar
+        refound: Teruggevonden
         replacement_value: Vervangingswaarde (€)
         signature: Signatuur
         signature_comments: Signatuur (incl. locatie)

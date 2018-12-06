@@ -3,6 +3,19 @@
   <div class="form-inputs">
     <fieldset>
       <legend>Administratief</legend>
+      <fieldset >
+      <div class="row">
+      <div class="medium-4 columns">
+        <%= f.input :inventoried, as: :boolean %>
+      </div>
+      <div class="medium-4 columns">
+        <%= f.input :refound, as: :boolean %>
+      </div>
+      <div class="medium-4 columns">
+        <%= f.input :new_found, as: :boolean %>
+      </div>
+      </div>
+      </fieldset>
       <div class="row">
       <div class="medium-5 columns">
         <%= f.input :location %>
@@ -115,7 +128,6 @@
   </div>
 
   <div class="form-actions">
-    <hr/>
     <% if @work.id %>
     <label><%= check_box_tag 'submit_and_edit_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
     <% end %>

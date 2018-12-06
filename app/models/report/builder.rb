@@ -68,6 +68,10 @@ module Report
           aggregation.merge!(basic_aggregation_snippet_with_missing(key))
         end
 
+        [:inventoried, :refound, :new_found].each do |key|
+          aggregation.merge!(basic_aggregation_snippet(key))
+        end
+
         location_sub_sub = basic_aggregation_snippet_with_missing("location_detail_raw.keyword")
 
         location_sub = basic_aggregation_snippet_with_missing("location_floor_raw.keyword")
