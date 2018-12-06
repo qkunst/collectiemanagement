@@ -41,10 +41,10 @@ class ArtistsController < ApplicationController
     authorize! :show, @artist
 
     if @collection
-      @works = @collection.works_including_child_works.artist(@artist)
+      @works = @collection.works_including_child_works.artist(@artist).distinct
     else
       authorize! :manage, Artist
-      @works = @artist.works
+      @works = @artist.works.distinct
     end
   end
 
