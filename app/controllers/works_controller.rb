@@ -174,12 +174,8 @@ class WorksController < ApplicationController
   end
 
   def set_work
-    begin
-      @work = current_user.accessible_works.find( params[:id] || params[:work_id] )
-      redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
-    rescue
-      redirect_to root_path, warning: "Geen toegang"
-    end
+    @work = current_user.accessible_works.find( params[:work_id] || params[:id])
+    redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
   def work_params

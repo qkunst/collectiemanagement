@@ -97,9 +97,9 @@ RSpec.describe "Collections", type: :request do
 
       digest = OpenSSL::Digest.new('sha512')
       hmac_token = OpenSSL::HMAC.hexdigest(digest, api_user.api_key, data)
-      get url, headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
-      response_data = JSON.parse(response.body)
-      expect(response).to have_http_status(401)
+      expect {
+        get url, headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
