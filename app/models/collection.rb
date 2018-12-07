@@ -320,9 +320,6 @@ class Collection < ApplicationRecord
     end
   end
 
-
-
-
   def can_be_accessed_by_user user
     users_including_parent_users.include? user or user.admin?
   end
