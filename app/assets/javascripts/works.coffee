@@ -2,37 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-decodeEntities = (encodedString)->
-  # required for IE and Safari
-  textArea = document.createElement('textarea')
-  textArea.innerHTML = encodedString
-  textArea.value
-
-
-lazy_load_image_in_noscript_wrapper = (noscript_tag)->
-  fragment = noscript_tag.innerHTML
-  parent = noscript_tag.parentElement
-  parent.innerHTML = decodeEntities(fragment)
-
-process_intersection_observer_entry = (entry)->
-  if entry.intersectionRatio > 0
-    noscript_tag = entry.target.querySelector("noscript")
-    if noscript_tag
-      lazy_load_image_in_noscript_wrapper noscript_tag
-
-lazy_load_images = ->
-  noscript_wrapped_images = document.querySelectorAll("noscript[data-lazy=\"lazy-load\"]")
-  supportsIntersectionObserver = typeof IntersectionObserver == "function"
-  if supportsIntersectionObserver
-    intersectionObsOptions =
-      root_margin: "100px"
-    intersectionObserver = new IntersectionObserver((entries)->
-      entries.forEach(process_intersection_observer_entry)
-    , intersectionObsOptions)
-    noscript_wrapped_images.forEach((e)->intersectionObserver.observe(e.parentElement))
-  else
-    noscript_wrapped_images.forEach(lazy_load_image_in_noscript_wrapper)
-
 show_or_hide_selected_works = ->
   selected_works_count = $(".work.panel input[type=checkbox]:checked").length
   if selected_works_count > 0
@@ -66,7 +35,6 @@ $(document).on("submit","form#new_work", ->
 
 $(document).on("ready", ->
   show_or_hide_selected_works()
-  lazy_load_images()
   setTimeout(->
     show_or_hide_selected_works()
   , 500)
@@ -75,7 +43,6 @@ $(document).on("ready", ->
 $(document).on("turbolinks:load", ->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   show_or_hide_selected_works()
-  lazy_load_images()
 
 )
 

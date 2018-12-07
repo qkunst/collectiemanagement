@@ -94,11 +94,13 @@
     white-space: nowrap;
 
     line-height: 1.2;
-    -o-text-overflow: ellipsis;   /* Opera */
-    -moz-text-overflow: ellipsis;   /* IE, Safari (WebKit) */
     text-overflow: "…";   /* IE, Safari (WebKit) */
     overflow:hidden;              /* don't show excess chars */
     width: 100%;
+  }
+  a {
+    font-weight: 300;
+    color: $qkunst-dark;
   }
   padding: 0em;
   background: none ;
