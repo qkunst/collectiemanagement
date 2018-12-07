@@ -11,8 +11,7 @@ class BatchPhotoUploadsController < ApplicationController
 
   def match_works
     @batch_photo_upload = BatchPhotoUpload.find(params[:batch_photo_upload_id])
-
-    CouplePhotosJob.perform_now(@batch_photo_upload)
+    CouplePhotosJob.perform_later(@batch_photo_upload)
     redirect_to collection_works_path(@collection), notice: "De foto's worden op de achtergrond aan de werken gekoppeld (dit kan enige tijd duren)."
   end
 
