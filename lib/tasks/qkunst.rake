@@ -57,7 +57,7 @@ namespace :qkunst do
           name = "Rabobank #{line[:roepnaam_bank].value}"
           if c.parent_collection.nil?
             if Collection.find_by_name(name)
-              raise "#{name} found, but no match on id"
+              raise IndexError, "#{name} found, but no match on id"
             end
             c.parent_collection = Collection.find_by_name("Zonder kring")
           end
