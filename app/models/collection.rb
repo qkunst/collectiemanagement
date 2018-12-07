@@ -346,10 +346,10 @@ class Collection < ApplicationRecord
     def last_updated
       order(:updated_at).last
     end
-    def expand_with_child_collections(depth=5)
+    def expand_with_child_collections(depth = 5)
+      raise ArgumentError, "depth can't be < 1" if depth < 1
       join_sql = "LEFT OUTER JOIN collections c1_cs ON collections.id = c1_cs.parent_collection_id "
       select_sql = "collections.id AS _child_level0, c1_cs.id AS _child_level1"
-      raise "depth can't be < 1" if depth < 1
       depth -= 1 # we already have depth = 1
       depth.times do |dept|
         join_sql += "LEFT OUTER JOIN collections c#{(2+dept).to_i}_cs ON c#{(1+dept).to_i}_cs.id = c#{(2+dept).to_i}_cs.parent_collection_id "
