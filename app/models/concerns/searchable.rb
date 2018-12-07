@@ -44,8 +44,8 @@ module Searchable
     def reindex!(recreate_index=false)
       seconds_to_sleep = recreate_index ? 0 : 1
       if recreate_index
-        Work.__elasticsearch__.create_index! force: true
-        Work.__elasticsearch__.refresh_index!
+        self.__elasticsearch__.create_index! force: true
+        self.__elasticsearch__.refresh_index!
       end
       self.find_each{|a| a.reindex!; sleep(seconds_to_sleep)}
     end

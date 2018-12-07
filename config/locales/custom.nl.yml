@@ -146,6 +146,15 @@ nl:
         publish:
           "0": Niet publiceren
           "1": Publiceer
+        refound:
+          "0": "-"
+          "1": Teruggevonden
+        new_found:
+          "0": "-"
+          "1": Nieuw aangetroffen
+        inventoried:
+          "0": "-"
+          "1": Onlangs geïnventariseerd
     attributes:
       stage:
         name: Naam
@@ -259,6 +268,7 @@ nl:
         information_back: Informatie achterkant
         internal_comments: Opmerkingen voor intern gebruik
         inventoried: Geïnventariseerd
+        inventoried_at: Geïnventariseerd op
         locality_geoname: Lokaliteit
         locality_geoname_id: Lokaliteit
         locality_geoname_name: Lokaliteit
@@ -274,6 +284,7 @@ nl:
         medium: Drager
         medium_comments: Toelichting drager
         new_found: Nieuw aangetroffen
+        new_found_at: Nieuw aangetroffen op
         no_signature_present: Geen signatuur aanwezig
         object_categories: Categorieën
         object_categories_split: Categorieën (technieken afzonderlijk geteld)
@@ -297,6 +308,7 @@ nl:
         purchase_price_currency: Munteenheid
         purchase_year: Aankoopjaar
         refound: Teruggevonden
+        refound_at: Teruggevonden op
         replacement_value: Vervangingswaarde (€)
         signature: Signatuur
         signature_comments: Signatuur (incl. locatie)

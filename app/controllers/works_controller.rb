@@ -203,6 +203,7 @@ class WorksController < ApplicationController
       :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
     ] if current_user.can_edit_photos?
     permitted_fields += [
+      :inventoried, :refound, :new_found,
       :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
       :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
       :signature_comments, :no_signature_present, :print, :frame_height, :frame_width, :frame_depth, :frame_diameter,
