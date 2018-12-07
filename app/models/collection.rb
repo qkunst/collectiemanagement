@@ -342,7 +342,7 @@ class Collection < ApplicationRecord
 
     def for_user user
       return self.without_parent if user.admin? and !user.admin_with_favorites?
-      return self.joins(:users).where(users: {id: user.id})
+      self.joins(:users).where(users: {id: user.id})
     end
 
     def last_updated
