@@ -320,9 +320,6 @@ class Collection < ApplicationRecord
     end
   end
 
-
-
-
   def can_be_accessed_by_user user
     users_including_parent_users.include? user or user.admin?
   end
@@ -339,24 +336,32 @@ class Collection < ApplicationRecord
     def all_plus_a_fake_super_collection
       [FakeSuperCollection.new] + self.all
     end
+
     def for_user user
       return self.without_parent if user.admin? and !user.admin_with_favorites?
-      return self.joins(:users).where(users: {id: user.id})
+      self.joins(:users).where(users: {id: user.id})
     end
+
     def last_updated
       order(:updated_at).last
     end
-    def expand_with_child_collections(depth=5)
+
+    def expand_with_child_collections(depth = 5)
+      raise ArgumentError, "depth can't be < 1" if depth < 1
       join_sql = "LEFT OUTER JOIN collections c1_cs ON collections.id = c1_cs.parent_collection_id "
       select_sql = "collections.id AS _child_level0, c1_cs.id AS _child_level1"
-      raise "depth can't be < 1" if depth < 1
       depth -= 1 # we already have depth = 1
       depth.times do |dept|
         join_sql += "LEFT OUTER JOIN collections c#{(2+dept).to_i}_cs ON c#{(1+dept).to_i}_cs.id = c#{(2+dept).to_i}_cs.parent_collection_id "
         select_sql += ", c#{(2+dept).to_i}_cs.id AS _child_level#{(2+dept).to_i}"
       end
       ids = []
-      self.joins(join_sql).select(select_sql).each{|r| (depth+1).times{|a| ids << r.send("_child_level#{a}".to_sym)} }
+      self
+        .joins(join_sql)
+        .select(select_sql)
+        .each do |r|
+          (depth + 1).times { |a| ids << r.send("_child_level#{a}".to_sym) }
+        end
       ::Collection.unscoped.where(id: ids.compact.uniq)
     end
   end
