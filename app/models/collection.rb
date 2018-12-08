@@ -356,11 +356,11 @@ class Collection < ApplicationRecord
         select_sql += ", c#{(2+dept).to_i}_cs.id AS _child_level#{(2+dept).to_i}"
       end
       ids = []
-      self
-        .joins(join_sql)
-        .select(select_sql)
-        .each do |r|
-          (depth + 1).times { |a| ids << r.send("_child_level#{a}".to_sym) }
+      self.
+        joins(join_sql).
+        select(select_sql).
+        each do | intermediate_result |
+          (depth + 1).times { |a| ids << intermediate_result.send("_child_level#{a}".to_sym) }
         end
       ::Collection.unscoped.where(id: ids.compact.uniq)
     end
