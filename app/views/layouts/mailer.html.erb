@@ -1,36 +1,62 @@
 <html>
   <style>
   body {
-    font-family: Trebuchet, "Trebuchet MS", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Roboto Slab", serif;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #676a6a;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    color: #EA8830;
-    margin-bottom: 0.5rem;
-    margin-top: 0.2rem;
+    font-family: "Poppins", "Futura", "Arial Black";
+    font-style: normal;
+    font-weight: 700;
+    color: #AF917D;
+    text-rendering: optimizeLegibility;
   }
   a {
-    color: #008CBA;
+    line-height: inherit;
     text-decoration: none;
+    cursor: pointer;
+    font-family: "Poppins", "Futura", sans-serif;
+    font-weight: 700;
+    color: #676a6a;
   }
   a:hover {
-    color: #0078a0;
+    color: #9f7b63;
     text-decoration: underline;
   }
   a.button {
-    text-decoration: none;
-    padding: 1em;
-    background: #0078a0;
-    margin: 0.3em;
     display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #AF917D;
     color: #fff;
+    font-family: 'Poppins', 'Futura', 'Arial Black';
   }
   a.button:hover {
     background: #007095;
-    text-decoration: none;
+    outline-width: 0;
+    background-color: #9e7961;
+    color: #fff;
+  }
+  .button.small {
+      font-size: 0.75rem;
   }
   h5 {
+    line-height: 1.4;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
     font-size: 1.125em;
-    font-weight: normal;
   }
   article {
     border: 1px solid #ccc;
@@ -62,34 +88,6 @@
   }
   .right {
     float: right!important;
-  }
-
-  .label {
-      display: inline-block;
-      font-family: Trebuchet, "Trebuchet MS", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-      font-weight: normal;
-      line-height: 1;
-      margin-bottom: auto;
-      position: relative;
-      text-align: center;
-      text-decoration: none;
-      white-space: nowrap;
-      padding: 0.25rem 0.5rem 0.25rem;
-      font-size: 0.6875rem;
-      background-color: #008CBA;
-      color: #FFFFFF;
-      list-style: none;
-  }
-  .label.qkunst {
-      background: #EA8830;
-  }
-  .label.round {
-      border-radius: 1000px;
-  }
-  ul.labels, ul.labels li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
   }
 
   </style>

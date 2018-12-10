@@ -62,6 +62,7 @@ gem 'rspec-rails', group: [:development, :test]
 ## DEVELOPMENT
 ##
 group :development do
+  gem "letter_opener"
   gem 'capistrano'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
@@ -119,9 +120,5 @@ group :test do
   gem 'database_cleaner'
   gem 'simplecov', :require => false
   gem 'bullet'
-
-end
-
-group :development do
 
 end
