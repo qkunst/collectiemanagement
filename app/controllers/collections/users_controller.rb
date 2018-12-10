@@ -1,10 +1,10 @@
-class UsersController < ApplicationController
-  before_action :authenticate_admin_user!
+class Collections::UsersController < ApplicationController
+  before_action :set_collection
+  before_action :authenticate_admin_or_advisor_user!
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
     @advisors = current_user.accessible_users.advisor.order(:email).all
-    @admin_users = current_user.accessible_users.admin.order(:email).all
     @appraisal_users = current_user.accessible_users.appraiser.order(:email).all
     @qkunst_users = current_user.accessible_users.qkunst.order(:email).all
     other_users = current_user.accessible_users.other.order(:email)
@@ -40,6 +40,6 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = current_user.accessible_users.find_by_id(params[:id])
+    @user = User.find_by_id(params[:id])
   end
 end

@@ -16,12 +16,14 @@ class User < ApplicationRecord
   has_and_belongs_to_many :collections
 
   scope :admin, ->{ where(admin: true) }
+  scope :not_admin, ->{ where.not(admin: true) }
   scope :advisor, ->{ where(advisor: true).where(admin: [false, nil]) }
   scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
   scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
   scope :other, ->{ where(qkunst: [false,nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
   scope :has_collections, ->{ joins(:collections).uniq }
   scope :receive_mails, ->{ where(receive_mails: true)}
+  scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil})}
 
   before_save :serialize_collection_accessibility!
 
@@ -53,6 +55,12 @@ class User < ApplicationRecord
   def accessible_works
     return Work.all if admin?
     Work.where(collection_id: accessible_collections)
+  end
+
+  def accessible_users
+    return User.where("1=1") if admin?
+    return User.where("1=0") if !(admin? or advisor?)
+    return User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
 

@@ -1,12 +1,12 @@
 # password for all users: "password"
 user1:
-  email: qkunst-test-user1@murb.nl
+  email: test-user1@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 user2:
-  email: qkunst-test-user2@murb.nl
+  email: test-user2@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 user3:
-  email: qkunst-test-user3@murb.nl
+  email: test-user3@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 user_with_api_key:
   email: qkunst-test-user-with-api-key@murb.nl
@@ -54,6 +54,15 @@ appraiser:
   admin: false
   qkunst: false
   appraiser: true
+  collections:
+    - :collection1
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+advisor:
+  email: qkunst-test-advisor@murb.nl
+  admin: false
+  qkunst: false
+  appraiser: false
+  advisor: true
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy

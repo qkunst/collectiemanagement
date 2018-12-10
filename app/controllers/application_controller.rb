@@ -129,18 +129,18 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_qkunst_or_facility_user!
-    authenticate_user!
-    if current_user
-      redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze pagina"}
-      redirect_to root_path, redirect_options unless (current_user.qkunst? or current_user.facility_manager?)
-    end
+    authenticate_user_with_one_of_roles!([:qkunst, :facility_manager])
   end
 
   def authenticate_admin_or_facility_user!
+    authenticate_user_with_one_of_roles!([:admin, :facility_manager])
+  end
+
+  def authenticate_user_with_one_of_roles! roles=[]
     authenticate_user!
     if current_user
       redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze pagina"}
-      redirect_to root_path, redirect_options unless (current_user.admin? or current_user.facility_manager?)
+      redirect_to root_path, redirect_options unless roles.collect{|a| current_user.send(a)}.include? true
     end
   end
 
@@ -157,11 +157,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_admin_user!
-    authenticate_user!
-    if current_user
-      redirect_options = offline? ? {} : {alert: "Alleen administratoren van QKunst kunnen deze pagina bekijken"}
-      redirect_to root_path, redirect_options unless current_user.admin?
-    end
+    authenticate_user_with_one_of_roles!([:admin])
   end
 
   def set_time_zone

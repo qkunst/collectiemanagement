@@ -91,6 +91,32 @@ RSpec.describe User, type: :model do
         expect(u.works_created.count).to eq(2)
       end
     end
+    describe "#accessible_users" do
+      it "should return all users when admin" do
+        expect(users(:admin).accessible_users.all.collect{|a| a.email}.sort).to eq(User.all.collect{|a| a.email}.sort)
+      end
+      it "should return no users when qkunst" do
+        expect(users(:qkunst).accessible_users.all).to eq([])
+      end
+      it "should return subset of users when advisor" do
+        # collection1:
+        #   collection2:
+        #     collection4:
+        #   collection_with_works:
+        accessible_users = users(:advisor).accessible_users.all
+
+        expect(accessible_users).to include(users(:user1))
+        expect(accessible_users).to include(users(:user2))
+        expect(accessible_users).to include(users(:user3))
+        expect(accessible_users).to include(users(:qkunst_with_collection))
+        expect(accessible_users).to include(users(:user_with_no_rights))
+        expect(accessible_users).to include(users(:appraiser))
+        expect(accessible_users).to include(users(:advisor))
+        expect(accessible_users).not_to include(users(:admin))
+        expect(accessible_users).not_to include(users(:read_only_user)) #collection3 isn't in collection 1 tree
+
+      end
+    end
   end
   describe "Class methods" do
   end

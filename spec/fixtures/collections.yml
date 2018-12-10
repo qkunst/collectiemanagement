@@ -5,16 +5,16 @@ collection2:
   name: Collection 2 (sub of Collection 1)
   parent_collection: :collection1
 
+collection4:
+  name: Collection 4
+  parent_collection: :collection2
+
 collection_with_works:
   name: Collection with works (sub of Collection 1)
   parent_collection: :collection1
 
 collection3:
   name: Collection 3
-
-collection4:
-  name: Collection 4
-  parent_collection: :collection2
 
 collection_with_stages:
   name: Collection with stages
