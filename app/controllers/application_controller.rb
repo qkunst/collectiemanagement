@@ -136,6 +136,10 @@ class ApplicationController < ActionController::Base
     authenticate_user_with_one_of_roles!([:admin, :facility_manager])
   end
 
+  def authenticate_admin_or_advisor_user!
+    authenticate_user_with_one_of_roles!([:admin, :advisor])
+  end
+
   def authenticate_user_with_one_of_roles! roles=[]
     authenticate_user!
     if current_user

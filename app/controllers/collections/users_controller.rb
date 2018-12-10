@@ -40,6 +40,6 @@ class Collections::UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find_by_id(params[:id])
+    @user = current_user.accessible_users.find_by_id(params[:id])
   end
 end
