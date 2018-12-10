@@ -41,7 +41,7 @@ set :linked_dirs, %w{log tmp public/uploads storage}
 
 # rbenv
 set :rbenv_type, :user
-set :rbenv_ruby, '2.5.0'
+set :rbenv_ruby, File.read(File.expand_path('../.ruby-version', __dir__)).strip
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 set :rbenv_roles, :all
@@ -96,6 +96,39 @@ namespace :delayed_job do
       # execute '~/.profile'
       # execute '~/.bashrc'
       execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && RAILS_ENV=#{fetch(:stage)} #{current_path.sub('/home/rails/','~/').join('bin/delayed_job').to_s} status"
+    end
+  end
+end
+
+namespace :rbenv do
+  desc 'Install rbenv'
+  task :install do
+    on roles("web") do
+      begin
+        execute "git clone https://github.com/rbenv/rbenv.git #{fetch(:rbenv_path)}"
+      rescue SSHKit::Command::Failed
+        puts "rbenv already installed, updating..."
+        execute "cd #{fetch(:rbenv_path)} && git pull"
+      end
+      # execute "~/.rbenv/bin/rbenv init"
+      execute "mkdir -p #{fetch(:rbenv_path)}/plugins"
+      begin
+        execute "git clone https://github.com/rbenv/ruby-build.git #{fetch(:rbenv_path)}/plugins/ruby-build"
+      rescue SSHKit::Command::Failed
+        puts "rbenv/ruby-build plugin already installed, updating..."
+        execute "cd #{fetch(:rbenv_path)}/plugins/ruby-build && git pull"
+      end
+      rbenv_ruby = File.read('.ruby-version').strip
+      execute "#{fetch(:rbenv_path)}/bin/rbenv install -s #{fetch(:rbenv_ruby)||rbenv_ruby}"
+      execute "#{fetch(:rbenv_path)}/bin/rbenv global #{fetch(:rbenv_ruby)||rbenv_ruby}"
+      execute "#{fetch(:rbenv_path)}/bin/rbenv local #{fetch(:rbenv_ruby)||rbenv_ruby}"
+      # execute "#{fetch(:rbenv_path)}/bin/rbenv rehash"
+      execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && ruby -v"
+
+      execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && gem install bundler --no-document"
+      if fetch(:rbenv_ruby).nil?
+        puts "\nPlease uncomment the line `# set :rbenv_ruby, File.read('.ruby-version').strip` to enable capistrano rbenv"
+      end
     end
   end
 end
