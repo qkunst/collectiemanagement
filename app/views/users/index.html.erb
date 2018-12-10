@@ -47,7 +47,32 @@
 <div class="row">
 
   <div class="large-6 columns">
-    <h2>Taxateurs</h2>
+    <h2>Intern</h2>
+
+    <h3>Kunstadviseurs</h3>
+    <p>Kunstadviseurs zijn bijna gelijk aan administratoren, alleen kunnen zij geen collectie overstijgende zaken wijzigen (wél gebruikersbeheer voor de collectie, geen algemene thema's aanpassen).</p>
+    <table class="users">
+      <thead>
+        <tr>
+          <th>E-mail</th>
+          <th>Collectie-toegang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@advisors.each do | user | %>
+          <tr>
+            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <td>
+              <ul>
+                <%user.collections.each do |collection| %>
+                  <li><%= link_to collection.name, collection%></li>
+                <% end %>
+              </ul>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+    <h3>Taxateurs</h3>
     <p>Taxateurs kunnen naast registreren ook taxaties toevoegen en inzien, maar hebben alleen toegang tot geselecteerde collecties en kunnen geen instellingen wijzigen. </p>
 
     <table class="users">
@@ -71,7 +96,7 @@
         <% end %>
       </tbody>
     </table>
-    <h2>Registratoren</h2>
+    <h3>Registratoren</h3>
     <p>QKunst gebruikers hebben alleen toegang tot geselecteerde collecties en kunnen geen instellingen wijzigen. </p>
 
     <table class="users">

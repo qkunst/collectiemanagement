@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
+    @advisors = User.advisor.order(:email).all
     @admin_users = User.admin.order(:email).all
     @appraisal_users = User.appraiser.order(:email).all
     @qkunst_users = User.qkunst.order(:email).all

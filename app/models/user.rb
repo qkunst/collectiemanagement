@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_paper_trail
 
-  ROLES = [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
+  ROLES = [:admin, :advisor, :qkunst , :appraiser, :facility_manager, :read_only]
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable
@@ -16,16 +16,17 @@ class User < ApplicationRecord
   has_and_belongs_to_many :collections
 
   scope :admin, ->{ where(admin: true) }
-  scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil]) }
-  scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil]).where(appraiser: [false, nil]) }
-  scope :other, ->{ where(qkunst: [false,nil]).where(admin: [false, nil]).where(appraiser: [false, nil]) }
+  scope :advisor, ->{ where(advisor: true).where(admin: [false, nil]) }
+  scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
+  scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :other, ->{ where(qkunst: [false,nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
   scope :has_collections, ->{ joins(:collections).uniq }
   scope :receive_mails, ->{ where(receive_mails: true)}
 
   before_save :serialize_collection_accessibility!
 
   def qkunst?
-    read_attribute(:qkunst) or admin? or appraiser?
+    read_attribute(:qkunst) or admin? or appraiser? or advisor?
   end
 
   def role
@@ -75,15 +76,11 @@ class User < ApplicationRecord
   end
 
   def can_receive_messages?
-    admin? or facility_manager?
-  end
-
-  def can_tag?
-    qkunst? or appraiser?
+    admin? or facility_manager? or advisor?
   end
 
   def can_write_messages?
-    admin? or facility_manager?
+    admin? or facility_manager? or advisor?
   end
 
   def can_edit_message? message=nil

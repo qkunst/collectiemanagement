@@ -75,7 +75,7 @@
         <% if can? :create, Appraisal %>
           <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'primary small button right', data: { open_in_context: true}%></li>
         <% end %>
-        <% if current_user.can_tag? %>
+        <% if can? :tag, @work %>
           <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
         <% end %>
         <% if can? :manage, Attachment %>

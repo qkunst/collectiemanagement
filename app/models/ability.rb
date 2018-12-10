@@ -25,6 +25,10 @@ class Ability
 
         can :read_information_back, Work
         can :read_internal_comments, Work
+        can :tag, Work
+      elsif user.advisor?
+        can :edit_visibility, Attachment
+
       elsif user.appraiser?
         can [:create, :update, :read], Artist
         can [:create, :update], ArtistInvolvement
@@ -42,6 +46,8 @@ class Ability
 
         can :read_information_back, Work
         can :read_internal_comments, Work
+
+        can :tag, Work
       elsif user.qkunst?
         can [:create, :update, :read], Artist
         can [:create, :update], ArtistInvolvement
@@ -55,6 +61,7 @@ class Ability
 
         can :read_information_back, Work
         can :read_internal_comments, Work
+        can :tag, Work
       elsif user.facility_manager?
         can [:read], Artist
 

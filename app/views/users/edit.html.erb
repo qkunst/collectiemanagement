@@ -5,13 +5,7 @@
     <%= simple_form_for(@user) do |f| %>
       <h2>Rollen</h2>
       <p>De administrator rol kan overal bij (en kan dus ook gebruikers aanpassen, een QKunst gebruiker zonder administratierol kan alleen collecties en werken aanpassen waartoe hij/zij toegang toe heeft. Gebruikers zonder rol, maar wel met toegang tot een bepaalde collectie hebben enkel lees-toegang tot de collecties.</p>
-      <%= f.collection_radio_buttons :role, [
-        [:admin, "Admin (kan alle collecties en functies benaderen)"],
-        [:appraiser, "Taxateur"],
-        [:qkunst, "Registrator"],
-        [:facility_manager, "Faciliteitsmanager (kan waardebepaling zien, downloaden & beperkt wijzigen)"],
-        [:read_only, "Read only (kan alleen lezen)"]
-      ], :first, :last %>
+      <%= f.collection_radio_buttons :role, User::ROLES.collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, :last, :first %>
       <%= f.input :receive_mails %>
       <h2>Toegang tot collecties</h2>
       <p>Indien de rol van de gebruiker administrator is wordt de selectie hieronder gebruikt als een lijst van favorieten, administratoren hebben toegang tot alle collecties, maar alleen de geselecteerde collecties worden getoond in het overzicht.</p>
