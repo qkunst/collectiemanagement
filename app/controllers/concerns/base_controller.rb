@@ -2,9 +2,9 @@ module BaseController
   extend ActiveSupport::Concern
 
   included do
-    before_action :authentication_callbacks
     before_action :set_collection
     before_action :set_named_variable_by_class, only: [:show, :edit, :update, :destroy]
+    before_action :authentication_callbacks
 
     def index
       if @collection
@@ -52,7 +52,11 @@ module BaseController
     private
 
     def authentication_callbacks
-      authenticate_admin_user!
+      if @collection and !(named_variable.methods.include?(:collection) and named_variable.collection.nil?)
+        authorize! :manage_collection, controlled_class
+      else
+        authorize! :index, controlled_class
+      end
     end
 
     def named_collection_url

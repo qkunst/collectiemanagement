@@ -63,6 +63,10 @@ class User < ApplicationRecord
     return User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
+  def accessible_roles
+    admin? ? User::ROLES : User::ROLES - [:admin]
+  end
+
 
   def role= new_role
     User::ROLES.each do |r|
@@ -113,7 +117,7 @@ class User < ApplicationRecord
   end
 
   def can_access_object? objekt=nil
-    admin? or (objekt.methods.include?(:can_be_accessed_by_user?) and objekt.can_be_accessed_by_user?(user))
+    admin? or (objekt.methods.include?(:can_be_accessed_by_user?) and objekt.can_be_accessed_by_user?(self))
   end
 
   def can_see_details?

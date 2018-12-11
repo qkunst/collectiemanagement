@@ -10,7 +10,11 @@ class ArtistsController < ApplicationController
   # GET /artists
   # GET /artists.json
   def index
-    authorize! :index, Artist
+    if @collection
+      authorize! :manage_collection, Artist
+    else
+      authorize! :index, Artist
+    end
 
     if @collection
       @artists = @collection.artists.order_by_name.distinct.all

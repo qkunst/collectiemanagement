@@ -4,7 +4,7 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <% unless @collection and @theme.id.nil? %>
-      <%= f.association :collection, include_blank: false, prompt: "Geen collectie (Algemeen)" %>
+      <%= f.association :collection, collection: current_user.accessible_collections, include_blank: false, prompt: "Geen collectie (Algemeen)" %>
     <% end %>
     <%= f.input :hide if @theme.id%>
   </div>

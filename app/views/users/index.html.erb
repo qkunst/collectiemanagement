@@ -1,28 +1,30 @@
 <div class="row">
   <div class="large-12 columns">
     <h1>Gebruikers</h1>
-    <p>Admin gebruikers hebben overal toegang toe. QKunst gebruikers moet specifiek toegang worden verleend tot bepaalde projecten. Klik op een e-mailadres van een gebruiker om de toegangsrechten aan te passen.</p>
+    <p>Klik op een e-mailadres van een gebruiker om de toegangsrechten aan te passen.</p>
 
   </div>
   <div class="large-6 columns">
-    <h2>Administratoren</h2>
-    <p>Admin gebruikers hebben overal toegang toe.</p>
-    <table class="users">
-      <thead>
-        <tr>
-          <th>E-mail</th>
-        </tr>
-      </thead>
-      <tbody>
-        <%@admin_users.each do | user | %>
+    <% if can? :edit_admin, User%>
+      <h2>Administratoren</h2>
+      <p>Admin gebruikers hebben overal toegang toe.</p>
+      <table class="users">
+        <thead>
           <tr>
-            <td><%=link_to user.email, edit_user_path(user)%></td>
+            <th>E-mail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%@admin_users.each do | user | %>
+            <tr>
+              <td><%=link_to user.email, edit_user_path(user)%></td>
 
-        <% end %>
-      </tbody>
-    </table>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
   </div>
-  <div class="large-6 columns">
+  <div class="large-<%= can?(:edit_admin, User) ? 6 : 12 %> columns">
     <h2>Niet geactiveerde gebruikers</h2>
     <p>Deze gebruikers kunnen nog niets zien binnen de app en hebben dus ook nog geen toegang tot enige collectie of instelling. Indien ze bekend zijn bij een administrator kan hij of zij deze activeren doe hem haar te koppelen aan een collectie en/of QKunst of Administratie rollen toekennen.</p>
 

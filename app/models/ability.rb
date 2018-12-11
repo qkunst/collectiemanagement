@@ -9,9 +9,16 @@ class Ability
 
         can :clean, Artist
         can :combine, Artist
+        can :manage_collection, Artist
+
+        can :manage_collection, Cluster
+        can :manage_collection, Collection
+        can :manage_collection, CustomReport
 
         can :show, RkdArtist
         can :copy, RkdArtist
+
+        can :edit_visibility, Attachment
 
         can :access_valuation, Collection
         can :download_datadump, Collection
@@ -26,9 +33,42 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
         can :tag, Work
+
+        can :destroy, User
+        can :edit_admin, User
+
       elsif user.advisor?
+        can [:create, :update, :read], Artist
+        can [:create, :update], ArtistInvolvement
+
+        can :show, RkdArtist
+        can :copy, RkdArtist
+
+        can :manage, Appraisal
+
         can :edit_visibility, Attachment
 
+        can :manage_collection, :all
+        cannot :manage_collection, ImportCollection
+
+        can :access_valuation, Collection
+        can :download_datadump, Collection
+        can :download_photos, Collection
+        can :manage, Collection, id: user.accessible_collections.map(&:id)
+        can :read_report, Collection
+        can :read_status, Collection
+        can :read_valuation, Collection
+        can :read_valuation_reference, Collection
+        can :refresh, Collection
+        can :update_status, Collection
+
+        can :read_information_back, Work
+        can :read_internal_comments, Work
+        can :tag, Work
+
+        can :update, User
+        cannot :destroy, User
+        cannot :edit_admin, User
       elsif user.appraiser?
         can [:create, :update, :read], Artist
         can [:create, :update], ArtistInvolvement

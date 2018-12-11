@@ -36,11 +36,11 @@
             <li><%= menu_link_to 'Collecties', collections_path if current_user %></li>
             <% if current_user && current_user.can_receive_messages? %>
             <li><%= menu_link_to 'Berichten', messages_path%></li>
-
             <% end %>
             <% unless offline? %>
               <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
               <li><%= menu_link_to 'Beheren', admin_path if can?(:manage, :all) %></li>
+              <li><%= menu_link_to 'Gebruikers', users_path if can?(:edit, User) %></li>
             <% end %>
           </ul>
         </div>

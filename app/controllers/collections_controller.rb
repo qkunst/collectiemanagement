@@ -1,6 +1,5 @@
 class CollectionsController < ApplicationController
-  before_action :authenticate_admin_user!, only: [:edit, :update, :destroy, :create, :new, :manage]
-  before_action :authenticate_qkunst_or_facility_user!, only: [:report]
+  before_action :authenticate_admin_or_advisor_user!, only: [:edit, :update, :destroy, :create, :new, :manage]
   before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] #includes authentication
   before_action :set_parent_collection
 
@@ -36,6 +35,7 @@ class CollectionsController < ApplicationController
   end
 
   def report
+    authorize! :read_report, Collection
     @collection = @parent_collection
     @title = "Rapportage voor #{@collection.name}"
     @sections = {

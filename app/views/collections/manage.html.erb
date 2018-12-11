@@ -1,9 +1,8 @@
 <h1>Beheer collectie specifieke opties</h1>
 <ul>
-  <li><%= menu_link_to "Herinneringen", collection_reminders_path(@collection) if admin_user? %></li>
-  <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if admin_user? %></li>
-  <li><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></li>
-  <li><%= menu_link_to "Import", collection_import_collections_path(@collection) if admin_user?%></li>
-  <li><%= menu_link_to "Eigenaren", collection_owners_path(@collection) if admin_user?%></li>
-
+  <%= menu_link_to "Herinneringen", collection_reminders_path(@collection), wrap: :li if can? :manage_collection, Reminder %>
+  <%= menu_link_to "Clusters", collection_clusters_path(@collection), wrap: :li if can? :manage_collection, Cluster %>
+  <%= menu_link_to "Thema's", collection_themes_path(@collection), wrap: :li if can? :manage_collection, Theme %>
+  <%= menu_link_to "Import", collection_import_collections_path(@collection), wrap: :li if can? :manage_collection, ImportCollection %>
+  <%= menu_link_to "Eigenaren", collection_owners_path(@collection), wrap: :li if can? :manage_collection, Owner %>
 </ul>

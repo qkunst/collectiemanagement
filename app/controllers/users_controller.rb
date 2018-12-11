@@ -16,28 +16,32 @@ class UsersController < ApplicationController
   end
 
   def update
-    user_params = params.require(:user).permit(:role, :receive_mails, :name, collection_ids: [])
-    user_params["collection_ids"] = user_params["collection_ids"] - ["0"] if user_params["collection_ids"].include? "0"
-    respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to users_path, notice: 'De gebruiker is bijgewerkt.' }
-        format.json { render :index, status: :ok }
-      else
-        format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    authorize! :update, @user
+
+    if @user.update(user_params)
+      redirect_to users_path, notice: 'De gebruiker is bijgewerkt.'
+    else
+      render :edit
     end
   end
 
   def destroy
+    authorize! :destroy, @user
+
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_path, notice: 'De gebruiker is verwijderd.' }
-      format.json { head :no_content }
-    end
+    redirect_to users_path, notice: 'De gebruiker is verwijderd.'
   end
 
   private
+
+  def user_params
+    parameters = params.require(:user).permit(:role, :receive_mails, :name, collection_ids: [])
+    current_untouchable_collections = @user.collections.map(&:id) - current_user.accessible_collections.map(&:id)
+    puts "current_untouchable_collections = #{@user.collections.map(&:id)} - #{current_user.accessible_collections.map(&:id)}"
+    puts "parameters[\"collection_ids\"] = (#{parameters["collection_ids"].map(&:to_i)} & #{current_user.accessible_collections.map(&:id)}) + #{current_untouchable_collections}"
+    parameters["collection_ids"] = (parameters["collection_ids"].map(&:to_i) & current_user.accessible_collections.map(&:id)) + current_untouchable_collections
+    parameters
+  end
 
   def set_user
     @user = current_user.accessible_users.find_by_id(params[:id])

@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_admin_or_facility_user!
+  before_action :authenticate_admin_or_advisor_or_facility_user!
   before_action :set_work
   before_action :set_collection
   before_action :set_message, only: [:show, :edit, :update, :destroy]
@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
       @messages = @messages.not_qkunst_private unless current_user.qkunst?
     else
       @messages = @messages.collections(current_user.collections) if current_user.admin? and current_user.admin_with_favorites?
-      @messages = @messages.thread_can_be_accessed_by_user(current_user) unless current_user.admin?
+      @messages = @messages.thread_can_be_accessed_by_user(current_user)
     end
     new
   end

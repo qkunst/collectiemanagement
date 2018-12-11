@@ -16,6 +16,23 @@
 
 <% elsif current_user.admin? %>
 <p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als administrator.</p>
+<% elsif current_user.advisor? %>
+<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als kunstadviseur. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+
+<p>Rechten kunstadviseur:</p>
+<ul>
+<li>Kunstwerken registreren</li>
+<li>Foto’s uploaden</li>
+<li>Informatie over vervaardigers aanpassen</li>
+<li>Clusters maken</li>
+<li>Rapportages bekijken</li>
+<li>Alle berichten zien voor een collectie</li>
+<li>Gebruikersbeheer (beperkt)</li>
+
+</ul>
+<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
+
+<p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.qkunst? %>
 <p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als registrator. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 

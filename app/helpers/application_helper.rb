@@ -62,6 +62,11 @@ module ApplicationHelper
     else
       class_name = request.path.to_s.starts_with?(test_path.to_s) ? "active" : ""
     end
-    link_to "#{desc}", path, class: class_name
+    link = link_to "#{desc}", path, class: class_name
+    if options[:wrap]
+      sanitize "<li>#{link}</li>"
+    else
+      link
+    end
   end
 end

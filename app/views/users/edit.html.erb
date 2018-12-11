@@ -1,16 +1,16 @@
 <div class="row">
   <div class="columns">
-    <h1>Bewerk <%=@user.email%> <small><%= link_to 'Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn %></small></h1>
+    <h1>Bewerk <%=@user.email%> <small><%= link_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn) if can?(:destroy, @user) %></small></h1>
     <p>Deze gebruiker wordt <strong><%= @user.activated? ? "wel" : "niet" %></strong> als geactiveerd beschouwd.</p>
     <%= simple_form_for(@user) do |f| %>
       <h2>Rollen</h2>
       <p>De administrator rol kan overal bij (en kan dus ook gebruikers aanpassen, een QKunst gebruiker zonder administratierol kan alleen collecties en werken aanpassen waartoe hij/zij toegang toe heeft. Gebruikers zonder rol, maar wel met toegang tot een bepaalde collectie hebben enkel lees-toegang tot de collecties.</p>
-      <%= f.collection_radio_buttons :role, User::ROLES.collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, :last, :first %>
+      <%= f.collection_radio_buttons :role, current_user.accessible_roles.collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, :last, :first %>
       <%= f.input :receive_mails %>
       <h2>Toegang tot collecties</h2>
       <p>Indien de rol van de gebruiker administrator is wordt de selectie hieronder gebruikt als een lijst van favorieten, administratoren hebben toegang tot alle collecties, maar alleen de geselecteerde collecties worden getoond in het overzicht.</p>
       <input value="0" name="user[collection_ids][]" type="hidden">
-      <%= render partial: 'collections/collection_with_user_inputs', collection: Collection.without_parent.all %>
+      <%= render partial: 'collections/collection_with_user_inputs', collection: current_user.accessible_collections.without_parent.all %>
 
       <%= f.submit class: :button %>
 
