@@ -1,6 +1,6 @@
 <%
 @selection ||= {display: :compact}
-this_works_collection_work_url = collection_work_path(work.collection_id, work.id)
+this_works_collection_work_url = work.id ? collection_work_path(work.collection_id, work.id) : "#"
 %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@selection[:display]%>">
   <%= link_to this_works_collection_work_url, class: :block do %>
