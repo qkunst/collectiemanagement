@@ -6,7 +6,7 @@
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
   <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
   <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
-  <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :manage_collection, Artist %></li>
+  <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
   <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :manage_collection, Cluster %></li>
   <li><%= menu_link_to "Rapporten", collection_custom_reports_path(@collection) if can? :manage_collection, CustomReport %></li>
   <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :manage, Collection %></li>

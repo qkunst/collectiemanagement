@@ -270,8 +270,6 @@ class Work < ApplicationRecord
     end
   end
 
-
-
   def enforce_nil_or_true
     self.main_collection = nil if self.main_collection == false
   end

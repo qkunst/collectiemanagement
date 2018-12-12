@@ -23,7 +23,7 @@
   <% when :grade_within_collection%>
     <%= f.input(:grade_within_collection, collection: %w{A B C D E F G})  %>
   <% when :collection %>
-    <%= f.association :collection, collection: Collection.all, input_html: {class: 'chosen-select'} %>
+    <%= f.association :collection, collection: current_user.accessible_collections.all, input_html: {class: 'chosen-select'} %>
     <p>Let op: als je de collectie aanpast kan het zijn dat de werken verwijzen naar thema's en clusters die niet meer beschikbaar zijn binnen die collectie. </p>
   <% when :placeability %>
     <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>

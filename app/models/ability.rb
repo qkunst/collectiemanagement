@@ -38,7 +38,7 @@ class Ability
         can :edit_admin, User
 
       elsif user.advisor?
-        can [:create, :update, :read], Artist
+        can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
@@ -70,7 +70,7 @@ class Ability
         cannot :destroy, User
         cannot :edit_admin, User
       elsif user.appraiser?
-        can [:create, :update, :read], Artist
+        can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
@@ -89,7 +89,7 @@ class Ability
 
         can :tag, Work
       elsif user.qkunst?
-        can [:create, :update, :read], Artist
+        can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
 
         can :show, RkdArtist
