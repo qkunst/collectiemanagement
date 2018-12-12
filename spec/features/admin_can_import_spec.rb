@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanEditPhotos", type: :feature do
+RSpec.feature "AdminCanImport", type: :feature do
   # include Devise::Test::IntegrationHelpers
   scenario ":qkunst_with_collection" do
     # sign_in# (:admin)
