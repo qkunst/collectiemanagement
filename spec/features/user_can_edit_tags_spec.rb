@@ -11,11 +11,20 @@ RSpec.feature "UserCanEditTags", type: :feature do
     click_on "Collection 1"
     click_on "Work1"
     click_on "Beheer tags"
-    # expect(page).to have_content('bewerk')
-    # first(".detailed_data table tr a").click
-    # expect(page).to have_content('Bewerk locatie')
-    # fill_in('Verdieping', with: 'Nieuwe verdieping')
-    # click_on "Kunstwerk bewaren"
-    # expect(page).to have_content('Nieuwe verdieping')
+    expect(page).to have_content('bewerk')
+    click_on "Kunstwerk bewaren"
+    work1 = works(:work1)
+    work1.tag_list = ["tagboter", "tagkaas"]
+    work1.save
+    click_on "Beheer tags"
+    unselect "tagboter", from: "works_tags"
+    click_on "Kunstwerk bewaren"
+    expect(page).to have_content("tagkaas")
+    expect(page).not_to have_content("tagboter")
+    click_on "Beheer tags"
+    unselect "tagkaas", from: "works_tags"
+    click_on "Kunstwerk bewaren"
+    expect(page).not_to have_content("tagkaas")
+    expect(page).not_to have_content("tagboter")
   end
 end
