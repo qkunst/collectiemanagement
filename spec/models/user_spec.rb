@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       it "should return all collections and sub(sub)collections the user has access to" do
         u = users(:qkunst_with_collection)
         expect(u.accessible_collections).not_to eq(Collection.all)
-        expect(u.accessible_collections.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+        expect(u.accessible_collections.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
       end
       it "should restrict find" do
         u = users(:qkunst_with_collection)

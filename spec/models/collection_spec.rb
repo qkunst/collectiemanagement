@@ -12,7 +12,7 @@ RSpec.describe Collection, type: :model do
     end
     describe "#child_collections_flattened" do
       it "should return all childs" do
-        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works)].map(&:id).sort)
+        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
       end
     end
     describe "#fields_to_expose" do
@@ -62,7 +62,7 @@ RSpec.describe Collection, type: :model do
       it "returns child collections" do
         set = Collection.where(name: "Collection 1").expand_with_child_collections
         # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
       end
       it "returns child collections until depth 1" do
         set = Collection.where(name: "Collection 1").expand_with_child_collections(2)
@@ -72,12 +72,12 @@ RSpec.describe Collection, type: :model do
       it "works with larger start-set that includes child" do
         set = Collection.where(name: ["Collection 1", "Collection 2"]).expand_with_child_collections
         # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
       end
       it "works with larger start-set that does not  include child" do
         set = Collection.where(name: ["Collection 1", "Collection 3"]).expand_with_child_collections
         # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection3),collections(:collection4),collections(:collection_with_works)].map(&:id).sort)
+        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection3),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
       end
     end
   end

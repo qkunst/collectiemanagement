@@ -13,6 +13,10 @@ collection_with_works:
   name: Collection with works (sub of Collection 1)
   parent_collection: :collection1
 
+collection_with_works_child:
+  name: Collection with works child (sub of Collection 1 >> colection with works)
+  parent_collection: :collection_with_works
+
 collection3:
   name: Collection 3
 
