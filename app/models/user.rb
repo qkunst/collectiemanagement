@@ -96,7 +96,9 @@ class User < ApplicationRecord
   end
 
   def can_edit_message? message=nil
-    admin? or (message && message.from_user == self && message.replies.count == 0 && message.unread)
+    admin? or
+      (message && message.from_user == self && message.replies.count == 0 && message.unread) or
+      (advisor? && message && (message.subject_object.nil? || message.subject_object.can_be_accessed_by_user?(self)))
   end
 
   def generate_api_key!

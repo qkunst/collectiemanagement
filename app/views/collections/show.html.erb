@@ -46,7 +46,7 @@
   <% else %>
   <p>Deze collectie kent geen subcollecties.</p>
   <% end %>
-  <%= link_to 'Nieuwe subcollectie voor deze collectie', new_collection_collection_path(@collection), class: 'small button' if admin_user?%>
+  <%= link_to 'Nieuwe subcollectie voor deze collectie', new_collection_collection_path(@collection), class: 'small button' if can? :create, @collection.collections.new%>
 
 </div>
 <% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) or @collection.attachments.for_me(current_user).count > 0 %>
@@ -72,7 +72,7 @@
       <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
     <% end %>
   </ul>
-  <% if current_user.admin? %>
+  <% if can? :create, @collection.attachments.new %>
     <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
     <p><%= link_to 'Beheer bijlagen', collection_attachments_path(@collection) %></p>
   <% end %>

@@ -7,7 +7,7 @@
 
     <%= f.input :name %>
 
-    <%= f.input :visibility, collection: (User::ROLES - [:admin]).collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, checked: @attachment.visibility, multiple: true, as: :check_boxes if can? :edit_visibility, @attachment %>
+    <%= f.input :visibility, collection: (User::ROLES - [:admin, :advisor]).collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, checked: @attachment.visibility, multiple: true, as: :check_boxes if can? :edit_visibility, @attachment %>
   </div>
 
   <div class="form-actions">

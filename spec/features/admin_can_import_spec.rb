@@ -20,6 +20,5 @@ RSpec.feature "AdminCanImport", type: :feature do
     expect(page).to have_content('work_title')
     first("input[value='Import bewaren']").click
     expect(page).to have_content('Nog geen titel')
-    save_and_open_page
   end
 end

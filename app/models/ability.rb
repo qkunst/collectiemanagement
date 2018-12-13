@@ -38,6 +38,7 @@ class Ability
         can :edit_admin, User
 
       elsif user.advisor?
+        accessible_collection_ids = user.accessible_collections.map(&:id)
         can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
 
@@ -51,10 +52,15 @@ class Ability
         can :manage_collection, :all
         cannot :manage_collection, ImportCollection
 
+        can :create, Collection, parent_collection_id: accessible_collection_ids
         can :access_valuation, Collection
         can :download_datadump, Collection
         can :download_photos, Collection
-        can :manage, Collection, id: user.accessible_collections.map(&:id)
+        can :manage, Collection, id: accessible_collection_ids
+        can [:create, :update, :edit_visibility], Attachment do |attachment|
+          (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
+          (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
+        end
         can :read_report, Collection
         can :read_status, Collection
         can :read_valuation, Collection

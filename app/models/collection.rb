@@ -174,8 +174,8 @@ class Collection < ApplicationRecord
     write_attribute(:exposable_fields,array.collect{|a| a.to_s.strip if a and a.to_s.strip != ""}.compact.join(","))
   end
 
-  def possible_parent_collections
-    Collection.all - [self] - child_collections_flattened
+  def possible_parent_collections(options={})
+    Collection.for_user_or_if_no_user_all(options[:user]).all - [self] - child_collections_flattened
   end
 
   def child_collections_flattened
@@ -341,6 +341,10 @@ class Collection < ApplicationRecord
     def for_user user
       return self.without_parent if user.admin? and !user.admin_with_favorites?
       self.joins(:users).where(users: {id: user.id})
+    end
+
+    def for_user_or_if_no_user_all user=nil
+      user ? self.for_user(user) : self
     end
 
     def last_updated

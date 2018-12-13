@@ -19,3 +19,8 @@ conversation_starter_about_work:
   from_user: :facility_manager
   subject_object: work1 (Work)
   subject: Work 1
+
+conversation_starter_collection3:
+  from_user: :facility_manager
+  subject_object: collection3 (Collection)
+  subject: Collectie 3

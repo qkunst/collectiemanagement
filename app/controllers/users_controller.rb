@@ -37,8 +37,6 @@ class UsersController < ApplicationController
   def user_params
     parameters = params.require(:user).permit(:role, :receive_mails, :name, collection_ids: [])
     current_untouchable_collections = @user.collections.map(&:id) - current_user.accessible_collections.map(&:id)
-    puts "current_untouchable_collections = #{@user.collections.map(&:id)} - #{current_user.accessible_collections.map(&:id)}"
-    puts "parameters[\"collection_ids\"] = (#{parameters["collection_ids"].map(&:to_i)} & #{current_user.accessible_collections.map(&:id)}) + #{current_untouchable_collections}"
     parameters["collection_ids"] = (parameters["collection_ids"].map(&:to_i) & current_user.accessible_collections.map(&:id)) + current_untouchable_collections
     parameters
   end

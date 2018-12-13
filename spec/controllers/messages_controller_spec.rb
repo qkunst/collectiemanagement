@@ -38,5 +38,28 @@ RSpec.describe MessagesController, type: :controller do
       expect(m.replies.first.actioned_upon_by_qkunst_admin_at).not_to eq(nil)
     end
   end
+
+  describe "PUT #update" do
+    it "should allow an advisor to edit a message belonging to a collection he/she manages" do
+      m = messages(:conversation_starter)
+      sign_in users(:advisor)
+      get :show, params: {id: m.id}
+      expect(response).to have_http_status(:success)
+      get :update, params: {id: m.id, message: {message: "kaas"}}
+      expect(response).to have_http_status(:redirect)
+      m.reload
+      expect(m.message).to eq("kaas")
+    end
+    it "should not allow an advisor to edit a message not belonging to a collection he/she manages" do
+      m = messages(:conversation_starter_collection3)
+      sign_in users(:advisor)
+      get :show, params: {id: m.id}
+      expect(response).to have_http_status(:success)
+      get :update, params: {id: m.id, message: {message: "kaas"}}
+      expect(response).to have_http_status(:redirect)
+      m.reload
+      expect(m.message).to eq(nil) #unchanged
+    end
+  end
 end
 
