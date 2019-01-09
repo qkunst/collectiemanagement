@@ -346,5 +346,25 @@ RSpec.describe Work, type: :model do
         expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname (1900 - 2000)")
       end
     end
+    describe ".update" do
+      it "updates collection" do
+        works = Work.where(id: works(:work1).id)
+        new_collection = collections :collection_with_works_child
+
+        expect(works[0].collection).not_to eq new_collection
+        works.update(collection: new_collection)
+        works = Work.where(id: works(:work1).id)
+        expect(works[0].collection).to eq new_collection
+      end
+      it "throws error when updating a work that doesn't validate" do
+        works = Work.where(id: works(:work_with_private_theme).id)
+        new_collection = collections :collection_with_works_child
+
+        expect(works[0].collection).not_to eq new_collection
+
+        works = Work.where(id: works(:work1).id)
+        # expect(works[0].collection).to eq new_collection
+      end
+    end
   end
 end

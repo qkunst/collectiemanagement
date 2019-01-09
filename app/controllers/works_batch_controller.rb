@@ -93,10 +93,16 @@ class WorksBatchController < ApplicationController
   end
 
   def update_and_replace
-    if @works.update(work_params)
-      redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
-    else
+    works_updated = @works.update(work_params)
+    if works_updated.collect(&:valid?).include?(false)
+      example_messages = works_updated.select{|w| !w.valid?}.collect{|w| "Werk #{w.stock_number} (id: #{w.id}): #{w.errors.messages[:base].to_sentence}"}.join("; ")
+      @error_message = "Er zijn fouten opgetreden. #{example_messages}"
+      edit
+
       render :edit
+
+    elsif !works_updated.collect(&:valid?).include?(false)
+      redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
     end
   end
 end

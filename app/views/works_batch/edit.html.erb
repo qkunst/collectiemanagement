@@ -1,8 +1,12 @@
 <div id="main">
 <h1>Gegevens wijzigen</h1>
+<% if @error_message %>
+<p class="callout alert"><%= @error_message%></p>
+<% end %>
 <%= simple_form_for @collection.works.new, url: collection_works_batch_path, method: :patch do |f| %>
   <% @works.each do |w| %>
 <input type="hidden" name="works[]" value="<%= w.id %>" />
+<input type="hidden" name="batch_edit_property" value="<%=@edit_property%>" />
   <% end %>
 <% multiple_values = false%>
 <% update_and_add = false%>

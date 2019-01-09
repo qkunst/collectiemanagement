@@ -51,6 +51,50 @@ RSpec.describe WorksBatchController, type: :controller do
       expect(work2.themes).to include(themes(:fire))
       expect(work2.themes).to include(themes(:wind))
     end
+    it "changes collection" do
+      sign_in users(:admin)
+      work1 = works(:work1)
+      work2 = works(:work2)
+      works = [work1, work2]
+
+      new_collection = collections :collection_with_works_child
+
+      expect(work1.collection).not_to eq new_collection
+      expect(work2.collection).not_to eq new_collection
+
+      patch :update, params: {works: works.map{|a| a.id.to_s}, work: {collection_id: new_collection.id }, update_and_replace: "jibber", collection_id: work1.collection_id}
+
+      work1.reload
+      work2.reload
+
+      expect(work1.collection).to eq new_collection
+      expect(work2.collection).to eq new_collection
+    end
+    it "changes collection" do
+      sign_in users(:admin)
+      work1 = works(:work1)
+      work2 = works(:work2)
+      work3 = works(:work_with_private_theme)
+      works = [work1, work2, work3]
+
+      new_collection = collections :collection_with_works_child
+
+      expect(work1.collection).not_to eq new_collection
+      expect(work2.collection).not_to eq new_collection
+      expect(work3.collection).not_to eq new_collection
+
+      patch :update, params: {works: works.map{|a| a.id.to_s}, work: {collection_id: new_collection.id }, update_and_replace: "jibber", collection_id: work1.collection_id}
+
+      work1.reload
+      work2.reload
+      work3.reload
+
+      expect(work1.collection).to eq new_collection
+      expect(work2.collection).to eq new_collection
+
+      expect(work3.collection).not_to eq new_collection #'cause it doesn't validate after update...
+
+    end
   end
   describe "PUT #update with tags" do
     # tags are somewhat different
