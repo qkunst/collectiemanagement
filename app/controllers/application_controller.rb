@@ -129,7 +129,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_qkunst_or_facility_user!
-    authenticate_user_with_one_of_roles!([:qkunst, :facility_manager, :advisor, :appraiser])
+    authenticate_user_with_one_of_roles!([:admin, :qkunst, :facility_manager, :advisor, :appraiser])
   end
 
   def authenticate_admin_or_facility_user!
