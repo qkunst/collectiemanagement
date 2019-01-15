@@ -7,9 +7,9 @@ RSpec.describe User, type: :model do
         u = User.new
         expect(u.roles).to eq([:read_only])
       end
-      it "should return read_only by default" do
+      it "should return read_only by default, even for admin" do
         u = users(:admin)
-        expect(u.roles).to eq([:admin, :qkunst, :read_only])
+        expect(u.roles).to eq([:admin, :read_only])
       end
     end
     describe "#accessible_collections" do

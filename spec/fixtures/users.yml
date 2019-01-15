@@ -15,7 +15,6 @@ user_with_api_key:
 admin:
   email: qkunst-admin-user@murb.nl
   admin: true
-  qkunst: true
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 qkunst:
