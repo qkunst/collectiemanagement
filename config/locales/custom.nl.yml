@@ -222,7 +222,7 @@ nl:
         artists: Vervaardigers
         artist_name_rendered: Vervaardiger(s)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
-        artist_unknown: Vervaaridger onbekend
+        artist_unknown: Vervaardiger onbekend
         cluster: Cluster
         cluster: Cluster
         collection: Collectie
