@@ -75,6 +75,12 @@
      </fieldset>
      <h3>Sortering</h3>
      <%= f.input :sort_works_by, collection: Work::SORTING_FIELDS.collect{|a| [I18n.t(a, scope: [:activerecord, :attributes, :work]),a]}%>
+     <p><em>Opmerking</em>: Wanneer je sortering leeg laat wordt er standaard gesorteerd, en dat is op 'Inventarisnummer'.
+       De directe subcollecties 'erven' deze
+       instelling (maar kunnen deze instelling overschrijven). Wanneer de instelling niet is overschreven én er is een instelling
+       op een bovenliggende collectie dan wordt het volgende werk gekozen uit alle werken uit de bovenliggende collectie en alle
+       subcollecties. Deze bijzondere logica maakt het wellicht geen instelling die je op alle collecties wilt voeren; dus bij twijfel
+       uit laten staan.</p>
     </section>
 </div>
 
