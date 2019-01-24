@@ -46,6 +46,8 @@ class WorksController < ApplicationController
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works_count = @works.count
+      @works = @works.published if params[:published]
+      @works = @works.preload_relations_for_display(@selection[:display])
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       @works = []
       @works_count = 0
@@ -58,8 +60,6 @@ class WorksController < ApplicationController
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
 
-    @works = @works.published if params[:published]
-    @works = @works.preload_relations_for_display(@selection[:display])
 
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
