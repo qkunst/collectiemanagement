@@ -56,6 +56,18 @@ RSpec.describe Collection, type: :model do
         expect(col_with_stages_available_themes).to include(themes(:wind))
       end
     end
+    describe "#sort_works_by" do
+      it "should not accept noise" do
+        c = collections(:collection1)
+        c.sort_works_by= "asdf"
+        expect(c.sort_works_by).to eq nil
+      end
+      it "should not valid value" do
+        c = collections(:collection1)
+        c.sort_works_by= "created_at"
+        expect(c.sort_works_by).to eq :created_at
+      end
+    end
   end
   describe "Class methods" do
     describe ".expand_with_child_collections" do

@@ -73,7 +73,8 @@
        <%= f.input :label_override_work_alt_number_2 %>
        <%= f.input :label_override_work_alt_number_3 %>
      </fieldset>
-
+     <h3>Sortering</h3>
+     <%= f.input :sort_works_by, collection: Work::SORTING_FIELDS.collect{|a| [I18n.t(a, scope: [:activerecord, :attributes, :work]),a]}%>
     </section>
 </div>
 

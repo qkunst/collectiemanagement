@@ -350,6 +350,7 @@ nl:
         label_override_work_alt_number_2: Label voor alternatief nummer 2
         label_override_work_alt_number_3: Label voor alternatief nummer 3
         collections_stage_delivery_on: Opleverdatum
+        sort_works_by: Sorteer werken op
       custom_report_template:
         title: Titel
         text: Template text

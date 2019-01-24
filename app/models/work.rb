@@ -1,5 +1,7 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
+  SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
+
   include ActionView::Helpers::NumberHelper
   include Work::Caching
   include Work::Export
@@ -172,7 +174,7 @@ class Work < ApplicationRecord
   end
 
   def all_work_ids_in_collection
-    order = [:stock_number, :id]
+    order = [collection.sort_works_by, :stock_number, :id].compact
     @all_works ||= collection.works.select(:id).order(order).collect{|a| a.id}
   end
   def work_index_in_collection

@@ -88,6 +88,14 @@ class Collection < ApplicationRecord
     return nil
   end
 
+  def sort_works_by= value
+    write_attribute(:sort_works_by, (Work::SORTING_FIELDS & [value.to_sym]).first)
+  end
+
+  def sort_works_by
+    read_attribute(:sort_works_by).try(:to_sym)
+  end
+
   def geoname_ids
     geoname_summaries.collect{|a| a.geoname_id}
   end
