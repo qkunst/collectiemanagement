@@ -2,6 +2,27 @@ require_relative '../rails_helper'
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
+    describe "#all_work_ids_in_collection" do
+      it "sorts by default on inventory and id" do
+        w = works(:work1)
+        expect(w.all_work_ids_in_collection.count).to eq 3
+        expect(w.work_index_in_collection).to eq(0)
+        w = works(:work2)
+        expect(w.all_work_ids_in_collection.count).to eq 3
+        expect(w.work_index_in_collection).to eq(2)
+      end
+      it "can sort on super collection" do
+        w = works(:work1)
+        parent = w.collection.parent_collection
+        parent.sort_works_by = :inventoried_at
+        parent.save
+        expect(w.all_work_ids_in_collection.count).to eq 3
+        expect(w.work_index_in_collection).to eq(1)
+        w = works(:work2)
+        expect(w.all_work_ids_in_collection.count).to eq 3
+        expect(w.work_index_in_collection).to eq(0)
+      end
+    end
     describe "#frame_type" do
       it "should be able to set a FrameType" do
         w = works(:work1)

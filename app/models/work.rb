@@ -174,8 +174,12 @@ class Work < ApplicationRecord
   end
 
   def all_work_ids_in_collection
-    order = [collection.sort_works_by, :stock_number, :id].compact
-    @all_works ||= collection.works.select(:id).order(order).collect{|a| a.id}
+    return @all_work_ids_in_collection if @all_work_ids_in_collection
+    order = [collection.sort_works_by, collection.parent_collection.try(:sort_works_by), :stock_number, :id]
+
+    relative_collection = (!order[0] && order[1]) ? collection.parent_collection : collection
+
+    @all_work_ids_in_collection ||= relative_collection.works_including_child_works.select(:id).order(order.compact).collect{|a| a.id}
   end
   def work_index_in_collection
     @work_index_in_collection ||= all_work_ids_in_collection.index(self.id)

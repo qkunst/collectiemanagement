@@ -10,6 +10,7 @@ work1:
   cluster: :cluster1
   created_by: :admin
   frame_height: 50
+  inventoried_at: 2012-01-02
   frame_width: 100
   owner: :owner1
   artists:
@@ -24,6 +25,7 @@ work2:
   subset: :modern
   collection: :collection_with_works
   cluster: :cluster2
+  inventoried_at: 2012-01-01
   created_by: :admin
   artists:
     - :artist2
