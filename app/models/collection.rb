@@ -347,7 +347,7 @@ class Collection < ApplicationRecord
     end
 
     def for_user user
-      return self.where("1=1") if user.admin? and !user.admin_with_favorites?
+      return self if (user.admin? && !user.admin_with_favorites?)
       self.joins(:users).where(users: {id: user.id})
     end
 
