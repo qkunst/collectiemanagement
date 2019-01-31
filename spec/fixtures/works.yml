@@ -43,6 +43,7 @@ work4:
 work5:
   title: Work5
   stock_number: Q002
+  location_floor: 3
   grade_within_collection: A (of B)
   subset: :modern
   collection: :collection_with_works

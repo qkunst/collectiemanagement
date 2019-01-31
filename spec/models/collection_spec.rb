@@ -70,6 +70,15 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Class methods" do
+    describe ".for_user_or_if_no_user_all" do
+      it "returns all for nil user" do
+        expect(Collection.for_user_or_if_no_user_all.all).to eq(Collection.all)
+      end
+
+      it "returns all for admin user" do
+        expect(Collection.for_user_or_if_no_user_all(users(:admin)).all.collect(&:id).sort).to eq(Collection.all.collect(&:id).sort)
+      end
+    end
     describe ".expand_with_child_collections" do
       it "returns child collections" do
         set = Collection.where(name: "Collection 1").expand_with_child_collections
