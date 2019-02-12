@@ -149,7 +149,6 @@ class Work < ApplicationRecord
     GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end
 
-
   def alt_numbers
     nrs = [alt_number_1, alt_number_2, alt_number_3]
     nrs if nrs.count > 0
@@ -162,8 +161,6 @@ class Work < ApplicationRecord
   def dimension_to_s value, nil_value=nil
     value ? number_with_precision(value, precision: 5, significant: true, strip_insignificant_zeros: true) : nil_value
   end
-
-
 
   def main_collection
     read_attribute(:main_collection) ? true : nil
@@ -181,13 +178,16 @@ class Work < ApplicationRecord
 
     @all_work_ids_in_collection ||= relative_collection.works_including_child_works.select(:id).order(order.compact).collect{|a| a.id}
   end
+
   def work_index_in_collection
     @work_index_in_collection ||= all_work_ids_in_collection.index(self.id)
   end
+
   def next
     next_work_id = all_work_ids_in_collection[work_index_in_collection+1]
     next_work_id ? Work.find(next_work_id) : Work.find(all_work_ids_in_collection.first)
   end
+
   def previous
     prev_work_id = all_work_ids_in_collection[work_index_in_collection-1]
     prev_work_id ? Work.find(prev_work_id) : Work.find(all_work_ids_in_collection.last)
