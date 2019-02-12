@@ -58,3 +58,15 @@ HTMLDocument::addDelegatedEventListener = (event, matcher, cb) ->
 
 if (!Element::matches)
   Element::matches = Element::msMatchesSelector
+
+# Nodelist
+forEachMethod = (callback, thisArg) ->
+  thisArg = thisArg || window
+  for i in [0..this.length - 1]
+    callback.call thisArg, this[i], i, this
+
+if window.NodeList and !NodeList::forEach
+  NodeList::forEach = forEachMethod
+
+if window.HTMLCollection and !HTMLCollection::forEach
+  HTMLCollection::forEach = forEachMethod
