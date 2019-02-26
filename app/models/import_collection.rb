@@ -163,10 +163,11 @@ class ImportCollection < ApplicationRecord
     parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     import_settings.each do |key, import_setting|
-      next if row[key].nil?
+      cell = row[key] || row[key.to_sym]
+      next if cell.nil?
       error = nil
 
-      table_value = row[key].value
+      table_value = cell.value
       split_strategy = import_setting["split_strategy"].to_sym
       assign_strategy = import_setting["assign_strategy"].to_sym
 

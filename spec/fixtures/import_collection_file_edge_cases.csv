@@ -1,6 +1,6 @@
-artist_name,work_title,Drager,Niveau,Thema's,Collectie,Cluster,tags,tags more,Nog een thema
-Achternaam,Zonder Titel,doek,A,earth ,Collection 1,cluster1,kaas,bier,fire
-Andere Achternaam,Zonder Unieke Titel,Papier,C,earth en wind,Collection 1,cluster2,"kaas,bier","noten"
-onbekend,Uniek,,D,"earth, wind, star",Collection with works (sub of Collection 1),cluster3
-firstname artist_1,Uniek2,,G,"Fire",Collection 1,cluster3
-,Uniek2,,G,"Fire",Collection 1,cluster3
+artist_name,work_title,Drager,Niveau,Thema's,Collectie,Cluster,tags,tags more,Nog een thema,Driespaties   ,andere
+Achternaam,Zonder Titel,doek,A,earth ,Collection 1,cluster1,kaas,bier,fire,één,iets
+Andere Achternaam,Zonder Unieke Titel,Papier,C,earth en wind,Collection 1,cluster2,"kaas,bier","noten",b,twee,iets
+onbekend,Uniek,,D,"earth, wind, star",Collection with works (sub of Collection 1),cluster3,drie,iets
+firstname artist_1,Uniek2,,G,"Fire",Collection 1,cluster3,vier,iets
+,Uniek2,,G,"Fire",Collection 1,cluster3,vijf,iets
