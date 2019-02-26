@@ -163,7 +163,7 @@ class ImportCollection < ApplicationRecord
     parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     import_settings.each do |key, import_setting|
-      cell = row[key] || row[key.to_sym]
+      cell = row[key.to_sym] || row[key]
       next if cell.nil?
       error = nil
 
