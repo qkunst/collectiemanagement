@@ -89,10 +89,11 @@ RSpec.describe ImportCollection, type: :model do
           "tags"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
           "tags more"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
           "Nog een thema"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
-          "driespaties__"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.description"]}
+          "driespaties__"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.description"]},
+          "inventoried bool test"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.inventoried"]}
         })
         read = i.read
-        expect(read.count).to eq(5)
+        expect(read.count).to eq(6)
         expect(read[2].collection).to eq(collections(:collection_with_works))
         expect(read[1].tag_list).to include("kaas")
         expect(read[0].tag_list).to include("kaas")
@@ -101,6 +102,12 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[4].artists.count).to eq 0
         expect(read[4].artist_unknown).to be_falsy
         expect(read[0].description).to eq("één")
+        expect(read[0].inventoried).to eq(true)
+        expect(read[1].inventoried).to eq(true)
+        expect(read[2].inventoried).to eq(false)
+        expect(read[3].inventoried).to eq(false)
+        expect(read[4].inventoried).to eq(false)
+        expect(read[5].inventoried).to eq(true)
       end
       it "should not import into a different collection when not a child" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_failing_collection.csv")))

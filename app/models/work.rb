@@ -305,5 +305,13 @@ class Work < ApplicationRecord
         Work.human_attribute_name(field_name)
       end
     end
+    def column_types
+      return @@column_types if defined?(@@column_types)
+      @@column_types = Work.columns.collect{|a| [a.name, a.type]}.to_h
+      @@column_types["inventoried"] = :boolean
+      @@column_types["refound"] = :boolean
+      @@column_types["new_found"] = :boolean
+      @@column_types
+    end
   end
 end

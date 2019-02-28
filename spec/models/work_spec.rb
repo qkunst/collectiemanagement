@@ -387,5 +387,18 @@ RSpec.describe Work, type: :model do
         # expect(works[0].collection).to eq new_collection
       end
     end
+    describe ".column_types" do
+      it "returns a hash" do
+        expect(Work.column_types).to be_a(Hash)
+      end
+      [
+        inventoried: :boolean,
+        title: :string
+      ].each do | k,v |
+        it "should return #{v} for #{k}" do
+          expect(Work.column_types[k.to_s]).to eq(v)
+        end
+      end
+    end
   end
 end
