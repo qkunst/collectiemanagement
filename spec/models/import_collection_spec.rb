@@ -89,7 +89,7 @@ RSpec.describe ImportCollection, type: :model do
           "tags"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
           "tags more"=>{"split_strategy"=>"split_comma", "assign_strategy"=>"append", "fields"=>["work.tag_list"]},
           "Nog een thema"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
-          "driespaties__"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.description"]},
+          "driespaties"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.description"]},
           "inventoried bool test"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.inventoried"]}
         })
         read = i.read
@@ -107,7 +107,7 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[2].inventoried).to eq(false)
         expect(read[3].inventoried).to eq(false)
         expect(read[4].inventoried).to eq(false)
-        expect(read[5].inventoried).to eq(true)
+        expect(read[5].inventoried).to eq(false)
       end
       it "should not import into a different collection when not a child" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_failing_collection.csv")))
