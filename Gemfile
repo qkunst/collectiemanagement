@@ -106,6 +106,7 @@ gem 'exception_notification'
 gem 'zipline'
 gem 'activerecord-session_store'
 gem 'rack-headers_filter'
+gem "strip_attributes"
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-jquery' #, '~>2.2'

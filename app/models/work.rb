@@ -12,6 +12,7 @@ class Work < ApplicationRecord
   include ColumnCache
 
   has_paper_trail
+
   has_cache_for_column :tag_list
   has_cache_for_column :collection_locality_artist_involvements_texts
 

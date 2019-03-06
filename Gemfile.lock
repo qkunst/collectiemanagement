@@ -339,6 +339,8 @@ GEM
     sshkit (1.18.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    strip_attributes (1.9.0)
+      activemodel (>= 3.0, < 7.0)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -434,6 +436,7 @@ DEPENDENCIES
   simplecov
   spring
   spring-watcher-listen
+  strip_attributes
   therubyracer
   turbolinks
   uglifier
