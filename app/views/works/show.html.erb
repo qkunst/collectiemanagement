@@ -78,7 +78,7 @@
         <% if can? :tag, @work %>
           <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
         <% end %>
-        <% if can? :manage, Attachment %>
+        <% if can? :create, @work.attachments.new %>
           <% if @work.attachments.count == 0 and @custom_reports.count == 0 %>
           <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
           <% else %>
