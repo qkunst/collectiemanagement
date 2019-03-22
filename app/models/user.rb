@@ -106,7 +106,7 @@ class User < ApplicationRecord
   end
 
   def schedule_sync_stored_user_names
-    UpdateCachedUserNamesJob.perform_later(self) if saved_change_to_attribute?(:name)
+    UpdateCachedUserNamesWorker.perform_later(self.id) if saved_change_to_attribute?(:name)
   end
 
   def can_access_message? message=nil

@@ -1,4 +1,4 @@
-
+require 'sidekiq/web'
 Rails.application.routes.draw do
 
   resources :custom_report_templates
@@ -49,6 +49,11 @@ Rails.application.routes.draw do
 
   resources :works do
     resources :attachments
+  end
+
+  # config/routes.rb
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   resources :involvements

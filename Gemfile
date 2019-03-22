@@ -67,6 +67,7 @@ group :development do
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'highline'
   gem 'web-console' #, '~> 2.0'
   gem 'listen' #, '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -100,13 +101,17 @@ gem 'paper_trail'#, '~>4.0.0.rc1'
 gem 'paper_trail-association_tracking'
 gem 'keyword_finder'
 gem 'daemons'
-gem 'delayed_job_active_record'
+# gem 'delayed_job_active_record'
 gem 'redis-rails'
 gem 'exception_notification'
 gem 'zipline'
 gem 'activerecord-session_store'
 gem 'rack-headers_filter'
 gem "strip_attributes"
+
+gem "sidekiq"
+gem "sidekiq-scheduler"
+gem "sidekiq-unique-jobs"
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-jquery' #, '~>2.2'

@@ -1,0 +1,17 @@
+# https://github.com/mperham/sidekiq/blob/master/examples/config.yml
+# Sample configuration file for Sidekiq.
+# Options here can still be overridden by cmd line args.
+#   sidekiq -C config.yml
+---
+verbose: true
+pidfile: ./tmp/pids/sidekiq.pid
+concurrency:  5
+queues:
+  - [qkunst_often, 7]
+  - [qkunst_default, 5]
+  - [qkunst_seldom, 3]
+schedule:
+  schedule_request_certificate:
+    cron:  "22 2 * * *"
+    class: ScheduleReindexWorkWorker
+
