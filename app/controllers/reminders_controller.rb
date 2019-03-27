@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemindersController < ApplicationController
   before_action :set_collection
   before_action :authenticate_admin_or_collection_and_advisor_user!

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Appraisal < ApplicationRecord
   belongs_to :work
   belongs_to :user, optional: true

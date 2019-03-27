@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Geoname < ApplicationRecord
   scope :populated_places, -> { where(feature_code: ["PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX", "ISL"]) }
 

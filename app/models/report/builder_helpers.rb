@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Report
   module BuilderHelpers
     def basic_aggregation_snippet key, postfix = "", field = nil

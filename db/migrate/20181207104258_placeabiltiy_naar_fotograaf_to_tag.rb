@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlaceabiltiyNaarFotograafToTag < ActiveRecord::Migration[5.2]
   def self.up
     placeability = Placeability.where(name: "Naar fotograaf").first

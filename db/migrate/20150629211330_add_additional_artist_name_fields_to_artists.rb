@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddAdditionalArtistNameFieldsToArtists < ActiveRecord::Migration
   def change
     add_column :artists, :first_name, :string

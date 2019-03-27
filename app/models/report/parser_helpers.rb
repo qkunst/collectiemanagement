@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Report
   module ParserHelpers
     def parse_aggregation aggregation, aggregation_key

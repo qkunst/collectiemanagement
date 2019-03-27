@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGeonameSummaries < ActiveRecord::Migration
   def change
     create_table :geoname_summaries do |t|

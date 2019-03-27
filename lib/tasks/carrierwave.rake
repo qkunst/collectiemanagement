@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :carrierwave do
   desc "Regenerate versions"
   task :regenerate => :environment do

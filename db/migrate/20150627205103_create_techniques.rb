@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTechniques < ActiveRecord::Migration
   def change
     create_table :techniques do |t|

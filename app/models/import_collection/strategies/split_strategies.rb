@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ImportCollection::Strategies
   class SplitStrategies < Strategies
     class << self

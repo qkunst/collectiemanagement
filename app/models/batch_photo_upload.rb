@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BatchPhotoUpload < ApplicationRecord
   # store :images
   store :settings, accessors: [:column]

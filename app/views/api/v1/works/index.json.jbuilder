@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 database_fields = (Work.column_names.collect{|a| a.to_sym unless a.ends_with?("_id")}.compact-[:market_value, :replacement_value, :purchase_price, :price_reference, :internal_comments, :valuation_on])
 
 json.array!(@works) do |work|

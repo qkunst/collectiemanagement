@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCachedGeonameIdsToArtists < ActiveRecord::Migration[5.2]
   def change
     add_column :artists, :geoname_ids_cache, :text

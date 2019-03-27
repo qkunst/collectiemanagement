@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddLocationDetailAndMoreFieldsToWorks < ActiveRecord::Migration
   def change
     add_column :works, :location_detail, :string

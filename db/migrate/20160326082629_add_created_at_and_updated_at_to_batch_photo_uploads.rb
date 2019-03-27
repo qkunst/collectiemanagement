@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCreatedAtAndUpdatedAtToBatchPhotoUploads < ActiveRecord::Migration
   def change
     add_column :batch_photo_uploads, :created_at, :datetime

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Associations < ActiveRecord::Migration
   def change
     create_table :frame_damage_types_works, :force => true do |t|

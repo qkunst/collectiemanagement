@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CollectionsStagesController < ApplicationController
   before_action :authenticate_qkunst_user!
   before_action :set_collection

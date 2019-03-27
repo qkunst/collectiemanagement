@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ActiveRecord::Base
   def self.attr_localized(*fields)
     delimiter = I18n::t('number.format.delimiter')

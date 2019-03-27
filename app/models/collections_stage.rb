@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CollectionsStage < ApplicationRecord
   belongs_to :stage
   belongs_to :collection

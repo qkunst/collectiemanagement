@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 hosts = begin
   Rails.application.config.elasticsearch[:hosts]
 rescue NoMethodError

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCollectionUserTable < ActiveRecord::Migration
   def change
     create_table :collections_users do |t|

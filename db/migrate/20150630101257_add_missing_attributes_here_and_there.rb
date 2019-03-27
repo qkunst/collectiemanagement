@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMissingAttributesHereAndThere < ActiveRecord::Migration
   def change
     add_column :conditions, :order, :integer

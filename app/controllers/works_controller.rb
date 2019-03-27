@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorksController < ApplicationController
   include ActionController::Streaming
   include Works::ZipResponse

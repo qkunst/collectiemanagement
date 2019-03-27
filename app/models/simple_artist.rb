@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # non AR model for db-less artist methods
 class SimpleArtist
   include Artist::NameRenderer

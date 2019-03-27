@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Column Cache helps caching column
 # it introduces the methods #cache_#{column_name}! to refresh the cache and #cached_column_name to retrieve the cached version (explicitly)
 

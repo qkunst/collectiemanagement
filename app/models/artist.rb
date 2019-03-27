@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Artist < ApplicationRecord
   include ColumnCache
   include Artist::NameRenderer

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Report
   class Builder
     extend Report::BuilderHelpers

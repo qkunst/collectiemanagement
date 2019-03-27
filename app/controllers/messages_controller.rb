@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessagesController < ApplicationController
   before_action :authenticate_admin_or_advisor_or_facility_user!
   before_action :set_work

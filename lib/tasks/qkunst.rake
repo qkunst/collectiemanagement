@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :qkunst do
   desc "Herindexeer alle werken"
   task reindex: :environment do

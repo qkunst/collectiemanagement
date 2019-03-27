@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMainCollectionAndOtherFieldsToWorks < ActiveRecord::Migration[5.0]
   def change
     add_column :works, :main_collection, :boolean

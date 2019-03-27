@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RkdArtistsController < ApplicationController
   # before_action :authenticate_admin_user!
   before_action :set_collection

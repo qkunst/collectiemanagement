@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddGeodataToTables < ActiveRecord::Migration
   def self.up
     if ["development", "staging", "testing"].include? Rails.env.to_s

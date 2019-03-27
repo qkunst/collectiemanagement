@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreatePlaceabilities < ActiveRecord::Migration
   def change
     create_table :placeabilities do |t|

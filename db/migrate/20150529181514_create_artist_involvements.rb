@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateArtistInvolvements < ActiveRecord::Migration
   def change
     create_table :artist_involvements do |t|

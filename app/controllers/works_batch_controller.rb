@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorksBatchController < ApplicationController
   before_action :authenticate_qkunst_user!
   before_action :set_collection # set_collection includes authentication

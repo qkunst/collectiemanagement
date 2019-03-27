@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeNameLocalityToPlaceInvolvents < ActiveRecord::Migration[5.0]
   def change
     rename_column :involvements, :locality_geoname_id, :place_geoname_id

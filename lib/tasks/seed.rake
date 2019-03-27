@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :seed do
   desc "generate works"
   task thousand: :environment do

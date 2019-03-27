@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddGeonameIdsToGeonameSummaries < ActiveRecord::Migration[5.0]
   def change
     add_column :geoname_summaries, :geoname_ids, :string

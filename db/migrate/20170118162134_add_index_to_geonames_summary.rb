@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndexToGeonamesSummary < ActiveRecord::Migration[5.0]
   def change
     add_index :geoname_summaries, [:geoname_id, :language]

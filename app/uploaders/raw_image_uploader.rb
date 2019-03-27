@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Images that shouldn't be processed yet...
 class RawImageUploader < CarrierWave::Uploader::Base
 

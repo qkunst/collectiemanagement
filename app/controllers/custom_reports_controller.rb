@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomReportsController < ApplicationController
   before_action :set_collection
   before_action :set_custom_report, only: [:show, :edit, :update, :destroy]

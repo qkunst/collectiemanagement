@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGeonamesCountries < ActiveRecord::Migration
   def change
     create_table :geonames_countries do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArtistsController < ApplicationController
   before_action :set_collection
   before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]

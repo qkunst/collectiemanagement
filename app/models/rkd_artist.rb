@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RkdArtist < ApplicationRecord
   def end_user_link
     "https://rkd.nl/nl/explore/artists/#{rkd_id}"

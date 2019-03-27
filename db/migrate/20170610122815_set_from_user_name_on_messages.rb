@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SetFromUserNameOnMessages < ActiveRecord::Migration[5.0]
   def change
     Message.all.each do |a|

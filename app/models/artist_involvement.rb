@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArtistInvolvement < ApplicationRecord
   belongs_to :artist, touch: true
   belongs_to :involvement, optional: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AppraisalsController < ApplicationController
   before_action :set_collection # set_collection includes authentication
   before_action :set_work

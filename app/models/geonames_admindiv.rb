@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GeonamesAdmindiv < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: 'GeonameTranslation'
 

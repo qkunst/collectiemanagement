@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module NameId
   extend ActiveSupport::Concern
 

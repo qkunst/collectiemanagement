@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Perf
   class << self
     def test options={}, &block

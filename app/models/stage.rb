@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Stage < ApplicationRecord
   belongs_to :previous_stage, primary_key: :id, class_name: "Stage", optional: true
   belongs_to :actual_stage, primary_key: :id, class_name: "Stage", optional: true

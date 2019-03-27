@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CollectionReportHelper
   def report
     @report ||= @collection.report

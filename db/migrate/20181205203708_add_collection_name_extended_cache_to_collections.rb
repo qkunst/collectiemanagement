@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCollectionNameExtendedCacheToCollections < ActiveRecord::Migration[5.2]
   def change
     add_column :collections, :collection_name_extended_cache, :text

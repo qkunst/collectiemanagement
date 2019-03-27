@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArtistInvolvementsController < ApplicationController
   load_and_authorize_resource :artist_involvement
   before_action :set_artist

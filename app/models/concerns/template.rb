@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # adds the following methods:
 #
 # #contents_as_html

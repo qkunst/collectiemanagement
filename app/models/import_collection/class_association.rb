@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportCollection::ClassAssociation
   attr_accessor :relation, :name, :class_name, :collection
 

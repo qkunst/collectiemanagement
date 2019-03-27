@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../rails_helper'
 
 RSpec.describe Work, type: :model do

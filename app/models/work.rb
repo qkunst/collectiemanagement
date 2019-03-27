@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]

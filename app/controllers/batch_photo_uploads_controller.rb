@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BatchPhotoUploadsController < ApplicationController
   before_action :authenticate_admin_user!
   before_action :set_batch_photo_upload, only: [:show, :edit, :update, :destroy]

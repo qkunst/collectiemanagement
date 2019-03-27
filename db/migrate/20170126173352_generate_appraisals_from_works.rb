@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GenerateAppraisalsFromWorks < ActiveRecord::Migration[5.0]
   def change
     works = Work.where.not(price_reference: [nil,""]).or(Work.where.not(market_value:nil)).or(Work.where.not(replacement_value:nil)).or(Work.where.not(valuation_on:nil))

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomReportTemplate < ApplicationRecord
   include Template, Hidable
 

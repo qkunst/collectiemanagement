@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixStringValuesToNilWhenEmpty < ActiveRecord::Migration
   def self.up
     puts "Fixing string values for at least #{Work.where(:grade_within_collection=>nil).count} works"

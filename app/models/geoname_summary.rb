@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GeonameSummary < ApplicationRecord
   scope :selectable, -> { where(type_code: ["AREA","PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "COUNTRY", "ADM1", "ISL"]) }
 

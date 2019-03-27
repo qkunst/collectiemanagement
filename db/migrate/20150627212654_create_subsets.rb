@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateSubsets < ActiveRecord::Migration
   def change
     create_table :subsets do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # rails g model cached_api query response:text
 
 class CachedApi < ApplicationRecord

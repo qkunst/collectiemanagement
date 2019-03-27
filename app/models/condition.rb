@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Condition < ApplicationRecord
   default_scope ->{order(:order)}
 

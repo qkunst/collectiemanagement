@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CollectionsController < ApplicationController
   before_action :authenticate_admin_or_advisor_user!, only: [:edit, :update, :destroy, :create, :new, :manage]
   before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] #includes authentication

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPurchaseYearToWorks < ActiveRecord::Migration[5.0]
   def change
     add_column :works, :purchase_year, :integer

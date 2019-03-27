@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateInvolvements < ActiveRecord::Migration
   def change
     create_table :involvements do |t|

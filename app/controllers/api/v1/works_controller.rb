@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::WorksController < Api::V1::ApiController
   before_action :authenticate_activated_user!
 

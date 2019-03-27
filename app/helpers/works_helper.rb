@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WorksHelper
   # @params set [Hash] with object and counts
   def filter_checkboxes_with_header header, hash, field_name, options={}

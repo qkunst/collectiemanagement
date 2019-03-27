@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OfflineController < ApplicationController
   def work_form
     @work = Work.new

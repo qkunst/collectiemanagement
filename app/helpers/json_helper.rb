@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module JsonHelper
   def clean_key key
     key = key.to_s.strip

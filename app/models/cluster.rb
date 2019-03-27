@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Cluster < ApplicationRecord
   include NameId, CollectionOwnable
 

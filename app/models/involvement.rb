@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Involvement < ApplicationRecord
   before_save :set_geoname_id_from_name!
 

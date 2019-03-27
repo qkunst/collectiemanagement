@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomReport < ApplicationRecord
   belongs_to :collection
   belongs_to :custom_report_template

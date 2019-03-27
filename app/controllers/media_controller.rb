@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MediaController < ApplicationController
   include BaseController
 

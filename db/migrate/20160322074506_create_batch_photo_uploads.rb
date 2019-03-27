@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateBatchPhotoUploads < ActiveRecord::Migration
   def change
     create_table :batch_photo_uploads do |t|

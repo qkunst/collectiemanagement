@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ImportCollectionsController < ApplicationController
   before_action :authenticate_admin_user!
   before_action :set_import_collection, only: [:show, :edit, :update, :destroy, :preview, :import_works, :delete_works]

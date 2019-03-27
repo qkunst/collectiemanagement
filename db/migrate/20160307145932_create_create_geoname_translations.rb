@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateCreateGeonameTranslations < ActiveRecord::Migration
   def change
     create_table :geoname_translations do |t|

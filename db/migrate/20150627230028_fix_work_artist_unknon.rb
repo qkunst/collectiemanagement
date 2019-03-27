@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FixWorkArtistUnknon < ActiveRecord::Migration
   def change
     remove_column :works, :artist_unknown
