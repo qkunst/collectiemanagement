@@ -5,8 +5,8 @@ module WorksHelper
   def filter_checkboxes_with_header header, hash, field_name, options={}
     str = ""
     unless hash.nil? or hash.count <= 1
-      str << "<h5>#{header}</h5>"
-      str << filter_checkboxes(hash, field_name)
+      str += "<h5>#{header}</h5>"
+      str += filter_checkboxes(hash, field_name)
     end
     raw str
   end
@@ -23,7 +23,7 @@ module WorksHelper
     hash.each do | former_pair |
       value = former_pair[0]
       data = former_pair[1]
-      str << filter_checkbox(field_name, value, data, options)
+      str += filter_checkbox(field_name, value, data, options)
     end
     raw str
   end
@@ -43,7 +43,7 @@ module WorksHelper
     label_tag do
       label_str = check_box_tag "filter[#{field_name}][]", check_box_value, checked
       if value_methods.include?(:name)
-        label_str << data[:name]
+        label_str += data[:name]
       else
         begin
           label_str << I18n.t!(filter_value, scope: i18n_scope)
@@ -51,7 +51,7 @@ module WorksHelper
           label_str << filter_value
         end
       end
-      label_str << " (#{data[:count]})" if options[:render_count]
+      label_str += " (#{data[:count]})" if options[:render_count]
       label_str
     end
   end

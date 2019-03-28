@@ -26,7 +26,7 @@ module Template
         mods = field_mod[:mods]
         value = Template::Helper.apply_mods(variables[field].to_s, mods)
         regex = /\{\{\s*#{[field, mods].flatten.join(".")}\s*\}\}/
-        new_contents.gsub!(regex, value)
+        new_contents = new_contents.gsub(regex, value)
       end
       Template::Helper.object_calls_with_modifiers(contents).each do | object_call_mod |
         objekt = object_call_mod[:object]
@@ -35,7 +35,7 @@ module Template
         value = Template::Helper.do_object_call(objekt, method).to_s
         value = Template::Helper.apply_mods(value, mods)
         regex = /\{\{\s*#{[objekt, method, mods].flatten.join(".")}\s*\}\}/
-        new_contents.gsub!(regex, value)
+        new_contents = new_contents.gsub(regex, value)
       end
       new_contents
     end
@@ -72,20 +72,19 @@ module Template
       def apply_mod string, mod
         case mod.to_sym
         when :hoofdletter, :hoofdletter_start
-          string.capitalize!
+          return string.capitalize
         when :hoofdletters
-          string.upcase!
+          return string.upcase
         when :aanhef
-          string = string.downcase.gsub("de heer","de").strip
+          return string.downcase.gsub("de heer","de").strip
         when :verkort
           test_string = string.downcase
           if test_string == "de heer"
-            string = "Dhr."
+            return "Dhr."
           elsif test_string == "mevrouw"
-            string = "Mevr."
+            return "Mevr."
           end
         end
-        string
       end
 
       def apply_mods string, mods

@@ -11,8 +11,7 @@ module CollectionReportHelper
       report.except!(report_section)
     end
     html += "</table>"
-    html.gsub!("<table></table>","")
-    return html.html_safe
+    return html.gsub("<table></table>","").html_safe
   end
 
   def link(group,selection)
