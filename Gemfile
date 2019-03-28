@@ -120,7 +120,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-chosen'
   gem 'rails-assets-select2'
   gem 'rails-assets-fetch', '2.0.4'
-  gem 'rails-assets-morphdom'
+  gem 'rails-assets-morphdom', '~>2.3.0'
   gem 'rails-assets-Stickyfill', '~>1.1'
 end
 

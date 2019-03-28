@@ -245,7 +245,7 @@ GEM
     rails-assets-chosen (1.8.7)
     rails-assets-fetch (2.0.4)
     rails-assets-jquery (3.3.1)
-    rails-assets-morphdom (2.5.3)
+    rails-assets-morphdom (2.3.2)
     rails-assets-select2 (4.0.5)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
@@ -448,7 +448,7 @@ DEPENDENCIES
   rails-assets-chosen!
   rails-assets-fetch (= 2.0.4)!
   rails-assets-jquery!
-  rails-assets-morphdom!
+  rails-assets-morphdom (~> 2.3.0)!
   rails-assets-select2!
   redis-rails
   rspec-rails
