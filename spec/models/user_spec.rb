@@ -128,11 +128,15 @@ RSpec.describe User, type: :model do
     describe "name change should result in name changes with work" do
       it "should change" do
         u = users(:admin)
+
+        expect(UpdateCachedUserNamesWorker).to receive(:perform_async).with(u.id)
+
         w = collections(:collection1).works.create(created_by: u)
         expect(w.created_by_name).to eq("Administrator")
         u.name = "Administrateur"
         u.save
-        sleep(0.1)
+        # simulate
+        UpdateCachedUserNamesWorker.new.perform(u.id)
         w.reload
         expect(w.created_by_name).to eq("Administrateur")
 
