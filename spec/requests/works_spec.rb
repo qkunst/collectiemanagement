@@ -3,6 +3,38 @@
 require 'rails_helper'
 
 RSpec.describe "WorksBatch", type: :request do
+  describe "GET /collections/:id/works" do
+    it "shouldn't be publicly accessible!" do
+      collection = collections(:collection1)
+      get collection_works_path(collection)
+      expect(response).to have_http_status(302)
+    end
+    it "should be able to get an index" do
+      user = users(:admin)
+      collection = collections(:collection1)
+      sign_in user
+      get collection_works_path(collection)
+      expect(response).to have_http_status(200)
+      expect(response.body).not_to match("<h3>wind</h3>")
+    end
+    it "should be able to get an zip file" do
+      user = users(:admin)
+      collection = collections(:collection1)
+      sign_in user
+      get collection_works_path(collection, format: :zip)
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq("application/zip")
+    end
+    it "should be able to get a grouped index" do
+      user = users(:admin)
+      collection = collections(:collection1)
+      sign_in user
+      get collection_works_path(collection, params: {group: :themes})
+      expect(response).to have_http_status(200)
+      expect(response.body).to match("<h3>wind</h3>")
+    end
+  end
+
   describe "GET /collections/:id/works/batch/edit" do
     it "shouldn't be publicly accessible!" do
       collection = collections(:collection1)
