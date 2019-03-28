@@ -75,33 +75,6 @@ namespace :deploy do
   after :publishing, :restart
 end
 
-namespace :delayed_job do
-  desc 'Start delayed job'
-  task :start do
-    on roles(:app) do
-      # execute '~/.profile'
-      # execute '~/.bashrc'
-      execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && RAILS_ENV=#{fetch(:stage)} #{release_path.sub('/home/rails/','~/').join('bin/delayed_job').to_s} start"
-    end
-  end
-  desc 'Stop delayed job'
-  task :stop do
-    on roles(:app) do
-      # execute '~/.profile'
-      # execute '~/.bashrc'
-      execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && RAILS_ENV=#{fetch(:stage)} #{current_path.sub('/home/rails/','~/').join('bin/delayed_job').to_s} stop"
-    end
-  end
-  desc 'Status delayed job'
-  task :status do
-    on roles(:app) do
-      # execute '~/.profile'
-      # execute '~/.bashrc'
-      execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && RAILS_ENV=#{fetch(:stage)} #{current_path.sub('/home/rails/','~/').join('bin/delayed_job').to_s} status"
-    end
-  end
-end
-
 namespace :rbenv do
   desc 'Install rbenv'
   task :install do
