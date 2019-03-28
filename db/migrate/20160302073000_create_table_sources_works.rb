@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateTableSourcesWorks < ActiveRecord::Migration
+class CreateTableSourcesWorks < ActiveRecord::Migration[4.2]
   def change
     create_table :sources_works do |t|
       t.integer :work_id

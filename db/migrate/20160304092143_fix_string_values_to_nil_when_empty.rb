@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FixStringValuesToNilWhenEmpty < ActiveRecord::Migration
+class FixStringValuesToNilWhenEmpty < ActiveRecord::Migration[4.2]
   def self.up
     puts "Fixing string values for at least #{Work.where(:grade_within_collection=>nil).count} works"
     columns = [:location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail]

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddMissingAttributesHereAndThere < ActiveRecord::Migration
+class AddMissingAttributesHereAndThere < ActiveRecord::Migration[4.2]
   def change
     add_column :conditions, :order, :integer
     add_column :conditions, :hide, :boolean, default: false

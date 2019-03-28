@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateWorks < ActiveRecord::Migration
+class CreateWorks < ActiveRecord::Migration[4.2]
   def change
     create_table :works do |t|
       t.integer :collection_id

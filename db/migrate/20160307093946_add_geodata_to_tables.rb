@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddGeodataToTables < ActiveRecord::Migration
+class AddGeodataToTables < ActiveRecord::Migration[4.2]
   def self.up
     if ["development", "staging", "testing"].include? Rails.env.to_s
       Geoname.delete_all

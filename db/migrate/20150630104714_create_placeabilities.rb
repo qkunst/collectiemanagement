@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatePlaceabilities < ActiveRecord::Migration
+class CreatePlaceabilities < ActiveRecord::Migration[4.2]
   def change
     create_table :placeabilities do |t|
       t.string :name, required: true

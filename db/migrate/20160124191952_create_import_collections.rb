@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateImportCollections < ActiveRecord::Migration
+class CreateImportCollections < ActiveRecord::Migration[4.2]
   def change
     create_table :import_collections do |t|
       t.integer :collection_id

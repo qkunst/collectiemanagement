@@ -14,7 +14,6 @@ object_categories.each {|name| ObjectCategory.where({name: name}).first_or_creat
 techniques = ["Acrylverf", "Assemblage", "Aquarel", "Blinddruk", "Brons", "Collage", "Ets", "Aquatint", "Droge naald, aquatint", "Glas", "Gouache", "Gemengde techniek", "Houtsnede", "Installatie", "Keramiek", "Linoleumsnede", "Lithografie", "Monoprint", "Object", "Olieverf", "Readymade", "Reliëf", "Tekening", "Houtskool", "Krijt", "Pastel", "Pen", "Potlood", "Stift", "Tempera", "Textiel", "Wandschildering", "Zeefdruk"]
 techniques.each {|name| Technique.where({name: name}).first_or_create }
 
-
 media = ["Doek", "Karton", "Paneel", "Papier"]
 media.each {|name| Medium.where({name: name}).first_or_create }
 
@@ -44,3 +43,8 @@ placeabilities.each_with_index {|name, index| Placeability.where({name: name, or
 
 currencies = {"EUR"=>"€", "USD"=>"$", "NLG"=>"𝑓"}
 currencies.each{|k,v| Currency.where({iso_4217_code: k, symbol: v}).first_or_create}
+
+collections = ["Demo Collectie A", "Demo Collectie B", "Subcollectie"]
+collections.each {|name| Collection.where({name: name}).first_or_create }
+
+Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Collection.find_by(name: "Demo Collectie A").id)

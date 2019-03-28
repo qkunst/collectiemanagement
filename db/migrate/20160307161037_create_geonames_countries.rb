@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGeonamesCountries < ActiveRecord::Migration
+class CreateGeonamesCountries < ActiveRecord::Migration[4.2]
   def change
     create_table :geonames_countries do |t|
       t.string :iso

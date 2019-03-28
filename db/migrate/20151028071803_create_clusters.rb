@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateClusters < ActiveRecord::Migration
+class CreateClusters < ActiveRecord::Migration[4.2]
   def change
     create_table :clusters do |t|
       t.integer :collection_id

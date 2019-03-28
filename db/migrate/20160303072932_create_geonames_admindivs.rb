@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateGeonamesAdmindivs < ActiveRecord::Migration
+class CreateGeonamesAdmindivs < ActiveRecord::Migration[4.2]
   def change
     create_table :geonames_admindivs do |t|
       t.string :admin_code
