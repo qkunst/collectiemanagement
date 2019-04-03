@@ -149,7 +149,11 @@ class Collection < ApplicationRecord
   end
 
   def touch_works_including_child_works!
-    works_including_child_works.each{|a| a.touch}
+    if previous_changes.keys.include? "geoname_ids_cache"
+      works_including_child_works.each{|a| a.save}
+    else
+      works_including_child_works.each{|a| a.touch}
+    end
   end
 
   def available_clusters

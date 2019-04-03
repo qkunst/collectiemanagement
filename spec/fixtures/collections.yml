@@ -12,6 +12,7 @@ collection4:
 collection_with_works:
   name: Collection with works (sub of Collection 1)
   parent_collection: :collection1
+  geoname_ids_cache: "[]"
 
 collection_with_works_child:
   name: Collection with works child (sub of Collection 1 >> colection with works)

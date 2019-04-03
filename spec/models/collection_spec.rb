@@ -3,6 +3,40 @@
 require 'rails_helper'
 
 RSpec.describe Collection, type: :model do
+  describe "callbacks" do
+    describe "after save" do
+      it "touches child works" do
+        collection = collections(:collection_with_works)
+        w = collection.works.first
+        w_originally_updated_at = w.updated_at
+        sleep(0.001)
+        collection.save
+        w.reload
+        expect(w.updated_at).to be > w_originally_updated_at
+      end
+
+      it "doesn't change collection_locality_artist_involvements_texts_cache" do
+        collection = collections(:collection_with_works)
+        w = collection.works.first
+        w.update_column(:collection_locality_artist_involvements_texts_cache, "['abc']")
+        collection.save
+        w.reload
+        expect(w.collection_locality_artist_involvements_texts_cache).to eq("['abc']")
+      end
+
+      it "does change collection_locality_artist_involvements_texts_cache when locality has been updated" do
+        collection = collections(:collection_with_works)
+        w = collection.works.first
+        w.update_column(:collection_locality_artist_involvements_texts_cache, "['abc']")
+
+        collection.collections_geoname_summaries = [CollectionsGeonameSummary.new(geoname_summary: geoname_summaries(:geoname_summary1))]
+        collection.save
+        w.reload
+        expect(w.collection_locality_artist_involvements_texts_cache).not_to eq("['abc']")
+
+      end
+    end
+  end
   describe "methods" do
     describe "#parent_collections_flattened" do
       it "should return the oldest parent, then that child ." do
