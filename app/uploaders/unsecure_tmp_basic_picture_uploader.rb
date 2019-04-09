@@ -65,8 +65,8 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   def work
     work_ids = {}
     model.column_values.each do |key, value|
-      downcased_key = key.to_s.downcase.gsub(/_\s/,"")
-      downcased_filename = filename.to_s.downcase.gsub(/_\s/,"")
+      downcased_key = key.to_s.downcase.gsub(/[_\s]/,"")
+      downcased_filename = filename.to_s.downcase.gsub(/[_\s]/,"")
       if key and downcased_filename.include?(downcased_key)
         work_ids[key] = value
       end
