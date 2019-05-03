@@ -152,8 +152,10 @@ class WorksController < ApplicationController
       else
         redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.'
       end
-    else
+    elsif can?(:edit, @work)
       render :edit
+    else
+      redirect_to collection_work_path(@collection, @work), notice: 'Het werk kon niet worden aangepast, neem contact op met QKunst om de wijziging te maken.'
     end
   end
 

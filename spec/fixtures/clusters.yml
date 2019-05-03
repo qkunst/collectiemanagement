@@ -4,3 +4,6 @@ cluster1:
 cluster2:
   name: cluster2
   collection: :collection1
+cluster_private_to_collection_with_stages:
+  name: cluster_private_to_collection_with_stages
+  collection: :collection_with_stages
