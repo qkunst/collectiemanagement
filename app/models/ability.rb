@@ -73,6 +73,7 @@ class Ability
         can :read_information_back, Work
         can :read_internal_comments, Work
         can :tag, Work
+        can :destroy, Work
 
         can :update, User
         cannot :destroy, User

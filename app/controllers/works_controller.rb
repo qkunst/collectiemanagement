@@ -6,7 +6,7 @@ class WorksController < ApplicationController
   include Works::XlsxResponse
   include Works::Filtering
 
-  before_action :authenticate_admin_user!, only: [:destroy]
+  before_action :authenticate_admin_or_advisor_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags]
