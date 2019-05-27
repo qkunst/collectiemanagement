@@ -11,6 +11,7 @@ RSpec.describe "collections/show", type: :view do
 
       @collection = collections(:collection_with_stages)
       @collections = @collection.collections
+      @attachments = []
       render
       expect(rendered).to match(/Projectfase/)
       expect(rendered).to match(/Voltooid op  1 januari 2000/)
@@ -20,6 +21,7 @@ RSpec.describe "collections/show", type: :view do
       sign_in users(:admin)
       @collection = collections(:collection_with_stages_child)
       @collections = @collection.collections
+      @attachments = []
       render
       expect(rendered).to match(/Projectfase/)
       expect(rendered).to match(/Voltooid op  1 januari 2000/)
@@ -30,6 +32,7 @@ RSpec.describe "collections/show", type: :view do
       sign_in users(:admin)
       @collection = collections(:collection1)
       @collections = @collection.collections
+      @attachments = []
       render
       expect(rendered).not_to match(/Projectfase/)
       expect(rendered).not_to match(/Voltooid op  1 januari 2000/)
