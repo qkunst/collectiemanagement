@@ -35,6 +35,7 @@ class CollectionsController < ApplicationController
   def show
     @title = @collection.name
     @collections = @collection.child_collections
+    @attachments = @collection.attachments.for_me(current_user)
     current_user.reset_filters!
   end
 
