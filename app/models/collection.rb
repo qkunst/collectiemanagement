@@ -347,6 +347,26 @@ class Collection < ApplicationRecord
     end
   end
 
+  def purge_old_indexed_works!
+    skope = self
+    elastic_ids = skope.search_works("",{}, {return_records: false, force_elastic:true}).collect{|a| a.id.to_i}
+    db_ids = skope.works_including_child_works.select(:id).collect(&:id)
+
+    elastic_ids_to_remove = elastic_ids - db_ids
+
+    elastic_search = skope.works.__elasticsearch__
+    index_name = elastic_search.index_name
+    document_type = elastic_search.document_type
+
+    elastic_ids_to_remove.collect do |elastic_id_to_remove|
+      elastic_search.client.delete(
+          { index: index_name,
+            type:  document_type,
+            id:    elastic_id_to_remove }
+        )
+    end
+  end
+
   class << Collection
     def all_plus_a_fake_super_collection
       [FakeSuperCollection.new] + self.all
