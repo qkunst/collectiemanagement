@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
 require 'sidekiq/web'
+
 Rails.application.routes.draw do
+
+  # config/routes.rb
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 
   resources :custom_report_templates
   get 'tags.json' => "application#tags"
@@ -53,10 +59,6 @@ Rails.application.routes.draw do
     resources :attachments
   end
 
-  # config/routes.rb
-  authenticate :user, lambda { |u| u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
 
   resources :involvements
   resources :collections do
