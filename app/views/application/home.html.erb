@@ -33,6 +33,24 @@
 <p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
+<% elsif current_user.compliance? %>
+<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd met een compliance rol. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+
+<p>Rechten compliance medewerker:</p>
+<ul>
+<li>Kunstwerken bekijken, filteren, tot in hetzelfde detail als een QKunst Kunstadviseur</li>
+<li>Collectie eigenschappen bekijken</li>
+<li>Toegangsrechten controleren van zij die toegang tot de collectie hebben</li>
+<li>Downloaden gegevens</li>
+<li>Uitgebreide rapportages bekijken</li>
+</ul>
+
+<p>U kunt nadrukkelijk geen gegevens bewerken of toevoegen. Omdat schermen generiek zijn opgezet kan er op sommige plekken gesuggereerd worden dat het gaat om een 'beheer-paneel', echter zijn ook hier geen mutaties te maken in de database.</p>
+
+</ul>
+<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
+
+<p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.qkunst? %>
 <p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als registrator. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 

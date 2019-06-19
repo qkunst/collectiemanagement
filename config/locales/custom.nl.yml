@@ -86,6 +86,7 @@ nl:
         role:
           admin: Administrator
           qkunst: Registrator
+          compliance: Compliance
           advisor: Kunstadviseur
           appraiser: Taxateur
           facility_manager: Facility Manager

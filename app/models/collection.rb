@@ -30,6 +30,7 @@ class Collection < ApplicationRecord
   has_many :import_collections
   has_many :themes
   has_many :works
+  has_many :owners
 
   has_cache_for_column :geoname_ids
   has_cache_for_column :collection_name_extended
@@ -232,6 +233,9 @@ class Collection < ApplicationRecord
   def elastic_aggragations
     elastic_report = search_works("",{},{force_elastic: true, return_records: false, limit: 1, aggregations: Report::Builder.aggregations})
     return elastic_report.aggregations
+  rescue Faraday::ConnectionFailed => e
+    SystemMailer.error_message(e).deliver_now
+    return false
   end
 
   def label_override_work_alt_number_1_with_inheritance
@@ -257,7 +261,11 @@ class Collection < ApplicationRecord
   def report
     return @report if @report
     Report::Parser.key_model_relations= KEY_MODEL_RELATIONS
-    @report = Report::Parser.parse(elastic_aggragations)
+    if elastic_aggragations
+      @report = Report::Parser.parse(elastic_aggragations)
+    else
+      return false
+    end
   end
 
   def search_works(search="", filter={}, options={})

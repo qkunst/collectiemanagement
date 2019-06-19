@@ -5,7 +5,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_paper_trail
 
-  ROLES = [:admin, :advisor, :qkunst , :appraiser, :facility_manager, :read_only]
+  ROLES = [:admin, :advisor, :compliance, :qkunst , :appraiser, :facility_manager, :read_only]
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :timeoutable

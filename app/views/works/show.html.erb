@@ -30,7 +30,7 @@
   <div class="imageviewer">
     <%= image_tag(@work.photo_front? ? @work.photo_front_url(:screen) : '' , class: :show)  %>
     <ul class="thumbs" >
-      <% if current_user.can_edit_photos? %>
+      <% if can?(:edit_photos, Work) %>
       <li><%= link_to "Beheer foto's", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :secondary, :expanded, :right]%></li>
       <% end %>
       <% [:front,:back,:detail_1,:detail_2].each do |phototype| %>
@@ -39,7 +39,7 @@
             <%= link_to "#{@work.send("photo_#{phototype}".to_sym).screen.url}?#{@work.updated_at.to_i}" do %>
               <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}") %>
             <% end %>
-            <% if current_user.can_edit_photos? %>
+            <% if can?(:edit_photos, Work) %>
               <%= button_to 'x', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"}%>
             <% end %>
           </li>
@@ -49,7 +49,7 @@
   </div>
 <% else %>
   <div class="callout">
-    <% if current_user.can_edit_photos? %>
+    <% if can?(:edit_photos, Work) %>
     <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
     <% else %>
     <p>Er zijn aan dit werk nog geen foto's toegekend.</p>

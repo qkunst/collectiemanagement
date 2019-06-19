@@ -142,7 +142,7 @@
         <%@external_users.each do | user | %>
           <tr>
             <td><%=link_to user.email, edit_user_path(user)%></td>
-            <td><%=user.facility_manager ? "FM" : "Read-only"%>
+            <td><%= I18n.t(user.role, scope:[:activerecord, :values, :user, :role]) %>
             <td>
               <ul>
                 <%user.collections.each do |collection| %>

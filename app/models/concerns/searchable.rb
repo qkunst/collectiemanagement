@@ -6,19 +6,14 @@ module Searchable
   included do
     include Elasticsearch::Model
     after_commit on: [:create] do
-      begin
-        __elasticsearch__.index_document
-      rescue Faraday::ConnectionFailed
-        sleep(3)
-        __elasticsearch__.index_document
-      end
+      self.index_async!
     end
 
     after_commit on: [:update] do
-      self.reindex! #if self.published?
+      self.reindex_async! #if self.published?
     end
 
-    after_commit on: [:destroy] do
+    before_commit on: [:destroy] do
       begin
         __elasticsearch__.delete_document
       rescue Elasticsearch::Transport::Transport::Errors::NotFound
@@ -27,7 +22,23 @@ module Searchable
     end
 
     after_touch do
-      reindex!
+      self.reindex_async!
+    end
+
+    def index_async!
+      if self.is_a? Work
+        IndexWorkWorker.perform_async(self.id)
+      else
+        reindex!
+      end
+    end
+
+    def reindex_async!
+      if self.is_a? Work
+        ReindexWorkWorker.perform_async(self.id)
+      else
+        reindex!
+      end
     end
 
     def reindex!

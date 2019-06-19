@@ -65,6 +65,15 @@ advisor:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+compliance:
+  email: qkunst-test-compliance@murb.nl
+  admin: false
+  qkunst: false
+  appraiser: false
+  compliance: true
+  collections:
+    - :collection1
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 # admin_notify:
 #   email: qkunst-admin-user@murb.nl
 #

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class CollectionsController < ApplicationController
-  before_action :authenticate_admin_or_advisor_user!, only: [:edit, :update, :destroy, :create, :new, :manage]
   before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] #includes authentication
   before_action :set_parent_collection
 
@@ -26,6 +25,7 @@ class CollectionsController < ApplicationController
   end
 
   def manage
+    authorize! :review, @collection
     @title = @collection.name
     @collections = @collection.child_collections
     current_user.reset_filters!
@@ -34,6 +34,7 @@ class CollectionsController < ApplicationController
   # GET /collections/1
   # GET /collections/1.json
   def show
+    authorize! :show, @collection
     @title = @collection.name
     @collections = @collection.child_collections
     @attachments = @collection.attachments.for_me(current_user)
@@ -72,21 +73,28 @@ class CollectionsController < ApplicationController
       @sections["Waardering"] << [:replacement_value]
     end
     current_user.reset_filters!
+
+    @report = @collection.report
+    unless @report
+      redirect_to collection_path(@collection), notice: "Het rapport kon niet gegenereerd worden door een systeemfout. De beheerder is geïnformeerd."
+    end
   end
 
   # GET /collections/new
   def new
-
+    authorize! :create, @collection
     @collection = Collection.new
   end
 
   # GET /collections/1/edit
   def edit
+    authorize! :update, @collection
   end
 
   # POST /collections
   # POST /collections.json
   def create
+    authorize! :create, @collection
     @collection = Collection.new(collection_params)
     if @parent_collection
       @collection.parent_collection = @parent_collection
@@ -105,6 +113,8 @@ class CollectionsController < ApplicationController
   # PATCH/PUT /collections/1
   # PATCH/PUT /collections/1.json
   def update
+    authorize! :update, @collection
+
     respond_to do |format|
       @collection.label_override_work_alt_number_1 = collection_params[:label_override_work_alt_number_1]
       @collection.label_override_work_alt_number_2 = collection_params[:label_override_work_alt_number_2]
@@ -124,6 +134,8 @@ class CollectionsController < ApplicationController
   # DELETE /collections/1
   # DELETE /collections/1.json
   def destroy
+    authorize! :destroy, @collection
+
     if @collection.works.count == 0 and @collection.collections.count == 0
       name = @collection.name
       @collection.destroy

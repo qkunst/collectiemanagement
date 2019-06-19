@@ -55,7 +55,11 @@ module BaseController
 
     def authentication_callbacks
       if @collection and !(named_variable.methods.include?(:collection) and named_variable.collection.nil?)
-        authorize! :manage_collection, controlled_class
+        if ["index", "show"].include? action_name.to_s
+          authorize! :review_collection, controlled_class
+        else
+          authorize! :manage_collection, controlled_class
+        end
       else
         authorize! :index, controlled_class
       end

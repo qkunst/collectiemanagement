@@ -39,7 +39,7 @@
 
   </div>
   <aside class="large-3 columns">
-    <%= link_to 'Nieuw collectie-thema', new_collection_theme_path(@collection), class: 'button'%>
+    <%= link_to 'Nieuw collectie-thema', new_collection_theme_path(@collection), class: 'button' if can? :create, @collection.themes.new %>
     <% if @show_hidden %>
       <p>Verborgen thema's worden nu weergegeven, <%= link_to "verberg de verborgen thema's", collection_themes_path(@collection, show_hidden: nil)%></p>
     <% else %>
