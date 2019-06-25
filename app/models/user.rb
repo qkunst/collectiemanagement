@@ -132,10 +132,6 @@ class User < ApplicationRecord
     admin? or (objekt.methods.include?(:can_be_accessed_by_user?) and objekt.can_be_accessed_by_user?(self))
   end
 
-  def can_see_details?
-    qkunst? or facility_manager?
-  end
-
   def can_edit_most_of_work?
     qkunst? or appraiser?
   end

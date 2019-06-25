@@ -19,6 +19,7 @@ class Ability
         can :manage_collection, Cluster
         can :manage_collection, Collection
         can :manage_collection, CustomReport
+        can :manage, CustomReport
 
         can [:read, :copy], RkdArtist
 
@@ -36,6 +37,7 @@ class Ability
         can [:read, :copy], RkdArtist
 
         can :manage, Appraisal
+        can :manage, CustomReport, collection_id: accessible_collection_ids
 
         can :manage_collection, :all
         cannot :manage_collection, ImportCollection
@@ -67,6 +69,7 @@ class Ability
         can :review_collection, Owner, collection_id: accessible_collection_ids
 
         can :read, Appraisal
+        can :read, CustomReport, collection_id: accessible_collection_ids
 
         can :read, ImportCollection, collection_id: accessible_collection_ids
         can :read, Reminder, collection_id: accessible_collection_ids
@@ -88,6 +91,7 @@ class Ability
         can [:read, :copy], RkdArtist
 
         can :manage, Appraisal
+        can :read, CustomReport, collection_id: accessible_collection_ids
 
         can [:read, :read_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
