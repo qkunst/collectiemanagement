@@ -45,6 +45,10 @@ class User < ApplicationRecord
     rv
   end
 
+  def ability
+    @ability ||= Ability.new(self)
+  end
+
   def admin_with_favorites?
     collections.count > 0
   end
@@ -101,6 +105,10 @@ class User < ApplicationRecord
     admin? or
       (message && message.from_user == self && message.replies.count == 0 && message.unread) or
       (advisor? && message && (message.subject_object.nil? || message.subject_object.can_be_accessed_by_user?(self)))
+  end
+
+  def registrator?
+    qkunst? and (role == :qkunst)
   end
 
   def generate_api_key!

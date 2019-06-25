@@ -5,9 +5,9 @@
 </div>
 <aside class="medium-3 columns">
 <% if @collection%>
-<%= link_to 'Maak een nieuwe herinnering', new_collection_reminder_path(@collection), class: :button %>
+<%= link_to 'Maak een nieuwe herinnering', new_collection_reminder_path(@collection), class: :button if can?(:create, Reminder)%>
 <% else %>
-<%= link_to 'Maak een nieuwe standaardherinnering', new_reminder_path, class: :button %>
+<%= link_to 'Maak een nieuwe standaardherinnering', new_reminder_path, class: :button if can?(:create, Reminder) %>
 <% end %>
 </aside>
 </div>

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class ImportCollectionsController < ApplicationController
-  before_action :authenticate_admin_user!
-  before_action :set_import_collection, only: [:show, :edit, :update, :destroy, :preview, :import_works, :delete_works]
   before_action :set_collection
+  before_action :set_import_collection, only: [:show, :edit, :update, :destroy, :preview, :import_works, :delete_works]
 
   # GET /import_collections
   # GET /import_collections.json
   def index
+    authorize! :index, ImportCollection
     @import_collections = @collection.import_collections.all
     @batch_photo_uploads = @collection.batch_photo_uploads #BatchPhotoUpload.all
 
@@ -16,18 +16,23 @@ class ImportCollectionsController < ApplicationController
   # GET /import_collections/1
   # GET /import_collections/1.json
   def show
+    authorize! :show, @import_collection
   end
 
   # GET /import_collections/new
   def new
     @import_collection = ImportCollection.new
+    authorize! :new, @import_collection
   end
 
   # GET /import_collections/1/edit
   def edit
+    authorize! :edit, @import_collection
   end
 
   def preview
+    authorize! :preview, @import_collection
+
     begin
       @selection ||= {}
       @selection[:display] = :complete
@@ -42,6 +47,8 @@ class ImportCollectionsController < ApplicationController
   def create
     @import_collection = ImportCollection.new(import_collection_params)
     @import_collection.collection = @collection
+    authorize! :create, @import_collection
+
     respond_to do |format|
       if @import_collection.save
         format.html { redirect_to edit_collection_import_collection_path(@collection, @import_collection), notice: 'Het importbestand is aangemaakt' }
@@ -56,6 +63,8 @@ class ImportCollectionsController < ApplicationController
   # PATCH/PUT /import_collections/1
   # PATCH/PUT /import_collections/1.json
   def update
+    authorize! :update, @import_collection
+
     import_settings = params.require(:import_settings).to_unsafe_h
 
     update_parameters = import_collection_params.to_h
@@ -73,6 +82,8 @@ class ImportCollectionsController < ApplicationController
   end
 
   def import_works
+    authorize! :import_works, @import_collection
+
     delete_works({redirect: false})
     begin
       @import_collection.write
@@ -84,6 +95,8 @@ class ImportCollectionsController < ApplicationController
 
 
   def delete_works options={}
+    authorize! :delete_works, @import_collection
+
     @import_collection.works.destroy_all
     @import_collection.artists.destroy_all_empty_artists!
     redirect_to collection_import_collection_path(@collection, @import_collection), notice: 'De werken die met deze importer zijn aangemaakt zijn verwijderd.' unless options[:redirect] == false
@@ -92,6 +105,8 @@ class ImportCollectionsController < ApplicationController
   # DELETE /import_collections/1
   # DELETE /import_collections/1.json
   def destroy
+    authorize! :destroy, @import_collection
+
     @import_collection.destroy
     respond_to do |format|
       format.html { redirect_to import_collections_url, notice: 'Import collection was successfully destroyed.' }
@@ -102,7 +117,7 @@ class ImportCollectionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_import_collection
-      @import_collection = ImportCollection.find(params[:import_collection_id]||params[:id])
+      @import_collection = @collection.import_collections.find(params[:import_collection_id]||params[:id])
     end
 
 

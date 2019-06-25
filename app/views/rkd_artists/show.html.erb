@@ -7,12 +7,10 @@
 <h1>RKDartist <%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %></h1>
 <p><%= @rkd_artist.substring%></p>
   <% if can?(:copy, RkdArtist) and @artist %>
-
     <nav class="actions">
       <ul class="menu">
         <% if @artist.rkd_artist == @rkd_artist %>
           <li class="right"><%= link_to 'Toon artist op RKD ➔',  @rkd_artist.end_user_link, class: [:small, :secondary, :button], target: "_blank" %></li>
-
           <li><%= button_to 'Neem informatie over uit het RKD', @collection ? collection_rkd_artist_copy_path(@collection, @rkd_artist) : rkd_artist_copy_path(@rkd_artist), params: {artist_id: @artist.id}, class: [:small, :button], method: :patch, data: {confirm: "Weet je zeker dat je de gegevens in de QKunst database wilt vervangen door de RKD gegevens?"}%></li>
           <li><%= button_to 'Ontkoppel', [@collection,@artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
         <% else %>
@@ -31,6 +29,12 @@
 
 
     </div>
+  <% else %>
+  <nav class="actions">
+    <ul class="menu">
+      <li class="right"><%= link_to('Toon artist op RKD ➔',  @rkd_artist.end_user_link, class: [:small, :secondary, :button], target: "_blank") if @artist.rkd_artist == @rkd_artist %></li>
+    </ul>
+  </nav>
   <% end %>
 
 <div class="row">

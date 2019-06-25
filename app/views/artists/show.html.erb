@@ -34,7 +34,7 @@
       <% end %>
     </div>
   <% end %>
-  <% if can?(:copy, RkdArtist) %>
+  <% if can?(:read, RkdArtist) %>
     <aside class="large-3 medium-3 columns">
       <h3>RKDartists&amp;</h3>
 
@@ -49,7 +49,6 @@
       <% end %>
       <hr />
       <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', @collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)%></p>
-
     </aside>
   <% end %>
 </div>

@@ -201,7 +201,7 @@ class WorksController < ApplicationController
     permitted_fields += [
       :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
       :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
-    ] if can?(:edit_photos, Work)
+    ] if current_user.ability.can?(:edit_photos, Work)
     permitted_fields += [
       :inventoried, :refound, :new_found,
       :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,

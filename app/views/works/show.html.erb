@@ -50,9 +50,9 @@
 <% else %>
   <div class="callout">
     <% if can?(:edit_photos, Work) %>
-    <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
+      <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
     <% else %>
-    <p>Er zijn aan dit werk nog geen foto's toegekend.</p>
+      <p>Er zijn aan dit werk nog geen foto's toegekend.</p>
     <% end %>
   </div>
 <% end %>

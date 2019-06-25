@@ -2,30 +2,52 @@
 
 require 'rails_helper'
 
-RSpec.feature "UserCanEditPhotos", type: :feature do
-  # include Devise::Test::IntegrationHelpers
-  scenario ":qkunst_with_collection" do
-    # sign_in# (:admin)
-    visit root_path
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-regular-withcollection-user@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
-    # click_on "Collecties"
 
-    visit collection_url(collections(:collection1))
-    # expect(page).to have_content("asdf")
-    # click_on "Werken"
-    click_on "Work1"
-    click_on "Voeg foto’s toe"
-    attach_file "Foto voorkant", File.expand_path('../fixtures/image.jpg', __dir__)
-    click_on "Kunstwerk bewaren"
-    click_on "Beheer foto's"
-    # expect(page).to have_content('bewerk')
-    # first(".detailed_data table tr a").click
-    # expect(page).to have_content('Bewerk locatie')
-    # fill_in('Verdieping', with: 'Nieuwe verdieping')
-    # click_on "Kunstwerk bewaren"
-    # expect(page).to have_content('Nieuwe verdieping')
+
+RSpec.feature "Editing photo's", type: :feature do
+  ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
+    context email_address do
+      scenario "can edit photo's" do
+        allow_any_instance_of(PictureUploader).to receive(:resize_to_fit)
+        allow_any_instance_of(PictureUploader).to receive(:optimize)
+
+        visit root_path
+        first(".large-12.columns .button").click
+        fill_in("E-mailadres", with: email_address)
+        fill_in("Wachtwoord", with: "password")
+        first("#new_user input[type=submit]").click
+
+        visit collection_url(collections(:collection1))
+
+        click_on "Work1"
+        click_on "Voeg foto’s toe"
+        attach_file "Foto voorkant", File.expand_path('../fixtures/image.jpg', __dir__)
+        click_on "Kunstwerk bewaren"
+        click_on "Beheer foto's"
+        expect(page).to have_content('Beheer foto\'s van Q001 artist_1')
+        click_on "Kunstwerk bewaren"
+      end
+    end
+  end
+  ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
+    context email_address do
+      scenario "can not edit photo's" do
+        visit root_path
+        first(".large-12.columns .button").click
+        fill_in("E-mailadres", with: email_address)
+        fill_in("Wachtwoord", with: "password")
+        first("#new_user input[type=submit]").click
+
+        visit collection_url(collections(:collection1))
+
+        click_on "Work1"
+
+        expect(page).not_to have_content "Voeg foto’s toe"
+
+        visit collection_work_edit_photos_path(works(:work1).collection, works(:work1))
+        expect(page).not_to have_content('Beheer foto\'s van Q001 artist_1')
+        expect(page).to have_content('Alleen medewerkers van QKunst kunnen deze pagina bekijken')
+      end
+    end
   end
 end

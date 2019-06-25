@@ -53,14 +53,14 @@ RSpec.describe "Collections", type: :request do
     it "should allow accesss to the single collection the user has access to" do
       user = users(:read_only_user)
       sign_in user
-      collection = collections(:collection3)
+      collection = collections(:collection1)
       get collection_path(collection)
       expect(response).to have_http_status(200)
     end
     it "should redirect to the root when accessing anohter collection" do
       user = users(:read_only_user)
       sign_in user
-      collection = collections(:collection1)
+      collection = collections(:collection3)
       get collection_path(collection)
       expect(response).to have_http_status(302)
       expect(response).to redirect_to root_path

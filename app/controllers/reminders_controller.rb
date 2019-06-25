@@ -2,38 +2,43 @@
 
 class RemindersController < ApplicationController
   before_action :set_collection
-  before_action :authenticate_admin_or_collection_and_advisor_user!
 
   before_action :set_reminder, only: [:show, :edit, :update, :destroy]
 
   # GET /reminders
   # GET /reminders.json
   def index
+    authorize! :index, Reminder
     if @collection
-      @reminders = @collection.reminders
+      @reminders = collection_scope
     else
-      @reminders = Reminder.prototypes
+      @reminders = collection_scope.prototypes
     end
   end
 
   # GET /reminders/1
   # GET /reminders/1.json
   def show
+    authorize! :show, @reminder
   end
 
   # GET /reminders/new
   def new
     @reminder = Reminder.new
+    authorize! :new, @reminder
   end
 
   # GET /reminders/1/edit
   def edit
+    authorize! :edit, @reminder
   end
 
   # POST /reminders
   # POST /reminders.json
   def create
-    @reminder = Reminder.new(reminder_params)
+    @reminder = collection_scope.new(reminder_params)
+    authorize! :create, @reminder
+
     @reminder.collection = @collection
     redirect_path = @collection ? collection_reminders_path(@collection) : reminders_path
     respond_to do |format|
@@ -50,6 +55,8 @@ class RemindersController < ApplicationController
   # PATCH/PUT /reminders/1
   # PATCH/PUT /reminders/1.json
   def update
+    authorize! :update, @reminder
+
     redirect_path = @collection ? collection_reminders_path(@collection) : reminders_path
     respond_to do |format|
       if @reminder.update(reminder_params)
@@ -65,6 +72,8 @@ class RemindersController < ApplicationController
   # DELETE /reminders/1
   # DELETE /reminders/1.json
   def destroy
+    authorize! :destroy, @reminder
+
     @collection = @reminder.collection
     @reminder.destroy
     respond_to do |format|
@@ -76,7 +85,20 @@ class RemindersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reminder
-      @reminder = Reminder.find(params[:id])
+      if @collection
+        collection_scope.find(params[:id])
+      else
+        authenticate_admin_user!
+        @reminder = collection_scope.find(params[:id])
+      end
+    end
+
+    def collection_scope
+      if current_user.admin?
+        Reminder
+      else
+        @collection.reminders
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -36,7 +36,7 @@ read_only_user:
   email: qkunst-test-read_only_user@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
-    - :collection3
+    - :collection1
 read_only_with_access_to_collection_with_stages:
   email: qkunst-test-read_only@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy

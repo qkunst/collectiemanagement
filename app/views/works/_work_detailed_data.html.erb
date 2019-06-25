@@ -2,9 +2,15 @@
   <div class="medium-6 columns">
   <%= definition_list_for work, {render_as: :table} do %>
     <% if current_user.can_access_location_info? %>
-      <tr><th><%=Work.human_attribute_name(:location)%></th><td><%=work.location%><% if current_user.can_edit_location? and work.id %>
-        (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
-      <% end %></td></tr>
+      <tr>
+        <th><%=Work.human_attribute_name(:location)%></th>
+        <td>
+          <%=work.location%>
+          <% if current_user.can_edit_location? and work.id %>
+            (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
+          <% end %>
+        </td>
+      </tr>
       <% if work.location_floor %>
       <tr><th><%=Work.human_attribute_name(:location_floor)%></th><td><%=work.location_floor%><% if current_user.can_edit_location? and work.id  %>
         (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)

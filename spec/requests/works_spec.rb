@@ -150,25 +150,25 @@ RSpec.describe "Works", type: :request do
 
       it "should allow accesss to the single collection the user has access to" do
         sign_in user
-        collection = collections(:collection3)
+        collection = collections(:collection1)
         get collection_works_path(collection)
         expect(response).to have_http_status(200)
       end
       it "should not allow accesss to a work in another collection by accessing it through another collection the user has access to" do
         sign_in user
         expect {
-          get collection_work_path( collections(:collection3), works(:work1))
+          get collection_work_path( collections(:collection1), works(:work6))
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
       it "should not allow accesss to a work in collection the user has no access to" do
         sign_in user
         expect {
-          get collection_work_path(works(:work1).collection, works(:work1))
+          get collection_work_path(works(:work6).collection, works(:work6))
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
       it "should redirect to the root when accessing anohter collection" do
         sign_in user
-        collection = collections(:collection1)
+        collection = collections(:collection3)
         get collection_works_path(collection)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to root_path

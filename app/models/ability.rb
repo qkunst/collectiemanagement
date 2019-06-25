@@ -7,88 +7,57 @@ class Ability
     # [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
     if user
       alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection
+      alias_action :show, :index, to: :read
 
       accessible_collection_ids = user.accessible_collections.map(&:id)
 
       if user.admin?
         can :manage, :all
 
-        can :clean, Artist
-        can :combine, Artist
-        can :manage_collection, Artist
+        can [:clean, :combine, :manage_collection], Artist
 
         can :manage_collection, Cluster
         can :manage_collection, Collection
         can :manage_collection, CustomReport
 
-        can :show, RkdArtist
-        can :copy, RkdArtist
+        can [:read, :copy], RkdArtist
 
         can :edit_visibility, Attachment
-        can :edit_photos, Work
 
-        can :access_valuation, Collection
-        can :download_datadump, Collection
-        can :download_photos, Collection
-        can :read_report, Collection
-        can :read_status, Collection
-        can :read_valuation, Collection
-        can :read_valuation_reference, Collection
-        can :refresh, Collection
-        can :update_status, Collection
+        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can :read_information_back, Work
-        can :read_internal_comments, Work
-        can :tag, Work
+        can [:edit_photos, :read_information_back, :read_internal_comments, :tag], Work
 
-        can :destroy, User
-        can :edit_admin, User
-
+        can [:destroy, :edit_admin], User
       elsif user.advisor?
         can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
 
-        can :show, RkdArtist
-        can :copy, RkdArtist
+        can [:read, :copy], RkdArtist
 
         can :manage, Appraisal
-
-        can :edit_visibility, Attachment
 
         can :manage_collection, :all
         cannot :manage_collection, ImportCollection
 
-        can :create, Collection, parent_collection_id: accessible_collection_ids
-        can :access_valuation, Collection
-        can :download_datadump, Collection
-        can :download_photos, Collection
-        can :manage, Collection, id: accessible_collection_ids
         can [:create, :update, :edit_visibility], Attachment do |attachment|
           (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
           (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
         end
-        can :read_report, Collection
-        can :read_status, Collection
-        can :read_valuation, Collection
-        can :read_valuation_reference, Collection
-        can :refresh, Collection
-        can :update_status, Collection
 
-        can :read_information_back, Work
-        can :read_internal_comments, Work
-        can :tag, Work
-        can :destroy, Work
-        can :edit_photos, Work
+        can :create, Collection, parent_collection_id: accessible_collection_ids
+
+        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
+
+        can [:read, :tag, :destroy, :edit_photos, :read_information_back, :read_internal_comments], Work, collection_id: accessible_collection_ids
 
         can :update, User
-        cannot :destroy, User
-        cannot :edit_admin, User
+        cannot [:destroy, :edit_admin], User
       elsif user.compliance?
-        cannot :create, :all
-        cannot :update, :all
-        cannot :tag, :all
+        cannot [:create, :edit, :update, :tag], :all
 
         can [:read, :review_collection], Artist
+        can :read, RkdArtist
 
         can :review_collection, Cluster, collection_id: accessible_collection_ids
         can :review_collection, CustomReport, collection_id: accessible_collection_ids
@@ -97,16 +66,15 @@ class Ability
         can :review_collection, ImportCollection, collection_id: accessible_collection_ids
         can :review_collection, Owner, collection_id: accessible_collection_ids
 
-        can :show, RkdArtist
         can :read, Appraisal
+
+        can :read, ImportCollection, collection_id: accessible_collection_ids
+        can :read, Reminder, collection_id: accessible_collection_ids
         can :read, Attachment
 
-        actions_on_collection = [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_status, :read_valuation, :read_valuation_reference]
+        can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_status, :read_valuation, :read_valuation_reference], Collection, id: accessible_collection_ids
 
-        can actions_on_collection, Collection, parent_collection_id: accessible_collection_ids
-        can actions_on_collection, Collection, id: accessible_collection_ids
-
-        can [:read], Attachment do |attachment|
+        can :read, Attachment do |attachment|
           (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
           (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
         end
@@ -117,43 +85,31 @@ class Ability
       elsif user.appraiser?
         can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
-
-        can :show, RkdArtist
-        can :copy, RkdArtist
+        can [:read, :copy], RkdArtist
 
         can :manage, Appraisal
 
-        actions_on_collection = [:read, :read_report, :read_status, :read_valuation, :read_valuation_reference, :refresh]
+        can [:read, :read_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
-        can actions_on_collection, Collection, parent_collection_id: accessible_collection_ids
-        can actions_on_collection, Collection, id: accessible_collection_ids
-
-        can [:read, :read_information_back, :read_internal_comments, :tag, :edit], Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back, :read_internal_comments, :tag, :edit, :edit_photos], Work, collection_id: accessible_collection_ids
 
         can :tag, Work
       elsif user.registrator?
         can [:create, :update, :read, :manage_collection], Artist
         can [:create, :update], ArtistInvolvement
-
-        can :show, RkdArtist
-        can :copy, RkdArtist
-
-        can :read_report, Collection
-        can :read_status, Collection
-        can :refresh, Collection
+        can [:read, :copy], RkdArtist
 
         can [:read, :edit_photos, :read_information_back, :read_internal_comments, :tag], Work, collection_id: accessible_collection_ids
+
+        can [:read, :read_report, :read_status, :refresh], Collection, id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
-
-        can :read_report, Collection
-        can :download_photos, Collection
-        can :read_status, Collection
-        can :read_valuation, Collection
-
-        can :read_information_back, Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back], Work, collection_id: accessible_collection_ids
+        can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
       elsif user.read_only?
-        can [:show], Artist
+        can [:read], Artist
+        can :read, Work, collection_id: accessible_collection_ids
+        can :read, Collection, id: accessible_collection_ids
       end
     end
 

@@ -15,14 +15,14 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     expect(page).to have_content('Ingelogd als qkunst-test-read_only_user@murb.nl')
     click_on "Collecties"
     expect(page).to have_content('Ingelogd als qkunst-test-read_only_user@murb.nl')
-    expect(page).to have_content('Collection 3')
+    expect(page).to have_content('Collection 1')
     expect(page).not_to have_content("+ Voeg werk toe")
     expect(page).not_to have_content('Bewerk')
     expect(page).to have_content('Doorzoek de werken')
     click_on "Werken"
-    expect(page).to have_content('Deze collectie bevat 2 werken')
+    expect(page).to have_content('Deze collectie bevat 3 werken')
     expect(page).not_to have_content('Bewerk')
-    click_on "Work6"
+    click_on "Work1"
     expect(page).to have_content('Details')
     expect(page).not_to have_content('Bewerk')
 
