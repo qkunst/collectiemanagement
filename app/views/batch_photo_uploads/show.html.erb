@@ -20,7 +20,7 @@
         <%= link_to link_path do%>
           <h3><%= work.artist_name_rendered if work%></h3>
           <h4><%= work.title_rendered if work%></h4>
-          <p>bestand: <%= image_alt(image.file.file) %><br/>
+          <p>bestand: <%= image.file.filename %><br/>
              type: <%=Work.human_attribute_name(image.image_type)%></p>
         <% end %>
       </div>

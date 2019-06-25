@@ -188,6 +188,8 @@ nl:
         file: Bestand
         name: Bestandsnaam / beschrijving
         visibility: Zichtbaarheid
+      batch_photo_upload:
+        images: Afbeeldingen
       involvement:
         name: Naam
         place: Plaats

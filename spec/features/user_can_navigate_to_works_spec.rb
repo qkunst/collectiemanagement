@@ -3,31 +3,33 @@
 require 'rails_helper'
 
 RSpec.feature "UserCanNavigateToWorks", type: :feature do
-  scenario "read_only" do
-    visit root_path
-    expect(page).to have_content('QKunst Collectiebeheer')
-    expect(page).to have_content('Welkom')
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-read_only_user@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
-    expect(page).to have_content('Succesvol ingelogd')
-    expect(page).to have_content('Ingelogd als qkunst-test-read_only_user@murb.nl')
-    click_on "Collecties"
-    expect(page).to have_content('Ingelogd als qkunst-test-read_only_user@murb.nl')
-    expect(page).to have_content('Collection 1')
-    expect(page).not_to have_content("+ Voeg werk toe")
-    expect(page).not_to have_content('Bewerk')
-    expect(page).to have_content('Doorzoek de werken')
-    click_on "Werken"
-    expect(page).to have_content('Deze collectie bevat 3 werken')
-    expect(page).not_to have_content('Bewerk')
-    click_on "Work1"
-    expect(page).to have_content('Details')
-    expect(page).not_to have_content('Bewerk')
-
+  ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
+    context email_address do
+      scenario "cannot edit anything" do
+        visit root_path
+        expect(page).to have_content('QKunst Collectiebeheer')
+        expect(page).to have_content('Welkom')
+        first(".large-12.columns .button").click
+        fill_in("E-mailadres", with: email_address)
+        fill_in("Wachtwoord", with: "password")
+        first("#new_user input[type=submit]").click
+        expect(page).to have_content('Succesvol ingelogd')
+        expect(page).to have_content("Ingelogd als #{email_address}")
+        click_on "Collecties"
+        expect(page).to have_content("Ingelogd als #{email_address}")
+        expect(page).to have_content('Collection 1')
+        expect(page).not_to have_content("+ Voeg werk toe")
+        expect(page).not_to have_content('Bewerk')
+        expect(page).to have_content('Doorzoek de werken')
+        click_on "Werken"
+        expect(page).to have_content('Deze collectie bevat 3 werken')
+        expect(page).not_to have_content('Bewerk')
+        click_on "Work1"
+        expect(page).to have_content('Details')
+        expect(page).not_to have_content('Bewerk')
+      end
+    end
   end
-
   ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_address do
       scenario "can edit work through major form" do
@@ -91,7 +93,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
 
         click_on "Collection 1" if email_address == "qkunst-admin-user@murb.nl"
         click_on "Work1"
-        expect(page).not_to have_content('Bewerk gegevens') unless ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].include? email_address
+        expect(page).not_to have_content('Bewerk gegevens') unless ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].include?(email_address)
         expect(page).to have_content('bewerk')
         first(".detailed_data table tr a").click
         expect(page).to have_content('Bewerk locatie')

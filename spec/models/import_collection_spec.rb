@@ -26,10 +26,10 @@ RSpec.describe ImportCollection, type: :model do
       it "should return the table" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root,"spec","fixtures","import_collection_file.csv")))
         expect(i.import_file_to_workbook_table.class).to eq(Workbook::Table)
-        expect(i.import_file_to_workbook_table.to_csv).to match("artist_name,work_title,Drager,Niveau")
-        expect(i.import_file_to_workbook_table.to_csv).to match("Achternaam,Zonder Titel,doek,A")
-        expect(i.import_file_to_workbook_table.to_csv).to match("Andere Achternaam,Zonder Unieke Titel,Papier,C")
-        expect(i.import_file_to_workbook_table.to_csv).to match("onbekend,Uniek,,D,\"earth, wind\"\nOnbekend,Uniek2,,G")
+        expect(i.import_file_to_workbook_table.to_csv).to match("stock_number,artist_name,work_title,Drager,Niveau")
+        expect(i.import_file_to_workbook_table.to_csv).to match("Qimp001, Achternaam,Zonder Titel,doek,A")
+        expect(i.import_file_to_workbook_table.to_csv).to match("Qimp002, Andere Achternaam,Zonder Unieke Titel,Papier,C")
+        expect(i.import_file_to_workbook_table.to_csv).to match("Qimp003, onbekend,Uniek,,D,\"earth, wind\"\nQimp004, Onbekend,Uniek2,,G")
       end
     end
     describe "#update" do
@@ -48,7 +48,7 @@ RSpec.describe ImportCollection, type: :model do
           "artist_name"=>{"split_strategy"=>"split_space", "assign_strategy"=>"append", "fields"=>["artist.first_name", "artist.last_name"]},
           "Drager"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"replace", "fields"=>["work.medium"]},
           "Niveau"=>{"split_strategy"=>"split_nothing", "assign_strategy"=>"replace", "fields"=>["work.grade_within_collection"]},
-          "Thema's"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
+          "Themas"=>{"split_strategy"=>"find_keywords", "assign_strategy"=>"append", "fields"=>["work.themes"]},
         })
         read = i.read
         read.each{|a| a.save; a.reload}

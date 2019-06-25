@@ -1,5 +1,5 @@
-artist_name,work_title,Drager,Niveau,Thema's
-Achternaam,Zonder Titel,doek,A,earth
-Andere Achternaam,Zonder Unieke Titel,Papier,C,earth en wind
-onbekend,Uniek,,D,"earth, wind"
-Onbekend,Uniek2,,G,"Fire"
+stock_number,artist_name,work_title,Drager,Niveau,Themas
+Qimp001, Achternaam,Zonder Titel,doek,A,earth
+Qimp002, Andere Achternaam,Zonder Unieke Titel,Papier,C,earth en wind
+Qimp003, onbekend,Uniek,,D,"earth, wind"
+Qimp004, Onbekend,Uniek2,,G,"Fire"

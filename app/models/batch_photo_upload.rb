@@ -20,6 +20,7 @@ class BatchPhotoUpload < ApplicationRecord
           attribute = image.image_type
           work.send("#{attribute}=".to_sym, image.file)
           work.save
+          p work.errors
         end
       else
         # p "Image #{image.filename} bestaat niet (meer)..."
