@@ -6,7 +6,7 @@
         <th><%=Work.human_attribute_name(:location)%></th>
         <td>
           <%=work.location%>
-          <% if current_user.can_edit_location? and work.id %>
+          <% if can?(:edit_location, work) and work.id %>
             (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
           <% end %>
         </td>

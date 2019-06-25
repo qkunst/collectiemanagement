@@ -7,7 +7,7 @@ RSpec.describe Ability, type: :model do
     :advisor => {
       "Alias workings" => [
         [:manage_collection, :collection, :collection_with_works, true],
-        [:review_collection, :collection, :collection_with_works, true]
+        [:review_collection, :collection, :collection_with_works, true],
       ]
     },
     :compliance => {
@@ -15,12 +15,15 @@ RSpec.describe Ability, type: :model do
         [:read, :collection, :collection_with_works, true],
         [:read, :collection, :collection3, false],
         [:manage_collection, :collection, :collection_with_works, false],
-        [:review_collection, :collection, :collection_with_works, true]
+        [:review_collection, :collection, :collection_with_works, true],
+        [:read_extended_report, :collection, :collection_with_works, true],
       ],
       "Works" => [
         [:read, :work, :work1, true],
         [:edit, :work, :work1, false],
+        [:edit_location, :work, :work1, false],
         [:read, :work, :work6, false],
+        [:show_details, :work, :work1, true],
       ],
     },
     :appraiser => {
@@ -28,12 +31,33 @@ RSpec.describe Ability, type: :model do
         [:read, :collection, :collection_with_works, true],
         [:read, :collection, :collection3, false],
         [:manage_collection, :collection, :collection_with_works, false],
-        [:review_collection, :collection, :collection_with_works, false]
+        [:review_collection, :collection, :collection_with_works, false],
+        [:read_report, :collection, :collection_with_works, true],
+        [:read_extended_report, :collection, :collection_with_works, true],
       ],
       "Works" => [
         [:read, :work, :work1, true],
         [:edit, :work, :work1, true],
+        [:edit_location, :work, :work1, true],
         [:read, :work, :work6, false],
+        [:show_details, :work, :work1, true],
+      ],
+    },
+    :facility_manager => {
+      "Collections" => [
+        [:read, :collection, :collection_with_works, true],
+        [:read, :collection, :collection3, false],
+        [:manage_collection, :collection, :collection_with_works, false],
+        [:review_collection, :collection, :collection_with_works, false],
+        [:read_report, :collection, :collection_with_works, true],
+        [:read_extended_report, :collection, :collection_with_works, false],
+      ],
+      "Works" => [
+        [:read, :work, :work1, true],
+        [:edit, :work, :work1, false],
+        [:edit_location, :work, :work1, true],
+        [:read, :work, :work6, false],
+        [:show_details, :work, :work1, true],
       ],
     }
   }
