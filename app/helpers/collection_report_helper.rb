@@ -19,7 +19,6 @@ module CollectionReportHelper
       group = group.to_s.gsub(/(.*)\_split$/,'\1')
       id_separator = "."
       id_separator = "_" unless group.to_s.ends_with?("s") or group.to_s.ends_with?("split")
-       #or [:style].include?(group) #([:arti].include?(group)) ? "_" : "."
       if (selection.values.count == 0)
         @params = @params.merge({"filter[#{group}][]"=>:not_set})
         link_to("Niets ingevuld",collection_works_path(@collection, @params))

@@ -55,17 +55,17 @@ class CollectionsController < ApplicationController
       "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
       "Waardering" => [[:purchase_year],[:grade_within_collection]],
       "Object" => [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]]
-    }) if current_user.can_access_extended_report?
+    }) if can?(:read_extended_report, @collection)
 
     @sections.deep_merge!({
       "Ontsluiting" => [[:image_rights, :publish],[:"tag_list.keyword"]]
     })
 
-    @sections["Ontsluiting"] = [[:"tag_list.keyword"]] unless current_user.can_access_extended_report?
+    @sections["Ontsluiting"] = [[:"tag_list.keyword"]] unless can?(:read_extended_report, @collection)
 
     @sections.deep_merge!({
       "Overige" => [[:sources],[:owner],[:inventoried, :refound, :new_found]]
-    }) if current_user.can_access_extended_report?
+    }) if can?(:read_extended_report, @collection)
 
 
     if can?(:read_valuation, @collection) and @sections["Waardering"]

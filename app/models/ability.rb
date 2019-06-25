@@ -25,7 +25,7 @@ class Ability
 
         can :edit_visibility, Attachment
 
-        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
+        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report,:read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
         can [:edit_photos, :read_information_back, :read_internal_comments, :tag, :show_details], Work
 
@@ -49,7 +49,7 @@ class Ability
 
         can :create, Collection, parent_collection_id: accessible_collection_ids
 
-        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
+        can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
         can [:read, :tag, :destroy, :edit_photos, :read_information_back, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
 
@@ -75,7 +75,7 @@ class Ability
         can :read, Reminder, collection_id: accessible_collection_ids
         can :read, Attachment
 
-        can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_status, :read_valuation, :read_valuation_reference], Collection, id: accessible_collection_ids
+        can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference], Collection, id: accessible_collection_ids
 
         can :read, Attachment do |attachment|
           (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
@@ -93,7 +93,7 @@ class Ability
         can :manage, Appraisal
         can :read, CustomReport, collection_id: accessible_collection_ids
 
-        can [:read, :read_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
+        can [:read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
 
         can [:read, :read_information_back, :read_internal_comments, :tag, :edit, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
@@ -103,7 +103,7 @@ class Ability
         can [:create, :update], ArtistInvolvement
         can [:read, :copy], RkdArtist
 
-        can [:read, :read_report, :read_status, :refresh], Collection, id: accessible_collection_ids
+        can [:read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
         can [:read, :edit_photos, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?

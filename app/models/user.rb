@@ -147,10 +147,6 @@ class User < ApplicationRecord
     return true
   end
 
-  def can_access_extended_report?
-    qkunst?
-  end
-
   def read_only?
     role == :read_only
   end
