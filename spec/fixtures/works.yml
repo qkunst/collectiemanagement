@@ -1,6 +1,7 @@
 work1:
   title: Work1
   stock_number: Q001
+  alt_number_1: 7201284
   grade_within_collection: A
   themes:
     - :earth

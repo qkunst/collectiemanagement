@@ -62,6 +62,10 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
     file.filename
   end
 
+  def file_exists?
+    file.exists?
+  end
+
   def work
     work_ids = {}
     model.column_values.each do |key, value|

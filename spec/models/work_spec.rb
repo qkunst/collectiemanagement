@@ -305,6 +305,8 @@ RSpec.describe Work, type: :model do
     describe ".possible_exposable_fields" do
       it "should return possible_exposable_fields" do
         expect(Work.possible_exposable_fields).to include(["Eigendom", "owner"])
+        expect(Work.possible_exposable_fields).to include(["Locatie specificatie", "location_detail"])
+        expect(Work.possible_exposable_fields).to include(["Verdieping", "location_floor"])
       end
     end
 

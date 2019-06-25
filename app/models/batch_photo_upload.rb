@@ -14,13 +14,13 @@ class BatchPhotoUpload < ApplicationRecord
 
   def couple!
     self.images.each do |image|
-      if image.file.exists?
+      if image.file_exists?
         work = image.work
+
         if work
           attribute = image.image_type
           work.send("#{attribute}=".to_sym, image.file)
           work.save
-          p work.errors
         end
       else
         # p "Image #{image.filename} bestaat niet (meer)..."

@@ -1,0 +1,8 @@
+batch_photo_upload1:
+  images:
+    - Qna.jpg
+    - Q006.jpg
+    - Q002.jpg
+    - Q001.jpg
+  collection: :collection_with_works
+  finished_uploading: true

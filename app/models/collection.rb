@@ -222,7 +222,12 @@ class Collection < ApplicationRecord
 
   def fields_to_expose(audience=:default)
     if audience == :default
-      return exposable_fields.count == 0 ? Work.possible_exposable_fields.collect{|k,v| v} : exposable_fields
+      if exposable_fields.count == 0
+        fields = Work.possible_exposable_fields.collect{|k,v| v}
+        return fields
+      else
+        return exposable_fields
+      end
     elsif audience == :hpd
       return ["stock_number","title_rendered","description","artist_name_rendered","hpd_height","hpd_width","hpd_depth","hpd_diameter","hpd_keywords","hpd_materials","hpd_condition","hpd_photo_file_name","hpd_comments","hpd_contact"]
     elsif audience == :erfgoed_gelderland
