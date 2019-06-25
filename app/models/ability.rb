@@ -51,7 +51,7 @@ class Ability
 
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:read, :tag, :destroy, :edit_photos, :read_information_back, :edit_location, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :tag, :edit_photos, :read_information_back, :edit_location, :manage, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
 
         can :update, User
         cannot [:destroy, :edit_admin], User
@@ -105,7 +105,7 @@ class Ability
 
         can [:read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :edit_photos, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit_photos, :edit, :edit_location, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids

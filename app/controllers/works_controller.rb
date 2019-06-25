@@ -196,7 +196,7 @@ class WorksController < ApplicationController
       end
     end
     permitted_fields = []
-    permitted_fields += [:location_detail, :location, :location_floor] if current_user.can_edit_location?
+    permitted_fields += [:location_detail, :location, :location_floor] if current_user.ability.can?(:edit_location, Work)
     permitted_fields += [:internal_comments] if current_user.qkunst?
     permitted_fields += [
       :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,

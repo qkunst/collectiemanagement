@@ -89,10 +89,6 @@ class User < ApplicationRecord
     qkunst? or facility_manager?
   end
 
-  def can_edit_location?
-    qkunst? or facility_manager?
-  end
-
   def can_receive_messages?
     admin? or facility_manager? or advisor?
   end
