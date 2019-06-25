@@ -107,7 +107,7 @@ class WorksController < ApplicationController
   # GET /works/1
   def show
     @selection = {}
-    @selection[:display] = current_user.can_see_details? ? :complete : :detailed
+    @selection[:display] = can?(:show_details, @work) ? :complete : :detailed
     @custom_reports = @work.custom_reports.to_a
     @title = @work.name
   end

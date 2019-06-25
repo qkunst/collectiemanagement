@@ -7,16 +7,19 @@ class CustomReportsController < ApplicationController
   # GET /custom_reports
   # GET /custom_reports.json
   def index
+    authorize! :index, CustomReport
     @custom_reports = @collection.custom_reports.all
   end
 
   # GET /custom_reports/1
   # GET /custom_reports/1.json
   def show
+    authorize! :show, CustomReport
   end
 
   # GET /custom_reports/new
   def new
+    authorize! :new, CustomReport
     @custom_report = @collection.custom_reports.new
     if params[:works]
       work_ids = params[:works].map{|w| w.to_i};
@@ -26,11 +29,15 @@ class CustomReportsController < ApplicationController
 
   # GET /custom_reports/1/edit
   def edit
+    authorize! :edit, CustomReport
+
   end
 
   # POST /custom_reports
   # POST /custom_reports.json
   def create
+    authorize! :create, CustomReport
+
     @custom_report = CustomReport.new(custom_report_params)
     @custom_report.collection = @collection
     respond_to do |format|
@@ -47,6 +54,8 @@ class CustomReportsController < ApplicationController
   # PATCH/PUT /custom_reports/1
   # PATCH/PUT /custom_reports/1.json
   def update
+    authorize! :update, CustomReport
+
     respond_to do |format|
       if @custom_report.update(custom_report_params)
         format.html { redirect_to [@collection, @custom_report], notice: 'Custom report was successfully updated.' }
@@ -61,6 +70,8 @@ class CustomReportsController < ApplicationController
   # DELETE /custom_reports/1
   # DELETE /custom_reports/1.json
   def destroy
+    authorize! :destroy, CustomReport
+
     @custom_report.destroy
     respond_to do |format|
       format.html { redirect_to collection_custom_reports_url(@collection), notice: 'Custom report was successfully destroyed.' }
