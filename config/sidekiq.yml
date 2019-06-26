@@ -12,6 +12,6 @@ queues:
   - [qkunst_seldom, 3]
 schedule:
   schedule_request_certificate:
-    cron:  "22 2 * * *"
+    cron:  "22 5 * * *"
     class: ScheduleReindexWorkWorker
 
