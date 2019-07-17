@@ -201,7 +201,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.0331)
     mimemagic (0.3.3)
-    mini_magick (4.9.3)
+    mini_magick (4.9.4)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
     minitest (5.11.3)
@@ -434,7 +434,7 @@ DEPENDENCIES
   letter_opener
   listen
   markdown-rails
-  mini_magick
+  mini_magick (>= 4.9.4)
   nested_form
   nokogiri
   paper_trail

@@ -49,7 +49,7 @@ gem 'devise'
 # gem 'omniauth-google-oauth2'
 gem 'carrierwave'#, '~> 1.0'
 gem 'carrierwave-imageoptimizer'
-gem 'mini_magick' # transforming images
+gem 'mini_magick' , '>= 4.9.4' # transforming images
 gem 'nokogiri'
 gem 'attribute_normalizer' # keeps the database clean
 ##
