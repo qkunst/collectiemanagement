@@ -63,7 +63,8 @@
     <% end %>
     <% if can? :download_photos, @collection  %>
       <li><%=link_to "Foto's.zip", collection_works_path(@collection, format: :zip) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.count * 2 * 417582 )%> (schatting))</small></li>
-      <li><%=link_to "Foto's (alleen voor).zip", collection_works_path(@collection, format: :zip, params: {only_front: true, published: true}) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.count * 417582 )%> (schatting))</small></li>
+      <li><%=link_to "Foto's (alleen voor).zip", collection_works_path(@collection, format: :zip, params: {only_front: true}) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.published.count * 417582 )%> (schatting))</small></li>
+      <li><%=link_to "Foto's (alleen voor, pupliceer: ja).zip", collection_works_path(@collection, format: :zip, params: {only_front: true, published: true}) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.count * 417582 )%> (schatting))</small></li>
     <% end %>
   </ul>
   <hr/>
