@@ -35,6 +35,40 @@ RSpec.describe "Works", type: :request do
         get collection_works_path(collection, format: :zip)
         expect(response).to have_http_status(200)
         expect(response.content_type).to eq("application/zip")
+        expect(response.body).to match(/Zip/)
+      end
+      it "should be able to get an zip file with photos" do
+        collection = collections(:collection1)
+        work = collection.works_including_child_works.first
+        FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image2.jpg', __dir__))
+        FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image3.jpg', __dir__))
+        work.photo_front = File.open(File.expand_path('../fixtures/image2.jpg', __dir__))
+        work.photo_back = File.open(File.expand_path('../fixtures/image3.jpg', __dir__))
+        work.save
+        sign_in user
+        get collection_works_path(collection, format: :zip)
+        expect(response).to have_http_status(200)
+        expect(response.content_type).to eq("application/zip")
+        expect(response.body).to match(/Zip/)
+        expect(response.body).to match("#{work.stock_number}_front.jpg")
+        expect(response.body).to match("#{work.stock_number}_back.jpg")
+      end
+      it "should be able to get an zip file with only front photos" do
+        collection = collections(:collection1)
+        work = collection.works_including_child_works.first
+        FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image2.jpg', __dir__))
+        FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image3.jpg', __dir__))
+        work.photo_front = File.open(File.expand_path('../fixtures/image2.jpg', __dir__))
+        work.photo_back = File.open(File.expand_path('../fixtures/image3.jpg', __dir__))
+        work.save
+        sign_in user
+        get collection_works_path(collection, format: :zip, params: {only_front: true})
+        expect(response).to have_http_status(200)
+        expect(response.content_type).to eq("application/zip")
+        expect(response.body).to match(/Zip/)
+        expect(response.body).to match("#{work.stock_number}.jpg")
+        expect(response.body).not_to match("#{work.stock_number}_front.jpg")
+        expect(response.body).not_to match("#{work.stock_number}_back.jpg")
       end
       it "should be able to get a grouped index" do
         collection = collections(:collection1)

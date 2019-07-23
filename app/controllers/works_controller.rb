@@ -67,7 +67,10 @@ class WorksController < ApplicationController
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
-      format.html {
+      format.xlsx { show_xlsx_response }
+      format.zip { show_zip_response }
+
+      format.html do
         if @selection[:group] != :no_grouping
           works_grouped = {}
           @works.each do |work|
@@ -94,13 +97,7 @@ class WorksController < ApplicationController
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
         end
-      }
-      format.xlsx {
-        show_xlsx_response
-      }
-      format.zip {
-        show_zip_response
-      }
+      end
     end
   end
 
