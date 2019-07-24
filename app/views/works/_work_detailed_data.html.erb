@@ -1,7 +1,7 @@
 <div class="detailed_data row">
   <div class="medium-6 columns">
   <%= definition_list_for work, {render_as: :table} do %>
-    <% if current_user.can_access_location_info? %>
+    <% if can?(:read_location, work) %>
       <tr>
         <th><%=Work.human_attribute_name(:location)%></th>
         <td>

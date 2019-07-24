@@ -8,6 +8,7 @@ class Ability
     if user
       alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection
       alias_action :show, :index, to: :read
+      alias_action :read_location, :edit_location, to: :manage_location
 
       accessible_collection_ids = user.accessible_collections.map(&:id)
 
@@ -27,7 +28,7 @@ class Ability
 
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report,:read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:edit_photos, :read_information_back, :read_internal_comments, :edit_location, :tag, :show_details], Work
+        can [:edit_photos, :read_information_back, :read_internal_comments, :manage_location, :tag, :show_details], Work
 
         can [:destroy, :edit_admin], User
       elsif user.advisor?
@@ -51,7 +52,7 @@ class Ability
 
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:read, :tag, :edit_photos, :read_information_back, :edit_location, :manage, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
 
         can :update, User
         cannot [:destroy, :edit_admin], User
@@ -82,7 +83,7 @@ class Ability
           (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
         end
 
-        can [:read, :read_information_back, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back, :read_location, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
 
         can :read, User
       elsif user.appraiser?
@@ -95,7 +96,7 @@ class Ability
 
         can [:read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :read_information_back, :read_internal_comments, :tag, :edit, :edit_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back, :read_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
         can :tag, Work
       elsif user.registrator?
@@ -105,11 +106,11 @@ class Ability
 
         can [:read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :edit_photos, :edit, :edit_location, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
-        can [:read, :read_information_back, :edit_location, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back, :manage_location, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.read_only?
         can [:read], Artist
         can :read, Collection, id: accessible_collection_ids

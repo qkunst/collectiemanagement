@@ -85,10 +85,6 @@ class User < ApplicationRecord
     qkunst? or collections.count > 0
   end
 
-  def can_access_location_info?
-    qkunst? or facility_manager?
-  end
-
   def can_receive_messages?
     admin? or facility_manager? or advisor?
   end
