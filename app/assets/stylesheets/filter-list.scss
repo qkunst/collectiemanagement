@@ -42,7 +42,18 @@ ul.collapsable {
       font-size: 0.9em;
       color: grey;
       cursor: default;
+      width: 2em;
+      height: 2em;
+      display: inline-block;
+//      border: 1px solid #f00;
     };
+    @media screen and (max-width: 40em) {
+      &:before {
+        width: 1.9em;
+        height: 1.9em;
+        font-size: 1.4em;
+      }
+    }
   }
   li:focus, li.expanded { //li:focus, li:hover,
     &:before {
