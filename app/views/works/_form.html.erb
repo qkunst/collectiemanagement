@@ -104,7 +104,6 @@
     <fieldset>
       <legend>Typering</legend>
       <%= f.input( :abstract_or_figurative, collection: {Work.human_attribute_name(:abstract)=>'abstract', Work.human_attribute_name(:figurative)=>'figurative'},  as: :radio_buttons )  %>
-      <%= f.association(:style, input_html: {class: 'chosen-select'}, collection: Style.not_hidden)  %>
       <%= f.association(:themes, input_html: {class: 'chosen-select', :multiple => true }, as: :grouped_select, collection: @collection.self_and_parent_collections_flattened.all_plus_a_fake_super_collection, group_method: :not_hidden_themes)  %>
       <%= f.association(:subset, input_html: {class: 'chosen-select'}, collection: Subset.not_hidden)  %>
       <%= f.label :locality_geoname_id, "Lokaliteit" %>

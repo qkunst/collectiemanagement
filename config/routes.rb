@@ -45,7 +45,6 @@ Rails.application.routes.draw do
   resources :placeabilities
   resources :subsets
   resources :themes
-  resources :styles
   resources :sources
   resources :frame_damage_types
   resources :damage_types
