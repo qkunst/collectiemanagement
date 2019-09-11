@@ -44,7 +44,7 @@ end
 ##
 
 gem 'pg', '~>0.21'
-gem 'devise'
+gem 'devise', '>= 4.7.1'
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem 'carrierwave'#, '~> 1.0'
