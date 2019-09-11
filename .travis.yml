@@ -5,7 +5,7 @@ notifications:
   email:
     - travis-ci.com+qkunst@murb.nl
 rvm:
-  - 2.4.1
+  - 2.6.2
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
