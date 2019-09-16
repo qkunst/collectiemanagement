@@ -274,7 +274,7 @@ class Collection < ApplicationRecord
   end
 
   def search_works(search="", filter={}, options={})
-    options = {force_elastic: false, return_records: true, limit: 10000}.merge(options)
+    options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
     if ((search == "" or search == nil) and (filter == nil or filter == {} or (
       filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
       )) and options[:force_elastic] == false)
