@@ -201,6 +201,10 @@ class Work < ApplicationRecord
     if grade_within_collection.is_a? String and grade_within_collection.strip == ""
       self.grade_within_collection=nil
     end
+
+    if public_description == ""
+      self.public_description = nil
+    end
   end
 
   def as_indexed_json(*)
