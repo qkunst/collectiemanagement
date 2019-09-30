@@ -112,7 +112,7 @@ gem 'activerecord-session_store'
 gem 'rack-headers_filter'
 gem "strip_attributes"
 
-gem "sidekiq"
+gem "sidekiq", '~> 5'
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
