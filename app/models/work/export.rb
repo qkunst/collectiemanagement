@@ -4,6 +4,22 @@ module Work::Export
   extend ActiveSupport::Concern
 
   included do
+    scope :audience, ->(audience) do
+      if audience == :erfgoed_gelderland
+        published
+      else
+        where("1=1")
+      end
+    end
+
+    5.times do | artist_index |
+      [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
+        define_method(:"artist_#{artist_index}_#{artist_property}") do
+          artists[artist_index]&.send(artist_property)
+        end
+      end
+    end
+
     def collect_values_for_fields(fields)
       return fields.collect do |field|
         value = self.send(field)
@@ -31,6 +47,7 @@ module Work::Export
       end
     end
   end
+
   class_methods do
     def possible_exposable_fields
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
@@ -42,10 +59,16 @@ module Work::Export
       end.compact
 
       fields += ["collection_external_reference_code"]
+      5.times do | artist_index |
+        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
+          fields << "artist_#{artist_index}_#{artist_property}"
+        end
+      end
 
       #sort_according_to_form
       #
       formstring = File.open('app/views/works/_form.html.erb').read
+      formstring += File.open('app/views/appraisals/_form.html.erb').read
       fields.sort! do |a,b|
         a1 = formstring.index(":#{a}") ? formstring.index(":#{a}") : 9999999
         b1 = formstring.index(":#{b}") ? formstring.index(":#{b}") : 9999999

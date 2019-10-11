@@ -25,6 +25,18 @@ RSpec.describe Work, type: :model do
         expect(w.work_index_in_collection).to eq(0)
       end
     end
+    describe "#artist_#\{index\}_methods" do
+      it "should have a first artist" do
+        w = works(:work1)
+        expect(w.artist_0_last_name).to eq("artist_1")
+        expect(w.artist_0_first_name).to eq("firstname")
+      end
+      it "should return nil when no artist is found at index" do
+        w = works(:work1)
+        expect(w.artist_4_last_name).to eq(nil)
+        expect(w.artist_4_first_name).to eq(nil)
+      end
+    end
     describe "#frame_type" do
       it "should be able to set a FrameType" do
         w = works(:work1)
