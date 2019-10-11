@@ -68,6 +68,7 @@ class WorksController < ApplicationController
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.xlsx { show_xlsx_response }
+      format.csv { show_csv_response }
       format.zip { show_zip_response }
 
       format.html do

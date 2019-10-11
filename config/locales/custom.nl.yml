@@ -335,6 +335,36 @@ nl:
         valuation_on: Datum waardebepaling
         width: Breedte beeld (cm)
         work_size: Afmetingen beeld (cm)
+        artist_0_first_name: Vervaardiger 1 Voornaam
+        artist_0_prefix: Vervaardiger 1 Tussenvoegsel
+        artist_0_last_name: Vervaardiger 1 Achternaam
+        artist_0_rkd_artist_id: Vervaardiger 1 RKD nummer
+        artist_0_year_of_birth: Vervaardiger 1 Geboortejaar
+        artist_0_year_of_death: Vervaardiger 1 Jaar van overlijden
+        artist_1_first_name: Vervaardiger 2 Voornaam
+        artist_1_prefix: Vervaardiger 2 Tussenvoegsel
+        artist_1_last_name: Vervaardiger 2 Achternaam
+        artist_1_rkd_artist_id: Vervaardiger 2 RKD nummer
+        artist_1_year_of_birth: Vervaardiger 2 Geboortejaar
+        artist_1_year_of_death: Vervaardiger 2 Jaar van overlijden
+        artist_2_first_name: Vervaardiger 3 Voornaam
+        artist_2_prefix: Vervaardiger 3 Tussenvoegsel
+        artist_2_last_name: Vervaardiger 3 Achternaam
+        artist_2_rkd_artist_id: Vervaardiger 3 RKD nummer
+        artist_2_year_of_birth: Vervaardiger 3 Geboortejaar
+        artist_2_year_of_death: Vervaardiger 3 Jaar van overlijden
+        artist_3_first_name: Vervaardiger 4 Voornaam
+        artist_3_prefix: Vervaardiger 4 Tussenvoegsel
+        artist_3_last_name: Vervaardiger 4 Achternaam
+        artist_3_rkd_artist_id: Vervaardiger 4 RKD nummer
+        artist_3_year_of_birth: Vervaardiger 4 year_of_birth
+        artist_3_year_of_death: Vervaardiger 4 year_of_death
+        artist_4_first_name: Vervaardiger 5 Voornaam
+        artist_4_prefix: Vervaardiger 5 Tussenvoegsel
+        artist_4_last_name: Vervaardiger 5 Achternaam
+        artist_4_rkd_artist_id: Vervaardiger 5 RKD nummer
+        artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
+        artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
       category:
         name: Naam
         order: Volgorde
