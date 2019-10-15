@@ -5,7 +5,7 @@ module Work::Caching
 
   included do
     def cache_key(additional=[])
-      [self, "v1.2"]+additional
+      [self, "v1.3"]+additional
     end
 
     def artist_name_rendered_without_years_nor_locality
