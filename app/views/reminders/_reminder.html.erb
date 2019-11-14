@@ -3,7 +3,7 @@
     <h5><%= link_to reminder.name, [reminder.collection, reminder].compact %></h5>
   </header>
   <div class="body">
-    <%= simple_format reminder.text.truncate(1000)%>
+    <%= simple_format reminder.text.to_s.truncate(1000)%>
   </div>
   <footer>
     <% if reminder.stage %>

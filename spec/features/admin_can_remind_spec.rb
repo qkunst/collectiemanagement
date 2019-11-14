@@ -12,6 +12,21 @@ RSpec.feature "Admin can remind", type: :feature do
 
     visit reminders_path
     expect(page).to have_content('Herinneringen')
+
+    visit new_reminder_path
+    fill_in("Naam", with: "Mijn test herinnering")
+    fill_in("Aantal dagen/weken/maanden...", with: 2)
+    select("Dagen")
+
+    click_on("Herinnering toevoegen")
+    expect(page).to have_content('2 dagen na')
+
+    click_on("Mijn test herinnering")
+    click_on("Bewerk")
+    fill_in("Begeleidende tekst", with: "begeleidende tekst voor deze herinnering")
+    click_on("Herinnering bewaren")
+    expect(page).to have_content("begeleidende tekst voor deze herinnering")
+
   end
 
   scenario "on a collection" do
@@ -23,6 +38,21 @@ RSpec.feature "Admin can remind", type: :feature do
 
     visit collection_reminders_path(Collection.first)
     expect(page).to have_content('Herinneringen')
+
+    visit new_collection_reminder_path(Collection.first)
+    fill_in("Naam", with: "Mijn test herinnering")
+    fill_in("Aantal dagen/weken/maanden...", with: 2)
+    select("Dagen")
+
+    click_on("Herinnering toevoegen")
+    expect(page).to have_content('2 dagen na')
+
+    click_on("Mijn test herinnering")
+    click_on("Bewerk")
+    fill_in("Begeleidende tekst", with: "begeleidende tekst voor deze herinnering")
+    click_on("Herinnering bewaren")
+    expect(page).to have_content("begeleidende tekst voor deze herinnering")
+
   end
 
 end
