@@ -49,9 +49,14 @@ RSpec.feature "Admin can remind", type: :feature do
 
     click_on("Mijn test herinnering")
     click_on("Bewerk")
+
     fill_in("Begeleidende tekst", with: "begeleidende tekst voor deze herinnering")
     click_on("Herinnering bewaren")
     expect(page).to have_content("begeleidende tekst voor deze herinnering")
+    click_on("Mijn test herinnering")
+    click_on("Bewerk")
+    click_on("Verwijder")
+    expect(page).not_to have_content("Mijn test herinnering")
 
   end
 
