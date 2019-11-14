@@ -9,6 +9,7 @@ class RemindersController < ApplicationController
   # GET /reminders.json
   def index
     authorize! :index, Reminder
+
     if @collection
       @reminders = collection_scope
     else
@@ -94,8 +95,8 @@ class RemindersController < ApplicationController
     end
 
     def collection_scope
-      if current_user.admin?
-        Reminder
+      if current_user.admin? and @collection.nil?
+        Reminder.where("1=1")
       else
         @collection.reminders
       end
