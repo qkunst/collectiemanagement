@@ -232,6 +232,17 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).previous).to eq(works(:work2))
       end
     end
+    describe "#object_creation_year" do
+      it "should return nil if object_creation_year_unknown = true" do
+        w = works(:work2)
+        w.object_creation_year = 2012
+        w.save; w.reload
+        expect(w.object_creation_year).to eq(2012)
+        w.object_creation_year_unknown = true
+        w.save; w.reload
+        expect(w.object_creation_year).to eq(nil)
+      end
+    end
     describe "#object_format_code" do
       it "should return proper format code" do
         expect(works(:work2).object_format_code).to eq(nil)

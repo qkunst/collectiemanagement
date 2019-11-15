@@ -273,6 +273,10 @@ class Work < ApplicationRecord
     end
   end
 
+  def object_creation_year
+    object_creation_year_unknown ? nil : read_attribute(:object_creation_year)
+  end
+
   def signature_comments= sig
     if sig.to_s.strip == ""
       write_attribute(:signature_comments, nil)
