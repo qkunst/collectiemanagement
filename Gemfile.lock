@@ -221,7 +221,7 @@ GEM
     paper_trail-association_tracking (2.0.0)
     pg (0.21.0)
     public_suffix (4.0.1)
-    puma (4.2.0)
+    puma (4.3.1)
       nio4r (~> 2.0)
     raabro (1.1.6)
     rack (2.0.7)
@@ -442,7 +442,7 @@ DEPENDENCIES
   paper_trail
   paper_trail-association_tracking
   pg (~> 0.21)
-  puma
+  puma (>= 4.3.1)
   rack-headers_filter
   rails (~> 5)
   rails-assets-Stickyfill (~> 1.1)!
