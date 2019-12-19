@@ -11,7 +11,6 @@ RSpec.describe BatchPhotoUpload, type: :model do
       # this is not a real test... but I'm confident enough for now... not sure how to fix it :o
       it "couples" do
         expect(works(:work1).photo_front.filename).to eq(nil)
-        allow_any_instance_of(Work).to receive(:photo_front=)
 
         bpu = batch_photo_uploads(:batch_photo_upload1)
         images_array = bpu.read_attribute(:images)
