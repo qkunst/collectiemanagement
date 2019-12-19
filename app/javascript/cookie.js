@@ -61,3 +61,4 @@ var docCookies = {
     return aKeys;
   }
 };
+window.docCookies = docCookies;

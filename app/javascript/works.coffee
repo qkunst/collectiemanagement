@@ -13,6 +13,17 @@ show_or_hide_selected_works = ->
 show_screen_image = (e)->
   document.location = e.target.src.replace('screen_','')
 
+show_offline_stored_count_message = ->
+  messageContainer = document.getElementById("offline-works-message")
+  if messageContainer
+    offline_stored_count = (FormStore.Store.count_by_key_start(document.location.toString().split("/works")[0]+"/works"));
+    if (offline_stored_count > 0)
+      messageContainer.classList.remove("hidden")
+
+      messageContainer.innerText = "Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd"
+    else
+      messageContainer.classList.add("hidden")
+
 click_thumb_event = (e)->
   image_url = $(e.currentTarget).attr("href")
   if $(e.currentTarget).find("img").length > 0
@@ -34,6 +45,7 @@ $(document).on("submit","form#new_work", ->
 )
 
 $(document).on("ready", ->
+  show_offline_stored_count_message()
   show_or_hide_selected_works()
   setTimeout(->
     show_or_hide_selected_works()
@@ -43,7 +55,7 @@ $(document).on("ready", ->
 $(document).on("turbolinks:load", ->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   show_or_hide_selected_works()
-
+  show_offline_stored_count_message()
 )
 
 $(document).on "keydown", "input[data-catch-return]", (e)->

@@ -12,18 +12,43 @@
 #         class="number"            either use class="number"
 #         data-sorttype="number"      or the data-sorttype
 #         data-sortkey="12.2"       override cells' content with this sortkey
-
+#
+# Minimal CSS along the lines of:
+#
+#    table.sortable {
+#      thead td, thead th {
+#        &[aria-sort=descending] {
+#          &::after {
+#            content: '▼';
+#          }
+#        }
+#        &[aria-sort=ascending] {
+#          &::after {
+#            content: '▲';
+#          }
+#        }
+#      }
+#    }
+#
+# TODO:
+#  Keyboard usage improvements
+#
 class SortableTable
-  ASC = 'asc'
-  DESC = 'desc'
+  ASC = 'ascending'
+  DESC = 'descending'
 
   constructor: (@table) ->
 
   sort: (@columnHead) ->
-    @order = if (@columnHead.classList.contains(ASC))
+    @order = if (@columnHead.getAttribute("aria-sort") == ASC)
       DESC
     else
       ASC
+
+    @sortEmptyAlwaysLast = if (@columnHead.dataset and @columnHead.dataset.sortEmptyAlwaysLast and @columnHead.dataset.sortEmptyAlwaysLast != "false")
+      true
+    else
+      false
 
     @resetSortsAndSetColumnIndex()
     rows = @reorderRows()
@@ -47,12 +72,11 @@ class SortableTable
   resetSortsAndSetColumnIndex: ->
     tableColumnHeads = @table.querySelectorAll("thead th, thead td")
     for tableColumnHead, index in tableColumnHeads
-      tableColumnHead.classList.remove(ASC)
-      tableColumnHead.classList.remove(DESC)
+      tableColumnHead.removeAttribute("aria-sort")
       if (tableColumnHead == @columnHead)
         @columnIndex = index
 
-    @columnHead.classList.add(@order)
+    @columnHead.setAttribute("aria-sort", @order)
 
 
   reorderRows: ->
@@ -62,23 +86,28 @@ class SortableTable
     else
       1
 
+    sortEmptyAlwaysLastMultiplier = if @sortEmptyAlwaysLast and @order == ASC
+      -1
+    else
+      1
+
     extractSortableRowValue = (row) ->
       cell = row.querySelectorAll("td, th")[columnIndex]
       isNumber = (cell.dataset and cell.dataset.sorttype == 'number') or cell.classList.contains('number')
 
-      value = if (cell.dataset and Object.keys(cell.dataset).includes(sortkey))
+      value = if (cell.dataset and Object.keys(cell.dataset).includes("sortkey"))
         cell.dataset.sortkey
       else
         cell.innerText
 
+      # empty values for numbers
       if isNumber and ((value == "") or (typeof value == 'undefined'))
-        value = -9999999999
+        value = -9999999999 * sortEmptyAlwaysLastMultiplier
       else if isNumber
         value = parseFloat(value)
       else if (typeof value == "string")
         value = value.toLowerCase()
 
-      console.log(row, value)
       value
 
     rowSortFunction = (aRow, bRow) ->

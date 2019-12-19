@@ -11,14 +11,16 @@
  * file per style scope.
  *
 
-*= require chosen
-*= require select2
+* sdf rfequire chosen
+* sdf refquire select2
  *= require foundation_and_overrides
  *= require_self
 //= require foundation_and_overrides
 //= require_tree .
 
  */
+@import 'chosen-js/chosen';
+@import 'select2/dist/css/select2';
 
 @import 'variables';
 //Qoranje: F69022

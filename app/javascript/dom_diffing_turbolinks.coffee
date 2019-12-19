@@ -1,4 +1,4 @@
-//= require morphdom
+morphdom = require("morphdom").default;
 
 Turbolinks.SnapshotRenderer::assignNewBody = ->
   morphdom(document.body,@newBody,{})

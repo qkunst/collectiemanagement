@@ -116,14 +116,15 @@ gem "sidekiq", '~> 5'
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
-source 'https://rails-assets.org' do
-  gem 'rails-assets-jquery' #, '~>2.2'
-  gem 'rails-assets-chosen'
-  gem 'rails-assets-select2'
-  gem 'rails-assets-fetch', '2.0.4'
-  gem 'rails-assets-morphdom', '~>2.3.0'
-  gem 'rails-assets-Stickyfill', '~>1.1'
-end
+gem "webpacker"
+# source 'https://rails-assets.org' do
+#   gem 'rails-assets-jquery' #, '~>2.2'
+#   gem 'rails-assets-chosen'
+#   gem 'rails-assets-select2'
+#   gem 'rails-assets-fetch', '2.0.4'
+#   gem 'rails-assets-morphdom', '~>2.3.0'
+#   gem 'rails-assets-Stickyfill', '~>1.1'
+# end
 
 group :test do
   gem 'database_cleaner'

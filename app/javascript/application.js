@@ -1,26 +1,36 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
-// listed below.
-//
-// Any JavaScript/Coffee file within this directory, lib/assets/javascripts, vendor/assets/javascripts,
-// or any plugin's vendor/assets/javascripts directory can be referenced here using a relative path.
-//
-// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
-// compiled file.
-//
-// Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
-// about supported directives.
-//
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//  require jquery.turbolinks
-//= require foundation
-//= require chosen
-//= require fetch
-//= require select2
-//= require jquery_nested_form
-//= require Stickyfill
-//= require_directory .
+const $ = require("jquery");
+window.$ = $;
+window.jQuery = $;
+
+const UJS = require("rails-ujs");
+const Turbolinks = require("turbolinks");
+const Stickyfill = require("stickyfilljs");
+
+Turbolinks.start();
+UJS.start();
+
+import Foundation from 'foundation-sites';
+//import "controllers"
+
+require('jquery_nested_form');
+require('select2');
+require('chosen-js');
+
+import('context_container');
+import('cookie');
+import('dom_diffing_turbolinks');
+import('filter-list');
+import('forms');
+import('lazy_load_images');
+import('prototypes');
+import('report');
+import('table_filterable');
+import('table_sortable');
+import('works');
+
+
+const FormStore = require('formstore.js').default;
+window.FormStore = FormStore;
 
 var collectieBeheerInit = function() {
   FormStore.init();
@@ -218,6 +228,6 @@ $(document).on("turbolinks:request-start", function() {
   for (var i = stickyElements.length - 1; i >= 0; i--) {
     Stickyfill.remove(stickyElements[i]);
   }
-  Stickyfill.kill();
+  // Stickyfill.kill();
 
 })

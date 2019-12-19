@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     act_as_time_as_boolean (1.0.1)
       activesupport (>= 3.2)
@@ -230,6 +229,8 @@ GEM
     rack-headers_filter (0.0.1)
     rack-protection (2.0.7)
       rack
+    rack-proxy (0.6.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.4.1)
@@ -245,12 +246,6 @@ GEM
       bundler (>= 1.3.0)
       railties (= 5.2.4.1)
       sprockets-rails (>= 2.0.0)
-    rails-assets-Stickyfill (1.1.4)
-    rails-assets-chosen (1.8.7)
-    rails-assets-fetch (2.0.4)
-    rails-assets-jquery (3.4.1)
-    rails-assets-morphdom (2.3.2)
-    rails-assets-select2 (4.0.8)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -387,6 +382,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webpacker (4.2.2)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -448,12 +447,6 @@ DEPENDENCIES
   puma
   rack-headers_filter
   rails (~> 5)
-  rails-assets-Stickyfill (~> 1.1)!
-  rails-assets-chosen!
-  rails-assets-fetch (= 2.0.4)!
-  rails-assets-jquery!
-  rails-assets-morphdom (~> 2.3.0)!
-  rails-assets-select2!
   redis-rails
   rspec-rails
   sass-rails
@@ -467,6 +460,7 @@ DEPENDENCIES
   turbolinks
   uglifier
   web-console
+  webpacker
   workbook
   zipline
 

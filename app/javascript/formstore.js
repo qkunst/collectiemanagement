@@ -89,7 +89,7 @@ var FormStore = {
       return FormStore.Store.read("lastStoreIndex") ? FormStore.Store.read("lastStoreIndex") : 0;
     },
     increaseLastStoreIndex: function() {
-      currentIndex = FormStore.Store.lastStoreIndex();
+      const currentIndex = FormStore.Store.lastStoreIndex();
       FormStore.Store.store("lastStoreIndex", currentIndex+1, {skipIncrease: true});
     },
     flushAll: function() {
@@ -114,74 +114,78 @@ var FormStore = {
       return count;
     },
     markPrivate: function(key) {
-      data = FormStore.Store.read(key);
+      const data = FormStore.Store.read(key);
       FormStore.Store.store(key,data,{"prefix":"private"});
-      private_data = FormStore.Store.read(key,{"prefix":"private"});
-      equaldata = JSON.stringify(data.data)===JSON.stringify(private_data.data)
+
+      const private_data = FormStore.Store.read(key,{"prefix":"private"});
+
+      const equaldata = JSON.stringify(data.data) === JSON.stringify(private_data.data)
 
       if (equaldata) {
         FormStore.Store.remove(key);
       }
     },
     markPublic: function(key) {
-      private_data = FormStore.Store.read(key,{"prefix":"private"}); //read private variant
+      const private_data = FormStore.Store.read(key,{"prefix":"private"}); //read private variant
       if (private_data) {
 
         FormStore.Store.store(key,private_data); //store it public
 
-        new_public_data = FormStore.Store.read(key);
+        const new_public_data = FormStore.Store.read(key);
 
-        equaldata = JSON.stringify(new_public_data.data)===JSON.stringify(private_data.data)
+        const equaldata = JSON.stringify(new_public_data.data) === JSON.stringify(private_data.data)
         if (equaldata) {
           FormStore.Store.remove(key,{"prefix":"private"});
         }
       }
     },
     generateInternalKey: function(name, options) {
-      int_key = FormStore.Store.name+name;
+      let int_key = FormStore.Store.name+name;
       if (options && typeof options['prefix'] === 'string') {
         int_key = options['prefix'] + int_key;
       }
       return int_key;
     },
     remove: function(key, options) {
-      int_key = FormStore.Store.generateInternalKey(key, options);
-      jsonifiedValueStore = localStorage.getItem(int_key);
+      const int_key = FormStore.Store.generateInternalKey(key, options);
+      localStorage.getItem(int_key);
       return localStorage.removeItem(int_key);
     },
     store: function(key, value, options){
-      skipIncrease = (options && options.skipIncrease) ? true : false;
-      key = FormStore.Store.generateInternalKey(key, options);
+      const skipIncrease = (options && options.skipIncrease) ? true : false;
+      const int_key = FormStore.Store.generateInternalKey(key, options);
+
       if (!skipIncrease) {
         FormStore.Store.increaseLastStoreIndex();
       }
+
       var valueStore = {
         createdAt: Date(),
         value: value
       };
+
       var jsonifiedValueStore = JSON.stringify(valueStore);
-      return localStorage.setItem(key, jsonifiedValueStore);
+
+      return localStorage.setItem(int_key, jsonifiedValueStore);
     },
     read: function(key,options){
-      int_key = FormStore.Store.generateInternalKey(key, options);
-      jsonifiedValueStore = localStorage.getItem(int_key);
+      const int_key = FormStore.Store.generateInternalKey(key, options);
+      const jsonifiedValueStore = localStorage.getItem(int_key);
       if (jsonifiedValueStore) {
-        valueStore = JSON.parse(jsonifiedValueStore);
-        return valueStore.value;
+        return JSON.parse(jsonifiedValueStore).value;
       } else {
-        valueStore = JSON.parse(localStorage.getItem(key));
+        const valueStore = JSON.parse(localStorage.getItem(key));
         return (valueStore ? valueStore.value : null);
       }
-
     }
   },
   InstanceMethods: {
     toFormData: function() {
       var tmp = new FormData();
-      for (elem_key in this.data) {
-        elem_data = this.data[elem_key]
+      for (let elem_key in this.data) {
+        let elem_data = this.data[elem_key]
         if (elem_key === "authenticity_token") {
-          csrf_token = document.getElementsByName("csrf-token")[0].content
+          const csrf_token = document.getElementsByName("csrf-token")[0].content
           elem_data = csrf_token ? csrf_token : elem_data
         }
         if (typeof elem_data === 'object' && elem_data.forEach && elem_data.length > 0) {
@@ -238,8 +242,8 @@ var FormStore = {
       var oData = new FormData(form);
       var oDataParsed = {};
       var has_files = false
-      for (elem_key in form.elements) {
-        elem_i = parseInt(elem_key);
+      for (let elem_key in form.elements) {
+        const elem_i = parseInt(elem_key);
         if ((typeof elem_i === 'number') && elem_i != NaN ) {
           var element = form.elements[elem_key];
           if (element.type === "checkbox" || element.type === "radio") {
@@ -247,14 +251,13 @@ var FormStore = {
               oDataParsed[element.name] = element.value;
             }
           } else if (element.multiple) {
-            selected = Array.prototype.filter.apply(
+            oDataParsed[element.name] = Array.prototype.filter.apply(
               element.options, [
                 function(o) {
                   return o.selected;
                 }
               ]
-            );
-            oDataParsed[element.name] = selected.map(function(a){return a.value});;
+            ).map(function(a){return a.value});
           } else if (element.type === 'file') {
             if (element.value) {
               has_files = true;
@@ -281,8 +284,7 @@ var FormStore = {
       if (e.target.type == 'submit' && e.target.classList.contains("no-reload") && (e.type == 'click' || e.type == 'touchend' || e.key == 'Enter')) {
         var target = e.target
         e.preventDefault();
-        f = FormStore.Form.parseForm(target.form);
-        console.log(f);
+        const f = FormStore.Form.parseForm(target.form);
         f.submitForm({no_reload:true});
         document.location = (""+document.location).split("#")[0] + "#new_work"
         return false;
@@ -347,9 +349,9 @@ var FormStore = {
 
   },
   retryStoredForms: function() {
-    key = FormStore.Store.first();
+    const key = FormStore.Store.first();
     if (key){
-      storedform = FormStore.Store.read(key);
+      let storedform = FormStore.Store.read(key);
       FormStore.Store.markPrivate(key);
       storedform = FormStore.Form.parseStoredForm(storedform);
       storedform.submitForm({background:true, storeKey: key, forceCheck: true,
@@ -374,7 +376,7 @@ var FormStore = {
       FormStore.retryStoredForms();
     },
     offlineFormSubmitHandler: function(e) {
-      var form = e.target;
+      const form = e.target;
       if (!form.dataset.offline) return true;
 
       e.preventDefault();
@@ -383,7 +385,7 @@ var FormStore = {
         return false;
       }
 
-      f = FormStore.Form.parseForm(form);
+      const f = FormStore.Form.parseForm(form);
       if (FormStore.online) {
         form.submit();
       } else {
@@ -411,3 +413,4 @@ var FormStore = {
     FormStore.BackgroundSubmit.init();
   }
 };
+export default FormStore;

@@ -1,6 +1,6 @@
 <h1 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h1>
 
-  <p id="offline" class="callout alert hide-for-print"></p>
+  <p id="offline-works-message" data-collection-id=class="callout alert hide-for-print"></p>
 
   <div class="row">
     <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
@@ -132,17 +132,3 @@
   <% content_for :footer do %>
   <p>Dit overzicht is gemaakt op <%= I18n.l Time.now, format: :long %>.</p>
   <% end %>
-
-
-<script type="text/javascript">
-  $(function() {
-    var offline_stored_count = (FormStore.Store.count_by_key_start("<%=collection_works_url(@collection)%>"));
-    if (offline_stored_count > 0) {
-      $('#offline').text("Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd");
-
-      // document.getElementById("offline").innerHtml="Er zijn "+offline_stored_count;
-    } else {
-      $('#offline').hide()
-    }
-  });
-</script>
