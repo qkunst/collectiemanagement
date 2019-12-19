@@ -3,7 +3,7 @@
 #   <table class="sortable" id="id-of-table-to-filter">
 #     <thead>
 #       <tr>
-#         <th date-filtered-by="id-of-input-for-filter">Column A</th>
+#         <th data-filtered-by="id-of-input-for-filter">Column A</th>
 
 class FilterableTableField
   constructor: (@table) ->

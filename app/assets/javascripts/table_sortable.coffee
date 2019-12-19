@@ -1,7 +1,9 @@
+# Source: https://gist.github.com/murb/22fa0fc53955629567bd370037b6a1e3
+#
 # <table class="sortable">
 #   <thead>
 #      <tr>
-#         <td /><th />
+#         <td /><th data-sort-empty-always-last="true" />
 #      </tr>
 #   </thead>
 #   <tbody>
@@ -64,7 +66,7 @@ class SortableTable
       cell = row.querySelectorAll("td, th")[columnIndex]
       isNumber = (cell.dataset and cell.dataset.sorttype == 'number') or cell.classList.contains('number')
 
-      value = if (cell.dataset and cell.dataset.sortkey)
+      value = if (cell.dataset and Object.keys(cell.dataset).includes(sortkey))
         cell.dataset.sortkey
       else
         cell.innerText
@@ -73,7 +75,10 @@ class SortableTable
         value = -9999999999
       else if isNumber
         value = parseFloat(value)
+      else if (typeof value == "string")
+        value = value.toLowerCase()
 
+      console.log(row, value)
       value
 
     rowSortFunction = (aRow, bRow) ->

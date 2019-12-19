@@ -21,7 +21,7 @@ Any relationships within multi-tiered applications found during the scoping phas
 2. Third Party or Acquired Web Application – will be subject to full assessment after which it will be bound to policy requirements.
 3. Feature Releases – will be subject to an appropriate assessment level based on the risk of the changes in the application functionality and/or architecture.
 4. Patch Releases – will be subject to an appropriate assessment level based on the risk of the changes to the application functionality and/or architecture.
-5. Emergency Releases – An emergency release will be allowed to forgo security assessments and carry the assumed risk until such time that a proper assessment can be carried out.  Emergency releases will be designated as such by the Chief Information Officer or an appropriate manager who has been delegated this authority.
+5. Emergency Releases – An emergency release will be allowed to forgo security assessments and carry the assumed risk until such time that a proper assessment can be carried out. Emergency releases will be designated as such by the Chief Information Officer or an appropriate manager who has been delegated this authority.
 
 *4.2* All security issues that are discovered during assessments must be mitigated based upon the following risk levels. The Risk Levels are based on the OWASP Risk Rating Methodology. Remediation validation testing will be required to validate fix and/or mitigation strategies for any discovered issues of Medium risk level or greater.
 
@@ -31,7 +31,7 @@ Any relationships within multi-tiered applications found during the scoping phas
 
 *4.3* The following security assessment levels shall be established by the InfoSec organization or other designated organization that will be performing the assessments.
 
-* Full – A full assessment is comprised of tests for all known web application vulnerabilities using both automated and manual tools based on the OWASP Testing Guide.  A full assessment will use manual penetration testing techniques to validate discovered vulnerabilities to determine the overall risk of any and all discovered.
+* Full – A full assessment is comprised of tests for all known web application vulnerabilities using both automated and manual tools based on the OWASP Testing Guide.  A full assessment will use include a manual, ideally external, security audit and will ideally be followed up by a penetration test to validate the discovered vulnerabilities and to determine the overall risk of any and all discovered vulnerabilities, performed ideally by an external organization.
 * Quick – A quick assessment will consist of a (typically) automated scan of an application for the OWASP Top Ten web application security risks at a minimum.
 * Targeted – A targeted assessment is performed to verify vulnerability remediation changes or new application functionality.
 
@@ -72,7 +72,8 @@ None.
 
 ## Revision History
 
-| Date of Change | Responsible | Summary of Change
-|-----
-| June 2014 |	SANS Policy Team | Updated and converted to new format.
-| June 2017 |	Maarten Brouwers | Updated and converted to new format.
+| Date of Change | Responsible | Summary of Change |
+|--- | --- | ---|
+| June 2014 |	SANS Policy Team | Updated and converted to new format. |
+| June 2017 |	Maarten Brouwers | Slightly adjusted to QKunst situation. |
+| November 2019 |	Maarten Brouwers | Updated reference to penetration testing. |
