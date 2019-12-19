@@ -279,6 +279,7 @@ class Collection < ApplicationRecord
 
   def search_works(search="", filter={}, options={})
     options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
+    sort = options[:sort] || ["_score"]
     if ((search == "" or search == nil) and (filter == nil or filter == {} or (
       filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
       )) and options[:force_elastic] == false)
@@ -296,7 +297,8 @@ class Collection < ApplicationRecord
             }
           ]
         }
-      }
+      },
+      sort: sort
     }
 
     if (search and !search.to_s.strip.empty?)

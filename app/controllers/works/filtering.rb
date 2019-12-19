@@ -37,7 +37,7 @@ module Works::Filtering
       set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection, :themes, :techniques, :sources]
     end
     def set_selection_sort
-      set_selection :sort, [:stock_number, :artist_name]
+      set_selection :sort, [:stock_number, :artist_name, :location, :created_at]
     end
     def set_selection_display
       set_selection :display, [:compact, :detailed, :complete, :limited, :limited_auction]
@@ -70,6 +70,15 @@ module Works::Filtering
       end
     end
 
+    def set_selection_sort_options
+      @selection_sort_options = {
+          "Inventarisnummer"=>:stock_number,
+          "Vervaardiger"=>:artist_name,
+          "Locatie"=>:location,
+          "Toevoegdatum"=>:created_at
+        }
+    end
+
     def update_current_user_with_params
       current_user.filter_params[:group] = @selection[:group]
       current_user.filter_params[:display] = @selection[:display]
@@ -77,13 +86,6 @@ module Works::Filtering
       current_user.filter_params[:filter] = @selection_filter
       current_user.save
     end
-    def sort_works works
-      if @selection[:sort].to_s == "artist_name"
-        works = works.sort{|a,b| a.artist_name_rendered.to_s.downcase <=> b.artist_name_rendered.to_s.downcase}
-      else
-        works = works.sort{|a,b| a.stock_number.to_s.downcase <=> b.stock_number.to_s.downcase}
-      end
-      works
-    end
+
   end
 end

@@ -54,6 +54,18 @@ class Work < ApplicationRecord
   scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
   scope :published, ->{ where(publish: true) }
   scope :has_number, ->(number){ where("works.stock_number = :number OR works.alt_number_1 = :number OR works.alt_number_2 = :number OR works.alt_number_3 = :number", {number: number})}
+  scope :order_by, ->(sort_key) do
+    case sort_key.to_sym
+    when :location
+      order(:location, :location_floor, :location_detail)
+    when :created_at
+      order(created_at: :desc)
+    when :artist_name, :artist_name_rendered
+      joins(:artists).order("artists.last_name ASC, artists.first_name ASC")
+    when :stock_number
+      order(:stock_number)
+    end
+  end
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

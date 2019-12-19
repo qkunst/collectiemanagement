@@ -31,10 +31,7 @@
         <% unless current_user.read_only? %>
           <label class="small-4 columns">Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
         <% end %>
-        <label class="small-4 columns">Sorteer: <%= select_tag :sort, options_for_select({
-          "Inventarisnummer"=>:stock_number,
-          "Kunstenaar"=>:artist_name
-        }, @selection[:sort]), data: {auto_submit: true}  %></label>
+        <label class="small-4 columns">Sorteer: <%= select_tag :sort, options_for_select(@selection_sort_options, @selection[:sort]), data: {auto_submit: true}  %></label>
         <label class="small-4 columns">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
       </div>
     </div>

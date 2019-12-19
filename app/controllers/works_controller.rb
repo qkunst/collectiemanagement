@@ -26,6 +26,7 @@ class WorksController < ApplicationController
     set_selection_sort
     set_selection_display
     set_selection_group_options
+    set_selection_sort_options
     set_selection_display_options
 
     @show_work_checkbox = qkunst_user? ? true : false
@@ -50,6 +51,7 @@ class WorksController < ApplicationController
       @works_count = @works.count
       @works = @works.published if params[:published]
       @works = @works.preload_relations_for_display(@selection[:display])
+      @works = @works.order_by(@selection[:sort]) if @selection[:sort]
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       @works = []
       @works_count = 0
@@ -61,7 +63,6 @@ class WorksController < ApplicationController
     end
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
-
 
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
@@ -82,9 +83,6 @@ class WorksController < ApplicationController
               works_grouped[group] << work
             end
           end
-          works_grouped.each do |key, works|
-            works_grouped[key] = sort_works(works)
-          end
           @max_index ||= @works_count < 159 ? 99999 : 7
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
@@ -94,7 +92,6 @@ class WorksController < ApplicationController
             @works_grouped[nil] = works_grouped[nil]
           end
         else
-          @works = sort_works(@works)
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
         end

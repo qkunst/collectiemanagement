@@ -19,8 +19,8 @@ class Artist < ApplicationRecord
 
   after_save :touch_works
 
-
   after_touch :touch_works
+
   before_save :sync_dates_and_years
   before_save :sync_places
   before_save :cache_geoname_ids!
@@ -33,8 +33,6 @@ class Artist < ApplicationRecord
   scope :works, ->(work){ joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: [work].flatten.map(&:id)})}
 
   accepts_nested_attributes_for :artist_involvements
-
-
 
   def place_of_birth
     rv = read_attribute(:place_of_birth)
