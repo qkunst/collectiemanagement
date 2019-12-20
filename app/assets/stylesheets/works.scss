@@ -84,7 +84,6 @@
     font-size: 1rem;
     color: $qkunst-grey;
     margin: 0;
-//    font-weight: 300;
   }
   p {
     font-size: 1em;
@@ -97,10 +96,6 @@
     text-overflow: "…";   /* IE, Safari (WebKit) */
     overflow:hidden;              /* don't show excess chars */
     width: 100%;
-  }
-  a {
-    font-weight: 300;
-    color: $qkunst-dark;
   }
   padding: 0em;
   background: none ;
@@ -175,6 +170,15 @@
     border-collapse: collapse;
     padding: 0;
 
+    thead {
+      .actions {
+        text-align: right;
+      }
+      th {
+        font-family: inherit;
+      }
+    }
+
     tbody, tr {
       width: 100%;
     }
@@ -205,6 +209,11 @@
       overflow: hidden;
     }
   }
+  a {
+    font-weight: 300;
+    color: $qkunst-dark;
+  }
+
 }
 
 body.compact .complete_data,
@@ -226,11 +235,9 @@ body.complete tr.complete_data {
   position: relative ;
   background: #fff;
   border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
   float: left;
   width: 100%;
   text-align: center;
-  margin: 0 0 1em 0;
   img.show {
     max-height: 50rem;
   }

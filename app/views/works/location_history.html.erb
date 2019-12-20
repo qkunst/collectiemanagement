@@ -1,0 +1,27 @@
+<div id="main">
+<h1>Locatie geschiedenis</h1>
+<p>Locatiegeschiedenis van <%= @work.stock_number%>: <%= @work.name%></p>
+
+<table>
+  <thead>
+    <tr>
+    <%[:updated_at, :location, :location_floor, :location_detail].each do |key|%>
+      <th><%= Work.human_attribute_name(key)%></th>
+    <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @versions.each do |version| %>
+    <tr>
+      <td>
+        <%=I18n.l version[:created_at] %>
+        <% if version[:event] == "create" %><small><br/>Moment van aanmaak</small><% end %>
+      </td>
+      <%[:location, :location_floor, :location_detail].each do |key|%>
+        <td><%= version[key] %></td>
+      <% end %>
+    </tr>
+    <% end%>
+  </tbody>
+</table>
+</div>

@@ -1,25 +1,25 @@
 <div class="detailed_data row">
   <div class="medium-6 columns">
-  <%= definition_list_for work, {render_as: :table} do %>
-    <% if can?(:read_location, work) %>
-      <tr>
-        <th><%=Work.human_attribute_name(:location)%></th>
-        <td>
-          <%=work.location%>
+  <% if can?(:read_location, work) %>
+    <%= definition_list_for work, {render_as: :table} do %>
+      <thead><tr>
+        <th><strong>Locatie</strong></th>
+        <td class="actions">
           <% if can?(:edit_location, work) and work.id %>
-            (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
+            <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
+            <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
           <% end %>
         </td>
-      </tr>
-      <% if work.location_floor %>
-      <tr><th><%=Work.human_attribute_name(:location_floor)%></th><td><%=work.location_floor%><% if can?(:edit_location, work) and work.id  %>
-        (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
-      <% end %></td></tr>
-      <% end %>
-      <tr><th><%=Work.human_attribute_name(:location_detail)%></th><td><%=work.location_detail%><% if can?(:edit_location, work) and work.id  %>
-        (<%= link_to 'bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %>)
-      <% end %></td></tr>
+      </tr></thead>
+      <tbody>
+      <%= define_unless_blank :location %>
+      <%= define_unless_blank :location_floor %>
+      <%= define_unless_blank :location_detail %>
+      </tbody>
     <% end %>
+  <% end %>
+  <%= definition_list_for work, {render_as: :table} do %>
+
     <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, @collection) %>
     <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, @collection) %>
     <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, @collection) %>

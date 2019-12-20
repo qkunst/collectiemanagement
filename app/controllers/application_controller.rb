@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :offline?
   before_action :show_hidden
   before_action :set_time_zone
+  before_action :set_paper_trail_whodunnit, except: [:service_worker, :offline, :work_form, :collection]
 
   def home
 

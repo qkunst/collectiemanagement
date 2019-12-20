@@ -9,7 +9,7 @@ class WorksController < ApplicationController
   before_action :authenticate_admin_or_advisor_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
-  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history]
   before_action :set_collection # set_collection includes authentication
 
   # NOTE: every now and then an error is raised, and the app will try to repost the same request, which results in an error. It is accepted that an external party could create additional, unwanted records (though highly unlikely due to the obscureness of this app (and they would still need login credentials))
@@ -155,6 +155,39 @@ class WorksController < ApplicationController
   end
 
   def edit_location
+  end
+
+  def location_history
+    location_versions = []
+    @work.versions.each_with_index do |version, index|
+      location_versions[index] = {created_at: version.created_at, event: version.event}
+      if version.object and index > 0
+        reified_object = version.reify
+        location_versions[index-1][:location] = reified_object.location
+        location_versions[index-1][:location_floor] = reified_object.location_floor
+        location_versions[index-1][:location_detail] = reified_object.location_detail
+      end
+    end
+
+    # complete with latest info
+    index = location_versions.count
+
+    location_versions[index-1][:location] = @work.location
+    location_versions[index-1][:location_floor] = @work.location_floor
+    location_versions[index-1][:location_detail] = @work.location_detail
+
+    # filter out irrelevant changes
+    uniq_location_versions = [location_versions[0]]
+    location_versions.each do |location_version|
+      last_uniq_location_version = uniq_location_versions.last
+      if (location_version[:location] != last_uniq_location_version[:location] ||
+        location_version[:location_floor] != last_uniq_location_version[:location_floor] ||
+        location_version[:location_detail] != last_uniq_location_version[:location_detail])
+        uniq_location_versions << location_version
+      end
+    end
+
+    @versions = uniq_location_versions
   end
 
   # DELETE /works/1

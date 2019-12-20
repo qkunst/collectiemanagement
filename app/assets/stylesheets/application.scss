@@ -231,6 +231,13 @@ h3 {
       width: 100%;
     };
   }
+  &.row.columns.bottom-nav {
+    border-top: 1px solid #999;
+    border-bottom: 0 none;
+    top: none;
+    bottom: 0;
+    z-index: 19;
+  }
 }
 
 nav, .sub-nav.row.columns {
@@ -268,7 +275,7 @@ button.inline {
 
 .button, button {
   font-family: 'Poppins', 'Futura', 'Arial Black';
-  font-weight: 400px;
+  font-weight: 400;
 }
 
 #online-statuses {

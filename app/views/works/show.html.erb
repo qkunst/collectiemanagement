@@ -4,9 +4,7 @@
         <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h2>
       <% end %>
 
-    <h1><%= @work.title_rendered %> <small>         <% if qkunst_user? %>
-          (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
-        <% end %></small></h1>
+    <h1><%= @work.title_rendered %></h1>
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav"><%= link_to "◀", [@collection, @work.previous] %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next] %></nav>
@@ -48,6 +46,8 @@
     </ul>
   </div>
 <% else %>
+  <div class="imageviewer">
+
   <div class="callout">
     <% if can?(:edit_photos, Work) %>
       <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
@@ -55,37 +55,39 @@
       <p>Er zijn aan dit werk nog geen foto's toegekend.</p>
     <% end %>
   </div>
+  </div>
 <% end %>
 <div class="row">
   <div class="column">
 
   </div>
 </div>
-
+<nav class="row columns sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+  <ul class="menu">
+    <% if can? :edit, @work %>
+      <li class="right"><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>
+    <% end %>
+    <% if can? :create, Appraisal %>
+      <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+    <% end %>
+    <% if can? :tag, @work %>
+      <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+    <% end %>
+    <% if can? :create, @work.attachments.new %>
+      <% if @work.attachments.count == 0 and @custom_reports.count == 0 %>
+      <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
+      <% else %>
+      <li class="right"><%= link_to "Beheer bijlagen (#{@work.attachments.count+@custom_reports.count})", collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</nav>
 <div class="row">
   <div class="small-6 column">
-    <h3 class="left">Details <small><% if qkunst_user? %>
-          (<%= link_to 'Bewerk gegevens', edit_collection_work_path(@collection,@work) %>)
-        <% end %></small></h3>
+    <h3 class="left">Details</h3>
   </div>
   <div class="small-6 column">
     <nav>
-      <ul class="menu">
-
-        <% if can? :create, Appraisal %>
-          <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'primary small button right', data: { open_in_context: true}%></li>
-        <% end %>
-        <% if can? :tag, @work %>
-          <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
-        <% end %>
-        <% if can? :create, @work.attachments.new %>
-          <% if @work.attachments.count == 0 and @custom_reports.count == 0 %>
-          <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
-          <% else %>
-          <li class="right"><%= link_to "Beheer bijlagen (#{@work.attachments.count+@custom_reports.count})", collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
-          <% end %>
-        <% end %>
-      </ul>
   </div>
 </div>
 <div class="row columns">

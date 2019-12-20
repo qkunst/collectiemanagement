@@ -104,6 +104,7 @@ Rails.application.routes.draw do
       resources :attachments
       resources :appraisals
       resources :messages
+      get 'location_history' => 'works#location_history'
       get 'edit_location' => 'works#edit_location'
       get 'edit_tags' => 'works#edit_tags'
       get 'edit_photos' => 'works#edit_photos'
