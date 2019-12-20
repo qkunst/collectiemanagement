@@ -12,6 +12,7 @@ before_script:
   - docker-compose up -d
 before_install:
   - gem install bundler
+  - yarn install
 script:
   - bundle exec rake db:test:prepare
   - bundle exec rspec

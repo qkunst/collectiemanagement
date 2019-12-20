@@ -22,8 +22,8 @@ class Work < ApplicationRecord
   before_save :sync_purchase_year
   before_save :enforce_nil_or_true
   before_save :update_created_by_name
-  after_save :touch_collection!
-  after_save :update_artist_name_rendered!
+  after_save  :touch_collection!
+  after_save  :update_artist_name_rendered!
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
 
