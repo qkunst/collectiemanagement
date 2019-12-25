@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <script src="zxing_reader.js"></script>
+  <script src="zxing_helper.js"></script>
+  <link rel="stylesheet" href="zxing.css" />
+
+  <title>ZXing Mobile Barcode Scanner</title>
+
+
+</head>
+<body>
+  <div class="zxing-wrapper">
+    <header>
+      <h1>ZXing Mobile Barcode Scanner</h1>
+    </header>
+    <div class="zxing-canvas-container">
+      <canvas id="zxing-canvas" width="640" height="480"></canvas>
+    </div>
+    <form>
+      <textarea data-zxing-output-target readonly="readonly"></textarea>
+      <div class="actions">
+        <input type="submit" value="Submit"/>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

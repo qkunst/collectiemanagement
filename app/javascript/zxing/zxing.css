@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  font-family: sans-serif;
+}
+.zxing-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+/*  justify-content: space-between;*/
+}
+
+.zxing-wrapper header{
+  color: #000;
+  border-bottom: 2px solid #000;
+  padding: 1em;
+}
+.zxing-wrapper header h1 {
+  font-weight: normal;
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.zxing-canvas-container {
+  max-height: calc( 480px + 2em );
+}
+.zxing-canvas-container canvas {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  max-height: 240px;
+}
+
+@media screen and (min-width: 800px) {
+  .zxing-canvas-container canvas {
+    max-width: 640px;
+    max-height: 480px;
+  }
+}
+
+.zxing-wrapper form {
+  display: flex;
+  flex: auto;
+}
+.zxing-wrapper form textarea {
+  width: 98%;
+  min-width: 98%;
+  max-width: 98%;
+  min-height: 6em;
+  font-family: inherit;
+  border: 2px solid #ccc;
+  border-radius: 1em;
+  margin: 1% 1% 5% 1%;
+  padding: 0 0.5em;
+  flex: 2;
+  display: block;
+  font-size: 1.5em;
+}
+.zxing-wrapper form textarea:focus {
+  border: 2px solid #000;
+}
+
+.zxing-wrapper .actions {
+  display: flex;
+  flex-direction: row;
+}
+
+.zxing-wrapper input[type=submit] {
+  background: #fefefe;
+  font-weight: bold;
+  border: 2px solid #000;
+  border-radius: 1000em;
+  font-size: 1em;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  height: 6em;
+  width: 6em;
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+}
+.zxing-wrapper input[type=submit]:hover, .zxing-wrapper input[type=submit]:focus {
+  color: #fff;
+  background: #000;
+}

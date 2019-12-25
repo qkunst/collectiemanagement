@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     patch 'copy' => 'rkd_artists#copy'
   end
 
+  resource :mobile
+
   resources :works do
     resources :attachments
   end

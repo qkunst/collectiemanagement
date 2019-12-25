@@ -1,0 +1,15 @@
+  <div class="zxing-wrapper">
+    <div class="zxing-canvas-container">
+      <canvas id="zxing-canvas" width="640" height="480"></canvas>
+    </div>
+
+
+    <%= simple_form_for @collection.works.new, url: collection_works_batch_path, method: :patch do |f| %>
+      <textarea data-zxing-output-target name="work_numbers_return_separated"></textarea>
+      <%= f.input :location %>
+      <%= f.input :location_floor %>
+      <%= f.input :location_detail %>
+      <%= f.submit %>
+    <% end %>
+
+  </div>

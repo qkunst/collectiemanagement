@@ -27,7 +27,7 @@ import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
-
+import('zxing/zxing_helper')
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
