@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   before_action :set_time_zone
   before_action :set_paper_trail_whodunnit, except: [:service_worker, :offline, :work_form, :collection]
 
+  before_action :check_rack_mini_profiler
+
   def home
 
   end
@@ -181,6 +183,12 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin_user!
     authenticate_user_with_one_of_roles!([:admin])
+  end
+
+  def check_rack_mini_profiler
+    if current_user && current_user.email == "home@murb.nl"
+      Rack::MiniProfiler.authorize_request
+    end
   end
 
   def set_time_zone

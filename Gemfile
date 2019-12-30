@@ -117,6 +117,13 @@ gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
 gem "webpacker"
+
+gem 'rack-mini-profiler'
+gem 'flamegraph'
+gem 'stackprof'
+gem 'memory_profiler'
+
+
 # source 'https://rails-assets.org' do
 #   gem 'rails-assets-jquery' #, '~>2.2'
 #   gem 'rails-assets-chosen'

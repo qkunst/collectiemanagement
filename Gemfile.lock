@@ -154,6 +154,7 @@ GEM
     faraday (0.17.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.3)
+    flamegraph (0.9.5)
     foundation-rails (6.3.1.0)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -199,6 +200,7 @@ GEM
     markdown-rails (0.2.1)
       rails
       rdiscount (>= 1.6.8, < 2.0)
+    memory_profiler (0.9.14)
     method_source (0.9.2)
     mimemagic (0.3.3)
     mini_magick (4.9.5)
@@ -227,6 +229,8 @@ GEM
     raabro (1.1.6)
     rack (2.0.8)
     rack-headers_filter (0.0.1)
+    rack-mini-profiler (1.1.4)
+      rack (>= 1.2.0)
     rack-protection (2.0.7)
       rack
     rack-proxy (0.6.5)
@@ -359,6 +363,7 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stackprof (0.2.15)
     strip_attributes (1.9.0)
       activemodel (>= 3.0, < 7.0)
     therubyracer (0.12.3)
@@ -429,6 +434,7 @@ DEPENDENCIES
   elasticsearch-model (~> 5)
   elasticsearch-rails (~> 5)
   exception_notification
+  flamegraph
   foundation-rails (~> 6.3.0)
   highline
   jbuilder
@@ -438,6 +444,7 @@ DEPENDENCIES
   letter_opener
   listen
   markdown-rails
+  memory_profiler
   mini_magick
   nested_form
   nokogiri
@@ -446,6 +453,7 @@ DEPENDENCIES
   pg (~> 0.21)
   puma
   rack-headers_filter
+  rack-mini-profiler
   rails (~> 5)
   redis-rails
   rspec-rails
@@ -455,6 +463,7 @@ DEPENDENCIES
   sidekiq-unique-jobs
   simple_form
   simplecov
+  stackprof
   strip_attributes
   therubyracer
   turbolinks
