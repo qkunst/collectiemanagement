@@ -5,7 +5,8 @@
 
 
     <%= simple_form_for @collection.works.new, url: collection_mobile_path(@collection), method: :patch do |f| %>
-      <textarea data-zxing-output-target name="work_numbers_return_separated" data-zxing-auto-initialize autofocus="autofocus"></textarea>
+      <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
+      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
       <%= f.input :location %>
       <%= f.input :location_floor %>
       <%= f.input :location_detail %>

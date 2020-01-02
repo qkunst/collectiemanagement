@@ -230,7 +230,7 @@ document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", fun
   state.scanActive = true;
   state.targetElement = event.target;
   initializeScanner();
-  event.target.setAttribute("readonly", "readonly");
+  // event.target.setAttribute("readonly", "readonly");
 })
 
 document.addDelegatedEventListener("focusout", "*", function(event){
