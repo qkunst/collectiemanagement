@@ -75,9 +75,26 @@ if (!HTMLDocument.prototype.addDelegatedEventListener) {
 
 // play a simple beep
 var AudioContext = window.AudioContext || window.webkitAudioContext;
+var audioContext;
 if (typeof AudioContext !== "undefined") {
-  var audioContext = new AudioContext();
+  audioContext = new AudioContext();
 }
+
+// https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
+window.addEventListener('touchstart', function() {
+
+	// create empty buffer
+	var buffer = audioContext.createBuffer(1, 1, 22050);
+	var source = audioContext.createBufferSource();
+	source.buffer = buffer;
+
+	// connect to output (your speakers)
+	source.connect(audioContext.destination);
+
+	// play the file
+	source.noteOn(0);
+
+}, false);
 
 function beep(vol, freq, duration){
   if (typeof audioContext !== "undefined") {
@@ -231,4 +248,5 @@ function autoFocus() {
 
 window.addEventListener("load", autoFocus)
 document.addEventListener("turbolinks:load", autoFocus)
+
 
