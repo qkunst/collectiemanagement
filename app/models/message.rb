@@ -40,7 +40,9 @@ class Message < ApplicationRecord
   after_create :send_notification
 
   def set_from_user_name!
-    self.from_user_name = (from_user ? from_user.name.to_s : "")
+    if from_user
+      self.from_user_name = from_user.name
+    end
   end
 
   def from_user?(user)
