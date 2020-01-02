@@ -1,8 +1,9 @@
-<h1>Beheer collectie specifieke opties</h1>
+<h2>Beheer collectie specifieke opties</h2>
 <ul>
   <%= menu_link_to "Herinneringen", collection_reminders_path(@collection), wrap: :li if can? :review_collection, Reminder %>
   <%= menu_link_to "Thema's", collection_themes_path(@collection), wrap: :li if can? :review_collection, Theme %>
-  <%= menu_link_to "Rapporten", collection_custom_reports_path(@collection) if can? :review_collection, CustomReport %>
+  <%= menu_link_to "Rapporten", collection_custom_reports_path(@collection), wrap: :li if can? :review_collection, CustomReport %>
+  <%= menu_link_to "Recent gewijzigd", collection_works_modified_path(@collection), wrap: :li if can? :review_collection, CustomReport %>
   <%= menu_link_to "Import", collection_import_collections_path(@collection), wrap: :li if can? :review_collection, ImportCollection %>
   <%= menu_link_to "Eigenaren", collection_owners_path(@collection), wrap: :li if can? :review_collection, Owner %>
 </ul>

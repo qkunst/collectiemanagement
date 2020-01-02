@@ -1,5 +1,5 @@
 <div id="main">
-<h1>Beheer foto's</h1>
+<h2>Beheer foto's</h2>
 <p>Beheer foto's van <%= @work.stock_number%> <%= @work.name%></p>
 <%= simple_form_for([@collection,@work]) do |f| %>
   <div class="image_upload"><div class="image"><%= image_tag(@work.photo_front.url :thumb) if @work.photo_front? %></div><%= f.input :photo_front  %></div>

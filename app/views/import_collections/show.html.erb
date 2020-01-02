@@ -1,7 +1,7 @@
 <div class="row">
   <div class="large-9 columns">
-    <h1>Import <%=@import_collection.file.file.filename%></h1>
-    <h2>Kolommen in dit bestand</h2>
+    <h2>Import <%=@import_collection.file.file.filename%></h2>
+    <h3>Kolommen in dit bestand</h3>
     <p>Zijn dit niet de kolommen in het bestand, stel dan de koprij in op een ander nummer. Momenteel is dit de <%= @import_collection.header_row ? "#{@import_collection.header_row}<sup>de</sup> regel".html_safe : "de eerste regel"%>.</p>
     <ul><% @import_collection.import_file_snippet_to_workbook_table.header.collect{|a| a.value}.compact.each do |a| %>
     <li><%=a%></li>

@@ -191,6 +191,10 @@ class WorksController < ApplicationController
     @versions = uniq_location_versions
   end
 
+  def modified_index
+    @collection
+  end
+
   # DELETE /works/1
   def destroy
     @work.destroy

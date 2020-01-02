@@ -1,4 +1,4 @@
-<h1><%= @artist.name%><% if can?(:update, @artist)%> <small>(<%= link_to 'Bewerk gegevens', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small><% end %></h1>
+<h2><%= @artist.name%><% if can?(:update, @artist)%> <small>(<%= link_to 'Bewerk gegevens', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small><% end %></h2>
 <% if can?(:update, @artist)%>
 <%= kramdown(@artist.description) %>
 <% end %>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <% if can?(:update, @artist)%>
-        <p><strong>De kunstenaar is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
+        <p><strong>De vervaardiger is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
       <% end %>
     </div>
   <% end %>
@@ -52,7 +52,7 @@
     </aside>
   <% end %>
 </div>
-<h2>Werken van deze vervaardiger</h2>
+<h3>Werken van deze vervaardiger</h3>
 <p>Overzicht van werken van deze vervaardiger in
   <% if @collection %>de collectie <%= link_to @collection.name, @collection%> (<%= link_to "toon werken uitgebreid", collection_works_path(@collection, params: {filter: {"artists.id"=>[@artist.id]}}) %>)
   <% else %>de QKunst database<% end %>.</p>

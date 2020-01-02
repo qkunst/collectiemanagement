@@ -8,6 +8,7 @@
     <li><a href="#standard">Standaard</a></li>
     <li><a href="#stages">Projectfasering</a></li>
     <li><a href="#numbering">Alternatieve nummers</a></li>
+    <li><a href="#manage">Beheer</a></li>
   </ul>
   </nav>
     <section id="standard">
@@ -81,6 +82,15 @@
        op een bovenliggende collectie dan wordt het volgende werk gekozen uit alle werken uit de bovenliggende collectie en alle
        subcollecties. Deze bijzondere logica maakt het wellicht geen instelling die je op alle collecties wilt voeren; dus bij twijfel
        uit laten staan.</p>
+    </section>
+    <section id="manage">
+      <h3>Beheer</h3>
+      <% if @collection.id %>
+      <p>Wanneer je kiest voor het verwijderen van een collectie orden ook alle onderliggende werken definitief verwijderd.</p>
+      <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties en de werken die zich in die collecties bevinden. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
+      <% else %>
+      <p>Onder beheer kan een collectie t.z.t. worden verwijderd.</p>
+      <% end %>
     </section>
 </div>
 

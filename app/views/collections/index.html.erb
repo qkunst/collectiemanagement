@@ -1,5 +1,6 @@
 <% if admin_user? %>
 <nav class="sub-nav">
+  <div></div>
   <ul class="menu right-aligned">
     <li><%= link_to 'Maak een nieuwe collectie', new_collection_path, class: 'small button' %></li>
   </ul>
@@ -7,10 +8,10 @@
 <% end %>
 
 <% if @collections.count == 1%>
-<h1>Collecties</h1>
+<h2>Collecties</h2>
   <p>Naar de collectie <%= link_to @collections.first.name, @collections.first%></p>
 <% else %>
-  <h1>Overzicht van de collecties </h1>
+  <h2>Overzicht van de collecties </h2>
   <div class="row">
     <div class="medium-9 columns">
       <label>Zoek op naam van de collectie<input type="search" class="list-filter" data-filters="list-to-filter"></label>

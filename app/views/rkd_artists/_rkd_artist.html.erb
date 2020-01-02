@@ -5,13 +5,11 @@
   </header>
   <% if can?(:update, Artist) and @artist %>
   <nav class="actions">
-    <ul class="menu">
       <% if @artist.rkd_artist == rkd_artist %>
         <%= button_to 'Ontkoppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
       <% else %>
         <%= button_to 'Koppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => rkd_artist.rkd_id}, method: :patch, class: 'small secondary button' %>
       <% end %>
-    </ul>
   </nav>
   <% end %>
 </article>

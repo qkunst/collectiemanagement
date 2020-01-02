@@ -17,6 +17,7 @@ RSpec.feature "AdvisorCanPartlyManageAttachments", type: :feature do
           click_on "Collection 1"
         end
       end
+      click_on "Beheer bijlagen"
       click_on "Bijlage toevoegen"
       attach_file "Bestand", File.expand_path('../fixtures/image.jpg', __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")

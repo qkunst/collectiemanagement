@@ -34,7 +34,7 @@ class ArtistsController < ApplicationController
     Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
     artist_count_after = Artist.count
 
-    redirect_to artists_path, notice: ((artist_count_after < artist_count_before) ? "De kunstenaarsdatabase is opgeschoond (van #{artist_count_before} kunstenaars naar #{artist_count_after} kunstenaars)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
+    redirect_to artists_path, notice: ((artist_count_after < artist_count_before) ? "De vervaardigersdatabase is opgeschoond (van #{artist_count_before} vervaardigers naar #{artist_count_after} vervaardigers)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
   end
 
   # GET /artists/1
@@ -63,7 +63,7 @@ class ArtistsController < ApplicationController
     artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if{|a| a == ""}
     count = @artist.combine_artists_with_ids(artist_ids_to_combine_with)
 
-    redirect_to @artist, notice: "De kunstenaars zijn samengevoegd, er zijn #{count} werken opnieuw gekoppeld."
+    redirect_to @artist, notice: "De vervaardigers zijn samengevoegd, er zijn #{count} werken opnieuw gekoppeld."
   end
 
   # GET /artists/new

@@ -1,13 +1,15 @@
 <div class="row">
 <div class="columns">
-  <h1><%=@title%></h1>
+  <h2><%=@title%></h2>
   <% if qkunst_user? %>
-    <div class="panel">
-      <%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %>
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+    <ul class="menu right-aligned menu--only-buttons">
+      <li><%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %></li>
       <% if current_user.admin? and !@collection %>
-      <%= button_to 'Schoon kunstenaars op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %>
+        <li><%= button_to 'Schoon vervaardigers op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %></li>
       <% end %>
-    </div>
+    </ul>
+  </nav>
   <% end %>
   <label>Filter tabel <input type="text" id="generic-table-filter" data-filters="artists-table"></label>
 

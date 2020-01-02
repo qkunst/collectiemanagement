@@ -1,4 +1,4 @@
-<h1>Projectfase: <%= @stage.name %></h1>
+<h2>Projectfase: <%= @stage.name %></h2>
 <%= render :partial => 'stages_graph', locals: {collection: @collection, action: :link_to} %>
 
 <% if @stage.actual_stage %>

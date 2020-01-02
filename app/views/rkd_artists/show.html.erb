@@ -4,7 +4,7 @@
 <p><%= link_to '← Terug ', 'javascript:history.back(1)'%></p>
 
 <% end %>
-<h1>RKDartist <%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %></h1>
+<h2>RKDartist <%= @rkd_artist.rkd_id%>: <%= @rkd_artist.name %></h2>
 <p><%= @rkd_artist.substring%></p>
   <% if can?(:copy, RkdArtist) and @artist %>
     <nav class="actions">

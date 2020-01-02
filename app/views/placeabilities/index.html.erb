@@ -1,4 +1,4 @@
-<h1>Overzicht plaatsbaarheid-labels</h1>
+<h2>Overzicht plaatsbaarheid-labels</h2>
 <ul>
     <% @placeabilities.each do |item| %>
       <li><%= link_to item.name, item %> (<%= item.hide? ? "verborgen" : item.order%>)</li>

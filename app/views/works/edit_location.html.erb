@@ -1,5 +1,5 @@
 <div id="main">
-<h1>Bewerk locatie</h1>
+<h2>Bewerk locatie</h2>
 <p>Bewerk locatie van <%= @work.stock_number%> <%= @work.name%></p>
 <%= simple_form_for([@collection,@work]) do |f| %>
 <%= f.input :location %>

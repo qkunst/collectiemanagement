@@ -44,7 +44,7 @@ RSpec.describe "collections/show", type: :view do
       @collection = collections(:collection_with_stages)
       @collections = @collection.collections
       render
-      expect(rendered).to match(/<h1>Collection with stages/)
+      expect(rendered).to match(/<h2>Collection with stages/)
       expect(rendered).not_to match(/Projectfase/)
       expect(rendered).not_to match(/Voltooid op  1 januari 2000/)
       expect(rendered).not_to match(/B2/)
@@ -55,7 +55,7 @@ RSpec.describe "collections/show", type: :view do
       @collection = collections(:collection_with_stages_child)
       @collections = @collection.collections
       render
-      expect(rendered).to match(/<h1>Collection with stages child/)
+      expect(rendered).to match(/<h2>Collection with stages child/)
       expect(rendered).not_to match(/Projectfase/)
       expect(rendered).not_to match(/Voltooid op  1 januari 2000/)
       expect(rendered).not_to match(/B2/)

@@ -5,16 +5,23 @@
       <%= @collection.parent_collections_flattened.collect{|a| a.can_be_accessed_by_user(current_user) ? link_to(a.name,a) : a.name}.join(" &raquo; ").html_safe%>
     <% end %>
 
-    <h1><%= @collection.name %>  <% if can?(:edit, @collection) %>
-          <small>(<%= link_to 'Bewerk gegevens', edit_collection_path(@collection) %>)</small>
-        <% end %></h1>
+    <h2><%= @collection.name %></h2>
+    <%= kramdown( @collection.description) %>
+
   </div>
 
 </header>
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+  <ul class="menu right-aligned menu--only-buttons">
+    <% if can?(:edit, @collection) %>
+      <%= link_to 'Bewerk gegevens', edit_collection_path(@collection), class: 'primary small button' %>
+    <% end %>
+  </ul>
+</nav>
+
 <div class="row">
 <div class="large-9 medium-9 columns">
 <%= render :partial => 'collection_stages_graph' %>
-<%= kramdown( @collection.description) %>
 
 <h3>Werken</h3>
 <%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true}, class: [:secondary, :callout] do %>
@@ -46,9 +53,10 @@
   <% else %>
   <p>Deze collectie kent geen subcollecties.</p>
   <% end %>
-  <%= link_to 'Nieuwe subcollectie voor deze collectie', new_collection_collection_path(@collection), class: 'small button' if can? :create, @collection.collections.new%>
+  <%= link_to 'Voeg nieuwe subcollectie voor deze collectie toe', new_collection_collection_path(@collection) if can? :create, @collection.collections.new%>
 
 </div>
+
 <% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) or @collection.attachments.for_me(current_user).count > 0 %>
 <aside class="large-3 medium-3 columns" style="margin-top: 1em">
   <h3>Downloads</h3>
@@ -76,7 +84,6 @@
     <% end %>
   </ul>
   <% if can? :create, @collection.attachments.new %>
-    <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true}%>
     <p><%= link_to 'Beheer bijlagen', collection_attachments_path(@collection) %></p>
   <% end %>
   <% if @collection.external_reference_code? %>

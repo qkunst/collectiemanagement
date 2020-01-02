@@ -4,16 +4,6 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe "methods" do
-    describe "#roles" do
-      it "should return read_only by default" do
-        u = User.new
-        expect(u.roles).to eq([:read_only])
-      end
-      it "should return read_only by default, even for admin" do
-        u = users(:admin)
-        expect(u.roles).to eq([:admin, :read_only])
-      end
-    end
     describe "#accessible_collections" do
       it "should return all collections when admin" do
         u = users(:admin)
@@ -77,6 +67,14 @@ RSpec.describe User, type: :model do
         expect(u.versions.last.reify.collection_accessibility_serialization).to eq({c1.id => c1.name})
       end
     end
+    describe "#name" do
+      it "should return name when set" do
+        expect(users(:admin).name).to eq("Administrator")
+      end
+      it "should return email when not set" do
+        expect(users(:user1).name).to eq(users(:user1).email)
+      end
+    end
     describe "#role" do
       it "should return read_only by default" do
         u = User.new
@@ -85,6 +83,16 @@ RSpec.describe User, type: :model do
       it "should return read_only by default" do
         u = users(:admin)
         expect(u.role).to eq(:admin)
+      end
+    end
+    describe "#roles" do
+      it "should return read_only by default" do
+        u = User.new
+        expect(u.roles).to eq([:read_only])
+      end
+      it "should return read_only by default, even for admin" do
+        u = users(:admin)
+        expect(u.roles).to eq([:admin, :read_only])
       end
     end
     describe "#works_created" do

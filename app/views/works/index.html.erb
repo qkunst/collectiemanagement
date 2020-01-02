@@ -1,4 +1,4 @@
-<h1 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h1>
+<h2 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h2>
 
   <p id="offline-works-message" data-collection-id=class="callout alert hide-for-print"></p>
 
@@ -89,7 +89,7 @@
     <% end #formtag /works?q... %>
     <%= form_tag collection_works_batch_edit_path, method: :post do %>
     <div class="large-10 medium-10 columns print-12" id="works-list">
-      <div class="<%= "hide-for-print" if @limit_collection_information%>">
+      <div class="<%= @limit_collection_information ? "hide" : "only-for-print" %>">
       <%= kramdown( @collection.description) %>
       </div>
       <% if defined?(@works_grouped) %>

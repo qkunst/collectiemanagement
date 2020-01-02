@@ -111,6 +111,10 @@ class User < ApplicationRecord
     UpdateCachedUserNamesWorker.perform_async(self.id) if saved_change_to_attribute?(:name)
   end
 
+  def name
+    read_attribute(:name) || email
+  end
+
   def can_access_message? message=nil
     admin? or (message &&
       message.from_user == self ||

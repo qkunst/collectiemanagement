@@ -111,6 +111,7 @@ GEM
     carrierwave-imageoptimizer (1.4.1)
       carrierwave (>= 0.8, < 2.1)
       image_optimizer (~> 1.6)
+    coderay (1.1.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 5.2.0)
@@ -223,6 +224,9 @@ GEM
       request_store (~> 1.1)
     paper_trail-association_tracking (2.0.0)
     pg (0.21.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     public_suffix (4.0.1)
     puma (4.3.1)
       nio4r (~> 2.0)
@@ -451,6 +455,7 @@ DEPENDENCIES
   paper_trail
   paper_trail-association_tracking
   pg (~> 0.21)
+  pry
   puma
   rack-headers_filter
   rack-mini-profiler

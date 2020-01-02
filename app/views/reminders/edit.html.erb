@@ -1,4 +1,4 @@
-<h1>Bewerk <%= 'standaard' unless @reminder.collection %> herinnering <small>(<%= link_to 'Verwijder', @reminder, method: :delete, data: { confirm: 'Weet je zeker dat je deze herinnering wilt verwijderen?' } %>)</h1>
+<h2>Bewerk <%= 'standaard' unless @reminder.collection %> herinnering <small>(<%= link_to 'Verwijder', @reminder, method: :delete, data: { confirm: 'Weet je zeker dat je deze herinnering wilt verwijderen?' } %>)</h2>
 
 <%= render 'form', reminder: @reminder %>
 

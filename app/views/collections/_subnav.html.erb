@@ -11,7 +11,7 @@
   <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :review, Collection %></li>
 </ul>
 
-<ul class="menu right-aligned menu-only-buttons">
+<ul class="menu right-aligned menu--only-buttons">
   <% if qkunst_user? %>
     <li><%= link_to "+ Voeg werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
   <% end %>

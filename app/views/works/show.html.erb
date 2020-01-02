@@ -1,10 +1,10 @@
 <header class="row">
-  <div class="large-10 columns">
+  <div class="medium-10 columns">
       <% if @work.artists.count > 0 %>
-        <h2 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h2>
+        <h3 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h3>
       <% end %>
 
-    <h1><%= @work.title_rendered %></h1>
+    <h2><%= @work.title_rendered %></h2>
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav"><%= link_to "◀", [@collection, @work.previous] %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next] %></nav>
@@ -15,7 +15,7 @@
       <%= simple_format @work.description %>
     </p>
     <% if @work.public_description? %>
-    <h4>Toelichting bij kunstwerk</h4>
+    <h4>Toelichting voor publiek</h4>
     <p>
       <%= simple_format @work.public_description %>
     </p>
@@ -63,21 +63,21 @@
   </div>
 </div>
 <nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
-  <ul class="menu">
+  <ul class="menu right-aligned menu--only-buttons">
     <% if can? :edit, @work %>
-      <li class="right"><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>
+      <li><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>
     <% end %>
     <% if can? :create, Appraisal %>
-      <li class="right"><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+      <li><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
     <% if can? :tag, @work %>
-      <li class="right"><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+      <li><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
     <% if can? :create, @work.attachments.new %>
       <% if @work.attachments.count == 0 and @custom_reports.count == 0 %>
-      <li class="right"><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
+      <li><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
       <% else %>
-      <li class="right"><%= link_to "Beheer bijlagen (#{@work.attachments.count+@custom_reports.count})", collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
+      <li><%= link_to "Beheer bijlagen (#{@work.attachments.count+@custom_reports.count})", collection_work_attachments_path(@collection, @work), class: 'secondary small button right' %></li>
       <% end %>
     <% end %>
   </ul>

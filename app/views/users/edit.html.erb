@@ -1,6 +1,6 @@
 <div class="row">
   <div class="columns">
-    <h1>Bewerk <%=@user.email%> <small><%= link_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn) if can?(:destroy, @user) %></small></h1>
+    <h2>Bewerk <%=@user.email%> <small><%= link_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn) if can?(:destroy, @user) %></small></h2>
     <p>Deze gebruiker wordt <strong><%= @user.activated? ? "wel" : "niet" %></strong> als geactiveerd beschouwd.</p>
     <%= simple_form_for(@user) do |f| %>
       <h2>Rollen</h2>

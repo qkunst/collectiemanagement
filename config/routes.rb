@@ -75,7 +75,7 @@ Rails.application.routes.draw do
     end
 
     resources :owners
-    resources :custom_reports
+    resources :custom_reports, path: 'manage/custom_reports'
 
     resources :attachments
     resources :collections_stages
@@ -98,6 +98,7 @@ Rails.application.routes.draw do
 
     get 'works/batch' => 'works_batch#index'
     get 'works/batch/edit' => 'works_batch#edit'
+    get 'works/modified' => 'works#modified_index'
     post 'works/batch/edit' => 'works_batch#edit'
     patch 'works/batch' => 'works_batch#update'
 

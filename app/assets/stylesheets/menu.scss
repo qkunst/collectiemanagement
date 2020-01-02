@@ -7,9 +7,9 @@
   margin: 0;
   li {
     padding: 0 0.5em;
-    line-height: 2em;
+    line-height: $menu-height;
   }
-  &.menu-only-buttons {
+  &.menu--only-buttons {
     li {
       padding: 0;
     }
@@ -44,10 +44,11 @@
 
 .menu.right-aligned {
   flex-direction: row-reverse;
-
-
 }
 
+.bottom-nav ul.menu {
+  width: 100%;
+}
 
 @media screen and (max-width: 40em) {
   .menu.right-aligned {
