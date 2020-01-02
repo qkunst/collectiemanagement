@@ -48,9 +48,9 @@ html, body {
   flex-direction: column;
 }
 .zxing-wrapper form textarea {
-  width: 98%;
-  min-width: 98%;
-  max-width: 98%;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   min-height: 6em;
   flex: 2;
   display: block;

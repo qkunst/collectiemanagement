@@ -114,7 +114,10 @@ header {
 
 
 input:not([type=submit]):not([type=search]).blurred, textarea.blurred {
-  background: #00f;
+  background: lighten(#99DF95, 20);
+  &[disabled], &[readonly] {
+    background: #ddd;
+  }
   &:valid {
     background: #99DF95;
   };
