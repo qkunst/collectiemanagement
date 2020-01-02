@@ -46,23 +46,15 @@ html, body {
 .zxing-wrapper form {
   display: flex;
   flex: auto;
+  flex-direction: column;
 }
 .zxing-wrapper form textarea {
   width: 98%;
   min-width: 98%;
   max-width: 98%;
   min-height: 6em;
-  font-family: inherit;
-  border: 2px solid #ccc;
-  border-radius: 1em;
-  margin: 1% 1% 5% 1%;
-  padding: 0 0.5em;
   flex: 2;
   display: block;
-  font-size: 1.5em;
-}
-.zxing-wrapper form textarea:focus {
-  border: 2px solid #000;
 }
 
 .zxing-wrapper .actions {
@@ -70,19 +62,6 @@ html, body {
   flex-direction: row;
 }
 
-.zxing-wrapper input[type=submit] {
-  background: #fefefe;
-  font-weight: bold;
-  border: 2px solid #000;
-  border-radius: 1000em;
-  font-size: 1em;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  height: 6em;
-  width: 6em;
-  position: absolute;
-  right: 1em;
-  bottom: 1em;
-}
 .zxing-wrapper input[type=submit]:hover, .zxing-wrapper input[type=submit]:focus {
   color: #fff;
   background: #000;

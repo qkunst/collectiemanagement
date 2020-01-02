@@ -30,7 +30,7 @@
 //@include foundation-responsive-embed;
 @include foundation-label;
 @include foundation-media-object;
-@include foundation-menu;
+//@include foundation-menu;
 @include foundation-menu-icon;
 @include foundation-off-canvas;
 @include foundation-orbit;
@@ -57,15 +57,4 @@
 }
 .button {
   vertical-align: inherit;
-}
-.menu {
-  &.left {
-    float: left;
-  }
-  & > li > a {
-    display: inline-block;
-  }
-  a.button, input {
-    height: 2.2rem;
-  }
 }

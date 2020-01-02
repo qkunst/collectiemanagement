@@ -164,8 +164,19 @@ var collectieBeheerInit = function() {
     return false;
   });
 
+  let windowWidthInEM = window.innerWidth / parseFloat(
+    getComputedStyle(
+      document.querySelector('body')
+    )['font-size']
+  )
+  if (windowWidthInEM < 40.0) {
+    $("#responsive-menu").hide();
+  }
+
   $(document).foundation();
 }
+
+window.collectieBeheerInit = collectieBeheerInit;
 
 $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function(event) {
   var form = $(event.target).parents("form[data-auto-submit=true]");

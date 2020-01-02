@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CollectionsController < ApplicationController
-  before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] #includes authentication
+  before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] # includes authentication
   before_action :set_parent_collection
 
   # GET /collections

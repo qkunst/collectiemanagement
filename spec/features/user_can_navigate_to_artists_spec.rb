@@ -14,7 +14,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     first("#new_user input[type=submit]").click
     click_on "Collecties"
     expect(page).not_to have_content('Bewerk')
-    click_on "Werken"
+    within "#responsive-menu" do
+      click_on "Werken"
+    end
     click_on "Work1"
     expect(page).to have_content('artist_1, firstname (YAC, 1900 - 2000)')
     expect(page).not_to have_content('Bewerk')
@@ -24,7 +26,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     expect(page).to have_content('Work1')
     expect(page).to have_content('Collection 1')
     expect(page).not_to have_content('RKD')
-    click_on 'Vervaardigers'
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).to have_content('artist_1')
     expect(page).to have_content('artist_2')
     expect(page).not_to have_content('artist_3')
@@ -42,7 +46,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Vervaardigers"
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')
@@ -82,7 +88,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Vervaardigers"
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')
@@ -129,7 +137,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Vervaardigers"
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')
@@ -176,7 +186,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Vervaardigers"
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')
@@ -201,7 +213,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Vervaardigers"
+    within "#responsive-menu" do
+      click_on "Vervaardigers"
+    end
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')

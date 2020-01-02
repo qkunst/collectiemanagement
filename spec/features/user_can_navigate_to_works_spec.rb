@@ -21,7 +21,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
         expect(page).not_to have_content("+ Voeg werk toe")
         expect(page).not_to have_content('Bewerk')
         expect(page).to have_content('Doorzoek de werken')
-        click_on "Werken"
+        within "#responsive-menu" do
+          click_on "Werken"
+        end
         expect(page).to have_content('Deze collectie bevat 3 werken')
         expect(page).not_to have_content('Bewerk')
         click_on "Work1"
@@ -48,7 +50,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
         click_on "Collection 1" if email_address == "qkunst-admin-user@murb.nl"
 
         expect(page).to have_content('Doorzoek de werken')
-        click_on "Werken"
+        within "#responsive-menu" do
+          click_on "Werken"
+        end
         expect(page).to have_content('Deze collectie bevat 3 werken')
         expect(page).to have_content('Deelcollectie')
         expect(page).to have_content('Herkomst')

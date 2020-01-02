@@ -11,7 +11,11 @@ RSpec.feature "AdvisorCanBatchEdit", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Collection 1"
+    if page.body.match("id=\"list-to-filter\"")
+      within "#list-to-filter" do
+        click_on "Collection 1"
+      end
+    end
     click_on "Toon alle 3 werken"
     work_to_add_to_cluster = works(:work1)
     check "selected_works_#{work_to_add_to_cluster.id}"

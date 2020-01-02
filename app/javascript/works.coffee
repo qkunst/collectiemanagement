@@ -44,19 +44,20 @@ $(document).on("submit","form#new_work", ->
   docCookies.setItem("lastLocation", lastLocation, d)
 )
 
-$(document).on("ready", ->
+window.addEventListener "load", (event)->
   show_offline_stored_count_message()
   show_or_hide_selected_works()
   setTimeout(->
     show_or_hide_selected_works()
   , 500)
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
-)
-$(document).on("turbolinks:load", ->
+
+
+document.addEventListener "turbolinks:load", (event)->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   show_or_hide_selected_works()
   show_offline_stored_count_message()
-)
+
 
 $(document).on "keydown", "input[data-catch-return]", (e)->
   if e.originalEvent.code == "Enter"

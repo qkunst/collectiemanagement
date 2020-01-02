@@ -62,7 +62,7 @@
 
   </div>
 </div>
-<nav class="row columns sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
   <ul class="menu">
     <% if can? :edit, @work %>
       <li class="right"><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>

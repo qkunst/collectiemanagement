@@ -1,9 +1,15 @@
 // source: https://github.com/murb/zxing-demo/blob/master/zxing_helper.js
 
+// <!-- UTILS START
+
 // https://gist.github.com/jonleighton/958841
 // bytes: Uint8Array
 
-const ZXing = require('zxing/zxing_reader');
+var ZXing;
+
+if (typeof require !== "undefined") {
+  ZXing = require('zxing/zxing_reader');
+}
 
 function uint8ArrayToBase64(bytes) {
   var base64    = ''
@@ -49,10 +55,57 @@ function base64ToUint8Array(uri) { // i.e. base64.b64_decode() in python
     return bytes;
 }
 
-zxing = ZXing();
+// https://gist.github.com/murb/a8823e7a2d6fc9613b3c5c00a0225809
+if (!Element.prototype.matches) {
+  Element.prototype.matches = Element.prototype.msMatchesSelector;
+}
+
+// https://gist.github.com/murb/a8823e7a2d6fc9613b3c5c00a0225809
+if (!HTMLDocument.prototype.addDelegatedEventListener) {
+  HTMLDocument.prototype.addDelegatedEventListener = function(event, matcher, cb) {
+    var newCB;
+    newCB = function(event) {
+      if (event.target.matches && event.target.matches(matcher)) {
+        return cb(event);
+      }
+    };
+    return this.addEventListener(event, newCB);
+  };
+}
+
+// play a simple beep
+var audioContext = new AudioContext()
+
+function beep(vol, freq, duration){
+  var v = audioContext.createOscillator()
+  var u = audioContext.createGain()
+  v.connect(u)
+  v.frequency.value=freq
+  v.type="sine"
+  u.connect(audioContext.destination)
+  u.gain.value=vol*0.01
+  v.start(audioContext.currentTime)
+  v.stop(audioContext.currentTime+duration*0.001)
+}
+
+function delegatedBeep() {
+  setTimeout(()=>{
+    beep(2,880,150);
+  }, 0.01);
+}
+
+// --> UTILS END
+
+
+var zxing = ZXing();
+var state = {
+  scanActive: null,
+  targetElement: null,
+  codeCallback: renderCodeToTargetElement,
+  values: []
+}
 
 function scanBarcode(canvasElement, format) {
-
     var imgWidth = canvasElement.width;
     var imgHeight = canvasElement.height;
     var imageData = canvasElement.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
@@ -63,14 +116,6 @@ function scanBarcode(canvasElement, format) {
     var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
     zxing._free(buffer);
     return result;
-
-}
-
-var state = {
-  scanActive: null,
-  targetElement: null,
-  codeCallback: renderCodeToTargetElement,
-  values: []
 }
 
 function renderCodeInOutputMessage(code) {
@@ -97,8 +142,9 @@ function renderCodeInOutputMessage(code) {
 function renderCodeToTargetTextArea(code) {
   if (code.format) {
     var currentValue = state.targetElement.value.trim();
-    if (!currentValue.match(code.text)) {
+    if (!escapeProblemFreeMatch(currentValue, code.text)) {
       currentValue = currentValue + "\n" + code.text;
+      delegatedBeep();
     }
     state.targetElement.value = currentValue
   }
@@ -110,9 +156,11 @@ function renderCodeToTargetElement(code) {
   }
 }
 
+function escapeProblemFreeMatch(text, target) {
+  return text.replaceAll(/[\"\:\?\.\/]/g,"").match(target.replaceAll(/[\"\:\?\.\/]/g,""))
+}
 
 function initializeScanner() {
-  console.log("Initialize ZXing scanner")
   var video = document.createElement("video");
   var canvasElement = document.getElementById("zxing-canvas");
   var canvas = canvasElement.getContext("2d");
@@ -155,25 +203,6 @@ function initializeScanner() {
   });
 }
 
-
-if (!Element.prototype.matches) {
-  Element.prototype.matches = Element.prototype.msMatchesSelector;
-}
-// document.addDelegatedEventListener("click", "a[href^='http']", -> confirm("external link") )
-
-if (!HTMLDocument.prototype.addDelegatedEventListener) {
-  HTMLDocument.prototype.addDelegatedEventListener = function(event, matcher, cb) {
-    var newCB;
-    newCB = function(event) {
-      if (event.target.matches && event.target.matches(matcher)) {
-        return cb(event);
-      }
-    };
-    return this.addEventListener(event, newCB);
-  };
-}
-
-
 document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", function(event){
   state.scanActive = true;
   state.targetElement = event.target;
@@ -184,4 +213,16 @@ document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", fun
 document.addDelegatedEventListener("focusout", "*", function(event){
   state.scanActive = false;
 })
+
+// autofocus workaround (no focusin event is fired)
+function autoFocus() {
+  var target = autoFocusElement = document.querySelector("[data-zxing-output-target][autofocus]");
+  if(target) {
+    var evt = new Event("focusin", {"bubbles":true, "cancelable":false});
+    target.dispatchEvent(evt);
+  }
+}
+
+window.addEventListener("load", autoFocus)
+document.addEventListener("turbolinks:load", autoFocus)
 

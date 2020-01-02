@@ -50,10 +50,10 @@ class Work < ApplicationRecord
   has_many :appraisals
   has_many :attachments, as: :attache
 
-  scope :no_photo_front, -> { where(photo_front: nil)}
   scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
-  scope :published, ->{ where(publish: true) }
-  scope :has_number, ->(number){ where("works.stock_number = :number OR works.alt_number_1 = :number OR works.alt_number_2 = :number OR works.alt_number_3 = :number", {number: number})}
+  scope :has_number, ->(number){ number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
+  scope :id, ->(ids) { where(id: ids) }
+  scope :no_photo_front, -> { where(photo_front: nil)}
   scope :order_by, ->(sort_key) do
     case sort_key.to_sym
     when :location
@@ -66,6 +66,7 @@ class Work < ApplicationRecord
       order(:stock_number)
     end
   end
+  scope :published, ->{ where(publish: true) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

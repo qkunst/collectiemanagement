@@ -1,0 +1,65 @@
+@import 'settings';
+
+.menu {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  li {
+    padding: 0 0.5em;
+    line-height: 2em;
+  }
+  &.menu-only-buttons {
+    li {
+      padding: 0;
+    }
+  }
+}
+
+
+.menu {
+  &.left {
+    float: left;
+  }
+  & > li > a {
+    display: inline-block;
+  }
+  a.button {
+    min-height: 2.2rem;
+    margin: 0.25em;
+  }
+  input {
+    margin: 0.25em;
+    max-height: 2.2rem;
+  }
+}
+
+.menu .submenu-container {
+  margin-left: 1em;
+
+  & > a {
+    border-top: 1px solid $qkunst-brown;
+  }
+}
+
+.menu.right-aligned {
+  flex-direction: row-reverse;
+
+
+}
+
+
+@media screen and (max-width: 40em) {
+  .menu.right-aligned {
+    flex-direction: row; // do not right align when full width
+  }
+  .menu.vertical-only-small {
+    flex-direction: column;
+
+    li {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+    }
+  }
+
+}

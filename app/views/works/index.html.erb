@@ -45,8 +45,11 @@
       <h4>Zoeken</h4>
       <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoeken... "%>
       <p class="hint"><small>Probeer ook: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
+      <div data-responsive-toggle="responsive-filter" class="hide-for-medium hide-for-print responsive-toggle right">
+        <button class="menu-icon dark" type="button" data-toggle></button>
+      </div>
       <h4>Filteren</h4>
-
+      <div id="responsive-filter">
       <% unless current_user.read_only? %>
         <% if current_user.can_filter_and_group?(:object_categories) %>
           <%= filter_checkboxes_with_header("Categorie", @aggregations[:object_categories], "object_categories.id") %>
@@ -83,6 +86,7 @@
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>
 
       <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
+      </div>
     </aside>
     <% end #formtag /works?q... %>
     <%= form_tag collection_works_batch_edit_path, method: :post do %>

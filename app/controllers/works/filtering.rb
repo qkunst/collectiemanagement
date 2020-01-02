@@ -24,6 +24,7 @@ module Works::Filtering
       end
       return @selection_filter
     end
+
     def set_selection thing, list
       @selection[thing] = list[0]
       if params[thing] and list.include? params[thing].to_sym
@@ -33,12 +34,15 @@ module Works::Filtering
       end
       @selection[thing]
     end
+
     def set_selection_group
       set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection, :themes, :techniques, :sources]
     end
+
     def set_selection_sort
       set_selection :sort, [:stock_number, :artist_name, :location, :created_at]
     end
+
     def set_selection_display
       set_selection :display, [:compact, :detailed, :complete, :limited, :limited_auction]
     end

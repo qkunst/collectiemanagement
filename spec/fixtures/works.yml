@@ -19,6 +19,7 @@ work1:
 work2:
   title: Work2
   stock_number: Q005
+  alt_number_1: 7201286
   grade_within_collection: A (of B)
   themes:
     - :wind
@@ -33,17 +34,20 @@ work2:
     - :artist_no_name
 work3:
   title: Work3
+  alt_number_2: 7201212
   stock_number: Q002
   artists:
     - :artist3
 work4:
   title: Work4
+  alt_number_3: 7201213
   stock_number: Q004
   artists:
     - :artist4
 work5:
   title: Work5
   stock_number: Q002
+
   location_floor: 3
   grade_within_collection: A (of B)
   subset: :modern

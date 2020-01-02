@@ -428,4 +428,26 @@ RSpec.describe Work, type: :model do
       end
     end
   end
+  describe "Scopes" do
+    describe ".has_number" do
+      it "finds nothing when an unknown number is passed" do
+        expect(Work.has_number("not a known number")).to eq([])
+      end
+      it "finds by alt number" do
+        expect(Work.has_number(7201284)).to eq([works(:work1)])
+      end
+      it "finds by stock number" do
+        expect(Work.has_number("Q001")).to eq([works(:work1)])
+      end
+      it "finds by array" do
+        expect(Work.has_number(["Q001", "Q005"])).to eq([works(:work1), works(:work2)])
+      end
+      it "finds by array on all numbers" do
+        expect(Work.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2), works(:work3), works(:work4)])
+      end
+      it "adheres earlier scopes" do
+        expect(collections(:collection_with_works).works.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2)])
+      end
+    end
+  end
 end

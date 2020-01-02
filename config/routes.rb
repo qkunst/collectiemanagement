@@ -56,8 +56,6 @@ Rails.application.routes.draw do
     patch 'copy' => 'rkd_artists#copy'
   end
 
-  resource :mobile
-
   resources :works do
     resources :attachments
   end
@@ -69,7 +67,7 @@ Rails.application.routes.draw do
 
     resources :reminders, path: 'manage/reminders'
     resources :themes, path: 'manage/themes'
-    resources :clusters, path: 'manage/clusters'
+    resources :clusters
     resources :import_collections, path: 'manage/import_collections' do
       get 'preview' => 'import_collections#preview'
       patch 'delete_works' => 'import_collections#delete_works'
@@ -102,6 +100,10 @@ Rails.application.routes.draw do
     get 'works/batch/edit' => 'works_batch#edit'
     post 'works/batch/edit' => 'works_batch#edit'
     patch 'works/batch' => 'works_batch#update'
+
+    get 'mobile' => 'mobiles#show'
+    patch 'mobile' => 'mobiles#update'
+
     resources :works do
       resources :attachments
       resources :appraisals

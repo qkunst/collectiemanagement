@@ -1,6 +1,6 @@
-<nav class="row columns sub-nav hide-for-print" aria-label="collection navigation">
+<nav class="sub-nav hide-for-print" aria-label="collection navigation">
 
-<ul class="menu simple left">
+<ul class="menu simple left hide-for-small-only">
 
   <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
@@ -8,18 +8,14 @@
   <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
   <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
   <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
-  <li><%= menu_link_to "Rapporten", collection_custom_reports_path(@collection) if can? :review_collection, CustomReport %></li>
   <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :review, Collection %></li>
-
-
 </ul>
 
-<ul class="menu right">
-  <li>
-    <%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true} do %>
-      <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoek of scan... ", class: "input-group-field"%>
-    <% end %>
-  </li>
+<ul class="menu right-aligned menu-only-buttons">
+  <% if qkunst_user? %>
+    <li><%= link_to "+ Voeg werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
+  <% end %>
+
 
   <% if current_user.can_write_messages? %>
     <% if @work%>
@@ -31,9 +27,15 @@
     <% end%>
   <% end %>
 
-  <% if qkunst_user? %>
-    <li><%= link_to "+ Voeg werk toe", new_collection_work_path(@collection), class: 'small button' %></li>
-  <% end %>
+  <li>
+    <%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true} do %>
+      <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoek... ", title: "Zoek hier", class: "input-group-field"%>
+    <% end %>
+  </li>
+  <li class="hide-for-medium">
+    <%= link_to "Scan", collection_mobile_path(@collection), class: 'small button secondary' %>
+  </li>
+
 
 </ul>
 </nav>

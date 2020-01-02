@@ -25,7 +25,7 @@ module BatchMethods
     def update_unless_empty
       work_parameters = work_params.to_hash.select{|k,v| !(v == nil or v.to_s.strip.empty?)}
       if @works.update(work_parameters)
-        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+        redirect_to_collection_works_return_url
       else
         render :edit
       end
@@ -47,7 +47,7 @@ module BatchMethods
         save_results << work.update(combined_work_parameters)
       end
       if !save_results.include?(false)
-        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+        redirect_to_collection_works_return_url
       else
         render :edit
       end
@@ -69,7 +69,7 @@ module BatchMethods
         save_results << work.update(combined_work_parameters)
       end
       if !save_results.include?(false)
-        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+        redirect_to_collection_works_return_url
       else
         render :edit
       end
@@ -85,8 +85,12 @@ module BatchMethods
         render :edit
 
       elsif !works_updated.collect(&:valid?).include?(false)
-        redirect_to collection_works_path(@collection), notice: "De geselecteerde werken zijn bijgewerkt"
+        redirect_to_collection_works_return_url
       end
+    end
+
+    def redirect_to_collection_works_return_url
+      redirect_to collection_works_path(@collection, params: {ids: @works.map(&:id).join(",") }), notice: "De onderstaande #{@works.count} werken zijn bijgewerkt"
     end
 
   end

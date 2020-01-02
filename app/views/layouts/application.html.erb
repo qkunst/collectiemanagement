@@ -15,11 +15,10 @@
 
   <body class="<% if offline? %>offline-page <% end %><% if detail_display? %>detailed <%end%><% if complete_display? %>complete <%end%>">
     <nav class="top-bar">
-        <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print" id="responsive-toggle">
-          <button class="menu-icon dark" type="button" data-toggle></button>
-        </div>
+      <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print responsive-toggle">
+        <button class="menu-icon dark" type="button" data-toggle></button>
+      </div>
       <div class="top-bar-title">
-
         <h1>
           <%= link_to root_path do %>
             <%= image_tag "logo2.svg", id: 'logo', alt: "QKunst Collectie Beheer"%>
@@ -29,8 +28,20 @@
       <div id="responsive-menu" class="hide-for-print">
 
         <div class="top-bar-left">
-          <ul class="vertical medium-horizontal menu" data-dropdown-menu>
+          <ul class="vertical-only-small menu">
             <li><%= menu_link_to 'Collecties', collections_path if current_user %></li>
+            <% if @collection && @collection.id%>
+            <li class="submenu-container  hide-for-medium"><%= menu_link_to @collection.name, collection_path(@collection)%>
+              <ul class="menu vertical-only-small">
+                <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
+                <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
+                <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
+                <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
+                <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
+                <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :review, Collection %></li>
+              </ul>
+            </li>
+            <% end %>
             <% if current_user && current_user.can_receive_messages? %>
             <li><%= menu_link_to 'Berichten', messages_path%></li>
             <% end %>
@@ -42,7 +53,7 @@
           </ul>
         </div>
         <div class="top-bar-right">
-          <ul class="vertical medium-horizontal menu">
+          <ul class="vertical-only-small menu">
             <% if user_signed_in? %>
               <li><%= menu_link_to "Ingelogd als #{current_user.email}", edit_user_registration_path %> </li>
 

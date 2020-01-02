@@ -10,8 +10,14 @@ RSpec.feature "AdminCanImport", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Collection 3"
-    click_on "Beheer"
+    if page.body.match("id=\"list-to-filter\"")
+      within "#list-to-filter" do
+        click_on "Collection 3"
+      end
+    end
+    within "#responsive-menu" do
+      click_on "Beheer"
+    end
     click_on "Import"
     click_on "Nieuwe import"
     attach_file "Importbestand", File.join(Rails.root,"spec","fixtures","import_collection_file.csv")
@@ -38,8 +44,14 @@ RSpec.feature "AdminCanImport", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    click_on "Collection 1"
-    click_on "Beheer"
+    if page.body.match("id=\"list-to-filter\"")
+      within "#list-to-filter" do
+        click_on "Collection 1"
+      end
+    end
+    within "#responsive-menu" do
+      click_on "Beheer"
+    end
     click_on "Import"
     click_on "Nieuwe set aan foto's uploaden"
     files = ["Q001", "Q002", "Q006", "Qna"].map{|a| File.join(Rails.root,"spec","fixtures","batch_photo_upload","#{a}.jpg")}

@@ -48,8 +48,9 @@ class WorksController < ApplicationController
 
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
-      @works_count = @works.count
       @works = @works.published if params[:published]
+      @works = @works.id(params[:ids].split(",").map(&:to_i)) if params[:ids]
+      @works_count = @works.count
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.order_by(@selection[:sort]) if @selection[:sort]
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e

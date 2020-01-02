@@ -12,7 +12,13 @@ RSpec.feature "UserCanEditTags", type: :feature do
         fill_in("Wachtwoord", with: "password")
         first("#new_user input[type=submit]").click
         click_on "Collecties"
-        click_on "Collection 1"
+
+        if page.body.match("id=\"list-to-filter\"")
+          within "#list-to-filter" do
+            click_on "Collection 1"
+          end
+        end
+
         click_on "Work1"
         click_on "Beheer tags"
         expect(page).to have_content('bewerk')

@@ -1,7 +1,9 @@
 <% if admin_user? %>
-<dl class="sub-nav">
-  <dd class="right"><%= link_to 'Maak een nieuwe collectie', new_collection_path, class: 'small button' %></dd>
-</dl>
+<nav class="sub-nav">
+  <ul class="menu right-aligned">
+    <li><%= link_to 'Maak een nieuwe collectie', new_collection_path, class: 'small button' %></li>
+  </ul>
+</nav>
 <% end %>
 
 <% if @collections.count == 1%>

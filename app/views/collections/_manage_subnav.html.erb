@@ -1,9 +1,10 @@
-<nav class="row columns sub-nav hide-for-print" role="manage-collection">
+<nav class="sub-nav hide-for-print" role="manage-collection">
 <ul class="menu simple">
   <li>Beheer <%=@collection.name%>:</li>
   <li><%= menu_link_to "Herinneringen", collection_reminders_path(@collection) if admin_user? %></li>
   <li><%= menu_link_to "Thema's", collection_themes_path(@collection) if admin_user?%></li>
   <li><%= menu_link_to "Import", collection_import_collections_path(@collection) if admin_user?%></li>
+  <li><%= menu_link_to "Rapporten", collection_custom_reports_path(@collection) if can? :review_collection, CustomReport %></li>
 
 </ul>
 </nav>

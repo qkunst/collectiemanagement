@@ -4,12 +4,13 @@
     </div>
 
 
-    <%= simple_form_for @collection.works.new, url: collection_works_batch_path, method: :patch do |f| %>
-      <textarea data-zxing-output-target name="work_numbers_return_separated"></textarea>
+    <%= simple_form_for @collection.works.new, url: collection_mobile_path(@collection), method: :patch do |f| %>
+      <textarea data-zxing-output-target name="work_numbers_return_separated" data-zxing-auto-initialize autofocus="autofocus"></textarea>
       <%= f.input :location %>
       <%= f.input :location_floor %>
       <%= f.input :location_detail %>
-      <%= f.submit %>
+      <%= f.submit "Gescande werken bijwerken", name: :update_and_replace, class: [:button, :primary] %>
+      <p><small>Let op: Alle waarden worden overschreven; wanneer een veld wordt leeggelaten worden de velden leeg gemaakt</small></p>
     <% end %>
 
   </div>

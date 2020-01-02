@@ -33,7 +33,7 @@ RSpec.describe UnsecureTmpBasicPictureUploader, type: :model do
           batch_photo_upload = batch_photo_uploads(:batch_photo_upload1)
           batch_photo_upload.column = :alt_number_1
           uploader = UnsecureTmpBasicPictureUploader.new(batch_photo_upload)
-          expect(uploader).to receive(:filename).and_return(filename).exactly(2).times
+          expect(uploader).to receive(:filename).and_return(filename).exactly(3).times
           expect(uploader.work).to eq works(:work1)
         end
       end

@@ -88,7 +88,7 @@
     <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
     <% end %>
     <% if @selection[:display] == :complete %>
-      <% if work.attachments.count > 0 %>
+      <% if work.attachments.to_a.count > 0 %>
         <tr><th>Bijlagen:</th><td><ul>
           <% work.attachments.for_role(current_user.role).each do |attachment| %>
             <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>

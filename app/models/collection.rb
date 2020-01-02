@@ -51,24 +51,24 @@ class Collection < ApplicationRecord
   after_commit :touch_parent
 
   KEY_MODEL_RELATIONS={
-    "artists"=>Artist,
-    "themes"=>Theme,
-    "object_categories"=>ObjectCategory,
-    "object_categories_split"=>ObjectCategory,
-    "techniques"=>Technique,
-    "condition_frame"=>Condition,
-    "techniques_split"=>Technique,
-    "condition_work"=>Condition,
-    "frame_damage_types"=>FrameDamageType,
-    "damage_types"=>DamageType,
-    "placeability"=>Placeability,
-    "style"=>Style,
-    "subset"=>Subset,
-    "source"=>Source,
-    "sources"=>Source,
-    "cluster"=>Cluster,
-    "owner"=>Owner,
-    "frame_type"=>FrameType
+    "artists"=>"Artist",
+    "themes"=>"Theme",
+    "object_categories"=>"ObjectCategory",
+    "object_categories_split"=>"ObjectCategory",
+    "techniques"=>"Technique",
+    "condition_frame"=>"Condition",
+    "techniques_split"=>"Technique",
+    "condition_work"=>"Condition",
+    "frame_damage_types"=>"FrameDamageType",
+    "damage_types"=>"DamageType",
+    "placeability"=>"Placeability",
+    "style"=>"Style",
+    "subset"=>"Subset",
+    "source"=>"Source",
+    "sources"=>"Source",
+    "cluster"=>"Cluster",
+    "owner"=>"Owner",
+    "frame_type"=>"FrameType"
   }
 
   def find_state_of_stage(stage)
@@ -269,7 +269,7 @@ class Collection < ApplicationRecord
 
   def report
     return @report if @report
-    Report::Parser.key_model_relations= KEY_MODEL_RELATIONS
+    Report::Parser.key_model_relations= KEY_MODEL_RELATIONS.map{|k,v| [k,v.constantize]}.to_h
     if elastic_aggragations
       @report = Report::Parser.parse(elastic_aggragations)
     else
@@ -302,13 +302,11 @@ class Collection < ApplicationRecord
     }
 
     if (search and !search.to_s.strip.empty?)
-      # search.split("/\s/").each do |search_t
       search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
       query[:query][:bool][:must] << {
         query_string: {
           default_field: :_all,
           query: search,
-          # analyzer: :dutch,
           default_operator: :and,
           fuzziness: 3
         }
@@ -323,8 +321,6 @@ class Collection < ApplicationRecord
           new_bool[:bool]= {mustNot: {exists: {field: key}}}
         else
           new_bool[:bool][:should] << {terms: {key=> values}}
-
-          # new_bool = {terms: {key=> values}}
         end
       else
         values.each do |value|
@@ -343,8 +339,6 @@ class Collection < ApplicationRecord
     end
 
     query[:aggs] = options[:aggregations] if options[:aggregations]
-
-    Rails.logger.debug query.inspect
 
     if options[:return_records]
       return Work.search(query).records
@@ -378,11 +372,11 @@ class Collection < ApplicationRecord
     document_type = elastic_search.document_type
 
     elastic_ids_to_remove.collect do |elastic_id_to_remove|
-      elastic_search.client.delete(
-          { index: index_name,
-            type:  document_type,
-            id:    elastic_id_to_remove }
-        )
+      elastic_search.client.delete({
+        index: index_name,
+        type:  document_type,
+        id:    elastic_id_to_remove
+      })
     end
   end
 
