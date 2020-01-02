@@ -74,18 +74,23 @@ if (!HTMLDocument.prototype.addDelegatedEventListener) {
 }
 
 // play a simple beep
-var audioContext = new AudioContext()
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+if (typeof AudioContext !== "undefined") {
+  var audioContext = new AudioContext();
+}
 
 function beep(vol, freq, duration){
-  var v = audioContext.createOscillator()
-  var u = audioContext.createGain()
-  v.connect(u)
-  v.frequency.value=freq
-  v.type="sine"
-  u.connect(audioContext.destination)
-  u.gain.value=vol*0.01
-  v.start(audioContext.currentTime)
-  v.stop(audioContext.currentTime+duration*0.001)
+  if (typeof audioContext !== "undefined") {
+    var v = audioContext.createOscillator()
+    var u = audioContext.createGain()
+    v.connect(u)
+    v.frequency.value=freq
+    v.type="sine"
+    u.connect(audioContext.destination)
+    u.gain.value=vol*0.01
+    v.start(audioContext.currentTime)
+    v.stop(audioContext.currentTime+duration*0.001)
+  }
 }
 
 function delegatedBeep() {
