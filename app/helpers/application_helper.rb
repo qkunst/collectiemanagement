@@ -41,6 +41,10 @@ module ApplicationHelper
     end
   end
 
+  def works_modified_forms_path
+    collection_works_modified_path(@collection)
+  end
+
   def link_to_edit item
     if item.is_a? Array
       item_part = item.collect{|a| a.class.model_name.singular}.join("_")

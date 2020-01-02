@@ -1,1 +1,26 @@
 <h2>Recent gewijzigd in <%= @collection.name%></h2>
+<%= simple_form_for @form, method: :get do |f| %>
+<%= f.input :only_location_changes, label: "Alleen locatiewijzigingen", as: :boolean%>
+<%= f.input :only_non_qkunst, label: "Alleen niet-qkunst wijzigingen", as: :boolean%>
+<%= f.submit "Filter", class: :button%>
+<% end%>
+<table>
+  <thead>
+    <tr>
+      <th>Inventarisnr.</th>
+      <th>Vervaardiger</th>
+      <th>Titel</th>
+      <th>Datum wijziging</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @works.each do |work| %>
+      <tr>
+        <td><%= link_to work.stock_number || "-", collection_work_path(@collection, work) %></td>
+        <td><%= link_to work.artist_name_rendered || "-", collection_work_path(@collection, work) %></td>
+        <td><%= link_to work.title_rendered, collection_work_path(@collection, work) %></td>
+        <td><%= link_to I18n.l(work.updated_at.in_time_zone, format: :short), collection_work_path(@collection, work) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

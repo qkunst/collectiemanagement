@@ -1,3 +1,24 @@
+class WorksModifiedForm
+  include ActiveModel::Model
+  include ActiveModel::AttributeAssignment
+
+  attr_accessor :only_location_changes
+  attr_accessor :only_non_qkunst
+
+  def only_location_changes?
+    truthy?(only_location_changes)
+  end
+
+  def only_non_qkunst?
+    truthy?(only_non_qkunst)
+  end
+
+  private
+
+  def truthy?(var)
+    var == "1" || var == true || var == "true"
+  end
+end
 # frozen_string_literal: true
 
 class WorksController < ApplicationController
@@ -6,7 +27,7 @@ class WorksController < ApplicationController
   include Works::XlsxResponse
   include Works::Filtering
 
-  before_action :authenticate_admin_or_advisor_user!, only: [:destroy]
+  before_action :authenticate_admin_or_advisor_user!, only: [:destroy, :modified_index]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history]
@@ -192,7 +213,15 @@ class WorksController < ApplicationController
   end
 
   def modified_index
-    @collection
+    versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").order(created_at: :desc).limit(500)
+
+
+    @form = WorksModifiedForm.new(works_modified_form_params)
+    # raise @form
+    versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
+    versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
+
+    @works = versions.collect{|a| a.reify}.compact
   end
 
   # DELETE /works/1
@@ -265,4 +294,11 @@ class WorksController < ApplicationController
     return false
   end
 
+  def works_modified_form_params
+    if params["works_modified_form"]
+      params.require(:works_modified_form).permit(:only_location_changes, :only_non_qkunst)
+    else
+      {}
+    end
+  end
 end
