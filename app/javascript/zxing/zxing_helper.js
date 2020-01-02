@@ -147,7 +147,7 @@ function renderCodeInOutputMessage(code) {
 function renderCodeToTargetTextArea(code) {
   if (code.format) {
     var currentValue = state.targetElement.value.trim();
-    if (!escapeProblemFreeMatch(currentValue, code.text)) {
+    if (!currentValue.match(code.text)) { // tried escapeProblemFreeMatch() but too slow for Safari atm, out of scope anyhow
       currentValue = currentValue + "\n" + code.text;
       delegatedBeep();
     }
@@ -161,6 +161,7 @@ function renderCodeToTargetElement(code) {
   }
 }
 
+// too slow for safari (was a workaround for bad QR codes, but out of scope for now anyhow)
 function escapeProblemFreeMatch(text, target) {
   return text.replaceAll(/[\"\:\?\.\/]/g,"").match(target.replaceAll(/[\"\:\?\.\/]/g,""))
 }

@@ -21,6 +21,7 @@ default: &default
 
   static_assets_extensions:
     - .jpg
+    - .wasm
     - .jpeg
     - .png
     - .gif
