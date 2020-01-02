@@ -34,7 +34,7 @@ show_all_images = ->
   noscript_wrapped_images = document.querySelectorAll(ELEMENTS_QUERY)
   noscript_wrapped_images.forEach(lazy_load_image_in_noscript_wrapper)
 
-document.addEventListener "load", ->
+window.addEventListener "load", ->
   lazy_load_images()
 
 document.addEventListener "turbolinks:load", ->
