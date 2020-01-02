@@ -16,9 +16,7 @@
           (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)
           <span class="hide-for-print">
             <br/>
-            <%= link_to collection_works_path(@collection, params: @cleaned_params.merge({filter:{reset:true}, no_child_works: nil}) ) do %>
-              Reset filters
-            <% end %>
+            <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
           </span>
         <% end %>
         <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>
