@@ -19,7 +19,7 @@
         <td><%= link_to work.stock_number || "-", collection_work_path(@collection, work) %></td>
         <td><%= link_to work.artist_name_rendered || "-", collection_work_path(@collection, work) %></td>
         <td><%= link_to work.title_rendered, collection_work_path(@collection, work) %></td>
-        <td><%= link_to I18n.l(work.updated_at.in_time_zone, format: :short), collection_work_path(@collection, work) %></td>
+        <td><%= link_to I18n.l(work.updated_at, format: :short), collection_work_path(@collection, work) %></td>
       </tr>
     <% end %>
   </tbody>
