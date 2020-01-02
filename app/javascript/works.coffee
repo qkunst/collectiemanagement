@@ -42,6 +42,8 @@ $(document).on("submit","form#new_work", ->
   d.setHours(24)
   lastLocation = $("form#new_work input#work_location").val();
   docCookies.setItem("lastLocation", lastLocation, d)
+  lastLocationFloor = $("form#new_work input#work_location_floor").val();
+  docCookies.setItem("lastLocationFloor", lastLocationFloor, d)
 )
 
 window.addEventListener "load", (event)->
@@ -51,10 +53,12 @@ window.addEventListener "load", (event)->
     show_or_hide_selected_works()
   , 500)
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
+  $("form#new_work input#work_location_floor").val(docCookies.getItem("lastLocationFloor"))
 
 
 document.addEventListener "turbolinks:load", (event)->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
+  $("form#new_work input#work_location_floor").val(docCookies.getItem("lastLocationFloor"))
   show_or_hide_selected_works()
   show_offline_stored_count_message()
 
