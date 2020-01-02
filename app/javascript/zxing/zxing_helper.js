@@ -81,21 +81,21 @@ if (typeof AudioContext !== "undefined") {
 
 function beep(vol, freq, duration){
   if (typeof audioContext !== "undefined") {
-    var v = audioContext.createOscillator()
-    var u = audioContext.createGain()
-    v.connect(u)
-    v.frequency.value=freq
-    v.type="sine"
-    u.connect(audioContext.destination)
-    u.gain.value=vol*0.01
-    v.start(audioContext.currentTime)
-    v.stop(audioContext.currentTime+duration*0.001)
+    var oscillator = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+    oscillator.connect(gain);
+    oscillator.frequency.value = freq;
+    oscillator.type = 0; //sine
+    gain.connect(audioContext.destination);
+    gain.gain.value = vol;
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration)
   }
 }
 
 function delegatedBeep() {
   setTimeout(()=>{
-    beep(2,880,150);
+    beep(0.02, 880, 0.150);
   }, 0.01);
 }
 
