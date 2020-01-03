@@ -4,10 +4,18 @@ conversation_starter:
   subject: Collectie 1
 
 conversation_reply:
-  from_user: :facility_manager
+  from_user: :advisor
   subject_object: collection1 (Collection)
   in_reply_to_message: :conversation_starter
   subject: "Re: Collectie 1"
+  conversation_start_message: :conversation_starter
+
+conversation_reply_private:
+  from_user: :admin
+  subject_object: collection1 (Collection)
+  in_reply_to_message: :conversation_starter
+  subject: "Re: Collectie 1"
+  qkunst_private: true
   conversation_start_message: :conversation_starter
 
 conversation_starter_about_collection_with_works:
@@ -21,6 +29,6 @@ conversation_starter_about_work:
   subject: Work 1
 
 conversation_starter_collection3:
-  from_user: :facility_manager
+  from_user: :facility_manager_collection3
   subject_object: collection3 (Collection)
   subject: Collectie 3

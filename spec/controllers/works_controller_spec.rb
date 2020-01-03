@@ -49,7 +49,7 @@ RSpec.describe WorksController, type: :controller do
     it "shouldn't be change location when role == facility" do
       work = works(:work1)
       sign_in users(:facility_manager)
-      expect(work.location).to eq(nil)
+      expect(work.location).to eq("Adres")
       put :update, params: {collection_id: work.collection.to_param, id: work.to_param, work: {location: "werk", location_detail: "Mijn kantoor"}}
       work.reload
       expect(work.location).to eq("werk")
@@ -58,7 +58,7 @@ RSpec.describe WorksController, type: :controller do
     it "qkunst admin should be able to edit all fields" do
       work = works(:work1)
       sign_in users(:admin)
-      expect(work.location).to eq(nil)
+      expect(work.location).to eq("Adres")
       valid_data = {
         location: "werk", internal_comments: "Interne beslommering", title: "Titel"
       }

@@ -41,7 +41,7 @@
   <footer>
   <div class="meta">
     <div class="actions right">
-      <% if this_user.can_edit_message?(message) %>
+      <% if defined?(can?) && can?(:edit, message) %>
       <%= link_to('Bewerk bericht', edit_message_url(message))  %> of
       <% end %>
       <%

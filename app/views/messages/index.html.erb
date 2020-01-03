@@ -42,7 +42,7 @@
           <% if current_user.qkunst? %>
             <strong><%= message.from_user_name %></strong>
           <% else %>
-            <strong><%= message.from_user_name.split('@')[0].to_s.capitalize %></strong>
+            <strong><%= message.from_user_name_without_email %></strong>
           <% end %>
         </td>
         <td> <%=collectie%></td>

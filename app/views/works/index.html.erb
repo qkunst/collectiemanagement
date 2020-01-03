@@ -16,7 +16,7 @@
           (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)
           <span class="hide-for-print">
             <br/>
-            <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
+            <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
           </span>
         <% end %>
         <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>
@@ -65,7 +65,7 @@
 
       <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
 
-      <% [ "location_floor_raw.keyword", "location_raw.keyword", "publish", "image_rights" ].each do |column| %>
+      <% [ "location_floor_raw", "location_raw", "publish", "image_rights" ].each do |column| %>
         <%= filter_hidden column %>
       <% end %>
 
@@ -75,15 +75,14 @@
       <% end %>
       <h5>Tags</h5>
       <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list.keyword][]">
-        <% (@selection_filter["tag_list.keyword"] || []).each do |tag|%>
+        <% (@selection_filter["tag_list"] || []).each do |tag|%>
           <option selected="selected" value="<%=tag%>"><%=tag%></option>
         <% end %>
       </select>
 
       <hr/>
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>
-
-      <%= button_tag type: :submit, name: :filter, value: nil, class: :inline do %>Reset filters<% end %>
+      <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
       </div>
     </aside>
     <% end #formtag /works?q... %>

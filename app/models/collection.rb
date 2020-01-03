@@ -18,7 +18,10 @@ class Collection < ApplicationRecord
   include ColumnCache
 
   belongs_to :parent_collection, class_name: 'Collection', optional: true
+
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :stages
+
   has_many :attachments, as: :attache
   has_many :batch_photo_uploads
   has_many :child_collections, class_name: 'Collection', foreign_key: 'parent_collection_id'
@@ -31,6 +34,9 @@ class Collection < ApplicationRecord
   has_many :themes
   has_many :works
   has_many :owners
+  has_many :messages, as: :subject_object
+  has_many :collections_stages
+  has_many :reminders
 
   has_cache_for_column :geoname_ids
   has_cache_for_column :collection_name_extended
@@ -39,15 +45,13 @@ class Collection < ApplicationRecord
 
   scope :without_parent, ->{where(parent_collection_id: nil)}
   scope :not_hidden, ->{ where("1=1")}
-  has_and_belongs_to_many :stages
-  has_many :collections_stages
-  has_many :reminders
 
   before_save :cache_geoname_ids!
   before_save :cache_collection_name_extended!
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
+
   after_commit :touch_parent
 
   KEY_MODEL_RELATIONS={
@@ -76,6 +80,17 @@ class Collection < ApplicationRecord
       return cs if cs.stage == stage
     end
     return nil
+  end
+
+  def base_collection
+    if base
+      return self
+    else
+      parent_collections_flattened.reverse.each do |coll|
+        return coll if coll.base?
+      end
+    end
+    return self
   end
 
   def collections_stages?
@@ -315,7 +330,7 @@ class Collection < ApplicationRecord
 
     filter.each do |key, values|
       new_bool = {bool: {should: []}}
-      if key == "locality_geoname_id" or key == "geoname_ids" or key == "tag_list.keyword"
+      if key == "locality_geoname_id" or key == "geoname_ids" or key == "tag_list"
         values = values.compact
         if values.count == 0
           new_bool[:bool]= {mustNot: {exists: {field: key}}}

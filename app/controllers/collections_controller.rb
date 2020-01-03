@@ -43,38 +43,35 @@ class CollectionsController < ApplicationController
 
   def report
     authorize! :read_report, Collection
+    current_user.reset_filters!
+
     @collection = @parent_collection
     @title = "Rapportage voor #{@collection.name}"
+
     @sections = {
-      "Locaties": [[:"location_raw.keyword"]],
+      "Locaties": [[:"location_raw"]],
+      "Ontsluiting" => [[:"tag_list"]]
     }
 
-    @sections.deep_merge!({
-      "Vervaardigers" => [[:artists]],
-      "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-      "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-      "Waardering" => [[:purchase_year],[:grade_within_collection]],
-      "Object" => [[:object_categories_split],[:"object_format_code.keyword", :frame_type], [:object_creation_year]]
-    }) if can?(:read_extended_report, @collection)
-
-    @sections.deep_merge!({
-      "Ontsluiting" => [[:image_rights, :publish],[:"tag_list.keyword"]]
-    })
-
-    @sections["Ontsluiting"] = [[:"tag_list.keyword"]] unless can?(:read_extended_report, @collection)
-
-    @sections.deep_merge!({
-      "Overige" => [[:sources],[:owner],[:inventoried, :refound, :new_found]]
-    }) if can?(:read_extended_report, @collection)
-
+    if can?(:read_extended_report, @collection)
+      @sections.deep_merge!({
+        "Vervaardigers" => [[:artists]],
+        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
+        "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
+        "Waardering" => [[:purchase_year],[:grade_within_collection]],
+        "Object" => [[:object_categories_split],[:"object_format_code", :frame_type], [:object_creation_year]],
+        "Overige" => [[:sources],[:owner],[:inventoried, :refound, :new_found]]
+      })
+      @sections["Ontsluiting"] = [[:image_rights, :publish],[:"tag_list"]]
+    end
 
     if can?(:read_valuation, @collection) and @sections["Waardering"]
       @sections["Waardering"] << [:market_value]
       @sections["Waardering"] << [:replacement_value]
     end
-    current_user.reset_filters!
 
     @report = @collection.report
+
     unless @report
       redirect_to collection_path(@collection), notice: "Het rapport kon niet gegenereerd worden door een systeemfout. De beheerder is geïnformeerd."
     end

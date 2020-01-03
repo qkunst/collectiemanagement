@@ -137,28 +137,12 @@ class ApplicationController < ActionController::Base
     authenticate_user_with_one_of_roles!([:admin, :qkunst, :facility_manager, :advisor, :appraiser])
   end
 
-  def authenticate_admin_or_facility_user!
-    authenticate_user_with_one_of_roles!([:admin, :facility_manager])
-  end
-
-  def authenticate_admin_or_advisor_or_facility_user!
-    authenticate_user_with_one_of_roles!([:admin, :advisor, :facility_manager])
-  end
-
   def authenticate_admin_or_advisor_user!
     authenticate_user_with_one_of_roles!([:admin, :advisor])
   end
 
   def authenticate_admin_user!
     authenticate_user_with_one_of_roles!([:admin])
-  end
-
-  def authenticate_admin_or_collection_and_advisor_user!
-    if @collection
-      authenticate_admin_or_advisor_user!
-    else
-      authenticate_admin_user!
-    end
   end
 
   def authenticate_user_with_one_of_roles! roles=[]
@@ -179,10 +163,6 @@ class ApplicationController < ActionController::Base
         redirect_to root_path, redirect_options unless current_user.activated?
       end
     end
-  end
-
-  def authenticate_admin_user!
-    authenticate_user_with_one_of_roles!([:admin])
   end
 
   def check_rack_mini_profiler

@@ -45,6 +45,10 @@ class Message < ApplicationRecord
     end
   end
 
+  def from_user_name_without_email
+    from_user_name.to_s.split('@')[0].to_s.capitalize
+  end
+
   def from_user?(user)
     from_user == user
   end

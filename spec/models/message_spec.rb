@@ -93,6 +93,14 @@ RSpec.describe Message, type: :model do
         expect(Message.thread_can_be_accessed_by_user(u2)).to include(m2)
         expect(Message.thread_can_be_accessed_by_user(u3)).to include(m2)
       end
+      it "should block facility user from accessing messages from other collections" do
+        facility_manager = users(:facility_manager)
+        expect(facility_manager.accessible_collections).not_to include(collections(:collection3))
+
+        collection_3_message = collections(:collection3).messages.first
+
+        expect(Message.thread_can_be_accessed_by_user(facility_manager)).not_to include(collection_3_message)
+      end
     end
     describe "collections" do
       it "should not contain messages with another collection message subject" do

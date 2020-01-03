@@ -8,7 +8,11 @@ work1:
     - :wind
   subset: :contemporary
   collection: :collection_with_works
+  location: Adres
+  location_floor: Floor 1
+  location_detail: Room 1
   cluster: :cluster1
+  abstract_or_figurative: abstract
   created_by: :admin
   frame_height: 50
   inventoried_at: 2012-01-02

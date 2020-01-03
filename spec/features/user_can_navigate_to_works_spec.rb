@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require_relative 'feature_helper'
 
 RSpec.feature "UserCanNavigateToWorks", type: :feature do
+  include FeatureHelper
+
   ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_address do
       scenario "cannot edit anything" do
         visit root_path
         expect(page).to have_content('QKunst Collectiebeheer')
         expect(page).to have_content('Welkom')
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+
+        login email_address
+
         expect(page).to have_content('Succesvol ingelogd')
         expect(page).to have_content("Ingelogd als #{email_address}")
         click_on "Collecties"
@@ -35,13 +36,8 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
   ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_address do
       scenario "can edit work through major form" do
-        visit root_path
-        expect(page).to have_content('QKunst Collectiebeheer')
-        expect(page).to have_content('Welkom')
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+        login email_address
+
         expect(page).to have_content('Succesvol ingelogd')
         expect(page).to have_content("Ingelogd als #{email_address}")
         click_on "Collecties"
@@ -83,13 +79,8 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
   ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-facility_manager@murb.nl"].each do |email_address|
     context email_address do
       scenario "can edit location through location form" do
-        visit root_path
-        expect(page).to have_content('QKunst Collectiebeheer')
-        expect(page).to have_content('Welkom')
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+        login email_address
+
         expect(page).to have_content('Succesvol ingelogd')
         expect(page).to have_content("Ingelogd als #{email_address}")
         click_on "Collecties"

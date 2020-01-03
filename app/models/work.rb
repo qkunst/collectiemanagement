@@ -49,6 +49,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :custom_reports
   has_many :appraisals
   has_many :attachments, as: :attache
+  has_many :messages, as: :subject_object
 
   scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
   scope :has_number, ->(number){ number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
@@ -105,7 +106,7 @@ class Work < ApplicationRecord
     end
   end
 
-  index_name "works-a"
+  index_name "works-#{Rails.env.test? ? "test" : "a"}"
 
   def photos?
     photo_front? or photo_back? or photo_detail_1? or photo_detail_2?

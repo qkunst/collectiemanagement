@@ -21,6 +21,7 @@ class Ability
         can :manage_collection, Collection
         can :manage_collection, CustomReport
         can :manage, CustomReport
+        can :manage, Message
 
         can [:read, :copy], RkdArtist
 
@@ -53,6 +54,7 @@ class Ability
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
         can [:read, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can :manage, Message
 
         can :update, User
         cannot [:destroy, :edit_admin], User
@@ -75,6 +77,7 @@ class Ability
         can :read, ImportCollection, collection_id: accessible_collection_ids
         can :read, Reminder, collection_id: accessible_collection_ids
         can :read, Attachment
+        can :read, Message
 
         can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference], Collection, id: accessible_collection_ids
 
@@ -93,6 +96,10 @@ class Ability
 
         can :manage, Appraisal
         can :read, CustomReport, collection_id: accessible_collection_ids
+        can [:create, :read], Message
+        can :edit, Message do |message|
+          message && message.from_user == user && message.replies.count == 0 && message.unread
+        end
 
         can [:read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
 
@@ -111,6 +118,9 @@ class Ability
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
         can [:read, :read_information_back, :manage_location, :show_details], Work, collection_id: accessible_collection_ids
+
+        can :create, Message
+        can :read, Message, qkunst_private: false
       elsif user.read_only?
         can [:read], Artist
         can :read, Collection, id: accessible_collection_ids

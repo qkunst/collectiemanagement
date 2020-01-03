@@ -38,29 +38,6 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "methods" do
-    describe "#parent_collections_flattened" do
-      it "should return the oldest parent, then that child ." do
-        collection = collections(:collection4)
-        expect(collection.parent_collections_flattened[0]).to eq(collections(:collection1))
-        expect(collection.parent_collections_flattened[1]).to eq(collections(:collection2))
-        expect(collection.parent_collections_flattened[2]).to eq(nil)
-      end
-    end
-    describe "#child_collections_flattened" do
-      it "should return all childs" do
-        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
-      end
-    end
-    describe "#fields_to_expose" do
-      it "should return almost all fields when fields_to_expose(:default)" do
-        collection = collections(:collection4)
-        fields = collection.fields_to_expose(:default)
-
-        ["location", "location_floor", "location_detail", "stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "information_back", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "medium_comments", "signature_comments", "no_signature_present", "print", "frame_height", "frame_width", "frame_depth", "frame_diameter", "height", "width", "depth", "diameter", "condition_work", "damage_types", "condition_work_comments", "condition_frame", "frame_damage_types", "condition_frame_comments", "placeability", "other_comments", "sources", "source_comments", "abstract_or_figurative", "style", "themes", "subset", "purchased_on", "purchase_price", "purchase_price_currency", "price_reference", "grade_within_collection", "public_description", "internal_comments", "imported_at", "id", "created_at", "updated_at", "created_by", "appraisals", "versions", "collection", "external_inventory", "cluster", "version", "artist_name_rendered", "valuation_on", "lognotes", "market_value", "replacement_value"].each do |a|
-          expect(fields).to include(a)
-        end
-      end
-    end
     describe "#available_clusters" do
       it "should list all private clusters" do
         expect(collections(:collection_with_works).available_clusters).to include(clusters(:cluster1))
@@ -73,6 +50,7 @@ RSpec.describe Collection, type: :model do
         expect(collections(:collection_with_stages).available_clusters).not_to include(clusters(:cluster2))
       end
     end
+
     describe "#available_themes" do
       it "should include all generic themes" do
         col_1_available_themes = collections(:collection1).available_themes
@@ -94,6 +72,45 @@ RSpec.describe Collection, type: :model do
         expect(col_with_stages_available_themes).to include(themes(:wind))
       end
     end
+
+    describe "#child_collections_flattened" do
+      it "should return all childs" do
+        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
+      end
+    end
+
+    describe "#fields_to_expose" do
+      it "should return almost all fields when fields_to_expose(:default)" do
+        collection = collections(:collection4)
+        fields = collection.fields_to_expose(:default)
+
+        ["location", "location_floor", "location_detail", "stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "information_back", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "medium_comments", "signature_comments", "no_signature_present", "print", "frame_height", "frame_width", "frame_depth", "frame_diameter", "height", "width", "depth", "diameter", "condition_work", "damage_types", "condition_work_comments", "condition_frame", "frame_damage_types", "condition_frame_comments", "placeability", "other_comments", "sources", "source_comments", "abstract_or_figurative", "style", "themes", "subset", "purchased_on", "purchase_price", "purchase_price_currency", "price_reference", "grade_within_collection", "public_description", "internal_comments", "imported_at", "id", "created_at", "updated_at", "created_by", "appraisals", "versions", "collection", "external_inventory", "cluster", "version", "artist_name_rendered", "valuation_on", "lognotes", "market_value", "replacement_value"].each do |a|
+          expect(fields).to include(a)
+        end
+      end
+    end
+
+    describe "#main_collection" do
+      it "should return self if no main collection exists" do
+        expect(collections(:boring_collection).base_collection).to eq(collections(:boring_collection))
+        expect(collections(:sub_boring_collection).base_collection).to eq(collections(:sub_boring_collection))
+      end
+
+      it "should return the parent collection marked as base when it exists" do
+        expect(collections(:collection_with_works_child).base_collection).to eq(collections(:collection_with_works))
+        expect(collections(:collection_with_works).base_collection).to eq(collections(:collection_with_works))
+      end
+    end
+
+    describe "#parent_collections_flattened" do
+      it "should return the oldest parent, then that child ." do
+        collection = collections(:collection4)
+        expect(collection.parent_collections_flattened[0]).to eq(collections(:collection1))
+        expect(collection.parent_collections_flattened[1]).to eq(collections(:collection2))
+        expect(collection.parent_collections_flattened[2]).to eq(nil)
+      end
+    end
+
     describe "#sort_works_by" do
       it "should not accept noise" do
         c = collections(:collection1)

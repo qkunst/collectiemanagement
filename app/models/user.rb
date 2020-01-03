@@ -85,20 +85,6 @@ class User < ApplicationRecord
     qkunst? or collections.count > 0
   end
 
-  def can_receive_messages?
-    admin? or facility_manager? or advisor?
-  end
-
-  def can_write_messages?
-    admin? or facility_manager? or advisor?
-  end
-
-  def can_edit_message? message=nil
-    admin? or
-      (message && message.from_user == self && message.replies.count == 0 && message.unread) or
-      (advisor? && message && (message.subject_object.nil? || message.subject_object.can_be_accessed_by_user?(self)))
-  end
-
   def registrator?
     qkunst? and (role == :qkunst)
   end

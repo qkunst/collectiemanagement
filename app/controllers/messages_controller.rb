@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class MessagesController < ApplicationController
-  before_action :authenticate_admin_or_advisor_or_facility_user!
+  authorize_resource
+
   before_action :set_work
   before_action :set_collection
   before_action :set_message, only: [:show, :edit, :update, :destroy]
@@ -83,7 +84,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        notice = "Uw bericht is opgeslagen."
+        notice = "Uw bericht is verstuurd."
         notice += " Het bericht wordt spoedig verwerkt." unless @message.just_a_note or current_user.qkunst?
 
         redirect_to_obj = @message.subject_url unless request.referrer.match(/\/messages\//)
@@ -102,12 +103,7 @@ class MessagesController < ApplicationController
   # PATCH/PUT /messages/1.json
   def update
     respond_to do |format|
-      unless current_user.can_edit_message?(@message)
-        redirect_to @message.conversation_start_message || @message, {alert: "U probeert iets aan te passen dat u niet mag aanpassen."}
-        return nil
-      end
-      mparams=message_params
-      if @message.update(mparams)
+      if @message.update(message_params)
         format.html { redirect_to @message.conversation_start_message || @message, notice: 'Het bericht is aangepast' }
         format.json { render :show, status: :ok, location: @message }
       else

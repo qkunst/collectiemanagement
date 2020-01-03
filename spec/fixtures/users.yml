@@ -48,6 +48,12 @@ facility_manager:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+facility_manager_collection3:
+  email: qkunst-test-facility_manager-collection3@murb.nl
+  facility_manager: true
+  collections:
+    - :collection3
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 appraiser:
   email: qkunst-test-appraiser@murb.nl
   admin: false

@@ -42,8 +42,8 @@
               </ul>
             </li>
             <% end %>
-            <% if current_user && current_user.can_receive_messages? %>
-            <li><%= menu_link_to 'Berichten', messages_path%></li>
+            <% if can? :read, Message %>
+              <li><%= menu_link_to 'Berichten', messages_path%></li>
             <% end %>
             <% unless offline? %>
               <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>

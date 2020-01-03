@@ -11,11 +11,11 @@ module Works::Filtering
       if params[:filter] or params[:group] or params[:sort] or params[:display]
         @selection_filter = {}
       end
-      if params[:filter] and params[:filter] != ""
+      if params[:filter] and params[:filter] != "" and params[:filter][:reset] != "true"
         params[:filter].each do |field, values|
           if field == "reset"
             @reset = true
-          elsif ["grade_within_collection","abstract_or_figurative","object_format_code.keyword","location","location_raw.keyword", "location_floor_raw.keyword", "location_detail_raw.keyword", "main_collection", "tag_list.keyword"].include?(field)
+          elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
             @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
           else
             @selection_filter[field] = clean_ids(values)

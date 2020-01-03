@@ -36,7 +36,7 @@ module CollectionReportHelper
         @params = @params.merge({"filter[#{group}][]"=>selection})
         link_to(I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection),collection_works_path(@collection, @params))
       end
-    elsif [:location, :"location_raw.keyword", :"location_detail_raw.keyword", :"location_floor_raw.keyword", :"object_format_code.keyword", :"tag_list.keyword"].include? group
+    elsif [:location, :"location_raw", :"location_detail_raw", :"location_floor_raw", :"object_format_code", :"tag_list"].include? group
       @params = @params.merge({"filter[#{group}][]"=>(selection == :missing ? :not_set : selection)})
       link_to((selection == :missing ? "#{I18n.t group.to_s.gsub(".keyword",""), scope: "activerecord.attributes.work"} onbekend" : selection),collection_works_path(@collection, @params))
     elsif selection == :missing

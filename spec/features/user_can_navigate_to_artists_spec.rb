@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require_relative 'feature_helper'
 
 RSpec.feature "UserCanNavigateToWorks", type: :feature do
+  include FeatureHelper
+
   scenario "read_only" do
     allow(RkdArtist).to receive(:search_rkd) { [rkd_artists(:rkd_artist2)] }
 
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-read_only_user@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-test-read_only_user@murb.nl"
+
     click_on "Collecties"
     expect(page).not_to have_content('Bewerk')
     within "#responsive-menu" do
@@ -39,12 +37,8 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-regular-withcollection-user@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-regular-withcollection-user@murb.nl"
+
     click_on "Collecties"
     within "#responsive-menu" do
       click_on "Vervaardigers"
@@ -81,12 +75,9 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     ra.api_response = JSON.parse(File.open(File.join(Rails.root,"spec","fixtures","rkd_api_response1.json")).read)
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-appraiser@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+
+    login "qkunst-test-appraiser@murb.nl"
+
     click_on "Collecties"
     within "#responsive-menu" do
       click_on "Vervaardigers"
@@ -130,12 +121,8 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-advisor@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-test-advisor@murb.nl"
+
     click_on "Collecties"
     within "#responsive-menu" do
       click_on "Vervaardigers"
@@ -179,12 +166,8 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-compliance@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-test-compliance@murb.nl"
+
     click_on "Collecties"
     within "#responsive-menu" do
       click_on "Vervaardigers"
@@ -206,16 +189,14 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
   end
   scenario "facility" do
     allow(RkdArtist).to receive(:search_rkd) { rkd_artists(:rkd_artist2) }
-    visit root_path
-    # user can navigate to works tests basic assumptions more extensively
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-facility_manager@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+
+    login "qkunst-test-facility_manager@murb.nl"
+
     click_on "Collecties"
     within "#responsive-menu" do
       click_on "Vervaardigers"
     end
+
     expect(page).not_to have_content('artist_4 achternaam')
     expect(page).to have_content('artist_1 firstname')
     expect(page).to have_content('artist_2 achternaam')
