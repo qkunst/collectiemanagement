@@ -2,9 +2,7 @@
 
 The basic function of FormStore is to allow Forms to function, even when the
 page serving it is offline. It stores FormData in good'ol localstorage (good
-enough for this purpose), and tries to resubmit it when backonline. It knows
-when it is online when it get's a valid 200 OK response from /heartbeat.
-
+enough for this purpose), and tries to resubmit it when backonline.
 When going online, it only removes the stored from from the local storage when
 the form submit was successful.
 

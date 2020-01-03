@@ -132,7 +132,6 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   get "debug-offline" => 'application#debug_offline'
-  get "heartbeat" => 'application#heartbeat'
   get "admin" => 'application#admin'
   get "sw" => 'application#service_worker'
   get "privacy" => "application#privacy"
