@@ -31,9 +31,11 @@ module Collection::Hierarchy
     end
 
     def expand_with_parent_collections
-      self.id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
-  from connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~')
-  as (id int, pid int, lvl int, branch text) WHERE id = #{self.id}) AS branches)") : Collection.none
+      self.id ? Collection.unscope(:order).joins("INNER JOIN (
+        SELECT CAST(regexp_split_to_table(branch,'~') AS INTEGER) AS branch_split, branch
+          FROM connectby('collections', 'id', 'parent_collection_id', '9', 0, '~') as (id int, pid int, lvl int, branch text)
+          WHERE id = #{self.id}
+        ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split") : Collection.none
     end
   end
 
