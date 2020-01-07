@@ -21,6 +21,7 @@ module BaseController
 
     def new
       self.named_variable= controlled_class.new
+      named_variable.collection = @collection if @collection
     end
 
     def create

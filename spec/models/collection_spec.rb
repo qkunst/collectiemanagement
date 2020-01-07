@@ -79,6 +79,32 @@ RSpec.describe Collection, type: :model do
       end
     end
 
+    describe "#expand_with_child_collections" do
+      it "should return all collections when expanded from root" do
+        expect(collections(:root_collection).expand_with_child_collections.count).to eq(Collection.all.count)
+      end
+      it "should return empty array when no id" do
+        expect(Collection.new.expand_with_child_collections).to eq([])
+      end
+      it "should return subset for collection1" do
+        collections = collections(:collection1).expand_with_child_collections.all
+        expect(collections).to include(collections(:collection1))
+        expect(collections).to include(collections(:collection_with_works))
+        expect(collections).to include(collections(:collection_with_works_child))
+
+        expect(collections).not_to include(collections(:collection3))
+      end
+    end
+
+    describe "#expand_with_parent_collections" do
+      it "should return only the root when expanded from root" do
+        expect(collections(:root_collection).expand_with_parent_collections).to eq([Collection.root_collection])
+      end
+      it "should return all parents" do
+        expect(collections(:collection_with_works_child).expand_with_parent_collections).to match_array([Collection.root_collection, collections(:collection_with_works_child), collections(:collection_with_works), collections(:collection1)])
+      end
+    end
+
     describe "#fields_to_expose" do
       it "should return almost all fields when fields_to_expose(:default)" do
         collection = collections(:collection4)
@@ -123,15 +149,32 @@ RSpec.describe Collection, type: :model do
         expect(c.sort_works_by).to eq :created_at
       end
     end
+
+    describe "#works_including_child_works" do
+      it "should return all child works" do
+        child_works = collections(:collection3).works_including_child_works
+        expect(child_works).to include(works(:work6))
+      end
+      it "should return child collections' works" do
+        child_works = collections(:collection1).works_including_child_works
+        expect(child_works).not_to include(works(:work6))
+        expect(child_works).to include(works(:work1))
+      end
+    end
+
   end
   describe "Class methods" do
     describe ".for_user_or_if_no_user_all" do
       it "returns all for nil user" do
-        expect(Collection.for_user_or_if_no_user_all.all).to eq(Collection.all)
+        expect(Collection.for_user_or_if_no_user_all.all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
       end
 
       it "returns all for admin user" do
-        expect(Collection.for_user_or_if_no_user_all(users(:admin)).all.collect(&:id).sort).to eq(Collection.all.collect(&:id).sort)
+        expect(Collection.for_user_or_if_no_user_all(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+      end
+
+      it "returns only base collection for user" do
+        expect(Collection.for_user(users(:facility_manager))).to eq([collections(:collection1)])
       end
     end
     describe ".expand_with_child_collections" do
@@ -158,12 +201,6 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Scopes" do
-    describe ".works_including_child_works" do
-      it "should return all child works" do
-        child_works = collections(:collection3).works_including_child_works
-        expect(child_works).to include(works(:work6))
-      end
-    end
     describe ".artist" do
       it "should return all works by certain artist" do
         artist_works = Work.artist(artists(:artist1))

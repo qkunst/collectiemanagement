@@ -2,16 +2,30 @@
 <div class="row">
 <div class="large-9 medium-9 columns">
 
-
-
 <h2>Overzicht van de clusters</h2>
 <p>Dit is een overzicht van clusters  in de collectie <%= link_to @collection.name, @collection %>. Nieuwe clusters kunnen gemaakt worden door werken te selecteren. Aan de onderkant van de pagina verschijnt dan de mogelijkheid om de geselecteerde werken toe te voegen aan een bestaand cluster, danwel een nieuw cluster.
+
+<% if !@collection.base_collection? %>
+<div class="panel">
+  <h5>Geen basis-collectie</h5>
+  <p>Deze collectie is geen basis-collectie, en deze collectie kan dus geen clusters bevatten. Nieuwe clusters worden gekoppeld aan <%= link_to @collection.base_collection.name, @collection.base_collection %>.
+</div>
+<% end %>
 
 <ul>
   <% @clusters.each do |cluster| %>
     <li><%= link_to cluster.name, collection_cluster_path(@collection, cluster) %> (<%= cluster.works.count %> werken)</li>
   <% end %>
 </ul>
+
+<% if @clusters_in_parent_collections.count > 0 %>
+<h3>Clusters in bovenliggende collecties</h3>
+<ul>
+  <% @clusters_in_parent_collections.each do |cluster| %>
+    <li><%= link_to cluster.name, collection_cluster_path(cluster.collection, cluster) %> (<%= cluster.works.count %> werken; behoort toe aan <%= link_to cluster.collection.name, cluster.collection%>)</li>
+  <% end %>
+</ul>
+<% end %>
 
 <% if @clusters_in_child_collections.count > 0 %>
 <h3>Clusters in onderliggende collecties</h3>

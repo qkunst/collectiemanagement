@@ -58,6 +58,10 @@ class User < ApplicationRecord
     collections.expand_with_child_collections
   end
 
+  def accessible_collections_sorted_by_label
+    accessible_collections.sort_by(&:to_label)
+  end
+
   def accessible_works
     return Work.all if admin?
     Work.where(collection_id: accessible_collections)

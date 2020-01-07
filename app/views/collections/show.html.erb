@@ -1,6 +1,6 @@
 <header class="row">
   <div class="large-12 columns">
-    <% if @collection.parent_collection %>
+    <% if @collection.parent_collection && !@collection.parent_collection.system? %>
       Maakt deel uit van:
       <%= @collection.parent_collections_flattened.collect{|a| a.can_be_accessed_by_user(current_user) ? link_to(a.name,a) : a.name}.join(" &raquo; ").html_safe%>
     <% end %>

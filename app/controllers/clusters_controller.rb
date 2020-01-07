@@ -7,6 +7,7 @@ class ClustersController < ApplicationController
   # GET /clusters.json
   def index
     @clusters = @collection.clusters.all
+    @clusters_in_parent_collections = Cluster.for_collection_including_generic(@collection) - @clusters
     @clusters_in_child_collections = Cluster.where(collection_id: (@collection.child_collections_flattened.to_a - [@collection])).includes(:collection).all
   end
 

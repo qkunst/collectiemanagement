@@ -10,7 +10,7 @@
       <h2>Toegang tot collecties</h2>
       <p>Indien de rol van de gebruiker administrator is wordt de selectie hieronder gebruikt als een lijst van favorieten, administratoren hebben toegang tot alle collecties, maar alleen de geselecteerde collecties worden getoond in het overzicht.</p>
       <input value="0" name="user[collection_ids][]" type="hidden">
-      <%= render partial: 'collections/collection_with_user_inputs', collection: current_user.accessible_collections.without_parent.all %>
+      <%= render partial: 'collections/collection_with_user_inputs', collection: current_user.accessible_collections.with_root_parent.all %>
 
       <%= f.submit class: :button %>
 

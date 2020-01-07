@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_03_084913) do
+ActiveRecord::Schema.define(version: 2020_01_06_162703) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "tablefunc"
 
   create_table "appraisals", id: :serial, force: :cascade do |t|
     t.date "appraised_on"
@@ -108,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_01_03_084913) do
     t.datetime "updated_at", null: false
     t.text "exposable_fields"
     t.text "description"
-    t.integer "parent_collection_id"
+    t.integer "parent_collection_id", default: 9
     t.string "label_override_work_alt_number_1"
     t.string "label_override_work_alt_number_2"
     t.string "label_override_work_alt_number_3"
@@ -118,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_01_03_084913) do
     t.text "collection_name_extended_cache"
     t.string "sort_works_by"
     t.boolean "base"
+    t.boolean "root", default: false
   end
 
   create_table "collections_geoname_summaries", id: :serial, force: :cascade do |t|

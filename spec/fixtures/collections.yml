@@ -1,5 +1,10 @@
+root_collection:
+  name: "-"
+  root: true
+
 collection1:
   name: Collection 1
+  parent_collection: :root_collection
 
 collection2:
   name: Collection 2 (sub of Collection 1)
@@ -21,9 +26,11 @@ collection_with_works_child:
 
 collection3:
   name: Collection 3
+  parent_collection: :root_collection
 
 collection_with_stages:
   name: Collection with stages
+  parent_collection: :root_collection
 
 collection_with_stages_child:
   name: Collection with stages child
@@ -31,6 +38,8 @@ collection_with_stages_child:
 
 boring_collection:
   name: Just a boring collection
+  parent_collection: :root_collection
 
 sub_boring_collection:
   name: Just a sub boring collection
+  parent_collection: :boring_collection

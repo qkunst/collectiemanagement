@@ -7,9 +7,7 @@ class CollectionsController < ApplicationController
   # GET /collections
   # GET /collections.json
   def index
-    @collections = Collection.for_user(current_user)
-    @collections = @collections.without_parent if @collections.count == Collection.count
-    @collections = @collections.all
+    @collections = Collection.for_user(current_user).all
     @title = "Collecties"
     current_user.reset_filters!
     if @collections.count == 1
@@ -183,7 +181,7 @@ class CollectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def collection_params
-      rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, exposable_fields:[], stage_ids: [], geoname_summary_ids: [])
+      rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, :base, exposable_fields:[], stage_ids: [], geoname_summary_ids: [])
       if rv[:geoname_summary_ids]
         rv[:geoname_summaries] = GeonameSummary.where(geoname_id: rv[:geoname_summary_ids])
         rv.delete(:geoname_summary_ids)

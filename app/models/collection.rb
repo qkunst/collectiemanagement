@@ -43,8 +43,11 @@ class Collection < ApplicationRecord
 
   default_scope ->{order(:name)}
 
-  scope :without_parent, ->{where(parent_collection_id: nil)}
+  scope :without_parent, ->{ where(parent_collection_id: nil) }
   scope :not_hidden, ->{ where("1=1")}
+  scope :not_system, ->{ where.not(root: true) }
+  scope :root_collections, ->{ where(root: true) }
+  scope :with_root_parent, ->{ where(parent_collection: Collection.root_collections) }
 
   before_save :cache_geoname_ids!
   before_save :cache_collection_name_extended!
@@ -93,6 +96,10 @@ class Collection < ApplicationRecord
     return self
   end
 
+  def base_collection?
+    base_collection == self
+  end
+
   def collections_stages?
     collections_stages.count > 0
   end
@@ -123,7 +130,7 @@ class Collection < ApplicationRecord
   end
 
   def to_label
-    self_and_parent_collections_flattened.select(&:name).collect(&:name).reverse.join(" > ")
+    collection_name_extended
   end
 
   def self_or_parent_collection_with_geoname_summaries
@@ -157,7 +164,7 @@ class Collection < ApplicationRecord
   end
 
   def works_including_child_works
-    Work.where(collection_id: id_plus_child_ids)
+    Work.where(collection: expand_with_child_collections)
   end
 
   def touch_parent
@@ -174,6 +181,10 @@ class Collection < ApplicationRecord
 
   def available_clusters
     Cluster.for_collection(self)
+  end
+
+  def system?
+    self.root?
   end
 
   def available_owners
@@ -193,7 +204,7 @@ class Collection < ApplicationRecord
   end
 
   def id_plus_child_ids
-    child_collections_flattened.map(&:id) + [self.id]
+    expand_with_child_collections.map(&:id)
   end
 
   def id_plus_parent_ids
@@ -205,15 +216,11 @@ class Collection < ApplicationRecord
   end
 
   def possible_parent_collections(options={})
-    Collection.for_user_or_if_no_user_all(options[:user]).all - [self] - child_collections_flattened
-  end
-
-  def child_collections_flattened
-    self.id ? Collection.find(self.id).child_collections.expand_with_child_collections : []
+    Collection.for_user_or_if_no_user_all(options[:user]).all - expand_with_child_collections - [self] + Collection.root_collections
   end
 
   def parent_collections_flattened
-    ([parent_collection] + [parent_collection].compact.collect{|a| a.parent_collection}.flatten).compact.reverse
+    ([parent_collection] + [parent_collection].compact.collect{|a| a.parent_collection unless a.parent_collection.nil? || a.parent_collection.system?}.flatten).compact.reverse
   end
 
   def self_and_parent_collections_flattened
@@ -221,6 +228,8 @@ class Collection < ApplicationRecord
   end
 
   def collection_name_extended
+    return @collection_name_extended if defined?(@collection_name_extended)
+
     # inefficient... but needed for proper order
     ids = parent_collections_flattened + [self.id]
     names = []
@@ -228,7 +237,8 @@ class Collection < ApplicationRecord
       c = Collection.where(id:collection_id).select(:name).first
       names << c.name if c
     end
-    names.join(" » ")
+
+    @collection_name_extended = names.join(" » ")
   end
 
   def exposable_fields
@@ -395,18 +405,38 @@ class Collection < ApplicationRecord
     end
   end
 
+  def expand_with_child_collections
+    self.id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
+from connectby('collections', 'id', 'parent_collection_id', '#{self.id}', 0, '~')
+as (id int, pid int, lvl int, branch text)) AS branches)") : Collection.none
+  end
+
+  def child_collections_flattened
+    expand_with_child_collections.where.not(id: self.id)
+  end
+
+  def expand_with_parent_collections
+    self.id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
+from connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~')
+as (id int, pid int, lvl int, branch text) WHERE id = #{self.id}) AS branches)") : []
+  end
+
   class << Collection
+    def root_collection
+      ::Collection.root_collections.first
+    end
+
     def all_plus_a_fake_super_collection
       [FakeSuperCollection.new] + self.all
     end
 
     def for_user user
-      return self if (user.admin? && !user.admin_with_favorites?)
+      return self.where.not(root: true) if (user.admin? && !user.admin_with_favorites?)
       self.joins(:users).where(users: {id: user.id})
     end
 
     def for_user_or_if_no_user_all user=nil
-      user ? self.for_user(user) : self
+      user ? self.for_user(user) : self.where.not(root: true)
     end
 
     def last_updated

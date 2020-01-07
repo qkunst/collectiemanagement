@@ -4,7 +4,7 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :description %>
-    <%= f.association :collection, collection: current_user.accessible_collections, input_html: {class: 'chosen-select'} %>
+    <%= f.association :collection, collection: current_user.accessible_collections.sort_by(&:to_label), input_html: {class: 'chosen-select'} %>
   </div>
 
   <div class="form-actions">
