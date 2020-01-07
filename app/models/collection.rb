@@ -128,10 +128,6 @@ class Collection < ApplicationRecord
     cached_geoname_ids && cached_geoname_ids.count > 0
   end
 
-  def to_label
-    collection_name_extended
-  end
-
   def self_or_parent_collection_with_geoname_summaries
     if geoname_summaries?
       return self
@@ -207,18 +203,9 @@ class Collection < ApplicationRecord
   end
 
   def collection_name_extended
-    return @collection_name_extended if defined?(@collection_name_extended)
-
-    # inefficient... but needed for proper order
-    ids = parent_collections_flattened + [self.id]
-    names = []
-    ids.each do | collection_id |
-      c = Collection.where(id:collection_id).select(:name).first
-      names << c.name if c
-    end
-
-    @collection_name_extended = names.join(" » ")
+    @collection_name_extended ||= self_and_parent_collections_flattened.map(&:name).join(" » ")
   end
+  alias_method :to_label, :collection_name_extended
 
   def exposable_fields
     read_attribute(:exposable_fields).to_s.split(",")

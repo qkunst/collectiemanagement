@@ -72,6 +72,13 @@ RSpec.describe Collection, type: :model do
         expect(col_with_stages_available_themes).to include(themes(:wind))
       end
     end
+
+    describe "#collection_name_extended" do
+      it "should have a logical order of parents" do
+        expect(collections(:collection_with_works_child).collection_name_extended).to eq("Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)")
+      end
+    end
+
     describe "#fields_to_expose" do
       it "should return almost all fields when fields_to_expose(:default)" do
         collection = collections(:collection4)
