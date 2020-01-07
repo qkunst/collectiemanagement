@@ -13,7 +13,7 @@ module CollectionOwnable
 
     scope :general, -> {where(collection_id: nil)}
     scope :collection_specific, -> {where.not(collection_id: nil)}
-    scope :for_collection_including_generic, ->(collection){where(collection_id: collection.id_plus_parent_ids+[nil])}
-    scope :for_collection, ->(collection){where(collection_id: collection.id_plus_parent_ids)}
+    scope :for_collection, ->(collection){ where(collection: collection.expand_with_parent_collections)}
+    scope :for_collection_including_generic, ->(collection){ for_collection(collection).or(general)}
   end
 end

@@ -16,6 +16,7 @@ end
 
 class Collection < ApplicationRecord
   include ColumnCache
+  include Collection::Hierarchy
 
   belongs_to :parent_collection, class_name: 'Collection', optional: true
 
@@ -45,9 +46,7 @@ class Collection < ApplicationRecord
 
   scope :without_parent, ->{ where(parent_collection_id: nil) }
   scope :not_hidden, ->{ where("1=1")}
-  scope :not_system, ->{ where.not(root: true) }
-  scope :root_collections, ->{ where(root: true) }
-  scope :with_root_parent, ->{ where(parent_collection: Collection.root_collections) }
+  scope :not_system, ->{ not_root }
 
   before_save :cache_geoname_ids!
   before_save :cache_collection_name_extended!
@@ -203,28 +202,8 @@ class Collection < ApplicationRecord
     (users + parent_collections_flattened.collect{|a| a.users_including_parent_users}).flatten.uniq
   end
 
-  def id_plus_child_ids
-    expand_with_child_collections.map(&:id)
-  end
-
-  def id_plus_parent_ids
-     (self.parent_collections_flattened.map(&:id) + [self.id]).flatten.uniq.compact
-  end
-
   def exposable_fields= array
     write_attribute(:exposable_fields,array.collect{|a| a.to_s.strip if a and a.to_s.strip != ""}.compact.join(","))
-  end
-
-  def possible_parent_collections(options={})
-    Collection.for_user_or_if_no_user_all(options[:user]).all - expand_with_child_collections - [self] + Collection.root_collections
-  end
-
-  def parent_collections_flattened
-    ([parent_collection] + [parent_collection].compact.collect{|a| a.parent_collection unless a.parent_collection.nil? || a.parent_collection.system?}.flatten).compact.reverse
-  end
-
-  def self_and_parent_collections_flattened
-    @self_and_parent_collections_flattened ||= Collection.where(id: id_plus_parent_ids)
   end
 
   def collection_name_extended
@@ -318,7 +297,7 @@ class Collection < ApplicationRecord
         bool: {
           must: [
             terms:{
-              "collection_id"=> options[:no_child_works] ? [id] : id_plus_child_ids
+              "collection_id"=> options[:no_child_works] ? [id] : expand_with_child_collections.map(&:id)
             }
           ]
         }
@@ -405,34 +384,19 @@ class Collection < ApplicationRecord
     end
   end
 
-  def expand_with_child_collections
-    self.id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
-from connectby('collections', 'id', 'parent_collection_id', '#{self.id}', 0, '~')
-as (id int, pid int, lvl int, branch text)) AS branches)") : Collection.none
-  end
-
-  def child_collections_flattened
-    expand_with_child_collections.where.not(id: self.id)
-  end
-
-  def expand_with_parent_collections
-    self.id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
-from connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~')
-as (id int, pid int, lvl int, branch text) WHERE id = #{self.id}) AS branches)") : []
-  end
-
   class << Collection
-    def root_collection
-      ::Collection.root_collections.first
-    end
-
     def all_plus_a_fake_super_collection
       [FakeSuperCollection.new] + self.all
     end
 
     def for_user user
-      return self.where.not(root: true) if (user.admin? && !user.admin_with_favorites?)
-      self.joins(:users).where(users: {id: user.id})
+      return self.not_system.with_root_parent if (user.admin? && !user.admin_with_favorites?)
+      self.joins(:users).where(users: {id: user.id}).not_system
+    end
+
+    def for_user_expanded user
+      return self.not_system if (user.admin? && !user.admin_with_favorites?)
+      self.joins(:users).where(users: {id: user.id}).not_system.expand_with_child_collections
     end
 
     def for_user_or_if_no_user_all user=nil
@@ -441,25 +405,6 @@ as (id int, pid int, lvl int, branch text) WHERE id = #{self.id}) AS branches)")
 
     def last_updated
       order(:updated_at).last
-    end
-
-    def expand_with_child_collections(depth = 5)
-      raise ArgumentError, "depth can't be < 1" if depth < 1
-      join_sql = "LEFT OUTER JOIN collections c1_cs ON collections.id = c1_cs.parent_collection_id "
-      select_sql = "collections.id AS _child_level0, c1_cs.id AS _child_level1"
-      depth -= 1 # we already have depth = 1
-      depth.times do |dept|
-        join_sql += "LEFT OUTER JOIN collections c#{(2+dept).to_i}_cs ON c#{(1+dept).to_i}_cs.id = c#{(2+dept).to_i}_cs.parent_collection_id "
-        select_sql += ", c#{(2+dept).to_i}_cs.id AS _child_level#{(2+dept).to_i}"
-      end
-      ids = []
-      self.
-        joins(join_sql).
-        select(select_sql).
-        each do | intermediate_result |
-          (depth + 1).times { |a| ids << intermediate_result.send("_child_level#{a}".to_sym) }
-        end
-      ::Collection.unscoped.where(id: ids.compact.uniq)
     end
   end
 end

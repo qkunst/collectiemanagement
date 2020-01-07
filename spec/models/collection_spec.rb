@@ -72,39 +72,6 @@ RSpec.describe Collection, type: :model do
         expect(col_with_stages_available_themes).to include(themes(:wind))
       end
     end
-
-    describe "#child_collections_flattened" do
-      it "should return all childs" do
-        expect(collections(:collection1).child_collections_flattened.map(&:id).sort).to eq([collections(:collection2),collections(:collection4), collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
-      end
-    end
-
-    describe "#expand_with_child_collections" do
-      it "should return all collections when expanded from root" do
-        expect(collections(:root_collection).expand_with_child_collections.count).to eq(Collection.all.count)
-      end
-      it "should return empty array when no id" do
-        expect(Collection.new.expand_with_child_collections).to eq([])
-      end
-      it "should return subset for collection1" do
-        collections = collections(:collection1).expand_with_child_collections.all
-        expect(collections).to include(collections(:collection1))
-        expect(collections).to include(collections(:collection_with_works))
-        expect(collections).to include(collections(:collection_with_works_child))
-
-        expect(collections).not_to include(collections(:collection3))
-      end
-    end
-
-    describe "#expand_with_parent_collections" do
-      it "should return only the root when expanded from root" do
-        expect(collections(:root_collection).expand_with_parent_collections).to eq([Collection.root_collection])
-      end
-      it "should return all parents" do
-        expect(collections(:collection_with_works_child).expand_with_parent_collections).to match_array([Collection.root_collection, collections(:collection_with_works_child), collections(:collection_with_works), collections(:collection1)])
-      end
-    end
-
     describe "#fields_to_expose" do
       it "should return almost all fields when fields_to_expose(:default)" do
         collection = collections(:collection4)
@@ -125,15 +92,6 @@ RSpec.describe Collection, type: :model do
       it "should return the parent collection marked as base when it exists" do
         expect(collections(:collection_with_works_child).base_collection).to eq(collections(:collection_with_works))
         expect(collections(:collection_with_works).base_collection).to eq(collections(:collection_with_works))
-      end
-    end
-
-    describe "#parent_collections_flattened" do
-      it "should return the oldest parent, then that child ." do
-        collection = collections(:collection4)
-        expect(collection.parent_collections_flattened[0]).to eq(collections(:collection1))
-        expect(collection.parent_collections_flattened[1]).to eq(collections(:collection2))
-        expect(collection.parent_collections_flattened[2]).to eq(nil)
       end
     end
 
@@ -164,39 +122,23 @@ RSpec.describe Collection, type: :model do
 
   end
   describe "Class methods" do
-    describe ".for_user_or_if_no_user_all" do
-      it "returns all for nil user" do
-        expect(Collection.for_user_or_if_no_user_all.all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
-      end
-
-      it "returns all for admin user" do
-        expect(Collection.for_user_or_if_no_user_all(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+    describe ".for_user" do
+      it "returns collections with root parent for admin user" do
+        expect(Collection.for_user(users(:admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.all.collect(&:id).sort)
       end
 
       it "returns only base collection for user" do
         expect(Collection.for_user(users(:facility_manager))).to eq([collections(:collection1)])
       end
     end
-    describe ".expand_with_child_collections" do
-      it "returns child collections" do
-        set = Collection.where(name: "Collection 1").expand_with_child_collections
-        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
+
+    describe ".for_user_expanded" do
+      it "returns collections with root parent for admin user" do
+        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
       end
-      it "returns child collections until depth 1" do
-        set = Collection.where(name: "Collection 1").expand_with_child_collections(2)
-        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection_with_works)].map(&:id).sort)
-      end
-      it "works with larger start-set that includes child" do
-        set = Collection.where(name: ["Collection 1", "Collection 2"]).expand_with_child_collections
-        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
-      end
-      it "works with larger start-set that does not  include child" do
-        set = Collection.where(name: ["Collection 1", "Collection 3"]).expand_with_child_collections
-        # expect(set.class).to eq(Collection::ActiveRecord_Relation)
-        expect(set.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection3),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
+
+      it "returns only base collection for user" do
+        expect(Collection.for_user_expanded(users(:facility_manager)).all.collect(&:id).sort).to eq(collections(:collection1).expand_with_child_collections.all.collect(&:id).sort)
       end
     end
   end

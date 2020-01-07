@@ -8,6 +8,7 @@ class CollectionsController < ApplicationController
   # GET /collections.json
   def index
     @collections = Collection.for_user(current_user).all
+
     @title = "Collecties"
     current_user.reset_filters!
     if @collections.count == 1

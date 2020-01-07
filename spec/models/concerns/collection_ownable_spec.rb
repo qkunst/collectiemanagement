@@ -4,6 +4,26 @@ require 'rails_helper'
 
 
 RSpec.describe CollectionOwnable, type: :model do
+  describe "scopes" do
+    describe ".for_collection_including_generic" do
+      it "should include generic themes" do
+        expect(Theme.for_collection_including_generic(collections(:collection_with_stages))).to include(themes(:earth))
+      end
+      it "should include private themes" do
+        expect(Theme.for_collection_including_generic(collections(:collection_with_stages))).to include(themes(:wind_private_to_collection_with_stages))
+        expect(Theme.for_collection_including_generic(collections(:collection_with_stages_child))).to include(themes(:wind_private_to_collection_with_stages))
+      end
+    end
+    describe ".for_collection" do
+      it "should include generic themes" do
+        expect(Theme.for_collection(collections(:collection_with_stages))).not_to include(themes(:earth))
+      end
+      it "should include private themes" do
+        expect(Theme.for_collection(collections(:collection_with_stages))).to include(themes(:wind_private_to_collection_with_stages))
+        expect(Theme.for_collection(collections(:collection_with_stages_child))).to include(themes(:wind_private_to_collection_with_stages))
+      end
+    end
+  end
   describe "actually Theme that includes CollectionOwnable" do
     it "should validate name" do
       expect { Theme.create!(name: nil) }.to raise_error(ActiveRecord::RecordInvalid)
