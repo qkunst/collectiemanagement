@@ -88,11 +88,12 @@ class Collection < ApplicationRecord
     if base
       return self
     else
-      parent_collections_flattened.reverse.each do |coll|
-        return coll if coll.base?
-      end
+      base_collections.last || self
     end
-    return self
+  end
+
+  def base_collections
+    expand_with_parent_collections(:desc).not_system.where(base:true)
   end
 
   def base_collection?

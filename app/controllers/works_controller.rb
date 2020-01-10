@@ -221,7 +221,7 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works = versions.collect{|a| a.reify}.compact
+    @works = versions.includes(:item).collect{|a| a.reify}.compact
   end
 
   # DELETE /works/1

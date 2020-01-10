@@ -30,12 +30,20 @@ module Collection::Hierarchy
       expand_with_child_collections.where.not(id: self.id)
     end
 
-    def expand_with_parent_collections
-      self.id ? Collection.unscope(:order).joins("INNER JOIN (
-        SELECT CAST(regexp_split_to_table(branch,'~') AS INTEGER) AS branch_split, branch
-          FROM connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~') as (id int, pid int, lvl int, branch text)
-          WHERE id = #{self.id}
-        ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split") : Collection.none
+    def expand_with_parent_collections(order = nil)
+      if self.persisted?
+        ar_relation = Collection.unscope(:order).joins("INNER JOIN (
+          SELECT CAST(regexp_split_to_table(branch,'~') AS INTEGER) AS branch_split, branch, lvl, pid
+            FROM connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~') as (id int, pid int, lvl int, branch text)
+            WHERE id = #{self.id}
+          ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split")
+        if order
+          ar_relation = ar_relation.select("collections.*, position(concat('~', id) IN branch) AS depth").order(depth: order)
+        end
+        ar_relation
+      else
+        Collection.none
+      end
     end
   end
 

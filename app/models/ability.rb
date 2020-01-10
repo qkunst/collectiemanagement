@@ -126,6 +126,9 @@ class Ability
         can :read, Collection, id: accessible_collection_ids
         can :read, Work, collection_id: accessible_collection_ids
       end
+
+      cannot :manage, Collection, root: true
+
     end
 
     # Define abilities for the passed in user here. For example:
