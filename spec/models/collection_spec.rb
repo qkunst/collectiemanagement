@@ -33,7 +33,57 @@ RSpec.describe Collection, type: :model do
         collection.save
         w.reload
         expect(w.collection_locality_artist_involvements_texts_cache).not_to eq("['abc']")
+      end
+    end
 
+    describe "before save" do
+      before(:each) do
+        collections(:sub_boring_collection).themes.create(name: "boring theme")
+        collections(:boring_collection).themes.create(name: "boring theme")
+        collections(:sub_boring_collection).clusters.create(name: "boring unique cluster")
+        collections(:boring_collection).clusters.create(name: "boring unique cluster")
+
+        [:sub_boring_collection, :boring_collection].each do |cname|
+          collection = collections(cname)
+          5.times do |counter|
+            work = collection.works.create(title: "Work #{counter}")
+            work.themes = collection.themes
+            work.cluster = collection.clusters.first
+            work.save
+          end
+        end
+
+      end
+      it "#attach_sub_collection_ownables_when_base" do
+        expect(collections(:sub_boring_collection).themes.count).to eq(1)
+        expect(collections(:sub_boring_collection).clusters.count).to eq(1)
+        expect(collections(:boring_collection).themes.count).to eq(1)
+        expect(collections(:boring_collection).clusters.count).to eq(1)
+        expect(collections(:sub_boring_collection).themes.first.works.count).to eq(5)
+        expect(collections(:sub_boring_collection).clusters.first.works.count).to eq(5)
+
+        boring_collection_theme = collections(:boring_collection).themes.first
+        boring_collection_cluster = collections(:boring_collection).clusters.first
+
+        expect(boring_collection_theme.works.count).to eq(5)
+        expect(boring_collection_cluster.works.count).to eq(5)
+
+        c = collections(:boring_collection)
+        c.base = true
+        c.save
+        expect(collections(:sub_boring_collection).themes.count).to eq(0)
+        expect(collections(:sub_boring_collection).clusters.count).to eq(0)
+        expect(collections(:boring_collection).themes.count).to eq(2)
+        expect(collections(:boring_collection).themes.not_hidden.count).to eq(1)
+        expect(collections(:boring_collection).clusters.count).to eq(1)
+
+        boring_collection_theme.reload
+        boring_collection_cluster.reload
+
+        expect(collections(:boring_collection).works_including_child_works.count).to eq(10)
+
+        expect(boring_collection_theme.works.count).to eq(10)
+        expect(boring_collection_cluster.works.count).to eq(10)
       end
     end
   end
@@ -126,7 +176,6 @@ RSpec.describe Collection, type: :model do
         expect(child_works).to include(works(:work1))
       end
     end
-
   end
   describe "Class methods" do
     describe ".for_user" do

@@ -141,7 +141,7 @@ class Work < ApplicationRecord
       clust = self.collection.available_clusters.find_by_case_insensitive_name(stripped_name).first
       self.cluster = clust
       if self.cluster.nil?
-        self.cluster = self.collection.clusters.create!(name: stripped_name)
+        self.cluster = self.collection.base_collection.clusters.create!(name: stripped_name)
       end
     end
   end

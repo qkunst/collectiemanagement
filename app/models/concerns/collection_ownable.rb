@@ -6,7 +6,10 @@ module CollectionOwnable
   included do
     belongs_to :collection, optional: true
 
-    if self.column_names.include? "name"
+    if self.column_names.include? "name" and self.column_names.include? "hide"
+      validates_presence_of :name
+      validates_uniqueness_of :name, scope: :collection_id, unless: ->(a){ a.hidden? }
+    elsif self.column_names.include? "name"
       validates_presence_of :name
       validates_uniqueness_of :name, scope: :collection_id
     end

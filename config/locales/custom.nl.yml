@@ -377,6 +377,7 @@ nl:
         stages: Procesfases die gelden voor deze (en onderliggende) collectie
         order: Volgorde
         hide: Verberg
+        base: Basis collectie
         internal_comments: Interne opmerkingen
         parent_collection: Maakt onderdeel uit van de collectie
         label_override_work_alt_number_1: Label voor alternatief nummer 1

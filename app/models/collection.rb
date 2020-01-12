@@ -14,6 +14,10 @@ class FakeSuperCollection
   end
 end
 
+class CollectionBaseError < StandardError
+
+end
+
 class Collection < ApplicationRecord
   include ColumnCache
   include Collection::Hierarchy
@@ -50,6 +54,7 @@ class Collection < ApplicationRecord
 
   before_save :cache_geoname_ids!
   before_save :cache_collection_name_extended!
+  before_save :attach_sub_collection_ownables_when_base
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
@@ -369,6 +374,42 @@ class Collection < ApplicationRecord
         type:  document_type,
         id:    elastic_id_to_remove
       })
+    end
+  end
+
+  def attach_sub_collection_ownables_when_base
+    if persisted? && self.changes.keys.include?("base")
+      child_collection_ids = expand_with_child_collections.select{|c| c.id unless (c.base? || c == self)}.compact
+
+      Theme.where(collection_id: child_collection_ids).each do | instance |
+        instance.collection = self
+        unless instance.save
+          if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
+            existing_instance = Theme.where(name: instance.name, collection_id: self.id).first
+            existing_instance.works += instance.works
+            existing_instance.save
+
+            instance.hide = true
+            instance.save
+          else
+            raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{self.id}")
+          end
+        end
+      end
+
+      Cluster.where(collection_id: child_collection_ids).each do | instance |
+        instance.collection = self
+        unless instance.save
+          if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
+            existing_instance = Cluster.where(name: instance.name, collection_id: self.id).first
+
+            instance.works.update_all(cluster_id: existing_instance.id)
+            instance.destroy
+          else
+            raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{self.id}")
+          end
+        end
+      end
     end
   end
 
