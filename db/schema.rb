@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_162703) do
+ActiveRecord::Schema.define(version: 2020_01_12_133633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,14 +18,18 @@ ActiveRecord::Schema.define(version: 2020_01_06_162703) do
 
   create_table "appraisals", id: :serial, force: :cascade do |t|
     t.date "appraised_on"
-    t.float "market_value"
-    t.float "replacement_value"
+    t.decimal "market_value", precision: 16, scale: 2
+    t.decimal "replacement_value", precision: 16, scale: 2
     t.string "appraised_by"
     t.integer "user_id"
     t.text "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "work_id"
+    t.decimal "market_value_min", precision: 16, scale: 2
+    t.decimal "market_value_max", precision: 16, scale: 2
+    t.decimal "replacement_value_min", precision: 16, scale: 2
+    t.decimal "replacement_value_max", precision: 16, scale: 2
   end
 
   create_table "artist_involvements", id: :serial, force: :cascade do |t|
@@ -120,6 +124,7 @@ ActiveRecord::Schema.define(version: 2020_01_06_162703) do
     t.string "sort_works_by"
     t.boolean "base"
     t.boolean "root", default: false
+    t.boolean "appraise_with_ranges"
   end
 
   create_table "collections_geoname_summaries", id: :serial, force: :cascade do |t|
@@ -578,9 +583,9 @@ ActiveRecord::Schema.define(version: 2020_01_06_162703) do
     t.text "source_comments"
     t.integer "style_id"
     t.integer "subset_id"
-    t.float "market_value"
-    t.float "replacement_value"
-    t.float "purchase_price"
+    t.decimal "market_value", precision: 16, scale: 2
+    t.decimal "replacement_value", precision: 16, scale: 2
+    t.decimal "purchase_price", precision: 16, scale: 2
     t.text "price_reference"
     t.string "grade_within_collection"
     t.datetime "created_at", null: false
@@ -618,6 +623,10 @@ ActiveRecord::Schema.define(version: 2020_01_06_162703) do
     t.datetime "inventoried_at"
     t.datetime "refound_at"
     t.datetime "new_found_at"
+    t.decimal "market_value_min", precision: 16, scale: 2
+    t.decimal "market_value_max", precision: 16, scale: 2
+    t.decimal "replacement_value_min", precision: 16, scale: 2
+    t.decimal "replacement_value_max", precision: 16, scale: 2
   end
 
 end
