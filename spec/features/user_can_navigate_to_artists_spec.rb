@@ -79,6 +79,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     login "qkunst-test-appraiser@murb.nl"
 
     click_on "Collecties"
+    click_on "Collection 1"
     within "#responsive-menu" do
       click_on "Vervaardigers"
     end

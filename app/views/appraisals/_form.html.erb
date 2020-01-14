@@ -8,25 +8,47 @@
   </div>
 
   <div class="row">
-    <div class="medium-12 columns"><%= f.input :market_value %></div>
-    <div class="medium-12 columns"><%= f.input :replacement_value %></div>
+    <% if @collection.appraise_with_ranges? %>
+      <div class="medium-12 columns"><%= f.input :market_value_range, collection: Appraisal::MARKET_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %></div>
+      <div class="medium-12 columns"><%= f.input :replacement_value_range, collection: Appraisal::REPLACEMENT_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %></div>
+    <% else %>
+      <div class="medium-12 columns"><%= f.input :market_value %></div>
+      <div class="medium-12 columns"><%= f.input :replacement_value %></div>
+    <% end %>
   </div>
 
     <%= f.input :reference %>
 
-    <fieldset>
-      <legend>Aankoopgegevens</legend>
-      <%= f.simple_fields_for :work do |wf| %>
-        <%= wf.input :purchased_on, html5: true%>
-        <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
+    <%= f.simple_fields_for :work do |wf| %>
+      <fieldset>
+        <legend>Aankoopgegevens</legend>
+          <%= wf.input :purchased_on, html5: true%>
+          <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
+          <div class="row">
+            <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
+            <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
+          </div>
+          <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
+          <%= wf.input :source_comments %>
+      </fieldset>
+      <fieldset>
+        <legend>Verkoop</legend>
+        <%= wf.input :minimum_bid%>
+        <%= wf.input :selling_price%>
+      </fieldset>
+      <fieldset>
+        <legend>Andere werk-eigenschappen</legend>
+        <%= wf.input :grade_within_collection, collection: %w{A B C D E F G}, default: nil %>
+        <%= wf.input :main_collection  %>
+        <%= wf.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden, default: nil %>
         <div class="row">
-          <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
-          <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
+          <div class="medium-8 columns"><%= wf.input :print %></div>
+          <div class="medium-4 columns"><%= wf.input :print_unknown %></div>
         </div>
-        <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
+        <%= wf.input :other_comments %>
+      </fieldset>
+    <% end %>
 
-      <% end %>
-    </fieldset>
   </div>
 
   <div class="form-actions">

@@ -81,6 +81,9 @@ class AppraisalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def appraisal_params
-      params.require(:appraisal).permit(:appraised_on, :market_value, :replacement_value, :appraised_by, :user_id, :reference, work_attributes: [:id, :purchased_on, :purchase_year, :purchase_price, :purchase_price_currency_id, source_ids: []] )
+      params.require(:appraisal).permit(:appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :user_id, :reference, work_attributes: [
+        :id, :purchased_on, :purchase_year, :purchase_price, :purchase_price_currency_id, :print, :print_unknown, :source_comments,
+        :grade_within_collection, :main_collection, :owner_id, :other_comments, :minimum_bid, :selling_price, source_ids: []
+      ] )
     end
 end

@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require_relative 'feature_helper'
 
 RSpec.feature "AdvisorCanBatchEdit", type: :feature do
+  include FeatureHelper
+
   scenario "move work to subcollection in cluster" do
-    # sign_in# (:admin)
-    visit root_path
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-test-advisor@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-test-advisor@murb.nl"
+
     click_on "Collecties"
     if page.body.match("id=\"list-to-filter\"")
       within "#list-to-filter" do

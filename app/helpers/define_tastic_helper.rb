@@ -64,18 +64,24 @@ module DefineTasticHelper
         value = property
       end
 
-      if value.methods.include? :collect
+      if value.is_a? Range
+        values = [value.min, value.max]
+      elsif value.methods.include? :collect
         values = value.collect{|val| val}
       else
         values = [value]
       end
-      values = values.compact
 
-      value = values.collect do |val|
+      values = values.compact.collect do |val|
         val = apply_modifier_to_value(modifier_func, val)
         humanize_value(val, options.select{|k,v| k == :human_attribute_value})
-      end.to_sentence
+      end
 
+      value = if value.is_a?(Range)
+          values.join("-")
+        else
+          values.to_sentence
+        end
     end
     return value.html_safe
   end

@@ -88,6 +88,17 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "methods" do
+    describe "#appraise_with_ranges?" do
+      it "should return false by default" do
+        expect(collections(:collection_with_stages_child).appraise_with_ranges?).to eq(false)
+      end
+      it "should return true when self true" do
+        expect(collections(:collection1).appraise_with_ranges?).to eq(true)
+      end
+      it "should return true when parent true" do
+        expect(collections(:collection_with_works).appraise_with_ranges?).to eq(true)
+      end
+    end
     describe "#available_clusters" do
       it "should list all private clusters" do
         expect(collections(:collection_with_works).available_clusters).to include(clusters(:cluster1))

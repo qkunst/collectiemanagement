@@ -61,6 +61,7 @@ appraiser:
   appraiser: true
   collections:
     - :collection1
+    - :collection3
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 advisor:
   email: qkunst-test-advisor@murb.nl

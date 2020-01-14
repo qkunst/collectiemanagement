@@ -182,7 +182,9 @@ nl:
         appraised_by: Waardering door
         reference: Referentie / Opmerkingen
         replacement_value: Vervangingswaarde (€)
+        replacement_value_range: Vervangingswaardecategorie (€)
         market_value: Marktwaarde (€)
+        market_value_range: Marktwaardecategorie (€)
         appraised_on: Gewaardeerd op
       attachment:
         file: Bestand
@@ -221,7 +223,6 @@ nl:
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
         appraisals: Waarderingen
-        appraisals: Waarderingen (log)
         artists: Vervaardigers
         artist_name_rendered: Vervaardiger(s)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
@@ -285,8 +286,10 @@ nl:
         location_raw: Adres en/of gebouw(deel)
         main_collection: Kerncollectie
         market_value: Marktwaarde (€)
+        market_value_range: Marktwaardecategorie (€)
         medium: Drager
         medium_comments: Toelichting drager
+        minimum_bid: Startbod
         new_found: Nieuw aangetroffen
         new_found_at: Nieuw aangetroffen op
         no_signature_present: Geen signatuur aanwezig
@@ -304,6 +307,8 @@ nl:
         placeability: Plaatsbaarheid
         price_reference: Prijsreferentie
         print: Oplage
+        print_rendered: Oplage
+        print_unknown: Oplage onbekend
         public_description: Toelichting bij kunstwerk
         publish: Publiceer
         purchased_on: Aankoopdatum
@@ -314,6 +319,8 @@ nl:
         refound: Teruggevonden
         refound_at: Teruggevonden op
         replacement_value: Vervangingswaarde (€)
+        replacement_value_range: Vervangingswaardecategorie (€)
+        selling_price: Verkoopprijs
         signature: Signatuur
         signature_comments: Signatuur (incl. locatie)
         signature_rendered: Signatuur
@@ -370,21 +377,22 @@ nl:
         order: Volgorde
         hide: Verberg
       collection:
-        name: Naam
-        description: Toelichting bij collectie
-        external_reference_code: Externe referentiecode
-        exposable_fields: Beschikbare velden
-        stages: Procesfases die gelden voor deze (en onderliggende) collectie
-        order: Volgorde
-        hide: Verberg
+        appraise_with_ranges: Taxeer met prijscategorieën
         base: Basis collectie
+        collections_stage_delivery_on: Opleverdatum
+        description: Toelichting bij collectie
+        exposable_fields: Beschikbare velden
+        external_reference_code: Externe referentiecode
+        hide: Verberg
         internal_comments: Interne opmerkingen
-        parent_collection: Maakt onderdeel uit van de collectie
         label_override_work_alt_number_1: Label voor alternatief nummer 1
         label_override_work_alt_number_2: Label voor alternatief nummer 2
         label_override_work_alt_number_3: Label voor alternatief nummer 3
-        collections_stage_delivery_on: Opleverdatum
+        name: Naam
+        order: Volgorde
+        parent_collection: Maakt onderdeel uit van de collectie
         sort_works_by: Sorteer werken op
+        stages: Procesfases die gelden voor deze (en onderliggende) collectie
       custom_report_template:
         title: Titel
         text: Template text

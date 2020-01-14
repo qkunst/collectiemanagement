@@ -5,6 +5,7 @@ root_collection:
 collection1:
   name: Collection 1
   parent_collection: :root_collection
+  appraise_with_ranges: true
 
 collection2:
   name: Collection 2 (sub of Collection 1)

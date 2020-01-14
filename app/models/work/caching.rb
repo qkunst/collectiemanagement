@@ -48,6 +48,10 @@ module Work::Caching
       if latest_appraisal
         self.market_value = latest_appraisal.market_value
         self.replacement_value = latest_appraisal.replacement_value
+        self.replacement_value_min = latest_appraisal.replacement_value_min
+        self.replacement_value_max = latest_appraisal.replacement_value_max
+        self.market_value_min = latest_appraisal.market_value_min
+        self.market_value_max = latest_appraisal.market_value_max
         self.price_reference = latest_appraisal.reference
         self.valuation_on = latest_appraisal.appraised_on
       else

@@ -29,7 +29,8 @@ RSpec.describe Ability, type: :model do
     :appraiser => {
       "Collections" => [
         [:read, :collection, :collection_with_works, true],
-        [:read, :collection, :collection3, false],
+        [:read, :collection, :collection3, true],
+        [:read, :collection, :collection_with_stages, false],
         [:manage_collection, :collection, :collection_with_works, false],
         [:review_collection, :collection, :collection_with_works, false],
         [:read_report, :collection, :collection_with_works, true],
@@ -39,7 +40,8 @@ RSpec.describe Ability, type: :model do
         [:read, :work, :work1, true],
         [:edit, :work, :work1, true],
         [:edit_location, :work, :work1, true],
-        [:read, :work, :work6, false],
+        [:read, :work, :work6, true],
+        [:read, :work, :work_with_private_theme, false],
         [:show_details, :work, :work1, true],
       ],
     },

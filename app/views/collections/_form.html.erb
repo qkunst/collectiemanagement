@@ -85,14 +85,16 @@
   <section id="manage">
     <h3>Beheer</h3>
     <% if @collection.id %>
-    <p>Wanneer je kiest voor het verwijderen van een collectie orden ook alle onderliggende werken definitief verwijderd.</p>
-    <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties en de werken die zich in die collecties bevinden. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
-    <h4>Basis collectie</h4>
-    <p>Selecteer 'basis collectie' wanneer deze collectie de thema's en clusters dient te bevatten voor alle onderliggende collecties. Hierna worden de thema's en collecties automatisch gekoppeld aan deze collectie. Dit laatste kan niet meer teruggedraaid worden.</p>
-    <%= f.input :base%>
+      <p>Wanneer je kiest voor het verwijderen van een collectie orden ook alle onderliggende werken definitief verwijderd.</p>
+      <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties en de werken die zich in die collecties bevinden. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
     <% else %>
     <p>Onder beheer kan een collectie t.z.t. worden verwijderd.</p>
     <% end %>
+    <h4>Basis collectie</h4>
+    <p>Selecteer 'basis collectie' wanneer deze collectie de thema's en clusters dient te bevatten voor alle onderliggende collecties. Hierna worden de thema's en collecties automatisch gekoppeld aan deze collectie. Dit laatste kan niet meer teruggedraaid worden.</p>
+    <%= f.input :base%>
+    <h4>Verder</h4>
+    <%= f.input :appraise_with_ranges %>
   </section>
 </div>
 

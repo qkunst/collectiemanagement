@@ -16,8 +16,8 @@
         <% @work.appraisals.descending_appraisal_on.each do |appraisal| %>
           <tr>
             <td><%= I18n.l appraisal.appraised_on, format: :short_month_year if appraisal.appraised_on%></td>
-            <td><%= number_to_currency appraisal.market_value %></td>
-            <td><%= number_to_currency appraisal.replacement_value %></td>
+            <td><%= appraisal.market_value ? number_to_currency(appraisal.market_value) : "#{number_to_currency(appraisal.market_value_min)}-#{number_to_currency(appraisal.market_value_max)}"%></td>
+            <td><%= appraisal.replacement_value ? number_to_currency(appraisal.replacement_value) : "#{number_to_currency(appraisal.replacement_value_min)}-#{number_to_currency(appraisal.replacement_value_max)}"%></td>
             <td><%= appraisal.appraised_by %></td>
             <td>
             </td>

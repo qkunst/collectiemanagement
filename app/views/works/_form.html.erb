@@ -51,33 +51,34 @@
     </fieldset>
     <fieldset>
       <legend>Object</legend>
-      <%= f.input :title  %>
-      <%= f.input :title_unknown  %>
-      <%= f.input :description   %>
-      <%= f.input( :object_creation_year, input_html: {step: 0, maxlength: 4, type: :text})   %>
+      <%= f.input :title %>
+      <%= f.input :title_unknown %>
+      <%= f.input :description %>
+      <%= f.input :object_creation_year, input_html: {step: 0, maxlength: 4, type: :text}   %>
       <%= f.input :object_creation_year_unknown   %>
-      <%= f.association( :object_categories, input_html: {class: 'chosen-select'}, collection: ObjectCategory.not_hidden )  %>
-      <%= f.association( :techniques, input_html: {class: 'chosen-select'}, collection: Technique.not_hidden)  %>
-      <%= f.association( :medium, input_html: {class: 'chosen-select'}, collection: Medium.not_hidden)   %>
-      <%= f.input :medium_comments   %>
-      <%= f.association( :frame_type, input_html: {class: 'chosen-select'}, collection: FrameType.not_hidden)   %>
-      <%= f.input :signature_comments   %>
-      <%= f.input :no_signature_present   %>
-      <%= f.input :print   %>
+      <%= f.association :object_categories, input_html: {class: 'chosen-select'}, collection: ObjectCategory.not_hidden %>
+      <%= f.association :techniques, input_html: {class: 'chosen-select'}, collection: Technique.not_hidden %>
+      <%= f.association :medium, input_html: {class: 'chosen-select'}, collection: Medium.not_hidden %>
+      <%= f.input :medium_comments %>
+      <%= f.association :frame_type, input_html: {class: 'chosen-select'}, collection: FrameType.not_hidden %>
+      <%= f.input :signature_comments %>
+      <%= f.input :no_signature_present %>
+      <%= f.input :print %>
+      <%= f.input :print_unknown %>
     </fieldset>
     <fieldset>
       <legend>Afmetingen</legend>
       <div class="row">
-        <div class="medium-3 columns"><%= f.input(:frame_width, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:frame_height, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:frame_depth, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:frame_diameter, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input :frame_width, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :frame_height, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :frame_depth, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :frame_diameter, input_html: {type: :text} %></div>
       </div>
       <div class="row">
-        <div class="medium-3 columns"><%= f.input(:width, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:height, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:depth, input_html: {type: :text})  %></div>
-        <div class="medium-3 columns"><%= f.input(:diameter, input_html: {type: :text})  %></div>
+        <div class="medium-3 columns"><%= f.input :width, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :height, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :depth, input_html: {type: :text} %></div>
+        <div class="medium-3 columns"><%= f.input :diameter, input_html: {type: :text} %></div>
       </div>
     </fieldset>
     <fieldset>
@@ -99,7 +100,7 @@
       <%= f.input :other_comments  %>
       <%= f.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
       <%= f.input :source_comments  %>
-      <%= f.association( :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden) %>
+      <%= f.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden %>
     </fieldset>
     <fieldset>
       <legend>Typering</legend>

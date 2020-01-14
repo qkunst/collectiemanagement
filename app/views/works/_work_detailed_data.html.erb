@@ -47,7 +47,7 @@
       <%= define_unless_blank :locality_geoname_name, {classname: :complete_data} %>
       <%= define_unless_blank :cluster, {classname: :complete_data} %>
     <% end%>
-    <%= define_unless_blank :print  %>
+    <%= define_unless_blank :print_rendered  %>
   <% end %>
   </div>
   <div class="medium-6 columns">
@@ -71,6 +71,10 @@
       <% end %>
       <%= define_unless_blank :market_value, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+      <%= define_unless_blank :market_value_range, modifier: :number_to_currency, description: "Marktwaarde" %>
+      <%= define_unless_blank :replacement_value_range, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+      <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
+      <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
       <%= define_unless_blank :valuation_on %>
       <% if can?(:read_valuation_reference, work.collection) %>
         <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>

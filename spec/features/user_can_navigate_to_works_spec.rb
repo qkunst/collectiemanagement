@@ -43,7 +43,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
         click_on "Collecties"
         expect(page).to have_content('Collection 1')
 
-        click_on "Collection 1" if email_address == "qkunst-admin-user@murb.nl"
+        click_on "Collection 1" if ["qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
 
         expect(page).to have_content('Doorzoek de werken')
         within "#responsive-menu" do
@@ -86,7 +86,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
         click_on "Collecties"
         expect(page).to have_content('Collection 1')
 
-        click_on "Collection 1" if email_address == "qkunst-admin-user@murb.nl"
+        click_on "Collection 1" if ["qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
         click_on "Work1"
         expect(page).not_to have_content('Bewerk gegevens') unless ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].include?(email_address)
         expect(page).to have_content('Bewerk')

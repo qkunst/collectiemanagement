@@ -118,6 +118,11 @@ class Collection < ApplicationRecord
     return nil
   end
 
+  def appraise_with_ranges
+    read_attribute(:appraise_with_ranges) || (self_and_parent_collections_flattened.where(appraise_with_ranges: true).count > 0)
+  end
+  alias_method :appraise_with_ranges?, :appraise_with_ranges
+
   def sort_works_by= value
     write_attribute(:sort_works_by, (Work::SORTING_FIELDS & [value.to_sym]).first)
   end

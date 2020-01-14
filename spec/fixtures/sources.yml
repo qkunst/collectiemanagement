@@ -1,0 +1,7 @@
+#sources = ["BKR", "Schenking", "Relatiegeschenk", "Bruikleen", "Aankoop", "Opdracht"]
+bkr:
+  name: BKR
+schenking:
+  name: Schanking
+bruikleen:
+  name: Bruikleen

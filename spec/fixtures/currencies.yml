@@ -1,0 +1,8 @@
+eur:
+  iso_4217_code: "EUR"
+  symbol: "€"
+  name: "EUR (€)"
+nlg:
+  iso_4217_code: "NLG"
+  symbol: "𝑓"
+  name: "NLG (𝑓)"

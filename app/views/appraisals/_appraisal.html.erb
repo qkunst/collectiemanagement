@@ -4,6 +4,8 @@
   <%= define_unless_blank :appraised_by %>
   <%= define_unless_blank :market_value, modifier: :number_to_currency, description: 'Marktwaarde' %>
   <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: 'Vervangingswaarde' %>
+  <%= define_unless_blank :market_value_range, modifier: :number_to_currency, description: "Marktwaarde" %>
+  <%= define_unless_blank :replacement_value_range, modifier: :number_to_currency, description: "Vervangingswaarde" %>
   <%= define_unless_blank :reference %>
   <% end %>
 </div>
