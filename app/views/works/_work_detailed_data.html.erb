@@ -37,9 +37,6 @@
     <%= define_unless_blank :frame_size, {description: "Afm. lijst (cm)"}  %>
     <% if @selection[:display] == :complete %>
       <%= define_unless_blank :abstract_or_figurative_rendered, {classname: :complete_data} %>
-      <%= define_unless_blank :sources, {classname: :complete_data} %>
-      <%= define_unless_blank :source_comments, {classname: :complete_data} %>
-      <%= define_unless_blank :owner, {classname: :complete_data} %>
       <%= define_unless_blank :style, {classname: :complete_data} %>
       <%= define_unless_blank :subset, {classname: :complete_data} %>
       <%= define_unless_blank :collection_name_extended, {classname: :complete_data} %>
@@ -64,6 +61,13 @@
     <%= define_unless_blank :information_back, description: "Info. achterz." if can?(:read_information_back, work) %>
     <%= define_unless_blank :other_comments, description: "Overige opm." %>
     <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) %>
+    <% if @selection[:display] == :complete %>
+    <%= define_unless_blank :sources, {classname: :complete_data} %>
+    <%= define_unless_blank :source_comments, {classname: :complete_data} %>
+    <%= define_unless_blank :owner, {classname: :complete_data} %>
+    <% end %>
+  <% end %>
+  <%= definition_list_for work, {render_as: :table} do %>
     <% if can?(:read_valuation, work.collection) %>
       <%= define_unless_blank :purchased_on_with_fallback %>
       <% if work.purchase_price %>
@@ -80,6 +84,9 @@
         <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>
       <% end %>
     <% end %>
+  <% end %>
+  <%= definition_list_for work, {render_as: :table} do %>
+
     <%
     artist_involvements_texts = []
 
