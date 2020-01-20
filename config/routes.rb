@@ -96,11 +96,15 @@ Rails.application.routes.draw do
       patch 'copy' => 'rkd_artists#copy'
     end
 
-    get 'works/batch' => 'works_batch#index'
-    get 'works/batch/edit' => 'works_batch#edit'
     get 'works/modified' => 'works#modified_index'
+
+    get 'works/batch/edit' => 'works_batch#edit'
     post 'works/batch/edit' => 'works_batch#edit'
     patch 'works/batch' => 'works_batch#update'
+
+    get 'batch' => 'batch#show'
+    post 'batch' => 'batch#show'
+    patch 'batch' => 'batch#update'
 
     get 'mobile' => 'mobiles#show'
     patch 'mobile' => 'mobiles#update'

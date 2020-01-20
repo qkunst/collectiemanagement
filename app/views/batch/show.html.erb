@@ -1,0 +1,29 @@
+  <div class="zxing-wrapper">
+    <div class="zxing-canvas-container">
+      <canvas id="zxing-canvas"></canvas>
+    </div>
+
+
+    <%= simple_form_for @form, url: collection_batch_path(@collection), method: :patch do |f| %>
+      <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
+      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
+
+
+
+<table>
+  <thead>
+    <tr><th>Update</th><th>Veld</th><th>Waarde</th><th>Strategie</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><%= f.check_box :update_location %></td><td><%=f.label :location %></td><td><%= f.text_field :location %></td><td><%= f.select :update_location_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
+    <tr><td><%= f.check_box :update_location_floor %></td><td><%=f.label :location_floor %></td><td><%= f.text_field :location_floor %></td><td><%= f.select :update_location_floor_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
+    <tr><td><%= f.check_box :update_location_detail %></td><td><%=f.label :location_detail %></td><td><%= f.text_field :location_detail %></td><td><%= f.select :update_location_detail_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
+  </tbody>
+</table>
+
+
+      <%= f.submit "Gescande werken bijwerken", name: :update_and_replace, class: [:button, :primary] %>
+      <p><small>Let op: Alle waarden worden overschreven; wanneer een veld wordt leeggelaten worden de velden leeg gemaakt</small></p>
+    <% end %>
+
+  </div>

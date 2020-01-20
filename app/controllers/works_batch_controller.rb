@@ -19,9 +19,6 @@ class WorksBatchController < ApplicationController
     end
   end
 
-  def index
-  end
-
   private
 
   def set_works
