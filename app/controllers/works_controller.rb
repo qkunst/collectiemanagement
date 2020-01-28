@@ -231,8 +231,6 @@ class WorksController < ApplicationController
 
   private
 
-
-
   # Use callbacks to share common setup or constraints between actions.
   def clean_ids noise
     noise ? noise.collect{|a| a == "not_set" ? nil : a.to_i} : []
@@ -256,29 +254,10 @@ class WorksController < ApplicationController
         end
       end
     end
-    permitted_fields = []
-    permitted_fields += [:location_detail, :location, :location_floor] if current_user.ability.can?(:edit_location, Work)
-    permitted_fields += [:internal_comments] if current_user.qkunst?
-    permitted_fields += [
-      :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
-      :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
-    ] if current_user.ability.can?(:edit_photos, Work)
-    permitted_fields += [
-      :inventoried, :refound, :new_found,
-      :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
-      :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
-      :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
-      :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
-      :information_back, :other_comments, :source_comments, :subset_id,  :public_description,
-      :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-      :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
-      :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], tag_list: [],
-      theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
-        :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
-        ]
-      ] if current_user.can_edit_most_of_work?
-    params[:work] ? params.require(:work).permit(permitted_fields) : {}
+
+    params[:work] ? params.require(:work).permit(current_user.ability.editable_work_fields) : {}
   end
+
 
   def redirect_directly_to_work_using_search_text
     if @search_text and @search_text.length > 3

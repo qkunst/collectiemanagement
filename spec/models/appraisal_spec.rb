@@ -4,14 +4,6 @@ require 'rails_helper'
 
 RSpec.describe Appraisal, type: :model do
   describe "methods" do
-    describe "#name" do
-      it "should return a valid name" do
-        expect(appraisals(:appraisal1).name).to eq("01-01-2000 (by test): MW €1.000,00; VW €2.000,00")
-      end
-      it "should also work when date is not present" do
-        expect(appraisals(:appraisal_without_date).name).to eq("onbekende datum (by test): MW €1.000,00; VW €2.000,00")
-      end
-    end
     describe "#destroy" do
       it "should be destroyable" do
         work = works(:work1)
@@ -31,6 +23,33 @@ RSpec.describe Appraisal, type: :model do
         work.reload
 
         appraisals(:appraisal_without_date).destroy
+      end
+    end
+
+    describe "#market_value_range" do
+      it "should accept string" do
+        expect(Appraisal.new(market_value_range: "2000..3000").market_value_range.min).to eq(2000)
+      end
+      it "should accept range" do
+        expect(Appraisal.new(market_value_range: 2000..3000).market_value_range.min).to eq(2000)
+      end
+    end
+
+    describe "#name" do
+      it "should return a valid name" do
+        expect(appraisals(:appraisal1).name).to eq("01-01-2000 (by test): MW €1.000,00; VW €2.000,00")
+      end
+      it "should also work when date is not present" do
+        expect(appraisals(:appraisal_without_date).name).to eq("onbekende datum (by test): MW €1.000,00; VW €2.000,00")
+      end
+    end
+
+    describe "#replacement_value_range" do
+      it "should accept string" do
+        expect(Appraisal.new(replacement_value_range: "2000..3000").replacement_value_range.min).to eq(2000)
+      end
+      it "should accept range" do
+        expect(Appraisal.new(replacement_value_range: 2000..3000).replacement_value_range.min).to eq(2000)
       end
     end
   end

@@ -15,7 +15,12 @@ class WorksBatchController < ApplicationController
     if @edit_property
       @edit_property = @edit_property.to_sym
     elsif @process_property
-      redirect_to new_collection_custom_report_path(works: @works.map(&:id))
+      work_ids = @works.pluck(:id)
+      if @process_property == "create_report"
+        redirect_to new_collection_custom_report_path(works: work_ids)
+      elsif @process_property == "batch_editor"
+        redirect_to collection_batch_path(work_ids_comma_separated: work_ids.join(","))
+      end
     end
   end
 

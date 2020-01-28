@@ -9,9 +9,9 @@ html, body {
 }
 .zxing-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 100%;
-/*  justify-content: space-between;*/
+  justify-content: space-between;
 }
 
 .zxing-wrapper header{
@@ -27,18 +27,20 @@ html, body {
 
 .zxing-canvas-container {
   max-height: calc( 480px + 2em );
+  float: left;
+  padding: 1em;
 }
 .zxing-canvas-container canvas {
   margin: 0 auto;
   display: block;
-  max-width: 320px;
-  max-height: 240px;
+  max-width: 160px;
+  max-height: 120px;
 }
 
 @media screen and (min-width: 800px) {
   .zxing-canvas-container canvas {
-    max-width: 640px;
-    max-height: 480px;
+/*    max-width: 640px;*/
+/*    max-height: 480px;*/
   }
 }
 

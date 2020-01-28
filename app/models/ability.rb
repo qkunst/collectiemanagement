@@ -29,7 +29,7 @@ class Ability
 
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report,:read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:edit_photos, :read_information_back, :read_internal_comments, :manage_location, :tag, :show_details], Work
+        can [:edit_photos, :read_information_back, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :show_details], Work
 
         can [:destroy, :edit_admin], User
       elsif user.advisor?
@@ -53,12 +53,13 @@ class Ability
 
         can [:manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:read, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
         can :manage, Message
 
         can :update, User
         cannot [:destroy, :edit_admin], User
       elsif user.compliance?
+        # READ ONLY, BUT FULL ACCESS
         cannot [:create, :edit, :update, :tag], :all
 
         can [:read, :review_collection], Artist
@@ -103,7 +104,7 @@ class Ability
 
         can [:read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :read_information_back, :read_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
         can :tag, Work
       elsif user.registrator?
@@ -113,7 +114,7 @@ class Ability
 
         can [:read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
@@ -128,6 +129,34 @@ class Ability
       end
 
       cannot :manage, Collection, root: true
+    end
+
+    # centralize store of fields editable per user; this array is used for sanctioning input parameters and filtering forms
+    def editable_work_fields
+      permitted_fields = []
+      permitted_fields += [:location_detail, :location, :location_floor] if can?(:edit_location, Work)
+      permitted_fields += [:internal_comments] if can?(:write_internal_comments, Work)
+      permitted_fields += [
+        :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
+        :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
+      ] if can?(:edit_photos, Work)
+      permitted_fields += [
+        :inventoried, :refound, :new_found,
+        :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
+        :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
+        :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+        :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
+        :information_back, :other_comments, :source_comments, :subset_id,  :public_description,
+        :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
+        :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], tag_list: [],
+        theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
+          :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+        ], appraisals_attributes: [
+          :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference
+        ]
+        ] if can?(:edit, Work)
+      permitted_fields
 
     end
 

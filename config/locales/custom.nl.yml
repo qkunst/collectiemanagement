@@ -228,7 +228,7 @@ nl:
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
         artist_unknown: Vervaardiger onbekend
         cluster: Cluster
-        cluster: Cluster
+        cluster_name: Cluster naam
         collection: Collectie
         collection_external_reference_code: Collectie (externe) referentiecode
         collection_name_extended: Collectie

@@ -1,29 +1,90 @@
+<%= simple_form_for @form, url: collection_batch_path(@collection), method: :patch, html: {id: "batch-work"} do |f| %>
   <div class="zxing-wrapper">
     <div class="zxing-canvas-container">
       <canvas id="zxing-canvas"></canvas>
     </div>
-
-
-    <%= simple_form_for @form, url: collection_batch_path(@collection), method: :patch do |f| %>
-      <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
-      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
-
-
-
-<table>
-  <thead>
-    <tr><th>Update</th><th>Veld</th><th>Waarde</th><th>Strategie</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><%= f.check_box :update_location %></td><td><%=f.label :location %></td><td><%= f.text_field :location %></td><td><%= f.select :update_location_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
-    <tr><td><%= f.check_box :update_location_floor %></td><td><%=f.label :location_floor %></td><td><%= f.text_field :location_floor %></td><td><%= f.select :update_location_floor_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
-    <tr><td><%= f.check_box :update_location_detail %></td><td><%=f.label :location_detail %></td><td><%= f.text_field :location_detail %></td><td><%= f.select :update_location_detail_strategy, BatchForm::UPDATE_STRATEGIES %></td></tr>
-  </tbody>
-</table>
-
-
-      <%= f.submit "Gescande werken bijwerken", name: :update_and_replace, class: [:button, :primary] %>
-      <p><small>Let op: Alle waarden worden overschreven; wanneer een veld wordt leeggelaten worden de velden leeg gemaakt</small></p>
-    <% end %>
-
+    <div class="zxing-results-container">
+      <% if @works.any? %>
+        <input type="hidden" value="<%=@work_ids.join(",")%>" name="work_ids_comma_separated" />
+        <p><%= link_to "#{I18n.t("count.works", count: @work_ids.count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> geselecteerd</p>
+      <% else %>
+        <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
+        <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
+      <% end %>
+    </div>
   </div>
+
+  <div class="batch-inputs">
+    <%# raise f %>
+    <%= @form.errors.messages%>
+    <% if can_edit_field?(:location) %>
+      <fieldset>
+        <%= f.batch_editable_input :location%>
+        <%= f.batch_editable_input :location_floor%>
+        <%= f.batch_editable_input :location_detail%>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field?(:cluster_name) %>
+      <fieldset>
+      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', onchange: "this.dispatchEvent(new Event('batchinput:change:cluster', {bubbles: true}))"}%><span></span>
+      <%= f.batch_editable_input :cluster_name %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field?(:grade_within_collection)%>
+      <fieldset>
+        <%= f.batch_editable_input :grade_within_collection, collection: %w{A B C D E F G}, input_html: {class: 'chosen-select'} %>
+      </fieldset>
+    <% end%>
+    <% if can_edit_field?(:collection_id) %>
+      <fieldset>
+        <%= f.batch_editable_input :collection, param_name: :collection_id, input_type: :association, collection: current_user.accessible_collections.all, required: false, input_html: {class: 'chosen-select'} %>
+        <p>Let op: als je de collectie aanpast kan het zijn dat de werken verwijzen naar thema's en clusters die niet meer beschikbaar zijn binnen die collectie. </p>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field? :placeability_id %>
+      <fieldset>
+        <%= f.batch_editable_input :placeability, param_name: :placeability_id, input_type: :association, collection: Placeability.not_hidden, input_html: {class: 'chosen-select'} %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field? :theme_ids %>
+      <fieldset>
+        <%= f.batch_editable_input :themes, param_name: :theme_ids, input_type: :association, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field? :tag_list %>
+      <fieldset style="padding-bottom: 8em">
+        <label>Tags</label>
+        <input type="hidden" name="work[tag_list][]" value=""/>
+        <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]">
+        </select><%= f.batch_editable_strategy_select(:tag_list) %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field?(:technique_ids) && can_edit_field?(:source_ids) && can_edit_field?(:subset_id)%>
+      <fieldset>
+        <%= f.batch_editable_input :subset, param_name: :subset_id, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :techniques, param_name: :technique_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :sources, param_name: :source_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field? :appraisals_attributes %>
+      <fieldset>
+        <%= f.fields_for :appraisals, f.object.appraisal do |ap_form| %>
+          <%= ap_form.batch_editable_input :appraised_by %>
+          <%= ap_form.batch_editable_input :appraised_on, html5: true, required: false %>
+          <% if @collection.appraise_with_ranges? %>
+            <%= ap_form.batch_editable_input :market_value_range, collection: Appraisal::MARKET_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %>
+            <%= ap_form.batch_editable_input :replacement_value_range, collection: Appraisal::REPLACEMENT_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %>
+          <% else %>
+            <%= ap_form.batch_editable_input :market_value %>
+            <%= ap_form.batch_editable_input :replacement_value %>
+          <% end %>
+          <%= ap_form.batch_editable_input :reference %>
+        <% end %>
+      </fieldset>
+    <% end %>
+  </div>
+
+  <%= f.submit "Werken bijwerken", class: [:button, :primary] %>
+  <p><small>Let op: Alle waarden worden overschreven; wanneer een veld wordt leeggelaten worden de velden leeg gemaakt</small></p>
+<% end %>
+

@@ -23,6 +23,7 @@ import('filter-list');
 import('forms');
 import('lazy_load_images');
 import('prototypes');
+import('batch');
 import('report');
 import('table_filterable');
 import('table_sortable');

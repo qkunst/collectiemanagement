@@ -14,16 +14,19 @@ class Appraisal < ApplicationRecord
 
   include ActionView::Helpers::NumberHelper
 
+  attribute :replacement_value_range
+  attribute :market_value_range
+
   accepts_nested_attributes_for :work
 
   scope :descending_appraisal_on, -> { order(Arel.sql("appraisals.appraised_on is null, appraisals.appraised_on desc, appraisals.id desc")) }
 
   def market_value_range= range
-    case range.class
+    case range
     when Range, Array
       self.market_value_min = range.min
       self.market_value_max = range.max
-    else String
+    when String
       self.market_value_min, self.market_value_max = range.split("..").map(&:to_i)
     end
   end
@@ -33,11 +36,11 @@ class Appraisal < ApplicationRecord
   end
 
   def replacement_value_range= range
-    case range.class
+    case range
     when Range, Array
       self.replacement_value_min = range.min
       self.replacement_value_max = range.max
-    else String
+    when String
       self.replacement_value_min, self.replacement_value_max = range.split("..").map(&:to_i)
     end
   end

@@ -1,0 +1,26 @@
+
+$grid-template-columns: [label] 1fr [input] 2fr [strategy] 1fr;
+
+.batch-inputs {
+  display: grid;
+  column-gap: 1em;
+  grid-template-columns: $grid-template-columns;
+
+  > div.input, fieldset > div.input {
+    display: contents;
+  }
+
+  fieldset {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    display: grid;
+    grid-template-columns: $grid-template-columns;
+    column-gap: 1em;
+  }
+
+  p {
+    grid-column-start: 1;
+    grid-column-end: -1;
+
+  }
+}
