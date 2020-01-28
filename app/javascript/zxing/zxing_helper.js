@@ -204,7 +204,8 @@ function initializeScanner() {
         state.codeCallback(code)
       }
       catch (error) {
-        requestAnimationFrame(scanFrame);
+        // state.scanActive = false;
+        // requestAnimationFrame(scanFrame);
       }
     }
     if (state.scanActive) {
