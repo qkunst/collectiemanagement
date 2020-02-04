@@ -34,3 +34,4 @@ results.html
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+.byebug_history

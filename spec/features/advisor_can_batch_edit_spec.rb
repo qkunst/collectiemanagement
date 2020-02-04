@@ -18,7 +18,7 @@ RSpec.feature "AdvisorCanBatchEdit", type: :feature do
     work_to_add_to_cluster = works(:work1)
     check "selected_works_#{work_to_add_to_cluster.id}"
     click_on "Nieuw cluster"
-    fill_in("Cluster name", with: "My first batch cluster")
+    fill_in("Clusternaam", with: "My first batch cluster")
     click_on "Pas 1 werk aan (vervangt)"
     check "selected_works_#{work_to_add_to_cluster.id}"
     click_on "Collectie"

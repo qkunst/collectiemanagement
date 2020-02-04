@@ -15,8 +15,14 @@
   </div>
 
   <div class="batch-inputs">
-    <%# raise f %>
-    <%= @form.errors.messages%>
+    <% if @form.errors.messages != {} %>
+    <p>Corrigeer de volgende fouten:</p>
+    <ul>
+      <% @form.errors.full_messages.each do |message| %>
+        <li><%= message%></li>
+      <% end %>
+    </ul>
+    <% end %>
     <% if can_edit_field?(:location) %>
       <fieldset>
         <%= f.batch_editable_input :location%>
@@ -24,34 +30,28 @@
         <%= f.batch_editable_input :location_detail%>
       </fieldset>
     <% end %>
-    <% if can_edit_field?(:cluster_name) %>
-      <fieldset>
-      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', onchange: "this.dispatchEvent(new Event('batchinput:change:cluster', {bubbles: true}))"}%><span></span>
-      <%= f.batch_editable_input :cluster_name %>
-      </fieldset>
-    <% end %>
-    <% if can_edit_field?(:grade_within_collection)%>
-      <fieldset>
-        <%= f.batch_editable_input :grade_within_collection, collection: %w{A B C D E F G}, input_html: {class: 'chosen-select'} %>
-      </fieldset>
-    <% end%>
     <% if can_edit_field?(:collection_id) %>
       <fieldset>
         <%= f.batch_editable_input :collection, param_name: :collection_id, input_type: :association, collection: current_user.accessible_collections.all, required: false, input_html: {class: 'chosen-select'} %>
         <p>Let op: als je de collectie aanpast kan het zijn dat de werken verwijzen naar thema's en clusters die niet meer beschikbaar zijn binnen die collectie. </p>
       </fieldset>
     <% end %>
-    <% if can_edit_field? :placeability_id %>
+    <% if can_edit_field?(:cluster_name) %>
       <fieldset>
+      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', onchange: "this.dispatchEvent(new Event('batchinput:change:cluster', {bubbles: true}))", data: {placeholder: "Selecteer een bestaand cluster of geef een clusternaam op"}}%><span></span>
+      <%= f.batch_editable_input :cluster_name %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field?(:grade_within_collection) && can_edit_field?(:placeability_id) %>
+      <fieldset>
+        <%= f.batch_editable_input :grade_within_collection, collection: %w{A B C D E F G}, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :placeability, param_name: :placeability_id, input_type: :association, collection: Placeability.not_hidden, input_html: {class: 'chosen-select'} %>
       </fieldset>
-    <% end %>
-    <% if can_edit_field? :theme_ids %>
-      <fieldset>
-        <%= f.batch_editable_input :themes, param_name: :theme_ids, input_type: :association, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
-      </fieldset>
-    <% end %>
+    <% end%>
     <% if can_edit_field? :tag_list %>
+      <% if can_edit_field? :theme_ids %>
+        <%= f.batch_editable_input :themes, param_name: :theme_ids, input_type: :association, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
+      <% end %>
       <fieldset style="padding-bottom: 8em">
         <label>Tags</label>
         <input type="hidden" name="work[tag_list][]" value=""/>
@@ -59,11 +59,21 @@
         </select><%= f.batch_editable_strategy_select(:tag_list) %>
       </fieldset>
     <% end %>
-    <% if can_edit_field?(:technique_ids) && can_edit_field?(:source_ids) && can_edit_field?(:subset_id)%>
+    <% if can_edit_field?(:technique_ids) && can_edit_field?(:subset_id)%>
       <fieldset>
         <%= f.batch_editable_input :subset, param_name: :subset_id, input_type: :association, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :techniques, param_name: :technique_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :other_comments %>
+      </fieldset>
+    <% end %>
+    <% if can_edit_field?(:source_ids) %>
+      <fieldset>
         <%= f.batch_editable_input :sources, param_name: :source_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :purchase_price %>
+        <%= f.batch_editable_input :purchased_on, html5: true %>
+        <%= f.batch_editable_input :purchase_year %>
+        <%= f.batch_editable_input :source_comments %>
+
       </fieldset>
     <% end %>
     <% if can_edit_field? :appraisals_attributes %>
@@ -72,19 +82,21 @@
           <%= ap_form.batch_editable_input :appraised_by %>
           <%= ap_form.batch_editable_input :appraised_on, html5: true, required: false %>
           <% if @collection.appraise_with_ranges? %>
-            <%= ap_form.batch_editable_input :market_value_range, collection: Appraisal::MARKET_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %>
-            <%= ap_form.batch_editable_input :replacement_value_range, collection: Appraisal::REPLACEMENT_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r]} %>
+            <%= ap_form.batch_editable_input :market_value_range, collection: Appraisal::MARKET_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r.to_s]} %>
+            <%= ap_form.batch_editable_input :replacement_value_range, collection: Appraisal::REPLACEMENT_VALUE_CATEGORIES.map{|r| ["#{r.min}-#{r.max}", r.to_s]} %>
           <% else %>
             <%= ap_form.batch_editable_input :market_value %>
             <%= ap_form.batch_editable_input :replacement_value %>
           <% end %>
           <%= ap_form.batch_editable_input :reference %>
         <% end %>
+        <%= f.batch_editable_input :minimum_bid %>
+        <%= f.batch_editable_input :selling_price %>
       </fieldset>
     <% end %>
   </div>
 
-  <%= f.submit "Werken bijwerken", class: [:button, :primary] %>
-  <p><small>Let op: Alle waarden worden overschreven; wanneer een veld wordt leeggelaten worden de velden leeg gemaakt</small></p>
+  <%= f.submit (@works.any? ? "#{I18n.t("count.works", count: @work_ids.count) } bijwerken" : "Werken bijwerken"), class: [:button, :primary] %>
+  <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
 <% end %>
 

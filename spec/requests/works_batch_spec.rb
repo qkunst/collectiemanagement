@@ -16,13 +16,6 @@ RSpec.describe "WorkBatchs", type: :request do
       get collection_works_batch_edit_path(collection, params:{property: :location})
       expect(response).to have_http_status(200)
     end
-    it "admin should be able to access index page" do
-      user = users(:admin)
-      sign_in user
-      collection = collections(:collection1)
-      get collection_works_batch_path(collection, params:{property: :location})
-      expect(response).to have_http_status(200)
-    end
     it "should not be accessible when logged in as an anonymous user" do
       user = users(:user_with_no_rights)
       sign_in user

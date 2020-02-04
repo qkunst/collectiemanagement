@@ -39,6 +39,12 @@ nl:
     sign_up: "Aanmelden"
     log_in: "Log in"
   helpers:
+    batch:
+      strategies:
+        IGNORE: Negeer
+        REPLACE: ⇆ Vervang
+        APPEND: + Voeg toe
+        REMOVE: "- Verwijder"
     submit:
       user:
         create: "Aanmelden"
@@ -223,12 +229,13 @@ nl:
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
         appraisals: Waarderingen
+        appraised_on: Gewaardeerd op
         artists: Vervaardigers
         artist_name_rendered: Vervaardiger(s)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
         artist_unknown: Vervaardiger onbekend
         cluster: Cluster
-        cluster_name: Cluster naam
+        cluster_name: Clusternaam
         collection: Collectie
         collection_external_reference_code: Collectie (externe) referentiecode
         collection_name_extended: Collectie

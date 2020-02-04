@@ -89,6 +89,8 @@ class Work < ApplicationRecord
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
+  accepts_nested_attributes_for :appraisals
+
   settings index: { number_of_shards: 5, max_result_window: 50_000 } do
     mappings do
       indexes :abstract_or_figurative, type: 'keyword'

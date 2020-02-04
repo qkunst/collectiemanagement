@@ -17,11 +17,15 @@ module BatchForm
     end
 
     def strategies_for(field_name)
+      strategies = BatchForm::UpdateStrategies::ALL
       if unappendable_fields.include? field_name
-        BatchForm::UpdateStrategies::ALL - [:APPEND]
-      else
-        BatchForm::UpdateStrategies::ALL
+        strategies -= [:APPEND]
       end
+      if removable_fields.include? field_name
+        strategies += [:REMOVE]
+      end
+
+      strategies
     end
   end
 
@@ -31,7 +35,6 @@ module BatchForm
     def default_to_ignore!
       self.class.batch_fields.each do |field_name|
         self.send("#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if self.send(self.class.strategy_attribute_for(field_name)) == nil
-
       end
     end
 
@@ -44,18 +47,27 @@ module BatchForm
           # well ignore :)
         elsif strategy == :REPLACE
           [field_name, new_value]
+        elsif strategy == :REMOVE
+          current_value = current_work.send(field_name)
+          if current_value.nil? || self.class.unappendable_fields.include?(field_name)
+            [field_name, nil]
+          elsif current_value.is_a? Enumerable
+            [field_name, (current_value-new_value).flatten]
+          else
+            [field_name, current_value.to_s.gsub(new_value.to_s,"")]
+          end
         elsif strategy == :APPEND
           current_value = current_work.send(field_name)
           if current_value.nil? || self.class.unappendable_fields.include?(field_name)
             [field_name, new_value]
+          elsif current_value.is_a? Enumerable
+            [field_name, [current_value,new_value].flatten]
           else
             [field_name, [current_value,new_value].join(" ")]
           end
         end
       end.compact.to_h
-      if self.is_a? Work
-        own_parameters[:appraisals_attributes] = {"0"=>appraisal.object_update_parameters(Appraisal.new)}
-      end
+
       own_parameters
     end
 
@@ -69,7 +81,8 @@ end
 
 class BatchAppraisalForm < Appraisal
   BATCH_FIELDS = %w{appraised_by appraised_on replacement_value market_value replacement_value_range market_value_range reference}.sort_by(&:length).reverse.map(&:to_sym)
-  UNAPPENDABLE_FIELDS = BATCH_FIELDS.select{|field_name| field_name.to_s.ends_with?("_id")}
+  UNAPPENDABLE_FIELDS = BATCH_FIELDS #.select{|field_name| field_name.to_s.ends_with?("_id")}
+  REMOVABLE_FIELDS = %w{}
 
   def self.batch_fields
     BATCH_FIELDS
@@ -79,20 +92,43 @@ class BatchAppraisalForm < Appraisal
     UNAPPENDABLE_FIELDS
   end
 
+  def self.removable_fields
+    REMOVABLE_FIELDS
+  end
+
   include BatchForm
 
   BATCH_FIELDS.each do |field_name|
     attribute strategy_attribute_for(field_name)
+  end
+
+  def market_value_range
+    (super.min.to_i..super.max.to_i).to_s if super
+  end
+  def replacement_value_range
+    (super.min.to_i..super.max.to_i).to_s if super
   end
 
   def model_name
     ActiveModel::Name.new(Appraisal, nil, "appraisals_attributes_0")
   end
+
+  def appraisal_params
+    self.object_update_parameters(Appraisal.new)
+  end
+
+  def empty_params?
+    {} == appraisal_params
+  end
+  alias_attribute :ignore_validation_errors?, :empty_params?
 end
 
 class BatchWorkForm < Work
-  BATCH_FIELDS = %w{location location_floor location_detail cluster_id cluster_name subset_id technique_ids source_ids collection_id placeability_id theme_ids grade_within_collection tag_list}.sort_by(&:length).reverse.map(&:to_sym)
+  BATCH_FIELDS = %w{ purchase_price purchased_on purchase_year source_comments other_comments selling_price minimum_bid location location_floor location_detail cluster_id cluster_name subset_id technique_ids source_ids collection_id placeability_id theme_ids grade_within_collection tag_list}.sort_by(&:length).reverse.map(&:to_sym)
   UNAPPENDABLE_FIELDS = BATCH_FIELDS.select{|field_name| field_name.to_s.ends_with?("_id") || [:grade_within_collection].include?(field_name)}
+  REMOVABLE_FIELDS = %w{ tag_list }.map(&:to_sym)
+
+  before_validation :validate_appraisal
 
   def self.batch_fields
     BATCH_FIELDS
@@ -102,10 +138,22 @@ class BatchWorkForm < Work
     UNAPPENDABLE_FIELDS
   end
 
+  def self.removable_fields
+    REMOVABLE_FIELDS
+  end
+
   include BatchForm
 
   BATCH_FIELDS.each do |field_name|
     attribute strategy_attribute_for(field_name)
+  end
+
+  def cluster_name= cluster_name
+    @cluster_name = cluster_name
+  end
+
+  def cluster_name
+    @cluster_name
   end
 
   def model_name
@@ -122,12 +170,27 @@ class BatchWorkForm < Work
 
   def update_work(work)
     work.update(object_update_parameters(work))
+
+    unless appraisal.empty_params?
+      work.appraisals << Appraisal.new(appraisal.appraisal_params)
+      work.save
+    end
+  end
+
+  def ignore_validation_errors?
+    false
+  end
+
+  def validate_appraisal
+    appraisal.work = Work.new(collection: Collection.new)
+    errors.merge!(appraisal.errors) if !appraisal.ignore_validation_errors?  and !appraisal.valid?
   end
 end
 
 class BatchController < ApplicationController
   before_action :set_collection
   before_action :set_works_by_numbers
+  before_action :check_ability
 
   include BatchMethods
 
@@ -175,6 +238,10 @@ class BatchController < ApplicationController
 
   def separate_by parameter, by
     parameter.to_s.split(by).map(&:strip).select(&:present?)
+  end
+
+  def check_ability
+    authorize! :batch_edit, @collection
   end
 
   def work_batch_strategies_params

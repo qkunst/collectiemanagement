@@ -6,6 +6,16 @@ $grid-template-columns: [label] 1fr [input] 2fr [strategy] 1fr;
   column-gap: 1em;
   grid-template-columns: $grid-template-columns;
 
+  label {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+
+  .input, .error {
+    grid-column-start: input;
+    grid-column-end: input;
+  }
+
   > div.input, fieldset > div.input {
     display: contents;
   }
