@@ -112,12 +112,13 @@ class Ability
         can [:create, :update], ArtistInvolvement
         can [:read, :copy], RkdArtist
 
-        can [:read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
+        can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
         can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
+        can :batch_edit, Collection, id: accessible_collection_ids # note that a facility manager only has access to a limited set of fields
         can [:read, :read_information_back, :manage_location, :show_details], Work, collection_id: accessible_collection_ids
 
         can :create, Message
