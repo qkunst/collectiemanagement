@@ -449,5 +449,22 @@ RSpec.describe Work, type: :model do
         expect(collections(:collection_with_works).works.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2)])
       end
     end
+    describe ".order_by" do
+      describe "location" do
+        it "sorts -1 before BG" do
+          c = collections(:sub_boring_collection)
+          c.works.create(location_floor: "BG")
+          c.works.create(location_floor: "1")
+          c.works.create(location_floor: "-1")
+          c.works.create(location_floor: "-2")
+          c.works.create(location_floor: "-3")
+          c.works.create(location_floor: "0")
+          c.works.create(location_floor: "4")
+          c.works.create(location_floor: "Depot")
+
+          expect(c.works.order_by(:location).map(&:location_floor)).to eq(["-3", "-2", "-1", "0", "BG", "1", "4", "Depot"])
+        end
+      end
+    end
   end
 end

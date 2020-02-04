@@ -58,7 +58,7 @@ class Work < ApplicationRecord
   scope :order_by, ->(sort_key) do
     case sort_key.to_sym
     when :location
-      order(:location, :location_floor, :location_detail)
+      order(:location, Arel.sql("works.location_floor = '-3' DESC, works.location_floor = '-2' DESC, works.location_floor = '-1' DESC, works.location_floor = '0' DESC, works.location_floor = 'BG' DESC"), :location_floor, :location_detail)
     when :created_at
       order(created_at: :desc)
     when :artist_name, :artist_name_rendered
