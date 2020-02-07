@@ -22,6 +22,7 @@ class Work < ApplicationRecord
   before_save :sync_purchase_year
   before_save :enforce_nil_or_true
   before_save :update_created_by_name
+  before_save :convert_purchase_price_in_eur
   after_save  :touch_collection!
   after_save  :update_artist_name_rendered!
   before_save :cache_tag_list!
@@ -313,6 +314,10 @@ class Work < ApplicationRecord
 
   def touch_collection!
     collection.touch if collection
+  end
+
+  def convert_purchase_price_in_eur
+    self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price and purchase_price_currency
   end
 
   class << self

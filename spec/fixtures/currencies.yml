@@ -2,7 +2,14 @@ eur:
   iso_4217_code: "EUR"
   symbol: "€"
   name: "EUR (€)"
+  exchange_rate: 1
 nlg:
   iso_4217_code: "NLG"
   symbol: "𝑓"
   name: "NLG (𝑓)"
+  exchange_rate: 2.20371
+usd:
+  iso_4217_code: "USD"
+  symbol: "$"
+  name: "USD ($)"
+  exchange_rate: 1.106270

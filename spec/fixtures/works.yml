@@ -15,6 +15,9 @@ work1:
   abstract_or_figurative: abstract
   created_by: :admin
   frame_height: 50
+  purchase_price: 100
+  purchase_price_currency: :nlg
+  purchase_price_in_eur: 200
   inventoried_at: 2012-01-02
   frame_width: 100
   owner: :owner1

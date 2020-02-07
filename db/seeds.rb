@@ -42,7 +42,7 @@ placeabilities = ["Direct inzetbaar", "Naar lijstenmaker", "Restauratie nodig", 
 placeabilities.each_with_index {|name, index| Placeability.where({name: name, order: index}).first_or_create }
 
 currencies = {"EUR"=>"€", "USD"=>"$", "NLG"=>"𝑓"}
-currencies.each{|k,v| Currency.where({iso_4217_code: k, symbol: v}).first_or_create}
+currencies.each{|k,v| Currency.where({iso_4217_code: k, symbol: v, exchange_rate: 1}).first_or_create}
 
 collections = ["Demo Collectie A", "Demo Collectie B", "Subcollectie"]
 collections.each {|name| Collection.where({name: name}).first_or_create }
