@@ -96,7 +96,7 @@ gem 'foundation-rails', '~> 6.3.0'
 
 gem 'acts-as-taggable-on'
 gem 'act_as_time_as_boolean'
-gem 'workbook' #, git: 'https://github.com/murb/workbook.git'
+gem 'workbook', git: 'https://github.com/murb/workbook.git'
 gem "nested_form"
 # gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
 gem 'paper_trail'#, '~>4.0.0.rc1'
