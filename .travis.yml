@@ -17,6 +17,7 @@ before_install:
   - yarn install
 script:
   - bundle exec rails db:test:prepare
+  - sleep 5
   - bundle exec rails qkunst:new_index
   - bundle exec rspec
 services:
@@ -24,6 +25,7 @@ services:
   - redis
   - postgresql
 cache:
+  rbenv: true
   bundler: true
   directories:
     - node_modules
