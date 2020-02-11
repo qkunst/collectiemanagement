@@ -25,7 +25,7 @@ services:
   - redis
   - postgresql
 cache:
-  rbenv: true
+  rvm: true
   bundler: true
   directories:
     - node_modules
