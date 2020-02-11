@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-RSpec.feature "AdvisorCanPartlyManageAttachments", type: :feature do
-  context Collection do
-    scenario "manage attachments" do
+RSpec.feature "Manage attachments", type: :feature do
+  context "in context of collection, as advisor" do
+    scenario "add attachment, change name" do
       # sign_in# (:admin)
       visit root_path
       first(".large-12.columns .button").click
@@ -36,8 +36,8 @@ RSpec.feature "AdvisorCanPartlyManageAttachments", type: :feature do
       expect(page).to have_content("Image1 beperkt.jpg")
     end
   end
-  context Work do
-    scenario "manage attachments" do
+  context "in context of work, as advisor" do
+    scenario "add attachment, change name" do
       # sign_in# (:admin)
       visit root_path
       first(".large-12.columns .button").click

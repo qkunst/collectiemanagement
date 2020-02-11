@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.feature "AdminCanImport", type: :feature do
-  scenario "can import works from csv" do
+RSpec.feature "Import works", type: :feature do
+  scenario "as an admin from CSV" do
     visit root_path
     first(".large-12.columns .button").click
     fill_in("E-mailadres", with: "qkunst-admin-user@murb.nl")
@@ -37,7 +37,7 @@ RSpec.feature "AdminCanImport", type: :feature do
     expect(page).to have_content("De werken zijn geïmporeerd.")
   end
 
-  scenario "can upload images" do
+  scenario "and upload matching images" do
     visit root_path
     first(".large-12.columns .button").click
     fill_in("E-mailadres", with: "qkunst-admin-user@murb.nl")

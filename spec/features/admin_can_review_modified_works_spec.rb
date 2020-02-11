@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require_relative 'feature_helper'
 
-RSpec.feature "Admin can Review modified works", type: :feature do
-  scenario "can import works from csv" do
+RSpec.feature "Admin can review", type: :feature do
+  include FeatureHelper
+
+  scenario "modified works on collection level and work level" do
     visit root_path
     first(".large-12.columns .button").click
     fill_in("E-mailadres", with: "qkunst-admin-user@murb.nl")

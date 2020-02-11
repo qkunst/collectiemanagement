@@ -2,10 +2,10 @@
 
 require_relative 'feature_helper'
 
-RSpec.feature "UserCanNavigateToWorks", type: :feature do
+RSpec.feature "Navigate works", type: :feature do
   include FeatureHelper
 
-  scenario "read_only" do
+  scenario "read only" do
     allow(RkdArtist).to receive(:search_rkd) { [rkd_artists(:rkd_artist2)] }
 
     login "qkunst-test-read_only_user@murb.nl"
@@ -37,7 +37,7 @@ RSpec.feature "UserCanNavigateToWorks", type: :feature do
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
-    login "qkunst-regular-withcollection-user@murb.nl"
+    login "qkunst-regular-user-with-collection@murb.nl"
 
     click_on "Collecties"
     within "#responsive-menu" do

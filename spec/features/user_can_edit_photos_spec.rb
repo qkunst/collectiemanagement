@@ -1,12 +1,11 @@
 # frozen_string_literal: true
+require_relative 'feature_helper'
 
-require 'rails_helper'
+RSpec.feature "Edit photos", type: :feature do
+  extend FeatureHelper
 
-
-
-RSpec.feature "Editing photo's", type: :feature do
-  ["qkunst-regular-withcollection-user@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
-    context email_address do
+  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
+    context email_to_role(email_address) do
       scenario "can edit photo's" do
         allow_any_instance_of(PictureUploader).to receive(:resize_to_fit)
         allow_any_instance_of(PictureUploader).to receive(:optimize)
@@ -22,15 +21,15 @@ RSpec.feature "Editing photo's", type: :feature do
         click_on "Work1"
         click_on "Voeg foto’s toe"
         attach_file "Foto voorkant", File.expand_path('../fixtures/image.jpg', __dir__)
-        click_on "Kunstwerk bewaren"
+        click_on "Werk bewaren"
         click_on "Beheer foto's"
         expect(page).to have_content('Beheer foto\'s van Q001 artist_1')
-        click_on "Kunstwerk bewaren"
+        click_on "Werk bewaren"
       end
     end
   end
   ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
-    context email_address do
+    context email_to_role(email_address) do
       scenario "can not edit photo's" do
         visit root_path
         first(".large-12.columns .button").click

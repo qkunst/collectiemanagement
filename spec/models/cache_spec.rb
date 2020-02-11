@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.feature "UserCanEditPhotos", type: :feature do
+RSpec.feature "Cache spec", type: :model do
   include ActiveSupport::Testing::TimeHelpers
 
-  describe "collection changes" do
+  describe "collection that changes" do
     it "should touch all related works" do
       travel -1.day do
         Work.update_all(updated_at: Time.now)
@@ -19,7 +19,7 @@ RSpec.feature "UserCanEditPhotos", type: :feature do
   end
 
 
-  describe "artist changes" do
+  describe "artist that changes" do
     it "should touch all related works" do
       a = artists(:artist2)
       w = a.works.first; w.save; w.reload # save & reload needed because incomplete record

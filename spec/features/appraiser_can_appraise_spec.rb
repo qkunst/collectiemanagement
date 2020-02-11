@@ -2,7 +2,7 @@
 
 require_relative 'feature_helper'
 
-RSpec.feature "Appraise works spec", type: :feature do
+RSpec.feature "Appraise works", type: :feature do
   include FeatureHelper
 
   context "as appraiser" do

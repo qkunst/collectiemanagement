@@ -2,16 +2,10 @@
 
 require_relative 'feature_helper'
 
-RSpec.feature "View report spec", type: :feature do
+RSpec.feature "View report", type: :feature do
   include FeatureHelper
 
-  scenario "view a collection report" do
-    begin
-      Work.__elasticsearch__.delete_index!
-    rescue Elasticsearch::Transport::Transport::Errors::NotFound
-    end
-    Work.__elasticsearch__.create_index! force: true
-
+  scenario "as an admin" do
     login "qkunst-admin-user@murb.nl"
 
     visit collections_path
@@ -19,13 +13,8 @@ RSpec.feature "View report spec", type: :feature do
     click_on('Collection 1')
 
     within "#responsive-menu" do
-
       click_on("Rapportage")
-
     end
-
-    expect(page).not_to have_content("cluster1")
-    expect(page).not_to have_content("Room 1")
 
     click_on("Ververs rapportage")
 
@@ -38,17 +27,15 @@ RSpec.feature "View report spec", type: :feature do
 
     expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 3 werken)")
     expect(page).to have_content("Q001")
+  end
 
-    signout
-
+  scenario "as a facility manager (limited)" do
     login users(:facility_manager)
 
     visit collections_path
 
     within "#responsive-menu" do
-
       click_on("Rapportage")
-
     end
 
     expect(page).not_to have_content("cluster1")

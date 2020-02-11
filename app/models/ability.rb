@@ -1,7 +1,118 @@
 # frozen_string_literal: true
 
 class Ability
+  class TestUser
+    def initialize(role)
+      @role = role
+    end
+    def role
+      @role
+    end
+    def accessible_collections
+      []
+    end
+    def admin?
+      @role == :admin
+    end
+    def advisor?
+      @role == :advisor
+    end
+    def compliance?
+      @role == :compliance
+    end
+    def appraiser?
+      @role == :appraiser
+    end
+    def registrator?
+      @role == :qkunst || @role == :registrator
+    end
+    def facility_manager?
+      @role == :facility_manager
+    end
+    def read_only?
+      @role == :read_only
+    end
+  end
+
   include CanCan::Ability
+
+  def self.report_field_abilities
+    approles = User::ROLES - [:qkunst]
+
+    all_fields = Ability.new(TestUser.new(:admin)).editable_work_fields_grouped
+
+    field_report = {header: [], data: {}}
+    all_fields.each do |model_key, model_fields|
+      field_report[:data][model_key] = {}
+      model_fields.each do |attribute|
+        field_report[:data][model_key][attribute] = []
+      end
+    end
+
+    abilities = {}
+
+    approles.each do |role|
+      user = TestUser.new(role)
+      ability = Ability.new(user)
+      abilities[role] = ability
+      field_report[:header] << {ability: ability, user: user}
+    end
+
+    all_fields.each do |model_key, model_fields|
+      model_fields.each do |attribute|
+        field_report[:header].each_with_index do |ability, index|
+          contains_attribute = (ability[:ability].editable_work_fields_grouped[model_key] && ability[:ability].editable_work_fields_grouped[model_key].include?(attribute))
+          field_report[:data][model_key][attribute][index] = contains_attribute
+        end
+      end
+    end
+
+    field_report
+  end
+
+  def self.report_abilities
+    approles = User::ROLES - [:qkunst]
+
+    ability_report = {header:[], data:{}}
+
+    permissions_per_thing = {}
+
+    approles.each do |role|
+      user = TestUser.new(role)
+      ability = Ability.new(user)
+
+      ability.permissions[:can].each do |permission, things|
+        things.each do |thing, _|
+          permissions_per_thing[thing] ||= []
+          permissions_per_thing[thing] << permission unless permissions_per_thing[thing].include? permission
+        end
+      end
+    end
+
+    approles.each do |role|
+      user = TestUser.new(role)
+      ability = Ability.new(user)
+
+      ability_report[:header] << {ability: ability, user: user}
+
+      permissions_per_thing.each do |thing, permissions|
+        thing_i18n = I18n.t thing.downcase, scope: [:activerecord, :models]
+        ability_report[:data][thing_i18n] ||= {}
+        permissions.each do |permission|
+          permission_i18n = I18n.t permission, scope: [:abilities]
+          ability_report[:data][thing_i18n][permission_i18n] ||= []
+
+          thing_constantize = begin; thing.constantize; rescue; thing; end
+          ability_report[:data][thing_i18n][permission_i18n] << ability.can?(permission, thing_constantize)
+        end
+
+      end
+    end
+
+
+    ability_report
+  end
+
 
   def initialize(user)
     # [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
@@ -153,12 +264,43 @@ class Ability
         :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], tag_list: [],
         theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
           :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
-        ], appraisals_attributes: [
-          :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference
         ]
         ] if can?(:edit, Work)
+        permitted_fields += [
+          :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year,
+          appraisals_attributes: [
+            :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference
+          ]
+        ] if can?(:create, Appraisal)
       permitted_fields
 
+    end
+
+    def editable_work_fields_grouped
+      return @fields if @fields
+      fields = {
+        works_attributes: [],
+        artists_attributes: [],
+        appraisals_attributes: []
+      }
+
+      editable_work_fields.each do |a|
+        if a.is_a?(Symbol)
+          fields[:works_attributes] << a
+        elsif a.is_a?(Hash)
+          fields.keys.each do |group|
+            if a.keys.include?(group)
+              a[group].select{|b| b.is_a?(Symbol)}.each do |c|
+                fields[group] << c
+              end
+            end
+          end
+          a.select{|b| b.to_s.end_with?("ids")}.each do |key,value|
+            fields[:works_attributes] << key
+          end
+        end
+      end
+      @fields = fields
     end
 
     # Define abilities for the passed in user here. For example:

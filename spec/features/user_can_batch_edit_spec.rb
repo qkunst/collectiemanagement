@@ -2,11 +2,11 @@
 
 require_relative 'feature_helper'
 
-RSpec.feature "AdvisorCanBatchEditClusters", type: :feature do
+RSpec.feature "Batch Editor", type: :feature do
   include ActiveSupport::Testing::TimeHelpers
   include FeatureHelper
 
-  scenario "move work to subcollection in cluster" do
+  scenario "move work to sub-collection in cluster" do
     login "qkunst-test-advisor@murb.nl"
 
     click_on "Collecties"
@@ -119,7 +119,7 @@ RSpec.feature "AdvisorCanBatchEditClusters", type: :feature do
     end
   end
 
-  scenario "other attributes happy flow" do
+  scenario "modify other attributes (happy flow)" do
     work_to_edit1 = works(:work1)
     work_to_edit2 = works(:work2)
 
@@ -138,19 +138,54 @@ RSpec.feature "AdvisorCanBatchEditClusters", type: :feature do
     click_on "Batch Editor"
 
     new_values = {
-      location: "New location"
+      location: "New location",
+      minimum_bid: 0.12,
+      selling_price: 12345.01,
+      purchase_price: 853.41,
+      purchased_on: "2012-05-03".to_date
     }
 
-    fill_in_with_strategy(:location, new_values[:location], :REPLACE)
+    new_values.each do |key, value|
+      fill_in_with_strategy(key, value, :REPLACE)
+    end
+
     click_on "2 werken bijwerken"
 
     work_to_edit1.reload
 
-    expect(work_to_edit1.location).to eq(new_values[:location])
+    new_values.each do |key, value|
+      expect(work_to_edit1.send(key)).to eq(value)
+    end
   end
+
+  scenario "[cluster batch editor, remove?] move work to subcollection in using the cluster-batch editor" do
+    login "qkunst-test-advisor@murb.nl"
+
+    click_on "Collecties"
+    if page.body.match("id=\"list-to-filter\"")
+      within "#list-to-filter" do
+        click_on "Collection 1"
+      end
+    end
+    click_on "Toon alle 3 werken"
+    work_to_add_to_cluster = works(:work1)
+    check "selected_works_#{work_to_add_to_cluster.id}"
+    click_on "Nieuw cluster"
+    fill_in("Clusternaam", with: "My first batch cluster")
+    click_on "Pas 1 werk aan (vervangt)"
+    check "selected_works_#{work_to_add_to_cluster.id}"
+    click_on "Collectie"
+    select "Collection with works child (sub of Collection 1 >> colection with works)"
+    click_on "Pas 1 werk aan (vervangt)"
+    click_on "Work1"
+    expect(page).to have_content("Collection with works child (sub of Collection 1 >> colection with works)")
+    expect(page).to have_content("My first batch cluster")
+  end
+
 
   def fill_in_with_strategy field, value, strategy=IGNORE
     fill_in(I18n.t("activerecord.attributes.work.#{field}"), with: value)
     select(I18n.t("helpers.batch.strategies.#{strategy}"), from: "work_update_#{field}_strategy")
   end
 end
+

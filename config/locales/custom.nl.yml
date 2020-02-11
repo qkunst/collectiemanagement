@@ -9,6 +9,44 @@ nl:
       theme:
         collection: 'Algemeen'
   save_and_edit_next: Na bewaren direct de volgende bewerken
+  abilities:
+    edit: Bewerken
+    manage: Beheren
+    read: Lezen
+    show: Tonen
+    index: Overzicht zien
+    create: Aanmaken & opslaan
+    update: Bijwerken
+    edit_admin: Administrator rol toekennen
+    destroy: Verwijderen
+    show_details: Details tonen
+    tag: Taggen
+    manage_location: Beheer locatie
+    edit_location: Bewerk locatie
+    read_location: Toon locatie
+    write_internal_comments: Toon interne opmerkingen
+    read_internal_comments: Wijzig interne opmerkingen
+    read_information_back: Toon informatie achterzijde
+    edit_photos: Foto's bewerken
+    edit_visibility: Pas zichtbaarheid aan
+    copy: Kopieer
+    new: Aanmaken
+    review: Toegang tot beheer
+    read_status: Status inzien
+    clean: Opschonen
+    combine: Combineren
+    refresh: Zoekmachine verversen
+    read_valuation: Waardering zien
+    read_valuation_reference: Waarderingsreferentie lezen
+    read_report: Rapportage lezen
+    read_extended_report: Uitgebreide rapportage lezen
+    access_valuation: Kan waardering zien
+    download_datadump: Kan gegevens downloaden
+    download_photos: Kan foto's downloaden
+    batch_edit: Toegang tot de batch-editor
+    modify_collection: Bewerk collectie in collectie-context
+    manage_collection: Beheer (inclusief aanmaken) collectie in collectie-context
+    review_collection: Overzicht tonen in collectie-context
   routes:
     books: boeken
     new: nieuw
@@ -56,37 +94,42 @@ nl:
       new: "Nieuw"
   activerecord:
     models:
-      message: Bericht
-      user: Gebruiker
-      recipe: Recept
-      book: Boek
-      work: Kunstwerk
-      subset: Deelcollectie
-      style: Stijl
-      theme: Thema
-      artist: Vervaardiger
-      collection: Collectie
-      object_category: Categorie
-      technique: Techniek
-      medium: Drager
-      condition: Conditie beeld
-      damage_type: Type schade beeld
-      frame_damage_type: Type schade lijst
-      source: Herkomst
-      cluster: Cluster
-      import_collection: Import
-      batch_photo_upload: Foto-import
-      involvement: Betrekking
-      artist_involvement: Vervaardigersbetrekking
+      all: Alles
       appraisal: Waardering
+      artist: Vervaardiger
+      artistinvolvement: Vervaardigersbetrekking
+      artist_involvement: Vervaardigersbetrekking
       attachment: Bijlage
-      stage: Workflow stadium
-      reminder: Herinnering
-      tagging: Tags
-      frame_type: Lijsttype
+      batch_photo_upload: Foto-import
+      book: Boek
+      cluster: Cluster
+      collection: Collectie
+      condition: Conditie beeld
+      customreport: Rapport
       custom_report: Rapport
       custom_report_template: Rapporttemplate
+      damage_type: Type schade beeld
+      frame_damage_type: Type schade lijst
+      frame_type: Lijsttype
+      importcollection: Import
+      import_collection: Import
+      involvement: Betrekking
+      medium: Drager
+      message: Bericht
+      object_category: Categorie
       owner: Eigenaar
+      reminder: Herinnering
+      rkdartist: RKD Artist
+      rkd_artist: RKD Artist
+      source: Herkomst
+      stage: Workflow stadium
+      style: Stijl
+      subset: Deelcollectie
+      tagging: Tags
+      technique: Techniek
+      theme: Thema
+      user: Gebruiker
+      work: Werk
     values:
       user:
         role:
@@ -95,6 +138,7 @@ nl:
           compliance: Compliance
           advisor: Kunstadviseur
           appraiser: Taxateur
+          registrator: Registrator
           facility_manager: Facility Manager
           read_only: Read-only
       import_collection:

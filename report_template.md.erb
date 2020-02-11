@@ -1,0 +1,42 @@
+# Test report QKunst Collectiebeheer
+
+Date: <%=Time.now%>
+
+This report gives an overview of the test ran. This report is automatically created.
+
+## Statistics
+
+In total **<%= @stats[:perc] %>** of the lines are covered by automated test. The code base consists of **<%= @stats[:ltot] %>** lines of code.
+
+## Abilities
+
+As a general note: except for administrators, user access is limited to a a selected set of collections.
+
+### General abilities
+
+This lists what a user can do per object-type.
+
+<%= @abilities_report %>
+
+### Write access
+
+This is a list of fields a user can write to
+
+<%= @field_abilities_report %>
+
+
+## Features
+
+The feature specs cover the most important work flow. The test descriptions should be comprehensible for someone familiar with the application.
+
+```
+<%= File.read('tmp/features.txt')%>
+```
+
+## Appendix A: Full test results
+
+Full test results; only for reference.
+
+```
+<%= File.read('tmp/spec-full.txt')%>
+```

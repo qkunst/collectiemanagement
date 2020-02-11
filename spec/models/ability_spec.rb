@@ -64,8 +64,6 @@ RSpec.describe Ability, type: :model do
     }
   }
 
-
-
   example_groups.each do |k1, v1|
     context k1 do
       let(:user) { Ability.new(users(k1))}
@@ -82,6 +80,22 @@ RSpec.describe Ability, type: :model do
     end
   end
 
+  describe ".report_field_abilities" do
+    it "should report field abilities" do
+      field_abilities = Ability.report_field_abilities
+      expect(field_abilities[:header][0][:ability]).to be_a(Ability)
+      expect(field_abilities[:header][0][:user]).to be_a(Ability::TestUser)
+      expect(field_abilities.dig(:data,:works_attributes,:location)).to be_a(Array)
+    end
+  end
 
-
+  describe ".report_abilities" do
+    it "should report field abilities" do
+      report = Ability.report_abilities
+      expect(report[:header][0][:ability]).to be_a(Ability)
+      expect(report[:header][0][:user]).to be_a(Ability::TestUser)
+      expect(report.dig(:data,"Alles","Beheren")).to eq([true, false, false, false, false, false])
+      expect(report.dig(:data,"Werk","Bewerken")).to eq([true, true, false, true, false, false])
+    end
+  end
 end
