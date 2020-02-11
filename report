@@ -31,7 +31,7 @@ def report_to_markdown report
     end
   end
   lines = row_data.collect{|a| a.join("|")}.collect{|line| "|#{line}|"}.join("\n")
-  md = "|-|#{header}|\n|#{header_seperator}|\n#{lines}"
+  md = "|-|#{header}|\n|-|#{header_seperator}|\n#{lines}"
 end
 def create_report_md
   _, lcov, ltot, perc= File.read('tmp/spec-meta.txt').match(/(\d*) \/ (\d*) LOC \((\d*\.\d*\%)\) covered/).to_a

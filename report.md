@@ -1,6 +1,6 @@
 # Test report QKunst Collectiebeheer
 
-Date: 2020-02-11 22:43:59 +0100
+Date: 2020-02-11 22:45:33 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
@@ -17,7 +17,7 @@ As a general note: except for administrators, user access is limited to a a sele
 This lists what a user can do per object-type.
 
 |-|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only|
-|---|---|---|---|---|---|
+|-|---|---|---|---|---|---|
 |**Alles**||
 |*Beheren*|✔|✘|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
@@ -145,7 +145,7 @@ This lists what a user can do per object-type.
 This is a list of fields a user can write to
 
 |-|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only|
-|---|---|---|---|---|---|
+|-|---|---|---|---|---|---|
 |**works_attributes**||
 |*location_detail*|✔|✔|✘|✔|✔|✘|
 |*location*|✔|✔|✘|✔|✔|✘|
