@@ -1,6 +1,6 @@
 # Test report QKunst Collectiebeheer
 
-Date: 2020-02-11 22:45:33 +0100
+Date: 2020-02-11 23:26:55 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
@@ -29,16 +29,11 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
-|*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Bericht**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✘|
-|*Tonen*|✔|✔|✔|✔|✔|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✔|✘|
-|*Aanmaken*|✔|✔|✘|✔|✔|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |**Collectie**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
@@ -56,10 +51,7 @@ This lists what a user can do per object-type.
 |*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
 |*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
-|*Aanmaken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
-|*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|
 |**Vervaardiger**||
 |*Opschonen*|✔|✘|✘|✘|✘|✘|
@@ -68,30 +60,20 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
-|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
-|*Tonen*|✔|✔|✔|✔|✔|✔|
 |**Cluster**||
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |**RKD Artist**||
 |*Lezen*|✔|✔|✔|✔|✘|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
-|*Tonen*|✔|✔|✔|✔|✘|✘|
 |*Kopieer*|✔|✔|✘|✔|✘|✘|
 |**Bijlage**||
 |*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
-|*Aanmaken*|✔|✔|✘|✘|✘|✘|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
 |**Werk**||
 |*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
 |*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
@@ -102,38 +84,25 @@ This lists what a user can do per object-type.
 |*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
 |*Taggen*|✔|✔|✘|✔|✘|✘|
 |*Details tonen*|✔|✔|✔|✔|✔|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
-|*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |**Gebruiker**||
 |*Verwijderen*|✔|✘|✘|✘|✘|✘|
 |*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
-|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Waardering**||
 |*Beheren*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
-|*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Import**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✘|✔|✘|✘|✘|
 |**Herinnering**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |**Thema**||
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|

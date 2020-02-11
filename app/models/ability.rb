@@ -84,7 +84,7 @@ class Ability
       ability.permissions[:can].each do |permission, things|
         things.each do |thing, _|
           permissions_per_thing[thing] ||= []
-          permissions_per_thing[thing] << permission unless permissions_per_thing[thing].include? permission
+          permissions_per_thing[thing] << permission unless permissions_per_thing[thing].include? permission or [:new, :edit, :show, :index].include?(permission)
         end
       end
     end
@@ -117,8 +117,12 @@ class Ability
   def initialize(user)
     # [:admin, :qkunst, :appraiser, :facility_manager, :read_only]
     if user
+      # Default aliases:
+      # alias_action :index, :show, :to => :read
+      # alias_action :new, :to => :create
+      # alias_action :edit, :to => :update
+
       alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection
-      alias_action :show, :index, to: :read
       alias_action :read_location, :edit_location, to: :manage_location
 
       accessible_collection_ids = user.accessible_collections.map(&:id)
@@ -164,14 +168,14 @@ class Ability
 
         can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
-        can [:read, :edit, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
         can :manage, Message
 
         can :update, User
         cannot [:destroy, :edit_admin], User
       elsif user.compliance?
         # READ ONLY, BUT FULL ACCESS
-        cannot [:create, :edit, :update, :tag], :all
+        cannot [:create, :update, :tag], :all
 
         can [:read, :review_collection], Artist
         can :read, RkdArtist
@@ -209,13 +213,13 @@ class Ability
         can :manage, Appraisal
         can :read, CustomReport, collection_id: accessible_collection_ids
         can [:create, :read], Message
-        can :edit, Message do |message|
+        can :update, Message do |message|
           message && message.from_user == user && message.replies.count == 0 && message.unread
         end
 
         can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :update, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
         can :tag, Work
       elsif user.registrator?
@@ -225,7 +229,7 @@ class Ability
 
         can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-        can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+        can [:read, :edit_photos, :update, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
       elsif user.facility_manager?
         can [:read], Artist
         can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
