@@ -106,6 +106,17 @@ class Work < ApplicationRecord
       indexes :report_val_sorted_object_category_ids, type: 'keyword'
       indexes :report_val_sorted_technique_ids, type: 'keyword'
       indexes :title, analyzer: 'dutch'
+      indexes :market_value, type: 'scaled_float', scaling_factor: 100
+      indexes :replacement_value, type: 'scaled_float', scaling_factor: 100
+      indexes :market_value, type: 'scaled_float', scaling_factor: 100
+      indexes :purchase_price, type: 'scaled_float', scaling_factor: 100
+      indexes :market_value_min, type: 'scaled_float', scaling_factor: 100
+      indexes :market_value_max, type: 'scaled_float', scaling_factor: 100
+      indexes :replacement_value_min, type: 'scaled_float', scaling_factor: 100
+      indexes :replacement_value_max, type: 'scaled_float', scaling_factor: 100
+      indexes :minimum_bid, type: 'scaled_float', scaling_factor: 100
+      indexes :selling_price, type: 'scaled_float', scaling_factor: 100
+      indexes :purchase_price_in_eur, type: 'scaled_float', scaling_factor: 100
     end
   end
 
