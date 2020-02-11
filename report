@@ -30,8 +30,8 @@ def report_to_markdown report
       row_data << line_data
     end
   end
-  lines = row_data.collect{|a| a.join("|")}.join("\n")
-  md = "-|#{header}\n#{header_seperator}\n#{lines}"
+  lines = row_data.collect{|a| a.join("|")}.collect{|line| "|#{line}|"}.join("\n")
+  md = "|-|#{header}|\n|#{header_seperator}|\n#{lines}"
 end
 def create_report_md
   _, lcov, ltot, perc= File.read('tmp/spec-meta.txt').match(/(\d*) \/ (\d*) LOC \((\d*\.\d*\%)\) covered/).to_a
@@ -48,8 +48,8 @@ puts "Generating management report"
 
 
 puts "- Generate sub-report for features"
-generate_feature_report
+# generate_feature_report
 puts "- Generate RSpec report"
-generate_full_report
+# generate_full_report
 puts "- Compile document"
 create_report_md

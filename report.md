@@ -1,6 +1,6 @@
 # Test report QKunst Collectiebeheer
 
-Date: 2020-02-11 20:43:01 +0100
+Date: 2020-02-11 22:43:59 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
@@ -16,231 +16,231 @@ As a general note: except for administrators, user access is limited to a a sele
 
 This lists what a user can do per object-type.
 
--|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
----|---|---|---|---|---
-**Alles**|
-*Beheren*|✔|✘|✘|✘|✘|✘
-*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✘|✘|✘|✘
-*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-**Rapport**|
-*Beheren*|✔|✔|✘|✘|✘|✘
-*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
-*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Lezen*|✔|✔|✔|✔|✘|✘
-*Overzicht zien*|✔|✔|✔|✔|✘|✘
-*Tonen*|✔|✔|✔|✔|✘|✘
-**Bericht**|
-*Beheren*|✔|✔|✘|✘|✘|✘
-*Lezen*|✔|✔|✔|✔|✔|✘
-*Overzicht zien*|✔|✔|✔|✔|✔|✘
-*Tonen*|✔|✔|✔|✔|✔|✘
-*Aanmaken & opslaan*|✔|✔|✘|✔|✔|✘
-*Aanmaken*|✔|✔|✘|✔|✔|✘
-*Bewerken*|✔|✔|✘|✔|✘|✘
-**Collectie**|
-*Beheren*|✔|✔|✘|✘|✘|✘
-*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
-*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Toegang tot de batch-editor*|✔|✔|✘|✔|✔|✘
-*Kan foto's downloaden*|✔|✔|✔|✘|✔|✘
-*Kan gegevens downloaden*|✔|✔|✔|✘|✘|✘
-*Kan waardering zien*|✔|✔|✔|✘|✘|✘
-*Rapportage lezen*|✔|✔|✔|✔|✔|✘
-*Uitgebreide rapportage lezen*|✔|✔|✔|✔|✘|✘
-*Waardering zien*|✔|✔|✔|✔|✔|✘
-*Status inzien*|✔|✔|✔|✔|✔|✘
-*Waarderingsreferentie lezen*|✔|✔|✔|✔|✘|✘
-*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘
-*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘
-*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘
-*Aanmaken*|✔|✔|✘|✘|✘|✘
-*Lezen*|✔|✔|✔|✔|✔|✔
-*Overzicht zien*|✔|✔|✔|✔|✔|✔
-*Tonen*|✔|✔|✔|✔|✔|✔
-*Toegang tot beheer*|✔|✔|✔|✘|✘|✘
-**Vervaardiger**|
-*Opschonen*|✔|✘|✘|✘|✘|✘
-*Combineren*|✔|✘|✘|✘|✘|✘
-*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✔|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘
-*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘
-*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘
-*Aanmaken*|✔|✔|✘|✔|✘|✘
-*Bijwerken*|✔|✔|✘|✔|✘|✘
-*Bewerken*|✔|✔|✘|✔|✘|✘
-*Lezen*|✔|✔|✔|✔|✔|✔
-*Overzicht zien*|✔|✔|✔|✔|✔|✔
-*Tonen*|✔|✔|✔|✔|✔|✔
-**Cluster**|
-*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
-*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘
-**RKD Artist**|
-*Lezen*|✔|✔|✔|✔|✘|✘
-*Overzicht zien*|✔|✔|✔|✔|✘|✘
-*Tonen*|✔|✔|✔|✔|✘|✘
-*Kopieer*|✔|✔|✘|✔|✘|✘
-**Bijlage**|
-*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘
-*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘
-*Aanmaken*|✔|✔|✘|✘|✘|✘
-*Bijwerken*|✔|✔|✘|✘|✘|✘
-*Bewerken*|✔|✔|✘|✘|✘|✘
-*Lezen*|✔|✘|✔|✘|✘|✘
-*Overzicht zien*|✔|✘|✔|✘|✘|✘
-*Tonen*|✔|✘|✔|✘|✘|✘
-**Werk**|
-*Foto's bewerken*|✔|✔|✘|✔|✘|✘
-*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘
-*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘
-*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘
-*Beheer locatie*|✔|✔|✘|✔|✔|✘
-*Toon locatie*|✔|✔|✔|✔|✔|✘
-*Bewerk locatie*|✔|✔|✘|✔|✔|✘
-*Taggen*|✔|✔|✘|✔|✘|✘
-*Details tonen*|✔|✔|✔|✔|✔|✘
-*Bewerken*|✔|✔|✘|✔|✘|✘
-*Lezen*|✔|✔|✔|✔|✔|✔
-*Overzicht zien*|✔|✔|✔|✔|✔|✔
-*Tonen*|✔|✔|✔|✔|✔|✔
-*Beheren*|✔|✔|✘|✘|✘|✘
-**Gebruiker**|
-*Verwijderen*|✔|✘|✘|✘|✘|✘
-*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘
-*Bijwerken*|✔|✔|✘|✘|✘|✘
-*Bewerken*|✔|✔|✘|✘|✘|✘
-*Lezen*|✔|✘|✔|✘|✘|✘
-*Overzicht zien*|✔|✘|✔|✘|✘|✘
-*Tonen*|✔|✘|✔|✘|✘|✘
-**Vervaardigersbetrekking**|
-*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘
-*Aanmaken*|✔|✔|✘|✔|✘|✘
-*Bijwerken*|✔|✔|✘|✔|✘|✘
-*Bewerken*|✔|✔|✘|✔|✘|✘
-**Waardering**|
-*Beheren*|✔|✔|✘|✔|✘|✘
-*Lezen*|✔|✔|✔|✔|✘|✘
-*Overzicht zien*|✔|✔|✔|✔|✘|✘
-*Tonen*|✔|✔|✔|✔|✘|✘
-**Import**|
-*Lezen*|✔|✘|✔|✘|✘|✘
-*Overzicht zien*|✔|✘|✔|✘|✘|✘
-*Tonen*|✔|✘|✔|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✘|✔|✘|✘|✘
-**Herinnering**|
-*Lezen*|✔|✘|✔|✘|✘|✘
-*Overzicht zien*|✔|✘|✔|✘|✘|✘
-*Tonen*|✔|✘|✔|✘|✘|✘
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
-**Thema**|
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
-**Eigenaar**|
-*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘
+|-|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only|
+|---|---|---|---|---|---|
+|**Alles**||
+|*Beheren*|✔|✘|✘|✘|✘|✘|
+|*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|**Rapport**||
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
+|**Bericht**||
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✘|
+|*Tonen*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✔|✘|
+|*Aanmaken*|✔|✔|✘|✔|✔|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|**Collectie**||
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Toegang tot de batch-editor*|✔|✔|✘|✔|✔|✘|
+|*Kan foto's downloaden*|✔|✔|✔|✘|✔|✘|
+|*Kan gegevens downloaden*|✔|✔|✔|✘|✘|✘|
+|*Kan waardering zien*|✔|✔|✔|✘|✘|✘|
+|*Rapportage lezen*|✔|✔|✔|✔|✔|✘|
+|*Uitgebreide rapportage lezen*|✔|✔|✔|✔|✘|✘|
+|*Waardering zien*|✔|✔|✔|✔|✔|✘|
+|*Status inzien*|✔|✔|✔|✔|✔|✘|
+|*Waarderingsreferentie lezen*|✔|✔|✔|✔|✘|✘|
+|*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
+|*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|
+|**Vervaardiger**||
+|*Opschonen*|✔|✘|✘|✘|✘|✘|
+|*Combineren*|✔|✘|✘|✘|✘|✘|
+|*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘|
+|*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|**Cluster**||
+|*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|**RKD Artist**||
+|*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
+|*Kopieer*|✔|✔|✘|✔|✘|✘|
+|**Bijlage**||
+|*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
+|**Werk**||
+|*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
+|*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
+|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘|
+|*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘|
+|*Beheer locatie*|✔|✔|✘|✔|✔|✘|
+|*Toon locatie*|✔|✔|✔|✔|✔|✘|
+|*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
+|*Taggen*|✔|✔|✘|✔|✘|✘|
+|*Details tonen*|✔|✔|✔|✔|✔|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|**Gebruiker**||
+|*Verwijderen*|✔|✘|✘|✘|✘|✘|
+|*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
+|**Vervaardigersbetrekking**||
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|**Waardering**||
+|*Beheren*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
+|**Import**||
+|*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✘|✔|✘|✘|✘|
+|**Herinnering**||
+|*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|**Thema**||
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|**Eigenaar**||
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 
 ### Write access
 
 This is a list of fields a user can write to
 
--|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
----|---|---|---|---|---
-**works_attributes**|
-*location_detail*|✔|✔|✘|✔|✔|✘
-*location*|✔|✔|✘|✔|✔|✘
-*location_floor*|✔|✔|✘|✔|✔|✘
-*internal_comments*|✔|✔|✘|✔|✘|✘
-*photo_front*|✔|✔|✘|✔|✘|✘
-*photo_back*|✔|✔|✘|✔|✘|✘
-*photo_detail_1*|✔|✔|✘|✔|✘|✘
-*photo_detail_2*|✔|✔|✘|✔|✘|✘
-*remove_photo_front*|✔|✔|✘|✔|✘|✘
-*remove_photo_back*|✔|✔|✘|✔|✘|✘
-*remove_photo_detail_1*|✔|✔|✘|✔|✘|✘
-*remove_photo_detail_2*|✔|✔|✘|✔|✘|✘
-*inventoried*|✔|✔|✘|✔|✘|✘
-*refound*|✔|✔|✘|✔|✘|✘
-*new_found*|✔|✔|✘|✔|✘|✘
-*locality_geoname_id*|✔|✔|✘|✔|✘|✘
-*imported_at*|✔|✔|✘|✔|✘|✘
-*import_collection_id*|✔|✔|✘|✔|✘|✘
-*stock_number*|✔|✔|✘|✔|✘|✘
-*alt_number_1*|✔|✔|✘|✔|✘|✘
-*alt_number_2*|✔|✔|✘|✔|✘|✘
-*alt_number_3*|✔|✔|✘|✔|✘|✘
-*artist_unknown*|✔|✔|✘|✔|✘|✘
-*title*|✔|✔|✘|✔|✘|✘
-*title_unknown*|✔|✔|✘|✔|✘|✘
-*description*|✔|✔|✘|✔|✘|✘
-*object_creation_year*|✔|✔|✘|✔|✘|✘
-*object_creation_year_unknown*|✔|✔|✘|✔|✘|✘
-*medium_id*|✔|✔|✘|✔|✘|✘
-*frame_type_id*|✔|✔|✘|✔|✘|✘
-*signature_comments*|✔|✔|✘|✔|✘|✘
-*no_signature_present*|✔|✔|✘|✔|✘|✘
-*print*|✔|✔|✘|✔|✘|✘
-*print_unknown*|✔|✔|✘|✔|✘|✘
-*frame_height*|✔|✔|✘|✔|✘|✘
-*frame_width*|✔|✔|✘|✔|✘|✘
-*frame_depth*|✔|✔|✘|✔|✘|✘
-*frame_diameter*|✔|✔|✘|✔|✘|✘
-*height*|✔|✔|✘|✔|✘|✘
-*width*|✔|✔|✘|✔|✘|✘
-*depth*|✔|✔|✘|✔|✘|✘
-*diameter*|✔|✔|✘|✔|✘|✘
-*condition_work_id*|✔|✔|✘|✔|✘|✘
-*condition_work_comments*|✔|✔|✘|✔|✘|✘
-*condition_frame_id*|✔|✔|✘|✔|✘|✘
-*condition_frame_comments*|✔|✔|✘|✔|✘|✘
-*information_back*|✔|✔|✘|✔|✘|✘
-*other_comments*|✔|✔|✘|✔|✘|✘
-*source_comments*|✔|✔|✘|✔|✘|✘
-*subset_id*|✔|✔|✘|✔|✘|✘
-*public_description*|✔|✔|✘|✔|✘|✘
-*grade_within_collection*|✔|✔|✘|✔|✘|✘
-*entry_status*|✔|✔|✘|✔|✘|✘
-*entry_status_description*|✔|✔|✘|✔|✘|✘
-*abstract_or_figurative*|✔|✔|✘|✔|✘|✘
-*medium_comments*|✔|✔|✘|✔|✘|✘
-*main_collection*|✔|✔|✘|✔|✘|✘
-*image_rights*|✔|✔|✘|✔|✘|✘
-*publish*|✔|✔|✘|✔|✘|✘
-*cluster_name*|✔|✔|✘|✔|✘|✘
-*collection_id*|✔|✔|✘|✔|✘|✘
-*cluster_id*|✔|✔|✘|✔|✘|✘
-*owner_id*|✔|✔|✘|✔|✘|✘
-*placeability_id*|✔|✔|✘|✔|✘|✘
-*artist_ids*|✔|✔|✘|✔|✘|✘
-*source_ids*|✔|✔|✘|✔|✘|✘
-*damage_type_ids*|✔|✔|✘|✔|✘|✘
-*frame_damage_type_ids*|✔|✔|✘|✔|✘|✘
-*theme_ids*|✔|✔|✘|✔|✘|✘
-*object_category_ids*|✔|✔|✘|✔|✘|✘
-*technique_ids*|✔|✔|✘|✔|✘|✘
-*selling_price*|✔|✔|✘|✔|✘|✘
-*minimum_bid*|✔|✔|✘|✔|✘|✘
-*purchase_price*|✔|✔|✘|✔|✘|✘
-*purchased_on*|✔|✔|✘|✔|✘|✘
-*purchase_year*|✔|✔|✘|✔|✘|✘
-**artists_attributes**|
-*_destroy*|✔|✔|✘|✔|✘|✘
-*first_name*|✔|✔|✘|✔|✘|✘
-*last_name*|✔|✔|✘|✔|✘|✘
-*prefix*|✔|✔|✘|✔|✘|✘
-*place_of_birth*|✔|✔|✘|✔|✘|✘
-*place_of_death*|✔|✔|✘|✔|✘|✘
-*year_of_birth*|✔|✔|✘|✔|✘|✘
-*year_of_death*|✔|✔|✘|✔|✘|✘
-*description*|✔|✔|✘|✔|✘|✘
-**appraisals_attributes**|
-*appraised_on*|✔|✔|✘|✔|✘|✘
-*market_value*|✔|✔|✘|✔|✘|✘
-*replacement_value*|✔|✔|✘|✔|✘|✘
-*market_value_range*|✔|✔|✘|✔|✘|✘
-*replacement_value_range*|✔|✔|✘|✔|✘|✘
-*appraised_by*|✔|✔|✘|✔|✘|✘
-*reference*|✔|✔|✘|✔|✘|✘
+|-|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only|
+|---|---|---|---|---|---|
+|**works_attributes**||
+|*location_detail*|✔|✔|✘|✔|✔|✘|
+|*location*|✔|✔|✘|✔|✔|✘|
+|*location_floor*|✔|✔|✘|✔|✔|✘|
+|*internal_comments*|✔|✔|✘|✔|✘|✘|
+|*photo_front*|✔|✔|✘|✔|✘|✘|
+|*photo_back*|✔|✔|✘|✔|✘|✘|
+|*photo_detail_1*|✔|✔|✘|✔|✘|✘|
+|*photo_detail_2*|✔|✔|✘|✔|✘|✘|
+|*remove_photo_front*|✔|✔|✘|✔|✘|✘|
+|*remove_photo_back*|✔|✔|✘|✔|✘|✘|
+|*remove_photo_detail_1*|✔|✔|✘|✔|✘|✘|
+|*remove_photo_detail_2*|✔|✔|✘|✔|✘|✘|
+|*inventoried*|✔|✔|✘|✔|✘|✘|
+|*refound*|✔|✔|✘|✔|✘|✘|
+|*new_found*|✔|✔|✘|✔|✘|✘|
+|*locality_geoname_id*|✔|✔|✘|✔|✘|✘|
+|*imported_at*|✔|✔|✘|✔|✘|✘|
+|*import_collection_id*|✔|✔|✘|✔|✘|✘|
+|*stock_number*|✔|✔|✘|✔|✘|✘|
+|*alt_number_1*|✔|✔|✘|✔|✘|✘|
+|*alt_number_2*|✔|✔|✘|✔|✘|✘|
+|*alt_number_3*|✔|✔|✘|✔|✘|✘|
+|*artist_unknown*|✔|✔|✘|✔|✘|✘|
+|*title*|✔|✔|✘|✔|✘|✘|
+|*title_unknown*|✔|✔|✘|✔|✘|✘|
+|*description*|✔|✔|✘|✔|✘|✘|
+|*object_creation_year*|✔|✔|✘|✔|✘|✘|
+|*object_creation_year_unknown*|✔|✔|✘|✔|✘|✘|
+|*medium_id*|✔|✔|✘|✔|✘|✘|
+|*frame_type_id*|✔|✔|✘|✔|✘|✘|
+|*signature_comments*|✔|✔|✘|✔|✘|✘|
+|*no_signature_present*|✔|✔|✘|✔|✘|✘|
+|*print*|✔|✔|✘|✔|✘|✘|
+|*print_unknown*|✔|✔|✘|✔|✘|✘|
+|*frame_height*|✔|✔|✘|✔|✘|✘|
+|*frame_width*|✔|✔|✘|✔|✘|✘|
+|*frame_depth*|✔|✔|✘|✔|✘|✘|
+|*frame_diameter*|✔|✔|✘|✔|✘|✘|
+|*height*|✔|✔|✘|✔|✘|✘|
+|*width*|✔|✔|✘|✔|✘|✘|
+|*depth*|✔|✔|✘|✔|✘|✘|
+|*diameter*|✔|✔|✘|✔|✘|✘|
+|*condition_work_id*|✔|✔|✘|✔|✘|✘|
+|*condition_work_comments*|✔|✔|✘|✔|✘|✘|
+|*condition_frame_id*|✔|✔|✘|✔|✘|✘|
+|*condition_frame_comments*|✔|✔|✘|✔|✘|✘|
+|*information_back*|✔|✔|✘|✔|✘|✘|
+|*other_comments*|✔|✔|✘|✔|✘|✘|
+|*source_comments*|✔|✔|✘|✔|✘|✘|
+|*subset_id*|✔|✔|✘|✔|✘|✘|
+|*public_description*|✔|✔|✘|✔|✘|✘|
+|*grade_within_collection*|✔|✔|✘|✔|✘|✘|
+|*entry_status*|✔|✔|✘|✔|✘|✘|
+|*entry_status_description*|✔|✔|✘|✔|✘|✘|
+|*abstract_or_figurative*|✔|✔|✘|✔|✘|✘|
+|*medium_comments*|✔|✔|✘|✔|✘|✘|
+|*main_collection*|✔|✔|✘|✔|✘|✘|
+|*image_rights*|✔|✔|✘|✔|✘|✘|
+|*publish*|✔|✔|✘|✔|✘|✘|
+|*cluster_name*|✔|✔|✘|✔|✘|✘|
+|*collection_id*|✔|✔|✘|✔|✘|✘|
+|*cluster_id*|✔|✔|✘|✔|✘|✘|
+|*owner_id*|✔|✔|✘|✔|✘|✘|
+|*placeability_id*|✔|✔|✘|✔|✘|✘|
+|*artist_ids*|✔|✔|✘|✔|✘|✘|
+|*source_ids*|✔|✔|✘|✔|✘|✘|
+|*damage_type_ids*|✔|✔|✘|✔|✘|✘|
+|*frame_damage_type_ids*|✔|✔|✘|✔|✘|✘|
+|*theme_ids*|✔|✔|✘|✔|✘|✘|
+|*object_category_ids*|✔|✔|✘|✔|✘|✘|
+|*technique_ids*|✔|✔|✘|✔|✘|✘|
+|*selling_price*|✔|✔|✘|✔|✘|✘|
+|*minimum_bid*|✔|✔|✘|✔|✘|✘|
+|*purchase_price*|✔|✔|✘|✔|✘|✘|
+|*purchased_on*|✔|✔|✘|✔|✘|✘|
+|*purchase_year*|✔|✔|✘|✔|✘|✘|
+|**artists_attributes**||
+|*_destroy*|✔|✔|✘|✔|✘|✘|
+|*first_name*|✔|✔|✘|✔|✘|✘|
+|*last_name*|✔|✔|✘|✔|✘|✘|
+|*prefix*|✔|✔|✘|✔|✘|✘|
+|*place_of_birth*|✔|✔|✘|✔|✘|✘|
+|*place_of_death*|✔|✔|✘|✔|✘|✘|
+|*year_of_birth*|✔|✔|✘|✔|✘|✘|
+|*year_of_death*|✔|✔|✘|✔|✘|✘|
+|*description*|✔|✔|✘|✔|✘|✘|
+|**appraisals_attributes**||
+|*appraised_on*|✔|✔|✘|✔|✘|✘|
+|*market_value*|✔|✔|✘|✔|✘|✘|
+|*replacement_value*|✔|✔|✘|✔|✘|✘|
+|*market_value_range*|✔|✔|✘|✔|✘|✘|
+|*replacement_value_range*|✔|✔|✘|✔|✘|✘|
+|*appraised_by*|✔|✔|✘|✔|✘|✘|
+|*reference*|✔|✔|✘|✔|✘|✘|
 
 
 ## Features
