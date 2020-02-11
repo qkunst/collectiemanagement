@@ -15,9 +15,9 @@ before_install:
   - node -v
   - npm i -g yarn
   - yarn install
-  - rails qkunst:new_index
 script:
-  - bundle exec rake db:test:prepare
+  - bundle exec rails db:test:prepare
+  - bundle exec rails qkunst:new_index
   - bundle exec rspec
 services:
   - docker
