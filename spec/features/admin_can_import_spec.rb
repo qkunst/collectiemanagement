@@ -54,7 +54,7 @@ RSpec.feature "Import works", type: :feature do
     end
     click_on "Import"
     click_on "Nieuwe set aan foto's uploaden"
-    files = ["Q001", "Q002", "Q006", "Qna"].map{|a| File.join(Rails.root,"spec","fixtures","batch_photo_upload","#{a}.jpg")}
+    files = ["Q001", "Q005", "Q006", "Qna"].map{|a| File.join(Rails.root,"spec","fixtures","batch_photo_upload","#{a}.jpg")}
     attach_file "Afbeeldingen", files, multiple: true
     click_on "Foto-import toevoegen"
     expect(page).to have_content("Work1")

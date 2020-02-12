@@ -9,7 +9,7 @@ RSpec.describe Work, type: :model do
         w = works(:work1)
         expect(w.all_work_ids_in_collection.count).to eq 3
         expect(w.work_index_in_collection).to eq(0)
-        w = works(:work2)
+        w = works(:work5)
         expect(w.all_work_ids_in_collection.count).to eq 3
         expect(w.work_index_in_collection).to eq(2)
       end
@@ -215,21 +215,21 @@ RSpec.describe Work, type: :model do
     describe "#next" do
       it "should redirect to the next work" do
         w = works(:work1)
-        expect(w.next).to eq(works(:work5))
-        expect(w.next.next).to eq(works(:work2))
+        expect(w.next).to eq(works(:work2))
+        expect(w.next.next).to eq(works(:work5))
       end
       it "should return first if no next" do
-        expect(works(:work2).next).to eq(works(:work1))
+        expect(works(:work5).next).to eq(works(:work1))
       end
     end
     describe "#previous" do
       it "should redirect to the previous work" do
-        w = works(:work2)
-        expect(w.previous).to eq(works(:work5))
+        w = works(:work5)
+        expect(w.previous).to eq(works(:work2))
         expect(w.previous.previous).to eq(works(:work1))
       end
       it "should return last if no previous" do
-        expect(works(:work1).previous).to eq(works(:work2))
+        expect(works(:work1).previous).to eq(works(:work5))
       end
     end
     describe "#object_creation_year" do
@@ -440,7 +440,7 @@ RSpec.describe Work, type: :model do
         expect(Work.has_number("Q001")).to eq([works(:work1)])
       end
       it "finds by array" do
-        expect(Work.has_number(["Q001", "Q005"])).to eq([works(:work1), works(:work2)])
+        expect(Work.has_number(["Q001", "Q005"])).to eq([works(:work1), works(:work5)])
       end
       it "finds by array on all numbers" do
         expect(Work.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2), works(:work3), works(:work4)])
@@ -463,6 +463,24 @@ RSpec.describe Work, type: :model do
           c.works.create(location_floor: "Depot")
 
           expect(c.works.order_by(:location).map(&:location_floor)).to eq(["-3", "-2", "-1", "0", "BG", "1", "4", "Depot"])
+        end
+        it "sorts by location, floor, detail" do
+          c = collections(:sub_boring_collection)
+          c.works.create(location: "A", location_floor: "-1", location_detail: "C1")
+          c.works.create(location: "A", location_floor: "-1", location_detail: "D1")
+          c.works.create(location: "A", location_floor: "1" , location_detail: "C1")
+          c.works.create(location: "A", location_floor: "1" , location_detail: "C2")
+          c.works.create(location: "A", location_floor: "BG", location_detail: "2")
+          c.works.create(location: "A", location_floor: "BG", location_detail: "1")
+          c.works.create(location: "B", location_floor: "-1", location_detail: "C1")
+          c.works.create(location: "B", location_floor: "1" , location_detail: "B1")
+          c.works.create(location: "B", location_floor: "BG", location_detail: "A1")
+          expect(                    c.works.map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).not_to eq(
+            ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
+          )
+          expect(c.works.order_by(:location).map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).to eq(
+            ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
+          )
         end
       end
     end

@@ -73,7 +73,7 @@ class WorksController < ApplicationController
       @works = @works.id(params[:ids].split(",").map(&:to_i)) if params[:ids]
       @works_count = @works.count
       @works = @works.preload_relations_for_display(@selection[:display])
-      @works = @works.order_by(@selection[:sort]) if @selection[:sort]
+      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       @works = []
       @works_count = 0
@@ -116,6 +116,7 @@ class WorksController < ApplicationController
         else
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
+          @works = @works.limit(@max_index).all
         end
       end
     end
