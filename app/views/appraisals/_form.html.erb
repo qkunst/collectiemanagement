@@ -38,7 +38,7 @@
       </fieldset>
       <fieldset>
         <legend>Andere werk-eigenschappen</legend>
-        <%= wf.input :grade_within_collection, collection: %w{A B C D E F G}, default: nil %>
+        <%= wf.input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION, default: nil %>
         <%= wf.input :main_collection  %>
         <%= wf.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden, default: nil %>
         <div class="row">

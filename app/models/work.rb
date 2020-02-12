@@ -3,6 +3,7 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
+  GRADES_WITHIN_COLLECTION = %w{A B C D E F G W}
 
   include ActionView::Helpers::NumberHelper
   include Work::Caching
