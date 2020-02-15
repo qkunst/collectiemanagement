@@ -372,6 +372,7 @@ nl:
         replacement_value: Vervangingswaarde (€)
         replacement_value_range: Vervangingswaardecategorie (€)
         selling_price: Verkoopprijs
+        selling_price_minimum_bid_comments: Verkoop/startprijs opmerkingen
         signature: Signatuur
         signature_comments: Signatuur (incl. locatie)
         signature_rendered: Signatuur

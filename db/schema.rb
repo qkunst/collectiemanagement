@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_04_165323) do
+ActiveRecord::Schema.define(version: 2020_02_15_152016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -632,6 +632,7 @@ ActiveRecord::Schema.define(version: 2020_02_04_165323) do
     t.decimal "selling_price", precision: 16, scale: 2
     t.boolean "print_unknown"
     t.decimal "purchase_price_in_eur", precision: 16, scale: 2
+    t.text "selling_price_minimum_bid_comments"
   end
 
 end

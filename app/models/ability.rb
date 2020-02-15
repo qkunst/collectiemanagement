@@ -267,7 +267,7 @@ class Ability
         ]
         ] if can?(:edit, Work)
         permitted_fields += [
-          :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year,
+          :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :selling_price_minimum_bid_comments,
           appraisals_attributes: [
             :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference
           ]

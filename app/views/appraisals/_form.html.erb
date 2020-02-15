@@ -31,11 +31,7 @@
           <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
           <%= wf.input :source_comments %>
       </fieldset>
-      <fieldset>
-        <legend>Verkoop</legend>
-        <%= wf.input :minimum_bid%>
-        <%= wf.input :selling_price%>
-      </fieldset>
+
       <fieldset>
         <legend>Andere werk-eigenschappen</legend>
         <%= wf.input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION, default: nil %>
