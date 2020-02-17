@@ -91,3 +91,6 @@ work_with_private_theme:
     - :wind_private_to_collection_with_stages
   artists:
     - :artist4
+artistless_work:
+  title: artistless work
+  collection: :collection_with_stages

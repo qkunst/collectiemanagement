@@ -450,6 +450,11 @@ RSpec.describe Work, type: :model do
       end
     end
     describe ".order_by" do
+      describe "artist" do
+        it "works when there are no artists" do
+          expect(Work.order_by(:artist_name).last).to eq(works(:artistless_work))
+        end
+      end
       describe "location" do
         it "sorts -1 before BG" do
           c = collections(:sub_boring_collection)
