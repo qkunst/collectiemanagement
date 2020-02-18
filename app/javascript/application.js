@@ -17,6 +17,11 @@ require('select2');
 require('chosen-js');
 
 import Promise from 'promise-polyfill';
+
+if (typeof window.Promise === 'undefined') {
+  window.Promise = Promise
+}
+
 import('context_container');
 import('cookie');
 import('dom_diffing_turbolinks');
@@ -31,9 +36,6 @@ import('table_sortable');
 import('works');
 import('zxing/zxing_helper')
 
-if (typeof window.Promise === 'undefined') {
-  window.Promise = Promise
-}
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
