@@ -30,6 +30,9 @@ RSpec.feature "View report", type: :feature do
   end
 
   scenario "as a facility manager (limited)" do
+    # required for TravisCI
+    collections(:collection1).works_including_child_works.all.reindex!
+
     login users(:facility_manager)
 
     visit collections_path
