@@ -186,7 +186,7 @@ class WorksController < ApplicationController
   def location_history
     location_versions = []
     @work.versions.each_with_index do |version, index|
-      location_versions[index] = {created_at: version.created_at, event: version.event}
+      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
       if version.object and index > 0
         reified_object = version.reify
         location_versions[index-1][:location] = reified_object.location
@@ -224,7 +224,7 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect{|a| [a.created_at, a.reify]}.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect{|a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name]}.compact
   end
 
   # DELETE /works/1

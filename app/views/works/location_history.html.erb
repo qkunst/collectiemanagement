@@ -5,7 +5,7 @@
 <table>
   <thead>
     <tr>
-    <%[:updated_at, :location, :location_floor, :location_detail].each do |key|%>
+    <%[:updated_at, :user, :location, :location_floor, :location_detail].each do |key|%>
       <th><%= Work.human_attribute_name(key)%></th>
     <% end %>
     </tr>
@@ -17,6 +17,8 @@
         <%=I18n.l version[:created_at] %>
         <% if version[:event] == "create" %><small><br/>Moment van aanmaak</small><% end %>
       </td>
+      <td><%=version[:user]%></td>
+
       <%[:location, :location_floor, :location_detail].each do |key|%>
         <td><%= version[key] %></td>
       <% end %>

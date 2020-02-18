@@ -391,6 +391,7 @@ nl:
         title_rendered: Titel
         title_unknown: Zonder titel
         updated_at: Bijgewerkt op
+        user: Gebruiker
         valuation_on: Datum waardebepaling
         width: Breedte beeld (cm)
         work_size: Afmetingen beeld (cm)
