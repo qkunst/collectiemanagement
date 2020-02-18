@@ -16,6 +16,7 @@ require('jquery_nested_form');
 require('select2');
 require('chosen-js');
 
+import {Promise} from 'promise-polyfill';
 import('context_container');
 import('cookie');
 import('dom_diffing_turbolinks');
@@ -28,6 +29,11 @@ import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
+import('zxing/zxing_helper')
+
+if (typeof window.Promise === 'undefined') {
+  window.Promise = Promise
+}
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
@@ -243,4 +249,3 @@ $(document).on("turbolinks:request-start", function() {
 
 })
 
-import('zxing/zxing_helper')
