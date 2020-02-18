@@ -16,6 +16,7 @@ require('jquery_nested_form');
 require('select2');
 require('chosen-js');
 
+import('promise-polyfill/src/polyfill');
 import('context_container');
 import('cookie');
 import('dom_diffing_turbolinks');
