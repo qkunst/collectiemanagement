@@ -46,7 +46,7 @@ class Collection < ApplicationRecord
   has_cache_for_column :geoname_ids
   has_cache_for_column :collection_name_extended
 
-  default_scope ->{order(:name)}
+  default_scope ->{order(:collection_name_extended_cache)}
 
   scope :without_parent, ->{ where(parent_collection_id: nil) }
   scope :not_hidden, ->{ where("1=1")}
@@ -58,6 +58,7 @@ class Collection < ApplicationRecord
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
+  after_save :cache_all_collection_name_extended!
 
   after_commit :touch_parent
 
@@ -216,7 +217,11 @@ class Collection < ApplicationRecord
   def collection_name_extended
     @collection_name_extended ||= self_and_parent_collections_flattened.map(&:name).join(" » ")
   end
-  alias_method :to_label, :collection_name_extended
+
+  def cached_collection_name_extended_with_fallback
+    cached_collection_name_extended || collection_name_extended
+  end
+  alias_method :to_label, :cached_collection_name_extended_with_fallback
 
   def exposable_fields
     read_attribute(:exposable_fields).to_s.split(",")
@@ -416,6 +421,12 @@ class Collection < ApplicationRecord
         end
       end
     end
+  end
+
+  private
+
+  def cache_all_collection_name_extended!
+    UpdateCacheWorker.perform_async(self.name, :collection_name_extended)
   end
 
   class << Collection

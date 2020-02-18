@@ -6,42 +6,52 @@ collection1:
   name: Collection 1
   parent_collection: :root_collection
   appraise_with_ranges: true
+  collection_name_extended_cache: "\"Collection 1\""
 
 collection2:
   name: Collection 2 (sub of Collection 1)
   parent_collection: :collection1
+  collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1)\""
 
 collection4:
   name: Collection 4
   parent_collection: :collection2
+  collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4\""
 
 collection_with_works:
   name: Collection with works (sub of Collection 1)
   base: true
   parent_collection: :collection1
   geoname_ids_cache: "[]"
+  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1)\""
 
 collection_with_works_child:
   name: Collection with works child (sub of Collection 1 >> colection with works)
   parent_collection: :collection_with_works
+  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)\""
 
 collection3:
   name: Collection 3
   parent_collection: :root_collection
+  collection_name_extended_cache: "\"Collection 3\""
 
 collection_with_stages:
   name: Collection with stages
   parent_collection: :root_collection
   base: true
+  collection_name_extended_cache: "\"Collection with stages\""
 
 collection_with_stages_child:
   name: Collection with stages child
   parent_collection: :collection_with_stages
+  collection_name_extended_cache: "\"Collection with stages » Collection with stages child\""
 
 boring_collection:
   name: Just a boring collection
   parent_collection: :root_collection
+  collection_name_extended_cache: "\"Just a boring collection\""
 
 sub_boring_collection:
   name: Just a sub boring collection
   parent_collection: :boring_collection
+  collection_name_extended_cache: "\"Just a boring collection » Just a sub boring collection\""

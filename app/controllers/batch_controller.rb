@@ -1,84 +1,5 @@
 # frozen_string_literal: true
 
-module BatchForm
-  extend ActiveSupport::Concern
-
-  module UpdateStrategies
-    IGNORE = [:ignore, :replace, :append]
-    REPLACE = nil
-    APPEND = nil
-
-    ALL = constants(false) #.map { |c| const_get(c) }.freeze
-  end
-
-  class_methods do
-    def strategy_attribute_for(field_name)
-      "update_#{field_name}_strategy".to_sym
-    end
-
-    def strategies_for(field_name)
-      strategies = BatchForm::UpdateStrategies::ALL
-      if unappendable_fields.include? field_name
-        strategies -= [:APPEND]
-      end
-      if removable_fields.include? field_name
-        strategies += [:REMOVE]
-      end
-
-      strategies
-    end
-  end
-
-  included do
-    after_initialize :default_to_ignore!
-
-    def default_to_ignore!
-      self.class.batch_fields.each do |field_name|
-        self.send("#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if self.send(self.class.strategy_attribute_for(field_name)) == nil
-      end
-    end
-
-    def object_update_parameters(current_work)
-      own_parameters = self.class.batch_fields.map do |field_name|
-        new_value = self.send(field_name)
-        strategy = self.send(self.class.strategy_attribute_for(field_name))&.to_sym
-
-        if strategy == :IGNORE
-          # well ignore :)
-        elsif strategy == :REPLACE
-          [field_name, new_value]
-        elsif strategy == :REMOVE
-          current_value = current_work.send(field_name)
-          if current_value.nil? || self.class.unappendable_fields.include?(field_name)
-            [field_name, nil]
-          elsif current_value.is_a? Enumerable
-            [field_name, (current_value-new_value).flatten]
-          else
-            [field_name, current_value.to_s.gsub(new_value.to_s,"")]
-          end
-        elsif strategy == :APPEND
-          current_value = current_work.send(field_name)
-          if current_value.nil? || self.class.unappendable_fields.include?(field_name)
-            [field_name, new_value]
-          elsif current_value.is_a? Enumerable
-            [field_name, [current_value,new_value].flatten]
-          else
-            [field_name, [current_value,new_value].join(" ")]
-          end
-        end
-      end.compact.to_h
-
-      own_parameters
-    end
-
-    def not_to_ignore_paramaters
-      self.attributes
-      @parameters.keys
-    end
-  end
-end
-
-
 class BatchAppraisalForm < Appraisal
   BATCH_FIELDS = %w{appraised_by appraised_on replacement_value market_value replacement_value_range market_value_range reference}.sort_by(&:length).reverse.map(&:to_sym)
   UNAPPENDABLE_FIELDS = BATCH_FIELDS #.select{|field_name| field_name.to_s.ends_with?("_id")}
@@ -192,14 +113,15 @@ class BatchController < ApplicationController
   before_action :set_works_by_numbers
   before_action :check_ability
 
-  include BatchMethods
-
   def show
+    @selection = {display: :complete}
+
     @form.default_to_ignore!
   end
 
   def update
     @form = BatchWorkForm.new(work_params.to_h.deep_merge(work_batch_strategies_params))
+    @form.collection = @collection if @form.collection.nil?
     if @form.valid?
       @works.map{|work| @form.update_work(work)}
       redirect_to_collection_works_return_url
@@ -213,6 +135,7 @@ class BatchController < ApplicationController
     work_ids = separate_by(params[:work_ids_comma_separated], /,/)
     @form = BatchWorkForm.new(collection: @collection)
     @works = @collection.works_including_child_works.has_number(work_numbers).or(@collection.works_including_child_works.where(id: work_ids))
+    @work_count = @works.count
     @work_ids = @works.pluck(:id)
   end
 
@@ -229,8 +152,12 @@ class BatchController < ApplicationController
     end
   end
 
+  def should_expose_field?(field_name)
+    params[:expose_fields].blank? || params[:expose_fields].include?(field_name.to_s)
+  end
+
   def can_edit_field?(field_name)
-    editable_fields.include? field_name
+    editable_fields.include?(field_name) && should_expose_field?(field_name)
   end
   helper_method :can_edit_field?
 
@@ -238,6 +165,10 @@ class BatchController < ApplicationController
 
   def separate_by parameter, by
     parameter.to_s.split(by).map(&:strip).select(&:present?)
+  end
+
+  def work_params
+    WorksController.new.send(:reusable_work_params, params, current_user)
   end
 
   def check_ability
@@ -252,4 +183,9 @@ class BatchController < ApplicationController
 
     )
   end
+
+  def redirect_to_collection_works_return_url
+    redirect_to collection_works_path(@collection, params: {ids: @works.map(&:id).join(",") }), notice: "De onderstaande #{@works.count} werken zijn bijgewerkt"
+  end
+
 end

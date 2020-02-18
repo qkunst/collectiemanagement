@@ -2,7 +2,7 @@
 
 require_relative 'feature_helper'
 
-RSpec.feature "Batch Editor", type: :feature do
+RSpec.feature "Batch editor", type: :feature do
   include ActiveSupport::Testing::TimeHelpers
   include FeatureHelper
 
@@ -24,7 +24,7 @@ RSpec.feature "Batch Editor", type: :feature do
 
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit2.id}"
-    click_on "Batch Editor"
+    click_on "Overige velden"
 
     new_cluster_name = "My first batch cluster"
     fill_in_with_strategy(:cluster_name, new_cluster_name, :REPLACE)
@@ -41,7 +41,7 @@ RSpec.feature "Batch Editor", type: :feature do
     end
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit3.id}"
-    click_on "Batch Editor"
+    click_on "Overige velden"
 
     fill_in_with_strategy(:cluster_name, new_cluster_name, :APPEND)
     click_on "2 werken bijwerken"
@@ -72,7 +72,7 @@ RSpec.feature "Batch Editor", type: :feature do
 
       check "selected_works_#{work_to_edit1.id}"
       check "selected_works_#{work_to_edit2.id}"
-      click_on "Batch Editor"
+      click_on "Overige velden"
       select("400-500")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_replacement_value_range_strategy")
 
@@ -94,7 +94,7 @@ RSpec.feature "Batch Editor", type: :feature do
 
       check "selected_works_#{work_to_edit1.id}"
       check "selected_works_#{work_to_edit2.id}"
-      click_on "Batch Editor"
+      click_on "Overige velden"
       select("400-500")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_market_value_range_strategy")
       fill_in("Gewaardeerd op", with: "2019-01-01")
@@ -135,7 +135,7 @@ RSpec.feature "Batch Editor", type: :feature do
 
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit2.id}"
-    click_on "Batch Editor"
+    click_on "Overige velden"
 
     new_values = {
       location: "New location",
@@ -158,28 +158,32 @@ RSpec.feature "Batch Editor", type: :feature do
     end
   end
 
-  scenario "[cluster batch editor, remove?] move work to subcollection in using the cluster-batch editor" do
-    login "qkunst-test-advisor@murb.nl"
+  describe "Specialized batch editors" do
+    scenario "move work to subcollection in using the cluster-batch editor" do
+      login "qkunst-test-advisor@murb.nl"
 
-    click_on "Collecties"
-    if page.body.match("id=\"list-to-filter\"")
-      within "#list-to-filter" do
-        click_on "Collection 1"
+      click_on "Collecties"
+      if page.body.match("id=\"list-to-filter\"")
+        within "#list-to-filter" do
+          click_on "Collection 1"
+        end
       end
+      click_on "Toon alle 3 werken"
+      work_to_add_to_cluster = works(:work1)
+
+      check "selected_works_#{work_to_add_to_cluster.id}"
+      click_on "Cluster"
+      fill_in_with_strategy(:cluster_name, "My first batch cluster", :REPLACE)
+      click_on "1 werk bijwerken"
+      check "selected_works_#{work_to_add_to_cluster.id}"
+      click_on "Collectie"
+      select "Collection with works child (sub of Collection 1 >> colection with works)"
+      select "⇆ Vervang"
+      click_on "1 werk bijwerken"
+      click_on "Work1"
+      expect(page).to have_content("Collection with works child (sub of Collection 1 >> colection with works)")
+      expect(page).to have_content("My first batch cluster")
     end
-    click_on "Toon alle 3 werken"
-    work_to_add_to_cluster = works(:work1)
-    check "selected_works_#{work_to_add_to_cluster.id}"
-    click_on "Nieuw cluster"
-    fill_in("Clusternaam", with: "My first batch cluster")
-    click_on "Pas 1 werk aan (vervangt)"
-    check "selected_works_#{work_to_add_to_cluster.id}"
-    click_on "Collectie"
-    select "Collection with works child (sub of Collection 1 >> colection with works)"
-    click_on "Pas 1 werk aan (vervangt)"
-    click_on "Work1"
-    expect(page).to have_content("Collection with works child (sub of Collection 1 >> colection with works)")
-    expect(page).to have_content("My first batch cluster")
   end
 
 
