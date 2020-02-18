@@ -16,7 +16,6 @@ require('jquery_nested_form');
 require('select2');
 require('chosen-js');
 
-import('promise-polyfill/src/polyfill');
 import('context_container');
 import('cookie');
 import('dom_diffing_turbolinks');
@@ -29,7 +28,6 @@ import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
-import('zxing/zxing_helper')
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
@@ -244,3 +242,5 @@ $(document).on("turbolinks:request-start", function() {
   // Stickyfill.kill();
 
 })
+
+import('zxing/zxing_helper')
