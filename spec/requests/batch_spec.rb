@@ -70,6 +70,26 @@ RSpec.describe "WorkBatchs", type: :request do
     end
   end
   describe "PATCH /collection/:collection_id/batch" do
+    describe "process appraisal ignore" do
+      it "should store appraisal" do
+        sign_in users(:appraiser)
+        appraisal_date = "2012-07-21".to_date
+        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE",reference: "abc", update_reference_strategy: "REPLACE"}}}}
+        appraisal = Appraisal.find_by(appraised_on: appraisal_date)
+        expect(appraisal.appraised_on).to eq(appraisal_date)
+        expect(appraisal.market_value).to eq(2_000)
+        expect(appraisal.reference).to eq("abc")
+      end
+      it "should ignore ignored fields" do
+        sign_in users(:appraiser)
+        appraisal_date = "2012-07-21".to_date
+        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE",reference: "abc", update_reference_strategy: "IGNORE"}}}}
+        appraisal = Appraisal.find_by(appraised_on: appraisal_date)
+        expect(appraisal.appraised_on).to eq(appraisal_date)
+        expect(appraisal.market_value).to eq(2_000)
+        expect(appraisal.reference).to eq(nil)
+      end
+    end
     describe "tag_list" do
       it "should REPLACE" do
         sign_in users(:admin)

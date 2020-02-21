@@ -1,4 +1,4 @@
-module BatchForm
+module Batch::BaseForm
   extend ActiveSupport::Concern
 
   module UpdateStrategies
@@ -15,7 +15,7 @@ module BatchForm
     end
 
     def strategies_for(field_name)
-      strategies = BatchForm::UpdateStrategies::ALL
+      strategies = Batch::BaseForm::UpdateStrategies::ALL
       if unappendable_fields.include? field_name
         strategies -= [:APPEND]
       end
@@ -29,6 +29,10 @@ module BatchForm
 
   included do
     after_initialize :default_to_ignore!
+
+    self::BATCH_FIELDS.each do |field_name|
+      attribute strategy_attribute_for(field_name)
+    end
 
     def default_to_ignore!
       self.class.batch_fields.each do |field_name|

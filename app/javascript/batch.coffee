@@ -1,6 +1,6 @@
 console.log "batch coffee"
 
-document.addDelegatedEventListener 'batchinput:change', '#batch-work input, #batch-work select', (e)->
+document.addDelegatedEventListener 'batchinput:change', '#batch-work input, #batch-work textarea, #batch-work select', (e)->
   strategyElement = document.getElementById(e.target.dataset.strategyInputId)
   if strategyElement && strategyElement.value == "IGNORE"
     strategyElement.value = "REPLACE";
