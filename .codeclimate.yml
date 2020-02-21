@@ -1,0 +1,3 @@
+version: "2"
+exclude_patterns:
+  - "app/javascript/zxing/zxing_reader.js"
