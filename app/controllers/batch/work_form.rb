@@ -32,7 +32,7 @@ class Batch::WorkForm < Work
   end
 
   def appraisal
-    @appraisal ||= Batch::AppraisalForm.new
+    @appraisal ||= Batch::AppraisalForm.new(appraised_on: Time.now)
   end
 
   def appraisals_attributes= options
