@@ -12,12 +12,12 @@ class Work < ApplicationRecord
   include Work::PreloadRelationsForDisplay
   include FastAggregatable
   include Searchable
-  include ColumnCache
+  include MethodCache
 
   has_paper_trail
 
-  has_cache_for_column :tag_list
-  has_cache_for_column :collection_locality_artist_involvements_texts
+  has_cache_for_method :tag_list
+  has_cache_for_method :collection_locality_artist_involvements_texts
 
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
@@ -173,10 +173,7 @@ class Work < ApplicationRecord
   end
 
   def geoname_ids
-    ids = []
-    artists.each do |artist|
-      ids += artist.geoname_ids
-    end
+    ids = artists.flat_map(&:cached_geoname_ids)
     ids << locality_geoname_id if locality_geoname_id
     GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end

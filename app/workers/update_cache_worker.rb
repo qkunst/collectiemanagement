@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# works with the ColumnCache property
+# works with the MethodCache property
 #
 # UpdateCacheWorker.perform_async(self.name, field_name, self.id)
 #

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_18_103107) do
+ActiveRecord::Schema.define(version: 2020_02_21_144930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,6 +243,7 @@ ActiveRecord::Schema.define(version: 2020_02_18_103107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "geoname_ids"
+    t.text "parent_geoname_ids_cache"
     t.index ["geoname_id", "language"], name: "index_geoname_summaries_on_geoname_id_and_language"
     t.index ["geoname_id"], name: "index_geoname_summaries_on_geoname_id"
   end

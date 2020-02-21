@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 
-RSpec.describe ColumnCache, type: :model do
+RSpec.describe MethodCache, type: :model do
   describe "Artist implementation geoname_ids" do
     it "should return nil if unset" do
       expect(Artist.new.cached_geoname_ids).to eq(nil)

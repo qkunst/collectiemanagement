@@ -19,7 +19,7 @@ class CollectionBaseError < StandardError
 end
 
 class Collection < ApplicationRecord
-  include ColumnCache
+  include MethodCache
   include Collection::Hierarchy
 
   belongs_to :parent_collection, class_name: 'Collection', optional: true
@@ -43,8 +43,8 @@ class Collection < ApplicationRecord
   has_many :collections_stages
   has_many :reminders
 
-  has_cache_for_column :geoname_ids
-  has_cache_for_column :collection_name_extended
+  has_cache_for_method :geoname_ids
+  has_cache_for_method :collection_name_extended
 
   default_scope ->{order(:collection_name_extended_cache)}
 
