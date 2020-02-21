@@ -7,6 +7,8 @@ class GeonameSummary < ApplicationRecord
 
   has_cache_for_method :parent_geoname_ids
 
+  before_save :cache_parent_geoname_ids!
+
   def to_s
     "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description[0..30]}\">"
   end
@@ -52,7 +54,7 @@ class GeonameSummary < ApplicationRecord
     def with_parents
       ids = []
       self.all.each do |a|
-        ids += a.parent_geoname_ids
+        ids += a.cached_parent_geoname_ids
         ids << a.geoname_id
       end
       GeonameSummary.unscoped.where(geoname_id: ids.compact.uniq)
