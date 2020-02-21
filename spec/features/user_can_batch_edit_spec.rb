@@ -74,6 +74,7 @@ RSpec.feature "Batch editor", type: :feature do
       check "selected_works_#{work_to_edit2.id}"
       click_on "Overige velden"
       select("400-500")
+      fill_in("Gewaardeerd op", with: "")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_replacement_value_range_strategy")
 
       click_on "2 werken bijwerken"

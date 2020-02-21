@@ -10,6 +10,18 @@ module Batch::BaseForm
   end
 
   class_methods do
+    def batch_fields
+      self::BATCH_FIELDS
+    end
+
+    def unappendable_fields
+      self::UNAPPENDABLE_FIELDS
+    end
+
+    def removable_fields
+      self::REMOVABLE_FIELDS
+    end
+
     def strategy_attribute_for(field_name)
       "update_#{field_name}_strategy".to_sym
     end

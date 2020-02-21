@@ -3,23 +3,7 @@ class Batch::AppraisalForm < Appraisal
   UNAPPENDABLE_FIELDS = BATCH_FIELDS #.select{|field_name| field_name.to_s.ends_with?("_id")}
   REMOVABLE_FIELDS = %w{}
 
-  def self.batch_fields
-    BATCH_FIELDS
-  end
-
-  def self.unappendable_fields
-    UNAPPENDABLE_FIELDS
-  end
-
-  def self.removable_fields
-    REMOVABLE_FIELDS
-  end
-
   include Batch::BaseForm
-
-  BATCH_FIELDS.each do |field_name|
-    attribute strategy_attribute_for(field_name)
-  end
 
   def market_value_range
     (super.min.to_i..super.max.to_i).to_s if super
@@ -37,7 +21,7 @@ class Batch::AppraisalForm < Appraisal
   end
 
   def empty_params?
-    {} == appraisal_params
+    {} == appraisal_params.select{|k,v| k != :appraised_on}
   end
   alias_attribute :ignore_validation_errors?, :empty_params?
 end

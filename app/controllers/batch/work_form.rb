@@ -5,18 +5,6 @@ class Batch::WorkForm < Work
 
   before_validation :validate_appraisal
 
-  def self.batch_fields
-    BATCH_FIELDS
-  end
-
-  def self.unappendable_fields
-    UNAPPENDABLE_FIELDS
-  end
-
-  def self.removable_fields
-    REMOVABLE_FIELDS
-  end
-
   include Batch::BaseForm
 
   def cluster_name= cluster_name
