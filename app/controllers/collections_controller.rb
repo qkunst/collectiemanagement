@@ -65,8 +65,13 @@ class CollectionsController < ApplicationController
     end
 
     if can?(:read_valuation, @collection) and @sections["Waardering"]
-      @sections["Waardering"] << [:market_value]
-      @sections["Waardering"] << [:replacement_value]
+      if @collection.appraise_with_ranges
+        @sections["Waardering"] << [:market_value_min]
+        @sections["Waardering"] << [:replacement_value_min]
+      else
+        @sections["Waardering"] << [:market_value]
+        @sections["Waardering"] << [:replacement_value]
+      end
     end
 
     @report = @collection.report

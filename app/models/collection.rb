@@ -285,73 +285,7 @@ class Collection < ApplicationRecord
   end
 
   def search_works(search="", filter={}, options={})
-    options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
-    sort = options[:sort] || ["_score"]
-    if ((search == "" or search == nil) and (filter == nil or filter == {} or (
-      filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
-      )) and options[:force_elastic] == false)
-      return options[:no_child_works] ? works.limit(options[:limit]) : works_including_child_works.limit(options[:limit])
-    end
-
-    query = {
-      _source: [:id], #major speedup!
-      size: options[:limit],
-      query:{
-        bool: {
-          must: [
-            terms:{
-              "collection_id"=> options[:no_child_works] ? [id] : expand_with_child_collections.map(&:id)
-            }
-          ]
-        }
-      },
-      sort: sort
-    }
-
-    if (search and !search.to_s.strip.empty?)
-      search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
-      query[:query][:bool][:must] << {
-        query_string: {
-          default_field: :_all,
-          query: search,
-          default_operator: :and,
-          fuzziness: 3
-        }
-      }
-    end
-
-    filter.each do |key, values|
-      new_bool = {bool: {should: []}}
-      if key == "locality_geoname_id" or key == "geoname_ids" or key == "tag_list"
-        values = values.compact
-        if values.count == 0
-          new_bool[:bool]= {mustNot: {exists: {field: key}}}
-        else
-          new_bool[:bool][:should] << {terms: {key=> values}}
-        end
-      else
-        values.each do |value|
-          if value != nil
-            new_bool[:bool][:should] << {term: {key=>value}}
-          else
-            if key.ends_with?(".id")
-              new_bool[:bool][:should] << {mustNot: {exists: {field: key}}}
-            else
-              new_bool[:bool][:should] << {bool:{must_not: {exists: {field: key }}}}
-            end
-          end
-        end
-      end
-      query[:query][:bool][:must] << new_bool
-    end
-
-    query[:aggs] = options[:aggregations] if options[:aggregations]
-
-    if options[:return_records]
-      return Work.search(query).records
-    else
-      return Work.search(query)
-    end
+    Work.search_and_filter(self, search, filter, options)
   end
 
   def can_be_accessed_by_user user

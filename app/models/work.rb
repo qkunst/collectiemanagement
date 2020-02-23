@@ -6,13 +6,15 @@ class Work < ApplicationRecord
   GRADES_WITHIN_COLLECTION = %w{A B C D E F G W}
 
   include ActionView::Helpers::NumberHelper
+  include FastAggregatable
+  include MethodCache
+  include Searchable
+
   include Work::Caching
   include Work::Export
   include Work::ParameterRerendering
   include Work::PreloadRelationsForDisplay
-  include FastAggregatable
-  include Searchable
-  include MethodCache
+  include Work::Search
 
   has_paper_trail
 
@@ -92,36 +94,6 @@ class Work < ApplicationRecord
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
   accepts_nested_attributes_for :appraisals
-
-  settings index: { number_of_shards: 5, max_result_window: 50_000 } do
-    mappings do
-      indexes :abstract_or_figurative, type: 'keyword'
-      indexes :tag_list, type: 'keyword'#, tokenizer: 'keyword'
-      indexes :description, analyzer: 'dutch', index_options: 'offsets'
-      indexes :grade_within_collection, type: 'keyword'
-      indexes :location_raw, type: 'keyword'
-      indexes :location_floor_raw, type: 'keyword'
-      indexes :location_detail_raw, type: 'keyword'
-      indexes :object_format_code, type: 'keyword'
-      indexes :report_val_sorted_artist_ids, type: 'keyword'
-      indexes :report_val_sorted_object_category_ids, type: 'keyword'
-      indexes :report_val_sorted_technique_ids, type: 'keyword'
-      indexes :title, analyzer: 'dutch'
-      indexes :market_value, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value, type: 'scaled_float', scaling_factor: 100
-      indexes :purchase_price, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value_min, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value_max, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value_min, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value_max, type: 'scaled_float', scaling_factor: 100
-      indexes :minimum_bid, type: 'scaled_float', scaling_factor: 100
-      indexes :selling_price, type: 'scaled_float', scaling_factor: 100
-      indexes :purchase_price_in_eur, type: 'scaled_float', scaling_factor: 100
-    end
-  end
-
-  index_name "works-#{Rails.env.test? ? "test" : "a"}"
 
   def photos?
     photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
@@ -231,34 +203,6 @@ class Work < ApplicationRecord
     if public_description == ""
       self.public_description = nil
     end
-  end
-
-  def as_indexed_json(*)
-    self.as_json(
-      include: {
-        sources: { only: [:id, :name]},
-        style: { only: [:id, :name]},
-        owner: { only: [:id, :name]},
-        artists: { only: [:id, :name], methods: [:name]},
-        object_categories: { only: [:id, :name]},
-        medium: { only: [:id, :name]},
-        condition_work: { only: [:id, :name]},
-        damage_types: { only: [:id, :name]},
-        condition_frame: { only: [:id, :name]},
-        frame_damage_types: { only: [:id, :name]},
-        techniques: { only: [:id, :name]},
-        themes: { only: [:id, :name]},
-        subset: { only: [:id, :name]},
-        placeability: { only: [:id, :name]},
-        cluster: { only: [:id, :name]},
-      },
-      methods: [
-        :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,
-        :report_val_sorted_artist_ids, :report_val_sorted_object_category_ids, :report_val_sorted_technique_ids, :report_val_sorted_theme_ids,
-        :location_raw, :location_floor_raw, :location_detail_raw,
-        :object_format_code, :inventoried, :refound, :new_found
-      ]
-    )
   end
 
   def report_val_sorted_artist_ids
