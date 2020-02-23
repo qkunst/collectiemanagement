@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_21_144930) do
+ActiveRecord::Schema.define(version: 2020_02_23_185834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
     t.decimal "market_value_max", precision: 16, scale: 2
     t.decimal "replacement_value_min", precision: 16, scale: 2
     t.decimal "replacement_value_max", precision: 16, scale: 2
+    t.index ["work_id"], name: "index_appraisals_on_work_id"
   end
 
   create_table "artist_involvements", id: :serial, force: :cascade do |t|
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "artists_works", id: :serial, force: :cascade do |t|
     t.integer "artist_id"
     t.integer "work_id"
+    t.index ["artist_id"], name: "index_artists_works_on_artist_id"
     t.index ["work_id"], name: "index_artists_works_on_work_id"
   end
 
@@ -198,6 +200,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "damage_types_works", id: :serial, force: :cascade do |t|
     t.integer "damage_type_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_damage_types_works_on_work_id"
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -225,6 +228,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "frame_damage_types_works", id: :serial, force: :cascade do |t|
     t.integer "frame_damage_type_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_frame_damage_types_works_on_work_id"
   end
 
   create_table "frame_types", id: :serial, force: :cascade do |t|
@@ -372,6 +376,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "object_categories_works", id: :serial, force: :cascade do |t|
     t.integer "object_category_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_object_categories_works_on_work_id"
   end
 
   create_table "owners", force: :cascade do |t|
@@ -431,6 +436,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "sources_works", id: :serial, force: :cascade do |t|
     t.integer "work_id"
     t.integer "source_id"
+    t.index ["work_id"], name: "index_sources_works_on_work_id"
   end
 
   create_table "stages", id: :serial, force: :cascade do |t|
@@ -490,6 +496,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "techniques_works", id: :serial, force: :cascade do |t|
     t.integer "technique_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_techniques_works_on_work_id"
   end
 
   create_table "themes", id: :serial, force: :cascade do |t|
@@ -503,6 +510,7 @@ ActiveRecord::Schema.define(version: 2020_02_21_144930) do
   create_table "themes_works", id: :serial, force: :cascade do |t|
     t.integer "theme_id"
     t.integer "work_id"
+    t.index ["work_id"], name: "index_themes_works_on_work_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
