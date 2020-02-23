@@ -63,7 +63,7 @@ module FastAggregatable
       ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
       artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
       artists.each do |artist|
-        ids += artist.geoname_ids
+        ids += artist.cached_geoname_ids
       end
       ids = ids.compact.uniq
       GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
