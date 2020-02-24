@@ -108,10 +108,10 @@ class WorksController < ApplicationController
           @max_index ||= @works_count < 159 ? 99999 : 7
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
-            @works_grouped[key] = works_grouped[key]
+            @works_grouped[key] = works_grouped[key].uniq
           end
           if works_grouped[nil]
-            @works_grouped[nil] = works_grouped[nil]
+            @works_grouped[nil] = works_grouped[nil].uniq
           end
         else
           @max_index ||= 159
