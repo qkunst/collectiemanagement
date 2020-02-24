@@ -74,6 +74,10 @@ RSpec.describe "Works", type: :request do
         end
         it "should be able to filter and sort" do
           collection = collections(:collection1)
+
+          # required for TravisCI
+          collections(:collection1).works_including_child_works.all.reindex!
+
           sign_in user
 
           get collection_works_path(collection, params: {filter: {location_raw: ["Adres"]}})
