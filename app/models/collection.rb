@@ -53,7 +53,6 @@ class Collection < ApplicationRecord
   scope :not_system, ->{ not_root }
 
   before_save :cache_geoname_ids!
-  before_save :cache_collection_name_extended!
   before_save :attach_sub_collection_ownables_when_base
 
   after_create :copy_default_reminders!
@@ -360,7 +359,7 @@ class Collection < ApplicationRecord
   private
 
   def cache_all_collection_name_extended!
-    UpdateCacheWorker.perform_async(self.name, :collection_name_extended)
+    UpdateCacheWorker.perform_async(self.class.name, :collection_name_extended)
   end
 
   class << Collection
