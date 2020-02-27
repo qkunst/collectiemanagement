@@ -16,11 +16,7 @@ require('jquery_nested_form');
 require('select2');
 require('chosen-js');
 
-import Promise from 'promise-polyfill';
 
-if (typeof window.Promise === 'undefined') {
-  window.Promise = Promise
-}
 
 import('context_container');
 import('cookie');
