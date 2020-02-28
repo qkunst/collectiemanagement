@@ -15,12 +15,12 @@
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-import Promise from 'promise-polyfill';
-
-if (typeof window.Promise === 'undefined') {
-  window.Promise = Promise
-}
-
-window.PromisePoly = Promise
-
+// import Promise from 'promise-polyfill';
+//
+// if (typeof window.Promise === 'undefined') {
+//   window.Promise = Promise
+// }
+//
+// window.PromisePoly = Promise
+import 'core-js/features/promise';
 import('../application.js');

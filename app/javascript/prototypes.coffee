@@ -29,7 +29,7 @@ Array::toSentence = (options)->
   last2 = []
   last2.push this.pop()
   last2.push this.pop()
-  this.push last2.reverse().join("#{options.last_word_connector}")
+  this.push last2.reverse().join(options.last_word_connector)
   this.join(", ")
 
 # document.location.params() -> {q: "query"} (if search == '?q=query')
