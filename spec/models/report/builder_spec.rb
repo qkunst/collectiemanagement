@@ -28,8 +28,23 @@ RSpec.describe Report::Builder, type: :model do
         "abstract_or_figurative"=>{:terms=>{:field=>"abstract_or_figurative", :size=>999}},
         "abstract_or_figurative_missing"=>{:missing=>{:field=>"abstract_or_figurative"}}, "grade_within_collection"=>{:terms=>{:field=>"grade_within_collection", :size=>999}}, "grade_within_collection_missing"=>{:missing=>{:field=>"grade_within_collection"}}, "object_format_code"=>{:terms=>{:field=>"object_format_code", :size=>999}}, "object_format_code_missing"=>{:missing=>{:field=>"object_format_code"}}, :market_value=>{:terms=>{:field=>"market_value", :size=>999}}, "market_value_missing"=>{:missing=>{:field=>"market_value"}}, :replacement_value=>{:terms=>{:field=>"replacement_value", :size=>999}}, "replacement_value_missing"=>{:missing=>{:field=>"replacement_value"}}, :object_creation_year=>{:terms=>{:field=>"object_creation_year", :size=>999}}, "object_creation_year_missing"=>{:missing=>{:field=>"object_creation_year"}}, :purchase_year=>{:terms=>{:field=>"purchase_year", :size=>999}}, "purchase_year_missing"=>{:missing=>{:field=>"purchase_year"}}, :publish=>{:terms=>{:field=>"publish", :size=>999}}, "publish_missing"=>{:missing=>{:field=>"publish"}}, :image_rights=>{:terms=>{:field=>"image_rights", :size=>999}}, "image_rights_missing"=>{:missing=>{:field=>"image_rights"}},
         "location_raw"=>{:terms=>{:field=>"location_raw", :size=>999}, :aggs=>{"location_floor_raw"=>{:terms=>{:field=>"location_floor_raw", :size=>999}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}},
-        "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}, "location_floor_raw_missing"=>{:missing=>{:field=>"location_floor_raw"}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}}}, "location_raw_missing"=>{:missing=>{:field=>"location_raw"}, :aggs=>{"location_floor_raw"=>{:terms=>{:field=>"location_floor_raw", :size=>999}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}, "location_floor_raw_missing"=>{:missing=>{:field=>"location_floor_raw"}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}}}}
-      expect(Report::Builder.aggregations).to eq(expected)
+        "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}, "location_floor_raw_missing"=>{:missing=>{:field=>"location_floor_raw"}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}}}, "location_raw_missing"=>{:missing=>{:field=>"location_raw"}, :aggs=>{"location_floor_raw"=>{:terms=>{:field=>"location_floor_raw", :size=>999}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}, "location_floor_raw_missing"=>{:missing=>{:field=>"location_floor_raw"}, :aggs=>{"location_detail_raw"=>{:terms=>{:field=>"location_detail_raw", :size=>999}}, "location_detail_raw_missing"=>{:missing=>{:field=>"location_detail_raw"}}}}}},
+        "market_value_max_missing" => {:missing=>{:field=>"market_value_max"}},
+        "market_value_min_missing" => {:missing=>{:field=>"market_value_min"}},
+        "minimum_bid_missing" => {:missing=>{:field=>"minimum_bid"}},
+        "purchase_price_in_eur_missing" => {:missing=>{:field=>"purchase_price_in_eur"}},
+        "replacement_value_max_missing" => {:missing=>{:field=>"replacement_value_max"}},
+        "replacement_value_min_missing" => {:missing=>{:field=>"replacement_value_min"}},
+        "selling_price_missing" => {:missing=>{:field=>"selling_price"}},
+        :market_value_max => {:terms=>{:field=>"market_value_max", :size=>999}},
+        :market_value_min => {:terms=>{:field=>"market_value_min", :size=>999}},
+        :minimum_bid => {:terms=>{:field=>"minimum_bid", :size=>999}},
+        :purchase_price_in_eur => {:terms=>{:field=>"purchase_price_in_eur", :size=>999}},
+        :replacement_value_max => {:terms=>{:field=>"replacement_value_max", :size=>999}},
+        :replacement_value_min => {:terms=>{:field=>"replacement_value_min", :size=>999}},
+        :selling_price => {:terms=>{:field=>"selling_price", :size=>999}}
+      }
+     expect(Report::Builder.aggregations).to eq(expected)
     end
   end
 end

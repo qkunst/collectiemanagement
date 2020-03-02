@@ -5,12 +5,13 @@ module CollectionReportHelper
     @report ||= @collection.report
   end
   def render_report_section(section_parts)
-    html = "<table>"
+    html = ""
     section_parts.each do |report_section|
+      html += "<table>"
       html += iterate_report_sections(report_section,report[report_section],7)
       report.except!(report_section)
+      html += "</table>"
     end
-    html += "</table>"
     return html.gsub("<table></table>","").html_safe
   end
 
@@ -27,14 +28,20 @@ module CollectionReportHelper
         @params = @params.merge({"filter[#{group}#{id_separator}id]"=>selection.keys})
         link_to(selection.values.to_sentence,collection_works_path(@collection, @params))
       end
-    elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :replacement_value, :market_value, :object_creation_year, :purchase_year, :refound, :inventoried, :new_found].include? group
+    elsif [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :object_creation_year, :purchase_year, :refound, :inventoried, :new_found].include?(group) || price_columns.include?(group)
       selection = selection.first if selection.is_a? Array
       if selection == :missing
         @params = @params.merge({"filter[#{group}][]"=>:not_set})
         link_to("Niets ingevuld",collection_works_path(@collection, @params))
       else
+        link_label = if price_columns.include?(group)
+          number_to_currency(selection, precision: 0)
+        else
+          I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection)
+        end
+
         @params = @params.merge({"filter[#{group}][]"=>selection})
-        link_to(I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection),collection_works_path(@collection, @params))
+        link_to(link_label,collection_works_path(@collection, @params))
       end
     elsif [:location, :"location_raw", :"location_detail_raw", :"location_floor_raw", :"object_format_code", :"tag_list"].include? group
       @params = @params.merge({"filter[#{group}][]"=>(selection == :missing ? :not_set : selection)})
@@ -71,24 +78,31 @@ module CollectionReportHelper
     end
   end
 
+  def price_columns
+    [:replacement_value, :replacement_value_min, :purchase_price_in_eur, :replacement_value_max, :market_value, :market_value_min, :market_value_max, :minimum_bid, :selling_price]
+  end
+
   def iterate_groups(group, contents,depth)
     html=""
     if depth > 0
       if contents
-        if [:replacement_value, :market_value, :object_creation_year, :purchase_year, :refound, :inventoried, :new_found].include? group
-          contents = contents.collect{|a| a}.sort{|a,b| (b[0][0].to_i)<=>(a[0][0].to_i)}
+        if [:object_creation_year, :purchase_year, :refound, :inventoried, :new_found].include?(group) || price_columns.include?(group)
+          contents = contents.sort{|a,b| (b[0][0].to_i)<=>(a[0][0].to_i)}
         elsif [:grade_within_collection].include? group
-          contents = contents.collect{|a| a}.sort{|a,b| (a[0].to_s)<=>(b[0].to_s)}
+          contents = contents.sort{|a,b| (a[0].to_s)<=>(b[0].to_s)}
         else
           contents = contents.sort{|a,b| b[1][:count]<=>a[1][:count]}
+        end
+        if price_columns.include?(group)
+          total = contents.sum{|a| a[0][0].to_i * a[1][:count] }
+          html += "<tfoot><tr><td  class=\"count\" colspan=\"6\">Totaal:</td><td class=\"count\">#{number_to_currency(total, precision: 0)}</td></tr></tfoot>"
         end
         contents.each do |s|
           sk = s[0]
           sv = s[1]
           @params={} if depth == 6
           sk = link(group,sk)
-          html += "<tr class=\"content span-#{depth}\""
-          html +=">"
+          html += "<tr class=\"content span-#{depth}\">"
           html += render_spacers(depth)
           html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
           sv[:subs].each do |subbucketgroupname, subbucketgroup|

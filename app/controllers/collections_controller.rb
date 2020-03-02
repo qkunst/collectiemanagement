@@ -57,7 +57,7 @@ class CollectionsController < ApplicationController
         "Vervaardigers" => [[:artists]],
         "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
         "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-        "Waardering" => [[:purchase_year],[:grade_within_collection]],
+        "Waardering" => [[:grade_within_collection, :purchase_year]],
         "Object" => [[:object_categories_split],[:"object_format_code", :frame_type], [:object_creation_year]],
         "Overige" => [[:sources],[:owner],[:inventoried, :refound, :new_found]]
       })
@@ -65,13 +65,18 @@ class CollectionsController < ApplicationController
     end
 
     if can?(:read_valuation, @collection) and @sections["Waardering"]
+      @sections["Waardering"][0] += [:purchase_price_in_eur]
+
       if @collection.appraise_with_ranges
-        @sections["Waardering"] << [:market_value_min]
-        @sections["Waardering"] << [:replacement_value_min]
+        @sections["Waardering"] += [[:market_value_min], [:market_value_max]]
+        @sections["Waardering"] += [[:replacement_value_min], [:replacement_value_max]]
       else
         @sections["Waardering"] << [:market_value]
         @sections["Waardering"] << [:replacement_value]
       end
+
+      @sections["Waardering"] << [:minimum_bid, :selling_price]
+
     end
 
     @report = @collection.report

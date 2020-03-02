@@ -337,6 +337,8 @@ nl:
         location_raw: Adres en/of gebouw(deel)
         main_collection: Kerncollectie
         market_value: Marktwaarde (€)
+        market_value_max: Marktwaarde (max)
+        market_value_min: Marktwaarde (min)
         market_value_range: Marktwaardecategorie (€)
         medium: Drager
         medium_comments: Toelichting drager
@@ -365,11 +367,14 @@ nl:
         purchased_on: Aankoopdatum
         purchased_on_with_fallback: Aankoopjaar/datum
         purchase_price: Aankoopprijs
+        purchase_price_in_eur: Aankoopprijs (€)
         purchase_price_currency: Munteenheid
         purchase_year: Aankoopjaar
         refound: Teruggevonden
         refound_at: Teruggevonden op
         replacement_value: Vervangingswaarde (€)
+        replacement_value_min: Vervangingswaarde (min)
+        replacement_value_max: Vervangingswaarde (max)
         replacement_value_range: Vervangingswaardecategorie (€)
         selling_price: Verkoopprijs
         selling_price_minimum_bid_comments: Verkoop/startprijs opmerkingen
