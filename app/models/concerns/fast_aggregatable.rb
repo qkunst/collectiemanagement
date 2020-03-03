@@ -28,7 +28,6 @@ module FastAggregatable
           if attribute == :grade_within_collection
             value = value[0]
           end
-          value = value.downcase.to_sym
         end
         rv[attribute][value] ||= {count: 999999, name: value }
       end

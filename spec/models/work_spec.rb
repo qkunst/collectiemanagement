@@ -336,13 +336,12 @@ RSpec.describe Work, type: :model do
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
         works = [works(:work1),works(:work2)]
-        # expect()
         aggregations = Work.fast_aggregations [:title, :themes, :subset, :grade_within_collection]
         expect(aggregations.count).to eq 4
-        expect(aggregations[:title][:work1][:count]).to eq 999999
+        expect(aggregations[:title]["Work1"][:count]).to eq 999999
         expect(aggregations[:themes][themes(:wind)][:count]).to eq 999999
-        expect(aggregations[:grade_within_collection][:a][:count]).to eq 999999
-        expect(aggregations[:grade_within_collection][:h]).to eq nil
+        expect(aggregations[:grade_within_collection]["A"][:count]).to eq 999999
+        expect(aggregations[:grade_within_collection]["H"]).to eq nil
       end
     end
     describe ".whd_to_s" do
