@@ -5,6 +5,7 @@ Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base
 
 Rails.application.routes.draw do
 
+  get 'report/index'
   get 'application_status' => "status#application_status"
   # config/routes.rb
   authenticate :user, lambda { |u| u.admin? } do
@@ -120,7 +121,7 @@ Rails.application.routes.draw do
       get 'edit_photos' => 'works#edit_photos'
     end
 
-    get 'report' => 'collections#report'
+    get 'report' => 'report#show'
   end
   resources :artists do
     get 'combine_prepare' => 'artists#combine_prepare'
