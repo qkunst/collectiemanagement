@@ -22,7 +22,7 @@ module FastAggregatable
       rv
     end
     private def _fast_aggregate_column_values rv, attribute
-      self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
+      self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.sort{|a,b| a.to_s<=>b.to_s}.each do |a|
         value = (a ? a : :not_set)
         if value.is_a? String
           if attribute == :grade_within_collection

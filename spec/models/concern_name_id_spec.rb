@@ -34,7 +34,13 @@ RSpec.describe NameId, type: :model do
     end
   end
 
-
+  describe "#to_s" do
+    it "should feature the name first" do
+      expect(themes(:earth).to_s).to start_with("#<Theme:earth")
+      expect(themes(:wind).to_s).to start_with("#<Theme:wind")
+      expect(subsets(:contemporary).to_s).to start_with("#<Subset:Contemporary")
+    end
+  end
 
   describe "Class methods" do
     describe ".find_by_case_insensitive_name" do
