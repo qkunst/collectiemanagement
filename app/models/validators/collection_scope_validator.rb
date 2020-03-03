@@ -4,7 +4,7 @@ class Validators::CollectionScopeValidator < ActiveModel::Validator
   def validate(record)
     if record.collection
       record.themes.each do |theme|
-        unless theme.in? record.collection.available_themes
+        unless theme.in? record.collection.available_themes(not_hidden: false)
           record.errors.add(:base, "Theme “#{theme.name}” (id: #{theme.id}) is niet beschikbaar in collectie “#{record.collection.name}” (id: #{record.collection_id})")
         end
       end

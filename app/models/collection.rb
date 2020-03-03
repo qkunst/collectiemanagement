@@ -197,8 +197,10 @@ class Collection < ApplicationRecord
     Owner.for_collection(self)
   end
 
-  def available_themes
-    Theme.for_collection_including_generic(self).not_hidden
+  def available_themes(not_hidden: true)
+    themes = Theme.for_collection_including_generic(self)
+    themes = themes.not_hidden if not_hidden
+    themes
   end
 
   def not_hidden_themes

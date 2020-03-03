@@ -13,3 +13,13 @@ fire:
 star:
   name: star
   collection: :collection_with_stages
+collection1_theme:
+  name: collection1 theme
+  collection: collection1
+collection_with_works_theme:
+  name: collection1 theme
+  collection: collection_with_works
+hidden_collection1_theme:
+  name: collection1 theme
+  collection: collection1
+  hide: true
