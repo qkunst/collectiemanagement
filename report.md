@@ -16,8 +16,8 @@ As a general note: except for administrators, user access is limited to a a sele
 
 This lists what a user can do per object-type.
 
--|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
----|---|---|---|---|---
+a|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
+---|---|---|---|---|---|---
 **Alles**|
 *Beheren*|✔|✘|✘|✘|✘|✘
 *Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘
@@ -145,7 +145,7 @@ This lists what a user can do per object-type.
 This is a list of fields a user can write to
 
 -|Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
----|---|---|---|---|---
+---|---|---|---|---|---|---
 **works_attributes**|
 *location_detail*|✔|✔|✘|✔|✔|✘
 *location*|✔|✔|✘|✔|✔|✘
