@@ -10,7 +10,7 @@ gem 'rails', '~>5' #, '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
 # Use Puma as the app server
 # gem 'webrick'
 gem 'markdown-rails'
-gem 'puma' #, '~> 3.0'
+gem 'puma' , '>= 4.3.3' #, '~> 3.0'
 # Use SCSS for stylesheets
 gem 'sass-rails'#, '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
