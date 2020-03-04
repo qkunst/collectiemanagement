@@ -16,7 +16,7 @@ As a general note: except for administrators, user access is limited to a a sele
 
 This lists what a user can do per object-type.
 
-- | Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
+-| Administrator | Kunstadviseur | Compliance | Taxateur | Facility Manager | Read-only
 ---|---|---|---|---|---|---
 **Alles**|
 *Beheren*|✔|✘|✘|✘|✘|✘
