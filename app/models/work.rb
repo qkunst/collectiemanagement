@@ -217,6 +217,57 @@ class Work < ApplicationRecord
   def report_val_sorted_theme_ids
     themes.uniq.collect{|a| a.id}.sort.join(",")
   end
+  def location_history(skip_current: false)
+    location_versions = []
+    uniq_location_versions = []
+    versions.each_with_index do |version, index|
+      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
+      if version.object and index > 0
+        reified_object = version.reify
+        location_versions[index-1][:location] = reified_object.location
+        location_versions[index-1][:location_floor] = reified_object.location_floor
+        location_versions[index-1][:location_detail] = reified_object.location_detail
+      end
+    end
+
+    # complete with latest info
+    index = location_versions.count
+
+    if index > 0
+      location_versions[index-1][:location] = location
+      location_versions[index-1][:location_floor] = location_floor
+      location_versions[index-1][:location_detail] = location_detail
+
+      # filter out irrelevant changes
+      uniq_location_versions = [location_versions[0]]
+      location_versions.each do |location_version|
+        last_uniq_location_version = uniq_location_versions.last
+        if (location_version[:location] != last_uniq_location_version[:location] ||
+          location_version[:location_floor] != last_uniq_location_version[:location_floor] ||
+          location_version[:location_detail] != last_uniq_location_version[:location_detail])
+          uniq_location_versions << location_version
+        end
+      end
+      if skip_current
+        uniq_location_versions.pop
+      end
+      uniq_location_versions
+    else
+      []
+    end
+  end
+
+  def restore_last_location_if_blank!
+    unless location_description
+      prev_location = location_history(skip_current: true).last
+      if prev_location
+        self.location = prev_location[:location]
+        self.location_detail = prev_location[:location_detail]
+        self.location_floor = prev_location[:location_floor]
+        self.save!
+      end
+    end
+  end
   def available_themes
     collection.available_themes
   end

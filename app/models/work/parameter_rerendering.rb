@@ -103,6 +103,10 @@ module Work::ParameterRerendering
     def location_detail_raw
       location_detail if location_detail && location_detail.to_s.strip != ""
     end
+    def location_description
+      rv = [location_raw, location_floor_raw, location_detail_raw].compact.join("; ")
+      rv unless rv.blank?
+    end
 
     def locality_geoname_name
       gs = locality_geoname_id ? GeonameSummary.where(geoname_id: locality_geoname_id).first : nil

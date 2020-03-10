@@ -184,36 +184,7 @@ class WorksController < ApplicationController
   end
 
   def location_history
-    location_versions = []
-    @work.versions.each_with_index do |version, index|
-      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
-      if version.object and index > 0
-        reified_object = version.reify
-        location_versions[index-1][:location] = reified_object.location
-        location_versions[index-1][:location_floor] = reified_object.location_floor
-        location_versions[index-1][:location_detail] = reified_object.location_detail
-      end
-    end
-
-    # complete with latest info
-    index = location_versions.count
-
-    location_versions[index-1][:location] = @work.location
-    location_versions[index-1][:location_floor] = @work.location_floor
-    location_versions[index-1][:location_detail] = @work.location_detail
-
-    # filter out irrelevant changes
-    uniq_location_versions = [location_versions[0]]
-    location_versions.each do |location_version|
-      last_uniq_location_version = uniq_location_versions.last
-      if (location_version[:location] != last_uniq_location_version[:location] ||
-        location_version[:location_floor] != last_uniq_location_version[:location_floor] ||
-        location_version[:location_detail] != last_uniq_location_version[:location_detail])
-        uniq_location_versions << location_version
-      end
-    end
-
-    @versions = uniq_location_versions
+    @versions = @work.location_history
   end
 
   def modified_index

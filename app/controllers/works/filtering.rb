@@ -44,7 +44,7 @@ module Works::Filtering
     end
 
     def set_selection_display
-      set_selection :display, [:compact, :detailed, :complete, :limited, :limited_auction]
+      set_selection :display, set_selection_display_options.collect{|k,v| v}
     end
 
     def set_selection_group_options
@@ -66,12 +66,16 @@ module Works::Filtering
 
     def set_selection_display_options
       @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
+      if @collection.name.match(/vermist/i)
+        @selection_display_options["Basis met locatiegeschiedenis"] = :detailed_with_location_history
+      end
       @selection_display_options["Compleet"] = :complete unless current_user.read_only?
       if current_user.qkunst?
         @selection_display_options["Beperkt"] = :limited
         @selection_display_options["Veilinghuis"] = :limited_auction
         @limit_collection_information = true
       end
+      @selection_display_options
     end
 
     def set_selection_sort_options

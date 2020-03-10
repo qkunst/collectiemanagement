@@ -195,6 +195,47 @@ RSpec.describe Work, type: :model do
         expect(w.cluster_name).to eq("cluster new")
       end
     end
+    describe "#location_description" do
+      it "concats the location fields" do
+        expect(works(:work1).location_description).to eq("Adres; Floor 1; Room 1")
+      end
+      it "returns emtpy string when none" do
+        expect(Work.new.location_description).to eq(nil)
+      end
+    end
+    describe "#location_history" do
+      it "returns an empty array if no history" do
+        expect(works(:work1).location_history).to eq([])
+      end
+      it "returns a single item array if no history" do
+        work1 = works(:work1)
+        work1.location = "New adress"
+        work1.save
+        work1.location = "Newer address"
+        work1.save
+        expect(works(:work1).location_history.collect{|a| a[:location]}).to eq(["New adress", "Newer address"])
+      end
+      it "returns complete history if work is created after enabling history" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = "second location"
+        work.save
+        work.location = "third location"
+        work.save
+        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", "second location", "third location"])
+      end
+      it "skip_current options skips current" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = "second location"
+        work.save
+        expect(work.location_history(skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+      end
+      it "returns empty location if empty location" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = nil
+        work.save
+        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", nil])
+      end
+    end
     describe "#purchased_on_with_fallback" do
       it "should return nil when not set" do
         w = works(:work1)
@@ -265,6 +306,24 @@ RSpec.describe Work, type: :model do
         w.width = 180
         expect(works(:work2).frame_size_with_fallback).not_to eq(nil)
         expect(works(:work2).frame_size_with_fallback).to eq("180 × 90 (b×h)")
+
+      end
+    end
+    describe "#restore_last_location_if_blank!" do
+      it "shoudl restore last location when blenk" do
+        w = collections(:collection1).works.create(location: "first location")
+
+        original_location_description = w.location_description
+        w.location = nil
+        w.location_floor = nil
+        w.location_detail = nil
+        w.save
+
+        expect(w.location_description).to eq(nil)
+        expect(w.versions.last.reify.location_description).to eq(original_location_description)
+        w.restore_last_location_if_blank!
+        w.reload
+        expect(w.location_description).to eq(original_location_description)
 
       end
     end
