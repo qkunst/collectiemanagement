@@ -235,6 +235,18 @@ RSpec.describe Work, type: :model do
         work.save
         expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", nil])
       end
+      it "never returns empty location if empty location and no empty locations" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = ""
+        work.save
+        expect(work.location_history(empty_locations: false).collect{|a| a[:location]}).to eq(["first location"])
+      end
+      it "never returns empty location if empty location and no empty locations (and doesn't just pop the skip current false)" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = ""
+        work.save
+        expect(work.location_history(empty_locations: false, skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+      end
     end
     describe "#purchased_on_with_fallback" do
       it "should return nil when not set" do
@@ -324,7 +336,6 @@ RSpec.describe Work, type: :model do
         w.restore_last_location_if_blank!
         w.reload
         expect(w.location_description).to eq(original_location_description)
-
       end
     end
     describe "#save" do

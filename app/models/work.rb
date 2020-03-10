@@ -217,7 +217,7 @@ class Work < ApplicationRecord
   def report_val_sorted_theme_ids
     themes.uniq.collect{|a| a.id}.sort.join(",")
   end
-  def location_history(skip_current: false)
+  def location_history(skip_current: false, empty_locations: true)
     location_versions = []
     uniq_location_versions = []
     versions.each_with_index do |version, index|
@@ -242,13 +242,14 @@ class Work < ApplicationRecord
       uniq_location_versions = [location_versions[0]]
       location_versions.each do |location_version|
         last_uniq_location_version = uniq_location_versions.last
-        if (location_version[:location] != last_uniq_location_version[:location] ||
-          location_version[:location_floor] != last_uniq_location_version[:location_floor] ||
-          location_version[:location_detail] != last_uniq_location_version[:location_detail])
+        last_uniq_location_description = last_uniq_location_version.fetch_values(:location, :location_floor, :location_detail).join("")
+        location_version_description = location_version.fetch_values(:location, :location_floor, :location_detail).join("")
+
+        if (last_uniq_location_description != location_version_description) && (empty_locations || !location_version_description.blank?)
           uniq_location_versions << location_version
         end
       end
-      if skip_current
+      if skip_current and (empty_locations == true || location_description)
         uniq_location_versions.pop
       end
       uniq_location_versions
@@ -259,7 +260,7 @@ class Work < ApplicationRecord
 
   def restore_last_location_if_blank!
     unless location_description
-      prev_location = location_history(skip_current: true).last
+      prev_location = location_history(skip_current: true, empty_locations: false).last
       if prev_location
         self.location = prev_location[:location]
         self.location_detail = prev_location[:location_detail]
