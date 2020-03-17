@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'sidekiq/web'
-Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base]
+Sidekiq::Web.set :sessions, false
 
 Rails.application.routes.draw do
 

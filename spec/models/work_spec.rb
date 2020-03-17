@@ -337,6 +337,15 @@ RSpec.describe Work, type: :model do
         w.reload
         expect(w.location_description).to eq(original_location_description)
       end
+
+      it "should not 'restore' a location if location is set" do
+        w = collections(:collection1).works.create(location: "first location")
+        w.location = "new location"
+        w.save
+        w.restore_last_location_if_blank!
+        w.reload
+        expect(w.location_description).to eq("new location")
+      end
     end
     describe "#save" do
       it "should save, even without info" do
