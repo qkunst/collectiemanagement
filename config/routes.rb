@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 require 'sidekiq/web'
-Sidekiq::Web.set :session_secret, Rails.application.credentials[:secret_key_base]
+Sidekiq::Web.set :sessions, false
 
 Rails.application.routes.draw do
 
+  get 'report/index'
   get 'application_status' => "status#application_status"
   # config/routes.rb
   authenticate :user, lambda { |u| u.admin? } do
@@ -113,13 +114,14 @@ Rails.application.routes.draw do
       resources :attachments
       resources :appraisals
       resources :messages
+      get 'edit_prices' => 'works#edit_prices'
       get 'location_history' => 'works#location_history'
       get 'edit_location' => 'works#edit_location'
       get 'edit_tags' => 'works#edit_tags'
       get 'edit_photos' => 'works#edit_photos'
     end
 
-    get 'report' => 'collections#report'
+    get 'report' => 'report#show'
   end
   resources :artists do
     get 'combine_prepare' => 'artists#combine_prepare'

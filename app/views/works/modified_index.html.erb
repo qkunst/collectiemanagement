@@ -11,6 +11,7 @@
       <th>Vervaardiger</th>
       <th>Titel</th>
       <th>Datum wijziging</th>
+      <th>Gebruiker</th>
     </tr>
   </thead>
   <tbody>
@@ -18,11 +19,13 @@
       <% work = work_with_version_created_at[1] %>
       <% if work %>
         <% created_at = work_with_version_created_at[0] %>
+        <% user = work_with_version_created_at[2] %>
         <tr>
           <td><%= link_to work.stock_number || "-", collection_work_path(@collection, work) %></td>
           <td><%= link_to work.artist_name_rendered || "-", collection_work_path(@collection, work) %></td>
           <td><%= link_to work.title_rendered, collection_work_path(@collection, work) %></td>
           <td><%= link_to I18n.l(created_at, format: :short), collection_work_path(@collection, work) %></td>
+          <td><%= link_to user || "onbekend", collection_work_path(@collection, work) %></td>
         </tr>
       <% end %>
     <% end %>

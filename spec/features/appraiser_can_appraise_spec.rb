@@ -32,10 +32,6 @@ RSpec.feature "Appraise works", type: :feature do
       select "BKR"
       fill_in "Herkomst opmerkingen", with: "Herkomstopmerkingen van nu"
 
-      fill_in "Startbod", with: 12.34
-      fill_in "Verkoopprijs", with: 45.67
-
-
       select "B"
       check "Kerncollectie"
       select "Owner1"
@@ -48,8 +44,6 @@ RSpec.feature "Appraise works", type: :feature do
 
       expect(page).to have_content "€400,00-€500,00"
       expect(page).to have_content "€250,00-€500,00"
-      expect(page).to have_content "€12,34"
-      expect(page).to have_content "€45,67"
       expect(page).to have_content "1962"
       expect(page).to have_content "𝑓1.000,00"
       expect(page).to have_content "Owner1"

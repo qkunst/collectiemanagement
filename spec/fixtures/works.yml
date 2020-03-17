@@ -25,9 +25,12 @@ work1:
     - :artist1
 work2:
   title: Work2
-  stock_number: Q005
+  stock_number: Q002
   alt_number_1: 7201286
   grade_within_collection: A (of B)
+  location: Adres
+  location_floor: Floor 2
+  location_detail: Room 2
   themes:
     - :wind
     - :fire
@@ -53,9 +56,10 @@ work4:
     - :artist4
 work5:
   title: Work5
-  stock_number: Q002
-
-  location_floor: 3
+  stock_number: Q005
+  location: Adres
+  location_floor: Floor 2
+  location_detail: Room 1
   grade_within_collection: A (of B)
   subset: :modern
   collection: :collection_with_works
@@ -87,3 +91,6 @@ work_with_private_theme:
     - :wind_private_to_collection_with_stages
   artists:
     - :artist4
+artistless_work:
+  title: artistless work
+  collection: :collection_with_stages

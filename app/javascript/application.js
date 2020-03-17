@@ -11,10 +11,13 @@ UJS.start();
 
 import Foundation from 'foundation-sites';
 //import "controllers"
+import('prototypes');
 
 require('jquery_nested_form');
 require('select2');
 require('chosen-js');
+
+
 
 import('context_container');
 import('cookie');
@@ -22,13 +25,13 @@ import('dom_diffing_turbolinks');
 import('filter-list');
 import('forms');
 import('lazy_load_images');
-import('prototypes');
 import('batch');
 import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
 import('zxing/zxing_helper')
+
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
@@ -243,3 +246,4 @@ $(document).on("turbolinks:request-start", function() {
   // Stickyfill.kill();
 
 })
+

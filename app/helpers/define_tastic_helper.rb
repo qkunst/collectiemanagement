@@ -122,9 +122,7 @@ module DefineTasticHelper
 
     if args[0]
       if args[0].is_a? String
-        html_string += '<h3>'
-        html_string += args[0]
-        html_string += '</h3>'
+        html_string += "<h3>#{args[0]}</h3>"
       else
         if args[0][:render_as]
           @define_tastic_render_as = args[0][:render_as] == :table ? :table : :dl

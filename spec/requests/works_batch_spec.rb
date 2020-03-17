@@ -8,13 +8,15 @@ RSpec.describe "WorkBatchs", type: :request do
       collection = collections(:collection1)
       get collection_works_batch_edit_path(collection, params:{property: :location})
       expect(response).to have_http_status(302)
+      expect(response).to redirect_to new_user_session_path
     end
     it "should be accessible when logged in as admin" do
       user = users(:admin)
       collection = collections(:collection1)
       sign_in user
       get collection_works_batch_edit_path(collection, params:{property: :location})
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to collection_batch_path(expose_fields: [:location], work_ids_comma_separated: "")
     end
     it "should not be accessible when logged in as an anonymous user" do
       user = users(:user_with_no_rights)
@@ -30,6 +32,7 @@ RSpec.describe "WorkBatchs", type: :request do
       collection = collections(:collection3)
       get collection_works_batch_edit_path(collection, params:{property: :location})
       expect(response).to have_http_status(302)
+      expect(response).to redirect_to root_path
     end
 
     it "should redirect to the root when accessing anohter collection" do
@@ -37,6 +40,10 @@ RSpec.describe "WorkBatchs", type: :request do
       sign_in user
       collection = collections(:collection1)
       get collection_works_batch_edit_path(collection, params:{property: :location})
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to collection_batch_path(expose_fields: [:location], work_ids_comma_separated: "")
+      # not really a concern of this spec, but the above expectation may confuse you, the end user will return to root :)
+      get collection_batch_path(expose_fields: [:location], work_ids_comma_separated: "")
       expect(response).to have_http_status(302)
       expect(response).to redirect_to root_path
     end

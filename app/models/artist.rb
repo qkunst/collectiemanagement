@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Artist < ApplicationRecord
-  include ColumnCache
+  include MethodCache
   include Artist::NameRenderer
 
   has_paper_trail
@@ -15,10 +15,9 @@ class Artist < ApplicationRecord
   has_many :subsets, through: :works
   has_many :techniques, through: :works
 
-  has_cache_for_column :geoname_ids
+  has_cache_for_method :geoname_ids
 
   after_save :touch_works
-
   after_touch :touch_works
 
   before_save :sync_dates_and_years

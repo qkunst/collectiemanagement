@@ -1,19 +1,19 @@
 <%= simple_form_for @form, url: collection_batch_path(@collection), method: :patch, html: {id: "batch-work"} do |f| %>
-  <div class="zxing-wrapper">
-    <div class="zxing-canvas-container">
-      <canvas id="zxing-canvas"></canvas>
-    </div>
-    <div class="zxing-results-container">
-      <% if @works.any? %>
-        <input type="hidden" value="<%=@work_ids.join(",")%>" name="work_ids_comma_separated" />
-        <p><%= link_to "#{I18n.t("count.works", count: @work_ids.count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> geselecteerd</p>
-      <% else %>
+  <% if @works.any? %>
+    <input type="hidden" value="<%=@work_ids.join(",")%>" name="work_ids_comma_separated" />
+    <h2>Meerdere werken bijwerken</h2>
+    <p>Pas <%= link_to "#{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> gelijktijdig aan. Wil je een waarde leeg maken, maak (of houd) dan het veld leeg en selecteer 'vervang'. Velden met erachter de actie 'Negeer' worden niet aangepast.</p>
+  <% else %>
+    <div class="zxing-wrapper">
+      <div class="zxing-canvas-container">
+        <canvas id="zxing-canvas"></canvas>
+      </div>
+      <div class="zxing-results-container">
         <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
         <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
-      <% end %>
+      </div>
     </div>
-  </div>
-
+  <% end %>
   <div class="batch-inputs">
     <% if @form.errors.messages != {} %>
     <p>Corrigeer de volgende fouten:</p>
@@ -44,7 +44,7 @@
     <% end %>
     <% if can_edit_field?(:grade_within_collection) && can_edit_field?(:placeability_id) %>
       <fieldset>
-        <%= f.batch_editable_input :grade_within_collection, collection: %w{A B C D E F G}, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :placeability, param_name: :placeability_id, input_type: :association, collection: Placeability.not_hidden, input_html: {class: 'chosen-select'} %>
       </fieldset>
     <% end%>
@@ -90,9 +90,12 @@
           <% end %>
           <%= ap_form.batch_editable_input :reference %>
         <% end %>
-        <%= f.batch_editable_input :minimum_bid %>
-        <%= f.batch_editable_input :selling_price %>
       </fieldset>
+    <% end %>
+
+    <% if can_edit_field? :selling_price %>
+      <%= f.batch_editable_input :minimum_bid %>
+      <%= f.batch_editable_input :selling_price %>
     <% end %>
   </div>
 
@@ -100,3 +103,10 @@
   <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
 <% end %>
 
+<hr/>
+<h3 id="works">Werken</h3>
+<p>De volgende werken zullen hiermee worden aangepast. </p>
+<%= render @works.limit(24) %>
+<% if @work_count > 24%>
+<p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %>.</p>
+<% end%>

@@ -9,7 +9,7 @@ RSpec.describe Work, type: :model do
         w = works(:work1)
         expect(w.all_work_ids_in_collection.count).to eq 3
         expect(w.work_index_in_collection).to eq(0)
-        w = works(:work2)
+        w = works(:work5)
         expect(w.all_work_ids_in_collection.count).to eq 3
         expect(w.work_index_in_collection).to eq(2)
       end
@@ -195,6 +195,59 @@ RSpec.describe Work, type: :model do
         expect(w.cluster_name).to eq("cluster new")
       end
     end
+    describe "#location_description" do
+      it "concats the location fields" do
+        expect(works(:work1).location_description).to eq("Adres; Floor 1; Room 1")
+      end
+      it "returns emtpy string when none" do
+        expect(Work.new.location_description).to eq(nil)
+      end
+    end
+    describe "#location_history" do
+      it "returns an empty array if no history" do
+        expect(works(:work1).location_history).to eq([])
+      end
+      it "returns a single item array if no history" do
+        work1 = works(:work1)
+        work1.location = "New adress"
+        work1.save
+        work1.location = "Newer address"
+        work1.save
+        expect(works(:work1).location_history.collect{|a| a[:location]}).to eq(["New adress", "Newer address"])
+      end
+      it "returns complete history if work is created after enabling history" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = "second location"
+        work.save
+        work.location = "third location"
+        work.save
+        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", "second location", "third location"])
+      end
+      it "skip_current options skips current" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = "second location"
+        work.save
+        expect(work.location_history(skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+      end
+      it "returns empty location if empty location" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = nil
+        work.save
+        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", nil])
+      end
+      it "never returns empty location if empty location and no empty locations" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = ""
+        work.save
+        expect(work.location_history(empty_locations: false).collect{|a| a[:location]}).to eq(["first location"])
+      end
+      it "never returns empty location if empty location and no empty locations (and doesn't just pop the skip current false)" do
+        work = collections(:collection1).works.create(location: "first location")
+        work.location = ""
+        work.save
+        expect(work.location_history(empty_locations: false, skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+      end
+    end
     describe "#purchased_on_with_fallback" do
       it "should return nil when not set" do
         w = works(:work1)
@@ -215,21 +268,21 @@ RSpec.describe Work, type: :model do
     describe "#next" do
       it "should redirect to the next work" do
         w = works(:work1)
-        expect(w.next).to eq(works(:work5))
-        expect(w.next.next).to eq(works(:work2))
+        expect(w.next).to eq(works(:work2))
+        expect(w.next.next).to eq(works(:work5))
       end
       it "should return first if no next" do
-        expect(works(:work2).next).to eq(works(:work1))
+        expect(works(:work5).next).to eq(works(:work1))
       end
     end
     describe "#previous" do
       it "should redirect to the previous work" do
-        w = works(:work2)
-        expect(w.previous).to eq(works(:work5))
+        w = works(:work5)
+        expect(w.previous).to eq(works(:work2))
         expect(w.previous.previous).to eq(works(:work1))
       end
       it "should return last if no previous" do
-        expect(works(:work1).previous).to eq(works(:work2))
+        expect(works(:work1).previous).to eq(works(:work5))
       end
     end
     describe "#object_creation_year" do
@@ -266,6 +319,32 @@ RSpec.describe Work, type: :model do
         expect(works(:work2).frame_size_with_fallback).not_to eq(nil)
         expect(works(:work2).frame_size_with_fallback).to eq("180 × 90 (b×h)")
 
+      end
+    end
+    describe "#restore_last_location_if_blank!" do
+      it "shoudl restore last location when blenk" do
+        w = collections(:collection1).works.create(location: "first location")
+
+        original_location_description = w.location_description
+        w.location = nil
+        w.location_floor = nil
+        w.location_detail = nil
+        w.save
+
+        expect(w.location_description).to eq(nil)
+        expect(w.versions.last.reify.location_description).to eq(original_location_description)
+        w.restore_last_location_if_blank!
+        w.reload
+        expect(w.location_description).to eq(original_location_description)
+      end
+
+      it "should not 'restore' a location if location is set" do
+        w = collections(:collection1).works.create(location: "first location")
+        w.location = "new location"
+        w.save
+        w.restore_last_location_if_blank!
+        w.reload
+        expect(w.location_description).to eq("new location")
       end
     end
     describe "#save" do
@@ -336,13 +415,12 @@ RSpec.describe Work, type: :model do
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
         works = [works(:work1),works(:work2)]
-        # expect()
         aggregations = Work.fast_aggregations [:title, :themes, :subset, :grade_within_collection]
         expect(aggregations.count).to eq 4
-        expect(aggregations[:title][:work1][:count]).to eq 999999
+        expect(aggregations[:title]["Work1"][:count]).to eq 999999
         expect(aggregations[:themes][themes(:wind)][:count]).to eq 999999
-        expect(aggregations[:grade_within_collection][:a][:count]).to eq 999999
-        expect(aggregations[:grade_within_collection][:h]).to eq nil
+        expect(aggregations[:grade_within_collection]["A"][:count]).to eq 999999
+        expect(aggregations[:grade_within_collection]["H"]).to eq nil
       end
     end
     describe ".whd_to_s" do
@@ -431,25 +509,30 @@ RSpec.describe Work, type: :model do
   describe "Scopes" do
     describe ".has_number" do
       it "finds nothing when an unknown number is passed" do
-        expect(Work.has_number("not a known number")).to eq([])
+        expect(Work.has_number("not a known number").pluck(:id)).to eq([])
       end
       it "finds by alt number" do
-        expect(Work.has_number(7201284)).to eq([works(:work1)])
+        expect(Work.has_number(7201284).pluck(:id)).to match_array([works(:work1)].map(&:id))
       end
       it "finds by stock number" do
-        expect(Work.has_number("Q001")).to eq([works(:work1)])
+        expect(Work.has_number("Q001").pluck(:id)).to match_array([works(:work1)].map(&:id))
       end
       it "finds by array" do
-        expect(Work.has_number(["Q001", "Q005"])).to eq([works(:work1), works(:work2)])
+        expect(Work.has_number(["Q001", "Q005"]).pluck(:id)).to match_array([works(:work1), works(:work5)].map(&:id))
       end
       it "finds by array on all numbers" do
-        expect(Work.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2), works(:work3), works(:work4)])
+        expect(Work.has_number(%w{ Q001 7201286 7201212 7201213 }).pluck(:id)).to match_array([works(:work1), works(:work2), works(:work3), works(:work4)].map(&:id))
       end
       it "adheres earlier scopes" do
-        expect(collections(:collection_with_works).works.has_number(%w{ Q001 7201286 7201212 7201213 })).to eq([works(:work1), works(:work2)])
+        expect(collections(:collection_with_works).works.has_number(%w{ Q001 7201286 7201212 7201213 }).pluck(:id)).to match_array([works(:work1), works(:work2)].map(&:id))
       end
     end
     describe ".order_by" do
+      describe "artist" do
+        it "works when there are no artists" do
+          expect(Work.order_by(:artist_name).last).to eq(works(:artistless_work))
+        end
+      end
       describe "location" do
         it "sorts -1 before BG" do
           c = collections(:sub_boring_collection)
@@ -463,6 +546,24 @@ RSpec.describe Work, type: :model do
           c.works.create(location_floor: "Depot")
 
           expect(c.works.order_by(:location).map(&:location_floor)).to eq(["-3", "-2", "-1", "0", "BG", "1", "4", "Depot"])
+        end
+        it "sorts by location, floor, detail" do
+          c = collections(:sub_boring_collection)
+          c.works.create(location: "A", location_floor: "-1", location_detail: "C1")
+          c.works.create(location: "A", location_floor: "-1", location_detail: "D1")
+          c.works.create(location: "A", location_floor: "1" , location_detail: "C1")
+          c.works.create(location: "A", location_floor: "1" , location_detail: "C2")
+          c.works.create(location: "A", location_floor: "BG", location_detail: "2")
+          c.works.create(location: "A", location_floor: "BG", location_detail: "1")
+          c.works.create(location: "B", location_floor: "-1", location_detail: "C1")
+          c.works.create(location: "B", location_floor: "1" , location_detail: "B1")
+          c.works.create(location: "B", location_floor: "BG", location_detail: "A1")
+          expect(                    c.works.map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).not_to eq(
+            ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
+          )
+          expect(c.works.order_by(:location).map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).to eq(
+            ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
+          )
         end
       end
     end

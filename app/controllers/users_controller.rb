@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     @advisors = current_user.accessible_users.advisor.order(:email).all
     @admin_users = current_user.accessible_users.admin.order(:email).all
     @appraisal_users = current_user.accessible_users.appraiser.order(:email).all
-    @qkunst_users = current_user.accessible_users.qkunst.order(:email).all
+    @registrator_users = current_user.accessible_users.registrator.order(:email).all
     other_users = current_user.accessible_users.other.order(:email)
     @external_users = other_users.has_collections.to_a
     @unregistered_users = other_users.all - @external_users

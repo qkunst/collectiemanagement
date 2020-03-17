@@ -1,12 +1,12 @@
 # Test report QKunst Collectiebeheer
 
-Date: 2020-02-11 23:26:55 +0100
+Date: 2020-03-17 16:15:07 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **92.72%** of the lines are covered by automated test. The code base consists of **8131** lines of code.
+In total **92.74%** of the lines are covered by automated test. The code base consists of **8076** lines of code.
 
 ## Abilities
 
@@ -29,11 +29,16 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Bericht**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✘|
+|*Tonen*|✔|✔|✔|✔|✔|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✔|✘|
-|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✔|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Collectie**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
@@ -51,7 +56,10 @@ This lists what a user can do per object-type.
 |*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
 |*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|
 |**Vervaardiger**||
 |*Opschonen*|✔|✘|✘|✘|✘|✘|
@@ -60,20 +68,30 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
 |**Cluster**||
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |**RKD Artist**||
 |*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
 |*Kopieer*|✔|✔|✘|✔|✘|✘|
 |**Bijlage**||
 |*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken*|✔|✔|✘|✘|✘|✘|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
 |**Werk**||
 |*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
 |*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
@@ -84,25 +102,38 @@ This lists what a user can do per object-type.
 |*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
 |*Taggen*|✔|✔|✘|✔|✘|✘|
 |*Details tonen*|✔|✔|✔|✔|✔|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Beheren*|✔|✔|✘|✘|✘|✘|
-|*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |**Gebruiker**||
 |*Verwijderen*|✔|✘|✘|✘|✘|✘|
 |*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Waardering**||
 |*Beheren*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Import**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✘|✔|✘|✘|✘|
 |**Herinnering**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |**Thema**||
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
@@ -192,6 +223,7 @@ This is a list of fields a user can write to
 |*purchase_price*|✔|✔|✘|✔|✘|✘|
 |*purchased_on*|✔|✔|✘|✔|✘|✘|
 |*purchase_year*|✔|✔|✘|✔|✘|✘|
+|*selling_price_minimum_bid_comments*|✔|✔|✘|✔|✘|✘|
 |**artists_attributes**||
 |*_destroy*|✔|✔|✘|✔|✘|✘|
 |*first_name*|✔|✔|✘|✔|✘|✘|
@@ -246,11 +278,12 @@ Manage Collection
     editing a collection
     creating a sub-collection
 
-Batch Editor
+Batch editor
   move work to sub-collection in cluster
   appraise works
   modify other attributes (happy flow)
-  [cluster batch editor, remove?] move work to subcollection in using the cluster-batch editor
+  Specialized batch editors
+    move work to subcollection in using the cluster-batch editor
 
 Edit photos
   as QKunst regular user with collection
@@ -322,7 +355,7 @@ View report
   as an admin
   as a facility manager (limited)
 
-Finished in 36.81 seconds (files took 2.38 seconds to load)
+Finished in 38.24 seconds (files took 2.53 seconds to load)
 49 examples, 0 failures
 
 
@@ -333,18 +366,6 @@ Finished in 36.81 seconds (files took 2.38 seconds to load)
 Full test results; only for reference.
 
 ```
-
-WorksBatchController
-  PUT #update
-    replaces params in work when update (default)
-    only replaces when not empty when multiple
-    adds to work when update_and_add
-    changes collection
-    changes collection
-  PUT #update with tags
-    replaces params in work when update (default)
-    adds to work when update_and_add
-    removes from work when update_and_delete
 
 ClustersController
   GET #index
@@ -536,11 +557,12 @@ Manage Collection
     editing a collection
     creating a sub-collection
 
-Batch Editor
+Batch editor
   move work to sub-collection in cluster
   appraise works
   modify other attributes (happy flow)
-  [cluster batch editor, remove?] move work to subcollection in using the cluster-batch editor
+  Specialized batch editors
+    move work to subcollection in using the cluster-batch editor
 
 Edit photos
   as QKunst regular user with collection
@@ -1183,8 +1205,11 @@ Work
       finds by array on all numbers
       adheres earlier scopes
     .order_by
+      artist
+        works when there are no artists
       location
         sorts -1 before BG
+        sorts by location, floor, detail
 
 Collections
   GET /collections
@@ -1317,17 +1342,22 @@ WorkBatchs
     should redirect to the root when accessing anohter collection
 
 Works
+  PATCH /collections/:collection_id/works/:id
+    should render the edit form when changing location fails
   GET /collections/:id/works
     shouldn't be publicly accessible!
     admin
       should be accessible when logged in as admin
       admin should be able to access edit page
       should be able to get an index
-      should be able to get an zip file
-      should be able to get an zip file with photos
-      should be able to get an zip file with only front photos
-      should be able to get a grouped index
-      should render the edit form when changing location fails
+      sorting and grouping
+        should be able to get a grouped index
+        should be able to sort
+        should be able to filter and sort
+      downloading
+        should be able to get an zip file
+        should be able to get an zip file with photos
+        should be able to get an zip file with only front photos
     user with no rights
       should not be accessible when logged in as an anonymous user
     facility
@@ -1512,8 +1542,8 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
-Finished in 55.23 seconds (files took 3.3 seconds to load)
-639 examples, 0 failures, 8 pending
+Finished in 58.62 seconds (files took 3.29 seconds to load)
+635 examples, 0 failures, 8 pending
 
 
 ```

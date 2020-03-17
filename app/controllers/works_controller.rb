@@ -30,7 +30,7 @@ class WorksController < ApplicationController
   before_action :authenticate_admin_or_advisor_user!, only: [:destroy, :modified_index]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
-  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices]
   before_action :set_collection # set_collection includes authentication
 
   # NOTE: every now and then an error is raised, and the app will try to repost the same request, which results in an error. It is accepted that an external party could create additional, unwanted records (though highly unlikely due to the obscureness of this app (and they would still need login credentials))
@@ -73,7 +73,7 @@ class WorksController < ApplicationController
       @works = @works.id(params[:ids].split(",").map(&:to_i)) if params[:ids]
       @works_count = @works.count
       @works = @works.preload_relations_for_display(@selection[:display])
-      @works = @works.order_by(@selection[:sort]) if @selection[:sort]
+      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       @works = []
       @works_count = 0
@@ -108,14 +108,15 @@ class WorksController < ApplicationController
           @max_index ||= @works_count < 159 ? 99999 : 7
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
-            @works_grouped[key] = works_grouped[key]
+            @works_grouped[key] = works_grouped[key].uniq
           end
           if works_grouped[nil]
-            @works_grouped[nil] = works_grouped[nil]
+            @works_grouped[nil] = works_grouped[nil].uniq
           end
         else
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
+          @works = @works.limit(@max_index).all
         end
       end
     end
@@ -133,6 +134,9 @@ class WorksController < ApplicationController
   end
 
   def edit_tags
+  end
+
+  def edit_prices
   end
 
   # GET /works/new
@@ -180,36 +184,7 @@ class WorksController < ApplicationController
   end
 
   def location_history
-    location_versions = []
-    @work.versions.each_with_index do |version, index|
-      location_versions[index] = {created_at: version.created_at, event: version.event}
-      if version.object and index > 0
-        reified_object = version.reify
-        location_versions[index-1][:location] = reified_object.location
-        location_versions[index-1][:location_floor] = reified_object.location_floor
-        location_versions[index-1][:location_detail] = reified_object.location_detail
-      end
-    end
-
-    # complete with latest info
-    index = location_versions.count
-
-    location_versions[index-1][:location] = @work.location
-    location_versions[index-1][:location_floor] = @work.location_floor
-    location_versions[index-1][:location_detail] = @work.location_detail
-
-    # filter out irrelevant changes
-    uniq_location_versions = [location_versions[0]]
-    location_versions.each do |location_version|
-      last_uniq_location_version = uniq_location_versions.last
-      if (location_version[:location] != last_uniq_location_version[:location] ||
-        location_version[:location_floor] != last_uniq_location_version[:location_floor] ||
-        location_version[:location_detail] != last_uniq_location_version[:location_detail])
-        uniq_location_versions << location_version
-      end
-    end
-
-    @versions = uniq_location_versions
+    @versions = @work.location_history
   end
 
   def modified_index
@@ -220,7 +195,7 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect{|a| [a.created_at, a.reify]}.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect{|a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name]}.compact
   end
 
   # DELETE /works/1

@@ -25,14 +25,6 @@ module ApplicationHelper
     current_user && current_user.facility_manager?
   end
 
-  def detail_display?
-    @selection and @selection[:display] == :detailed
-  end
-
-  def complete_display?
-    @selection and @selection[:display] == :complete
-  end
-
   def edit_attachment_path attachment
     if attachment.attache.is_a? Collection
       edit_collection_attachment_path(attachment.attache, attachment)

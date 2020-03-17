@@ -31,7 +31,7 @@ set :repo_url, 'https://github.com/qkunst/collectiebeheer.git'
 set :linked_files, %w{config/secrets.yml config/database.yml}
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{log tmp public/uploads storage}
+set :linked_dirs, %w{log tmp public/uploads storage node_modules}
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 

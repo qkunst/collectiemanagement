@@ -40,42 +40,6 @@ class CollectionsController < ApplicationController
     current_user.reset_filters!
   end
 
-  def report
-    authorize! :read_report, Collection
-    current_user.reset_filters!
-
-    @collection = @parent_collection
-    @title = "Rapportage voor #{@collection.name}"
-
-    @sections = {
-      "Locaties": [[:"location_raw"]],
-      "Ontsluiting" => [[:"tag_list"]]
-    }
-
-    if can?(:read_extended_report, @collection)
-      @sections.deep_merge!({
-        "Vervaardigers" => [[:artists]],
-        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-        "Typering" => [[:abstract_or_figurative,:style],[:subset],[:themes], [:cluster]],
-        "Waardering" => [[:purchase_year],[:grade_within_collection]],
-        "Object" => [[:object_categories_split],[:"object_format_code", :frame_type], [:object_creation_year]],
-        "Overige" => [[:sources],[:owner],[:inventoried, :refound, :new_found]]
-      })
-      @sections["Ontsluiting"] = [[:image_rights, :publish],[:"tag_list"]]
-    end
-
-    if can?(:read_valuation, @collection) and @sections["Waardering"]
-      @sections["Waardering"] << [:market_value]
-      @sections["Waardering"] << [:replacement_value]
-    end
-
-    @report = @collection.report
-
-    unless @report
-      redirect_to collection_path(@collection), notice: "Het rapport kon niet gegenereerd worden door een systeemfout. De beheerder is geïnformeerd."
-    end
-  end
-
   # GET /collections/new
   def new
     authorize! :create, @collection
@@ -167,7 +131,12 @@ class CollectionsController < ApplicationController
   private
     def set_parent_collection
       if params[:collection_id]
+        authenticate_activated_user!
         @parent_collection = Collection.find(params[:collection_id])
+        unless current_user.admin?
+          redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
+          redirect_to root_path, redirect_options unless @parent_collection.can_be_accessed_by_user(current_user)
+        end
       end
     end
 

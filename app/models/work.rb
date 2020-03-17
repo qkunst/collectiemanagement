@@ -3,20 +3,23 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
+  GRADES_WITHIN_COLLECTION = %w{A B C D E F G W}
 
   include ActionView::Helpers::NumberHelper
+  include FastAggregatable
+  include MethodCache
+  include Searchable
+
   include Work::Caching
   include Work::Export
   include Work::ParameterRerendering
   include Work::PreloadRelationsForDisplay
-  include FastAggregatable
-  include Searchable
-  include ColumnCache
+  include Work::Search
 
   has_paper_trail
 
-  has_cache_for_column :tag_list
-  has_cache_for_column :collection_locality_artist_involvements_texts
+  has_cache_for_method :tag_list
+  has_cache_for_method :collection_locality_artist_involvements_texts
 
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
@@ -63,7 +66,7 @@ class Work < ApplicationRecord
     when :created_at
       order(created_at: :desc)
     when :artist_name, :artist_name_rendered
-      joins(:artists).order("artists.last_name ASC, artists.first_name ASC")
+      left_outer_joins(:artists).order(Arel.sql("artists.id IS NULL ASC, artists.last_name ASC, artists.first_name ASC"))
     when :stock_number
       order(:stock_number)
     end
@@ -91,36 +94,6 @@ class Work < ApplicationRecord
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
   accepts_nested_attributes_for :appraisals
-
-  settings index: { number_of_shards: 5, max_result_window: 50_000 } do
-    mappings do
-      indexes :abstract_or_figurative, type: 'keyword'
-      indexes :tag_list, type: 'keyword'#, tokenizer: 'keyword'
-      indexes :description, analyzer: 'dutch', index_options: 'offsets'
-      indexes :grade_within_collection, type: 'keyword'
-      indexes :location_raw, type: 'keyword'
-      indexes :location_floor_raw, type: 'keyword'
-      indexes :location_detail_raw, type: 'keyword'
-      indexes :object_format_code, type: 'keyword'
-      indexes :report_val_sorted_artist_ids, type: 'keyword'
-      indexes :report_val_sorted_object_category_ids, type: 'keyword'
-      indexes :report_val_sorted_technique_ids, type: 'keyword'
-      indexes :title, analyzer: 'dutch'
-      indexes :market_value, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value, type: 'scaled_float', scaling_factor: 100
-      indexes :purchase_price, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value_min, type: 'scaled_float', scaling_factor: 100
-      indexes :market_value_max, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value_min, type: 'scaled_float', scaling_factor: 100
-      indexes :replacement_value_max, type: 'scaled_float', scaling_factor: 100
-      indexes :minimum_bid, type: 'scaled_float', scaling_factor: 100
-      indexes :selling_price, type: 'scaled_float', scaling_factor: 100
-      indexes :purchase_price_in_eur, type: 'scaled_float', scaling_factor: 100
-    end
-  end
-
-  index_name "works-#{Rails.env.test? ? "test" : "a"}"
 
   def photos?
     photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
@@ -172,10 +145,7 @@ class Work < ApplicationRecord
   end
 
   def geoname_ids
-    ids = []
-    artists.each do |artist|
-      ids += artist.geoname_ids
-    end
+    ids = artists.flat_map(&:cached_geoname_ids)
     ids << locality_geoname_id if locality_geoname_id
     GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
   end
@@ -235,34 +205,6 @@ class Work < ApplicationRecord
     end
   end
 
-  def as_indexed_json(*)
-    self.as_json(
-      include: {
-        sources: { only: [:id, :name]},
-        style: { only: [:id, :name]},
-        owner: { only: [:id, :name]},
-        artists: { only: [:id, :name], methods: [:name]},
-        object_categories: { only: [:id, :name]},
-        medium: { only: [:id, :name]},
-        condition_work: { only: [:id, :name]},
-        damage_types: { only: [:id, :name]},
-        condition_frame: { only: [:id, :name]},
-        frame_damage_types: { only: [:id, :name]},
-        techniques: { only: [:id, :name]},
-        themes: { only: [:id, :name]},
-        subset: { only: [:id, :name]},
-        placeability: { only: [:id, :name]},
-        cluster: { only: [:id, :name]},
-      },
-      methods: [
-        :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,
-        :report_val_sorted_artist_ids, :report_val_sorted_object_category_ids, :report_val_sorted_technique_ids, :report_val_sorted_theme_ids,
-        :location_raw, :location_floor_raw, :location_detail_raw,
-        :object_format_code, :inventoried, :refound, :new_found
-      ]
-    )
-  end
-
   def report_val_sorted_artist_ids
     artists.order_by_name.distinct.collect{|a| a.id}.sort.join(",")
   end
@@ -274,6 +216,58 @@ class Work < ApplicationRecord
   end
   def report_val_sorted_theme_ids
     themes.uniq.collect{|a| a.id}.sort.join(",")
+  end
+  def location_history(skip_current: false, empty_locations: true)
+    location_versions = []
+    uniq_location_versions = []
+    versions.each_with_index do |version, index|
+      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
+      if version.object and index > 0
+        reified_object = version.reify
+        location_versions[index-1][:location] = reified_object.location
+        location_versions[index-1][:location_floor] = reified_object.location_floor
+        location_versions[index-1][:location_detail] = reified_object.location_detail
+      end
+    end
+
+    # complete with latest info
+    index = location_versions.count
+
+    if index > 0
+      location_versions[index-1][:location] = location
+      location_versions[index-1][:location_floor] = location_floor
+      location_versions[index-1][:location_detail] = location_detail
+
+      # filter out irrelevant changes
+      uniq_location_versions = [location_versions[0]]
+      location_versions.each do |location_version|
+        last_uniq_location_version = uniq_location_versions.last
+        last_uniq_location_description = last_uniq_location_version.fetch_values(:location, :location_floor, :location_detail).join("")
+        location_version_description = location_version.fetch_values(:location, :location_floor, :location_detail).join("")
+
+        if (last_uniq_location_description != location_version_description) && (empty_locations || !location_version_description.blank?)
+          uniq_location_versions << location_version
+        end
+      end
+      if skip_current and (empty_locations == true || location_description)
+        uniq_location_versions.pop
+      end
+      uniq_location_versions
+    else
+      []
+    end
+  end
+
+  def restore_last_location_if_blank!
+    unless location_description
+      prev_location = location_history(skip_current: true, empty_locations: false).last
+      if prev_location
+        self.location = prev_location[:location]
+        self.location_detail = prev_location[:location_detail]
+        self.location_floor = prev_location[:location_floor]
+        self.save!
+      end
+    end
   end
   def available_themes
     collection.available_themes

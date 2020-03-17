@@ -21,7 +21,8 @@ class User < ApplicationRecord
   scope :not_admin, ->{ where.not(admin: true) }
   scope :advisor, ->{ where(advisor: true).where(admin: [false, nil]) }
   scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
-  scope :qkunst, ->{ where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :registrator, ->{ where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :qkunst, ->{ where(qkunst: true) }
   scope :other, ->{ where(qkunst: [false,nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
   scope :has_collections, ->{ joins(:collections).uniq }
   scope :receive_mails, ->{ where(receive_mails: true)}

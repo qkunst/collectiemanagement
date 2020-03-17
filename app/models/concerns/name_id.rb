@@ -17,6 +17,10 @@ module NameId
         only: [:id, :name]
       )
     end
+
+    def to_s
+      "#<#{self.class.name}:#{name} (#{object_id})>"
+    end
   end
 
   class_methods do

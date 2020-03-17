@@ -74,7 +74,7 @@
         <%= select_tag "filter[geoname_ids][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
       <% end %>
       <h5>Tags</h5>
-      <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list.keyword][]">
+      <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list][]">
         <% (@selection_filter["tag_list"] || []).each do |tag|%>
           <option selected="selected" value="<%=tag%>"><%=tag%></option>
         <% end %>

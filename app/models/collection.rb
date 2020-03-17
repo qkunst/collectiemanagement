@@ -19,7 +19,7 @@ class CollectionBaseError < StandardError
 end
 
 class Collection < ApplicationRecord
-  include ColumnCache
+  include MethodCache
   include Collection::Hierarchy
 
   belongs_to :parent_collection, class_name: 'Collection', optional: true
@@ -43,21 +43,21 @@ class Collection < ApplicationRecord
   has_many :collections_stages
   has_many :reminders
 
-  has_cache_for_column :geoname_ids
-  has_cache_for_column :collection_name_extended
+  has_cache_for_method :geoname_ids
+  has_cache_for_method :collection_name_extended
 
-  default_scope ->{order(:name)}
+  default_scope ->{order(:collection_name_extended_cache)}
 
   scope :without_parent, ->{ where(parent_collection_id: nil) }
   scope :not_hidden, ->{ where("1=1")}
   scope :not_system, ->{ not_root }
 
   before_save :cache_geoname_ids!
-  before_save :cache_collection_name_extended!
   before_save :attach_sub_collection_ownables_when_base
 
   after_create :copy_default_reminders!
   after_save :touch_works_including_child_works!
+  after_save :cache_all_collection_name_extended!
 
   after_commit :touch_parent
 
@@ -197,8 +197,10 @@ class Collection < ApplicationRecord
     Owner.for_collection(self)
   end
 
-  def available_themes
-    Theme.for_collection_including_generic(self).not_hidden
+  def available_themes(not_hidden: true)
+    themes = Theme.for_collection_including_generic(self)
+    themes = themes.not_hidden if not_hidden
+    themes
   end
 
   def not_hidden_themes
@@ -216,7 +218,11 @@ class Collection < ApplicationRecord
   def collection_name_extended
     @collection_name_extended ||= self_and_parent_collections_flattened.map(&:name).join(" » ")
   end
-  alias_method :to_label, :collection_name_extended
+
+  def cached_collection_name_extended_with_fallback
+    cached_collection_name_extended || collection_name_extended
+  end
+  alias_method :to_label, :cached_collection_name_extended_with_fallback
 
   def exposable_fields
     read_attribute(:exposable_fields).to_s.split(",")
@@ -280,73 +286,7 @@ class Collection < ApplicationRecord
   end
 
   def search_works(search="", filter={}, options={})
-    options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
-    sort = options[:sort] || ["_score"]
-    if ((search == "" or search == nil) and (filter == nil or filter == {} or (
-      filter.is_a? Hash and filter.sum{|k,v| v.count} == 0
-      )) and options[:force_elastic] == false)
-      return options[:no_child_works] ? works.limit(options[:limit]) : works_including_child_works.limit(options[:limit])
-    end
-
-    query = {
-      _source: [:id], #major speedup!
-      size: options[:limit],
-      query:{
-        bool: {
-          must: [
-            terms:{
-              "collection_id"=> options[:no_child_works] ? [id] : expand_with_child_collections.map(&:id)
-            }
-          ]
-        }
-      },
-      sort: sort
-    }
-
-    if (search and !search.to_s.strip.empty?)
-      search = search.match(/[\"\(\~\'\*\?]|AND|OR/) ? search : search.split(" ").collect{|a| "#{a}~" }.join(" ")
-      query[:query][:bool][:must] << {
-        query_string: {
-          default_field: :_all,
-          query: search,
-          default_operator: :and,
-          fuzziness: 3
-        }
-      }
-    end
-
-    filter.each do |key, values|
-      new_bool = {bool: {should: []}}
-      if key == "locality_geoname_id" or key == "geoname_ids" or key == "tag_list"
-        values = values.compact
-        if values.count == 0
-          new_bool[:bool]= {mustNot: {exists: {field: key}}}
-        else
-          new_bool[:bool][:should] << {terms: {key=> values}}
-        end
-      else
-        values.each do |value|
-          if value != nil
-            new_bool[:bool][:should] << {term: {key=>value}}
-          else
-            if key.ends_with?(".id")
-              new_bool[:bool][:should] << {mustNot: {exists: {field: key}}}
-            else
-              new_bool[:bool][:should] << {bool:{must_not: {exists: {field: key }}}}
-            end
-          end
-        end
-      end
-      query[:query][:bool][:must] << new_bool
-    end
-
-    query[:aggs] = options[:aggregations] if options[:aggregations]
-
-    if options[:return_records]
-      return Work.search(query).records
-    else
-      return Work.search(query)
-    end
+    Work.search_and_filter(self, search, filter, options)
   end
 
   def can_be_accessed_by_user user
@@ -416,6 +356,12 @@ class Collection < ApplicationRecord
         end
       end
     end
+  end
+
+  private
+
+  def cache_all_collection_name_extended!
+    UpdateCacheWorker.perform_async(self.class.name, :collection_name_extended)
   end
 
   class << Collection

@@ -22,13 +22,12 @@ module FastAggregatable
       rv
     end
     private def _fast_aggregate_column_values rv, attribute
-      self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.each do |a|
+      self.select(attribute).group(attribute).collect{|a| a.send(attribute)}.sort{|a,b| a.to_s<=>b.to_s}.each do |a|
         value = (a ? a : :not_set)
         if value.is_a? String
           if attribute == :grade_within_collection
             value = value[0]
           end
-          value = value.downcase.to_sym
         end
         rv[attribute][value] ||= {count: 999999, name: value }
       end
@@ -63,7 +62,7 @@ module FastAggregatable
       ids = self.group(:locality_geoname_id).select(:locality_geoname_id).collect{|a| a.locality_geoname_id}.compact.uniq
       artists = Artist.where(id: self.joins(:artists).select("artist_id AS id").collect{|a| a.id}).distinct
       artists.each do |artist|
-        ids += artist.geoname_ids
+        ids += Array(artist.cached_geoname_ids)
       end
       ids = ids.compact.uniq
       GeonameSummary.where(geoname_id: ids).with_parents.each do |geoname|
