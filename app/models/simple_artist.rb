@@ -10,24 +10,22 @@ class SimpleArtist
     "-"
   end
 
-  def initialize kvs={}
-    kvs.each do |k,v|
-      self.send("#{k}=", v)
+  def initialize kvs = {}
+    kvs.each do |k, v|
+      send("#{k}=", v)
     end
   end
 
   def self.new_from_json json
-    if json and json.strip != ""
+    if json && (json.strip != "")
       obj = JSON.parse(json)
       if obj.is_a? Array
-        return obj.collect{|a| self.new(a)}
+        obj.collect { |a| new(a) }
       else
-        return self.new(a)
+        new(a)
       end
     else
-      self.new
+      new
     end
   end
-
-
 end

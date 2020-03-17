@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ClustersController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -9,11 +9,11 @@ RSpec.describe ClustersController, type: :controller do
   # Cluster. As you add validations to Cluster, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    { name: "a", collection: collections(:collection3)}
+    {name: "a", collection: collections(:collection3)}
   }
 
   let(:invalid_attributes) {
-    { name: nil }
+    {name: nil}
   }
 
   # This should return the minimal set of values that should be in the session
@@ -34,7 +34,7 @@ RSpec.describe ClustersController, type: :controller do
     it "returns a success response when signed in as admin" do
       sign_in users(:admin)
       cluster = Cluster.create! valid_attributes
-      get :show, params: {id: cluster.to_param, collection_id: collections(:collection3).id }, session: valid_session
+      get :show, params: {id: cluster.to_param, collection_id: collections(:collection3).id}, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -84,7 +84,7 @@ RSpec.describe ClustersController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        { name: "b", collection: collections(:collection3)}
+        {name: "b", collection: collections(:collection3)}
       }
 
       it "updates the requested cluster" do
@@ -129,5 +129,4 @@ RSpec.describe ClustersController, type: :controller do
       expect(response).to redirect_to(collection_clusters_url(collections(:collection3)))
     end
   end
-
 end

@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-# encoding: utf-8
-
-
 class PictureUploader < CarrierWave::Uploader::Base
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
@@ -23,6 +19,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   def move_to_cache
     true
   end
+
   def move_to_store
     true
   end
@@ -44,29 +41,29 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
-     process :resize_to_fit => [100, 100]
-     process optimize: [{ quality: 50 }]
+    process resize_to_fit: [100, 100]
+    process optimize: [{quality: 50}]
   end
   version :big_thumb do
-     process :resize_to_fit => [250, 250]
-     process optimize: [{ quality: 60 }]
+    process resize_to_fit: [250, 250]
+    process optimize: [{quality: 60}]
   end
   version :screen do
-     process :resize_to_fit => [1024,1024]
-     process optimize: [{ quality: 70 }]
+    process resize_to_fit: [1024, 1024]
+    process optimize: [{quality: 70}]
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
-  def to_be_path version=nil
+  def to_be_path version = nil
     puts "Store path: #{store_path}"
     puts "version: #{version}"
     puts "file.filename: #{file.filename}"
-    this_store_path = store_path.gsub(file.filename,"")
+    this_store_path = store_path.gsub(file.filename, "")
     this_store_path + [version, file.filename].compact.join("_")
   end
 
@@ -88,7 +85,6 @@ class PictureUploader < CarrierWave::Uploader::Base
 
   def secure_token
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+    model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
   end
-
 end

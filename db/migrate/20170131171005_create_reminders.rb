@@ -13,7 +13,7 @@ class CreateReminders < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-        #
+    #
     # Controle nodig (Iedere 1 jaar na oplevering)
     # Taxatie nodig (Iedere 3 jaar na oplevering)
     # Maar ook b.v. een Test herinnering (Iedere dag)

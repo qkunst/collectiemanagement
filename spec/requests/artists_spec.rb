@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Artists", type: :request do
   describe "GET /artists" do
@@ -37,7 +37,6 @@ RSpec.describe "Artists", type: :request do
     end
   end
 
-
   describe "POST /artists/clean" do
     it "shouldn't be publicly accessible!" do
       before_count = Artist.count
@@ -63,7 +62,6 @@ RSpec.describe "Artists", type: :request do
       expect(response).to have_http_status(302)
       expect(response.inspect.to_s).not_to match "De vervaardigersdatabase is opgeschoond"
       expect(before_count - Artist.count).to eq 0
-
     end
   end
 end

@@ -15,7 +15,7 @@ class StagesController < ApplicationController
   # GET /stages/1
   # GET /stages/1.json
   def show
-    @collection = Collection.new(collections_stages: [CollectionsStage.new(stage:@stage, completed: true)])
+    @collection = Collection.new(collections_stages: [CollectionsStage.new(stage: @stage, completed: true)])
   end
 
   # GET /stages/new
@@ -34,7 +34,7 @@ class StagesController < ApplicationController
 
     respond_to do |format|
       if @stage.save
-        format.html { redirect_to @stage, notice: 'Fase is aangemaakt' }
+        format.html { redirect_to @stage, notice: "Fase is aangemaakt" }
         format.json { render :show, status: :created, location: @stage }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class StagesController < ApplicationController
   def update
     respond_to do |format|
       if @stage.update(stage_params)
-        format.html { redirect_to @stage, notice: 'Fase is bijgewerkt' }
+        format.html { redirect_to @stage, notice: "Fase is bijgewerkt" }
         format.json { render :show, status: :ok, location: @stage }
       else
         format.html { render :edit }
@@ -62,19 +62,20 @@ class StagesController < ApplicationController
   def destroy
     @stage.destroy
     respond_to do |format|
-      format.html { redirect_to stages_url, notice: 'Fase is verwijderd' }
+      format.html { redirect_to stages_url, notice: "Fase is verwijderd" }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stage
-      @stage = Stage.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def stage_params
-      params.require(:stage).permit(:name, :actual_stage_id, :previous_stage_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_stage
+    @stage = Stage.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def stage_params
+    params.require(:stage).permit(:name, :actual_stage_id, :previous_stage_id)
+  end
 end

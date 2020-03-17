@@ -15,21 +15,19 @@ class MessagesController < ApplicationController
       @messages = @messages.for(subject_object)
       @messages = @messages.not_qkunst_private unless current_user.qkunst?
     else
-      @messages = @messages.collections(current_user.collections) if current_user.admin? and current_user.admin_with_favorites?
+      @messages = @messages.collections(current_user.collections) if current_user.admin? && current_user.admin_with_favorites?
       @messages = @messages.thread_can_be_accessed_by_user(current_user)
     end
     new
   end
 
-
-
   # GET /messages/1
   # GET /messages/1.json
   def show
-    if @message.conversation_starter?
-      @other_messages = @message.conversation.order_by_creation_date
+    @other_messages = if @message.conversation_starter?
+      @message.conversation.order_by_creation_date
     else
-      @other_messages = @message.replies.order_by_creation_date
+      @message.replies.order_by_creation_date
     end
     @other_messages = @other_messages.not_qkunst_private unless current_user.admin?
 
@@ -45,7 +43,7 @@ class MessagesController < ApplicationController
     end
     @new_reply_message = Message.new
     @new_reply_message.in_reply_to_message = @message
-    @new_reply_message.subject = @message.subject.to_s.match(/^re\:(.*)/i) ? @message.subject : "Re: #{@message.subject}"
+    @new_reply_message.subject = /^re\:(.*)/i.match?(@message.subject.to_s) ? @message.subject : "Re: #{@message.subject}"
   end
 
   # GET /messages/new
@@ -53,9 +51,9 @@ class MessagesController < ApplicationController
     @message = Message.new
     if params[:message_id]
       @original_message = Message.find(params[:message_id])
-      redirect_to messages_path, {alert: "U heeft geen toegang tot deze pagina"} unless (current_user.can_access_message?(@original_message))
+      redirect_to messages_path, {alert: "U heeft geen toegang tot deze pagina"} unless current_user.can_access_message?(@original_message)
       @message.in_reply_to_message = @original_message
-      @message.subject = @original_message.subject.match(/^re(.*)/i) ? @original_message.subject : "Re: #{@original_message.subject}"
+      @message.subject = /^re(.*)/i.match?(@original_message.subject) ? @original_message.subject : "Re: #{@original_message.subject}"
     end
   end
 
@@ -71,11 +69,11 @@ class MessagesController < ApplicationController
     @message.subject_object = subject_object
     collection_or_work_url = [@collection, @work].compact.count > 0 ? url_for([@collection, @work].compact) : nil
     referrer = collection_or_work_url || params[:referrer] || request.referrer
-    @message.subject_url = referrer unless request.referrer.match(/\/messages\//)
+    @message.subject_url = referrer unless /\/messages\//.match?(request.referrer)
 
     if message_params[:in_reply_to_message_id].to_i > 0
       original_message = Message.find(message_params[:in_reply_to_message_id].to_i)
-      unless (current_user.can_access_message?(original_message))
+      unless current_user.can_access_message?(original_message)
         redirect_to messages_path, {alert: "U probeert te reageren op een bericht welke u niet heeft kunnen zien."}
         return false
       end
@@ -85,9 +83,9 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         notice = "Uw bericht is verstuurd."
-        notice += " Het bericht wordt spoedig verwerkt." unless @message.just_a_note or current_user.qkunst?
+        notice += " Het bericht wordt spoedig verwerkt." unless @message.just_a_note || current_user.qkunst?
 
-        redirect_to_obj = @message.subject_url unless request.referrer.match(/\/messages\//)
+        redirect_to_obj = @message.subject_url unless /\/messages\//.match?(request.referrer)
         redirect_to_obj ||= @message.conversation_start_message || @message
 
         format.html { redirect_to redirect_to_obj, notice: notice }
@@ -104,7 +102,7 @@ class MessagesController < ApplicationController
   def update
     respond_to do |format|
       if @message.update(message_params)
-        format.html { redirect_to @message.conversation_start_message || @message, notice: 'Het bericht is aangepast' }
+        format.html { redirect_to @message.conversation_start_message || @message, notice: "Het bericht is aangepast" }
         format.json { render :show, status: :ok, location: @message }
       else
         format.html { render :edit }
@@ -118,30 +116,31 @@ class MessagesController < ApplicationController
   def destroy
     @message.destroy
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Het bericht is verwijderd' }
+      format.html { redirect_to messages_url, notice: "Het bericht is verwijderd" }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
 
-    def subject_object
-      @subject_object ||= @work || @collection || false
-    end
+  # Use callbacks to share common setup or constraints between actions.
 
-    def set_message
-      @message = Message.find(params[:id])
-      @subject_object = @message.subject_object
-      if subject_object
-        redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless (current_user.qkunst? or !@message.qkunst_private)
-      else
-        redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless (current_user.can_access_message?(@message))
-      end
-    end
+  def subject_object
+    @subject_object ||= @work || @collection || false
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def message_params
-      params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image)
+  def set_message
+    @message = Message.find(params[:id])
+    @subject_object = @message.subject_object
+    if subject_object
+      redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless current_user.qkunst? || !@message.qkunst_private
+    else
+      redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless current_user.can_access_message?(@message)
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def message_params
+    params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image)
+  end
 end

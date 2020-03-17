@@ -3,9 +3,9 @@
 class ImportCollection::ClassAssociation
   attr_accessor :relation, :name, :class_name, :collection
 
-  def initialize(options={})
-    options.each do |k,v|
-      self.send("#{k}=",v)
+  def initialize(options = {})
+    options.each do |k, v|
+      send("#{k}=", v)
     end
   end
 
@@ -22,7 +22,7 @@ class ImportCollection::ClassAssociation
   end
 
   def has_name_column?
-     klass.column_names.include? "name"
+    klass.column_names.include? "name"
   end
 
   def findable_by_name?
@@ -34,10 +34,10 @@ class ImportCollection::ClassAssociation
   end
 
   def importable?
-    unless ["PaperTrail::Version","Currency","Attachment","ActsAsTaggableOn::Tag","ActsAsTaggableOn::Tagging","::ActsAsTaggableOn::Tag","::ActsAsTaggableOn::Tagging", "CustomReport"].include? class_name
+    unless ["PaperTrail::Version", "Currency", "Attachment", "ActsAsTaggableOn::Tag", "ActsAsTaggableOn::Tagging", "::ActsAsTaggableOn::Tag", "::ActsAsTaggableOn::Tagging", "CustomReport"].include? class_name
       return true
     end
-    return false
+    false
   end
 
   def find_by_name name

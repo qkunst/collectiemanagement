@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "Edit tags", type: :feature do
   extend FeatureHelper
@@ -15,7 +15,7 @@ RSpec.feature "Edit tags", type: :feature do
         first("#new_user input[type=submit]").click
         click_on "Collecties"
 
-        if page.body.match("id=\"list-to-filter\"")
+        if page.body.match?("id=\"list-to-filter\"")
           within "#list-to-filter" do
             click_on "Collection 1"
           end
@@ -23,7 +23,7 @@ RSpec.feature "Edit tags", type: :feature do
 
         click_on "Work1"
         click_on "Beheer tags"
-        expect(page).to have_content('bewerk')
+        expect(page).to have_content("bewerk")
         click_on "Werk bewaren"
         work1 = works(:work1)
         work1.tag_list = ["tagboter", "tagkaas"]

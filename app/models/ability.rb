@@ -13,8 +13,7 @@ class Ability
       alias_action :show, :index, to: :read
       alias_action :read_location, :edit_location, to: :manage_location
 
-
-      self.send("initialize_#{user.role}")
+      send("initialize_#{user.role}")
 
       cannot :manage, Collection, root: true
     end
@@ -29,32 +28,37 @@ class Ability
     permitted_fields = []
     permitted_fields += [:location_detail, :location, :location_floor] if can?(:edit_location, Work)
     permitted_fields += [:internal_comments] if can?(:write_internal_comments, Work)
-    permitted_fields += [
-      :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
-      :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
-    ] if can?(:edit_photos, Work)
-    permitted_fields += [
-      :inventoried, :refound, :new_found,
-      :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
-      :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
-      :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
-      :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
-      :information_back, :other_comments, :source_comments, :subset_id,  :public_description,
-      :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-      :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
-      :placeability_id, artist_ids:[], source_ids: [], damage_type_ids:[], frame_damage_type_ids:[], tag_list: [],
-      theme_ids:[],  object_category_ids:[], technique_ids:[], artists_attributes: [
-        :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+    if can?(:edit_photos, Work)
+      permitted_fields += [
+        :photo_front, :photo_back, :photo_detail_1, :photo_detail_2,
+        :remove_photo_front, :remove_photo_back, :remove_photo_detail_1, :remove_photo_detail_2
       ]
-      ] if can?(:edit, Work)
+    end
+    if can?(:edit, Work)
+      permitted_fields += [
+        :inventoried, :refound, :new_found,
+        :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
+        :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
+        :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+        :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
+        :information_back, :other_comments, :source_comments, :subset_id, :public_description,
+        :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
+        :placeability_id, artist_ids: [], source_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
+                          theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
+                            :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+                          ]
+      ]
+    end
+    if can?(:create, Appraisal)
       permitted_fields += [
         :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :selling_price_minimum_bid_comments,
         appraisals_attributes: [
           :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference
         ]
-      ] if can?(:create, Appraisal)
+      ]
+    end
     permitted_fields
-
   end
 
   def editable_work_fields_grouped
@@ -71,12 +75,12 @@ class Ability
       elsif a.is_a?(Hash)
         fields.keys.each do |group|
           if a.keys.include?(group)
-            a[group].select{|b| b.is_a?(Symbol)}.each do |c|
+            a[group].select { |b| b.is_a?(Symbol) }.each do |c|
               fields[group] << c
             end
           end
         end
-        a.select{|b| b.to_s.end_with?("ids")}.each do |key,value|
+        a.select { |b| b.to_s.end_with?("ids") }.each do |key, value|
           fields[:works_attributes] << key
         end
       end
@@ -101,7 +105,7 @@ class Ability
 
     can :edit_visibility, Attachment
 
-    can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report,:read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
+    can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status], Collection, id: accessible_collection_ids
 
     can [:edit_photos, :read_information_back, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :show_details], Work, collection_id: accessible_collection_ids
 
@@ -121,8 +125,8 @@ class Ability
     cannot :manage_collection, ImportCollection
 
     can [:create, :update, :edit_visibility], Attachment do |attachment|
-      (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
-      (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
+      ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
+        ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
@@ -161,8 +165,8 @@ class Ability
     can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference], Collection, id: accessible_collection_ids
 
     can :read, Attachment do |attachment|
-      (attachment.attache_type == "Collection" and accessible_collection_ids.include? attachment.attache_id) or
-      (attachment.attache_type == "Work" and accessible_collection_ids.include? attachment.attache.collection.id)
+      ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
+        ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
 
     can [:read, :read_information_back, :read_location, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
@@ -182,12 +186,11 @@ class Ability
       message && message.from_user == user && message.replies.count == 0 && message.unread
     end
 
-    can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference,  :refresh], Collection, id: accessible_collection_ids
+    can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
     can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
     can :tag, Work
-
   end
 
   def initialize_registrator
@@ -198,9 +201,8 @@ class Ability
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
     can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
-
   end
-  alias_method :initialize_qkunst, :initialize_registrator
+  alias initialize_qkunst initialize_registrator
 
   def initialize_facility_manager
     can [:read], Artist
@@ -210,7 +212,6 @@ class Ability
 
     can :create, Message
     can :read, Message, qkunst_private: false
-
   end
 
   def initialize_read_only

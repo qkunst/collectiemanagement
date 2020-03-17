@@ -6,12 +6,12 @@ module Work::ParameterRerendering
   included do
     def abstract_or_figurative_rendered
       if abstract_or_figurative?
-        return abstract_or_figurative == "abstract" ? "Abstract" : "Figuratief"
+        abstract_or_figurative == "abstract" ? "Abstract" : "Figuratief"
       end
     end
 
     def artist_involvements_texts geoname_ids
-      artists.collect{|a| a.artist_involvements.related_to_geoname_ids(geoname_ids)}.flatten.collect{|a| a.to_s(format: :short)}
+      artists.collect { |a| a.artist_involvements.related_to_geoname_ids(geoname_ids) }.flatten.collect { |a| a.to_s(format: :short) }
     end
 
     def base_file_name
@@ -19,7 +19,7 @@ module Work::ParameterRerendering
     end
 
     def cluster_name
-      cluster.name if cluster
+      cluster&.name
     end
 
     def collection_locality_artist_involvements_texts
@@ -27,29 +27,29 @@ module Work::ParameterRerendering
       if collection_with_geoname_summaries
         artist_involvements_texts collection_with_geoname_summaries.cached_geoname_ids
       else
-        return []
+        []
       end
     end
 
     def collection_name_extended
-      self.collection.cached_collection_name_extended
+      collection.cached_collection_name_extended
     end
 
     def condition_work_rendered
       rv = []
       rv.push(condition_work.name) if condition_work
-      rv.push(damage_types.collect{|a| a.name}.join(", "))
+      rv.push(damage_types.collect { |a| a.name }.join(", "))
       rv.push(condition_work_comments) if condition_work_comments?
-      rv = rv.delete_if{|a| a.nil? || a == ""}.join("; ")
+      rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
       return rv if rv != ""
     end
 
     def condition_frame_rendered
       rv = []
       rv.push(condition_frame.name) if condition_frame
-      rv.push(frame_damage_types.collect{|a| a.name}.join(", "))
+      rv.push(frame_damage_types.collect { |a| a.name }.join(", "))
       rv.push(condition_frame_comments) if condition_frame_comments?
-      rv = rv.delete_if{|a| a.nil? || a == ""}.join("; ")
+      rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
       return rv if rv != ""
     end
 
@@ -63,46 +63,58 @@ module Work::ParameterRerendering
 
     def hpd_height
       rv = frame_height? ? frame_height : height
-      rv if rv and rv > 0
+      rv if rv && (rv > 0)
     end
+
     def hpd_width
       rv = frame_width? ? frame_width : width
-      rv if rv and rv > 0
+      rv if rv && (rv > 0)
     end
+
     def hpd_depth
       rv = frame_depth? ? frame_depth : depth
-      rv if rv and rv > 0
+      rv if rv && (rv > 0)
     end
+
     def hpd_diameter
       rv = frame_diameter? ? frame_diameter : diameter
-      rv if rv and rv > 0
+      rv if rv && (rv > 0)
     end
+
     def hpd_keywords
-       object_categories.collect{|a| a.name}.join(",")
+      object_categories.collect { |a| a.name }.join(",")
     end
+
     def hpd_materials
-       techniques.collect{|a| a.name}.join(",")
+      techniques.collect { |a| a.name }.join(",")
     end
+
     def hpd_condition
       condition_work_rendered
     end
+
     def hpd_photo_file_name
       "#{base_file_name}.jpg"
     end
+
     def hpd_comments
     end
+
     def hpd_contact
     end
 
     def location_raw
       location if location && location.to_s.strip != ""
     end
+
     def location_floor_raw
       location_floor if location_floor && location_floor.to_s.strip != ""
     end
+
     def location_detail_raw
       location_detail if location_detail && location_detail.to_s.strip != ""
     end
+
     def location_description
       rv = [location_raw, location_floor_raw, location_detail_raw].compact.join("; ")
       rv unless rv.blank?
@@ -114,7 +126,7 @@ module Work::ParameterRerendering
     end
 
     def market_value_range
-        (market_value_min..market_value_max) if market_value_min && market_value_max
+      (market_value_min..market_value_max) if market_value_min && market_value_max
     end
 
     def name
@@ -122,7 +134,7 @@ module Work::ParameterRerendering
     end
 
     def object_creation_year_rendered
-      if object_creation_year_unknown and object_creation_year.nil?
+      if object_creation_year_unknown && object_creation_year.nil?
         "Onbekend"
       else
         object_creation_year
@@ -130,7 +142,7 @@ module Work::ParameterRerendering
     end
 
     def object_format_code
-      size = [hpd_height,hpd_width,hpd_depth,hpd_diameter].compact.max
+      size = [hpd_height, hpd_width, hpd_depth, hpd_diameter].compact.max
       if !size
       elsif size < 30
         :xs
@@ -146,7 +158,7 @@ module Work::ParameterRerendering
     end
 
     def print_rendered
-      if print_unknown and self.print.blank?
+      if print_unknown && self.print.blank?
         "Onbekend"
       else
         self.print
@@ -158,8 +170,8 @@ module Work::ParameterRerendering
       return purchase_year if purchase_year
     end
 
-    def whd_to_s width=nil, height=nil, depth=nil, diameter=nil
-      whd_values = [width, height, depth].collect{|a| dimension_to_s(a)}.compact
+    def whd_to_s width = nil, height = nil, depth = nil, diameter = nil
+      whd_values = [width, height, depth].collect { |a| dimension_to_s(a) }.compact
       rv = whd_values.join(" × ")
       if whd_values.count > 0
         legend = []
@@ -178,27 +190,29 @@ module Work::ParameterRerendering
     end
 
     def replacement_value_range
-        (replacement_value_min..replacement_value_max) if replacement_value_min && replacement_value_max
+      (replacement_value_min..replacement_value_max) if replacement_value_min && replacement_value_max
     end
 
     def signature_rendered
-      if no_signature_present and signature_comments.to_s.strip.empty?
+      if no_signature_present && signature_comments.to_s.strip.empty?
         "Niet gesigneerd"
       else
         signature_comments unless signature_comments.to_s.strip.empty?
       end
     end
+
     def stock_number_file_safe
-      stock_number.to_s.gsub(/[\/\\\:]/,"-")
+      stock_number.to_s.gsub(/[\/\\\:]/, "-")
     end
+
     def title_rendered
-      title_nil = title.nil? or title.to_s.strip.empty?
-      if title_unknown and title_nil
-        return "Zonder titel"
+      (title_nil = title.nil?) || title.to_s.strip.empty?
+      if title_unknown && title_nil
+        "Zonder titel"
       elsif title_nil
-        return "Nog geen titel"
+        "Nog geen titel"
       else
-        return read_attribute(:title)
+        read_attribute(:title)
       end
     end
   end

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class BasicFileUploader < CarrierWave::Uploader::Base
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -50,7 +49,7 @@ class BasicFileUploader < CarrierWave::Uploader::Base
 
   def filename
     if original_filename
-      model.write_attribute(:name, original_filename) if model.methods.include? :file_name and !model.name?
+      model.write_attribute(:name, original_filename) if model.methods.include?(:file_name) && !model.name?
       if model && model.read_attribute(mounted_as).present?
         model.read_attribute(mounted_as)
       else
@@ -63,7 +62,6 @@ class BasicFileUploader < CarrierWave::Uploader::Base
 
   def secure_token
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+    model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
   end
-
 end

@@ -9,32 +9,32 @@ class ImportCollection < ApplicationRecord
 
   mount_uploader :file, TableUploader
 
-  def workbook(f=file)
+  def workbook(f = file)
     if f.path
       @workbook ||= Workbook::Book.open(f.path)
     end
   end
 
   def decimal_separator_with_fallback
-    decimal_separator ? decimal_separator : ","
+    decimal_separator || ","
   end
 
   def import_setting_for field
-    settings = (import_settings and import_settings[field.to_s]) ? import_settings[field.to_s] : {}
+    settings = import_settings && import_settings[field.to_s] ? import_settings[field.to_s] : {}
     {"fields" => [], "split_strategy" => "split_nothing", "assign_strategy" => "append"}.merge(settings)
   end
 
   def internal_header_row_offset
     offset = 0
-    offset += (header_row.to_i - 1) if header_row and header_row.to_i > 0
+    offset += (header_row.to_i - 1) if header_row && (header_row.to_i > 0)
     offset
   end
 
   def import_file_snippet_to_workbook_table
-    return nil if import_file_snippet.nil? or import_file_snippet.empty?
+    return nil if import_file_snippet.nil? || import_file_snippet.empty?
     offset = internal_header_row_offset
-    table = Workbook::Table.new()
-    Workbook::Book.read(import_file_snippet, :csv, {converters: [ ]}).sheet.table.each_with_index do |row, index|
+    table = Workbook::Table.new
+    Workbook::Book.read(import_file_snippet, :csv, {converters: []}).sheet.table.each_with_index do |row, index|
       if index >= offset
         table << row
       end
@@ -43,9 +43,9 @@ class ImportCollection < ApplicationRecord
   end
 
   def import_file_to_workbook_table
-    return nil if import_file_snippet.nil? or import_file_snippet.empty?
+    return nil if import_file_snippet.nil? || import_file_snippet.empty?
     offset = internal_header_row_offset
-    table = Workbook::Table.new()
+    table = Workbook::Table.new
     workbook.sheet.table.each_with_index do |row, index|
       if index >= offset
         table << row
@@ -54,8 +54,8 @@ class ImportCollection < ApplicationRecord
     table
   end
 
-  def read(table=import_file_snippet_to_workbook_table)
-    result = [ ]
+  def read(table = import_file_snippet_to_workbook_table)
+    result = []
 
     table.each do |row|
       unless row.header?
@@ -90,11 +90,11 @@ class ImportCollection < ApplicationRecord
         end
         field_type = :association
       else
-        column = Work.columns.select{|a| a.name == property.to_s}.first
+        column = Work.columns.select { |a| a.name == property.to_s }.first
         if column
           field_type = column.type
         else
-          if Work.instance_methods.include?(fieldname.to_sym) and Work.instance_methods.include?("#{fieldname}=".to_sym)
+          if Work.instance_methods.include?(fieldname.to_sym) && Work.instance_methods.include?("#{fieldname}=".to_sym)
             field_type = Work.new.send(fieldname).class
           end
         end
@@ -106,15 +106,15 @@ class ImportCollection < ApplicationRecord
       property = "#{property.pluralize}_attributes"
       complex_association = true
     end
-    return {fieldname: fieldname, field_type: field_type, objekt: objekt, property: property, association: association, has_many_association: has_many_association, complex_association: complex_association}
+    {fieldname: fieldname, field_type: field_type, objekt: objekt, property: property, association: association, has_many_association: has_many_association, complex_association: complex_association}
   end
 
-  def set_import_file_snippet!(f=file)
-    self.update_attribute(:import_file_snippet, workbook(f).sheet.table[0..24].to_csv)
+  def set_import_file_snippet!(f = file)
+    update_attribute(:import_file_snippet, workbook(f).sheet.table[0..24].to_csv)
   end
 
   def write
-    read(import_file_to_workbook_table).collect{|a| a.save}
+    read(import_file_to_workbook_table).collect { |a| a.save }
     collapse_all_generated_artists
     # just to be sure
     collection.works.reindex!
@@ -128,14 +128,14 @@ class ImportCollection < ApplicationRecord
       analyzed_field_props = analyze_field_properties(fields.first)
       association = analyzed_field_props[:association]
       # p analyzed_field_props
-      if association and association.findable_by_name?
+      if association&.findable_by_name?
         # p association.klass
         options = association.klass.not_hidden.all
-        names = options.collect{|a| a.name.to_s.downcase}
+        names = options.collect { |a| a.name.to_s.downcase }
         keyword_finder = KeywordFinder::Keywords.new(names)
         table_values = keyword_finder.find_in(table_value.to_s.downcase)
         Rails.logger.debug "  find kerwords from string '#{table_value}' in: #{names.join(", ")}: #{table_values.join(", ")}"
-        return table_values
+        table_values
       end
     end
   end
@@ -145,18 +145,18 @@ class ImportCollection < ApplicationRecord
     if artist
       parameters.delete("artists_attributes")
       parameters[:artists] = [artist]
-    elsif parameters["artists_attributes"] and parameters["artists_attributes"][7382983741]
+    elsif parameters["artists_attributes"] && parameters["artists_attributes"][7382983741]
       if "#{parameters["artists_attributes"][7382983741]["first_name"]}#{parameters["artists_attributes"][7382983741]["last_name"]}".strip.downcase == "onbekend"
         parameters.delete("artists_attributes")
         parameters["artist_unknown"] = true
       else
-        parameters["artists_attributes"][7382983741]["import_collection_id"] = self.id
+        parameters["artists_attributes"][7382983741]["import_collection_id"] = id
       end
     end
   end
 
   def prevent_non_child_colection_association_on_import!(parameters, collection_to_test)
-    unless collection_to_test == collection or collection.child_collections_flattened.include?(collection_to_test)
+    unless (collection_to_test == collection) || collection.child_collections_flattened.include?(collection_to_test)
       parameters[:collection_id] = nil
     end
   end
@@ -174,7 +174,7 @@ class ImportCollection < ApplicationRecord
       assign_strategy = import_setting["assign_strategy"].to_sym
 
       table_values = ImportCollection::Strategies::SplitStrategies.send(split_strategy, table_value)
-      fields = import_setting["fields"] ? import_setting["fields"] : []
+      fields = import_setting["fields"] || []
 
       # Iterate over all fields and/or values selected for this value
 
@@ -188,7 +188,7 @@ class ImportCollection < ApplicationRecord
         field_value_indexes = [table_values.count, fields.count].max
 
         field_value_indexes.times do |index|
-          field = fields[index] ? fields[index] : fields.last
+          field = fields[index] || fields.last
 
           field_props = analyze_field_properties(field)
 
@@ -204,15 +204,14 @@ class ImportCollection < ApplicationRecord
           else
             parameters[property] = new_object_value
           end
-
         end
       end
     end
 
     parameters.merge!({
-      import_collection_id: self.id,
+      import_collection_id: id,
       imported_at: Time.now,
-      external_inventory: self.external_inventory
+      external_inventory: external_inventory
     })
 
     parameters[:collection_id] ||= collection.id
@@ -225,7 +224,7 @@ class ImportCollection < ApplicationRecord
 
     Rails.logger.debug "  result: #{new_obj.inspect}"
 
-    if !new_obj.valid?
+    unless new_obj.valid?
       error_message = new_obj.errors.full_messages.to_sentence
       if new_obj.is_a? Work
         error_message = "Werk met inventarisnummer #{new_obj.stock_number} geeft fouten: #{error_message}"
@@ -233,22 +232,22 @@ class ImportCollection < ApplicationRecord
       raise ImportCollection::FailedImportError.new(error_message)
     end
 
-    return new_obj
+    new_obj
   end
 
   def columns_for_select
-    virtual_columns = [ :purchase_price_currency, :tag_list ]
+    virtual_columns = [:purchase_price_currency, :tag_list]
     other_relations = {}
     import_associations.each do |import_association|
       if import_association.importable? && import_association.findable_by_name?
         virtual_columns << import_association.name
       elsif import_association.importable?
-        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names)-ignore_columns
+        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names) - ignore_columns
       end
     end
 
-    return other_relations.merge({
-      import_type_symbolized => virtual_columns+filter_columns_ending_on_id(Work.column_names)-ignore_columns
+    other_relations.merge({
+      import_type_symbolized => virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns
     })
   end
 
@@ -261,26 +260,26 @@ class ImportCollection < ApplicationRecord
     complex_association = field_props[:complex_association]
     if complex_association
       unless parameters[property]
-        parameters[property] = { 7382983741 => {fieldname => nil}}
+        parameters[property] = {7382983741 => {fieldname => nil}}
       end
-      return parameters[property][7382983741][fieldname]
+      parameters[property][7382983741][fieldname]
     else
-      if has_many_association and !parameters[property]
-        parameters[property] = [ ]
+      if has_many_association && !parameters[property]
+        parameters[property] = []
       end
-      return parameters[property]
+      parameters[property]
     end
   end
 
   def parse_table_value(field_props, table_value)
     association = field_props[:association]
     complex_association = field_props[:complex_association]
-    if association and !complex_association
+    if association && !complex_association
       corresponding_value = association.find_by_name(table_value)
       corresponding_value = corresponding_value.id if corresponding_value
-      return corresponding_value
+      corresponding_value
     else
-      return table_value
+      table_value
     end
   end
 
@@ -294,25 +293,25 @@ class ImportCollection < ApplicationRecord
 
     # Think of new value
     new_value = nil
-    if association and !complex_association and has_many_association
-      if assign_strategy == :replace
-        new_value = [corresponding_value].compact
+    if association && !complex_association && has_many_association
+      new_value = if assign_strategy == :replace
+        [corresponding_value].compact
       else
-        new_value = ([current_value] + [corresponding_value]).flatten.compact
+        ([current_value] + [corresponding_value]).flatten.compact
       end
-    elsif association and !complex_association and !has_many_association
-      new_value = corresponding_value if (corresponding_value or assign_strategy == :replace)
+    elsif association && !complex_association && !has_many_association
+      new_value = corresponding_value if corresponding_value || (assign_strategy == :replace)
     else
-      if field_type == :float and decimal_separator_with_fallback == "," and corresponding_value
-        corresponding_value = corresponding_value.to_s.tr(",",".")
+      if (field_type == :float) && (decimal_separator_with_fallback == ",") && corresponding_value
+        corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
-      if assign_strategy == :replace or (assign_strategy == :first_then_join_rest and index == 0)
+      if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
         new_value = corresponding_value
       elsif [:array, ActsAsTaggableOn::TagList, Array].include? field_type
         new_value = [current_value, corresponding_value].flatten.compact
       else
         separator = " "
-        if assign_strategy == :first_then_join_rest_separated and current_value.to_s.strip != ""
+        if (assign_strategy == :first_then_join_rest_separated) && (current_value.to_s.strip != "")
           separator = "; "
         end
         new_value = current_value ? "#{current_value}#{separator}#{corresponding_value}" : corresponding_value
@@ -324,19 +323,21 @@ class ImportCollection < ApplicationRecord
 
   def import_associations
     # scoped_class = collection.send(a.name)
-    @import_associations ||= import_type.reflect_on_all_associations.collect{|a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
+    @import_associations ||= import_type.reflect_on_all_associations.collect { |a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
   end
 
   def find_import_association_by_name(name)
-    import_associations.select{|a| a.name == name.to_sym}.first
+    import_associations.select { |a| a.name == name.to_sym }.first
   end
+
   def filter_columns_ending_on_id column_names
-    column_names.select{|a| !a.match(/(.*)_id/) }
+    column_names.select { |a| !a.match(/(.*)_id/) }
   end
 
   def ignore_columns
-    ["id","created_at","updated_at","imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
+    ["id", "created_at", "updated_at", "imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
   end
+
   def import_type
     Work
   end
@@ -344,5 +345,4 @@ class ImportCollection < ApplicationRecord
   def import_type_symbolized
     import_type.to_s.downcase.to_sym
   end
-
 end

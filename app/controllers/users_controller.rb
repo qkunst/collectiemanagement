@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     authorize! :update, @user
 
     if @user.update(user_params)
-      redirect_to users_path, notice: 'De gebruiker is bijgewerkt.'
+      redirect_to users_path, notice: "De gebruiker is bijgewerkt."
     else
       render :edit
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     authorize! :destroy, @user
 
     @user.destroy
-    redirect_to users_path, notice: 'De gebruiker is verwijderd.'
+    redirect_to users_path, notice: "De gebruiker is verwijderd."
   end
 
   private

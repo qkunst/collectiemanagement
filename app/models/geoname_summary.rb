@@ -3,7 +3,7 @@
 class GeonameSummary < ApplicationRecord
   include MethodCache
 
-  scope :selectable, -> { where(type_code: ["AREA","PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "COUNTRY", "ADM1", "ISL"]) }
+  scope :selectable, -> { where(type_code: ["AREA", "PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "COUNTRY", "ADM1", "ISL"]) }
 
   has_cache_for_method :parent_geoname_ids
 
@@ -14,7 +14,7 @@ class GeonameSummary < ApplicationRecord
   end
 
   def label
-    "#{name} (#{parent_description})".gsub("()","").strip
+    "#{name} (#{parent_description})".gsub("()", "").strip
   end
 
   def priority
@@ -26,11 +26,11 @@ class GeonameSummary < ApplicationRecord
   end
 
   def geoname_ids= array
-    self.write_attribute(:geoname_ids, array.join(","))
+    write_attribute(:geoname_ids, array.join(","))
   end
 
   def geoname_ids
-    self.read_attribute(:geoname_ids).split(",").collect{|a| a.to_i}
+    read_attribute(:geoname_ids).split(",").collect { |a| a.to_i }
   end
 
   def parent_geoname_ids
@@ -47,46 +47,48 @@ class GeonameSummary < ApplicationRecord
   end
 
   def <=> other
-    other.priority <=> self.priority
+    other.priority <=> priority
   end
 
   class << self
     def with_parents
       ids = []
-      self.all.each do |a|
+      all.each do |a|
         ids += a.cached_parent_geoname_ids
         ids << a.geoname_id
       end
       GeonameSummary.unscoped.where(geoname_id: ids.compact.uniq)
     end
+
     def search name
-      if name.nil? or name.to_s.empty?
+      if name.nil? || name.to_s.empty?
         return []
       end
-      results = self.selectable.where(arel_table[:name].matches(name))
+      results = selectable.where(arel_table[:name].matches(name))
       if results.count > 0
         return results.sort
       end
 
-      if name.match(/\((.*)\)/)
+      if /\((.*)\)/.match?(name)
         description = name.match(/\((.*)\)/)[1]
-        name = name.gsub(/\((.*)\)/, '').strip
-        results = self.selectable.where(arel_table[:name].matches(name))
-        return results.select{|a| a.parent_description.match(description)}
+        name = name.gsub(/\((.*)\)/, "").strip
+        results = selectable.where(arel_table[:name].matches(name))
+        return results.select { |a| a.parent_description.match(description) }
       end
 
       # results = self.selectable.where(arel_table[:name].matches("%#{name}%"))
       # return results.sort if results.count > 1
-      return []
+      []
     end
+
     def to_array
-      self.all.collect{|a|  {id: a.geoname_id, name: a.name, desc: a.parent_description }}
+      all.collect { |a| {id: a.geoname_id, name: a.name, desc: a.parent_description} }
     end
 
     def to_hash
       h = {}
-      self.all.each do |summ|
-        h[summ.geoname_id] = {name: summ.name, desc: summ.parent_description }
+      all.each do |summ|
+        h[summ.geoname_id] = {name: summ.name, desc: summ.parent_description}
       end
       h
     end

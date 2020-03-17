@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "Manage Collection", type: :feature do
   include FeatureHelper
@@ -11,11 +11,11 @@ RSpec.feature "Manage Collection", type: :feature do
 
       visit collections_path
 
-      click_on('Collection 1')
+      click_on("Collection 1")
     end
 
     scenario "editing a collection" do
-      click_on('Bewerk gegevens')
+      click_on("Bewerk gegevens")
 
       fill_in "Toelichting bij collectie", with: "Gewoon een toelichting"
       fill_in "Naam", with: "Collection 1 adjusted"
@@ -26,9 +26,8 @@ RSpec.feature "Manage Collection", type: :feature do
       expect(page).to have_content "Collection 1 adjusted"
     end
 
-
     scenario "creating a sub-collection" do
-      click_on('Voeg nieuwe subcollectie voor deze collectie toe')
+      click_on("Voeg nieuwe subcollectie voor deze collectie toe")
 
       fill_in "Toelichting bij collectie", with: "Toelichting bij sub"
       fill_in "Naam", with: "Collection 1 sub"
@@ -40,4 +39,3 @@ RSpec.feature "Manage Collection", type: :feature do
     end
   end
 end
-

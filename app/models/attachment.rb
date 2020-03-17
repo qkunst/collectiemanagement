@@ -5,10 +5,9 @@ class Attachment < ApplicationRecord
 
   validates_presence_of :file
 
-
-  scope :for_roles, ->(roles){ (roles.include?(:admin) || roles.include?(:advisor) || roles.include?(:compliance)) ? where("") : where(arel_table[:visibility].matches_any(roles.collect{|role| "%#{role}%"}))}
-  scope :for_role, ->(role){ for_roles([role]) }
-  scope :for_me, ->(user){ for_roles(user.roles) }
+  scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) || roles.include?(:compliance) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
+  scope :for_role, ->(role) { for_roles([role]) }
+  scope :for_me, ->(user) { for_roles(user.roles) }
 
   mount_uploader :file, BasicFileUploader
 
@@ -17,11 +16,10 @@ class Attachment < ApplicationRecord
   end
 
   def visibility= values
-    write_attribute(:visibility, values.delete_if{|a| a.nil? or a.empty?}.join(","))
+    write_attribute(:visibility, values.delete_if { |a| a.nil? || a.empty? }.join(","))
   end
 
   def file_name
     name? ? name : read_attribute(:file)
   end
-
 end

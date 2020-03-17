@@ -9,6 +9,5 @@ class CreateCurrencies < ActiveRecord::Migration[4.2]
       t.timestamps null: false
     end
     add_column :works, :purchase_price_currency_id, :integer
-
   end
 end

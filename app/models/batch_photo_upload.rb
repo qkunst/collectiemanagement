@@ -13,7 +13,7 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def couple!
-    self.images.each do |image|
+    images.each do |image|
       if image.file_exists?
         work = image.work
 
@@ -29,44 +29,43 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def recreate_versions!
-    images.each{|img| img.recreate_versions!(:big_thumb)}
+    images.each { |img| img.recreate_versions!(:big_thumb) }
   end
 
   def short_name
-    date = I18n.l(self.created_at, format: :short)
+    date = I18n.l(created_at, format: :short)
     "Upload van #{date}, #{images.count} foto's"
   end
 
   def name
-    date = I18n.l(self.created_at, format: :short)
+    date = I18n.l(created_at, format: :short)
     "Upload van #{date}, #{images.count} foto's (#{image_names})"
   end
 
   def image_names
-    "#{images[0..9].collect(&:filename).to_sentence}#{images.count>10 ? '...': ''}"
+    "#{images[0..9].collect(&:filename).to_sentence}#{images.count > 10 ? "..." : ""}"
   end
 
   def image_directory
     path = images.first.path
-    directory = self.images.first.path.gsub(self.images.first.filename,'')
+    directory = images.first.path.gsub(images.first.filename, "")
     directory = Dir.new(directory)
   end
 
   def unmatched_files
-    image_directory.collect{|a| a unless a.starts_with?("big_thumb_") or a == "." or a == ".."}.compact
+    image_directory.collect { |a| a unless a.starts_with?("big_thumb_") || (a == ".") || (a == "..") }.compact
   end
 
   def column_values
     return @column_values if @column_values
     self.column ||= :stock_number
     values = {}
-    collection.works_including_child_works.select(column.to_sym, :id).each{|a| values[a.send(column.to_sym)]=a.id }
+    collection.works_including_child_works.select(column.to_sym, :id).each { |a| values[a.send(column.to_sym)] = a.id }
     @column_values = values
   end
 
   def schedule_process_images!
-    self.update_attributes(finished_uploading: true) if self.finished_uploading == false
-    ParsePhotosWorker.perform_async(self.id)
+    update_attributes(finished_uploading: true) if finished_uploading == false
+    ParsePhotosWorker.perform_async(id)
   end
-
 end

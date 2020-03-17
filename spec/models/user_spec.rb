@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User, type: :model do
   describe "methods" do
@@ -12,7 +12,7 @@ RSpec.describe User, type: :model do
       it "should return all collections and sub(sub)collections the user has access to" do
         u = users(:qkunst_with_collection)
         expect(u.accessible_collections).not_to eq(Collection.all)
-        expect(u.accessible_collections.map(&:id).sort).to eq([collections(:collection1),collections(:collection2),collections(:collection4),collections(:collection_with_works),collections(:collection_with_works_child)].map(&:id).sort)
+        expect(u.accessible_collections.map(&:id).sort).to eq([collections(:collection1), collections(:collection2), collections(:collection4), collections(:collection_with_works), collections(:collection_with_works_child)].map(&:id).sort)
       end
       it "should restrict find" do
         u = users(:qkunst_with_collection)
@@ -24,7 +24,7 @@ RSpec.describe User, type: :model do
     end
     describe "#collection_accessibility_log" do
       it "should be empty when new" do
-        u = User.new({ email: 'test@example.com', password: "tops3crt!", password_confirmation: "tops3crt!" })
+        u = User.new({email: "test@example.com", password: "tops3crt!", password_confirmation: "tops3crt!"})
         expect(u.collection_accessibility_serialization).to eq({})
         u.save
         u.reload
@@ -103,7 +103,7 @@ RSpec.describe User, type: :model do
     end
     describe "#accessible_users" do
       it "should return all users when admin" do
-        expect(users(:admin).accessible_users.all.collect{|a| a.email}.sort).to eq(User.all.collect{|a| a.email}.sort)
+        expect(users(:admin).accessible_users.all.collect { |a| a.email }.sort).to eq(User.all.collect { |a| a.email }.sort)
       end
       it "should return no users when qkunst" do
         expect(users(:qkunst).accessible_users.all).to eq([])
@@ -123,8 +123,7 @@ RSpec.describe User, type: :model do
         expect(accessible_users).to include(users(:appraiser))
         expect(accessible_users).to include(users(:advisor))
         expect(accessible_users).not_to include(users(:admin))
-        expect(accessible_users).not_to include(users(:read_only_user)) #collection3 isn't in collection 1 tree
-
+        expect(accessible_users).not_to include(users(:read_only_user)) # collection3 isn't in collection 1 tree
       end
     end
   end
@@ -147,7 +146,6 @@ RSpec.describe User, type: :model do
         UpdateCachedUserNamesWorker.new.perform(u.id)
         w.reload
         expect(w.created_by_name).to eq("Administrateur")
-
       end
     end
   end

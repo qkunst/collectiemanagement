@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CollectionsStagesController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -11,5 +11,4 @@ RSpec.describe CollectionsStagesController, type: :controller do
       expect(response).to have_http_status(302)
     end
   end
-
 end

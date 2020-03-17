@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "Admin can review", type: :feature do
   include FeatureHelper
@@ -12,7 +12,7 @@ RSpec.feature "Admin can review", type: :feature do
     fill_in("Wachtwoord", with: "password")
     first("#new_user input[type=submit]").click
     click_on "Collecties"
-    if page.body.match("id=\"list-to-filter\"")
+    if page.body.match?("id=\"list-to-filter\"")
       within "#list-to-filter" do
         click_on "Collection 1"
       end
@@ -32,6 +32,4 @@ RSpec.feature "Admin can review", type: :feature do
     click_on("Historie")
     expect(page.body).to match("Nieuwe locatie")
   end
-
 end
-

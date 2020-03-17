@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe MessagesController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -60,8 +60,7 @@ RSpec.describe MessagesController, type: :controller do
       get :update, params: {id: m.id, message: {message: "kaas"}}
       expect(response).to have_http_status(:redirect)
       m.reload
-      expect(m.message).to eq(nil) #unchanged
+      expect(m.message).to eq(nil) # unchanged
     end
   end
 end
-

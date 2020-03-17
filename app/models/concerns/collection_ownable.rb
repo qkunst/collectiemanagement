@@ -6,17 +6,17 @@ module CollectionOwnable
   included do
     belongs_to :collection, optional: true
 
-    if self.column_names.include? "name" and self.column_names.include? "hide"
+    if column_names.include?("name") && column_names.include?("hide")
       validates_presence_of :name
-      validates_uniqueness_of :name, scope: :collection_id, unless: ->(a){ a.hidden? }
-    elsif self.column_names.include? "name"
+      validates_uniqueness_of :name, scope: :collection_id, unless: ->(a) { a.hidden? }
+    elsif column_names.include? "name"
       validates_presence_of :name
       validates_uniqueness_of :name, scope: :collection_id
     end
 
-    scope :general, -> {where(collection_id: nil)}
-    scope :collection_specific, -> {where.not(collection_id: nil)}
-    scope :for_collection, ->(collection){ where(collection: collection.expand_with_parent_collections)}
-    scope :for_collection_including_generic, ->(collection){ for_collection(collection).or(general)}
+    scope :general, -> { where(collection_id: nil) }
+    scope :collection_specific, -> { where.not(collection_id: nil) }
+    scope :for_collection, ->(collection) { where(collection: collection.expand_with_parent_collections) }
+    scope :for_collection_including_generic, ->(collection) { for_collection(collection).or(general) }
   end
 end

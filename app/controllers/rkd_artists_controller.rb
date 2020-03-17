@@ -11,6 +11,7 @@ class RkdArtistsController < ApplicationController
     @new_artist = @rkd_artist.to_artist
     @show_full_artists = true
   end
+
   def copy
     @rkd_artist = RkdArtist.find_by_rkd_id!(params[:rkd_artist_id])
     authorize! :copy, @rkd_artist

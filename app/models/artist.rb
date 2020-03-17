@@ -11,7 +11,7 @@ class Artist < ApplicationRecord
 
   has_and_belongs_to_many :works
   has_many :artist_involvements
-  has_many :involvements, -> { distinct },  through: :artist_involvement
+  has_many :involvements, -> { distinct }, through: :artist_involvement
   has_many :subsets, through: :works
   has_many :techniques, through: :works
 
@@ -24,28 +24,28 @@ class Artist < ApplicationRecord
   before_save :sync_places
   before_save :cache_geoname_ids!
 
-  scope :created_at_date, ->(date){where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day )}
-  scope :exclude_artist, ->(artist){where("artists.id != ?", artist.id)}
-  scope :have_name, ->{where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)")}
-  scope :no_name, ->{where(last_name: [nil,""], prefix: [nil,""], first_name: [nil,""])}
-  scope :order_by_name, ->{order(:last_name, :prefix, :first_name)}
-  scope :works, ->(work){ joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: [work].flatten.map(&:id)})}
+  scope :created_at_date, ->(date) { where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day) }
+  scope :exclude_artist, ->(artist) { where("artists.id != ?", artist.id) }
+  scope :have_name, -> { where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)") }
+  scope :no_name, -> { where(last_name: [nil, ""], prefix: [nil, ""], first_name: [nil, ""]) }
+  scope :order_by_name, -> { order(:last_name, :prefix, :first_name) }
+  scope :works, ->(work) { joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: [work].flatten.map(&:id)}) }
 
   accepts_nested_attributes_for :artist_involvements
 
   def place_of_birth
     rv = read_attribute(:place_of_birth)
-    rv if !rv.nil? and !rv.to_s.strip.empty?
+    rv if !rv.nil? && !rv.to_s.strip.empty?
   end
 
   def place_of_death
     rv = read_attribute(:place_of_death)
-    rv if !rv.nil? and !rv.to_s.strip.empty?
+    rv if !rv.nil? && !rv.to_s.strip.empty?
   end
 
   def search_name
-    last_name_part = [first_name,prefix].join(" ").strip
-    [last_name,last_name_part].delete_if{|a| a==""}.compact.join(", ")
+    last_name_part = [first_name, prefix].join(" ").strip
+    [last_name, last_name_part].delete_if { |a| a == "" }.compact.join(", ")
   end
 
   def geoname_ids
@@ -81,7 +81,7 @@ class Artist < ApplicationRecord
 
   def prefix
     rv = read_attribute(:prefix)
-    (rv.nil? or rv.empty?) ? nil : rv
+    rv.nil? || rv.empty? ? nil : rv
   end
 
   def retrieve_rkd_artists!
@@ -99,16 +99,16 @@ class Artist < ApplicationRecord
   end
 
   def sync_places
-    self.place_of_death = place_of_death_geoname_name if self.place_of_death.nil?
-    self.place_of_birth = place_of_birth_geoname_name if self.place_of_birth.nil?
+    self.place_of_death = place_of_death_geoname_name if place_of_death.nil?
+    self.place_of_birth = place_of_birth_geoname_name if place_of_birth.nil?
   end
 
   def died?
-    place_of_death? or year_of_death?
+    place_of_death? || year_of_death?
   end
 
   def born?
-    place_of_birth? or year_of_birth?
+    place_of_birth? || year_of_birth?
   end
 
   def place_of_birth_geoname_name
@@ -124,17 +124,16 @@ class Artist < ApplicationRecord
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})
     options = {only_when_created_at_date_is_equal: false}.merge(options)
 
-
     artists = Artist.where(id: artist_ids_to_combine_with)
-    artists = artists.created_at_date(self.created_at) if options[:only_when_created_at_date_is_equal]
+    artists = artists.created_at_date(created_at) if options[:only_when_created_at_date_is_equal]
     count = 0
     artists.each do |artist|
       artist.works.each do |work|
         work.artists << self unless work.artists.include?(self)
-        work.add_lognoteline "[combine_artists] adding artist #{self.id} [#{self.name}] to this work"
+        work.add_lognoteline "[combine_artists] adding artist #{id} [#{name}] to this work"
         work.add_lognoteline "[combine_artists] removing artist #{artist.id} [#{artist.name}] from this work"
         work.save
-        count +=1
+        count += 1
       end
       artist.destroy
     end
@@ -142,26 +141,26 @@ class Artist < ApplicationRecord
   end
 
   def touch_works
-    works.all.each{|work| work.update_artist_name_rendered!; work.cache_collection_locality_artist_involvements_texts!(true); work.touch}
+    works.all.each { |work| work.update_artist_name_rendered!; work.cache_collection_locality_artist_involvements_texts!(true); work.touch }
   end
 
   def to_parameters
-    parameters = JSON.parse(self.to_json)
+    parameters = JSON.parse(to_json)
     parameters.delete("updated_at")
     parameters.delete("created_at")
     parameters
   end
 
   def import!(other)
-    other.to_parameters.each do |k,v|
+    other.to_parameters.each do |k, v|
       name_fields = false
-      skip_name_fields = self.prefix?
-      empty_value = (v.nil? or v.to_s.empty?)
-      name_fields = (k == "first_name" or k == "last_name")
+      skip_name_fields = prefix?
+      empty_value = (v.nil? || v.to_s.empty?)
+      name_fields = ((k == "first_name") || (k == "last_name"))
 
       # p "k: #{k} #{k.class}, v: #{v}, name_fields: #{name_fields} skip_name_fields: #{skip_name_fields} empty_value: #{empty_value}" if !empty_value
-      if !empty_value and !(name_fields and skip_name_fields)
-        self.send("#{k}=".to_sym, v)
+      if !empty_value && !(name_fields && skip_name_fields)
+        send("#{k}=".to_sym, v)
       end
     end
     educational_involvements = []
@@ -174,19 +173,19 @@ class Artist < ApplicationRecord
       end
     end
     if educational_involvements.count > 0
-      self.artist_involvements.educational.destroy_all
+      artist_involvements.educational.destroy_all
       educational_involvements.each do |inv|
-        self.artist_involvements << inv.clone
+        artist_involvements << inv.clone
       end
     end
     if professional_involvements.count > 0
-      self.artist_involvements.professional.destroy_all
+      artist_involvements.professional.destroy_all
       professional_involvements.each do |inv|
-        self.artist_involvements << inv.clone
+        artist_involvements << inv.clone
       end
     end
 
-    self.save
+    save
   end
 
   class << self
@@ -210,11 +209,11 @@ class Artist < ApplicationRecord
       ids.each do |id|
         rv[id] = names_hash[id]
       end
-      return rv
+      rv
     end
 
     def destroy_all_empty_artists!
-      self.empty_artists.collect{|a| a.destroy}
+      empty_artists.collect { |a| a.destroy }
     end
 
     def empty_artists
@@ -226,17 +225,17 @@ class Artist < ApplicationRecord
     end
 
     def destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
-      self.artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name.collect{|a| a.destroy}
-
+      artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name.collect { |a| a.destroy }
     end
+
     def artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name
       _empty_artists = []
-      self.no_name.select(:id).each do |a|
+      no_name.select(:id).each do |a|
         if a.works.count > 0
-          artists_with_name = a.works.collect do |w|
+          artists_with_name = a.works.collect { |w|
             w.artists.have_name.count > 0
-          end.compact.uniq
-          if artists_with_name.length == 1 and artists_with_name.first == true
+          }.compact.uniq
+          if (artists_with_name.length == 1) && (artists_with_name.first == true)
             _empty_artists << a
           end
         end
@@ -246,7 +245,7 @@ class Artist < ApplicationRecord
 
     def group_by_name
       groups = {}
-      self.all.each do | artist |
+      all.each do |artist|
         groups[artist.name] = [] unless groups[artist.name]
         groups[artist.name] << artist.id
       end
@@ -255,9 +254,9 @@ class Artist < ApplicationRecord
 
     def collapse_by_name!(options = {})
       options = {only_when_created_at_date_is_equal: true}.merge(options)
-      self.group_by_name.each do |name, ids|
+      group_by_name.each do |name, ids|
         first = ids.delete_at(0)
-        first_artist=Artist.find(first)
+        first_artist = Artist.find(first)
         first_artist.combine_artists_with_ids(ids, options)
       end
     end

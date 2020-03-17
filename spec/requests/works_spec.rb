@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Works", type: :request do
   describe "PATCH /collections/:collection_id/works/:id" do
@@ -18,7 +18,7 @@ RSpec.describe "Works", type: :request do
       patch collection_work_path(works(:work6).collection, works(:work6)), params: {work: {location: new_location}}
 
       expect(response).to have_http_status(200)
-      expect(response.body).to match("work_frame_height") #edit form
+      expect(response.body).to match("work_frame_height") # edit form
 
       work.reload
       expect(work.location).to eq(nil)
@@ -104,10 +104,10 @@ RSpec.describe "Works", type: :request do
         it "should be able to get an zip file with photos" do
           collection = collections(:collection1)
           work = collection.works_including_child_works.first
-          FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image2.jpg', __dir__))
-          FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image3.jpg', __dir__))
-          work.photo_front = File.open(File.expand_path('../fixtures/image2.jpg', __dir__))
-          work.photo_back = File.open(File.expand_path('../fixtures/image3.jpg', __dir__))
+          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
+          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
+          work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
+          work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
           work.save
           sign_in user
           get collection_works_path(collection, format: :zip)
@@ -120,10 +120,10 @@ RSpec.describe "Works", type: :request do
         it "should be able to get an zip file with only front photos" do
           collection = collections(:collection1)
           work = collection.works_including_child_works.first
-          FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image2.jpg', __dir__))
-          FileUtils.cp(File.expand_path('../fixtures/image.jpg', __dir__), File.expand_path('../fixtures/image3.jpg', __dir__))
-          work.photo_front = File.open(File.expand_path('../fixtures/image2.jpg', __dir__))
-          work.photo_back = File.open(File.expand_path('../fixtures/image3.jpg', __dir__))
+          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
+          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
+          work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
+          work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
           work.save
           sign_in user
           get collection_works_path(collection, format: :zip, params: {only_front: true})
@@ -232,7 +232,7 @@ RSpec.describe "Works", type: :request do
       it "should not allow accesss to a work in another collection by accessing it through another collection the user has access to" do
         sign_in user
         expect {
-          get collection_work_path( collections(:collection1), works(:work6))
+          get collection_work_path(collections(:collection1), works(:work6))
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
       it "should not allow accesss to a work in collection the user has no access to" do

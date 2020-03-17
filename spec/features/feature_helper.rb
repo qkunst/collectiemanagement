@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 module FeatureHelper
   def login user_or_email_address, password = "password"
@@ -17,7 +17,7 @@ module FeatureHelper
 
   def email_to_role email
     name = ""
-    name = email.gsub("@murb.nl","").gsub("test","").gsub(/[-_]/, " ").gsub("qkunst", "QKunst").gsub("admin user", "administrator")
+    name = email.gsub("@murb.nl", "").gsub("test", "").gsub(/[-_]/, " ").gsub("qkunst", "QKunst").gsub("admin user", "administrator")
     "as #{name}"
   end
 end

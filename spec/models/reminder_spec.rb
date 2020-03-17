@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Reminder, type: :model do
   describe "methods" do
     describe "#additional_time" do
       it "should work for all time intervals in INTERVAL_UNITS" do
-        Reminder::INTERVAL_UNITS.each do |a,v|
+        Reminder::INTERVAL_UNITS.each do |a, v|
           expect(Reminder.new(interval_unit: v, interval_length: 1).additional_time).to be > 0.seconds
         end
       end
@@ -40,14 +40,14 @@ RSpec.describe Reminder, type: :model do
       it "should return one date for non repeating" do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", collection: c)
-        expect(r.next_dates).to eq([(r.created_at+10.years).to_date])
+        expect(r.next_dates).to eq([(r.created_at + 10.years).to_date])
       end
       it "should return one date for non repeating" do
         c = collections(:collection_with_stages)
         s1 = stages(:stage1)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c, stage: s1)
-        expect(r.next_dates).to eq([("2000-01-01T12:00".to_time+50.years).to_date])
-        expect(r.next_date).to eq(("2000-01-01T12:00".to_time+50.years).to_date)
+        expect(r.next_dates).to eq([("2000-01-01T12:00".to_time + 50.years).to_date])
+        expect(r.next_date).to eq(("2000-01-01T12:00".to_time + 50.years).to_date)
       end
       it "should return an empty array if the next date for non repeating has already passed" do
         c = collections(:collection_with_stages)
@@ -61,18 +61,18 @@ RSpec.describe Reminder, type: :model do
         s1 = stages(:stage1)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c, stage: s1, repeat: true)
         expect(r.next_dates).to eq([
-          ("2000-01-01T12:00".to_time+50.years).to_date,
-          ("2000-01-01T12:00".to_time+100.years).to_date,
-          ("2000-01-01T12:00".to_time+150.years).to_date,
-          ("2000-01-01T12:00".to_time+200.years).to_date,
-          ("2000-01-01T12:00".to_time+250.years).to_date,
-          ("2000-01-01T12:00".to_time+300.years).to_date,
-          ("2000-01-01T12:00".to_time+350.years).to_date,
-          ("2000-01-01T12:00".to_time+400.years).to_date,
-          ("2000-01-01T12:00".to_time+450.years).to_date,
-          ("2000-01-01T12:00".to_time+500.years).to_date
+          ("2000-01-01T12:00".to_time + 50.years).to_date,
+          ("2000-01-01T12:00".to_time + 100.years).to_date,
+          ("2000-01-01T12:00".to_time + 150.years).to_date,
+          ("2000-01-01T12:00".to_time + 200.years).to_date,
+          ("2000-01-01T12:00".to_time + 250.years).to_date,
+          ("2000-01-01T12:00".to_time + 300.years).to_date,
+          ("2000-01-01T12:00".to_time + 350.years).to_date,
+          ("2000-01-01T12:00".to_time + 400.years).to_date,
+          ("2000-01-01T12:00".to_time + 450.years).to_date,
+          ("2000-01-01T12:00".to_time + 500.years).to_date
         ])
-        expect(r.next_date).to eq(("2000-01-01T12:00".to_time+50.years).to_date)
+        expect(r.next_date).to eq(("2000-01-01T12:00".to_time + 50.years).to_date)
       end
       it "should return today for event that triggers today" do
         c = collections(:collection_with_stages)
@@ -80,15 +80,15 @@ RSpec.describe Reminder, type: :model do
         r = Reminder.create(interval_unit: :day, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: true)
         expect(r.next_dates).to eq([
           Time.now.to_date,
-          Time.now.to_date+1.day,
-          Time.now.to_date+2.day,
-          Time.now.to_date+3.day,
-          Time.now.to_date+4.day,
-          Time.now.to_date+5.day,
-          Time.now.to_date+6.day,
-          Time.now.to_date+7.day,
-          Time.now.to_date+8.day,
-          Time.now.to_date+9.day
+          Time.now.to_date + 1.day,
+          Time.now.to_date + 2.day,
+          Time.now.to_date + 3.day,
+          Time.now.to_date + 4.day,
+          Time.now.to_date + 5.day,
+          Time.now.to_date + 6.day,
+          Time.now.to_date + 7.day,
+          Time.now.to_date + 8.day,
+          Time.now.to_date + 9.day
         ])
       end
       it "should return today for singular event that triggers today" do
@@ -121,7 +121,7 @@ RSpec.describe Reminder, type: :model do
       it "should return message if collection is given" do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
-        allow(r).to receive(:current_time).and_return (r.created_at)
+        allow(r).to receive(:current_time).and_return r.created_at
         expect(r.to_message.to_json).to eq(Message.new(
           subject: "Herinnering: Naam",
           message: "Uitgebreid bericht",
@@ -146,7 +146,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
         expect(r.to_message!.class).to be_truthy
-        expect(Message.count).to eq(message_count_before+1)
+        expect(Message.count).to eq(message_count_before + 1)
       end
     end
     describe "#send_message_if_current_date_is_next_date!" do
@@ -163,27 +163,27 @@ RSpec.describe Reminder, type: :model do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
-        allow(r).to receive(:current_date).and_return (r.created_at+50.years).to_date
-        expect(r.current_date).to eq((r.created_at+50.years).to_date)
-        expect(r.next_date).to eq((r.created_at+50.years).to_date)
+        allow(r).to receive(:current_date).and_return (r.created_at + 50.years).to_date
+        expect(r.current_date).to eq((r.created_at + 50.years).to_date)
+        expect(r.next_date).to eq((r.created_at + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)
-        expect(Message.count).to eq(message_count_before+1)
+        expect(Message.count).to eq(message_count_before + 1)
       end
       it "should not double send any message when next_date is equal to now" do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
-        allow(r).to receive(:current_time).and_return (r.created_at+50.years)
-        expect(r.current_date).to eq((r.created_at+50.years).to_date)
-        expect(r.next_date).to eq((r.created_at+50.years).to_date)
+        allow(r).to receive(:current_time).and_return (r.created_at + 50.years)
+        expect(r.current_date).to eq((r.created_at + 50.years).to_date)
+        expect(r.next_date).to eq((r.created_at + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)
-        expect(Message.count).to eq(message_count_before+1)
-        expect(r.current_date).to eq((r.created_at+50.years).to_date)
+        expect(Message.count).to eq(message_count_before + 1)
+        expect(r.current_date).to eq((r.created_at + 50.years).to_date)
         expect(r.next_date).to eq((Time.now + 50.years).to_date)
         expect(Message.where(reminder: r).count).to eq(1)
-        expect(Message.where(reminder: r).first.created_at.to_date).to eq((r.created_at+50.years).to_date)
+        expect(Message.where(reminder: r).first.created_at.to_date).to eq((r.created_at + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)
-        expect(Message.count).to eq(message_count_before+1)
+        expect(Message.count).to eq(message_count_before + 1)
       end
     end
   end

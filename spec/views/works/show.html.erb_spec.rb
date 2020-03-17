@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "works/show", type: :view do
   include Devise::Test::ControllerHelpers
@@ -13,9 +13,9 @@ RSpec.describe "works/show", type: :view do
       alt_number_1: "aul07<script>alert(1)</script>kviak",
       alt_number_2: "aul07<script>alert(1)</script>kviak",
       alt_number_3: "aul07<script>alert(1)</script>kviak",
-      description:  "aul07<script>alert(1)</script>kviak",
+      description: "aul07<script>alert(1)</script>kviak",
       information_back: "aul07<script>alert(1)</script>kviak",
-      medium_comments:  "aul07<script>alert(1)</script>kviak",
+      medium_comments: "aul07<script>alert(1)</script>kviak",
       print: "aul07<script>alert(1)</script>kviak",
       signature_comments: "aul07<script>alert(1)</script>kviak",
       collection: @collection

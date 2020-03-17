@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 class TemplateTestImpl
   include ActiveModel::Validations
@@ -45,7 +45,7 @@ RSpec.describe Template, type: :model do
     it "should parse simple markdown" do
       template = TemplateTestImpl.new
       template.contents = "{{voornaam.hoofdletter.hoofdletters}} {{achternaam.hoofdletter}} {{Datum.vandaag}}  {{gewoon.hoofdletter}}"
-      expect(Template::Helper.object_calls_with_modifiers(template.contents)).to eq([{:object=>"Datum", :method=>"vandaag", :mods=>[]}])
+      expect(Template::Helper.object_calls_with_modifiers(template.contents)).to eq([{object: "Datum", method: "vandaag", mods: []}])
     end
   end
 

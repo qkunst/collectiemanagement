@@ -25,25 +25,28 @@ class CreateGeonamesCountries < ActiveRecord::Migration[4.2]
 
       t.timestamps null: false
     end
-    File.open('data/countryInfo.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesCountry.create(
-      iso: a[0],
-      iso3: a[1],
-      iso_num: a[2],
-      fips: a[3],
-      country_name: a[4],
-      capital_name: a[5],
-      area: a[6],
-      population: a[7],
-      continent: a[8],
-      tld: a[9],
-      currency_code: a[10],
-      currency_name: a[11],
-      phone: a[12],
-      postal_code_format: a[13],
-      postal_code_regex: a[14],
-      languages: a[15],
-      geoname_id: a[16],
-      neighbours: a[17],
-      equivalent_fips_code: a[18]) }
+    File.open("data/countryInfo.txt").read.split(/\n/).collect { |a| a.split(/\t/) }.each do |a|
+      GeonamesCountry.create(
+        iso: a[0],
+        iso3: a[1],
+        iso_num: a[2],
+        fips: a[3],
+        country_name: a[4],
+        capital_name: a[5],
+        area: a[6],
+        population: a[7],
+        continent: a[8],
+        tld: a[9],
+        currency_code: a[10],
+        currency_name: a[11],
+        phone: a[12],
+        postal_code_format: a[13],
+        postal_code_regex: a[14],
+        languages: a[15],
+        geoname_id: a[16],
+        neighbours: a[17],
+        equivalent_fips_code: a[18]
+      )
+    end
   end
 end

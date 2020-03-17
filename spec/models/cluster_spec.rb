@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Cluster, type: :model do
-  describe  "callbacks" do
+  describe "callbacks" do
     describe "before_destroy :remove_cluster_id_at_works" do
       it "should work" do
-        c=Cluster.first
+        c = Cluster.first
         c_id = c.id
         expect(c.works.count).to be > 0
         c.destroy
@@ -31,5 +31,4 @@ RSpec.describe Cluster, type: :model do
       end
     end
   end
-
 end

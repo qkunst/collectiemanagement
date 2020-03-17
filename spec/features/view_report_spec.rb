@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "View report", type: :feature do
   include FeatureHelper
@@ -10,7 +10,7 @@ RSpec.feature "View report", type: :feature do
 
     visit collections_path
 
-    click_on('Collection 1')
+    click_on("Collection 1")
 
     within "#responsive-menu" do
       click_on("Rapportage")
@@ -48,6 +48,4 @@ RSpec.feature "View report", type: :feature do
     expect(page).to have_content("Floor 1")
     expect(page).to have_content("Adres")
   end
-
 end
-

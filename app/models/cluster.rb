@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class Cluster < ApplicationRecord
-  include NameId, CollectionOwnable
+  include CollectionOwnable
+  include NameId
 
   has_many :works
   before_destroy :remove_cluster_id_at_works
 
-  scope :not_hidden, ->{ where("1=1")}
-
+  scope :not_hidden, -> { where("1=1") }
 
   def remove_cluster_id_at_works
-    c_id = self.id
+    c_id = id
     Work.where(cluster_id: c_id).update_all(cluster_id: nil)
   end
 

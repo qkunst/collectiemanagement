@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Artist, type: :model do
-  describe  "#combine_artists_with_ids(artist_ids_to_combine_with)" do
+  describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work" do
       ids = []
       c = collections(:collection1)
@@ -52,7 +52,6 @@ RSpec.describe Artist, type: :model do
       expect(parameters["first_name"]).to eq("B")
       expect(parameters["last_name"]).to eq("A")
     end
-
   end
 
   describe "#name" do
@@ -79,11 +78,10 @@ RSpec.describe Artist, type: :model do
       w.artists = [a]
       w.save
       expect(w.artist_name_rendered).to eq("Hopkins, Antony")
-      a.first_name = 'Charly'
+      a.first_name = "Charly"
       a.save
       w.reload
       expect(w.artist_name_rendered).to eq("Hopkins, Charly")
-
     end
   end
 

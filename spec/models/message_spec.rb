@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Message, type: :model do
   describe "methods" do
@@ -76,7 +76,7 @@ RSpec.describe Message, type: :model do
         m = Message.create(from_user: u1, to_user: u2, subject: "sub", message: "messss")
         m2 = Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
         expect(Message.sent_at_date(Time.now.to_date).count).to eq(2)
-        expect(Message.sent_at_date(Time.now.to_date+1.day).count).to eq(0)
+        expect(Message.sent_at_date(Time.now.to_date + 1.day).count).to eq(0)
       end
     end
     describe "thread_can_be_accessed_by_user" do
@@ -106,7 +106,6 @@ RSpec.describe Message, type: :model do
       it "should not contain messages with another collection message subject" do
         expect(Message.collections([collections(:collection2)])).not_to include(messages(:conversation_starter_about_collection_with_works))
         expect(Message.collections([collections(:collection2)])).not_to include(messages(:conversation_reply))
-
       end
       it "should include message about a collection's work" do
         expect(Message.collections([collections(:collection_with_works)])).to include(messages(:conversation_starter_about_collection_with_works))

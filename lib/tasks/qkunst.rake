@@ -39,11 +39,9 @@ namespace :qkunst do
 
   desc "test availability of the search engine"
   task test_search: :environment do
-    begin
-      Work.search("demo").first
-    rescue Exception => e
-      puts "Search werkt niet"
-      ExceptionNotifier.notify_exception(e, :data => {:msg => "Search werkt niet!"})
-    end
+    Work.search("demo").first
+  rescue Exception => e
+    puts "Search werkt niet"
+    ExceptionNotifier.notify_exception(e, data: {msg: "Search werkt niet!"})
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Collection, type: :model do
   describe "callbacks" do
@@ -52,7 +52,6 @@ RSpec.describe Collection, type: :model do
             work.save
           end
         end
-
       end
       it "#attach_sub_collection_ownables_when_base" do
         expect(collections(:sub_boring_collection).themes.count).to eq(1)
@@ -166,12 +165,12 @@ RSpec.describe Collection, type: :model do
     describe "#sort_works_by" do
       it "should not accept noise" do
         c = collections(:collection1)
-        c.sort_works_by= "asdf"
+        c.sort_works_by = "asdf"
         expect(c.sort_works_by).to eq nil
       end
       it "should not valid value" do
         c = collections(:collection1)
-        c.sort_works_by= "created_at"
+        c.sort_works_by = "created_at"
         expect(c.sort_works_by).to eq :created_at
       end
     end

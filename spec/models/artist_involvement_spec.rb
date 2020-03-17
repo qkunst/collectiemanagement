@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ArtistInvolvement, type: :model do
   describe "#copy_place_geoname_id_from_involvement_when_nil" do
@@ -11,10 +11,8 @@ RSpec.describe ArtistInvolvement, type: :model do
       ai.save
       expect(ai.geoname_summary.geoname_id).to eq(123)
     end
-
-
   end
-  describe  "#to_s" do
+  describe "#to_s" do
     it "should include name" do
       a = Involvement.new(name: "Naam Involvment")
       expect(ArtistInvolvement.new(involvement: a).to_s).to eq("Naam Involvment")

@@ -5,7 +5,7 @@ class TestWorker
 
   sidekiq_options retry: false, backtrace: true, queue: :qkunst_default
 
-  def perform(id=1)
+  def perform(id = 1)
     sleep(id)
   end
 end

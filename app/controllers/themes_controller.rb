@@ -6,10 +6,10 @@ class ThemesController < ApplicationController
   def index
     @themes = Theme.all
     if @collection
-      render 'collections/themes.html.erb'
+      render "collections/themes.html.erb"
     else
       @collections = Collection.without_parent.all
-      render 'index.html.erb'
+      render "index.html.erb"
     end
   end
 

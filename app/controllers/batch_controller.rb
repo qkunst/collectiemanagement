@@ -15,7 +15,7 @@ class BatchController < ApplicationController
     @form = Batch::WorkForm.new(work_params.to_h.deep_merge(work_batch_strategies_params))
     @form.collection = @collection if @form.collection.nil?
     if @form.valid?
-      @works.map{|work| @form.update_work(work)}
+      @works.map { |work| @form.update_work(work) }
       redirect_to_collection_works_return_url
     else
       render :show
@@ -69,14 +69,13 @@ class BatchController < ApplicationController
 
   def work_batch_strategies_params
     params.require(:work).permit(
-      (editable_fields & Batch::WorkForm::BATCH_FIELDS).map{|f| Batch::WorkForm.strategy_attribute_for(f)}, {
-        appraisals_attributes: (editable_appraisal_fields & Batch::AppraisalForm::BATCH_FIELDS).map{|f| Batch::AppraisalForm.strategy_attribute_for(f)}
+      (editable_fields & Batch::WorkForm::BATCH_FIELDS).map { |f| Batch::WorkForm.strategy_attribute_for(f) }, {
+        appraisals_attributes: (editable_appraisal_fields & Batch::AppraisalForm::BATCH_FIELDS).map { |f| Batch::AppraisalForm.strategy_attribute_for(f) }
       }
     )
   end
 
   def redirect_to_collection_works_return_url
-    redirect_to collection_works_path(@collection, params: {ids: @works.map(&:id).join(",") }), notice: "De onderstaande #{@works.count} werken zijn bijgewerkt"
+    redirect_to collection_works_path(@collection, params: {ids: @works.map(&:id).join(",")}), notice: "De onderstaande #{@works.count} werken zijn bijgewerkt"
   end
-
 end

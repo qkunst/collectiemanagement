@@ -4,8 +4,8 @@ module Work::Caching
   extend ActiveSupport::Concern
 
   included do
-    def cache_key(additional=[])
-      [self, "v1.3"]+additional
+    def cache_key(additional = [])
+      [self, "v1.3"] + additional
     end
 
     def artist_name_rendered_without_years_nor_locality
@@ -16,23 +16,23 @@ module Work::Caching
       artist_name_rendered({include_years: false, include_locality: false, join: ";"})
     end
 
-    def artist_name_rendered(opts={})
-      options = { include_years: true, include_locality: false, join: :to_sentence, render_error: false }.merge(opts)
+    def artist_name_rendered(opts = {})
+      options = {include_years: true, include_locality: false, join: :to_sentence, render_error: false}.merge(opts)
       simple_artists = begin
         SimpleArtist.new_from_json(read_attribute(:artist_name_rendered))
-      rescue JSON::ParserError
-        if attributes["artist_name_rendered"]
-          return attributes["artist_name_rendered"]
-        else
-          SimpleArtist.new_from_json(self.artists.to_json_for_simple_artist)
-        end
+                       rescue JSON::ParserError
+                         if attributes["artist_name_rendered"]
+                           return attributes["artist_name_rendered"]
+                         else
+                           SimpleArtist.new_from_json(artists.to_json_for_simple_artist)
+                         end
       end
 
-      names = [simple_artists].flatten.collect{|a| a.name(options)}.delete_if{|a| a == ""}
+      names = [simple_artists].flatten.collect { |a| a.name(options) }.delete_if { |a| a == "" }
 
-      return "Onbekend" if artist_unknown and names.empty?
+      return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?
-      (options[:join] == :to_sentence) ? names.to_sentence : names.join(options[:join])
+      options[:join] == :to_sentence ? names.to_sentence : names.join(options[:join])
     end
 
     def update_created_by_name
@@ -40,7 +40,7 @@ module Work::Caching
     end
 
     def update_artist_name_rendered!
-      self.update_column(:artist_name_rendered, self.artists.to_json_for_simple_artist)
+      update_column(:artist_name_rendered, artists.to_json_for_simple_artist)
     end
 
     def update_latest_appraisal_data!
@@ -60,12 +60,12 @@ module Work::Caching
         self.price_reference = nil
         self.valuation_on = nil
       end
-      self.save
+      save
     end
   end
   class_methods do
     def update_artist_name_rendered!
-      self.all.each{|w| w.update_artist_name_rendered!; w.save if w.changes != {}}
+      all.each { |w| w.update_artist_name_rendered!; w.save if w.changes != {} }
     end
   end
 end

@@ -7,27 +7,27 @@ module Works::Filtering
     private
 
     def set_selection_filter
-      @selection_filter = current_user.filter_params[:filter] ? current_user.filter_params[:filter] : {}
-      if params[:filter] or params[:group] or params[:sort] or params[:display]
+      @selection_filter = current_user.filter_params[:filter] || {}
+      if params[:filter] || params[:group] || params[:sort] || params[:display]
         @selection_filter = {}
       end
-      if params[:filter] and params[:filter] != "" and params[:filter][:reset] != "true"
+      if params[:filter] && (params[:filter] != "") && (params[:filter][:reset] != "true")
         params[:filter].each do |field, values|
           if field == "reset"
             @reset = true
-          elsif ["grade_within_collection","abstract_or_figurative","object_format_code","location","location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
-            @selection_filter[field] =  params[:filter][field].collect{|a| a == "not_set" ? nil : a} if params[:filter][field]
+          elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "location", "location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
+            @selection_filter[field] = params[:filter][field].collect { |a| a == "not_set" ? nil : a } if params[:filter][field]
           else
             @selection_filter[field] = clean_ids(values)
           end
         end
       end
-      return @selection_filter
+      @selection_filter
     end
 
     def set_selection thing, list
       @selection[thing] = list[0]
-      if params[thing] and list.include? params[thing].to_sym
+      if params[thing] && list.include?(params[thing].to_sym)
         @selection[thing] = params[thing].to_sym
       elsif current_user.filter_params[thing]
         @selection[thing] = current_user.filter_params[thing].to_sym
@@ -44,29 +44,29 @@ module Works::Filtering
     end
 
     def set_selection_display
-      set_selection :display, set_selection_display_options.collect{|k,v| v}
+      set_selection :display, set_selection_display_options.collect { |k, v| v }
     end
 
     def set_selection_group_options
       proto_selection_group_options = {
-        "Niet"=>:no_grouping,
-        "Cluster"=>:cluster,
-        "Deelcollectie"=>:subset,
-        "Herkomst"=>:sources,
-        "Niveau"=>:grade_within_collection,
-        "Plaatsbaarheid"=>:placeability,
-        "Techniek"=>:techniques,
-        "Thema"=>:themes,
+        "Niet" => :no_grouping,
+        "Cluster" => :cluster,
+        "Deelcollectie" => :subset,
+        "Herkomst" => :sources,
+        "Niveau" => :grade_within_collection,
+        "Plaatsbaarheid" => :placeability,
+        "Techniek" => :techniques,
+        "Thema" => :themes
       }
       @selection_group_options = {}
-      proto_selection_group_options.each do |k,v|
+      proto_selection_group_options.each do |k, v|
         @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
       end
     end
 
     def set_selection_display_options
-      @selection_display_options = {"Compact"=>:compact, "Basis"=>:detailed}
-      if @collection.name.match(/vermist/i)
+      @selection_display_options = {"Compact" => :compact, "Basis" => :detailed}
+      if /vermist/i.match?(@collection.name)
         @selection_display_options["Basis met locatiegeschiedenis"] = :detailed_with_location_history
       end
       @selection_display_options["Compleet"] = :complete unless current_user.read_only?
@@ -80,11 +80,11 @@ module Works::Filtering
 
     def set_selection_sort_options
       @selection_sort_options = {
-          "Inventarisnummer"=>:stock_number,
-          "Vervaardiger"=>:artist_name,
-          "Locatie"=>:location,
-          "Toevoegdatum"=>:created_at
-        }
+        "Inventarisnummer" => :stock_number,
+        "Vervaardiger" => :artist_name,
+        "Locatie" => :location,
+        "Toevoegdatum" => :created_at
+      }
     end
 
     def update_current_user_with_params
@@ -94,6 +94,5 @@ module Works::Filtering
       current_user.filter_params[:filter] = @selection_filter
       current_user.save
     end
-
   end
 end

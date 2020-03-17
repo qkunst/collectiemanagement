@@ -39,8 +39,8 @@ class BatchPhotoUploadsController < ApplicationController
     @batch_photo_upload.collection = @collection
     respond_to do |format|
       if @batch_photo_upload.save
-        format.html { redirect_to collection_batch_photo_upload_path(@collection,@batch_photo_upload), notice: 'Batch photo upload was successfully created.' }
-        format.json { render :show, status: :created, location: collection_batch_photo_upload_path(@collection,@batch_photo_upload) }
+        format.html { redirect_to collection_batch_photo_upload_path(@collection, @batch_photo_upload), notice: "Batch photo upload was successfully created." }
+        format.json { render :show, status: :created, location: collection_batch_photo_upload_path(@collection, @batch_photo_upload) }
       else
         format.html { render :new }
         format.json { render json: @batch_photo_upload.errors, status: :unprocessable_entity }
@@ -53,8 +53,8 @@ class BatchPhotoUploadsController < ApplicationController
   def update
     respond_to do |format|
       if @batch_photo_upload.update(batch_photo_upload_params)
-        format.html { redirect_to collection_batch_photo_upload_path(@collection,@batch_photo_upload), notice: 'Batch photo upload was successfully updated.' }
-        format.json { render :show, status: :ok, location: collection_batch_photo_upload_path(@collection,@batch_photo_upload) }
+        format.html { redirect_to collection_batch_photo_upload_path(@collection, @batch_photo_upload), notice: "Batch photo upload was successfully updated." }
+        format.json { render :show, status: :ok, location: collection_batch_photo_upload_path(@collection, @batch_photo_upload) }
       else
         format.html { render :edit }
         format.json { render json: @batch_photo_upload.errors, status: :unprocessable_entity }
@@ -67,19 +67,20 @@ class BatchPhotoUploadsController < ApplicationController
   def destroy
     @batch_photo_upload.destroy
     respond_to do |format|
-      format.html { redirect_to collection_batch_photo_uploads_path(@collection), notice: 'Batch photo upload was successfully destroyed.' }
+      format.html { redirect_to collection_batch_photo_uploads_path(@collection), notice: "Batch photo upload was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_batch_photo_upload
-      @batch_photo_upload = BatchPhotoUpload.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def batch_photo_upload_params
-      params.require(:batch_photo_upload).permit(:zip_file, :column, {images: []})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_batch_photo_upload
+    @batch_photo_upload = BatchPhotoUpload.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def batch_photo_upload_params
+    params.require(:batch_photo_upload).permit(:zip_file, :column, {images: []})
+  end
 end

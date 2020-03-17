@@ -17,12 +17,12 @@ class Currency < ApplicationRecord
 
   def update_conversions!
     works.each do |work|
-      work.purchase_price_in_eur = self.to_eur(work.purchase_price) if work.purchase_price_currency_id == self.id # may now be obviously true, but maybe not for always
+      work.purchase_price_in_eur = to_eur(work.purchase_price) if work.purchase_price_currency_id == id # may now be obviously true, but maybe not for always
       work.save if work.changed?
     end
   end
 
   def works
-    Work.where(purchase_price_currency_id: self.id)
+    Work.where(purchase_price_currency_id: id)
   end
 end

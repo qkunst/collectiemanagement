@@ -50,14 +50,12 @@ class Appraisal < ApplicationRecord
   end
 
   def update_work_appraisal_data!
-    if work
-      work.update_latest_appraisal_data!
-    end
+    work&.update_latest_appraisal_data!
   end
 
   def name
     mw = market_value ? "MW #{number_to_currency(market_value)}" : nil
     vw = replacement_value ? "VW #{number_to_currency(replacement_value)}" : nil
-    "#{appraised_on ? I18n.l(appraised_on) : 'onbekende datum'} (by #{appraised_by}): #{[mw,vw].compact.join("; ")}"
+    "#{appraised_on ? I18n.l(appraised_on) : "onbekende datum"} (by #{appraised_by}): #{[mw, vw].compact.join("; ")}"
   end
 end

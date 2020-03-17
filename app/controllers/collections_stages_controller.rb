@@ -9,7 +9,7 @@ class CollectionsStagesController < ApplicationController
     authorize! :update_status, @collection
     respond_to do |format|
       if @collections_stage.update(collections_stage_params)
-        format.html { redirect_to @collection, notice: 'De workflow voor deze collectie is bijgewerkt' }
+        format.html { redirect_to @collection, notice: "De workflow voor deze collectie is bijgewerkt" }
         format.json { render :show, status: :ok, location: @collection }
       else
         format.html { render :edit }
@@ -22,7 +22,6 @@ class CollectionsStagesController < ApplicationController
 
   def collections_stage_params
     params.require(:collections_stage).permit(:completed)
-
   end
 
   def set_collections_stage

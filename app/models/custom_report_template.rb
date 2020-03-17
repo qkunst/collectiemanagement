@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class CustomReportTemplate < ApplicationRecord
-  include Template, Hidable
+  include Hidable
+  include Template
 
   belongs_to :collection, optional: true
 
@@ -11,6 +12,4 @@ class CustomReportTemplate < ApplicationRecord
 
   alias_attribute :name, :title
   alias_attribute :contents, :text
-
-
 end

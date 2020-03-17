@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "Batch editor", type: :feature do
   include ActiveSupport::Testing::TimeHelpers
@@ -10,7 +10,7 @@ RSpec.feature "Batch editor", type: :feature do
     login "qkunst-test-advisor@murb.nl"
 
     click_on "Collecties"
-    if page.body.match("id=\"list-to-filter\"")
+    if page.body.match?("id=\"list-to-filter\"")
       within "#list-to-filter" do
         click_on "Collection 1"
       end
@@ -61,7 +61,7 @@ RSpec.feature "Batch editor", type: :feature do
       login "qkunst-test-appraiser@murb.nl"
 
       click_on "Collecties"
-      if page.body.match("id=\"list-to-filter\"")
+      if page.body.match?("id=\"list-to-filter\"")
         within "#list-to-filter" do
           click_on "Collection 1"
         end
@@ -84,7 +84,7 @@ RSpec.feature "Batch editor", type: :feature do
       expect(work_to_edit2.appraisals.where(created_at: (5.minutes.ago..5.minutes.from_now)).count).to eq(0)
 
       click_on "Collecties"
-      if page.body.match("id=\"list-to-filter\"")
+      if page.body.match?("id=\"list-to-filter\"")
         within "#list-to-filter" do
           click_on "Collection 1"
         end
@@ -127,7 +127,7 @@ RSpec.feature "Batch editor", type: :feature do
     login "qkunst-test-appraiser@murb.nl"
 
     click_on "Collecties"
-    if page.body.match("id=\"list-to-filter\"")
+    if page.body.match?("id=\"list-to-filter\"")
       within "#list-to-filter" do
         click_on "Collection 1"
       end
@@ -164,7 +164,7 @@ RSpec.feature "Batch editor", type: :feature do
       login "qkunst-test-advisor@murb.nl"
 
       click_on "Collecties"
-      if page.body.match("id=\"list-to-filter\"")
+      if page.body.match?("id=\"list-to-filter\"")
         within "#list-to-filter" do
           click_on "Collection 1"
         end
@@ -187,10 +187,8 @@ RSpec.feature "Batch editor", type: :feature do
     end
   end
 
-
-  def fill_in_with_strategy field, value, strategy=IGNORE
+  def fill_in_with_strategy field, value, strategy = IGNORE
     fill_in(I18n.t("activerecord.attributes.work.#{field}"), with: value)
     select(I18n.t("helpers.batch.strategies.#{strategy}"), from: "work_update_#{field}_strategy")
   end
 end
-

@@ -1,51 +1,54 @@
 #!/usr/bin/env ruby
 
-require_relative 'config/boot'
-require 'rails/all'
-require_relative 'config/environment'
+require_relative "config/boot"
+require "rails/all"
+require_relative "config/environment"
 Rails.env = "development"
 Rails.application
 
 def generate_feature_report
   `bundle exec rspec --order defined -f d --out tmp/features.txt -f p spec/features`
 end
+
 def generate_full_report
   `bundle exec rspec --order defined -f d --out tmp/spec-full.txt -f p > tmp/spec-meta.txt`
 end
+
 def generate_abilities_report
   report_to_markdown(Ability.report_abilities)
 end
+
 def generate_field_abilities_report
   report_to_markdown(Ability.report_field_abilities)
 end
 
 def report_to_markdown report
-  header = report[:header].collect{|a| I18n.t a[:user].role, scope: [:activerecord, :values, :user, :role]}.join(" | ")
-  header_seperator = report[:header].collect{|a| "---"}.join("|")
+  header = report[:header].collect { |a| I18n.t a[:user].role, scope: [:activerecord, :values, :user, :role] }.join(" | ")
+  header_seperator = report[:header].collect { |a| "---" }.join("|")
   row_data = []
   report[:data].each do |group, lines|
     row_data << ["**#{group}**|"]
     lines.each do |line_h, line_values|
-      line_data = ["*#{line_h}*"] + line_values.map{|a| a ? "✔" : "✘"}
+      line_data = ["*#{line_h}*"] + line_values.map { |a| a ? "✔" : "✘" }
       row_data << line_data
     end
   end
-  lines = row_data.collect{|a| a.join("|")}.join("\n")
+  lines = row_data.collect { |a| a.join("|") }.join("\n")
   md = "-|#{header}\n#{header_seperator}\n#{lines}"
 end
+
 def create_report_md
-  _, lcov, ltot, perc= File.read('tmp/spec-meta.txt').match(/(\d*) \/ (\d*) LOC \((\d*\.\d*\%)\) covered/).to_a
+  _, lcov, ltot, perc = File.read("tmp/spec-meta.txt").match(/(\d*) \/ (\d*) LOC \((\d*\.\d*\%)\) covered/).to_a
   @stats = {lcov: lcov, ltot: ltot, perc: perc}
   @abilities_report = generate_abilities_report
   @field_abilities_report = generate_field_abilities_report
 
-  File.open 'report.md', 'w' do |f|
-    f.write(ERB.new(File.read('report_template.md.erb')).result(binding))
+  File.open "report.md", "w" do |f|
+    f.write(ERB.new(File.read("report_template.md.erb")).result(binding))
   end
 end
 
 puts "Generating management report"
-
 
 puts "- Generate sub-report for features"
 generate_feature_report

@@ -31,7 +31,7 @@ class CurrenciesController < ApplicationController
 
     respond_to do |format|
       if @currency.save
-        format.html { redirect_to @currency, notice: 'Currency was successfully created.' }
+        format.html { redirect_to @currency, notice: "Currency was successfully created." }
         format.json { render :show, status: :created, location: @currency }
       else
         format.html { render :new }
@@ -45,7 +45,7 @@ class CurrenciesController < ApplicationController
   def update
     respond_to do |format|
       if @currency.update(currency_params)
-        format.html { redirect_to @currency, notice: 'Currency was successfully updated.' }
+        format.html { redirect_to @currency, notice: "Currency was successfully updated." }
         format.json { render :show, status: :ok, location: @currency }
       else
         format.html { render :edit }
@@ -59,19 +59,20 @@ class CurrenciesController < ApplicationController
   def destroy
     @currency.destroy
     respond_to do |format|
-      format.html { redirect_to currencies_url, notice: 'Currency was successfully destroyed.' }
+      format.html { redirect_to currencies_url, notice: "Currency was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_currency
-      @currency = Currency.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def currency_params
-      params.require(:currency).permit(:iso_4217_code, :symbol)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_currency
+    @currency = Currency.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def currency_params
+    params.require(:currency).permit(:iso_4217_code, :symbol)
+  end
 end

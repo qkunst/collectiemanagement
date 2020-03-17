@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../rails_helper'
+require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
   describe "instance methods" do
@@ -95,7 +95,7 @@ RSpec.describe Work, type: :model do
     describe "#purchased_on=" do
       it "should accept a date" do
         w = works(:work1)
-        date =  Date.new(1978, 12, 22)
+        date = Date.new(1978, 12, 22)
         w.purchased_on = date
         w.save
         w.reload
@@ -112,7 +112,7 @@ RSpec.describe Work, type: :model do
       end
       it "should accept a string" do
         w = works(:work1)
-        date =  Date.new(1978, 12, 22)
+        date = Date.new(1978, 12, 22)
         date_string = date.to_s
         w.purchased_on = date_string
         w.save
@@ -129,7 +129,7 @@ RSpec.describe Work, type: :model do
       end
       it "should accept a number" do
         w = works(:work1)
-        date =  2012
+        date = 2012
         w.purchased_on = date
         w.save
         w.reload
@@ -138,7 +138,7 @@ RSpec.describe Work, type: :model do
       end
       it "should accept a number in a string" do
         w = works(:work1)
-        date =  "2012"
+        date = "2012"
         w.purchased_on = date
         w.save
         w.reload
@@ -164,12 +164,12 @@ RSpec.describe Work, type: :model do
       it "should set cluster to nil when name is nil or empty" do
         w = works(:work1)
         expect(w.cluster).to eq(clusters(:cluster1))
-        w.cluster_name= ""
+        w.cluster_name = ""
         expect(w.cluster).to eq(nil)
         w = works(:work1)
         w.reload
         expect(w.cluster).to eq(clusters(:cluster1))
-        w.cluster_name= nil
+        w.cluster_name = nil
         expect(w.cluster).to eq(nil)
         w.save
         w.reload
@@ -179,7 +179,7 @@ RSpec.describe Work, type: :model do
       it "should reset cluster when set to a different name" do
         w = works(:work1)
         expect(w.cluster).to eq(clusters(:cluster1))
-        w.cluster_name= "cluster2"
+        w.cluster_name = "cluster2"
         expect(w.cluster).to eq(clusters(:cluster2))
         w.save
         w.reload
@@ -188,7 +188,7 @@ RSpec.describe Work, type: :model do
       it "should create cluster when set to a different name" do
         w = works(:work1)
         expect(w.cluster).to eq(clusters(:cluster1))
-        w.cluster_name= "cluster new"
+        w.cluster_name = "cluster new"
         expect(w.cluster.class).to eq(Cluster)
         w.save
         w.reload
@@ -213,7 +213,7 @@ RSpec.describe Work, type: :model do
         work1.save
         work1.location = "Newer address"
         work1.save
-        expect(works(:work1).location_history.collect{|a| a[:location]}).to eq(["New adress", "Newer address"])
+        expect(works(:work1).location_history.collect { |a| a[:location] }).to eq(["New adress", "Newer address"])
       end
       it "returns complete history if work is created after enabling history" do
         work = collections(:collection1).works.create(location: "first location")
@@ -221,31 +221,31 @@ RSpec.describe Work, type: :model do
         work.save
         work.location = "third location"
         work.save
-        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", "second location", "third location"])
+        expect(work.location_history.collect { |a| a[:location] }).to eq(["first location", "second location", "third location"])
       end
       it "skip_current options skips current" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = "second location"
         work.save
-        expect(work.location_history(skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+        expect(work.location_history(skip_current: true).collect { |a| a[:location] }).to eq(["first location"])
       end
       it "returns empty location if empty location" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = nil
         work.save
-        expect(work.location_history.collect{|a| a[:location]}).to eq(["first location", nil])
+        expect(work.location_history.collect { |a| a[:location] }).to eq(["first location", nil])
       end
       it "never returns empty location if empty location and no empty locations" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = ""
         work.save
-        expect(work.location_history(empty_locations: false).collect{|a| a[:location]}).to eq(["first location"])
+        expect(work.location_history(empty_locations: false).collect { |a| a[:location] }).to eq(["first location"])
       end
       it "never returns empty location if empty location and no empty locations (and doesn't just pop the skip current false)" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = ""
         work.save
-        expect(work.location_history(empty_locations: false, skip_current: true).collect{|a| a[:location]}).to eq(["first location"])
+        expect(work.location_history(empty_locations: false, skip_current: true).collect { |a| a[:location] }).to eq(["first location"])
       end
     end
     describe "#purchased_on_with_fallback" do
@@ -318,7 +318,6 @@ RSpec.describe Work, type: :model do
         w.width = 180
         expect(works(:work2).frame_size_with_fallback).not_to eq(nil)
         expect(works(:work2).frame_size_with_fallback).to eq("180 × 90 (b×h)")
-
       end
     end
     describe "#restore_last_location_if_blank!" do
@@ -360,7 +359,7 @@ RSpec.describe Work, type: :model do
       # end
     end
   end
-  describe  "class methods" do
+  describe "class methods" do
     describe ".artist_name_rendered" do
       it "should not fail on an empty name" do
         w = Work.new
@@ -414,7 +413,7 @@ RSpec.describe Work, type: :model do
 
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
-        works = [works(:work1),works(:work2)]
+        works = [works(:work1), works(:work2)]
         aggregations = Work.fast_aggregations [:title, :themes, :subset, :grade_within_collection]
         expect(aggregations.count).to eq 4
         expect(aggregations[:title]["Work1"][:count]).to eq 999999
@@ -499,7 +498,7 @@ RSpec.describe Work, type: :model do
       [
         inventoried: :boolean,
         title: :string
-      ].each do | k,v |
+      ].each do |k, v|
         it "should return #{v} for #{k}" do
           expect(Work.column_types[k.to_s]).to eq(v)
         end
@@ -521,10 +520,10 @@ RSpec.describe Work, type: :model do
         expect(Work.has_number(["Q001", "Q005"]).pluck(:id)).to match_array([works(:work1), works(:work5)].map(&:id))
       end
       it "finds by array on all numbers" do
-        expect(Work.has_number(%w{ Q001 7201286 7201212 7201213 }).pluck(:id)).to match_array([works(:work1), works(:work2), works(:work3), works(:work4)].map(&:id))
+        expect(Work.has_number(%w[Q001 7201286 7201212 7201213]).pluck(:id)).to match_array([works(:work1), works(:work2), works(:work3), works(:work4)].map(&:id))
       end
       it "adheres earlier scopes" do
-        expect(collections(:collection_with_works).works.has_number(%w{ Q001 7201286 7201212 7201213 }).pluck(:id)).to match_array([works(:work1), works(:work2)].map(&:id))
+        expect(collections(:collection_with_works).works.has_number(%w[Q001 7201286 7201212 7201213]).pluck(:id)).to match_array([works(:work1), works(:work2)].map(&:id))
       end
     end
     describe ".order_by" do
@@ -551,17 +550,17 @@ RSpec.describe Work, type: :model do
           c = collections(:sub_boring_collection)
           c.works.create(location: "A", location_floor: "-1", location_detail: "C1")
           c.works.create(location: "A", location_floor: "-1", location_detail: "D1")
-          c.works.create(location: "A", location_floor: "1" , location_detail: "C1")
-          c.works.create(location: "A", location_floor: "1" , location_detail: "C2")
+          c.works.create(location: "A", location_floor: "1", location_detail: "C1")
+          c.works.create(location: "A", location_floor: "1", location_detail: "C2")
           c.works.create(location: "A", location_floor: "BG", location_detail: "2")
           c.works.create(location: "A", location_floor: "BG", location_detail: "1")
           c.works.create(location: "B", location_floor: "-1", location_detail: "C1")
-          c.works.create(location: "B", location_floor: "1" , location_detail: "B1")
+          c.works.create(location: "B", location_floor: "1", location_detail: "B1")
           c.works.create(location: "B", location_floor: "BG", location_detail: "A1")
-          expect(                    c.works.map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).not_to eq(
+          expect(c.works.map { |w| "#{w.location} #{w.location_floor} #{w.location_detail}" }.join(" < ")).not_to eq(
             ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
           )
-          expect(c.works.order_by(:location).map{|w| "#{w.location} #{w.location_floor} #{w.location_detail}"}.join(" < ")).to eq(
+          expect(c.works.order_by(:location).map { |w| "#{w.location} #{w.location_floor} #{w.location_detail}" }.join(" < ")).to eq(
             ["A -1 C1", "A -1 D1", "A BG 1", "A BG 2", "A 1 C1", "A 1 C2", "B -1 C1", "B BG A1", "B 1 B1"].join(" < ")
           )
         end

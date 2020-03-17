@@ -7,6 +7,6 @@ class IndexWorkWorker
 
   def perform(work_id)
     work = Work.find_by_id(work_id)
-    work.reindex! if work
+    work&.reindex!
   end
 end
