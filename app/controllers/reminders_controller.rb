@@ -10,10 +10,10 @@ class RemindersController < ApplicationController
   def index
     authorize! :index, Reminder
 
-    if @collection
-      @reminders = collection_scope
+    @reminders = if @collection
+      collection_scope
     else
-      @reminders = collection_scope.prototypes
+      collection_scope.prototypes
     end
   end
 
@@ -44,7 +44,7 @@ class RemindersController < ApplicationController
     redirect_path = @collection ? collection_reminders_path(@collection) : reminders_path
     respond_to do |format|
       if @reminder.save
-        format.html { redirect_to redirect_path, notice: 'Herinnering is aangemaakt' }
+        format.html { redirect_to redirect_path, notice: "Herinnering is aangemaakt" }
         format.json { render :show, status: :created, location: @reminder }
       else
         format.html { render :new }
@@ -61,7 +61,7 @@ class RemindersController < ApplicationController
     redirect_path = @collection ? collection_reminders_path(@collection) : reminders_path
     respond_to do |format|
       if @reminder.update(reminder_params)
-        format.html { redirect_to redirect_path, notice: 'Herinnering is bijgewerkt' }
+        format.html { redirect_to redirect_path, notice: "Herinnering is bijgewerkt" }
         format.json { render :show, status: :ok, location: @reminder }
       else
         format.html { render :edit }
@@ -78,32 +78,33 @@ class RemindersController < ApplicationController
     @collection = @reminder.collection
     @reminder.destroy
     respond_to do |format|
-      format.html { redirect_to (@collection ? collection_reminders_url(@collection) : reminders_url), notice: 'Herinnering is verwijderd' }
+      format.html { redirect_to (@collection ? collection_reminders_url(@collection) : reminders_url), notice: "Herinnering is verwijderd" }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reminder
-      @reminder = if @collection
-        collection_scope.find(params[:id])
-      else
-        authenticate_admin_user!
-        collection_scope.find(params[:id])
-      end
-    end
 
-    def collection_scope
-      if current_user.admin? and @collection.nil?
-        Reminder.where("1=1")
-      else
-        @collection.reminders
-      end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_reminder
+    @reminder = if @collection
+      collection_scope.find(params[:id])
+    else
+      authenticate_admin_user!
+      collection_scope.find(params[:id])
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def reminder_params
-      params.require(:reminder).permit(:name, :text, :stage_id, :interval_length, :interval_unit, :repeat)
+  def collection_scope
+    if current_user.admin? && @collection.nil?
+      Reminder.where("1=1")
+    else
+      @collection.reminders
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def reminder_params
+    params.require(:reminder).permit(:name, :text, :stage_id, :interval_length, :interval_unit, :repeat)
+  end
 end

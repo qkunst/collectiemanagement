@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-database_fields = (Work.column_names.collect{|a| a.to_sym unless a.ends_with?("_id")}.compact-[:market_value, :replacement_value, :purchase_price, :price_reference, :internal_comments, :valuation_on])
+database_fields = (Work.column_names.collect { |a| a.to_sym unless a.ends_with?("_id") }.compact - [:market_value, :replacement_value, :purchase_price, :price_reference, :internal_comments, :valuation_on])
 
 work = @work
 
@@ -27,21 +27,21 @@ json.extract! work, *database_fields
 # belongs_to :placeability
 # belongs_to :purchase_price_currency, :class_name=>Currency
 #
-json.sources(work.sources){ |attribute| json.extract! attribute, :name, :id  }
-json.artists(work.artists){ |attribute| json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death }
-json.object_categories(work.object_categories){ |attribute| json.extract! attribute, :name, :id  }
-json.techniques(work.techniques){ |attribute| json.extract! attribute, :name, :id  }
-json.damage_types(work.damage_types){ |attribute| json.extract! attribute, :name, :id  }
-json.frame_damage_types(work.frame_damage_types){ |attribute| json.extract! attribute, :name, :id  }
-json.themes(work.themes){ |attribute| json.extract! attribute, :name, :id  }
+json.sources(work.sources) { |attribute| json.extract! attribute, :name, :id }
+json.artists(work.artists) { |attribute| json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death }
+json.object_categories(work.object_categories) { |attribute| json.extract! attribute, :name, :id }
+json.techniques(work.techniques) { |attribute| json.extract! attribute, :name, :id }
+json.damage_types(work.damage_types) { |attribute| json.extract! attribute, :name, :id }
+json.frame_damage_types(work.frame_damage_types) { |attribute| json.extract! attribute, :name, :id }
+json.themes(work.themes) { |attribute| json.extract! attribute, :name, :id }
 
-json.style{ json.extract! work.style, :name, :id } if work.style
-json.cluster{ json.extract! work.cluster, :name, :id } if work.cluster
-json.medium{ json.extract! work.medium, :name, :id } if work.medium
-json.condition_work{ json.extract! work.condition_work, :name, :id } if work.condition_work
-json.condition_frame{ json.extract! work.condition_frame, :name, :id } if work.condition_frame
-json.subset{ json.extract! work.subset, :name, :id } if work.subset
-json.placeability{ json.extract! work.placeability, :name, :id } if work.placeability
+json.style { json.extract! work.style, :name, :id } if work.style
+json.cluster { json.extract! work.cluster, :name, :id } if work.cluster
+json.medium { json.extract! work.medium, :name, :id } if work.medium
+json.condition_work { json.extract! work.condition_work, :name, :id } if work.condition_work
+json.condition_frame { json.extract! work.condition_frame, :name, :id } if work.condition_frame
+json.subset { json.extract! work.subset, :name, :id } if work.subset
+json.placeability { json.extract! work.placeability, :name, :id } if work.placeability
 
 json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality

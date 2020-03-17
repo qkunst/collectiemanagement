@@ -6,15 +6,14 @@ class CollectionsStage < ApplicationRecord
 
   time_as_boolean :completed
 
-  scope :delivery, ->{ joins(:stage).where(stages: {name: "Oplevering"})}
+  scope :delivery, -> { joins(:stage).where(stages: {name: "Oplevering"}) }
 
   def previous_collections_stage
     @previous_collections_stage ||= collection.find_state_of_stage(stage.previous_stage)
   end
 
   def active?
-    (previous_collections_stage and previous_collections_stage.completed? and !completed?) or
-    (stage.previous_stage.nil? and !completed?)
+    (previous_collections_stage&.completed? && !completed?) ||
+      (stage.previous_stage.nil? && !completed?)
   end
-
 end

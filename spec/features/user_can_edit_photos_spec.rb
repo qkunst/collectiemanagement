@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require_relative 'feature_helper'
+
+require_relative "feature_helper"
 
 RSpec.feature "Edit photos", type: :feature do
   extend FeatureHelper
@@ -20,10 +21,10 @@ RSpec.feature "Edit photos", type: :feature do
 
         click_on "Work1"
         click_on "Voeg foto’s toe"
-        attach_file "Foto voorkant", File.expand_path('../fixtures/image.jpg', __dir__)
+        attach_file "Foto voorkant", File.expand_path("../fixtures/image.jpg", __dir__)
         click_on "Werk bewaren"
         click_on "Beheer foto's"
-        expect(page).to have_content('Beheer foto\'s van Q001 artist_1')
+        expect(page).to have_content("Beheer foto's van Q001 artist_1")
         click_on "Werk bewaren"
       end
     end
@@ -44,8 +45,8 @@ RSpec.feature "Edit photos", type: :feature do
         expect(page).not_to have_content "Voeg foto’s toe"
 
         visit collection_work_edit_photos_path(works(:work1).collection, works(:work1))
-        expect(page).not_to have_content('Beheer foto\'s van Q001 artist_1')
-        expect(page).to have_content('Alleen medewerkers van QKunst kunnen deze pagina bekijken')
+        expect(page).not_to have_content("Beheer foto's van Q001 artist_1")
+        expect(page).to have_content("Alleen medewerkers van QKunst kunnen deze pagina bekijken")
       end
     end
   end

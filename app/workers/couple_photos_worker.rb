@@ -7,6 +7,6 @@ class CouplePhotosWorker
 
   def perform(batch_photo_upload_id)
     batch_photo_upload = BatchPhotoUpload.find_by_id(batch_photo_upload_id)
-    batch_photo_upload.couple! if batch_photo_upload
+    batch_photo_upload&.couple!
   end
 end

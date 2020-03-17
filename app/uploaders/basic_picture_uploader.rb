@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# encoding: utf-8
-
 class BasicPictureUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -21,6 +19,7 @@ class BasicPictureUploader < CarrierWave::Uploader::Base
   def move_to_cache
     true
   end
+
   def move_to_store
     true
   end
@@ -42,18 +41,18 @@ class BasicPictureUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :big_thumb, if: :process_now? do
-     process :resize_to_fit => [250, 250]
-     process optimize: [{ quality: 60 }]
+    process resize_to_fit: [250, 250]
+    process optimize: [{quality: 60}]
   end
 
   def process_now?(work)
-    self.model.process_now?
+    model.process_now?
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
   attr_accessor :work_id
@@ -78,7 +77,6 @@ class BasicPictureUploader < CarrierWave::Uploader::Base
 
   def secure_token
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+    model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
   end
-
 end

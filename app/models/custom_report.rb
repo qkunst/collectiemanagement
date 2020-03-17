@@ -15,10 +15,10 @@ class CustomReport < ApplicationRecord
 
   def title
     tmp = read_attribute(:title)
-    if tmp.nil? or tmp == ""
+    if tmp.nil? || (tmp == "")
       [custom_report_template.name, I18n.l(created_at.to_date, format: :long)].join(", ")
     else
-      return tmp
+      tmp
     end
   end
   alias_attribute :name, :title

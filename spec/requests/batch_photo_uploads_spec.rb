@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "BatchPhotoUploads", type: :request do
   describe "GET /batch_photo_uploads" do

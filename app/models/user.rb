@@ -5,10 +5,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_paper_trail
 
-  ROLES = [:admin, :advisor, :compliance, :qkunst , :appraiser, :facility_manager, :read_only]
+  ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :timeoutable
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable
 
   store :collection_accessibility_serialization
   store :filter_params
@@ -17,21 +17,21 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :collections
 
-  scope :admin, ->{ where(admin: true) }
-  scope :not_admin, ->{ where.not(admin: true) }
-  scope :advisor, ->{ where(advisor: true).where(admin: [false, nil]) }
-  scope :appraiser, ->{ where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
-  scope :registrator, ->{ where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
-  scope :qkunst, ->{ where(qkunst: true) }
-  scope :other, ->{ where(qkunst: [false,nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
-  scope :has_collections, ->{ joins(:collections).uniq }
-  scope :receive_mails, ->{ where(receive_mails: true)}
-  scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil})}
+  scope :admin, -> { where(admin: true) }
+  scope :not_admin, -> { where.not(admin: true) }
+  scope :advisor, -> { where(advisor: true).where(admin: [false, nil]) }
+  scope :appraiser, -> { where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
+  scope :registrator, -> { where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :qkunst, -> { where(qkunst: true) }
+  scope :other, -> { where(qkunst: [false, nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :has_collections, -> { joins(:collections).uniq }
+  scope :receive_mails, -> { where(receive_mails: true) }
+  scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil}) }
 
   before_save :serialize_collection_accessibility!
 
   def qkunst?
-    read_attribute(:qkunst) or admin? or appraiser? or advisor?
+    read_attribute(:qkunst) || admin? || appraiser? || advisor?
   end
 
   def role
@@ -39,9 +39,9 @@ class User < ApplicationRecord
   end
 
   def roles
-    rv = User::ROLES.collect do |r|
-      r if self.methods.include?(r) and self.send(r)
-    end
+    rv = User::ROLES.collect { |r|
+      r if methods.include?(r) && send(r)
+    }
     rv = (rv.compact + [:read_only])
     rv
   end
@@ -70,28 +70,27 @@ class User < ApplicationRecord
 
   def accessible_users
     return User.where("1=1") if admin?
-    return User.where("1=0") if !(admin? or advisor?)
-    return User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
+    return User.where("1=0") unless admin? || advisor?
+    User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
   def accessible_roles
     admin? ? User::ROLES : User::ROLES - [:admin]
   end
 
-
   def role= new_role
     User::ROLES.each do |r|
-      self.send("#{r}=", r.to_s == new_role.to_s) if self.methods.include?(r)
+      send("#{r}=", r.to_s == new_role.to_s) if methods.include?(r)
     end
-    return new_role
+    new_role
   end
 
   def activated?
-    qkunst? or collections.count > 0
+    qkunst? || (collections.count > 0)
   end
 
   def registrator?
-    qkunst? and (role == :qkunst)
+    qkunst? && (role == :qkunst)
   end
 
   def generate_api_key!
@@ -99,39 +98,39 @@ class User < ApplicationRecord
   end
 
   def schedule_sync_stored_user_names
-    UpdateCachedUserNamesWorker.perform_async(self.id) if saved_change_to_attribute?(:name)
+    UpdateCachedUserNamesWorker.perform_async(id) if saved_change_to_attribute?(:name)
   end
 
   def name
     read_attribute(:name) || email
   end
 
-  def can_access_message? message=nil
-    admin? or (message &&
+  def can_access_message? message = nil
+    admin? || (message &&
       message.from_user == self ||
       (message.conversation_start_message && message.conversation_start_message.from_user == self) ||
       (message.conversation_start_message && message.conversation_start_message.to_user == self) ||
       (message.subject_object && can_access_object?(message.subject_object))
-    )
+              )
   end
 
-  def can_access_object? objekt=nil
-    admin? or (objekt.methods.include?(:can_be_accessed_by_user?) and objekt.can_be_accessed_by_user?(self))
+  def can_access_object? objekt = nil
+    admin? || (objekt.methods.include?(:can_be_accessed_by_user?) && objekt.can_be_accessed_by_user?(self))
   end
 
   def can_edit_most_of_work?
-    qkunst? or appraiser?
+    qkunst? || appraiser?
   end
 
   def can_edit_photos?
     qkunst?
   end
 
-  def can_filter_and_group?( grouping )
+  def can_filter_and_group?(grouping)
     return true if grouping == :themes
     return false if read_only?
-    return false if [:techniques, :sources, :geoname_ids].include?(grouping) and facility_manager?
-    return true
+    return false if [:techniques, :sources, :geoname_ids].include?(grouping) && facility_manager?
+    true
   end
 
   def read_only?
@@ -140,22 +139,22 @@ class User < ApplicationRecord
 
   def reset_filters!
     group_sorting_and_display = {
-      group: self.filter_params[:group],
-      sort: self.filter_params[:sort],
-      display: self.filter_params[:display]
+      group: filter_params[:group],
+      sort: filter_params[:sort],
+      display: filter_params[:display]
     }
     self.filter_params = {}.merge(group_sorting_and_display)
-    self.save
+    save
   end
 
   def works_created
-    Work.where(created_by_id: self.id)
+    Work.where(created_by_id: id)
   end
 
   private
 
   def serialize_collection_accessibility!
-    to_store = self.collections.inject({}){|h, c| h[c.id]=c.name; h }
+    to_store = collections.each_with_object({}) { |c, h| h[c.id] = c.name; }
     self.collection_accessibility_serialization = to_store
   end
 

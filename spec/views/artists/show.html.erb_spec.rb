@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "artists/show", type: :view do
   include Devise::Test::ControllerHelpers
 
   before(:each) do
     @artist = assign(:artist, Artist.create!(
-      description: "aul07<script>alert(1)</script>kviak",
+      description: "aul07<script>alert(1)</script>kviak"
     ))
     @works = []
   end

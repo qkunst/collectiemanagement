@@ -61,7 +61,7 @@ class CollectionsController < ApplicationController
     end
     respond_to do |format|
       if @collection.save
-        format.html { redirect_to @collection, notice: 'De collectie is aangemaakt.' }
+        format.html { redirect_to @collection, notice: "De collectie is aangemaakt." }
         format.json { render :show, status: :created, location: @collection }
       else
         format.html { render :new }
@@ -81,8 +81,8 @@ class CollectionsController < ApplicationController
       @collection.label_override_work_alt_number_3 = collection_params[:label_override_work_alt_number_3]
       touch_all_works = @collection.changes.keys.count > 0
       if @collection.update(collection_params)
-        @collection.works_including_child_works.all.collect{|a| a.touch} if touch_all_works
-        format.html { redirect_to @collection, notice: 'De collectie is bijgewerkt.' }
+        @collection.works_including_child_works.all.collect { |a| a.touch } if touch_all_works
+        format.html { redirect_to @collection, notice: "De collectie is bijgewerkt." }
         format.json { render :show, status: :ok, location: @collection }
       else
         format.html { render :edit }
@@ -96,11 +96,11 @@ class CollectionsController < ApplicationController
   def destroy
     authorize! :destroy, @collection
 
-    if @collection.works.count == 0 and @collection.collections.count == 0
+    if (@collection.works.count == 0) && (@collection.collections.count == 0)
       name = @collection.name
       @collection.destroy
       notice = "De collectie “#{name}” is verwijderd."
-    elsif @collection.collections.count and @collection.parent_collection
+    elsif @collection.collections.count && @collection.parent_collection
       name = @collection.name
       parent = @collection.parent_collection
       parent_name = parent.name
@@ -129,33 +129,34 @@ class CollectionsController < ApplicationController
   end
 
   private
-    def set_parent_collection
-      if params[:collection_id]
-        authenticate_activated_user!
-        @parent_collection = Collection.find(params[:collection_id])
-        unless current_user.admin?
-          redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
-          redirect_to root_path, redirect_options unless @parent_collection.can_be_accessed_by_user(current_user)
-        end
-      end
-    end
 
-    def set_collection
+  def set_parent_collection
+    if params[:collection_id]
       authenticate_activated_user!
-      @collection = Collection.find(params[:collection_id] || params[:id])
+      @parent_collection = Collection.find(params[:collection_id])
       unless current_user.admin?
         redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
-        redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
+        redirect_to root_path, redirect_options unless @parent_collection.can_be_accessed_by_user(current_user)
       end
     end
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def collection_params
-      rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, :base, :appraise_with_ranges, exposable_fields:[], stage_ids: [], geoname_summary_ids: [])
-      if rv[:geoname_summary_ids]
-        rv[:geoname_summaries] = GeonameSummary.where(geoname_id: rv[:geoname_summary_ids])
-        rv.delete(:geoname_summary_ids)
-      end
-      rv
+  def set_collection
+    authenticate_activated_user!
+    @collection = Collection.find(params[:collection_id] || params[:id])
+    unless current_user.admin?
+      redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
+      redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def collection_params
+    rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, :base, :appraise_with_ranges, exposable_fields: [], stage_ids: [], geoname_summary_ids: [])
+    if rv[:geoname_summary_ids]
+      rv[:geoname_summaries] = GeonameSummary.where(geoname_id: rv[:geoname_summary_ids])
+      rv.delete(:geoname_summary_ids)
+    end
+    rv
+  end
 end

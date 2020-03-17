@@ -9,8 +9,7 @@ class ImportCollectionsController < ApplicationController
   def index
     authorize! :index, ImportCollection
     @import_collections = @collection.import_collections.all
-    @batch_photo_uploads = @collection.batch_photo_uploads #BatchPhotoUpload.all
-
+    @batch_photo_uploads = @collection.batch_photo_uploads # BatchPhotoUpload.all
   end
 
   # GET /import_collections/1
@@ -51,7 +50,7 @@ class ImportCollectionsController < ApplicationController
 
     respond_to do |format|
       if @import_collection.save
-        format.html { redirect_to edit_collection_import_collection_path(@collection, @import_collection), notice: 'Het importbestand is aangemaakt' }
+        format.html { redirect_to edit_collection_import_collection_path(@collection, @import_collection), notice: "Het importbestand is aangemaakt" }
         format.json { render :show, status: :created, location: @import_collection }
       else
         format.html { render :new }
@@ -72,7 +71,7 @@ class ImportCollectionsController < ApplicationController
 
     respond_to do |format|
       if @import_collection.update(update_parameters)
-        format.html { redirect_to collection_import_collection_preview_path(@collection, @import_collection), notice: 'Import is bijgewerkt.' }
+        format.html { redirect_to collection_import_collection_preview_path(@collection, @import_collection), notice: "Import is bijgewerkt." }
         format.json { render :show, status: :ok, location: @import_collection }
       else
         format.html { render :edit }
@@ -87,19 +86,18 @@ class ImportCollectionsController < ApplicationController
     delete_works({redirect: false})
     begin
       @import_collection.write
-      redirect_to collection_works_path(@collection), notice: 'De werken zijn geïmporeerd.'
+      redirect_to collection_works_path(@collection), notice: "De werken zijn geïmporeerd."
     rescue ImportCollection::FailedImportError => error
       redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het importeren, verbeter de import file: #{error.message}..."
     end
   end
 
-
-  def delete_works options={}
+  def delete_works options = {}
     authorize! :delete_works, @import_collection
 
     @import_collection.works.destroy_all
     @import_collection.artists.destroy_all_empty_artists!
-    redirect_to collection_import_collection_path(@collection, @import_collection), notice: 'De werken die met deze importer zijn aangemaakt zijn verwijderd.' unless options[:redirect] == false
+    redirect_to collection_import_collection_path(@collection, @import_collection), notice: "De werken die met deze importer zijn aangemaakt zijn verwijderd." unless options[:redirect] == false
   end
 
   # DELETE /import_collections/1
@@ -109,20 +107,20 @@ class ImportCollectionsController < ApplicationController
 
     @import_collection.destroy
     respond_to do |format|
-      format.html { redirect_to import_collections_url, notice: 'Import collection was successfully destroyed.' }
+      format.html { redirect_to import_collections_url, notice: "Import collection was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_import_collection
-      @import_collection = @collection.import_collections.find(params[:import_collection_id]||params[:id])
-    end
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_import_collection
+    @import_collection = @collection.import_collections.find(params[:import_collection_id] || params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def import_collection_params
-      params.require(:import_collection).permit(:file, :header_row, :external_inventory, :decimal_separator)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def import_collection_params
+    params.require(:import_collection).permit(:file, :header_row, :external_inventory, :decimal_separator)
+  end
 end

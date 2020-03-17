@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# encoding: utf-8
-
 class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -21,6 +19,7 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   def move_to_cache
     true
   end
+
   def move_to_store
     true
   end
@@ -42,18 +41,18 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :big_thumb, if: :process_now? do
-     process :resize_to_fit => [250, 250]
-     process optimize: [{ quality: 40 }]
+    process resize_to_fit: [250, 250]
+    process optimize: [{quality: 40}]
   end
 
   def process_now?(work)
-    self.model.process_now?
+    model.process_now?
   end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w[jpg jpeg gif png]
   end
 
   attr_accessor :work_id
@@ -69,15 +68,15 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   def work
     work_ids = {}
     model.column_values.each do |key, value|
-      downcased_key = key.to_s.downcase.gsub(/[_\s]/,"")
-      downcased_filename = filename.to_s.downcase.gsub(/[_\s]/,"")
-      if key and downcased_filename.include?(downcased_key)
+      downcased_key = key.to_s.downcase.gsub(/[_\s]/, "")
+      downcased_filename = filename.to_s.downcase.gsub(/[_\s]/, "")
+      if key && downcased_filename.include?(downcased_key)
         work_ids[key] = value
       end
     end
-    return_work = work_ids.keys.count == 1 ? Work.where(id:work_ids.values).first : nil
-    if return_work == nil and work_ids.keys.count > 1
-      work_ids = work_ids.sort{|a,b| a[0].length<=>b[0].length}
+    return_work = work_ids.keys.count == 1 ? Work.where(id: work_ids.values).first : nil
+    if return_work.nil? && (work_ids.keys.count > 1)
+      work_ids = work_ids.sort { |a, b| a[0].length <=> b[0].length }
       longest_match = work_ids[-1]
       second_longest_match = work_ids[-2]
       if longest_match[0].length > second_longest_match[0].length
@@ -98,12 +97,11 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
       # "detail" => :photo_detail_1
     }
 
-    options.each do | fragment, result |
+    options.each do |fragment, result|
       return result if filename.include?(fragment)
     end
 
-    return :photo_front
-
+    :photo_front
   end
 
   # # Override the filename of the uploaded files:
@@ -124,5 +122,4 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   #   var = :"@#{mounted_as}_secure_token"
   #   model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   # end
-
 end

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe SimpleArtist, type: :model do
-  describe  "instance methods" do
+  describe "instance methods" do
     describe "#name" do
       it "should return no name given string by default" do
-        expect(SimpleArtist.new().name).to eq "-geen naam opgevoerd (-)-"
+        expect(SimpleArtist.new.name).to eq "-geen naam opgevoerd (-)-"
       end
       it "should return full name (with years when given)" do
         expect(SimpleArtist.new(first_name: "Jan", last_name: "Sluys", prefix: "van der").name).to eq "Sluys, Jan van der"
@@ -23,9 +23,4 @@ RSpec.describe SimpleArtist, type: :model do
       end
     end
   end
-
-
-
-
-
 end

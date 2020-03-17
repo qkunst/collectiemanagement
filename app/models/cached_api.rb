@@ -5,15 +5,15 @@
 class CachedApi < ApplicationRecord
   before_save :pull_url!
 
-  scope :expired, ->{where(arel_table[:created_at].lt(Time.now - 1.month))}
+  scope :expired, -> { where(arel_table[:created_at].lt(Time.now - 1.month)) }
 
   def pull_url!
-    require 'open-uri'
-    self.response = open(self.query).read
+    require "open-uri"
+    self.response = open(query).read
   end
 
   def json
-    JSON.parse(self.response)
+    JSON.parse(response)
   end
 
   class << self
@@ -22,7 +22,7 @@ class CachedApi < ApplicationRecord
     end
 
     def purge
-      self.expired.delete_all
+      expired.delete_all
     end
   end
 end

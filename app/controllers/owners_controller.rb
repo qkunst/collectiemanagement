@@ -9,7 +9,6 @@ class OwnersController < ApplicationController
 
   private
 
-
   def controlled_class
     Owner
   end

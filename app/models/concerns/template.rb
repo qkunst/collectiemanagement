@@ -11,7 +11,7 @@ module Template
 
   included do
     def contents_as_html
-      if contents.to_s.match(/[*\n]/)
+      if /[*\n]/.match?(contents.to_s)
         Kramdown::Document.new(contents.to_s).to_html
       else
         contents.to_s
@@ -21,14 +21,14 @@ module Template
     def content_merge variables = {}
       variables.stringify_keys!
       new_contents = contents_as_html
-      Template::Helper.fields_with_modifiers(contents).each do | field_mod |
+      Template::Helper.fields_with_modifiers(contents).each do |field_mod|
         field = field_mod[:field]
         mods = field_mod[:mods]
         value = Template::Helper.apply_mods(variables[field].to_s, mods)
         regex = /\{\{\s*#{[field, mods].flatten.join(".")}\s*\}\}/
         new_contents = new_contents.gsub(regex, value)
       end
-      Template::Helper.object_calls_with_modifiers(contents).each do | object_call_mod |
+      Template::Helper.object_calls_with_modifiers(contents).each do |object_call_mod|
         objekt = object_call_mod[:object]
         method = object_call_mod[:method]
         mods = object_call_mod[:mods]
@@ -41,9 +41,8 @@ module Template
     end
 
     def fields
-      Template::Helper.fields_with_modifiers(contents).collect{|a| a[:field]}.uniq
+      Template::Helper.fields_with_modifiers(contents).collect { |a| a[:field] }.uniq
     end
-
   end
 
   class Helper
@@ -64,7 +63,7 @@ module Template
         contents.to_s.scan(/\{\{\s*([a-z\_\.\d]*)\s*\}\}/).flatten.each do |field_with_mod|
           field_with_mod_split = field_with_mod.split(".")
           field = field_with_mod_split.delete_at(0)
-          rv << {field: field, mods: field_with_mod_split }
+          rv << {field: field, mods: field_with_mod_split}
         end
         rv
       end
@@ -72,17 +71,17 @@ module Template
       def apply_mod string, mod
         case mod.to_sym
         when :hoofdletter, :hoofdletter_start
-          return string.capitalize
+          string.capitalize
         when :hoofdletters
-          return string.upcase
+          string.upcase
         when :aanhef
-          return string.downcase.gsub("de heer","de").strip
+          string.downcase.gsub("de heer", "de").strip
         when :verkort
           test_string = string.downcase
           if test_string == "de heer"
-            return "Dhr."
+            "Dhr."
           elsif test_string == "mevrouw"
-            return "Mevr."
+            "Mevr."
           end
         end
       end
@@ -110,5 +109,3 @@ module Template
     end
   end
 end
-
-

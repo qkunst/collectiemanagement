@@ -14,7 +14,7 @@ class AttachmentsController < ApplicationController
 
   # GET /attachments/new
   def new
-    @attachment = Attachment.new()
+    @attachment = Attachment.new
     @attachment.attache = @work || @collection
     @attachment.visibility = ["readonly", "facility", "qkunst", "appraiser"]
   end
@@ -31,7 +31,7 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       if @attachment.save
-        format.html { redirect_to @attachment.attache, notice: 'Attachment toegevoegd' }
+        format.html { redirect_to @attachment.attache, notice: "Attachment toegevoegd" }
         format.json { render :show, status: :created, location: @attachment.attache }
       else
         format.html { render :new }
@@ -45,7 +45,7 @@ class AttachmentsController < ApplicationController
   def update
     respond_to do |format|
       if @attachment.update(attachment_params)
-        format.html { redirect_to @attachment.attache, notice: 'Attachment bijgewerkt' }
+        format.html { redirect_to @attachment.attache, notice: "Attachment bijgewerkt" }
         format.json { render :show, status: :ok, location: @attachment.attache }
       else
         format.html { render :edit }
@@ -59,25 +59,26 @@ class AttachmentsController < ApplicationController
   def destroy
     @attachment.destroy
     respond_to do |format|
-      format.html { redirect_to (@work || @collection), notice: 'Attachment verwijderd' }
+      format.html { redirect_to (@work || @collection), notice: "Attachment verwijderd" }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_attachment
-      @attachment = (@work || @collection).attachments.find(params[:id])
-    end
 
-    def set_work
-      if params[:work_id]
-        @work = current_user.accessible_works.find(params[:work_id])
-      end
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_attachment
+    @attachment = (@work || @collection).attachments.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def attachment_params
-      params.require(:attachment).permit(:name, :file, :file_cache, visibility: [])
+  def set_work
+    if params[:work_id]
+      @work = current_user.accessible_works.find(params[:work_id])
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def attachment_params
+    params.require(:attachment).permit(:name, :file, :file_cache, visibility: [])
+  end
 end

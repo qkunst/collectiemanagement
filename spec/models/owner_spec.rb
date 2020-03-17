@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Owner, type: :model do
-  describe  "vaidations" do
+  describe "vaidations" do
     it "should have collection" do
       expect { Owner.create!(name: "test") }.to raise_error(ActiveRecord::RecordInvalid)
     end

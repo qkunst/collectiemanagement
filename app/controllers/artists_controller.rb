@@ -34,7 +34,7 @@ class ArtistsController < ApplicationController
     Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
     artist_count_after = Artist.count
 
-    redirect_to artists_path, notice: ((artist_count_after < artist_count_before) ? "De vervaardigersdatabase is opgeschoond (van #{artist_count_before} vervaardigers naar #{artist_count_after} vervaardigers)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
+    redirect_to artists_path, notice: (artist_count_after < artist_count_before ? "De vervaardigersdatabase is opgeschoond (van #{artist_count_before} vervaardigers naar #{artist_count_after} vervaardigers)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
   end
 
   # GET /artists/1
@@ -59,8 +59,8 @@ class ArtistsController < ApplicationController
   def combine
     authorize! :combine, @artist
 
-    combine_params = params.require(:artist).permit(artists_with_same_name:[])
-    artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if{|a| a == ""}
+    combine_params = params.require(:artist).permit(artists_with_same_name: [])
+    artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if { |a| a == "" }
     count = @artist.combine_artists_with_ids(artist_ids_to_combine_with)
 
     redirect_to @artist, notice: "De vervaardigers zijn samengevoegd, er zijn #{count} werken opnieuw gekoppeld."
@@ -86,7 +86,7 @@ class ArtistsController < ApplicationController
 
     respond_to do |format|
       if @artist.save
-        format.html { redirect_to @artist, notice: 'De vervaardiger is aangemaakt.' }
+        format.html { redirect_to @artist, notice: "De vervaardiger is aangemaakt." }
         format.json { render :show, status: :created, location: @artist }
       else
         format.html { render :new }
@@ -100,10 +100,10 @@ class ArtistsController < ApplicationController
   def update
     respond_to do |format|
       if @artist.update(artist_params)
-        if artist_params["rkd_artist_id"] and artist_params["rkd_artist_id"].to_i > 0 and artist_params.keys.count == 1
-          format.html { redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: 'De vervaardiger is gekoppeld met een RKD artist' }
+        if artist_params["rkd_artist_id"] && (artist_params["rkd_artist_id"].to_i > 0) && (artist_params.keys.count == 1)
+          format.html { redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: "De vervaardiger is gekoppeld met een RKD artist" }
         else
-          format.html { redirect_to [@collection,@artist].compact, notice: 'De vervaardiger is bijgewerkt' }
+          format.html { redirect_to [@collection, @artist].compact, notice: "De vervaardiger is bijgewerkt" }
         end
         format.json { render :show, status: :ok, location: @artist }
       else
@@ -118,7 +118,7 @@ class ArtistsController < ApplicationController
   def destroy
     @artist.destroy
     respond_to do |format|
-      format.html { redirect_to artists_url, notice: 'De vervaardiger is verwijderd.' }
+      format.html { redirect_to artists_url, notice: "De vervaardiger is verwijderd." }
       format.json { head :no_content }
     end
   end
@@ -134,25 +134,26 @@ class ArtistsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_artist
-      if @collection
-        @artist = @collection.artists.find(params[:artist_id] || params[:id])
-      else
-        @artist = Artist.find(params[:artist_id] || params[:id])
-      end
-    end
 
-    def authenticate_admin_user_when_no_collection
-      authorize! :manage, Artist if @collection.nil?
+  # Use callbacks to share common setup or constraints between actions.
+  def set_artist
+    @artist = if @collection
+      @collection.artists.find(params[:artist_id] || params[:id])
+    else
+      Artist.find(params[:artist_id] || params[:id])
     end
+  end
 
-    def retrieve_rkd_artists
-      @rkd_artists = @artist.retrieve_rkd_artists!
-    end
+  def authenticate_admin_user_when_no_collection
+    authorize! :manage, Artist if @collection.nil?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def artist_params
-      params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id)
-    end
+  def retrieve_rkd_artists
+    @rkd_artists = @artist.retrieve_rkd_artists!
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def artist_params
+    params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id)
+  end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.feature "Cache spec", type: :model do
   include ActiveSupport::Testing::TimeHelpers
@@ -17,7 +17,6 @@ RSpec.feature "Cache spec", type: :model do
       expect(works(:collection_less_work).updated_at).to be < 23.hours.ago
     end
   end
-
 
   describe "artist that changes" do
     it "should touch all related works" do

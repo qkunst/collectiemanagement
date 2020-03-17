@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "Appraise works", type: :feature do
   include FeatureHelper
@@ -11,9 +11,9 @@ RSpec.feature "Appraise works", type: :feature do
     end
     it "cannot appraise work outside scope" do
       work = works(:work_with_private_theme)
-      expect do
+      expect {
         visit collection_work_path(work.collection, work)
-      end.to raise_error(ActiveRecord::RecordNotFound)
+      }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it "can appraise work using ranges" do
@@ -39,7 +39,6 @@ RSpec.feature "Appraise works", type: :feature do
 
       fill_in "Overige opmerkingen", with: "Overige opmerkingen van nu"
 
-
       click_on "Waardering toevoegen"
 
       expect(page).to have_content "€400,00-€500,00"
@@ -63,7 +62,6 @@ RSpec.feature "Appraise works", type: :feature do
 
       visit collection_work_path(work.collection, work)
       click_on "Waardeer"
-
 
       fill_in "Marktwaarde (€)", with: 234
       fill_in "Vervangingswaarde (€)", with: 567

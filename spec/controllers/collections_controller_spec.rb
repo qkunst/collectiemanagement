@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CollectionsController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -10,7 +10,7 @@ RSpec.describe CollectionsController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    {a:2}
+    {a: 2}
   }
   let(:valid_session) { {} }
 
@@ -32,11 +32,9 @@ RSpec.describe CollectionsController, type: :controller do
         delete :destroy, params: {id: collection.to_param}, session: valid_session
         expect(response).to redirect_to(new_user_session_path)
       end
-
     end
 
     describe "as regular user" do
-
       it "redirects to the root path when not allowed" do
         collection = Collection.create! valid_attributes
         user = users(:user1)
@@ -45,7 +43,6 @@ RSpec.describe CollectionsController, type: :controller do
         delete :destroy, params: {id: collection.to_param}, session: valid_session
         expect(response).to redirect_to(root_url)
       end
-
     end
 
     describe "as admin" do
@@ -57,8 +54,6 @@ RSpec.describe CollectionsController, type: :controller do
           delete :destroy, params: {id: collection.to_param}, session: valid_session
         }.to change(Collection, :count).by(-1)
       end
-
-
 
       it "doesn't destroy the requested Collection with admin login if it has works" do
         collection = Collection.create! valid_attributes
@@ -112,5 +107,4 @@ RSpec.describe CollectionsController, type: :controller do
       end
     end
   end
-
 end

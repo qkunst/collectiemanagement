@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-# encoding: utf-8
-
 class TableUploader < CarrierWave::Uploader::Base
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -43,9 +40,8 @@ class TableUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(xls csv xlsx ods)
+    %w[xls csv xlsx ods]
   end
-
 
   def set_import_file_snippet
     # raise self
@@ -70,8 +66,6 @@ class TableUploader < CarrierWave::Uploader::Base
 
   def secure_token
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+    model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
   end
-
-
 end

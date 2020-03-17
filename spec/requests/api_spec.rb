@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Collections", type: :request do
   describe "GET /collections" do
@@ -22,17 +22,17 @@ RSpec.describe "Collections", type: :request do
       # actual attempt
       c = collections(:collection1)
       api_user = users(:user_with_api_key)
-      url = api_v1_collection_works_url(c.id, format: :json )
+      url = api_v1_collection_works_url(c.id, format: :json)
       data = "#{external_ip}#{url}"
 
       # for this test, we need a relative url
-      url = api_v1_collection_works_path(c.id, format: :json )
+      url = api_v1_collection_works_path(c.id, format: :json)
 
-      digest = OpenSSL::Digest.new('sha512')
+      digest = OpenSSL::Digest.new("sha512")
       hmac_token = OpenSSL::HMAC.hexdigest(digest, api_user.api_key, data)
 
       c.users << api_user
-      get url, headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
+      get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
       response_data = JSON.parse(response.body)
       expect(response).to have_http_status(200)
     end
@@ -45,17 +45,17 @@ RSpec.describe "Collections", type: :request do
       c = collections(:collection_with_works)
       w = c.works.first
       api_user = users(:user_with_api_key)
-      url = api_v1_collection_work_url(c.id, w.id, format: :json )
+      url = api_v1_collection_work_url(c.id, w.id, format: :json)
       data = "#{external_ip}#{url}"
 
       # for this test, we need a relative url
-      url = api_v1_collection_work_path(c.id, w.id, format: :json )
+      url = api_v1_collection_work_path(c.id, w.id, format: :json)
 
-      digest = OpenSSL::Digest.new('sha512')
+      digest = OpenSSL::Digest.new("sha512")
       hmac_token = OpenSSL::HMAC.hexdigest(digest, api_user.api_key, data)
 
       c.users << api_user
-      get url, headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
+      get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
       response_data = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
@@ -68,17 +68,17 @@ RSpec.describe "Collections", type: :request do
       # actual attempt
       c = collections(:collection1)
       api_user = users(:user_with_api_key)
-      url = api_v1_collection_works_url(c.id, format: :json )
+      url = api_v1_collection_works_url(c.id, format: :json)
       data = "#{external_ip}#{url}"
 
       # for this test, we need a relative url
-      url = api_v1_collection_works_path(c.id, format: :json )
+      url = api_v1_collection_works_path(c.id, format: :json)
 
-      digest = OpenSSL::Digest.new('sha512')
+      digest = OpenSSL::Digest.new("sha512")
       hmac_token = OpenSSL::HMAC.hexdigest(digest, api_user.api_key, data)
 
       c.users << api_user
-      get "#{url}?meaningless", headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
+      get "#{url}?meaningless", headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
       response_data = JSON.parse(response.body)
       expect(response).to have_http_status(401)
     end
@@ -91,16 +91,16 @@ RSpec.describe "Collections", type: :request do
       # actual attempt
       c = collections(:collection1)
       api_user = users(:user_with_api_key)
-      url = api_v1_collection_works_url(c.id, format: :json )
+      url = api_v1_collection_works_url(c.id, format: :json)
       data = "#{external_ip}#{url}"
 
       # for this test, we need a relative url
-      url = api_v1_collection_works_path(c.id, format: :json )
+      url = api_v1_collection_works_path(c.id, format: :json)
 
-      digest = OpenSSL::Digest.new('sha512')
+      digest = OpenSSL::Digest.new("sha512")
       hmac_token = OpenSSL::HMAC.hexdigest(digest, api_user.api_key, data)
       expect {
-        get url, headers: { "X-user-id"=> api_user.id, "X-hmac-token"=> hmac_token }
+        get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
       }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

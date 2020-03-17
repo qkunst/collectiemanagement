@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Appraisals", type: :request do
   describe "GET /collections/1/works/1/appraisals/new" do

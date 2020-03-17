@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "frame_types/edit", type: :view do
   before(:each) do
     @frame_type = assign(:frame_type, FrameType.create!(
-      :name => "MyString",
-      :hide => false
+      name: "MyString",
+      hide: false
     ))
   end
 
@@ -14,7 +14,6 @@ RSpec.describe "frame_types/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", frame_type_path(@frame_type), "post" do
-
       assert_select "input#frame_type_name[name=?]", "frame_type[name]"
 
       assert_select "input#frame_type_hide[name=?]", "frame_type[hide]"

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe BatchPhotoUpload, type: :model do
-  describe  "callbacks" do
+  describe "callbacks" do
   end
 
   describe "instance methods" do
@@ -26,5 +26,4 @@ RSpec.describe BatchPhotoUpload, type: :model do
 
   describe "class methods" do
   end
-
 end

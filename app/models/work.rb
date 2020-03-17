@@ -3,7 +3,7 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
-  GRADES_WITHIN_COLLECTION = %w{A B C D E F G W}
+  GRADES_WITHIN_COLLECTION = %w[A B C D E F G W]
 
   include ActionView::Helpers::NumberHelper
   include FastAggregatable
@@ -26,8 +26,8 @@ class Work < ApplicationRecord
   before_save :enforce_nil_or_true
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
-  after_save  :touch_collection!
-  after_save  :update_artist_name_rendered!
+  after_save :touch_collection!
+  after_save :update_artist_name_rendered!
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
 
@@ -55,10 +55,10 @@ class Work < ApplicationRecord
   has_many :attachments, as: :attache
   has_many :messages, as: :subject_object
 
-  scope :artist, ->(artist){ joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id})}
-  scope :has_number, ->(number){ number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
+  scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }
+  scope :has_number, ->(number) { number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
   scope :id, ->(ids) { where(id: ids) }
-  scope :no_photo_front, -> { where(photo_front: nil)}
+  scope :no_photo_front, -> { where(photo_front: nil) }
   scope :order_by, ->(sort_key) do
     case sort_key.to_sym
     when :location
@@ -71,7 +71,7 @@ class Work < ApplicationRecord
       order(:stock_number)
     end
   end
-  scope :published, ->{ where(publish: true) }
+  scope :published, -> { where(publish: true) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -96,7 +96,7 @@ class Work < ApplicationRecord
   accepts_nested_attributes_for :appraisals
 
   def photos?
-    photo_front? or photo_back? or photo_detail_1? or photo_detail_2?
+    photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
   end
 
   # This method is built to be fault tolerant and tries to make the best out of user given input.
@@ -107,15 +107,15 @@ class Work < ApplicationRecord
       rescue ArgumentError
       end
     end
-    if date.is_a? String or date.is_a? Numeric
+    if date.is_a?(String) || date.is_a?(Numeric)
       date = date.to_i
-      if date > 1900 and date < 2100
-        self.write_attribute(:purchase_year, date)
+      if (date > 1900) && (date < 2100)
+        write_attribute(:purchase_year, date)
       end
     else
-      if date.is_a? Date or date.is_a? Time or date.is_a? DateTime
-        self.write_attribute(:purchased_on, date)
-        self.write_attribute(:purchase_year, date.year)
+      if date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
+        write_attribute(:purchased_on, date)
+        write_attribute(:purchase_year, date.year)
       end
     end
   end
@@ -125,14 +125,13 @@ class Work < ApplicationRecord
     if stripped_name == ""
       self.cluster = nil
     else
-      clust = self.collection.available_clusters.find_by_case_insensitive_name(stripped_name).first
+      clust = collection.available_clusters.find_by_case_insensitive_name(stripped_name).first
       self.cluster = clust
-      if self.cluster.nil?
-        self.cluster = self.collection.base_collection.clusters.create!(name: stripped_name)
+      if cluster.nil?
+        self.cluster = collection.base_collection.clusters.create!(name: stripped_name)
       end
     end
   end
-
 
   def sync_purchase_year
     if purchased_on
@@ -147,7 +146,7 @@ class Work < ApplicationRecord
   def geoname_ids
     ids = artists.flat_map(&:cached_geoname_ids)
     ids << locality_geoname_id if locality_geoname_id
-    GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect{|a| a.geoname_id}
+    GeonameSummary.where(geoname_id: ids).with_parents.select(:geoname_id).collect { |a| a.geoname_id }
   end
 
   def alt_numbers
@@ -159,7 +158,7 @@ class Work < ApplicationRecord
     purchase_price_currency ? purchase_price_currency.symbol : "€"
   end
 
-  def dimension_to_s value, nil_value=nil
+  def dimension_to_s value, nil_value = nil
     value ? number_with_precision(value, precision: 5, significant: true, strip_insignificant_zeros: true) : nil_value
   end
 
@@ -168,36 +167,36 @@ class Work < ApplicationRecord
   end
 
   def collection_external_reference_code
-    collection.external_reference_code if collection
+    collection&.external_reference_code
   end
 
   def all_work_ids_in_collection
     return @all_work_ids_in_collection if @all_work_ids_in_collection
     order = [collection.sort_works_by, collection.parent_collection.try(:sort_works_by), :stock_number, :id]
 
-    relative_collection = (!order[0] && order[1]) ? collection.parent_collection : collection
+    relative_collection = !order[0] && order[1] ? collection.parent_collection : collection
 
-    @all_work_ids_in_collection ||= relative_collection.works_including_child_works.select(:id).order(order.compact).collect{|a| a.id}
+    @all_work_ids_in_collection ||= relative_collection.works_including_child_works.select(:id).order(order.compact).collect { |a| a.id }
   end
 
   def work_index_in_collection
-    @work_index_in_collection ||= all_work_ids_in_collection.index(self.id)
+    @work_index_in_collection ||= all_work_ids_in_collection.index(id)
   end
 
   def next
-    next_work_id = all_work_ids_in_collection[work_index_in_collection+1]
+    next_work_id = all_work_ids_in_collection[work_index_in_collection + 1]
     next_work_id ? Work.find(next_work_id) : Work.find(all_work_ids_in_collection.first)
   end
 
   def previous
-    prev_work_id = all_work_ids_in_collection[work_index_in_collection-1]
+    prev_work_id = all_work_ids_in_collection[work_index_in_collection - 1]
     prev_work_id ? Work.find(prev_work_id) : Work.find(all_work_ids_in_collection.last)
   end
 
   def set_empty_values_to_nil
-    #especially important for elasticsearch filtering on empty values!
-    if grade_within_collection.is_a? String and grade_within_collection.strip == ""
-      self.grade_within_collection=nil
+    # especially important for elasticsearch filtering on empty values!
+    if grade_within_collection.is_a?(String) && (grade_within_collection.strip == "")
+      self.grade_within_collection = nil
     end
 
     if public_description == ""
@@ -206,27 +205,31 @@ class Work < ApplicationRecord
   end
 
   def report_val_sorted_artist_ids
-    artists.order_by_name.distinct.collect{|a| a.id}.sort.join(",")
+    artists.order_by_name.distinct.collect { |a| a.id }.sort.join(",")
   end
+
   def report_val_sorted_object_category_ids
-    object_categories.uniq.collect{|a| a.id}.sort.join(",")
+    object_categories.uniq.collect { |a| a.id }.sort.join(",")
   end
+
   def report_val_sorted_technique_ids
-    techniques.uniq.collect{|a| a.id}.sort.join(",")
+    techniques.uniq.collect { |a| a.id }.sort.join(",")
   end
+
   def report_val_sorted_theme_ids
-    themes.uniq.collect{|a| a.id}.sort.join(",")
+    themes.uniq.collect { |a| a.id }.sort.join(",")
   end
+
   def location_history(skip_current: false, empty_locations: true)
     location_versions = []
     uniq_location_versions = []
     versions.each_with_index do |version, index|
       location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
-      if version.object and index > 0
+      if version.object && (index > 0)
         reified_object = version.reify
-        location_versions[index-1][:location] = reified_object.location
-        location_versions[index-1][:location_floor] = reified_object.location_floor
-        location_versions[index-1][:location_detail] = reified_object.location_detail
+        location_versions[index - 1][:location] = reified_object.location
+        location_versions[index - 1][:location_floor] = reified_object.location_floor
+        location_versions[index - 1][:location_detail] = reified_object.location_detail
       end
     end
 
@@ -234,9 +237,9 @@ class Work < ApplicationRecord
     index = location_versions.count
 
     if index > 0
-      location_versions[index-1][:location] = location
-      location_versions[index-1][:location_floor] = location_floor
-      location_versions[index-1][:location_detail] = location_detail
+      location_versions[index - 1][:location] = location
+      location_versions[index - 1][:location_floor] = location_floor
+      location_versions[index - 1][:location_detail] = location_detail
 
       # filter out irrelevant changes
       uniq_location_versions = [location_versions[0]]
@@ -249,7 +252,7 @@ class Work < ApplicationRecord
           uniq_location_versions << location_version
         end
       end
-      if skip_current and (empty_locations == true || location_description)
+      if skip_current && (empty_locations == true || location_description)
         uniq_location_versions.pop
       end
       uniq_location_versions
@@ -265,16 +268,17 @@ class Work < ApplicationRecord
         self.location = prev_location[:location]
         self.location_detail = prev_location[:location_detail]
         self.location_floor = prev_location[:location_floor]
-        self.save!
+        save!
       end
     end
   end
+
   def available_themes
     collection.available_themes
   end
 
   def add_lognoteline note
-    self.lognotes = self.lognotes.to_s + "\n#{note}"
+    self.lognotes = lognotes.to_s + "\n#{note}"
   end
 
   def title= titel
@@ -310,41 +314,44 @@ class Work < ApplicationRecord
   end
 
   def enforce_nil_or_true
-    self.main_collection = nil if self.main_collection == false
+    self.main_collection = nil if main_collection == false
   end
 
   def touch_updated_at(*)
-    self.touch if persisted?
+    touch if persisted?
   end
 
   def touch_collection!
-    collection.touch if collection
+    collection&.touch
   end
 
   def convert_purchase_price_in_eur
-    self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price and purchase_price_currency
+    self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price && purchase_price_currency
   end
 
   class << self
     def collect_locations
       rv = {}
-      self.group(:location).count.sort{|a,b| a[0].to_s.downcase<=>b[0].to_s.downcase }.each{|a| rv[a[0]] = {count: a[1], subs:[]} }
+      group(:location).count.sort { |a, b| a[0].to_s.downcase <=> b[0].to_s.downcase }.each { |a| rv[a[0]] = {count: a[1], subs: []} }
       rv
     end
-    def human_attribute_name_for_alt_number_field( field_name, collection )
+
+    def human_attribute_name_for_alt_number_field(field_name, collection)
       custom_label_name = collection ? collection.send("label_override_work_#{field_name}_with_inheritance".to_sym) : nil
       custom_label_name || Work.human_attribute_name(field_name)
     end
-    def human_attribute_name_overridden( field_name, collection )
+
+    def human_attribute_name_overridden(field_name, collection)
       if [:alt_number_1, :alt_number_2, :alt_number_3].include? field_name
-        human_attribute_name_for_alt_number_field( field_name, collection )
+        human_attribute_name_for_alt_number_field(field_name, collection)
       else
         Work.human_attribute_name(field_name)
       end
     end
+
     def column_types
       return @@column_types if defined?(@@column_types)
-      @@column_types = Work.columns.collect{|a| [a.name, a.type]}.to_h
+      @@column_types = Work.columns.collect { |a| [a.name, a.type] }.to_h
       @@column_types["inventoried"] = :boolean
       @@column_types["refound"] = :boolean
       @@column_types["new_found"] = :boolean

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WorksController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -62,9 +62,9 @@ RSpec.describe WorksController, type: :controller do
       valid_data = {
         location: "werk", internal_comments: "Interne beslommering", title: "Titel"
       }
-      put :update, params: {collection_id: work.collection.to_param, id: work.to_param, work: valid_data }
+      put :update, params: {collection_id: work.collection.to_param, id: work.to_param, work: valid_data}
       work.reload
-      valid_data.each do |k,v|
+      valid_data.each do |k, v|
         expect(work.send(k)).to eq(v)
       end
     end

@@ -9,10 +9,10 @@ module BaseController
     before_action :authentication_callbacks
 
     def index
-      if @collection
-        self.named_collection_variable= controlled_class.where(collection_id: @collection.id).all
+      self.named_collection_variable = if @collection
+        controlled_class.where(collection_id: @collection.id).all
       else
-        self.named_collection_variable= controlled_class.all
+        controlled_class.all
       end
     end
 
@@ -20,7 +20,7 @@ module BaseController
     end
 
     def new
-      self.named_variable= controlled_class.new
+      self.named_variable = controlled_class.new
       named_variable.collection = @collection if @collection
     end
 
@@ -42,7 +42,6 @@ module BaseController
       end
     end
 
-
     # GET /themes/1/edit
     def edit
     end
@@ -55,7 +54,7 @@ module BaseController
     private
 
     def authentication_callbacks
-      if @collection and !(named_variable.methods.include?(:collection) and named_variable.collection.nil?)
+      if @collection && !(named_variable.methods.include?(:collection) && named_variable.collection.nil?)
         if ["index", "show"].include? action_name.to_s
           authorize! :review_collection, controlled_class
         else
@@ -77,15 +76,17 @@ module BaseController
     def named_collection_variable= values
       instance_variable_set("@#{controlled_class.table_name}", values)
     end
+
     def named_variable= value
       instance_variable_set("@#{singularized_name}", value)
     end
+
     def named_variable
       instance_variable_get("@#{singularized_name}")
     end
 
     def set_named_variable_by_class
-      self.named_variable= controlled_class.find(params[:id])
+      self.named_variable = controlled_class.find(params[:id])
     end
 
     def white_listed_params

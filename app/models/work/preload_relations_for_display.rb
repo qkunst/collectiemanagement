@@ -7,11 +7,11 @@ module Work::PreloadRelationsForDisplay
     def preload_relations_for_display(display)
       case display
       when :compact
-        self.includes(:collection)
+        includes(:collection)
       when :limited, :limited_auction
-        self.includes(:collection, :techniques, :object_categories, :medium, :condition_work, :condition_frame, artists: [:artist_involvements])
+        includes(:collection, :techniques, :object_categories, :medium, :condition_work, :condition_frame, artists: [:artist_involvements])
       else
-        self.includes(:collection, :techniques, :object_categories, :damage_types, :frame_damage_types, :medium, :style, :themes, :subset, :sources, :owner, :attachments, :appraisals, :condition_work, :condition_frame, :cluster, :placeability, artists: [:artist_involvements])
+        includes(:collection, :techniques, :object_categories, :damage_types, :frame_damage_types, :medium, :style, :themes, :subset, :sources, :owner, :attachments, :appraisals, :condition_work, :condition_frame, :cluster, :placeability, artists: [:artist_involvements])
       end
     end
   end

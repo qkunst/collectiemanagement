@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
 class Subset < ApplicationRecord
-  include NameId, Hidable
+  include Hidable
+  include NameId
 end

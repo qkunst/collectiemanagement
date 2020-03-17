@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Validators::CollectionScopeValidator, type: :model do
   describe "validates properly" do
@@ -20,6 +20,5 @@ RSpec.describe Validators::CollectionScopeValidator, type: :model do
       expect(work.valid?).to eq(false)
       expect(work.errors[:base].first).to match /Theme.*niet beschikbaar in collectie/
     end
-
   end
 end

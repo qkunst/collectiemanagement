@@ -3,11 +3,10 @@
 # config valid only for current version of Capistrano
 # lock '3.5.0'
 
-set :application, 'collectiebeheer'
+set :application, "collectiebeheer"
 set :remote_user, :qkunst
 
-set :repo_url, 'https://github.com/qkunst/collectiebeheer.git'
-
+set :repo_url, "https://github.com/qkunst/collectiebeheer.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -28,10 +27,10 @@ set :repo_url, 'https://github.com/qkunst/collectiebeheer.git'
 
 # Default value for :linked_files is []
 # Default value for :linked_files is []
-set :linked_files, %w{config/secrets.yml config/database.yml}
+set :linked_files, %w[config/secrets.yml config/database.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{log tmp public/uploads storage node_modules}
+set :linked_dirs, %w[log tmp public/uploads storage node_modules]
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
@@ -43,32 +42,31 @@ set :linked_dirs, %w{log tmp public/uploads storage node_modules}
 
 # rbenv
 set :rbenv_type, :user
-set :rbenv_ruby, File.read(File.expand_path('../.ruby-version', __dir__)).strip
+set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
-set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
 
 set :local_user, `whoami`.strip
 set :public_key, File.open("/Users/#{fetch(:local_user)}/.ssh/id_rsa.pub").read
-set :database_name, "#{fetch(:application).gsub(".","")}-#{fetch(:stage)}"
+set :database_name, "#{fetch(:application).delete(".")}-#{fetch(:stage)}"
 set :database_user, fetch(:database_name)
 set :application_production_domain_name, fetch(:application)
-
 
 set :email, "maarten@murb.nl"
 
 namespace :deploy do
-  desc 'Show logs'
+  desc "Show logs"
   task :log do
     on roles(:app), in: :sequence, wait: 5 do
       execute :tail, " -n 100 #{shared_path}/log/#{fetch(:stage)}.log"
     end
   end
 
-  desc 'Restart application'
+  desc "Restart application"
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
-      execute :touch, release_path.join('tmp/restart.txt')
+      execute :touch, release_path.join("tmp/restart.txt")
     end
   end
 
@@ -76,7 +74,7 @@ namespace :deploy do
 end
 
 namespace :rbenv do
-  desc 'Install rbenv'
+  desc "Install rbenv"
   task :install do
     on roles("web") do
       begin
@@ -93,10 +91,10 @@ namespace :rbenv do
         puts "rbenv/ruby-build plugin already installed, updating..."
         execute "cd #{fetch(:rbenv_path)}/plugins/ruby-build && git pull"
       end
-      rbenv_ruby = File.read('.ruby-version').strip
-      execute "#{fetch(:rbenv_path)}/bin/rbenv install -s #{fetch(:rbenv_ruby)||rbenv_ruby}"
-      execute "#{fetch(:rbenv_path)}/bin/rbenv global #{fetch(:rbenv_ruby)||rbenv_ruby}"
-      execute "#{fetch(:rbenv_path)}/bin/rbenv local #{fetch(:rbenv_ruby)||rbenv_ruby}"
+      rbenv_ruby = File.read(".ruby-version").strip
+      execute "#{fetch(:rbenv_path)}/bin/rbenv install -s #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      execute "#{fetch(:rbenv_path)}/bin/rbenv global #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      execute "#{fetch(:rbenv_path)}/bin/rbenv local #{fetch(:rbenv_ruby) || rbenv_ruby}"
       # execute "#{fetch(:rbenv_path)}/bin/rbenv rehash"
       execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && ruby -v"
 
@@ -109,7 +107,7 @@ namespace :rbenv do
 end
 
 namespace :server do
-  desc 'Initialize'
+  desc "Initialize"
   task :init do
     puts "ssh root@#{fetch(:application)}"
     puts "passwd #set it to something extremely long"
@@ -194,8 +192,8 @@ namespace :server do
     puts "You can test it by running `mail test@murb.nl`"
     puts "su postgres"
     puts "psql"
-    require 'securerandom'
-    random_db_pw = SecureRandom.base64(24).gsub(/['"]/,"[");
+    require "securerandom"
+    random_db_pw = SecureRandom.base64(24).gsub(/['"]/, "[")
     puts "CREATE USER \"#{fetch(:database_user)}\" WITH PASSWORD '#{random_db_pw}';"
     puts "CREATE DATABASE \"#{fetch(:database_name)}\" OWNER \"#{fetch(:database_user)}\";"
     puts "\\q"
@@ -209,7 +207,7 @@ namespace :server do
     puts "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
   end
 
-  desc 'Install ruby'
+  desc "Install ruby"
   task :install_ruby do
     on roles(:app), in: :sequence do
       execute :rbenv, " install #{fetch(:rbenv_ruby)} -k"
@@ -218,10 +216,10 @@ namespace :server do
     end
   end
 
-  desc 'App specific instructions for nginx+passenger over http2'
+  desc "App specific instructions for nginx+passenger over http2"
   task :server_config do
-puts "# sudo vim /etc/nginx/sites-available/#{fetch(:application)}"
-puts "server {
+    puts "# sudo vim /etc/nginx/sites-available/#{fetch(:application)}"
+    puts "server {
   listen 80;
   server_name #{fetch(:application)} www.#{fetch(:application)};
   client_max_body_size 50M;
@@ -235,10 +233,10 @@ puts "server {
   passenger_app_env #{fetch(:stage)};
   passenger_enabled on;
 }"
-puts "\n\n# sudo ln -s /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled"
-puts "\n\n# sudo service nginx restart"
-puts "\n\n# sudo certbot certonly --webroot -w #{fetch(:deploy_to)}/current/public -d #{fetch(:application)} -d www.#{fetch(:application)}\n\n"
-puts "server {
+    puts "\n\n# sudo ln -s /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled"
+    puts "\n\n# sudo service nginx restart"
+    puts "\n\n# sudo certbot certonly --webroot -w #{fetch(:deploy_to)}/current/public -d #{fetch(:application)} -d www.#{fetch(:application)}\n\n"
+    puts "server {
   listen 443 ssl http2;
   server_name #{fetch(:application)} www.#{fetch(:application)};
   client_max_body_size 50M;
@@ -265,4 +263,3 @@ server {
 }"
   end
 end
-

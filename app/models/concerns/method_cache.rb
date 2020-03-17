@@ -7,7 +7,6 @@ module MethodCache
   extend ActiveSupport::Concern
 
   included do
-
   end
   class_methods do
     def has_cache_for_method(*method_names)
@@ -23,7 +22,7 @@ module MethodCache
         #   end
         # end
 
-        define_method("cache_#{method_name}!") do |update_column=false|
+        define_method("cache_#{method_name}!") do |update_column = false|
           new_cache_value = send(method_name).to_json
           if update_column
             update_column("#{method_name}_cache", new_cache_value)
@@ -32,7 +31,7 @@ module MethodCache
           end
         end
 
-        define_method("cached_#{method_name}") do #|arg=nil| # default arg to allow before_blah callbacks
+        define_method("cached_#{method_name}") do # |arg=nil| # default arg to allow before_blah callbacks
           column_value = read_attribute("#{method_name}_cache")
           JSON.parse(column_value) if column_value
         end

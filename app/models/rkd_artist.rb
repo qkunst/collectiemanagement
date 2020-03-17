@@ -5,7 +5,6 @@ class RkdArtist < ApplicationRecord
     "https://rkd.nl/nl/explore/artists/#{rkd_id}"
   end
 
-
   def domains
     api_response["domein"]
   end
@@ -15,21 +14,17 @@ class RkdArtist < ApplicationRecord
   end
 
   def year_of_death
-    begin
-      if api_response["sterfdatum_eind"].match /\d\d\d\d/
-        api_response["sterfdatum_eind"].to_i
-      else
-        api_response["sterfdatum_eind"].to_date.year if api_response["sterfdatum_eind"].length > 4
-      end
-    rescue
+    if /\d\d\d\d/.match?(api_response["sterfdatum_eind"])
+      api_response["sterfdatum_eind"].to_i
+    else
+      api_response["sterfdatum_eind"].to_date.year if api_response["sterfdatum_eind"].length > 4
     end
+  rescue
   end
 
   def date_of_death
-    begin
-      api_response["sterfdatum_eind"].to_date if api_response["sterfdatum_eind"].length > 4
-    rescue
-    end
+    api_response["sterfdatum_eind"].to_date if api_response["sterfdatum_eind"].length > 4
+  rescue
   end
 
   def place_of_birth
@@ -38,34 +33,30 @@ class RkdArtist < ApplicationRecord
 
   def place_of_death_geoname_id
     hit = GeonameSummary.search(place_of_death).first
-    hit.id if hit
+    hit&.id
   end
 
   def place_of_birth_geoname_id
     hit = GeonameSummary.search(place_of_birth).first
-    hit.geoname_id if hit
+    hit&.geoname_id
   end
 
   def year_of_birth
-    begin
-      if api_response["geboortedatum_eind"].match /\d\d\d\d/
-        api_response["geboortedatum_eind"].to_i
-      else
-        api_response["geboortedatum_eind"].to_date.year if api_response["geboortedatum_eind"].length > 4
-      end
-    rescue
+    if /\d\d\d\d/.match?(api_response["geboortedatum_eind"])
+      api_response["geboortedatum_eind"].to_i
+    else
+      api_response["geboortedatum_eind"].to_date.year if api_response["geboortedatum_eind"].length > 4
     end
+  rescue
   end
 
   def date_of_birth
-    begin
-      api_response["geboortedatum_eind"].to_date if api_response["geboortedatum_eind"].length > 4
-    rescue
-    end
+    api_response["geboortedatum_eind"].to_date if api_response["geboortedatum_eind"].length > 4
+  rescue
   end
 
   def kunstenaarsnaam
-    api_response["kunstenaarsnaam"].gsub(/\(.*\)/,'').strip
+    api_response["kunstenaarsnaam"].gsub(/\(.*\)/, "").strip
   end
 
   def last_name
@@ -117,7 +108,7 @@ class RkdArtist < ApplicationRecord
     # t.datetime "created_at",       null: false
     # t.datetime "updated_at",       null: false
     # t.string   "involvement_type"
-    api_response["werkzaamheid"].each do | werkzaamheid |
+    api_response["werkzaamheid"].each do |werkzaamheid|
       involvement = {
         involvement_type: :professional
       }
@@ -128,7 +119,7 @@ class RkdArtist < ApplicationRecord
       involvement[:end_year] = werkzaamheid["plaats_v_werkzh_einddatum"]
       artist_involvements << involvement
     end
-    api_response["academies"].each do | academie |
+    api_response["academies"].each do |academie|
       involvement_id = Involvement.find_or_create_by(name: academie["academie"])
       involvement = {
         involvement_id: involvement_id.id,
@@ -137,7 +128,7 @@ class RkdArtist < ApplicationRecord
       involvement[:place] = involvement_id.place
       involvement[:place_geoname_id] = involvement_id.place_geoname_id
       opmerkingen_academie = academie["opmerking_academie"]
-      if opmerkingen_academie.to_s.strip.match(/\d\d\d\d-\d\d\d\d/)
+      if /\d\d\d\d-\d\d\d\d/.match?(opmerkingen_academie.to_s.strip)
         involvement[:start_year] = opmerkingen_academie.to_s.strip.split("-")[0]
         involvement[:end_year] = opmerkingen_academie.to_s.strip.split("-")[1]
       end
@@ -149,7 +140,7 @@ class RkdArtist < ApplicationRecord
 
   def to_artist
     artist = Artist.new(to_artist_params)
-    self.to_artist_involvement_params.each do |inv|
+    to_artist_involvement_params.each do |inv|
       artist.artist_involvements.new(inv)
     end
     artist
@@ -167,15 +158,16 @@ class RkdArtist < ApplicationRecord
 
   class << self
     def search_rkd_by_artist artist
-      self.search_rkd(artist.search_name)
+      search_rkd(artist.search_name)
     end
+
     def get_rkd_artist_by_rkd_id rkd_id
       rkd_id = rkd_id.to_i
       api_response_source_url = "https://api.rkd.nl/api/record/artists/#{rkd_id}?format=json"
       json_artist_response = CachedApi.query(api_response_source_url)["response"]["docs"]
       rkd_artist = nil
       if rkd_id > 0
-        rkd_artist = self.find_or_initialize_by(rkd_id: rkd_id)
+        rkd_artist = find_or_initialize_by(rkd_id: rkd_id)
         rkd_artist.api_response_source_url = api_response_source_url
         rkd_artist.api_response = json_artist_response.first
         rkd_artist.name = json_artist_response.first["kunstenaarsnaam"]
@@ -184,23 +176,24 @@ class RkdArtist < ApplicationRecord
       end
       rkd_artist
     end
+
     def search_rkd search
       search_rkd_by_artist(search) if search.is_a? Artist
       json_response = nil
       rkd_artists = []
       begin
-        if !search.nil? and !search.empty?
+        if !search.nil? && !search.empty?
           search = search.strip
           if search.strip.match(/\d*/).to_s == search.strip
             rkd_artists << get_rkd_artist_by_rkd_id(search)
           else
             encoded_search_name = ERB::Util.url_encode(search)
             json_search_response = CachedApi.query("https://api.rkd.nl/api/search/artists?sa[kunstenaarsnaam]=#{encoded_search_name}")
-            rkd_artists = json_search_response["response"]["docs"].collect do | doc |
-              rkd_id = doc['priref'].to_i
+            rkd_artists = json_search_response["response"]["docs"].collect { |doc|
+              rkd_id = doc["priref"].to_i
               get_rkd_artist_by_rkd_id(rkd_id)
-            end.compact
-            rkd_artists.delete_if{|a| a.api_response["voorkeursnaam_naam"]}
+            }.compact
+            rkd_artists.delete_if { |a| a.api_response["voorkeursnaam_naam"] }
           end
         end
         rkd_artists.compact
@@ -209,5 +202,4 @@ class RkdArtist < ApplicationRecord
       end
     end
   end
-
 end

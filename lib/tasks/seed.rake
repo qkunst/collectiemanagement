@@ -16,11 +16,10 @@ namespace :seed do
         subset: subsets.sample,
         location: "Location #{time}",
         medium: media.sample,
-        artists: artists.sample((rand > 0.9) ? 2 : 1),
+        artists: artists.sample(rand > 0.9 ? 2 : 1),
         style: styles.sample
       )
       print "."
     end
   end
-
 end

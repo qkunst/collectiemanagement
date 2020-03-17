@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class GeonamesCountry < ApplicationRecord
-  has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: 'GeonameTranslation'
+  has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: "GeonameTranslation"
 
-  def localized_name locale=:nl
+  def localized_name locale = :nl
     localized_names.last
   end
 
-  def localized_names locale=:nl
-    names = translations.locale(locale).order(:priority).collect{|a| a.label}
+  def localized_names locale = :nl
+    names = translations.locale(locale).order(:priority).collect { |a| a.label }
     names = [country_name] if names.count == 0
     names
   end
@@ -37,7 +37,7 @@ class GeonamesCountry < ApplicationRecord
     "Land"
   end
 
-  def find_or_create_corresponding_geoname_summary locale=:nl
+  def find_or_create_corresponding_geoname_summary locale = :nl
     gs = GeonameSummary.find_or_initialize_by(geoname_id: geoname_id, language: locale)
     gs.name = localized_name(locale)
     gs.parent_description = parent_description
@@ -47,48 +47,50 @@ class GeonamesCountry < ApplicationRecord
 
   class << self
     def find_or_create_corresponding_geoname_summary
-      self.all.each{|a| a.find_or_create_corresponding_geoname_summary}
+      all.each { |a| a.find_or_create_corresponding_geoname_summary }
     end
+
     def import!
-      self.delete_all
+      delete_all
       puts "Importing countries..."
-      self.transaction do
-        File.open('data/countryInfo.txt').read.split(/\n/).collect{|a| a.split(/\t/) }.each{|a| GeonamesCountry.create(
-          iso: a[0],
-          iso3: a[1],
-          iso_num: a[2],
-          fips: a[3],
-          country_name: a[4],
-          capital_name: a[5],
-          area: a[6],
-          population: a[7],
-          continent: a[8],
-          tld: a[9],
-          currency_code: a[10],
-          currency_name: a[11],
-          phone: a[12],
-          postal_code_format: a[13],
-          postal_code_regex: a[14],
-          languages: a[15],
-          geoname_id: a[16],
-          neighbours: a[17],
-          equivalent_fips_code: a[18]) }
+      transaction do
+        File.open("data/countryInfo.txt").read.split(/\n/).collect { |a| a.split(/\t/) }.each do |a|
+          GeonamesCountry.create(
+            iso: a[0],
+            iso3: a[1],
+            iso_num: a[2],
+            fips: a[3],
+            country_name: a[4],
+            capital_name: a[5],
+            area: a[6],
+            population: a[7],
+            continent: a[8],
+            tld: a[9],
+            currency_code: a[10],
+            currency_name: a[11],
+            phone: a[12],
+            postal_code_format: a[13],
+            postal_code_regex: a[14],
+            languages: a[15],
+            geoname_id: a[16],
+            neighbours: a[17],
+            equivalent_fips_code: a[18]
+          )
+        end
       end
-      self.transaction do
+      transaction do
         continents = [["AF", "Africa", 6255146],
-          ["AS", "Asia", 6255147],
-          ["EU", "Europe", 6255148],
-          ["NA", "North America", 6255149],
-          ["OC", "Oceania", 6255151],
-          ["SA", "South America", 6255150],
-          ["AN", "Antarctica", 6255152]]
+                      ["AS", "Asia", 6255147],
+                      ["EU", "Europe", 6255148],
+                      ["NA", "North America", 6255149],
+                      ["OC", "Oceania", 6255151],
+                      ["SA", "South America", 6255150],
+                      ["AN", "Antarctica", 6255152]]
         continents.each do |c|
           GeonamesCountry.create(iso: c[0], iso3: c[0], fips: c[0], country_name: c[1], geoname_id: c[2])
         end
       end
-      self.find_or_create_corresponding_geoname_summary
+      find_or_create_corresponding_geoname_summary
     end
-
   end
-
 end

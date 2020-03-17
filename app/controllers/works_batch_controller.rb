@@ -7,7 +7,7 @@ class WorksBatchController < ApplicationController
   def edit
     @selection = {display: :complete}
     @edit_property = (params[:property] || params[:batch_edit_property])
-    @process_property = (params[:batch_process_property])
+    @process_property = params[:batch_process_property]
     work_ids = @works.pluck(:id)
 
     if @edit_property

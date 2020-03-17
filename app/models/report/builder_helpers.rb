@@ -21,7 +21,5 @@ module Report
       }
       rv
     end
-
-
   end
 end

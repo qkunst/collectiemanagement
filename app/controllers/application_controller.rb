@@ -14,14 +14,12 @@ class ApplicationController < ActionController::Base
   before_action :check_rack_mini_profiler
 
   def home
-
   end
-
 
   def geoname_summaries
     response.headers["Cache-Control"] = "public"
     response.headers["Pragma"] = "cache"
-    response.headers["Expires"] = (Time.now+1.week).rfc822
+    response.headers["Expires"] = (Time.now + 1.week).rfc822
 
     render json: GeonameSummary.selectable.to_array.to_json
   end
@@ -30,7 +28,7 @@ class ApplicationController < ActionController::Base
     response.headers["Cache-Control"] = "public"
     response.headers["Pragma"] = "cache"
 
-    return_tags = ActsAsTaggableOn::Tag.all.where(ActsAsTaggableOn::Tag.arel_table[:name].matches("#{params[:q]}%")).collect{|a| {id: a.name, text: a.name}}
+    return_tags = ActsAsTaggableOn::Tag.all.where(ActsAsTaggableOn::Tag.arel_table[:name].matches("#{params[:q]}%")).collect { |a| {id: a.name, text: a.name} }
     return_tags += [{id: params[:q], text: "Nieuwe tag: #{params[:q]}"}]
 
     render json: {results: return_tags}
@@ -54,18 +52,18 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_user?
-    current_user && current_user.admin?
+    current_user&.admin?
   end
 
   def qkunst_user?
-    current_user && current_user.qkunst?
+    current_user&.qkunst?
   end
 
   private
 
   def show_hidden
     @show_hidden = false
-    if params[:show_hidden] && (params[:show_hidden] == "true" or params[:show_hidden] == true)
+    if params[:show_hidden] && ((params[:show_hidden] == "true") || (params[:show_hidden] == true))
       @show_hidden = true
     end
   end
@@ -114,7 +112,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_qkunst_user_if_no_collection!
     set_collection
-    unless current_user.qkunst? or @collection
+    unless current_user.qkunst? || @collection
       redirect_options = offline? ? {} : {alert: "U dient een QKunst medewerker te zijn"}
       redirect_to root_path, redirect_options
     end
@@ -132,11 +130,11 @@ class ApplicationController < ActionController::Base
     authenticate_user_with_one_of_roles!([:admin])
   end
 
-  def authenticate_user_with_one_of_roles! roles=[]
+  def authenticate_user_with_one_of_roles! roles = []
     authenticate_user!
     if current_user
       redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze pagina"}
-      redirect_to root_path, redirect_options unless roles.collect{|a| current_user.send(a)}.include? true
+      redirect_to root_path, redirect_options unless roles.collect { |a| current_user.send(a) }.include? true
     end
   end
 
@@ -153,25 +151,22 @@ class ApplicationController < ActionController::Base
   end
 
   def check_rack_mini_profiler
-    begin
-      if current_user && current_user.email == "home@murb.nl"
-        Rack::MiniProfiler.authorize_request
-      end
-    rescue Devise::MissingWarden
+    if current_user && current_user.email == "home@murb.nl"
+      Rack::MiniProfiler.authorize_request
     end
+  rescue Devise::MissingWarden
   end
 
   def set_time_zone
-    Time.zone = 'Amsterdam'
+    Time.zone = "Amsterdam"
   end
 
   rescue_from CanCan::AccessDenied do
     if current_user
-      redirect_to root_path, :alert => "Je hebt geen toegang tot deze pagina"
+      redirect_to root_path, alert: "Je hebt geen toegang tot deze pagina"
     else
       redirect_to new_user_session_url(redirect_to: request.url), alert: "Je moet ingelogd zijn om deze pagina te kunnen bekijken."
       # raise exception
     end
   end
-
 end

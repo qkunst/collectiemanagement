@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
   include Devise::Test::ControllerHelpers
@@ -53,5 +53,4 @@ RSpec.describe UsersController, type: :controller do
       expect(user_to_change.collections).to include(collections(:collection3))
     end
   end
-
 end

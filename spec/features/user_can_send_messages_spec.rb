@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'feature_helper'
+require_relative "feature_helper"
 
 RSpec.feature "User can send messages", type: :feature do
   include FeatureHelper
@@ -12,7 +12,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         click_on "Collecties"
 
-        if page.body.match("id=\"list-to-filter\"")
+        if page.body.match?("id=\"list-to-filter\"")
           within "#list-to-filter" do
             click_on "Collection 1"
           end
@@ -26,7 +26,7 @@ RSpec.feature "User can send messages", type: :feature do
           click_on "Bericht versturen"
         }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 0 : 1)
 
-        expect(page).to have_content('Uw bericht is verstuurd')
+        expect(page).to have_content("Uw bericht is verstuurd")
         click_on "Berichten"
         expect(page).to have_content("Ondewerp #{email_address}")
 

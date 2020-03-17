@@ -32,7 +32,7 @@ module Ability::Report
       all_fields.each do |model_key, model_fields|
         model_fields.each do |attribute|
           field_report[:header].each_with_index do |ability, index|
-            contains_attribute = (ability[:ability].editable_work_fields_grouped[model_key] && ability[:ability].editable_work_fields_grouped[model_key].include?(attribute))
+            contains_attribute = ability[:ability].editable_work_fields_grouped[model_key]&.include?(attribute)
             field_report[:data][model_key][attribute][index] = contains_attribute
           end
         end
@@ -44,7 +44,7 @@ module Ability::Report
     def report_abilities
       approles = User::ROLES - [:qkunst]
 
-      ability_report = {header:[], data:{}}
+      ability_report = {header: [], data: {}}
 
       permissions_per_thing = {}
 
@@ -72,11 +72,9 @@ module Ability::Report
           permissions.each do |permission|
             permission_i18n = I18n.t permission, scope: [:abilities]
             ability_report[:data][thing_i18n][permission_i18n] ||= []
-
             thing_constantize = begin; thing.constantize; rescue; thing; end
             ability_report[:data][thing_i18n][permission_i18n] << ability.can?(permission, thing_constantize)
           end
-
         end
       end
 

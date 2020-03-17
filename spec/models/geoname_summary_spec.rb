@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe GeonameSummary, type: :model do
   describe "Class methods" do
@@ -13,6 +13,5 @@ RSpec.describe GeonameSummary, type: :model do
         expect(GeonameSummary.search("totally weird name that never exists")).to eq([])
       end
     end
-
   end
 end

@@ -6,34 +6,34 @@ class Message < ApplicationRecord
   mount_uploader :image, PictureUploader
   before_create :set_conversation_start_message
 
-  has_many :replies, class_name: 'Message', foreign_key: :in_reply_to_message_id
-  has_many :conversation, class_name: 'Message', foreign_key: :conversation_start_message_id
+  has_many :replies, class_name: "Message", foreign_key: :in_reply_to_message_id
+  has_many :conversation, class_name: "Message", foreign_key: :conversation_start_message_id
 
   # validates_presence_of :subject
   # validates_presence_of :message
 
   belongs_to :subject_object, polymorphic: true, optional: true
-  belongs_to :from_user, class_name: 'User', optional: true
-  belongs_to :to_user, class_name: 'User', optional: true
-  belongs_to :in_reply_to_message, class_name: 'Message', optional: true
-  belongs_to :conversation_start_message, class_name: 'Message', optional: true
+  belongs_to :from_user, class_name: "User", optional: true
+  belongs_to :to_user, class_name: "User", optional: true
+  belongs_to :in_reply_to_message, class_name: "Message", optional: true
+  belongs_to :conversation_start_message, class_name: "Message", optional: true
   belongs_to :reminder, optional: true
 
-  scope :order_by_creation_date, -> {order(:created_at)}
-  scope :order_by_reverse_creation_date, -> {order(created_at: :desc)}
-  scope :conversation_starters, -> {where("messages.conversation_start_message_id IS NULL or messages.conversation_start_message_id = messages.id")}
+  scope :order_by_creation_date, -> { order(:created_at) }
+  scope :order_by_reverse_creation_date, -> { order(created_at: :desc) }
+  scope :conversation_starters, -> { where("messages.conversation_start_message_id IS NULL or messages.conversation_start_message_id = messages.id") }
   scope :thread_can_be_accessed_by_user, ->(user) do
     if user.admin?
       where("1=1")
     elsif user.advisor?
-      where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1 OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Work') OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Collection')", user.id,user.id,user.id,user.id,user.accessible_works.map(&:id),user.accessible_collections.map(&:id))
+      where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1 OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Work') OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Collection')", user.id, user.id, user.id, user.id, user.accessible_works.map(&:id), user.accessible_collections.map(&:id))
     else
-      where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id,user.id,user.id,user.id)
+      where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id, user.id, user.id, user.id)
     end
   end
-  scope :not_qkunst_private, -> {where(qkunst_private: [nil, false])}
-  scope :for, ->(subject_object) { where(subject_object: subject_object )}
-  scope :sent_at_date, ->(date) {where("messages.created_at >= ? AND messages.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day)}
+  scope :not_qkunst_private, -> { where(qkunst_private: [nil, false]) }
+  scope :for, ->(subject_object) { where(subject_object: subject_object) }
+  scope :sent_at_date, ->(date) { where("messages.created_at >= ? AND messages.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day) }
   scope :collections, ->(collections) { collections = Collection.where(id: collections).expand_with_child_collections; joins("LEFT OUTER JOIN works ON messages.subject_object_id = works.id AND messages.subject_object_type = 'Work'").where("(messages.subject_object_type = 'Collection' AND messages.subject_object_id IN (?)) OR (messages.subject_object_type = 'Work' AND works.collection_id IN (?))", collections.map(&:id), collections.map(&:id)) }
 
   before_save :set_from_user_name!
@@ -46,34 +46,34 @@ class Message < ApplicationRecord
   end
 
   def from_user_name_without_email
-    from_user_name.to_s.split('@')[0].to_s.capitalize
+    from_user_name.to_s.split("@")[0].to_s.capitalize
   end
 
   def from_user?(user)
     from_user == user
   end
 
-  def read(user=nil)
-    !actioned_upon_by_qkunst_admin_at.nil? or (user and from_user?(user)) or (user and !user.qkunst? and from_user and from_user.qkunst?)
+  def read(user = nil)
+    !actioned_upon_by_qkunst_admin_at.nil? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
   end
 
-  def unread(user=nil)
+  def unread(user = nil)
     !read(user)
   end
 
-  def unread_messages_in_thread(user=nil)
-    return @unread_messages_in_thread if (@unread_messages_in_thread != nil)
-    unreads = (conversation.collect{|a| a.unread(user)}+[self.unread(user)]).uniq
-    @unread_messages_in_thread = !(unreads.count == 1 and unreads.first == false)
+  def unread_messages_in_thread(user = nil)
+    return @unread_messages_in_thread unless @unread_messages_in_thread.nil?
+    unreads = (conversation.collect { |a| a.unread(user) } + [unread(user)]).uniq
+    @unread_messages_in_thread = !((unreads.count == 1) && (unreads.first == false))
   end
 
   def subject_rendered
-    (subject.nil? or subject.empty?) ? "[Geen onderwerp]" : subject
+    subject.nil? || subject.empty? ? "[Geen onderwerp]" : subject
   end
 
   def actioned_upon_by_qkunst_admin!
     self.actioned_upon_by_qkunst_admin_at = Time.now
-    self.save
+    save
   end
 
   def url_options
@@ -95,8 +95,8 @@ class Message < ApplicationRecord
       url_for(redirect_to_obj)
     end
   end
-  def redirect_to_object
 
+  def redirect_to_object
   end
 
   def conversation_users
@@ -112,36 +112,36 @@ class Message < ApplicationRecord
   def notifyable_users
     users = conversation_users.all
     users += User.admin.receive_mails.all
-    users += [self.to_user]
-    users -= [self.from_user]
+    users += [to_user]
+    users -= [from_user]
     users.compact!
-    if self.qkunst_private?
-      users.delete_if{|user| !user.qkunst? }
+    if qkunst_private?
+      users.delete_if { |user| !user.qkunst? }
     end
     users.compact.uniq
   end
 
   def from_qkunst?
-    from_user.qkunst? if from_user
+    from_user&.qkunst?
   end
 
   def auto_subject?
-    subject_url or subject_object
+    subject_url || subject_object
   end
 
   def conversation_starter?
-    conversation_start_message_id.nil? or conversation_start_message_id == self.id
+    conversation_start_message_id.nil? || (conversation_start_message_id == id)
   end
 
   def set_conversation_start_message
     if in_reply_to_message_id
       prev = Message.find(in_reply_to_message_id)
-      self.conversation_start_message = prev.conversation_start_message ? prev.conversation_start_message : prev
+      self.conversation_start_message = prev.conversation_start_message || prev
     end
   end
 
   def send_notification
-    notifyable_users.each do | user |
+    notifyable_users.each do |user|
       MessageMailer.new_message(user, self).deliver_now
     end
   end

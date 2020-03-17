@@ -53,15 +53,14 @@ class WorksController < ApplicationController
     @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count
 
-
     @filter_localities = []
     @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
 
     update_current_user_with_params
 
     @max_index = params["max_index"].to_i if params["max_index"]
-    @search_text = params["q"].to_s if params["q"] and !@reset
-    @no_child_works = (params[:no_child_works] == 1 or params[:no_child_works] == "true") ? true : false
+    @search_text = params["q"].to_s if params["q"] && !@reset
+    @no_child_works = (params[:no_child_works] == 1) || (params[:no_child_works] == "true") ? true : false
 
     if redirect_directly_to_work_using_search_text
       return true
@@ -84,9 +83,9 @@ class WorksController < ApplicationController
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
     end
 
-    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes,:subset,:grade_within_collection,:placeability,:cluster,:sources,:techniques, :object_categories, :geoname_ids, :main_collection])
+    @aggregations = @collection.works_including_child_works.fast_aggregations([:themes, :subset, :grade_within_collection, :placeability, :cluster, :sources, :techniques, :object_categories, :geoname_ids, :main_collection])
 
-    @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action:nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
+    @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action: nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
@@ -99,8 +98,8 @@ class WorksController < ApplicationController
           works_grouped = {}
           @works.each do |work|
             groups = work.send(@selection[:group])
-            groups = nil if groups.methods.include?(:count) and groups.methods.include?(:all) and groups.count == 0
-            [groups].flatten.each do | group |
+            groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
+            [groups].flatten.each do |group|
               works_grouped[group] ||= []
               works_grouped[group] << work
             end
@@ -155,7 +154,7 @@ class WorksController < ApplicationController
     @work.collection = @collection
     @work.created_by = current_user
     if @work.save
-      redirect_to collection_work_path(@collection,@work), notice: 'Het werk is aangemaakt'
+      redirect_to collection_work_path(@collection, @work), notice: "Het werk is aangemaakt"
     else
       render :new
     end
@@ -165,18 +164,18 @@ class WorksController < ApplicationController
   def update
     if @work.update(work_params)
       if ["1", 1, true].include? params["submit_and_edit_next"]
-        redirect_to edit_collection_work_path(@collection, @work.next), notice: 'Het werk is bijgewerkt, nu de volgende.'
+        redirect_to edit_collection_work_path(@collection, @work.next), notice: "Het werk is bijgewerkt, nu de volgende."
       elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]
-        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.'
+        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_photos_path(@collection, @work.next)}), notice: "Het werk is bijgewerkt, nu de volgende."
       elsif ["1", 1, true].include? params["submit_and_edit_tags_in_next"]
-        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_tags_path(@collection,@work.next)}), notice: 'Het werk is bijgewerkt, nu de volgende.'
+        redirect_to collection_work_path(@collection, @work.next, params: {show_in_context: collection_work_edit_tags_path(@collection, @work.next)}), notice: "Het werk is bijgewerkt, nu de volgende."
       else
-        redirect_to collection_work_path(@collection, @work), notice: 'Het werk is bijgewerkt.'
+        redirect_to collection_work_path(@collection, @work), notice: "Het werk is bijgewerkt."
       end
     elsif can?(:edit, @work)
       render :edit
     else
-      redirect_to collection_work_path(@collection, @work), notice: 'Het werk kon niet worden aangepast, neem contact op met QKunst om de wijziging te maken.'
+      redirect_to collection_work_path(@collection, @work), notice: "Het werk kon niet worden aangepast, neem contact op met QKunst om de wijziging te maken."
     end
   end
 
@@ -195,36 +194,36 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect{|a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name]}.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name] }.compact
   end
 
   # DELETE /works/1
   def destroy
     @work.destroy
-    redirect_to collection_works_url(@collection), notice: 'Het werk is definitief verwijderd uit de QKunst database'
+    redirect_to collection_works_url(@collection), notice: "Het werk is definitief verwijderd uit de QKunst database"
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def clean_ids noise
-    noise ? noise.collect{|a| a == "not_set" ? nil : a.to_i} : []
+    noise ? noise.collect { |a| a == "not_set" ? nil : a.to_i } : []
   end
 
   def set_work
-    @work = current_user.accessible_works.find( params[:work_id] || params[:id])
+    @work = current_user.accessible_works.find(params[:work_id] || params[:id])
     redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
   def work_params
-    reusable_work_params( params, current_user )
+    reusable_work_params(params, current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def reusable_work_params params, current_user
-    if params[:work] and params[:work][:artists_attributes]
+    if params[:work] && params[:work][:artists_attributes]
       params[:work][:artists_attributes].each do |index, values|
-        if values[:id] or values[:_destroy].to_i == "1"
+        if values[:id] || (values[:_destroy].to_i == "1")
           params[:work][:artists_attributes].delete(index)
         end
       end
@@ -233,9 +232,8 @@ class WorksController < ApplicationController
     params[:work] ? params.require(:work).permit(current_user.ability.editable_work_fields) : {}
   end
 
-
   def redirect_directly_to_work_using_search_text
-    if @search_text and @search_text.length > 3
+    if @search_text && (@search_text.length > 3)
       works = @collection.works_including_child_works.has_number(@search_text).to_a
 
       if works.count == 1
@@ -244,7 +242,7 @@ class WorksController < ApplicationController
         return true
       end
     end
-    return false
+    false
   end
 
   def works_modified_form_params

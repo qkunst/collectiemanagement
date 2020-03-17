@@ -14,5 +14,4 @@ RSpec.describe SystemMailer, type: :mailer do
       expect(mail.body.encoded).to match("StandardError")
     end
   end
-
 end

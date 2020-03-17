@@ -6,7 +6,7 @@ module Batch::BaseForm
     REPLACE = nil
     APPEND = nil
 
-    ALL = constants(false) #.map { |c| const_get(c) }.freeze
+    ALL = constants(false) # .map { |c| const_get(c) }.freeze
   end
 
   class_methods do
@@ -48,14 +48,14 @@ module Batch::BaseForm
 
     def default_to_ignore!
       self.class.batch_fields.each do |field_name|
-        self.send("#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if self.send(self.class.strategy_attribute_for(field_name)) == nil
+        send("#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if send(self.class.strategy_attribute_for(field_name)).nil?
       end
     end
 
     def object_update_parameters(current_work)
-      own_parameters = self.class.batch_fields.map do |field_name|
-        new_value = self.send(field_name)
-        strategy = self.send(self.class.strategy_attribute_for(field_name))&.to_sym
+      own_parameters = self.class.batch_fields.map { |field_name|
+        new_value = send(field_name)
+        strategy = send(self.class.strategy_attribute_for(field_name))&.to_sym
 
         if strategy == :IGNORE
           # well ignore :)
@@ -66,27 +66,27 @@ module Batch::BaseForm
           if current_value.nil? || self.class.unappendable_fields.include?(field_name)
             [field_name, nil]
           elsif current_value.is_a? Enumerable
-            [field_name, (current_value-new_value).flatten]
+            [field_name, (current_value - new_value).flatten]
           else
-            [field_name, current_value.to_s.gsub(new_value.to_s,"")]
+            [field_name, current_value.to_s.gsub(new_value.to_s, "")]
           end
         elsif strategy == :APPEND
           current_value = current_work.send(field_name)
           if current_value.nil? || self.class.unappendable_fields.include?(field_name)
             [field_name, new_value]
           elsif current_value.is_a? Enumerable
-            [field_name, [current_value,new_value].flatten]
+            [field_name, [current_value, new_value].flatten]
           else
-            [field_name, [current_value,new_value].join(" ")]
+            [field_name, [current_value, new_value].join(" ")]
           end
         end
-      end.compact.to_h
+      }.compact.to_h
 
       own_parameters
     end
 
     def not_to_ignore_paramaters
-      self.attributes
+      attributes
       @parameters.keys
     end
   end
