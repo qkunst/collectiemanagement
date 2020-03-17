@@ -139,3 +139,4 @@ group :test do
   gem 'bullet'
 
 end
+gem "standard", group: [:development, :test]
