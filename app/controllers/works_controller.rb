@@ -115,7 +115,7 @@ class WorksController < ApplicationController
         else
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
-          @works = @works.limit(@max_index).uniq.all
+          @works = @works.limit(@max_index).uniq
         end
       end
     end
