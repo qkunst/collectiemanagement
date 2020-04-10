@@ -26,7 +26,9 @@
       <li><%= link_to 'Vraag of opmerking?', collection_messages_path(@collection), class: qkunst_user? ? 'secondary small button' : 'small button', data: { open_in_context: true} %></li>
     <% end%>
   <% end %>
-  <li><%= link_to "Scan", collection_batch_path(@collection), class: 'small button secondary' %></li>
+  <% if can? :batch_edit, @collection %>
+    <li><%= link_to "Scan", collection_batch_path(@collection), class: 'small button secondary' %></li>
+  <% end %>
 
   <li>
     <%= form_tag collection_works_path(@collection), method: :get, authenticity_token: false, data: {auto_submit: true} do %>

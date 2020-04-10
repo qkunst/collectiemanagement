@@ -2,7 +2,8 @@
   <% if @works.any? %>
     <input type="hidden" value="<%=@work_ids.join(",")%>" name="work_ids_comma_separated" />
     <h2>Meerdere werken bijwerken</h2>
-    <p>Pas <%= link_to "#{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> gelijktijdig aan. Wil je een waarde leeg maken, maak (of houd) dan het veld leeg en selecteer 'vervang'. Velden met erachter de actie 'Negeer' worden niet aangepast.</p>
+    <p>Pas <%= link_to "#{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> gelijktijdig aan.
+      Wil je informatie verwijderen, maak (of houd) het veld leeg en selecteer ‘Vervang'. Wil je informatie toevoegen, vul de informatie in in het juiste veld en selecteer ‘Voeg toe’. Velden met daaronder de actie 'Negeer' worden niet aangepast.</p>
   <% else %>
     <div class="zxing-wrapper">
       <div class="zxing-canvas-container">
