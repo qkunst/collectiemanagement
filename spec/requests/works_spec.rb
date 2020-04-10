@@ -136,6 +136,40 @@ RSpec.describe "Works", type: :request do
         end
       end
     end
+    describe "filtering & searching" do
+      let(:user) { users(:admin) }
+      let(:collection) { collections(:collection1) }
+
+      before do
+        sign_in user
+      end
+
+      describe "tag filtering" do
+        it "should return no works when tags do not exist" do
+          get collection_works_path(collection, params: { filter: { tags: ["nonexistingtag"] } })
+          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*geen werken\s*\(van de 3 werken\)/)
+        end
+        it "should use AND for tags" do
+          w1, w2, w3 = collection.works_including_child_works[0..2]
+          w1.tag_list = ["tagtest1"]
+          w1.save
+
+          w2.tag_list = ["tagtest1", "tagtest2"]
+          w2.save
+
+          w3.tag_list = ["tagtest3", "tagtest2"]
+          w3.save
+
+          collection.works_including_child_works.reindex!
+
+          get collection_works_path(collection, params: { filter: { tag_list: ["tagtest1"] } })
+          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*2 werken\s*\(van de 3 werken\)/)
+
+          get collection_works_path(collection, params: { filter: { tag_list: ["tagtest1", "tagtest2"] } })
+          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*1 werk\s*\(van de 3 werken\)/)
+        end
+      end
+    end
     context "user with no rights" do
       let(:user) { users(:user_with_no_rights) }
 

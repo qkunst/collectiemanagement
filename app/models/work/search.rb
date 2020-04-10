@@ -115,7 +115,10 @@ module Work::Search
           if values.count == 0
             new_bool[:bool] = {mustNot: {exists: {field: key}}}
           else
-            new_bool[:bool][:should] << {terms: {key => values}}
+            values.each do |value|
+              new_bool[:bool][:should] << {term: {key => {value: value}}}
+            end
+            new_bool[:bool][:minimum_should_match] = values.count
           end
         else
           values.each do |value|
