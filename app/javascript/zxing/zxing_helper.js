@@ -189,6 +189,10 @@ function escapeProblemFreeMatch(text, target) {
 
 function initializeScanner() {
   var video = document.createElement("video");
+
+  video.width = 640;
+  video.height = 480;
+
   var canvasElement = document.getElementById("zxing-canvas");
   var canvas = canvasElement.getContext("2d");
   var loadingMessage = document.getElementById("loadingMessage");

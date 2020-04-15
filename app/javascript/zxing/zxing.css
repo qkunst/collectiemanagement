@@ -37,7 +37,7 @@ html, body {
 @media screen and (min-width: 800px) {
   .zxing-canvas-container canvas {
     max-width: 640px;
-    max-height: 480px;
+    max-height: 640px;
   }
 }
 
