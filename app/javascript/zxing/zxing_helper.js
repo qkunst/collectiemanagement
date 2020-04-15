@@ -74,11 +74,8 @@ if (!HTMLDocument.prototype.addDelegatedEventListener) {
 }
 
 // play a simple beep
-var AudioContext = window.AudioContext || window.webkitAudioContext;
+var AudioContext;
 var audioContext;
-if (typeof AudioContext !== "undefined") {
-  audioContext = new AudioContext();
-}
 
 // https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
 window.addEventListener('touchstart', function() {
@@ -196,6 +193,11 @@ function initializeScanner() {
   var canvasElement = document.getElementById("zxing-canvas");
   var canvas = canvasElement.getContext("2d");
   var loadingMessage = document.getElementById("loadingMessage");
+
+  AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (typeof AudioContext !== "undefined") {
+    audioContext = new AudioContext();
+  }
 
   function scanFrame() {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
