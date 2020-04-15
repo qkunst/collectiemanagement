@@ -73,7 +73,7 @@ RSpec.feature "Batch editor", type: :feature do
       check "selected_works_#{work_to_edit1.id}"
       check "selected_works_#{work_to_edit2.id}"
       click_on "Overige velden"
-      select("400-500")
+      select("100-200")
       fill_in("Gewaardeerd op", with: "")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_replacement_value_range_strategy")
 
@@ -96,7 +96,7 @@ RSpec.feature "Batch editor", type: :feature do
       check "selected_works_#{work_to_edit1.id}"
       check "selected_works_#{work_to_edit2.id}"
       click_on "Overige velden"
-      select("400-500")
+      select("100-200")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_market_value_range_strategy")
       fill_in("Gewaardeerd op", with: "2019-01-01")
       select(I18n.t("helpers.batch.strategies.REPLACE"), from: "work_appraisals_attributes_0_update_appraised_on_strategy")
@@ -113,10 +113,10 @@ RSpec.feature "Batch editor", type: :feature do
 
       work_to_edit1.reload
 
-      expect(work_to_edit1.market_value_range.min).to eq(400)
-      expect(work_to_edit2.market_value_range.min).to eq(400)
-      expect(work_to_edit1.market_value_range.max).to eq(500)
-      expect(work_to_edit2.market_value_range.max).to eq(500)
+      expect(work_to_edit1.market_value_range.min).to eq(100)
+      expect(work_to_edit2.market_value_range.min).to eq(100)
+      expect(work_to_edit1.market_value_range.max).to eq(200)
+      expect(work_to_edit2.market_value_range.max).to eq(200)
     end
   end
 

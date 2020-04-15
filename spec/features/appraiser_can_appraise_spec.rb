@@ -22,7 +22,7 @@ RSpec.feature "Appraise works", type: :feature do
       visit collection_work_path(work.collection, work)
       click_on "Waardeer"
 
-      select "400-500"
+      select "100-200"
       select "250-500"
       fill_in "Referentie", with: "Waarderingsreferentie van nu"
 
@@ -41,7 +41,7 @@ RSpec.feature "Appraise works", type: :feature do
 
       click_on "Waardering toevoegen"
 
-      expect(page).to have_content "€400,00-€500,00"
+      expect(page).to have_content "€100,00-€200,00"
       expect(page).to have_content "€250,00-€500,00"
       expect(page).to have_content "1962"
       expect(page).to have_content "𝑓1.000,00"
@@ -53,7 +53,7 @@ RSpec.feature "Appraise works", type: :feature do
       expect(page).to have_content "Oplage:Onbekend"
 
       click_on "Waardeer"
-      expect(page).to have_content "€400,00-€500,00"
+      expect(page).to have_content "€100,00-€200,00"
       expect(page).to have_content "Waarderingsreferentie van nu"
     end
 
