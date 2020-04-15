@@ -132,12 +132,16 @@ function scanBarcode(canvasElement, format) {
     var imgHeight = canvasElement.height;
     var imageData = canvasElement.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
     var sourceBuffer = imageData.data;
+    if (sourceBuffer.byteLength < 1228800*4) {
+      var buffer = zxing._malloc(sourceBuffer.byteLength);
+      zxing.HEAPU8.set(sourceBuffer, buffer);
+      var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
+      zxing._free(buffer);
+      return result;
+    } else {
+      console.log(sourceBuffer.byteLength)
+    }
 
-    var buffer = zxing._malloc(sourceBuffer.byteLength);
-    zxing.HEAPU8.set(sourceBuffer, buffer);
-    var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
-    zxing._free(buffer);
-    return result;
 }
 
 function renderCodeInOutputMessage(code) {
