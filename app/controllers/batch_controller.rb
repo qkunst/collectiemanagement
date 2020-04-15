@@ -6,9 +6,13 @@ class BatchController < ApplicationController
   before_action :check_ability
 
   def show
-    @selection = {display: :complete}
+    if params[:batch_process_property] == "create_report"
+      redirect_to new_collection_custom_report_path(works: @works.map(&:id))
+    else
+      @selection = {display: :complete}
 
-    @form.default_to_ignore!
+      @form.default_to_ignore!
+    end
   end
 
   def update
@@ -24,7 +28,8 @@ class BatchController < ApplicationController
 
   def set_works_by_numbers
     work_numbers = separate_by(params[:work_numbers_return_separated], /\n/)
-    work_ids = separate_by(params[:work_ids_comma_separated], /,/)
+    work_ids = separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works])
+
     @form = Batch::WorkForm.new(collection: @collection)
     @works = @collection.works_including_child_works.has_number(work_numbers).or(@collection.works_including_child_works.where(id: work_ids))
     @work_count = @works.count
@@ -45,7 +50,7 @@ class BatchController < ApplicationController
   end
 
   def should_expose_field?(field_name)
-    params[:expose_fields].blank? || params[:expose_fields].include?(field_name.to_s)
+    Array(params[:expose_fields]).select{|a| a.present?}.blank? || params[:expose_fields].include?(field_name.to_s)
   end
 
   def can_edit_field?(field_name)

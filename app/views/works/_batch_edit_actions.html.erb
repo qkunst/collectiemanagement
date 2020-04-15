@@ -3,15 +3,15 @@
     <div class="medium-12 columns">
         <p>Beschikbare acties en aanpasbare eigenschappen op de <span id="selected-works-count">x</span> geselecteerde werken:</p>
         <div class="button-row">
-          <%= button_tag "Collectie", type: :submit, name: :batch_edit_property, value: :collection_id, class: :button %>
-          <%= button_tag "Locatie", type: :submit, name: :batch_edit_property, value: :location, class: :button %>
-          <%= button_tag "Cluster", type: :submit, name: :batch_edit_property, value: :cluster_name, class: :button %>
-          <%= button_tag "Tags", type: :submit, name: :batch_edit_property, value: :tag_list, class: :button %>
+          <%= button_tag "Collectie", type: :submit, name: "expose_fields[]", value: :collection_id, class: :button %>
+          <%= button_tag "Locatie", type: :submit, name: "expose_fields[]", value: :location, class: :button %>
+          <%= button_tag "Cluster", type: :submit, name: "expose_fields[]", value: :cluster_name, class: :button %>
+          <%= button_tag "Tags", type: :submit, name: "expose_fields[]", value: :tag_list, class: :button %>
           <% if can? :create, Appraisal%>
-          <%= button_tag "Beprijs", type: :submit, name: :batch_edit_property, value: :selling_price, class: :button %>
-          <%= button_tag "Waardering", type: :submit, name: :batch_edit_property, value: :appraisals_attributes, class: :button %>
+          <%= button_tag "Beprijs", type: :submit, name: "expose_fields[]", value: :selling_price, class: :button %>
+          <%= button_tag "Waardering", type: :submit, name: "expose_fields[]", value: :appraisals_attributes, class: :button %>
           <% end %>
-          <%= button_tag "Overige velden", type: :submit, name: :batch_process_property, value: :batch_editor, class: :button %>
+          <%= button_tag "Overige velden", type: :submit, name: "expose_fields[]", value: nil, class: :button %>
           <%= button_tag "Maak rapportage", type: :submit, name: :batch_process_property, value: :create_report, class: :button %>
         </div>
     </div>
