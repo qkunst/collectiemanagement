@@ -20,12 +20,12 @@ module Works::ZipResponse
               filename_components << field.gsub("photo_", "") unless only_front
               filename = "#{filename_components.join("_")}.jpg"
               file = work.send(field.to_sym)
-              file_path = params[:hq] ? file.path : file.screen.path
+              file_path = params[:hq] ? file : file.screen
               files << [file_path, filename]
             end
           end
         end
-        files = files.map { |path, name| [File.open(path), name] }
+        # files = files.map { |path, name| [File.open(path), name] }
         zipline(files, "werken #{@collection.name}.zip")
       else
         redirect_to collection_path(@collection), alert: "U heeft onvoldoende rechten om te kunnen downloaden"
