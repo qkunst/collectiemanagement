@@ -4,7 +4,6 @@ module Works::ZipResponse
   extend ActiveSupport::Concern
 
   included do
-    include ActionController::Live # required for streaming
     include ZipTricks::RailsStreaming
 
     def show_zip_response

@@ -93,7 +93,7 @@ RSpec.describe "Works", type: :request do
         end
       end
       describe "downloading" do
-        pending "should be able to get an zip file" do
+        it "should be able to get an zip file" do
           collection = collections(:collection1)
           sign_in user
           get collection_works_path(collection, format: :zip)
@@ -101,7 +101,7 @@ RSpec.describe "Works", type: :request do
           expect(response.content_type).to eq("application/zip")
           expect(response.body).to match(/Zip/)
         end
-        pending "should be able to get an zip file with photos" do
+        it "should be able to get an zip file with photos" do
           collection = collections(:collection1)
           work = collection.works_including_child_works.first
           FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
@@ -117,7 +117,7 @@ RSpec.describe "Works", type: :request do
           expect(response.body).to match("#{work.stock_number}_front.jpg")
           expect(response.body).to match("#{work.stock_number}_back.jpg")
         end
-        pending "should be able to get an zip file with only front photos" do
+        it "should be able to get an zip file with only front photos" do
           collection = collections(:collection1)
           work = collection.works_including_child_works.first
           FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
