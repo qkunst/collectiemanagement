@@ -236,7 +236,7 @@ class Collection < ApplicationRecord
         exposable_fields
       end
     elsif audience == :erfgoed_gelderland
-      fields = ["stock_number_file_safe", "title_rendered", "description", "public_description", "object_creation_year", "tags", "object_categories", "medium", "techniques", "hpd_height", "hpd_width", "hpd_depth", "hpd_diameter", "hpd_photo_file_name"]
+      fields = ["stock_number_file_safe", "title_rendered", "description", "public_description", "object_creation_year", "tags", "object_categories", "medium", "techniques", "hpd_height", "hpd_width", "hpd_depth", "hpd_diameter", "hpd_photo_file_name", "artist_name_rendered_without_years_nor_locality"]
       5.times do |artist_index|
         [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
           fields << "artist_#{artist_index}_#{artist_property}"
