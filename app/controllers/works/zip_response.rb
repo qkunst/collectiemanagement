@@ -25,7 +25,8 @@ module Works::ZipResponse
             end
           end
         end
-        zipline(files.lazy.map { |path, name| [File.open(path), name] }, "werken #{@collection.name}.zip")
+        files = files.map { |path, name| [File.open(path), name] }
+        zipline(files, "werken #{@collection.name}.zip")
       else
         redirect_to collection_path(@collection), alert: "U heeft onvoldoende rechten om te kunnen downloaden"
       end
