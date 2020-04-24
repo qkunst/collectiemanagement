@@ -15,7 +15,8 @@ class AttachmentsController < ApplicationController
   # GET /attachments/new
   def new
     @attachment = Attachment.new
-    @attachment.attache = @work || @collection
+    @attachment.collection = @collection
+    @attachment.works << @work if @work
     @attachment.visibility = ["readonly", "facility", "qkunst", "appraiser"]
   end
 
@@ -27,12 +28,14 @@ class AttachmentsController < ApplicationController
   # POST /attachments.json
   def create
     @attachment = Attachment.new(attachment_params)
-    @attachment.attache = @work || @collection # TODO: in future this may change
+    @attachment.collection = @collection
 
     respond_to do |format|
       if @attachment.save
-        format.html { redirect_to @attachment.attache, notice: "Attachment toegevoegd" }
-        format.json { render :show, status: :created, location: @attachment.attache }
+        @attachment.works << @work if @work
+
+        format.html { redirect_to redirect_url, notice: "Attachment toegevoegd" }
+        format.json { render :show, status: :created, location: redirect_url }
       else
         format.html { render :new }
         format.json { render json: @attachment.errors, status: :unprocessable_entity }
@@ -45,8 +48,8 @@ class AttachmentsController < ApplicationController
   def update
     respond_to do |format|
       if @attachment.update(attachment_params)
-        format.html { redirect_to @attachment.attache, notice: "Attachment bijgewerkt" }
-        format.json { render :show, status: :ok, location: @attachment.attache }
+        format.html { redirect_to redirect_url, notice: "Attachment bijgewerkt" }
+        format.json { render :show, status: :ok, location: redirect_url }
       else
         format.html { render :edit }
         format.json { render json: @attachment.errors, status: :unprocessable_entity }
@@ -74,6 +77,14 @@ class AttachmentsController < ApplicationController
   def set_work
     if params[:work_id]
       @work = current_user.accessible_works.find(params[:work_id])
+    end
+  end
+
+  def redirect_url
+    if @work
+      [@collection, @work]
+    else
+      @collection
     end
   end
 

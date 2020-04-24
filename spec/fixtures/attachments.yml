@@ -1,4 +1,6 @@
 work_attachment:
-  attache: work_with_attachments (Work)
+  attache: collection3
   name: unpredictableattachmentname
   file: unpredictableattachmentfilename.png
+  works:
+    - work_with_attachments

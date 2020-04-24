@@ -26,10 +26,10 @@ module ApplicationHelper
   end
 
   def edit_attachment_path attachment
-    if attachment.attache.is_a? Collection
+    if @work
+      edit_collection_work_attachment_path(@collection, @work, attachment)
+    else
       edit_collection_attachment_path(attachment.attache, attachment)
-    elsif attachment.attache.is_a? Work
-      edit_collection_work_attachment_path(attachment.attache.collection_id, attachment.attache, attachment)
     end
   end
 

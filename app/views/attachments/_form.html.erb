@@ -1,4 +1,4 @@
-<%= simple_form_for([@attachment.attache, @attachment]) do |f| %>
+<%= simple_form_for([@attachment.collection, @work, @attachment].compact) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">

@@ -6,11 +6,8 @@ RSpec.feature "Admin can review", type: :feature do
   include FeatureHelper
 
   scenario "modified works on collection level and work level" do
-    visit root_path
-    first(".large-12.columns .button").click
-    fill_in("E-mailadres", with: "qkunst-admin-user@murb.nl")
-    fill_in("Wachtwoord", with: "password")
-    first("#new_user input[type=submit]").click
+    login "qkunst-admin-user@murb.nl"
+
     click_on "Collecties"
     if page.body.match?("id=\"list-to-filter\"")
       within "#list-to-filter" do

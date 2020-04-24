@@ -51,8 +51,8 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :techniques, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :themes, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :custom_reports
+  has_and_belongs_to_many :attachments
   has_many :appraisals
-  has_many :attachments, as: :attache
   has_many :messages, as: :subject_object
 
   scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }

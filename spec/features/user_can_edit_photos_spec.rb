@@ -4,6 +4,7 @@ require_relative "feature_helper"
 
 RSpec.feature "Edit photos", type: :feature do
   extend FeatureHelper
+  include FeatureHelper
 
   ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
@@ -11,11 +12,7 @@ RSpec.feature "Edit photos", type: :feature do
         allow_any_instance_of(PictureUploader).to receive(:resize_to_fit)
         allow_any_instance_of(PictureUploader).to receive(:optimize)
 
-        visit root_path
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+        login email_address
 
         visit collection_url(collections(:collection1))
 
@@ -32,11 +29,7 @@ RSpec.feature "Edit photos", type: :feature do
   ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "can not edit photo's" do
-        visit root_path
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+        login email_address
 
         visit collection_url(collections(:collection1))
 
