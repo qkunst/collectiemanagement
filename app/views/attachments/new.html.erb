@@ -1,7 +1,30 @@
 <div id="main">
-<h2>Voeg bijlage toe</h2>
-<p>Bij <%= @attachment.attache.name %></p>
+  <h2>Voeg bijlage toe</h2>
+  <% if @work %>
+    <p>Bij <%= @work.name %></p>
+    <% if @attachments.any? %>
+      <h3>Bestaande bijlage koppelen</h3>
+      <label>Filter vervaardigers <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
 
-<%= render 'form', attachment: @attachment %>
+      <table class="sortable" id="attachments-table">
+        <thead>
+          <th data-filtered-by="generic-table-filter" class="asc">Naam</th><th>Acties</th></th>
+        </thead>
+        <tbody>
+          <% @attachments.each do |attachment| %>
+            <tr><td><%=attachment.name%></td><td><%=button_to "Koppel", attachment, params: {attachment: {append_work_ids: [@work.id] }}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
+          <% end %>
+          </ul>
+        </tbody>
+      </table>
+      <hr/>
+    <% end %>
+    <h3>Nieuwe bijlage</h3>
+    <%= render 'form', attachment: @attachment %>
+  <% else %>
+    <p>Bij <%= @attachment.collection.name %></p>
+
+    <%= render 'form', attachment: @attachment %>
+  <% end %>
 </div>
 

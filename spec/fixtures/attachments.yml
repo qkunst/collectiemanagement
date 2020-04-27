@@ -1,6 +1,10 @@
 work_attachment:
-  attache: collection3
+  attache: collection3 (Collection)
   name: unpredictableattachmentname
   file: unpredictableattachmentfilename.png
   works:
     - work_with_attachments
+collection_attachment:
+  attache: collection3 (Collection)
+  name: unpredictablecollectionattachmentname
+  file: unpredictablecollectionattachmentfilename.png

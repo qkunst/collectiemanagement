@@ -124,7 +124,7 @@ class Ability
     can :manage_collection, :all
     cannot :manage_collection, ImportCollection
 
-    can [:create, :update, :edit_visibility], Attachment do |attachment|
+    can [:create, :update, :edit_visibility, :index], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
@@ -190,6 +190,11 @@ class Ability
 
     can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
+    can [:create, :update, :edit_visibility, :index], Attachment do |attachment|
+      ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
+        ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
+    end
+
     can :tag, Work
   end
 
@@ -197,6 +202,11 @@ class Ability
     can [:create, :update, :read, :manage_collection], Artist
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
+
+    can [:create, :index], Attachment do |attachment|
+      ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
+        ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
+    end
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 

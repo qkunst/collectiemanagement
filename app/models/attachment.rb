@@ -9,6 +9,7 @@ class Attachment < ApplicationRecord
   scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) || roles.include?(:compliance) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
   scope :for_me, ->(user) { for_roles(user.roles) }
+  scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil})}
 
   mount_uploader :file, BasicFileUploader
 
@@ -20,6 +21,10 @@ class Attachment < ApplicationRecord
 
   def visibility= values
     write_attribute(:visibility, values.delete_if { |a| a.nil? || a.empty? }.join(","))
+  end
+
+  def append_works= works
+    self.works = Work.where(id: (works.pluck(:id) + self.works.pluck(:id))).distinct
   end
 
   def file_name

@@ -33,6 +33,14 @@ module ApplicationHelper
     end
   end
 
+  def attachment_path attachment
+    if @work
+      collection_work_attachment_path(@collection, @work, attachment)
+    else
+      collection_attachment_path(attachment.attache, attachment)
+    end
+  end
+
   def works_modified_forms_path
     collection_works_modified_path(@collection)
   end

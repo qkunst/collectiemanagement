@@ -39,6 +39,31 @@ RSpec.describe "Attachments", type: :request do
     end
   end
 
+  describe "GET /attachments" do
+    it "lists no attachments if none" do
+      sign_in users(:appraiser)
+
+      work_without_attachment = works(:work6)
+
+      get collection_work_attachments_path(work_without_attachment.collection, work_without_attachment)
+      expect(last_response.ok?).to be_truthy
+
+      expect(last_response.body).to match(/<tbody>\s*<\/tbody>/)
+    end
+
+    it "lists no attachments if none" do
+      sign_in users(:appraiser)
+
+      work_with_attachment = works(:work_with_attachments)
+
+      get collection_work_attachments_path(work_with_attachment.collection, work_with_attachment)
+      expect(last_response.ok?).to be_truthy
+
+      expect(last_response.body).not_to match(/<tbody>\s*<\/tbody>/)
+      expect(last_response.body).to match(/unpredictableattachmentname/)
+    end
+  end
+
   describe "POST /attachments" do
     context "work" do
       let(:work) { works(:work1) }
@@ -60,6 +85,7 @@ RSpec.describe "Attachments", type: :request do
         expect(attachment.works).to eq([work])
       end
     end
+
     context "collection" do
       it "stores an attachment on collection level" do
         sign_in users(:admin)

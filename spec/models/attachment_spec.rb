@@ -24,6 +24,12 @@ RSpec.describe Attachment, type: :model do
     end
   end
   describe "Scopes" do
+    describe "without_works" do
+      it "should return attachments without works" do
+        expect(Attachment.without_works).to include(attachments(:collection_attachment))
+        expect(Attachment.without_works).not_to include(attachments(:work_attachment))
+      end
+    end
     describe "for_role" do
       it "should always work for admin" do
         a = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)

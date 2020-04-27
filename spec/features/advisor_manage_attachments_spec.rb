@@ -25,7 +25,7 @@ RSpec.feature "Manage attachments", type: :feature do
       expect(page).to have_content("Image1.jpg")
       click_on "Beheer bijlagen"
       expect(page).to have_content("Image1.jpg")
-      # expect(page).to have_content "Bewerk bijlage"
+
       click_on "Bewerk"
       fill_in("Bestandsnaam / beschrijving", with: "Image1 beperkt.jpg")
 
@@ -35,33 +35,34 @@ RSpec.feature "Manage attachments", type: :feature do
     end
   end
   context "in context of work, as advisor" do
-    scenario "add attachment, change name" do
+    scenario "add existing attachment" do
       login "qkunst-test-advisor@murb.nl"
 
-      click_on "Collecties"
-      if page.body.match?("id=\"list-to-filter\"")
-        within "#list-to-filter" do
-          click_on "Collection 1"
-        end
-      end
-      click_on "Work1"
+      collection = collections(:collection1)
 
+      visit collection_path(collection)
+
+      click_on "Beheer bijlagen"
       click_on "Bijlage toevoegen"
+
       attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")
       check("Registrator")
       click_on "Bijlage toevoegen"
       expect(page).to have_content("Attachment toegevoegd")
-      expect(page).to have_content("Image1.jpg")
-      click_on "Beheer bijlagen"
-      expect(page).to have_content("Image1.jpg")
-      click_on "Bewerk"
-      fill_in("Bestandsnaam / beschrijving", with: "Image1 beperkt.jpg")
 
-      click_on "Bijlage bewaren"
+      visit collection_works_path(collection)
+
+      click_on "Work2"
+      click_on "Bijlage toevoegen"
+      first("[value=Koppel]").click
+
       expect(page).to have_content("Attachment bijgewerkt")
-      expect(page).to have_content("Dit werk heeft nog geen foto's")
-      expect(page).to have_content("Image1 beperkt.jpg")
+      expect(page).to have_content("Image1.jpg")
+    end
+
+    scenario "reattach attachment" do
+
     end
   end
 end
