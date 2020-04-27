@@ -7,7 +7,7 @@ RSpec.describe SystemMailer, type: :mailer do
     it "renders the headers" do
       expect(mail.subject).to eq("StandardError fout in QKunst Collectiebeheer")
       expect(mail.to).to eq(["qkunst@murb.nl"])
-      expect(mail.from).to eq(["collectiebeheer@qkunst.nl"])
+      expect(mail.from).to eq(["collectiemanagement@qkunst.nl"])
     end
 
     it "renders the body" do
