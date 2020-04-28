@@ -57,5 +57,9 @@ module Searchable
       end
       find_each { |a| a.reindex!; sleep(seconds_to_sleep) }
     end
+
+    def reindex_async!
+      all.each(&:reindex_async!)
+    end
   end
 end

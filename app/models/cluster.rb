@@ -6,12 +6,19 @@ class Cluster < ApplicationRecord
 
   has_many :works
   before_destroy :remove_cluster_id_at_works
+  after_save :reindex_works!
 
   scope :not_hidden, -> { where("1=1") }
 
   def remove_cluster_id_at_works
     c_id = id
     Work.where(cluster_id: c_id).update_all(cluster_id: nil)
+  end
+
+  private
+
+  def reindex_works!
+    works.reindex_async!
   end
 
   class << self
