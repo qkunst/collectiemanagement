@@ -53,17 +53,19 @@ module Work::Export
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
 
       fields = instance_methods.collect { |method|
-        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|\_|\=|\<|\!|\[|photo_|remote\_|remove\_|defined\_enums|find\_by\_statement\_cache|validation\_context|record\_timestamps|aggregate\_reflections|include\_root\_in\_json|destroyed\_by\_association|attributes|entry_status_description|entry_status|paper_trail|verions|custom_report|messages)(.*)/) && !method.to_s.match(/(.*)\_(id|ids|attributes|class_name|association_name|cache)\=$/)
+        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|\_|\=|\<|\!|\[|photo_|remote\_|remove\_|defined\_enums|find\_by\_statement\_cache|validation\_context|record\_timestamps|aggregate\_reflections|include\_root\_in\_json|destroyed\_by\_association|attributes|entry_status_description|entry_status|paper_trail|verions|custom_report|messages|tags|tag_list)(.*)/) && !method.to_s.match(/(.*)\_(id|ids|attributes|class_name|association_name|cache)\=$/)
           method.to_s.delete("=")
         end
       }.compact
 
-      fields += ["collection_external_reference_code"]
+      fields += ["collection_external_reference_code", "cached_tag_list"]
       5.times do |artist_index|
         [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
           fields << "artist_#{artist_index}_#{artist_property}"
         end
       end
+
+
 
       # sort_according_to_form
       #
