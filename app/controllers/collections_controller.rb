@@ -19,7 +19,7 @@ class CollectionsController < ApplicationController
   def refresh_works
     authorize! :refresh, @parent_collection
     @parent_collection.purge_old_indexed_works!
-    @parent_collection.works_including_child_works.all.reindex!
+    @parent_collection.works_including_child_works.reindex!
     redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
   end
 
@@ -108,7 +108,7 @@ class CollectionsController < ApplicationController
         w.collection = parent
         w.save
       end
-      if @collection.works.count == 0
+      if @collection.works_including_child_works.count == 0
         @collection.destroy
         notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{parent_name}”"
       end

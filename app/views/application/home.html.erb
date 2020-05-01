@@ -1,10 +1,10 @@
-<h2>QKunst Collectiebeheer</h2>
+<h2>QKunst Collectiemanagment</h2>
 
 <% if !current_user %>
 <div>
-  <p>Welkom bij QKunst Collectiebeheer.</p>
-  <p>QKunst stelt organisaties in staat om hun kunstcollectie digitaal te beheren. Hiervoor is door QKunst een collectiebeheerapplicatie ontwikkeld. Deze webapplicatie maakt het mogelijk om kunstcollecties inzichtelijk te maken door de gegevens van kunstwerken uit de betreffende collectie te registreren, verwerken en beheren.</p>
-  <p>Bent u benieuwd naar de mogelijkheden die digitaal beheer van uw kunstcollectie biedt neem gerust contact op met <a href="https://qkunst.nl">QKunst</a>, we vertellen u graag meer over deze dienst en over de collectiebeheerapllicatie.</p>
+  <p>Welkom bij QKunst Collectiemanagment.</p>
+  <p>QKunst stelt organisaties in staat om hun kunstcollectie digitaal te beheren. Hiervoor is door QKunst een collectiemanagementapplicatie ontwikkeld. Deze webapplicatie maakt het mogelijk om kunstcollecties inzichtelijk te maken door de gegevens van kunstwerken uit de betreffende collectie te registreren, verwerken en beheren.</p>
+  <p>Bent u benieuwd naar de mogelijkheden die digitaal beheer van uw kunstcollectie biedt neem gerust contact op met <a href="https://qkunst.nl">QKunst</a>, we vertellen u graag meer over deze dienst en over de collectiemanagementapllicatie.</p>
   <p>Onze omgang met gegevens hebben we beschreven in ons <a href="https://qkunst.nl/privacy/" target="_blank">gegevensbeleid</a>.</p>
 </div>
 
@@ -15,9 +15,9 @@
 <p>U kunt QKunst volgen via <a href="https://nl-nl.facebook.com/qkunst">Facebook</a> en <a href="https://twitter.com/qkunst?lang=nl">Twitter</a></p>
 
 <% elsif current_user.admin? %>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als administrator.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd als administrator.</p>
 <% elsif current_user.advisor? %>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als kunstadviseur. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd als kunstadviseur. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 
 <p>Rechten kunstadviseur:</p>
 <ul>
@@ -34,7 +34,7 @@
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.compliance? %>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd met een compliance rol. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd met een compliance rol. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 
 <p>Rechten compliance medewerker:</p>
 <ul>
@@ -52,7 +52,7 @@
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.qkunst? %>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als registrator. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd als registrator. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 
 <p>Rechten registrator:</p>
 <ul>
@@ -66,7 +66,7 @@
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.facility_manager? %>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als facility management gebruiker. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd als facility management gebruiker. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 
 <p>Rechten facility management gebruiker:</p>
 <ul>
@@ -82,7 +82,7 @@
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 
 <% elsif current_user.read_only?%>
-<p>Welkom bij QKunst Collectiebeheer. U bent ingelogd als read only gebruiker. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
+<p>Welkom bij QKunst Collectiemanagment. U bent ingelogd als read only gebruiker. Onder ‘collecties’ vindt u de collecties waartoe u toegang hebt.</p>
 
 <p>Rechten read only gebruiker:</p>
 <ul>

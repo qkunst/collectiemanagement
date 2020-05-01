@@ -2,6 +2,6 @@
 
 class ApplicationMailer < ActionMailer::Base
   helper ApplicationHelper
-  default from: "collectiebeheer@qkunst.nl"
+  default from: "collectiemanagement@qkunst.nl"
   layout "mailer"
 end
