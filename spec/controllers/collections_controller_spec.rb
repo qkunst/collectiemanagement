@@ -88,13 +88,13 @@ RSpec.describe CollectionsController, type: :controller do
           delete :destroy, params: {id: collection.to_param}, session: valid_session
         }.to change(Collection, :count).by(0)
       end
-      it "can destroy a collection the advisor has access to" do
+      it "cannot destroy a collection the advisor has access to" do
         collection = users(:advisor).collections.first
         user = users(:advisor)
         sign_in user
         expect {
           delete :destroy, params: {id: collection.to_param}, session: valid_session
-        }.to change(Collection, :count).by(-1)
+        }.not_to change(Collection, :count).by(-1)
       end
 
       it "cannot destroy the a collection the advisor has no access to" do

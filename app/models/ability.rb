@@ -172,6 +172,9 @@ class Ability
     can [:read, :read_information_back, :read_location, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
 
     can :read, User
+
+    can :create, Message
+    can :read, Message, qkunst_private: false
   end
 
   def initialize_appraiser
