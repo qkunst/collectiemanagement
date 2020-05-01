@@ -5,7 +5,7 @@ require_relative "feature_helper"
 RSpec.feature "User can send messages", type: :feature do
   include FeatureHelper
 
-  ["qkunst-test-facility_manager@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
+  ["qkunst-test-facility_manager@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_address do
       scenario "can send messages" do
         login email_address
