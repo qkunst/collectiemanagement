@@ -5,7 +5,7 @@ RSpec.describe SystemMailer, type: :mailer do
     let(:mail) { SystemMailer.error_message(StandardError.new) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("StandardError fout in QKunst Collectiemanagment")
+      expect(mail.subject).to eq("StandardError fout in QKunst Collectiemanagement")
       expect(mail.to).to eq(["qkunst@murb.nl"])
       expect(mail.from).to eq(["collectiemanagement@qkunst.nl"])
     end
