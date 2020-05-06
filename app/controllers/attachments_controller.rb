@@ -21,7 +21,7 @@ class AttachmentsController < ApplicationController
     @attachment = Attachment.new
     @attachment.collection = @collection
     @attachment.works << @work if @work
-    @attachment.visibility = ["facility", "compliance"]
+    @attachment.visibility = ["facility_manager", "compliance"]
     @attachments = @collection.attachments_including_parent_attachments.all
     @attachments = @attachments - @work.attachments if @work
   end
