@@ -66,7 +66,7 @@ xml.works(
       xml['dcterms'].extent({unit: "m", dimension: "height", describes: "frame"}, work.frame_height / 100.0) if work.frame_height
       xml['dcterms'].extent({unit: "m", dimension: "width", describes: "frame"}, work.frame_width / 100.0) if work.frame_width
       xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "frame"}, work.frame_depth / 100.0) if work.frame_depth
-      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "frame"}, work.frame_diameter / 100.0) if work.diameter
+      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "frame"}, work.frame_diameter / 100.0) if work.frame_diameter
       xml['dcterms'].extent({unit: "m", dimension: "height", describes: "work"}, work.height / 100.0) if work.height
       xml['dcterms'].extent({unit: "m", dimension: "width", describes: "work"}, work.width / 100.0) if work.width
       xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "work"}, work.depth / 100.0) if work.depth
