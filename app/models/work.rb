@@ -325,6 +325,12 @@ class Work < ApplicationRecord
     collection&.touch
   end
 
+  def public_tag_list
+    Array(cached_tag_list).select do |item|
+      !item.match(/(^((.+)\d\d\d\d)$)|(vermist)|(bekijKen op)|(aangetroffen)|(naar fotograaf)|(selectie)|(^[hn]\d\s)|(ontzamelen)|(aankopen)|(herplaatsen)|(navragen)|(Herplaatsing)/i)
+    end.compact
+  end
+
   def convert_purchase_price_in_eur
     self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price && purchase_price_currency
   end

@@ -358,6 +358,12 @@ RSpec.describe Work, type: :model do
       #   expect(w.id).to be > 1
       # end
     end
+    describe "public_tag_list" do
+      it "filters public tags" do
+        w = Work.create(collection: collections(:collection1), tag_list: %{inventariseren 2020, vermist, 1984, blauw, bekijKen op, aangetroffen, naar fotograaf, selectie, H3 definitief, ontzamelen, aankopen, herplaatsen, navragen, Herplaatsing, Industrie})
+        expect(w.public_tag_list).to eq(["1984", "blauw", "Industrie"])
+      end
+    end
   end
   describe "class methods" do
     describe ".artist_name_rendered" do

@@ -1,0 +1,144 @@
+# o = data_container
+xml.works(
+  'xmlns'=>'https://qkunst.nl/work',
+  "xmlns:dc"=>"http://purl.org/dc/elements/1.1/",
+  "xmlns:dcterms"=>"http://purl.org/dc/terms/",
+  "xmlns:edm"=>"http://www.europeana.eu/schemas/edm/",
+  "xmlns:ore"=>"http://www.openarchives.org/ore/terms/",
+  "xmlns:owl"=>"http://www.w3.org/2002/07/owl#",
+  "xmlns:rdf"=>"http://www.w3.org/1999/02/22-­‐rdf-­‐syntax-­‐ns#",
+  "xmlns:foaf"=>"http://xmlns.com/foaf/0.1/",
+  "xmlns:skos"=>"http://www.w3.org/2004/02/skos/core#",
+  "xmlns:rdau"=>"http://www.rdaregistry.info/Elements/u/",
+  "xmlns:wgs84_pos"=>"http://www.w3.org/2003/01/geo/wgs84_pos#",
+  "xmlns:crm"=>"http://www.cidoc-­‐crm.org/cidoc-­‐crm/",
+  "xmlns:cc"=>"http://creativecommons.org/ns#",
+  'xmlns:xsi'=>'http://www.w3.org/2001/XMLSchema-instance',
+  'xmlns:rdau'=>"http://www.rdaregistry.info/Elements/u/"
+) do
+  @works.each do |work|
+    xml['edm'].ProvidedCHO do
+      xml['dc'].title({unknown: work.title_unknown}, work.title_rendered)
+      xml['dcterms'].alternative work.description if work.description
+      xml['dc'].identifier({"xsi:scheme"=>"stock_number"}, work.stock_number)
+      xml['dc'].identifier({"xsi:scheme"=>"stock_number_file_safe"}, work.stock_number_file_safe)
+      xml['dc'].identifier({"xsi:scheme"=>"alt_number_1"}, work.alt_number_1)
+      xml['dc'].identifier({"xsi:scheme"=>"alt_number_2"}, work.alt_number_2)
+      xml['dc'].identifier({"xsi:scheme"=>"alt_number_3"}, work.alt_number_3)
+
+      work.artists.each do |author|
+        xml['dcterms'].creator do
+          xml['edm'].Agent do
+            xml['skos'].prefLabel author.search_name
+            xml['edm'].begin author.date_of_birth || author.year_of_birth
+            xml['edm'].end author.date_of_death || author.year_of_death
+            xml['edm'].P60599 author.date_of_birth || author.year_of_birth
+            xml['edm'].P60598 author.date_of_death || author.year_of_death
+            xml['dc'].identifier author.rkd_artist_id
+            xml['rdau'].P60594((author.place_of_birth_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_birth_geoname_id}"} : {}), author.place_of_birth)
+            xml['rdau'].P60592((author.place_of_death_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_death_geoname_id}"} : {}), author.place_of_death)
+            # rdaGr2:biographicalInformation > rdau:P60492
+            # rdaGr2:dateOfBirth > rdau:P60599
+            # rdaGr2:dateOfDeath > rdau:P60598
+            # rdaGr2:dateOfEstablishment > rdau:P60524
+            # rdaGr2:dateOfTermination > rdau:P60525
+            # rdaGr2:gender > rdau:P60531
+            # rdaGr2:professionOrOccupation > rdau:P60468
+            # rdaGr2:placeOfBirth > rdau:P60594
+            # rdaGr2:placeOfDeath > rdau:P60592
+          end
+        end
+      end
+      # xml['edm'].currentLocation [work.location, work.location_floor, work.location_detail].join(";")
+      xml.collection_id work.collection_id
+
+      xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_front.url}"}) if work.photo_front?
+      xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_back.url}"}) if work.photo_back?
+      xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_detail_1.url}"}) if work.photo_detail_1?
+      xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_detail_2.url}"}) if work.photo_detail_2?
+
+      xml['dc'].date({unknown: work.object_creation_year_unknown}, work.object_creation_year)
+
+      xml.medium work.medium.name if work.medium
+      xml.print_({unkown: work.print_unknown}, work.print)
+      xml.signature_comments({not_present: work.no_signature_present}, work.signature_comments)
+
+      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "frame"}, work.frame_height / 100.0) if work.frame_height
+      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "frame"}, work.frame_width / 100.0) if work.frame_width
+      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "frame"}, work.frame_depth / 100.0) if work.frame_depth
+      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "frame"}, work.frame_diameter / 100.0) if work.diameter
+      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "work"}, work.height / 100.0) if work.height
+      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "work"}, work.width / 100.0) if work.width
+      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "work"}, work.depth / 100.0) if work.depth
+      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "work"}, work.diameter / 100.0) if work.diameter
+      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "outer"}, work.hpd_height / 100.0) if work.hpd_height
+      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "outer"}, work.hpd_width / 100.0) if work.hpd_width
+      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "outer"}, work.hpd_depth / 100.0) if work.hpd_depth
+      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "outer"}, work.hpd_diameter / 100.0) if work.hpd_diameter
+      xml['dc'].description work.public_description
+      work.public_tag_list.each do | tag |
+        xml['dc'].subject tag
+      end
+      xml.photo_file_name work.hpd_photo_file_name
+
+
+      # xml.condition_work_id work.condition_work_id
+      # xml.condition_work_comments work.condition_work_comments
+      # xml.condition_frame_id work.condition_frame_id
+      # xml.condition_frame_comments work.condition_frame_comments
+      # xml.information_back work.information_back
+      # xml.other_comments work.other_comments
+      # xml.source_id work.source_id
+      # xml.source_comments work.source_comments
+      # xml.style_id work.style_id
+      # xml.subset_id work.subset_id
+      # xml.market_value work.market_value
+      # xml.replacement_value work.replacement_value
+      # xml.purchase_price work.purchase_price
+      # xml.price_reference work.price_reference
+      # xml.grade_within_collection work.grade_within_collection
+      # xml.created_at work.created_at
+      # xml.updated_at work.updated_at
+      # xml.artist_unknown work.artist_unknown
+      # xml.entry_status work.entry_status
+      # xml.entry_status_description work.entry_status_description
+      # xml.created_by_id work.created_by_id
+      # xml.medium_comments work.medium_comments
+      # xml.abstract_or_figurative work.abstract_or_figurative
+      # xml.placeability_id work.placeability_id
+      # xml.purchase_price_currency_id work.purchase_price_currency_id
+      # xml.location_detail work.location_detail
+      # xml.valuation_on work.valuation_on
+      # xml.internal_comments work.internal_comments
+      # xml.cluster_id work.cluster_id
+      # xml.lognotes work.lognotes
+      # xml.imported_at work.imported_at
+      # xml.import_collection_id work.import_collection_id
+      # xml.locality_geoname_id work.locality_geoname_id
+      # xml.external_inventory work.external_inventory
+      # xml.location_floor work.location_floor
+      # xml.purchased_on work.purchased_on
+      # xml.artist_name_rendered work.artist_name_rendered
+      # xml.main_collection work.main_collection
+      # xml.image_rights work.image_rights
+      # xml.publish work.publish
+      # xml.purchase_year work.purchase_year
+      # xml.frame_type_id work.frame_type_id
+      # xml.owner_id work.owner_id
+      # xml.created_by_name work.created_by_name
+      # xml.tag_list_cache work.tag_list_cache
+      # xml.collection_locality_artist_involvements_texts_cache work.collection_locality_artist_involvements_texts_cache
+      # xml.inventoried_at work.inventoried_at
+      # xml.refound_at work.refound_at
+      # xml.new_found_at work.new_found_at
+      # xml.market_value_min work.market_value_min
+      # xml.market_value_max work.market_value_max
+      # xml.replacement_value_min work.replacement_value_min
+      # xml.replacement_value_max work.replacement_value_max
+      # xml.minimum_bid work.minimum_bid
+      # xml.selling_price work.selling_price
+      # xml.purchase_price_in_eur work.purchase_price_in_eur
+      # xml.selling_price_minimum_bid_comments work.selling_price_minimum_bid_comments
+    end
+  end
+end

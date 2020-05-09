@@ -25,6 +25,7 @@ class WorksController < ApplicationController
   include ActionController::Streaming
   include Works::ZipResponse
   include Works::XlsxResponse
+  include Works::XmlResponse
   include Works::Filtering
 
   before_action :authenticate_admin_or_advisor_user!, only: [:destroy, :modified_index]
@@ -90,6 +91,7 @@ class WorksController < ApplicationController
     @title = "Werken van #{@collection.name}"
     respond_to do |format|
       format.xlsx { show_xlsx_response }
+      format.xml { show_xml_response }
       format.csv { show_csv_response }
       format.zip { show_zip_response }
 
