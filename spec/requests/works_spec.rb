@@ -93,46 +93,72 @@ RSpec.describe "Works", type: :request do
         end
       end
       describe "downloading" do
-        it "should be able to get an zip file" do
-          collection = collections(:collection1)
-          sign_in user
-          get collection_works_path(collection, format: :zip)
-          expect(response).to have_http_status(200)
-          expect(response.content_type).to eq("application/zip")
-          expect(response.body).to match(/Zip/)
+        describe "zip" do
+          it "should be able to get an zip file" do
+            collection = collections(:collection1)
+            sign_in user
+            get collection_works_path(collection, format: :zip)
+            expect(response).to have_http_status(200)
+            expect(response.content_type).to eq("application/zip")
+            expect(response.body).to match(/Zip/)
+          end
+          it "should be able to get an zip file with photos" do
+            collection = collections(:collection1)
+            work = collection.works_including_child_works.first
+            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
+            work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
+            work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
+            work.save
+            sign_in user
+            get collection_works_path(collection, format: :zip)
+            expect(response).to have_http_status(200)
+            expect(response.content_type).to eq("application/zip")
+            expect(response.body).to match(/Zip/)
+            expect(response.body).to match("#{work.stock_number}_front.jpg")
+            expect(response.body).to match("#{work.stock_number}_back.jpg")
+          end
+          it "should be able to get an zip file with only front photos" do
+            collection = collections(:collection1)
+            work = collection.works_including_child_works.first
+            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
+            work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
+            work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
+            work.save
+            sign_in user
+            get collection_works_path(collection, format: :zip, params: {only_front: true})
+            expect(response).to have_http_status(200)
+            expect(response.content_type).to eq("application/zip")
+            expect(response.body).to match(/Zip/)
+            expect(response.body).to match("#{work.stock_number}.jpg")
+            expect(response.body).not_to match("#{work.stock_number}_front.jpg")
+            expect(response.body).not_to match("#{work.stock_number}_back.jpg")
+          end
         end
-        it "should be able to get an zip file with photos" do
-          collection = collections(:collection1)
-          work = collection.works_including_child_works.first
-          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
-          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
-          work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
-          work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
-          work.save
-          sign_in user
-          get collection_works_path(collection, format: :zip)
-          expect(response).to have_http_status(200)
-          expect(response.content_type).to eq("application/zip")
-          expect(response.body).to match(/Zip/)
-          expect(response.body).to match("#{work.stock_number}_front.jpg")
-          expect(response.body).to match("#{work.stock_number}_back.jpg")
-        end
-        it "should be able to get an zip file with only front photos" do
-          collection = collections(:collection1)
-          work = collection.works_including_child_works.first
-          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
-          FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
-          work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
-          work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
-          work.save
-          sign_in user
-          get collection_works_path(collection, format: :zip, params: {only_front: true})
-          expect(response).to have_http_status(200)
-          expect(response.content_type).to eq("application/zip")
-          expect(response.body).to match(/Zip/)
-          expect(response.body).to match("#{work.stock_number}.jpg")
-          expect(response.body).not_to match("#{work.stock_number}_front.jpg")
-          expect(response.body).not_to match("#{work.stock_number}_back.jpg")
+        describe "xml" do
+          let(:get_index) { get collection_works_path(collections(:collection1), format: :xml) }
+
+          it "requires login" do
+            get_index
+            expect(response).to have_http_status(401)
+          end
+          it "rejects facility" do
+            sign_in users(:facility_manager)
+
+            get_index
+
+            expect(response).to have_http_status(302)
+          end
+          it "downloads for admin" do
+            sign_in user
+
+            get_index
+
+            expect(response).to have_http_status(200)
+            expect(response.body).to start_with("<?xml version=\"1.0\"?>")
+            expect(response.body).to match("<dc:identifier xsi:scheme=\"stock_number_file_safe\">Q001</dc:identifier>")
+          end
         end
       end
     end
