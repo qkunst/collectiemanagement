@@ -61,6 +61,7 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:appraiser)
         get collection_batch_path(collections(:collection1))
         response_body = response.body
+        expect(response_body).to match('Waardering door')
         expect(response_body).to match('Adres en\/of gebouw\(deel\)\<\/label\>')
         expect(response_body).to match('Overige opmerkingen<\/label>')
         expect(response_body).to match('Aankoopprijs<\/label>')
@@ -82,11 +83,12 @@ RSpec.describe "WorkBatchs", type: :request do
       end
       it "should ignore ignored fields" do
         sign_in users(:appraiser)
-        appraisal_date = "2012-07-21".to_date
-        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
+        appraisal_date = Time.now.to_date
+        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
         expect(appraisal.market_value).to eq(2_000)
+        expect(appraisal.appraised_by).to eq("Harald")
         expect(appraisal.reference).to eq(nil)
       end
     end
