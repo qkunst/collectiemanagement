@@ -43,6 +43,7 @@ class Work < ApplicationRecord
   belongs_to :purchase_price_currency, class_name: "Currency", optional: true
   belongs_to :style, optional: true
   belongs_to :subset, optional: true
+  belongs_to :work_status, optional: true
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :frame_damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at

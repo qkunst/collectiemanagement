@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   get "tags.json" => "application#tags"
   get "geoname_summaries.json" => "application#geoname_summaries"
 
-  resources :frame_types
   resources :reminders
   resources :stages
   get "offline/work_form"
@@ -41,17 +40,21 @@ Rails.application.routes.draw do
     registrations: "registrations"
   }
   resources :users, only: [:index, :edit, :update, :destroy]
-  resources :currencies
-  resources :placeabilities
-  resources :subsets
-  resources :themes
-  resources :sources
-  resources :frame_damage_types
-  resources :damage_types
+
   resources :conditions
+  resources :currencies
+  resources :damage_types
+  resources :frame_damage_types
+  resources :frame_types
   resources :media
-  resources :techniques
   resources :object_categories
+  resources :placeabilities
+  resources :sources
+  resources :subsets
+  resources :techniques
+  resources :themes
+  resources :work_statuses
+
   resources :rkd_artists do
     patch "copy" => "rkd_artists#copy"
   end

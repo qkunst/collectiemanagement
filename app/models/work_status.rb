@@ -1,0 +1,2 @@
+class WorkStatus < ApplicationRecord
+end

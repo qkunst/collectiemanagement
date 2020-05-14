@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_143334) do
+ActiveRecord::Schema.define(version: 2020_05_14_205208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 2020_04_21_143334) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.decimal "exchange_rate", precision: 16, scale: 8
+    t.boolean "hide", default: false
   end
 
   create_table "custom_report_templates", force: :cascade do |t|
@@ -560,6 +561,13 @@ ActiveRecord::Schema.define(version: 2020_04_21_143334) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "work_statuses", force: :cascade do |t|
+    t.string "name"
+    t.boolean "hide", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "works", id: :serial, force: :cascade do |t|
     t.integer "collection_id"
     t.string "location"
@@ -647,6 +655,7 @@ ActiveRecord::Schema.define(version: 2020_04_21_143334) do
     t.boolean "print_unknown"
     t.decimal "purchase_price_in_eur", precision: 16, scale: 2
     t.text "selling_price_minimum_bid_comments"
+    t.integer "work_status_id"
     t.index ["collection_id"], name: "index_works_on_collection_id"
   end
 

@@ -1,0 +1,7 @@
+in_gebruik:
+  name: In gebruik
+niet_in_gebruik:
+  name: Niet in gebruik
+verborgen:
+  name: Verborgen
+  hide: true

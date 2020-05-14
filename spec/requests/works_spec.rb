@@ -5,9 +5,9 @@ require "rails_helper"
 RSpec.describe "Works", type: :request do
   describe "PATCH /collections/:collection_id/works/:id" do
     let(:user) { users(:admin) }
+    let(:work) { works(:work6) }
 
     it "should render the edit form when changing location fails" do
-      work = works(:work6)
       work.collection = collections(:collection1)
       work.save
       work.update_column(:cluster_id, clusters(:cluster_private_to_collection_with_stages).id)
@@ -15,13 +15,26 @@ RSpec.describe "Works", type: :request do
       new_location = "New Location By Admin"
 
       sign_in user
-      patch collection_work_path(works(:work6).collection, works(:work6)), params: {work: {location: new_location}}
+      patch collection_work_path(work.collection, work), params: {work: {location: new_location}}
 
       expect(response).to have_http_status(200)
       expect(response.body).to match("work_frame_height") # edit form
 
       work.reload
       expect(work.location).to eq(nil)
+    end
+
+    it "should allow for updating work status" do
+      work_status = work_statuses(:in_gebruik)
+
+      expect(work.work_status).not_to eq(work_status)
+
+      sign_in user
+
+      patch collection_work_path(work.collection, work), params: {work: {work_status_id: work_status.id}}
+
+      work.reload
+      expect(work.work_status).to eq(work_status)
     end
   end
   describe "GET /collections/:id/works" do

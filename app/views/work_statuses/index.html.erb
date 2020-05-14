@@ -1,0 +1,7 @@
+<h2>Werkstatussen</h2>
+<ul>
+    <% @work_statuses.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuwe status', new_work_status_path, class: :button %>
