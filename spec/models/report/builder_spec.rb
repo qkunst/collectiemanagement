@@ -15,6 +15,7 @@ RSpec.describe Report::Builder, type: :model do
         "cluster_missing" => {missing: {field: "cluster.id"}},
         "owner_missing" => {missing: {field: "owner.id"}},
         :owner => {terms: {field: "owner.id", size: 999}},
+
         :refound => {terms: {field: "refound", size: 999}},
         :inventoried => {terms: {field: "inventoried", size: 999}},
         :new_found => {terms: {field: "new_found", size: 999}},
@@ -42,7 +43,9 @@ RSpec.describe Report::Builder, type: :model do
         :purchase_price_in_eur => {terms: {field: "purchase_price_in_eur", size: 999}},
         :replacement_value_max => {terms: {field: "replacement_value_max", size: 999}},
         :replacement_value_min => {terms: {field: "replacement_value_min", size: 999}},
-        :selling_price => {terms: {field: "selling_price", size: 999}}
+        :selling_price => {terms: {field: "selling_price", size: 999}},
+        :work_status => {terms: {field: "work_status.id", size: 999}},
+        "work_status_missing" => {:missing=>{:field=>"work_status.id"}}
       }
       expect(Report::Builder.aggregations).to eq(expected)
     end

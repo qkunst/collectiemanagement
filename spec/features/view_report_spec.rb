@@ -21,11 +21,11 @@ RSpec.feature "View report", type: :feature do
     expect(page).to have_content("Room 1")
     expect(page).to have_content("Floor 1")
     expect(page).to have_content("Adres")
-    expect(page).to have_content("Formaatcode onbekend2 l1")
+    expect(page).to have_content("Formaatcode onbekend3 l1")
 
     click_on("cluster1")
 
-    expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 3 werken)")
+    expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 4 werken)")
     expect(page).to have_content("Q001")
   end
 

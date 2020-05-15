@@ -1,3 +1,5 @@
 geoname_summary1:
   geoname_id: 123
   name: Geoname Summary 1
+  parent_geoname_ids_cache: "[]"
+  parent_description: Land

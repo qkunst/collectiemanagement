@@ -39,13 +39,19 @@ work2:
   cluster: :cluster2
   inventoried_at: 2012-01-01
   created_by: :admin
+  object_categories:
+    - fotografie
+    - gebouwgebonden
+  techniques:
+    - pen
+    - ets
   artists:
     - :artist2
     - :artist_no_name
 work3:
   title: Work3
   alt_number_2: 7201212
-  stock_number: Q002
+  stock_number: Q003
   artists:
     - :artist3
 work4:
@@ -64,6 +70,7 @@ work5:
   subset: :modern
   collection: :collection_with_works
   cluster: :cluster2
+  locality_geoname_id: 123
   artists:
     - :artist2
     - :artist_no_name
@@ -73,6 +80,13 @@ work6:
   artists:
     - :artist4
   collection: :collection3
+work_with_multiple_artists:
+  title: Work with multiple artists
+  stock_number: Q007
+  artists:
+    - :artist1
+    - :artist2
+  collection: :collection1
 work_with_attachments:
   title: Work with attachment
   stock_number: QA01

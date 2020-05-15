@@ -1,0 +1,19 @@
+audiovisueel:
+  name: Audiovisueel
+fotografie:
+  name: Fotografie
+gebouwgebonden:
+  name: Gebouwgebonden
+grafiek:
+  name: Grafiek
+schilderkunst:
+  name: Schilderkunst
+sculptuur_binnen:
+  name: Sculptuur (binnen)
+sculptuur_buiten:
+  name: Sculptuur (buiten)
+uniek_werk_op_papier:
+  name: Uniek werk op papier
+vormgeving:
+  name: Vormgeving
+

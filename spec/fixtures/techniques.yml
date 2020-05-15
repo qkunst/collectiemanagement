@@ -1,0 +1,66 @@
+acrylverf:
+  name: Acrylverf
+assemblage:
+  name: Assemblage
+aquarel:
+  name: Aquarel
+blinddruk:
+  name: Blinddruk
+brons:
+  name: Brons
+collage:
+  name: Collage
+ets:
+  name: Ets
+aquatint:
+  name: Aquatint
+droge naald, aquatint:
+  name: Droge naald, aquatint
+glas:
+  name: Glas
+gouache:
+  name: Gouache
+gemengde techniek:
+  name: Gemengde techniek
+houtsnede:
+  name: Houtsnede
+installatie:
+  name: Installatie
+keramiek:
+  name: Keramiek
+linoleumsnede:
+  name: Linoleumsnede
+lithografie:
+  name: Lithografie
+monoprint:
+  name: Monoprint
+object:
+  name: Object
+olieverf:
+  name: Olieverf
+readymade:
+  name: Readymade
+reliëf:
+  name: Reliëf
+tekening:
+  name: Tekening
+houtskool:
+  name: Houtskool
+krijt:
+  name: Krijt
+pastel:
+  name: Pastel
+pen:
+  name: Pen
+potlood:
+  name: Potlood
+stift:
+  name: Stift
+tempera:
+  name: Tempera
+textiel:
+  name: Textiel
+wandschildering:
+  name: Wandschildering
+zeefdruk:
+  name: Zeefdruk

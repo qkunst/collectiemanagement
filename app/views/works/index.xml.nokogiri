@@ -1,6 +1,22 @@
+def dcterms_extent(parent_element, value, options)
+  if value
+    parent_element['dcterms'].extent do
+      if options == {}
+        value
+      else
+        parent_element['qkunst'].describes(options[:describes]) if options[:describes]
+        parent_element['qkunst'].dimension(options[:dimension]) if options[:dimension]
+        parent_element['qkunst'].value(value)
+        parent_element['qkunst'].unit(options[:unit]) if options[:unit]
+      end
+    end
+  end
+end
+
 # o = data_container
 xml.works(
   'xmlns'=>'https://qkunst.nl/work',
+  "xmlns:qkunst"=>"https://qkunst.nl/work",
   "xmlns:dc"=>"http://purl.org/dc/elements/1.1/",
   "xmlns:dcterms"=>"http://purl.org/dc/terms/",
   "xmlns:edm"=>"http://www.europeana.eu/schemas/edm/",
@@ -13,18 +29,19 @@ xml.works(
   "xmlns:wgs84_pos"=>"http://www.w3.org/2003/01/geo/wgs84_pos#",
   "xmlns:crm"=>"http://www.cidoc-­‐crm.org/cidoc-­‐crm/",
   "xmlns:cc"=>"http://creativecommons.org/ns#",
-  'xmlns:xsi'=>'http://www.w3.org/2001/XMLSchema-instance',
-  'xmlns:rdau'=>"http://www.rdaregistry.info/Elements/u/"
+  'xmlns:xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
 ) do
-  @works.each do |work|
+  @works.uniq.each do |work|
     xml['edm'].ProvidedCHO do
       xml['dc'].title({unknown: work.title_unknown}, work.title_rendered)
       xml['dcterms'].alternative work.description if work.description
-      xml['dc'].identifier({"xsi:scheme"=>"stock_number"}, work.stock_number)
-      xml['dc'].identifier({"xsi:scheme"=>"stock_number_file_safe"}, work.stock_number_file_safe)
-      xml['dc'].identifier({"xsi:scheme"=>"alt_number_1"}, work.alt_number_1)
-      xml['dc'].identifier({"xsi:scheme"=>"alt_number_2"}, work.alt_number_2)
-      xml['dc'].identifier({"xsi:scheme"=>"alt_number_3"}, work.alt_number_3)
+      xml['dc'].description work.public_description
+
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number"}, work.stock_number)
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number_file_safe"}, work.stock_number_file_safe)
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_1"}, work.alt_number_1)
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_2"}, work.alt_number_2)
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_3"}, work.alt_number_3)
 
       work.artists.each do |author|
         xml['dcterms'].creator do
@@ -32,8 +49,8 @@ xml.works(
             xml['skos'].prefLabel author.search_name
             xml['edm'].begin author.date_of_birth || author.year_of_birth
             xml['edm'].end author.date_of_death || author.year_of_death
-            xml['edm'].P60599 author.date_of_birth || author.year_of_birth
-            xml['edm'].P60598 author.date_of_death || author.year_of_death
+            xml['rdau'].P60599 author.date_of_birth || author.year_of_birth
+            xml['rdau'].P60598 author.date_of_death || author.year_of_death
             xml['dc'].identifier author.rkd_artist_id
             xml['rdau'].P60594((author.place_of_birth_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_birth_geoname_id}"} : {}), author.place_of_birth)
             xml['rdau'].P60592((author.place_of_death_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_death_geoname_id}"} : {}), author.place_of_death)
@@ -50,7 +67,6 @@ xml.works(
         end
       end
       # xml['edm'].currentLocation [work.location, work.location_floor, work.location_detail].join(";")
-      xml.collection_id work.collection_id
 
       xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_front.url}"}) if work.photo_front?
       xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_back.url}"}) if work.photo_back?
@@ -63,24 +79,39 @@ xml.works(
       xml.print_({unkown: work.print_unknown}, work.print)
       xml.signature_comments({not_present: work.no_signature_present}, work.signature_comments)
 
-      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "frame"}, work.frame_height / 100.0) if work.frame_height
-      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "frame"}, work.frame_width / 100.0) if work.frame_width
-      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "frame"}, work.frame_depth / 100.0) if work.frame_depth
-      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "frame"}, work.frame_diameter / 100.0) if work.frame_diameter
-      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "work"}, work.height / 100.0) if work.height
-      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "work"}, work.width / 100.0) if work.width
-      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "work"}, work.depth / 100.0) if work.depth
-      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "work"}, work.diameter / 100.0) if work.diameter
-      xml['dcterms'].extent({unit: "m", dimension: "height", describes: "outer"}, work.hpd_height / 100.0) if work.hpd_height
-      xml['dcterms'].extent({unit: "m", dimension: "width", describes: "outer"}, work.hpd_width / 100.0) if work.hpd_width
-      xml['dcterms'].extent({unit: "m", dimension: "depth", describes: "outer"}, work.hpd_depth / 100.0) if work.hpd_depth
-      xml['dcterms'].extent({unit: "m", dimension: "diameter", describes: "outer"}, work.hpd_diameter / 100.0) if work.hpd_diameter
-      xml['dc'].description work.public_description
+      dcterms_extent(xml, work.frame_width,    {unit: "cm", dimension: "width", describes: "frame"})
+      dcterms_extent(xml, work.frame_depth,    {unit: "cm", dimension: "depth", describes: "frame"})
+      dcterms_extent(xml, work.frame_diameter, {unit: "cm", dimension: "diameter", describes: "frame"})
+      dcterms_extent(xml, work.height,         {unit: "cm", dimension: "height", describes: "work"})
+      dcterms_extent(xml, work.width,          {unit: "cm", dimension: "width", describes: "work"})
+      dcterms_extent(xml, work.depth,          {unit: "cm", dimension: "depth", describes: "work"})
+      dcterms_extent(xml, work.diameter,       {unit: "cm", dimension: "diameter", describes: "work"})
+      dcterms_extent(xml, work.hpd_height,     {unit: "cm", dimension: "height", describes: "outer"})
+      dcterms_extent(xml, work.hpd_width,      {unit: "cm", dimension: "width", describes: "outer"})
+      dcterms_extent(xml, work.hpd_depth,      {unit: "cm", dimension: "depth", describes: "outer"})
+      dcterms_extent(xml, work.hpd_diameter,   {unit: "cm", dimension: "diameter", describes: "outer"})
+
       work.public_tag_list.each do | tag |
         xml['dc'].subject tag
       end
-      xml.photo_file_name work.hpd_photo_file_name
+      xml['qkunst'].photo_file_name work.hpd_photo_file_name
+      xml['qkunst'].photo_file_name work.hpd_photo_file_name
+      xml['qkunst'].photo_file_name work.hpd_photo_file_name
+      xml['qkunst'].photo_file_name work.hpd_photo_file_name
 
+      work.object_categories.not_hidden.each do | tag |
+        xml['dc'].type tag.name
+      end
+
+      work.techniques.not_hidden.each do | tag |
+        xml['qkunst'].technique tag.name
+      end
+
+      if work.locality_geoname_id
+        xml['edm'].hasMet({"rdf:resource"=>"http://sws.geonames.org/#{work.locality_geoname_id}/"}, work.geoname_summary.label)
+      end
+
+      # xml.collection_id work.collection_id
 
       # xml.condition_work_id work.condition_work_id
       # xml.condition_work_comments work.condition_work_comments
@@ -114,7 +145,6 @@ xml.works(
       # xml.lognotes work.lognotes
       # xml.imported_at work.imported_at
       # xml.import_collection_id work.import_collection_id
-      # xml.locality_geoname_id work.locality_geoname_id
       # xml.external_inventory work.external_inventory
       # xml.location_floor work.location_floor
       # xml.purchased_on work.purchased_on
@@ -126,7 +156,6 @@ xml.works(
       # xml.frame_type_id work.frame_type_id
       # xml.owner_id work.owner_id
       # xml.created_by_name work.created_by_name
-      # xml.tag_list_cache work.tag_list_cache
       # xml.collection_locality_artist_involvements_texts_cache work.collection_locality_artist_involvements_texts_cache
       # xml.inventoried_at work.inventoried_at
       # xml.refound_at work.refound_at
