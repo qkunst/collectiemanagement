@@ -45,6 +45,8 @@ class Collection < ApplicationRecord
   has_cache_for_method :geoname_ids
   has_cache_for_method :collection_name_extended
 
+  has_paper_trail # only enabled in may 2020
+
   default_scope -> { order(:collection_name_extended_cache) }
 
   scope :without_parent, -> { where(parent_collection_id: nil) }
