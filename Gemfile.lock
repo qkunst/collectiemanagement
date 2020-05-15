@@ -161,6 +161,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     ffi (1.12.2)
     flamegraph (0.9.5)
+    foreman (0.87.1)
     foundation-rails (6.3.1.0)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -451,6 +452,7 @@ DEPENDENCIES
   elasticsearch-rails (~> 5)
   exception_notification
   flamegraph
+  foreman
   foundation-rails (~> 6.3.0)
   highline
   jbuilder
