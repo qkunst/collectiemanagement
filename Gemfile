@@ -3,15 +3,15 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>5" # , '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
+gem "rails", "~> 5", ">= 5.2.4.2" # , '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
 # gem 'webrick'
-gem "markdown-rails"
+gem "markdown-rails", ">= 0.2.1"
 gem "puma" # , '~> 3.0'
 # Use SCSS for stylesheets
-gem "sass-rails" # , '~> 5.0'
+gem "sass-rails" , ">= 6.0.0" # , '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier" # , '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -30,7 +30,7 @@ gem "bootsnap"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "capybara"
+  gem "capybara", ">= 3.32.1"
   gem "byebug", platform: :mri
   gem "foreman"
 end
@@ -44,7 +44,7 @@ end
 ##
 
 gem "pg", "~>0.21"
-gem "devise"
+gem "devise", ">= 4.7.1"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave" # , '~> 1.0'
@@ -58,7 +58,7 @@ gem "attribute_normalizer" # keeps the database clean
 
 gem "elasticsearch-model", "~> 5"
 gem "elasticsearch-rails", "~> 5"
-gem "rspec-rails", group: [:development, :test]
+gem "rspec-rails", ">= 4.0.0", group: [:development, :test]
 
 ##
 ## DEVELOPMENT
@@ -70,7 +70,7 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-rails"
   gem "highline"
-  gem "web-console" # , '~> 2.0'
+  gem "web-console" , ">= 3.7.0" # , '~> 2.0'
   gem "listen" # , '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
@@ -81,14 +81,14 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.0.2"
 gem "kramdown" # parsing markdown
 
 ##
 ## STYLING
 ##
 
-gem "foundation-rails", "~> 6.3.0"
+gem "foundation-rails", "~> 6.3.1", ">= 6.3.1.0"
 
 ##
 ## OTHER FREQUENTLY USED
@@ -99,26 +99,26 @@ gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git"
 gem "nested_form"
 # gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
-gem "paper_trail" # , '~>4.0.0.rc1'
+gem "paper_trail" , ">= 10.3.1" # , '~>4.0.0.rc1'
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
 gem "bundler-audit"
 # gem 'delayed_job_active_record'
-gem "redis-rails"
-gem "exception_notification"
-gem "zipline"
-gem "activerecord-session_store"
+gem "redis-rails", ">= 5.0.2"
+gem "exception_notification", ">= 4.4.0"
+gem "zipline", ">= 1.1.1"
+gem "activerecord-session_store", ">= 1.1.3"
 gem "rack-headers_filter"
 gem "strip_attributes"
 
-gem "sidekiq", "~> 5"
-gem "sidekiq-scheduler"
-gem "sidekiq-unique-jobs"
+gem "sidekiq", "~> 6", ">= 6.0.0"
+gem "sidekiq-scheduler", ">= 3.0.1"
+gem "sidekiq-unique-jobs", ">= 6.0.21"
 
-gem "webpacker"
+gem "webpacker", ">= 5.1.1"
 
-gem "rack-mini-profiler"
+gem "rack-mini-profiler", ">= 2.0.1"
 gem "flamegraph"
 gem "stackprof"
 gem "memory_profiler"
