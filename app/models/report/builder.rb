@@ -58,7 +58,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet(key, "_id"))
         end
 
-        [:condition_work, :condition_frame, :sources, :placeability, :themes, :owner, :cluster].each do |key|
+        [:condition_work, :condition_frame, :sources, :placeability, :themes, :owner, :cluster, :work_status].each do |key|
           aggregation.merge!(basic_aggregation_snippet_with_missing(key, ".id"))
         end
 

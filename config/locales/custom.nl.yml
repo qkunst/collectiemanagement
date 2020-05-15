@@ -401,6 +401,7 @@ nl:
         valuation_on: Datum waardebepaling
         width: Breedte beeld (cm)
         work_size: Afmetingen beeld (cm)
+        work_status: Status
         artist_0_first_name: Vervaardiger 1 Voornaam
         artist_0_prefix: Vervaardiger 1 Tussenvoegsel
         artist_0_last_name: Vervaardiger 1 Achternaam

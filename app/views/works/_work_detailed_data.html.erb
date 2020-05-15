@@ -25,7 +25,6 @@
     <% end %>
   <% end %>
   <%= definition_list_for work, {render_as: :table} do %>
-
     <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, @collection) %>
     <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, @collection) %>
     <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, @collection) %>
@@ -119,6 +118,7 @@
       <%= define_unless_blank :inventoried_at, {classname: :complete_data} %>
       <%= define_unless_blank :refound_at, {classname: :complete_data} %>
       <%= define_unless_blank :new_found_at, {classname: :complete_data} %>
+      <%= define_unless_blank :work_status %>
     <% end %>
   <% end %>
   </div>

@@ -37,21 +37,22 @@ module Work::Search
     def as_indexed_json(*)
       as_json(
         include: {
-          sources: {only: [:id, :name]},
-          style: {only: [:id, :name]},
-          owner: {only: [:id, :name]},
           artists: {only: [:id, :name], methods: [:name]},
-          object_categories: {only: [:id, :name]},
-          medium: {only: [:id, :name]},
+          cluster: {only: [:id, :name]},
+          condition_frame: {only: [:id, :name]},
           condition_work: {only: [:id, :name]},
           damage_types: {only: [:id, :name]},
-          condition_frame: {only: [:id, :name]},
           frame_damage_types: {only: [:id, :name]},
+          medium: {only: [:id, :name]},
+          object_categories: {only: [:id, :name]},
+          owner: {only: [:id, :name]},
+          placeability: {only: [:id, :name]},
+          sources: {only: [:id, :name]},
+          style: {only: [:id, :name]},
+          subset: {only: [:id, :name]},
           techniques: {only: [:id, :name]},
           themes: {only: [:id, :name]},
-          subset: {only: [:id, :name]},
-          placeability: {only: [:id, :name]},
-          cluster: {only: [:id, :name]}
+          work_status: {only: [:id, :name]}
         },
         methods: [
           :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,

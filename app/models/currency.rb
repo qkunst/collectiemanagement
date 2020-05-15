@@ -2,6 +2,7 @@
 
 class Currency < ApplicationRecord
   include NameId
+  include Hidable
 
   before_save :set_name!
 

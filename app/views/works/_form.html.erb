@@ -5,14 +5,17 @@
       <legend>Administratief</legend>
       <fieldset >
       <div class="row">
-      <div class="medium-4 columns">
+      <div class="medium-3 columns">
         <%= f.input :inventoried, as: :boolean %>
       </div>
-      <div class="medium-4 columns">
+      <div class="medium-3 columns">
         <%= f.input :refound, as: :boolean %>
       </div>
-      <div class="medium-4 columns">
+      <div class="medium-3 columns">
         <%= f.input :new_found, as: :boolean %>
+      </div>
+      <div class="medium-3 columns">
+        <%= f.association :work_status %>
       </div>
       </div>
       </fieldset>

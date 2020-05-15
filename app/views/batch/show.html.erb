@@ -29,6 +29,9 @@
         <%= f.batch_editable_input :location%>
         <%= f.batch_editable_input :location_floor%>
         <%= f.batch_editable_input :location_detail%>
+        <% if can_edit_field?(:work_status_id) %>
+          <%= f.batch_editable_input :work_status, param_name: :work_status_id, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <% end %>
       </fieldset>
     <% end %>
     <% if can_edit_field?(:collection_id) %>
@@ -100,10 +103,6 @@
     <% end %>
   </div>
 
-  <%= f.submit (@works.any? ? "#{I18n.t("count.works", count: @work_ids.count) } bijwerken" : "Werken bijwerken"), class: [:button, :primary] %>
-  <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
-<% end %>
-
 <hr/>
 <h3 id="works">Werken</h3>
 <p>De volgende werken zullen hiermee worden aangepast. </p>
@@ -111,3 +110,10 @@
 <% if @work_count > 24%>
 <p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %>.</p>
 <% end%>
+
+    <nav class="sub-nav bottom-nav right-aligned">
+  <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
+      <%= f.submit (@works.any? ? "#{I18n.t("count.works", count: @work_ids.count) } bijwerken" : "Werken bijwerken"), class: [:button, :primary, :"right-aligned"] %>
+  </nav>
+
+<% end %>

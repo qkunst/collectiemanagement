@@ -19,7 +19,7 @@ class ReportController < ApplicationController
         "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:cluster]],
         "Waardering" => [[:grade_within_collection, :purchase_year]],
         "Object" => [[:object_categories_split], [:object_format_code, :frame_type], [:object_creation_year]],
-        "Overige" => [[:sources], [:owner], [:inventoried, :refound, :new_found]]
+        "Overige" => [[:sources], [:owner], [:work_status], [:inventoried, :refound, :new_found]]
       })
       @sections["Ontsluiting"] = [[:image_rights, :publish], [:tag_list]]
     end
