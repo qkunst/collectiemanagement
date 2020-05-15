@@ -1,12 +1,12 @@
-# Test report QKunst Collectiebeheer
+# Test report QKunst Collectiemanagement
 
-Date: 2020-03-17 16:15:07 +0100
+Date: 2020-05-15 16:00:36 +0200
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **92.74%** of the lines are covered by automated test. The code base consists of **8076** lines of code.
+In total **93.16%** of the lines are covered by automated test. The code base consists of **8506** lines of code.
 
 ## Abilities
 
@@ -36,8 +36,8 @@ This lists what a user can do per object-type.
 |*Lezen*|✔|✔|✔|✔|✔|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✘|
 |*Tonen*|✔|✔|✔|✔|✔|✘|
-|*Aanmaken & opslaan*|✔|✔|✘|✔|✔|✘|
-|*Aanmaken*|✔|✔|✘|✔|✔|✘|
+|*Aanmaken & opslaan*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken*|✔|✔|✔|✔|✔|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Collectie**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
@@ -85,12 +85,12 @@ This lists what a user can do per object-type.
 |*Kopieer*|✔|✔|✘|✔|✘|✘|
 |**Bijlage**||
 |*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
-|*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
-|*Aanmaken*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
 |*Bewerken*|✔|✔|✘|✘|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
 |**Werk**||
 |*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
@@ -210,6 +210,7 @@ This is a list of fields a user can write to
 |*collection_id*|✔|✔|✘|✔|✘|✘|
 |*cluster_id*|✔|✔|✘|✔|✘|✘|
 |*owner_id*|✔|✔|✘|✔|✘|✘|
+|*work_status_id*|✔|✔|✘|✔|✘|✘|
 |*placeability_id*|✔|✔|✘|✔|✘|✘|
 |*artist_ids*|✔|✔|✘|✔|✘|✘|
 |*source_ids*|✔|✔|✘|✔|✘|✘|
@@ -265,7 +266,8 @@ Manage attachments
   in context of collection, as advisor
     add attachment, change name
   in context of work, as advisor
-    add attachment, change name
+    add existing attachment
+    reattach attachment
 
 Appraise works
   as appraiser
@@ -350,13 +352,15 @@ User can send messages
     can send messages
   qkunst-test-advisor@murb.nl
     can send messages
+  qkunst-test-compliance@murb.nl
+    can send messages
 
 View report
   as an admin
   as a facility manager (limited)
 
-Finished in 38.24 seconds (files took 2.53 seconds to load)
-49 examples, 0 failures
+Finished in 57.98 seconds (files took 2.97 seconds to load)
+51 examples, 0 failures
 
 
 ```
@@ -405,7 +409,7 @@ CollectionsController
       does destroy the requested Collection with admin login if it has works and a parent collection
     as advisor
       doesn't destroy a newly generated Collection with advisor login
-      can destroy a collection the advisor has access to
+      cannot destroy a collection the advisor has access to
       cannot destroy the a collection the advisor has no access to
 
 CollectionsStagesController
@@ -544,7 +548,8 @@ Manage attachments
   in context of collection, as advisor
     add attachment, change name
   in context of work, as advisor
-    add attachment, change name
+    add existing attachment
+    reattach attachment
 
 Appraise works
   as appraiser
@@ -628,6 +633,8 @@ User can send messages
   qkunst-test-appraiser@murb.nl
     can send messages
   qkunst-test-advisor@murb.nl
+    can send messages
+  qkunst-test-compliance@murb.nl
     can send messages
 
 View report
@@ -786,7 +793,12 @@ Artist
       should colleapse only same creation date by default
 
 Attachment
+  Class methods
+    move_work_attaches_to_join_table
+      should migrate as intended
   Scopes
+    without_works
+      should return attachments without works
     for_role
       should always work for admin
     for_me
@@ -898,6 +910,8 @@ NameId
     should find single strings
     can be repeated strings
     should work
+  #to_s
+    should feature the name first
   Class methods
     .find_by_case_insensitive_name
       should find by string
@@ -920,7 +934,7 @@ CollectionOwnable
     well, neot necesarily
     typical roundtrip
 
-ColumnCache
+MethodCache
   Artist implementation geoname_ids
     should return nil if unset
     should return an empty array after save
@@ -1110,6 +1124,13 @@ User
     name change should result in name changes with work
       should change
 
+Validators::CollectionScopeValidator
+  validates properly
+    works with theme in own collection
+    works with theme in super collection
+    works with theme in hidden super collection
+    should fail on theme in other collection
+
 Work
   instance methods
     #all_work_ids_in_collection
@@ -1143,6 +1164,17 @@ Work
       should set cluster to nil when name is nil or empty
       should reset cluster when set to a different name
       should create cluster when set to a different name
+    #location_description
+      concats the location fields
+      returns emtpy string when none
+    #location_history
+      returns an empty array if no history
+      returns a single item array if no history
+      returns complete history if work is created after enabling history
+      skip_current options skips current
+      returns empty location if empty location
+      never returns empty location if empty location and no empty locations
+      never returns empty location if empty location and no empty locations (and doesn't just pop the skip current false)
     #purchased_on_with_fallback
       should return nil when not set
       should return date both year and date are present
@@ -1160,8 +1192,13 @@ Work
     #frame_size_with_fallback
       should return frame size by default
       should return work size if frame size is not present
+    #restore_last_location_if_blank!
+      shoudl restore last location when blenk
+      should not 'restore' a location if location is set
     #save
       should save, even without info
+    public_tag_list
+      filters public tags
   class methods
     .artist_name_rendered
       should not fail on an empty name
@@ -1244,13 +1281,21 @@ Artists
     should not be accessible when logged in as qkunst
 
 Attachments
-  GET /attachments
+  GET /attachments/new
     redirects by default
     redirects by default when not qkunst
     redirects by default when not qkunst (fm)
     redirects by default when qkunst without access
     success when qkunst with acces
     success when admin
+  GET /attachments
+    lists no attachments if none
+    lists no attachments if none
+  POST /attachments
+    work
+      stores an attachment on work level
+    collection
+      stores an attachment on collection level
 
 BatchPhotoUploads
   GET /batch_photo_uploads
@@ -1269,6 +1314,9 @@ WorkBatchs
       describe facility should only be able to edit location
       describe facility should only be able to edit location
   PATCH /collection/:collection_id/batch
+    process appraisal ignore
+      should store appraisal
+      should ignore ignored fields
     tag_list
       should REPLACE
       should APPEND
@@ -1313,10 +1361,6 @@ CustomReports
   GET /custom_reports
     redirects! (now write some real specs)
 
-FrameTypes
-  GET /frame_types
-    works! (now write some real specs)
-
 Involvements
   GET /involvements
     works! (now write some real specs)
@@ -1324,6 +1368,177 @@ Involvements
 Messages
   GET /messages
     shouldn't be publicly accessible!
+
+Admin level management
+  conditions
+    GET /conditions
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /conditions/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /conditions
+      does not change Condition.count when performed by anonymous
+      does not change Condition.count when performed by advisor
+      changes Condition.count by 1 when performed by admin
+  currencies
+    GET /currencies
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /currencies/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /currencies
+      does not change Currency.count when performed by anonymous
+      does not change Currency.count when performed by advisor
+      changes Currency.count by 1 when performed by admin
+  damage_types
+    GET /damage_types
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /damage_types/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /damage_types
+      does not change DamageType.count when performed by anonymous
+      does not change DamageType.count when performed by advisor
+      changes DamageType.count by 1 when performed by admin
+  frame_damage_types
+    GET /frame_damage_types
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /frame_damage_types/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /frame_damage_types
+      does not change FrameDamageType.count when performed by anonymous
+      does not change FrameDamageType.count when performed by advisor
+      changes FrameDamageType.count by 1 when performed by admin
+  frame_types
+    GET /frame_types
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /frame_types/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /frame_types
+      does not change FrameType.count when performed by anonymous
+      does not change FrameType.count when performed by advisor
+      changes FrameType.count by 1 when performed by admin
+  media
+    GET /media
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /media/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /media
+      does not change Medium.count when performed by anonymous
+      does not change Medium.count when performed by advisor
+      changes Medium.count by 1 when performed by admin
+  object_categories
+    GET /object_categories
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /object_categories/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /object_categories
+      does not change ObjectCategory.count when performed by anonymous
+      does not change ObjectCategory.count when performed by advisor
+      changes ObjectCategory.count by 1 when performed by admin
+  placeabilities
+    GET /placeabilities
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /placeabilities/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /placeabilities
+      does not change Placeability.count when performed by anonymous
+      does not change Placeability.count when performed by advisor
+      changes Placeability.count by 1 when performed by admin
+  sources
+    GET /sources
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /sources/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /sources
+      does not change Source.count when performed by anonymous
+      does not change Source.count when performed by advisor
+      changes Source.count by 1 when performed by admin
+  subsets
+    GET /subsets
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /subsets/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /subsets
+      does not change Subset.count when performed by anonymous
+      does not change Subset.count when performed by advisor
+      changes Subset.count by 1 when performed by admin
+  techniques
+    GET /techniques
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /techniques/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /techniques
+      does not change Technique.count when performed by anonymous
+      does not change Technique.count when performed by advisor
+      changes Technique.count by 1 when performed by admin
+  themes
+    GET /themes
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /themes/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /themes
+      does not change Theme.count when performed by anonymous
+      does not change Theme.count when performed by advisor
+      changes Theme.count by 1 when performed by admin
+  work_statuses
+    GET /work_statuses
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    GET /work_statuses/new
+      ignores anonymous request
+      ignores advisor request
+      adheres to admin request
+    POST /work_statuses
+      does not change WorkStatus.count when performed by anonymous
+      does not change WorkStatus.count when performed by advisor
+      changes WorkStatus.count by 1 when performed by admin
 
 Reminders
   GET /reminders
@@ -1333,17 +1548,10 @@ Stages
   GET /stages
     rejects
 
-WorkBatchs
-  GET /collections/:id/works/batch/edit
-    shouldn't be publicly accessible!
-    should be accessible when logged in as admin
-    should not be accessible when logged in as an anonymous user
-    should not allow accesss to the batch editor for non qkunst user has access to
-    should redirect to the root when accessing anohter collection
-
 Works
   PATCH /collections/:collection_id/works/:id
     should render the edit form when changing location fails
+    should allow for updating work status
   GET /collections/:id/works
     shouldn't be publicly accessible!
     admin
@@ -1355,9 +1563,19 @@ Works
         should be able to sort
         should be able to filter and sort
       downloading
-        should be able to get an zip file
-        should be able to get an zip file with photos
-        should be able to get an zip file with only front photos
+        zip
+          should be able to get an zip file
+          should be able to get an zip file with photos
+          should be able to get an zip file with only front photos
+        xml
+          requires login
+          rejects facility
+          downloads for admin
+          doesn't include work twice
+    filtering & searching
+      tag filtering
+        should return no works when tags do not exist
+        should use AND for tags
     user with no rights
       should not be accessible when logged in as an anonymous user
     facility
@@ -1542,8 +1760,8 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
-Finished in 58.62 seconds (files took 3.29 seconds to load)
-635 examples, 0 failures, 8 pending
+Finished in 1 minute 34.36 seconds (files took 4.21 seconds to load)
+780 examples, 0 failures, 8 pending
 
 
 ```

@@ -193,7 +193,7 @@ class Ability
 
     can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
-    can [:create, :update, :edit_visibility, :index], Attachment do |attachment|
+    can [:create, :index], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
