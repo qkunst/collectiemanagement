@@ -66,6 +66,31 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
   end
+  describe "DELETE /collections/:colletion_id" do
+    [:admin, :advisor].each do |user_key|
+      it "allows access for #{user_key}" do
+        user = users(user_key)
+        collection = collections(:collection1).collections.create(name: "removable_sub")
+
+        sign_in user
+        expect(user.accessible_collections).to include(collection)
+
+        expect { delete collection_path(collection) }.to change(Collection, :count).by(-1)
+      end
+    end
+
+    [:facility_manager, :appraiser, :compliance].each  do |user_key|
+      it "denies access for #{user_key}" do
+        user = users(user_key)
+        collection = collections(:collection1).collections.create(name: "removable_sub")
+
+        sign_in user
+        expect(user.accessible_collections).to include(collection)
+
+        expect { delete collection_path(collection) }.not_to change(Collection, :count)
+      end
+    end
+  end
   describe "GET /collections/:id/edit" do
     it "shouldn't be publicly accessible!" do
       collection = collections(:collection1)
