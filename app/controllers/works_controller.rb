@@ -28,7 +28,7 @@ class WorksController < ApplicationController
   include Works::XmlResponse
   include Works::Filtering
 
-  before_action :authenticate_admin_or_advisor_user!, only: [:destroy, :modified_index]
+  before_action :authenticate_admin_or_advisor_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices]
@@ -189,6 +189,7 @@ class WorksController < ApplicationController
   end
 
   def modified_index
+    authorize! :review_modified_works, @collection
     versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").order(created_at: :desc).limit(500)
 
     @form = WorksModifiedForm.new(works_modified_form_params)
