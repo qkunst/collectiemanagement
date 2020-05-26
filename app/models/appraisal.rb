@@ -15,6 +15,8 @@ class Appraisal < ApplicationRecord
 
   include ActionView::Helpers::NumberHelper
 
+  has_paper_trail
+
   attribute :replacement_value_range
   attribute :market_value_range
 
