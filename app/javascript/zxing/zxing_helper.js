@@ -173,7 +173,7 @@ function renderCodeToTargetTextArea(code) {
   if (code.format) {
     var currentValue = state.targetElement.value.trim();
     if (!currentValue.match(code.text)) { // tried escapeProblemFreeMatch() but too slow for Safari atm, out of scope anyhow
-      currentValue = currentValue + "\n" + code.text;
+      currentValue = code.text + "\n" + currentValue;
       flashBorder();
       delegatedBeep();
     }
@@ -196,7 +196,7 @@ function initializeScanner() {
   var video = document.createElement("video");
 
   video.width = 800;
-  video.height = 600;
+  video.height = 800;
 
   var canvasElement = document.getElementById("zxing-canvas");
   var canvas = canvasElement.getContext("2d");
