@@ -195,8 +195,8 @@ function escapeProblemFreeMatch(text, target) {
 function initializeScanner() {
   var video = document.createElement("video");
 
-  video.width = 640;
-  video.height = 480;
+  video.width = 800;
+  video.height = 600;
 
   var canvasElement = document.getElementById("zxing-canvas");
   var canvas = canvasElement.getContext("2d");
@@ -219,8 +219,9 @@ function initializeScanner() {
       try {
         if (state.scanActive) {
           var code = scanBarcode(canvasElement, format);
-
-          state.codeCallback(code)
+          setTimeout(function(){
+            state.codeCallback(code)
+          },1);
         }
       }
       catch (error) {
