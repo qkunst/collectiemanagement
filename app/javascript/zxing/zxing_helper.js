@@ -138,8 +138,15 @@ function scanBarcode(canvasElement, format) {
     } else {
       console.log(sourceBuffer.byteLength)
     }
-
 }
+
+function flashBorder() {
+  document.querySelector(".zxing-canvas-container").classList.add("flash");
+  setTimeout(function() {
+    document.querySelector(".zxing-canvas-container").classList.remove("flash")
+  }, 500)
+}
+
 
 function renderCodeInOutputMessage(code) {
   var outputContainer = document.getElementById("output");
@@ -167,6 +174,7 @@ function renderCodeToTargetTextArea(code) {
     var currentValue = state.targetElement.value.trim();
     if (!currentValue.match(code.text)) { // tried escapeProblemFreeMatch() but too slow for Safari atm, out of scope anyhow
       currentValue = currentValue + "\n" + code.text;
+      flashBorder();
       delegatedBeep();
     }
     state.targetElement.value = currentValue
@@ -209,23 +217,18 @@ function initializeScanner() {
 
       var format = "";
       try {
-        var code = scanBarcode(canvasElement, format);
+        if (state.scanActive) {
+          var code = scanBarcode(canvasElement, format);
 
-        state.codeCallback(code)
+          state.codeCallback(code)
+        }
       }
       catch (error) {
         // state.scanActive = false;
         // requestAnimationFrame(scanFrame);
       }
     }
-    if (state.scanActive) {
-      requestAnimationFrame(scanFrame);
-    } else {
-      video.srcObject.getTracks().forEach(function(track) {
-        track.stop();
-      });
-      video.pause();
-    }
+    requestAnimationFrame(scanFrame);
   }
 
   // Use facingMode: environment to attemt to get the front camera on phones
@@ -237,16 +240,26 @@ function initializeScanner() {
   });
 }
 
-document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", function(event){
+let startScan = function(event) {
   state.scanActive = true;
-  state.targetElement = event.target;
+  state.targetElement = document.querySelector("*[data-zxing-output-target]");
+  document.querySelector(".zxing-canvas-container").classList.add("active");
   initializeScanner();
-  // event.target.setAttribute("readonly", "readonly");
-})
-
-document.addDelegatedEventListener("focusout", "*", function(event){
+}
+let stopScan = function(event) {
+  document.querySelector(".zxing-canvas-container").classList.remove("active")
+  document.querySelector(".zxing-canvas-container").classList.remove("flash")
   state.scanActive = false;
-})
+}
+
+document.addDelegatedEventListener("touchstart", "#zxing-canvas", startScan)
+document.addDelegatedEventListener("touchend", "#zxing-canvas", stopScan)
+document.addDelegatedEventListener("mousedown", "#zxing-canvas", startScan)
+document.addDelegatedEventListener("mouseup", "#zxing-canvas", stopScan)
+// document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", startScan)
+// document.addDelegatedEventListener("focusout", "*[data-zxing-output-target]", stopScan)
+
+// document.
 
 // autofocus workaround (no focusin event is fired)
 function autoFocus() {
@@ -257,7 +270,7 @@ function autoFocus() {
   }
 }
 
-window.addEventListener("load", autoFocus)
-document.addEventListener("turbolinks:load", autoFocus)
+// window.addEventListener("load", autoFocus)
+// document.addEventListener("turbolinks:load", autoFocus)
 
 

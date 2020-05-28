@@ -242,12 +242,14 @@ h3 {
       width: 100%;
     };
   }
-  &.bottom-nav {
-    border-top: 1px solid #999;
-    border-bottom: 0 none;
-    top: none;
-    bottom: 0;
-    z-index: 19;
+  @media screen and (min-height: 40em) {
+    &.bottom-nav {
+      border-top: 1px solid #999;
+      border-bottom: 0 none;
+      top: none;
+      bottom: 0;
+      z-index: 19;
+    }
   }
 }
 

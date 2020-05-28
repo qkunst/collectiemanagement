@@ -24,8 +24,8 @@ After=syslog.target network.target
 # http://0pointer.de/public/systemd-man/systemd.exec.html
 [Service]
 Type=simple
-WorkingDirectory=/home/qkunstpublic/collectiebeheer.qkunst.nl/current
-ExecStart=/bin/bash -lc 'RBENV_ROOT=$HOME/.rbenv RBENV_VERSION= $HOME/.rbenv/bin/rbenv exec bundle exec sidekiq -e production'
+WorkingDirectory=/home/public/collectiemanagement.qkunst.nl/current
+ExecStart=/bin/bash -lc 'RBENV_ROOT=/home/qkunst/.rbenv RBENV_VERSION=2.6.2 /home/qkunst/.rbenv/bin/rbenv exec bundle exec sidekiq -e production'
 User=murb
 Group=murb
 UMask=0002

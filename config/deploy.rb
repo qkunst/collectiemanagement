@@ -42,6 +42,7 @@ set :linked_dirs, %w[log tmp public/uploads storage node_modules]
 
 # rbenv
 set :rbenv_type, :user
+set :rbenv_path, "/home/#{fetch(:remote_user)}/.rbenv"
 set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
 set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
@@ -49,8 +50,8 @@ set :rbenv_roles, :all
 
 set :local_user, `whoami`.strip
 set :public_key, File.open("/Users/#{fetch(:local_user)}/.ssh/id_rsa.pub").read
-set :database_name, "#{fetch(:application).delete(".")}-#{fetch(:stage)}"
-set :database_user, fetch(:database_name)
+set :database_name, "qkunst-prod"
+set :database_user, "qkunst"
 set :application_production_domain_name, fetch(:application)
 
 set :email, "maarten@murb.nl"
@@ -65,7 +66,7 @@ namespace :deploy do
 
   desc "Restart application"
   after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
+    on roles(:app), in: :groups, limit: 3, wait: 10 do
       execute :touch, release_path.join("tmp/restart.txt")
     end
   end
@@ -76,7 +77,7 @@ end
 namespace :rbenv do
   desc "Install rbenv"
   task :install do
-    on roles("web") do
+    on roles(:setup) do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git #{fetch(:rbenv_path)}"
       rescue SSHKit::Command::Failed
@@ -109,102 +110,21 @@ end
 namespace :server do
   desc "Initialize"
   task :init do
-    puts "ssh root@#{fetch(:application)}"
-    puts "passwd #set it to something extremely long"
-    puts "apt-get update"
-    puts "apt-get upgrade"
-    puts "apt-get install nginx fail2ban unattended-upgrades logwatch git-core build-essential libssl-dev libcurl4-openssl-dev libreadline-dev nodejs sqlite3 libsqlite3-dev dirmngr gnupg apt-transport-https ca-certificates postgresql postgresql-client libpq-dev vim zlib1g-dev"
-    puts "useradd #{fetch(:local_user)}"
-    puts "mkdir /home/#{fetch(:local_user)}"
-    puts "mkdir /home/#{fetch(:local_user)}/.ssh"
-    puts "chmod 700 /home/#{fetch(:local_user)}/.ssh"
-    puts "echo \"#{fetch(:public_key)}\" > /home/#{fetch(:local_user)}/.ssh/authorized_keys"
-    puts "chmod 400 /home/#{fetch(:local_user)}/.ssh/authorized_keys"
-    puts "chown #{fetch(:local_user)}:#{fetch(:local_user)} /home/#{fetch(:local_user)} -R"
+    on roles(:app), in: :sequence do
+      execute "mkdir -p #{shared_path}/config"
 
-    puts "useradd #{fetch(:remote_user)}"
-    puts "mkdir /home/#{fetch(:remote_user)}"
-    puts "mkdir /home/#{fetch(:remote_user)}/.ssh"
-    puts "chmod 700 /home/#{fetch(:remote_user)}/.ssh"
-    puts "cp /home/#{fetch(:local_user)}/.ssh/id_rsa.pub /home/#{fetch(:remote_user)}/.ssh/authorized_keys"
-    puts "chmod 400 /home/#{fetch(:remote_user)}/.ssh/authorized_keys"
-    puts "chown #{fetch(:remote_user)}:#{fetch(:remote_user)} /home/#{fetch(:remote_user)} -R"
+      begin
+        execute "test -f #{shared_path}/config/secrets.yml && echo Secrets already present"
+      rescue SSHKit::Command::Failed => e
+        execute "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
+      end
 
-    puts "passwd #{fetch(:local_user)}"
-    puts "visudo"
-    puts ""
-    puts "# Comment all existing user/group grant lines and add:"
-    puts "    root    ALL=(ALL) ALL"
-    puts "    #{fetch(:local_user)}  ALL=(ALL) ALL"
-    puts ""
-    puts "vim /etc/ssh/sshd_config"
-    puts ""
-    puts "# Make sure that you can ssh witht password and sudo and then add these lines:"
-    puts "    PermitRootLogin no"
-    puts "    PasswordAuthentication no"
-    puts ""
-    puts "service ssh restart"
-    puts "ufw allow 22"
-    puts "ufw allow 80"
-    puts "ufw allow 443"
-    puts "ufw enable"
-    puts "vim /etc/apt/apt.conf.d/10periodic"
-    puts ""
-    puts "# make it look like this"
-    puts ""
-    puts '    APT::Periodic::Update-Package-Lists "1";'
-    puts '    APT::Periodic::Download-Upgradeable-Packages "1";'
-    puts '    APT::Periodic::AutocleanInterval "7";'
-    puts '    APT::Periodic::Unattended-Upgrade "1";'
-    puts ""
-    puts "vim /etc/apt/apt.conf.d/50unattended-upgrades"
-    puts "# make it look like this"
-    puts "    Unattended-Upgrade::Allowed-Origins {"
-    puts "      \"Ubuntu lucid-security\";"
-    puts "      //\"Ubuntu lucid-updates\";"
-    puts "    };"
-    puts ""
-    puts "vim /etc/cron.daily/00logwatch"
-    puts "# add this line"
-    puts ""
-    puts "    /usr/sbin/logwatch --output mail --mailto #{fetch(:email)} --detail high"
-    puts ""
-    puts "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7"
-    puts "sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger stretch main > /etc/apt/sources.list.d/passenger.list'"
-    puts "apt-get update"
-    puts "apt-get install -y libnginx-mod-http-passenger"
-    puts "if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi"
-    puts "cat /etc/nginx/conf.d/mod-http-passenger.conf"
-    puts "# set settings:"
-    puts "    passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;"
-    puts "    passenger_ruby /usr/bin/passenger_free_ruby;"
-    puts "service nginx restart"
-    puts "/usr/bin/passenger-config validate-install"
-    puts "su #{fetch(:remote_user)}"
-    puts "git clone https://github.com/sstephenson/rbenv.git ~/.rbenv"
-    puts "git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build"
-    puts "git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash"
-    puts "echo 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bashrc"
-    puts "echo 'eval \"$(rbenv init -)\"' >> ~/.bashrc"
-    puts "exit"
-    puts "Install postfix: Select internet site and set the FQDN accordingly (your site’s domainname)."
-    puts "apt-get install postfix"
-    puts "You can test it by running `mail test@murb.nl`"
-    puts "su postgres"
-    puts "psql"
-    require "securerandom"
-    random_db_pw = SecureRandom.base64(24).gsub(/['"]/, "[")
-    puts "CREATE USER \"#{fetch(:database_user)}\" WITH PASSWORD '#{random_db_pw}';"
-    puts "CREATE DATABASE \"#{fetch(:database_name)}\" OWNER \"#{fetch(:database_user)}\";"
-    puts "\\q"
-    puts "exit"
-    puts "su #{fetch(:remote_user)}"
-    puts "mkdir ~/public"
-    puts "mkdir ~/public/#{fetch(:application)}"
-    puts "mkdir #{shared_path}"
-    puts "mkdir #{shared_path}/config"
-    puts "printf \"#{fetch(:stage)}:\\n  username: #{fetch(:database_user)}\\n  password: #{random_db_pw}\\n  adapter: postgresql\\n  encoding: unicode\\n  database: #{fetch(:database_name)}\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
-    puts "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
+      begin
+        execute "test -f #{shared_path}/config/database.yml && echo Database config already present"
+      rescue SSHKit::Command::Failed => e
+        execute "printf \"#{fetch(:stage)}:\\n  username: #{fetch(:database_user)}\\n  password: $PASSWORD\\n  adapter: postgresql\\n  encoding: unicode\\n  database: #{fetch(:database_name)}\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
+      end
+    end
   end
 
   desc "Install ruby"
@@ -213,6 +133,8 @@ namespace :server do
       execute :rbenv, " install #{fetch(:rbenv_ruby)} -k"
       execute :rbenv, " global #{fetch(:rbenv_ruby)}"
       execute :gem, " install bundler"
+      execute :echo, "'export PATH=\"$HOME/.rbenv/bin:$PATH\"'", ">>", "~/.bashrc"
+      execute :echo, "'eval \"$(rbenv init -)\"'", ">>", "~/.bashrc"
     end
   end
 

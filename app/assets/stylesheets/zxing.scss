@@ -1,0 +1,42 @@
+@import 'settings';
+
+.zxing-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.zxing-canvas-container {
+  max-height: calc( 480px + 2em );
+  float: left;
+  border: 5px solid $white;
+  border-color: $white;
+  transition: border-color 0.1s;
+  &.active {
+    border-color: $qkunst-brown;
+  }
+  &.active.flash {
+    transition: border-color 0.5s;
+    border-color: $qkunst-green;
+  }
+}
+.zxing-canvas-container canvas {
+  margin: 0 auto;
+  display: block;
+  width: 100%;
+
+}
+
+@media screen and (max-width: 30em) {
+  .zxing-wrapper {
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .zxing-canvas-container canvas {
+/*    max-width: 640px;*/
+/*    max-height: 480px;*/
+  }
+}

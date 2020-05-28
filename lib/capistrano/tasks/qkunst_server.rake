@@ -43,14 +43,15 @@ def sudo_exec command
   execute :sudo, "-S DEBIAN_FRONTEND=noninteractive", command, interaction_handler: PASSWORD_HANDLER
 end
 
-namespace :qkunst_server do
+namespace :server do
   desc "prepare sidekiq script"
   task :sidekiq_setup do
-    on roles(:app_man) do |host|
+    on roles(:app) do |host|
       service_erb_file_path = File.join(__dir__, "fixtures", "sidekiq.service.erb")
 
       sidekiq_start_cmd = "#{fetch(:rbenv_prefix)} bundle exec sidekiq -e #{fetch(:stage)}"
-      remote_user = "murb"
+      sudo_user = "murb"
+      remote_user = sudo_user
 
       service_erb = ERB.new File.read(service_erb_file_path)
       service_result = service_erb.result(binding)
@@ -58,7 +59,7 @@ namespace :qkunst_server do
       tmp_filename = "sidekiq.service.erb.tmp"
       tmp_filepath = File.join(__dir__, "fixtures", tmp_filename)
       tmp_file = File.open(tmp_filepath, "w")
-      tmp_file.write(service_result.to_s.gsub("~/", "/home/#{fetch(:remote_user)}"))
+      tmp_file.write(service_result.to_s.gsub("~/", "/home/#{fetch(:sudo_user)}"))
       tmp_file.close
       upload!(tmp_filepath, tmp_filename.to_s)
       sudo_exec("cp ~/sidekiq.service.erb.tmp /lib/systemd/system/sidekiq.service")
