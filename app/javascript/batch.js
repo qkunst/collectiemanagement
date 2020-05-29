@@ -1,5 +1,3 @@
-console.log("batch coffee");
-
 document.addDelegatedEventListener('batchinput:change', '#batch-work input, #batch-work textarea, #batch-work select', function(e) {
   var cluster_selector, cluster_selector_text_value, strategyElement;
   strategyElement = document.getElementById(e.target.dataset.strategyInputId);
