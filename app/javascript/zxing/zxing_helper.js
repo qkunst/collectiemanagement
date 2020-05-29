@@ -125,7 +125,7 @@ function scanBarcode(canvasElement, format) {
     var imageData = canvasElement.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
     var sourceBuffer = imageData.data;
     if (sourceBuffer.byteLength <= imgWidth*imgHeight*4) {
-      var buffer = zxing._malloc(sourceBuffer.byteLength);
+      var buffer = zxing._malloc(sourceBuffer.byteLength * 2);
       zxing.HEAPU8.set(sourceBuffer, buffer);
       var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
       zxing._free(buffer);
@@ -211,7 +211,7 @@ function initializeScanner() {
           var code = scanBarcode(canvasElement, format);
           setTimeout(function(){
             state.codeCallback(code)
-          },1);
+          }, 1);
         }
       }
       catch (error) {
