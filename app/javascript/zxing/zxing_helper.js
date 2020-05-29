@@ -111,7 +111,7 @@ function beep(vol, duration){
 // --> UTILS END
 
 
-var zxing = ZXing();
+var zxing;
 var state = {
   scanActive: null,
   targetElement: null,
@@ -190,6 +190,7 @@ function escapeProblemFreeMatch(text, target) {
 function initializeScanner() {
   var video = document.createElement("video");
 
+  zxing = ZXing();
   video.width = 800;
   video.height = 800;
 
