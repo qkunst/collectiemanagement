@@ -124,7 +124,7 @@ function scanBarcode(canvasElement, format) {
     var imgHeight = canvasElement.height;
     var imageData = canvasElement.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
     var sourceBuffer = imageData.data;
-    if (sourceBuffer.byteLength < 1228800*4) {
+    if (sourceBuffer.byteLength < 800*800*4*4) {
       var buffer = zxing._malloc(sourceBuffer.byteLength);
       zxing.HEAPU8.set(sourceBuffer, buffer);
       var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
@@ -188,7 +188,6 @@ function escapeProblemFreeMatch(text, target) {
 }
 
 function initializeScanner() {
-  prepareAudioContext();
   var video = document.createElement("video");
 
   video.width = 800;
@@ -216,8 +215,6 @@ function initializeScanner() {
         }
       }
       catch (error) {
-        // state.scanActive = false;
-        // requestAnimationFrame(scanFrame);
       }
     }
     requestAnimationFrame(scanFrame);
@@ -233,6 +230,8 @@ function initializeScanner() {
 }
 
 let startScan = function(event) {
+  prepareAudioContext();
+
   state.scanActive = true;
   state.targetElement = document.querySelector("*[data-zxing-output-target]");
   document.querySelector(".zxing-canvas-container").classList.add("active");
@@ -248,21 +247,4 @@ document.addDelegatedEventListener("touchstart", "#zxing-canvas", startScan)
 document.addDelegatedEventListener("touchend", "#zxing-canvas", stopScan)
 document.addDelegatedEventListener("mousedown", "#zxing-canvas", startScan)
 document.addDelegatedEventListener("mouseup", "#zxing-canvas", stopScan)
-// document.addDelegatedEventListener("focusin", "*[data-zxing-output-target]", startScan)
-// document.addDelegatedEventListener("focusout", "*[data-zxing-output-target]", stopScan)
-
-// document.
-
-// autofocus workaround (no focusin event is fired)
-function autoFocus() {
-  var target = autoFocusElement = document.querySelector("[data-zxing-output-target][autofocus]");
-  if(target) {
-    var evt = new Event("focusin", {"bubbles":true, "cancelable":false});
-    target.dispatchEvent(evt);
-  }
-}
-
-// window.addEventListener("load", autoFocus)
-// document.addEventListener("turbolinks:load", autoFocus)
-
 
