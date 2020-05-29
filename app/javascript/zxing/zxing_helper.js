@@ -111,7 +111,7 @@ function beep(vol, duration){
 // --> UTILS END
 
 
-var zxing;
+var zxing = ZXing();
 var state = {
   scanActive: null,
   targetElement: null,
@@ -125,7 +125,7 @@ function scanBarcode(canvasElement, format) {
     var imageData = canvasElement.getContext('2d').getImageData(0, 0, imgWidth, imgHeight);
     var sourceBuffer = imageData.data;
     if (sourceBuffer.byteLength <= imgWidth*imgHeight*4) {
-      var buffer = zxing._malloc(sourceBuffer.byteLength * 2);
+      var buffer = zxing._malloc(sourceBuffer.byteLength);
       zxing.HEAPU8.set(sourceBuffer, buffer);
       var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
       zxing._free(buffer);
@@ -190,7 +190,6 @@ function escapeProblemFreeMatch(text, target) {
 function initializeScanner() {
   var video = document.createElement("video");
 
-  zxing = ZXing();
   video.width = 800;
   video.height = 800;
 
@@ -210,9 +209,7 @@ function initializeScanner() {
       try {
         if (state.scanActive) {
           var code = scanBarcode(canvasElement, format);
-          setTimeout(function(){
-            state.codeCallback(code)
-          }, 1);
+          state.codeCallback(code)
         }
       }
       catch (error) {
