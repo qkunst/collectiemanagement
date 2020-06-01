@@ -75,11 +75,12 @@ if (!HTMLDocument.prototype.addDelegatedEventListener) {
 
 // play a simple beep
 let gain;
+var audioContext;
 
 const prepareAudioContext = function() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
-  if (typeof AudioContext !== "undefined") {
-    var audioContext = new AudioContext();
+  if (typeof AudioContext !== "undefined" && typeof audioContext === "undefined") {
+    audioContext = new AudioContext();
     // create empty buffer
     let buffer = audioContext.createBuffer(1, 1, 22050);
     let source = audioContext.createBufferSource();
@@ -129,6 +130,8 @@ function scanBarcode(canvasElement, format) {
       zxing.HEAPU8.set(sourceBuffer, buffer);
       var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
       zxing._free(buffer);
+      sourceBuffer = null;
+      buffer = null;
       return result;
     } else {
       console.log(sourceBuffer.byteLength)
@@ -170,7 +173,7 @@ function renderCodeToTargetTextArea(code) {
     if (!currentValue.match(code.text)) { // tried escapeProblemFreeMatch() but too slow for Safari atm, out of scope anyhow
       currentValue = code.text + "\n" + currentValue;
       flashBorder();
-      beep(0.1, 200);
+      beep(0.1, 150);
     }
     state.targetElement.value = currentValue
   }
