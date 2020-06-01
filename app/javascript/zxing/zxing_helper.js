@@ -105,6 +105,8 @@ const prepareAudioContext = function() {
 
 
 function beep(vol, duration){
+  prepareAudioContext(); // initializes if it hasn't already (as late as possible to circumvent blocking audio)
+
   gain.gain.value = vol;
   setTimeout(function() { gain.gain.value = 0 }, duration)
 }
@@ -230,8 +232,10 @@ function initializeScanner() {
   });
 }
 
+
 let startScan = function(event) {
-  prepareAudioContext();
+  event.preventDefault();
+  event.stopPropagation();
 
   state.scanActive = true;
   state.targetElement = document.querySelector("*[data-zxing-output-target]");
@@ -243,6 +247,7 @@ let stopScan = function(event) {
   document.querySelector(".zxing-canvas-container").classList.remove("flash")
   state.scanActive = false;
 }
+document.addDelegatedEventListener("contextmenu", "#zxing-canvas", function(e) { console.log("contextmenu"); e.preventDefault(); e.stopPropagation(); return false; })
 
 document.addDelegatedEventListener("touchstart", "#zxing-canvas", startScan)
 document.addDelegatedEventListener("touchend", "#zxing-canvas", stopScan)
