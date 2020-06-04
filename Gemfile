@@ -3,12 +3,12 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>5" # , '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
+gem "rails", "~> 5", ">= 5.2.4.3" # , '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
 # gem 'webrick'
-gem "markdown-rails"
+gem "markdown-rails", ">= 0.2.1"
 gem "puma" # , '~> 3.0'
 # Use SCSS for stylesheets
 gem "sass-rails" # , '~> 5.0'
@@ -107,7 +107,7 @@ gem "bundler-audit"
 # gem 'delayed_job_active_record'
 gem "redis-rails"
 gem "exception_notification"
-gem "zipline"
+gem "zipline", ">= 1.2.0"
 gem "activerecord-session_store"
 gem "rack-headers_filter"
 gem "strip_attributes"
