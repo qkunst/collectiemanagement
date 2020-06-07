@@ -5,9 +5,13 @@
       <thead><tr>
         <th><strong>Locatie</strong></th>
         <td class="actions">
-          <% if can?(:edit_location, work) and work.id %>
-            <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
-            <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
+          <% if work.persisted? %>
+            <% if can?(:edit_location, work) %>
+              <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
+            <% end %>
+            <% if can?(:view_location_history, work) %>
+              <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
+            <% end %>
           <% end %>
         </td>
       </tr></thead>
