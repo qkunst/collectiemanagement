@@ -41,12 +41,6 @@ class Message < ApplicationRecord
 
   time_as_boolean :actioned_upon_by_qkunst_admin
 
-  def set_from_user_name!
-    if from_user
-      self.from_user_name = from_user.name
-    end
-  end
-
   def from_user_name_without_email
     from_user_name.to_s.split("@")[0].to_s.capitalize
   end
@@ -147,4 +141,13 @@ class Message < ApplicationRecord
       MessageMailer.new_message(user, self).deliver_now
     end
   end
+
+  private
+
+  def set_from_user_name!
+    if from_user
+      self.from_user_name = from_user.name
+    end
+  end
+
 end

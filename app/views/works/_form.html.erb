@@ -1,5 +1,12 @@
 <%= simple_nested_form_for([@collection,@work], data: {offline: :offline}) do |f| %>
   <%= f.error_notification %>
+  <% if @work.errors.count > 0 %>
+  <ul>
+    <% @work.errors.full_messages.each do |error| %>
+      <li><%= error%></li>
+    <% end %>
+  </ul>
+  <% end %>
   <div class="form-inputs">
     <fieldset>
       <legend>Administratief</legend>
