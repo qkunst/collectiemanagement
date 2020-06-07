@@ -2,7 +2,6 @@
 
 .hint {
   margin-top: -1em;
-  line-height: 1;
 
   small {
     opacity: 0.6;
@@ -48,6 +47,11 @@ input.radio_buttons {
   }
 }
 
+fieldset.warning {
+  border: 5px solid #f00;
+  border-color: $qkunst-orange;
+  padding: 1em;
+}
 
 .input .hint {
   font-size: 0.825em;
@@ -55,6 +59,10 @@ input.radio_buttons {
   margin-top: -1.125em;
   display: block;
   margin-bottom: 1em;
+}
+.boolean.input .hint {
+  margin-top: -0.5em;
+  padding-left: 1.5rem;
 }
 
 .chosen-container {
