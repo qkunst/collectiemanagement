@@ -25,7 +25,7 @@ class Message < ApplicationRecord
   scope :thread_can_be_accessed_by_user, ->(user) do
     if user.admin?
       where("1=1")
-    elsif user.advisor?
+    elsif user.advisor? or user.compliance?
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1 OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Work') OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Collection')", user.id, user.id, user.id, user.id, user.accessible_works.map(&:id), user.accessible_collections.map(&:id))
     else
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id, user.id, user.id, user.id)

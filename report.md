@@ -1,12 +1,12 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2020-05-15 16:00:36 +0200
+Date: 2020-06-07 20:16:46 +0200
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **93.16%** of the lines are covered by automated test. The code base consists of **8506** lines of code.
+In total **93.23%** of the lines are covered by automated test. The code base consists of **8632** lines of code.
 
 ## Abilities
 
@@ -33,6 +33,7 @@ This lists what a user can do per object-type.
 |*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Bericht**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Markeer als voltooid*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✘|
 |*Tonen*|✔|✔|✔|✔|✔|✘|
@@ -55,6 +56,8 @@ This lists what a user can do per object-type.
 |*Waarderingsreferentie lezen*|✔|✔|✔|✔|✘|✘|
 |*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
 |*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘|
+|*Toon gewijzigde werken*|✔|✔|✔|✘|✘|✘|
+|*Verwijderen*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
@@ -92,21 +95,6 @@ This lists what a user can do per object-type.
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
-|**Werk**||
-|*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
-|*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
-|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘|
-|*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘|
-|*Beheer locatie*|✔|✔|✘|✔|✔|✘|
-|*Toon locatie*|✔|✔|✔|✔|✔|✘|
-|*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
-|*Taggen*|✔|✔|✘|✔|✘|✘|
-|*Details tonen*|✔|✔|✔|✔|✔|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
-|*Lezen*|✔|✔|✔|✔|✔|✔|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
-|*Tonen*|✔|✔|✔|✔|✔|✔|
-|*Beheren*|✔|✔|✘|✘|✘|✘|
 |**Gebruiker**||
 |*Verwijderen*|✔|✘|✘|✘|✘|✘|
 |*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
@@ -115,6 +103,25 @@ This lists what a user can do per object-type.
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht zien*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|**Werk**||
+|*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
+|*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘|
+|*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘|
+|*Beheer locatie*|✔|✔|✘|✔|✔|✘|
+|*Toon locatie*|✔|✔|✔|✔|✔|✘|
+|*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
+|*Taggen*|✔|✔|✘|✔|✘|✘|
+|*translation missing: nl.abilities.view_location_history*|✔|✔|✔|✔|✔|✘|
+|*Details tonen*|✔|✔|✔|✔|✔|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Beheren*|✔|✔|✘|✘|✘|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
@@ -359,7 +366,7 @@ View report
   as an admin
   as a facility manager (limited)
 
-Finished in 57.98 seconds (files took 2.97 seconds to load)
+Finished in 53.46 seconds (files took 3.11 seconds to load)
 51 examples, 0 failures
 
 
@@ -680,10 +687,23 @@ SystemMailer
     renders the body
 
 Ability
+  admin
+    Works
+      can read work(:work1)
+      can edit work(:work1)
+      can edit_location work(:work1)
+      can read work(:work6)
+      can show_details work(:work1)
   advisor
-    Alias workings
+    Test: alias working of :manage_collection
       can manage_collection collection(:collection_with_works)
       can review_collection collection(:collection_with_works)
+    Works
+      can read work(:work1)
+      can edit work(:work1)
+      can edit_location work(:work1)
+      cannot read work(:work6)
+      can show_details work(:work1)
   compliance
     Collections
       can read collection(:collection_with_works)
@@ -800,7 +820,13 @@ Attachment
     without_works
       should return attachments without works
     for_role
-      should always work for admin
+      should return all for advisor
+      should return all for admin
+      should filter compliance
+      should filter facility_manager
+      should filter appraiser
+      should filter qkunst
+      should show none for readonly
     for_me
       should always work for admin
       should always work for admin
@@ -1266,6 +1292,8 @@ Appraisals
     it refuses by default
     it refuses by qkunst
     it works for admin
+  POST /collections/1/works/1/appraisals
+    stores an appraisal
 
 Artists
   GET /artists
@@ -1329,6 +1357,20 @@ Clusters
     is not accessible by a random registrerd user
     is not accessible by a facility manager with access to the collection
 
+Collection::UsersController
+  GET /collections/:id/users
+    shouldn't be publicly accessible!
+    facility_manager
+      should return 302
+    appraiser
+      should return 302
+    advisor
+      should return 200
+      should show users
+    compliance
+      should return 200
+      should show users
+
 Collections
   GET /collections
     shouldn't be publicly accessible!
@@ -1341,6 +1383,12 @@ Collections
     should not be accessible when logged in as an anonymous user
     should allow accesss to the single collection the user has access to
     should redirect to the root when accessing anohter collection
+  DELETE /collections/:colletion_id
+    allows access for admin
+    allows access for advisor
+    denies access for facility_manager
+    denies access for appraiser
+    denies access for compliance
   GET /collections/:id/edit
     shouldn't be publicly accessible!
     should be accessible when logged in as admin
@@ -1552,6 +1600,12 @@ Works
   PATCH /collections/:collection_id/works/:id
     should render the edit form when changing location fails
     should allow for updating work status
+  DELETE /collections/:colletion_id/work_id
+    allows access for admin
+    allows access for advisor
+    denies access for facility_manager
+    denies access for appraiser
+    denies access for compliance
   GET /collections/:id/works
     shouldn't be publicly accessible!
     admin
@@ -1590,6 +1644,12 @@ Works
       should not allow accesss to a work in another collection by accessing it through another collection the user has access to
       should not allow accesss to a work in collection the user has no access to
       should redirect to the root when accessing anohter collection
+  GET /collections/:colletion_id/works/modified
+    allows access for admin
+    allows access for compliance
+    allows access for advisor
+    denies access for facility_manager
+    denies access for appraiser
 
 AppraisalsController
   routing
@@ -1760,8 +1820,8 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
-Finished in 1 minute 34.36 seconds (files took 4.21 seconds to load)
-780 examples, 0 failures, 8 pending
+Finished in 1 minute 56.78 seconds (files took 3.93 seconds to load)
+819 examples, 0 failures, 8 pending
 
 
 ```
