@@ -36,8 +36,8 @@ RSpec.describe MessagesController, type: :controller do
       get :show, params: {id: m.id}
       expect(response).to have_http_status(:success)
       m.reload
-      expect(m.actioned_upon_by_qkunst_admin_at).not_to eq(nil)
-      expect(m.replies.first.actioned_upon_by_qkunst_admin_at).not_to eq(nil)
+      expect(m.actioned_upon_by_qkunst_admin_at).to eq(nil)
+      expect(m.replies.first.actioned_upon_by_qkunst_admin_at).to eq(nil)
     end
   end
 

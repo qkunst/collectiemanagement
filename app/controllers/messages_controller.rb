@@ -6,11 +6,13 @@ class MessagesController < ApplicationController
   before_action :set_work
   before_action :set_collection
   before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_new_message, only: [:show, :new, :index]
 
   # GET /messages
   # GET /messages.json
   def index
     @messages = Message.conversation_starters.order_by_reverse_creation_date
+
     if subject_object
       @messages = @messages.for(subject_object)
       @messages = @messages.not_qkunst_private unless current_user.qkunst?
@@ -37,23 +39,16 @@ class MessagesController < ApplicationController
       @work ||= @message.subject_object
       @collection ||= @work.collection
     end
-    if current_user.admin?
-      @message.update_attributes(actioned_upon_by_qkunst_admin_at: Time.now)
-      @message.conversation.update_all(actioned_upon_by_qkunst_admin_at: Time.now)
-    end
-    @new_reply_message = Message.new
-    @new_reply_message.in_reply_to_message = @message
-    @new_reply_message.subject = /^re\:(.*)/i.match?(@message.subject.to_s) ? @message.subject : "Re: #{@message.subject}"
+
   end
 
   # GET /messages/new
   def new
-    @message = Message.new
+    @message = @new_reply_message
     if params[:message_id]
       @original_message = Message.find(params[:message_id])
       redirect_to messages_path, {alert: "U heeft geen toegang tot deze pagina"} unless current_user.can_access_message?(@original_message)
       @message.in_reply_to_message = @original_message
-      @message.subject = /^re(.*)/i.match?(@original_message.subject) ? @original_message.subject : "Re: #{@original_message.subject}"
     end
   end
 
@@ -71,13 +66,14 @@ class MessagesController < ApplicationController
     referrer = collection_or_work_url || params[:referrer] || request.referrer
     @message.subject_url = referrer unless /\/messages\//.match?(request.referrer)
 
+    authorize! :create, @message
+
     if message_params[:in_reply_to_message_id].to_i > 0
       original_message = Message.find(message_params[:in_reply_to_message_id].to_i)
       unless current_user.can_access_message?(original_message)
         redirect_to messages_path, {alert: "U probeert te reageren op een bericht welke u niet heeft kunnen zien."}
         return false
       end
-      original_message.actioned_upon_by_qkunst_admin! if current_user.admin?
     end
 
     respond_to do |format|
@@ -132,6 +128,9 @@ class MessagesController < ApplicationController
   def set_message
     @message = Message.find(params[:id])
     @subject_object = @message.subject_object
+
+    authorize! :show, @message
+
     if subject_object
       redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless current_user.qkunst? || !@message.qkunst_private
     else
@@ -139,8 +138,18 @@ class MessagesController < ApplicationController
     end
   end
 
+  def set_new_message
+    @new_reply_message = Message.new
+    @new_reply_message.in_reply_to_message = @message
+    if @message
+      @new_reply_message.subject = "Re: #{@message.subject}" if /^re\:(.*)/i.match?(@message.subject.to_s)
+    end
+    @new_reply_message.subject = (@work || @collection).try(:name) if @new_reply_message.subject.blank?
+    @new_reply_message
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def message_params
-    params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image)
+    params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image, :actioned_upon_by_qkunst_admin)
   end
 end

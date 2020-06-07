@@ -107,7 +107,8 @@ class Ability
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:edit_photos, :read_information_back, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :show_details], Work, collection_id: accessible_collection_ids
+    can [:edit_photos, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :show_details], Work, collection_id: accessible_collection_ids
+    can :manage, :complete, Message
 
     can [:destroy, :edit_admin], User
   end
@@ -133,8 +134,8 @@ class Ability
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
-    can :manage, Message
+    can [:read, :edit, :create, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+    can [:manage, :complete], Message
 
     can :update, User
     cannot [:destroy, :edit_admin], User
@@ -161,7 +162,7 @@ class Ability
     can :read, ImportCollection, collection_id: accessible_collection_ids
     can :read, Reminder, collection_id: accessible_collection_ids
     can :read, Attachment
-    can :read, Message
+    can [:read, :create], Message
 
     can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
 
@@ -192,7 +193,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
 
     can [:create, :index], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
@@ -214,7 +215,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias initialize_qkunst initialize_registrator
 
@@ -225,7 +226,7 @@ class Ability
     can [:read, :read_information_back, :manage_location, :show_details], Work, collection_id: accessible_collection_ids
 
     can :create, Message
-    can :read, Message, qkunst_private: false
+    can [:read, :show], Message, qkunst_private: [false,nil]
   end
 
   def initialize_read_only

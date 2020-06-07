@@ -39,6 +39,8 @@ class Message < ApplicationRecord
   before_save :set_from_user_name!
   after_create :send_notification
 
+  time_as_boolean :actioned_upon_by_qkunst_admin
+
   def set_from_user_name!
     if from_user
       self.from_user_name = from_user.name
@@ -54,7 +56,7 @@ class Message < ApplicationRecord
   end
 
   def read(user = nil)
-    !actioned_upon_by_qkunst_admin_at.nil? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
+    actioned_upon_by_qkunst_admin? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
   end
 
   def unread(user = nil)
