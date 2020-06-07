@@ -6,7 +6,7 @@ class Attachment < ApplicationRecord
 
   validates_presence_of :file
 
-  scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) || roles.include?(:compliance) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
+  scope :for_roles, ->(roles) { (roles.include?(:admin) || roles.include?(:advisor)) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
   scope :for_me, ->(user) { for_roles(user.roles) }
   scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil})}
