@@ -9,7 +9,7 @@ class Ability
   def initialize(user)
     if user
       @user = user
-      alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection
+      alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection # Manage related object in the context of a collection, but not outside collection
       alias_action :show, :index, to: :read
       alias_action :read_location, :edit_location, to: :manage_location
 
@@ -153,6 +153,7 @@ class Ability
     can :review_collection, Theme, collection_id: accessible_collection_ids
     can :review_collection, ImportCollection, collection_id: accessible_collection_ids
     can :review_collection, Owner, collection_id: accessible_collection_ids
+    can :review_collection, User
 
     can :read, Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids

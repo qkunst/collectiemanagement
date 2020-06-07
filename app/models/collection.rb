@@ -213,8 +213,12 @@ class Collection < ApplicationRecord
     themes.not_hidden
   end
 
+  def users_including_child_collection_users
+    (users + expand_with_child_collections.flat_map{ |c| c.users }).uniq
+  end
+
   def users_including_parent_users
-    (users + parent_collections_flattened.collect { |a| a.users_including_parent_users }).flatten.uniq
+    (users + parent_collections_flattened.flat_map{ |a| a.users_including_parent_users }).uniq
   end
 
   def exposable_fields= array
