@@ -2,6 +2,12 @@
 
 class Ability
   include CanCan::Ability
+
+  #
+  # alias_action :index, :show, :to => :read
+  # alias_action :new, :to => :create
+  # alias_action :edit, :to => :update
+
   include Report
 
   attr_reader :user
@@ -26,7 +32,7 @@ class Ability
   # centralize store of fields editable per user; this array is used for sanctioning input parameters and filtering forms
   def editable_work_fields
     permitted_fields = []
-    permitted_fields += [:location_detail, :location, :location_floor] if can?(:edit_location, Work)
+    permitted_fields += [:location_detail, :location, :location_floor, :work_status_id] if can?(:edit_location, Work)
     permitted_fields += [:internal_comments] if can?(:write_internal_comments, Work)
     if can?(:edit_photos, Work)
       permitted_fields += [
@@ -43,7 +49,7 @@ class Ability
         :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
         :information_back, :other_comments, :source_comments, :subset_id, :public_description,
         :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :work_status_id,
+        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
         :placeability_id, artist_ids: [], source_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
                           theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
                             :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
@@ -119,8 +125,8 @@ class Ability
 
     can [:read, :copy], RkdArtist
 
-    can :manage, Appraisal
-    can :manage, CustomReport, collection_id: accessible_collection_ids
+    can [:create, :update, :read], Appraisal
+    can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
 
     can :manage_collection, :all
     cannot :manage_collection, ImportCollection
@@ -132,12 +138,12 @@ class Ability
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
 
-    can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
+    can [:batch_edit, :create, :update, :read, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :create, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
-    can [:manage, :complete], Message
+    can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:create, :update, :read, :complete], Message
 
-    can :update, User
+    # can :update, User
     cannot [:destroy, :edit_admin], User
   end
 
@@ -183,7 +189,7 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
 
-    can :manage, Appraisal
+    can [:create, :update, :read], Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids
     can [:create, :read], Message
     can :edit, Message do |message|

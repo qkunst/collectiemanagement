@@ -19,6 +19,8 @@
       <%= define_unless_blank :location %>
       <%= define_unless_blank :location_floor %>
       <%= define_unless_blank :location_detail %>
+      <%= define_unless_blank :work_status %>
+
       <% if @selection[:display] == :detailed_with_location_history %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
         <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
@@ -122,7 +124,6 @@
       <%= define_unless_blank :inventoried_at, {classname: :complete_data} %>
       <%= define_unless_blank :refound_at, {classname: :complete_data} %>
       <%= define_unless_blank :new_found_at, {classname: :complete_data} %>
-      <%= define_unless_blank :work_status %>
     <% end %>
   <% end %>
   </div>
