@@ -38,7 +38,7 @@ RSpec.describe "Works", type: :request do
     end
   end
   describe "DELETE /collections/:colletion_id/work_id" do
-    [:admin, :advisor].each do |user_key|
+    [:admin].each do |user_key|
       it "allows access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1)
@@ -51,7 +51,7 @@ RSpec.describe "Works", type: :request do
       end
     end
 
-    [:facility_manager, :appraiser, :compliance].each  do |user_key|
+    [:facility_manager, :appraiser, :compliance, :advisor].each  do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1)
