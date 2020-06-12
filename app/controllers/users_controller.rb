@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :authenticate_admin_or_advisor_user!
   before_action :set_user, only: [:edit, :update, :destroy]
+  authorize_resource
 
   def index
+    authorize! :update, @user
     @advisors = current_user.accessible_users.advisor.order(:email).all
     @admin_users = current_user.accessible_users.admin.order(:email).all
     @appraisal_users = current_user.accessible_users.appraiser.order(:email).all
@@ -15,6 +16,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    authorize! :update, @user
   end
 
   def update
