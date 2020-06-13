@@ -28,7 +28,6 @@ class WorksController < ApplicationController
   include Works::XmlResponse
   include Works::Filtering
 
-  before_action :authenticate_admin_or_advisor_user!, only: [:destroy]
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices]
@@ -202,6 +201,7 @@ class WorksController < ApplicationController
 
   # DELETE /works/1
   def destroy
+    authorize! :destroy, @work
     @work.destroy
     redirect_to collection_works_url(@collection), notice: "Het werk is definitief verwijderd uit de QKunst database"
   end
@@ -219,6 +219,7 @@ class WorksController < ApplicationController
   end
 
   def work_params
+    # sanitized parameters, using the users ability
     reusable_work_params(params, current_user)
   end
 

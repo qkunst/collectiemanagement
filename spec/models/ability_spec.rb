@@ -4,18 +4,34 @@ require "rails_helper"
 
 RSpec.describe Ability, type: :model do
   example_groups = {
+    admin: {
+      "Works"=>[
+        [:read, :work, :work1, true],
+        [:edit, :work, :work1, true],
+        [:edit_location, :work, :work1, true],
+        [:read, :work, :work6, true],
+        [:show_details, :work, :work1, true]
+      ]
+    },
     advisor: {
-      "Alias workings" => [
-        [:manage_collection, :collection, :collection_with_works, true],
-        [:review_collection, :collection, :collection_with_works, true]
+      "Test: alias working of :manage_collection" => [
+        [:manage_collection,    :collection, :collection_with_works, true],
+        [:review_collection,    :collection, :collection_with_works, true]
+      ],
+      "Works"=>[
+        [:read, :work, :work1, true],
+        [:edit, :work, :work1, true],
+        [:edit_location, :work, :work1, true],
+        [:read, :work, :work6, false],
+        [:show_details, :work, :work1, true]
       ]
     },
     compliance: {
       "Collections" => [
-        [:read, :collection, :collection_with_works, true],
-        [:read, :collection, :collection3, false],
-        [:manage_collection, :collection, :collection_with_works, false],
-        [:review_collection, :collection, :collection_with_works, true],
+        [:read,                 :collection, :collection_with_works, true],
+        [:read,                 :collection, :collection3, false],
+        [:manage_collection,    :collection, :collection_with_works, false],
+        [:review_collection,    :collection, :collection_with_works, true],
         [:read_extended_report, :collection, :collection_with_works, true]
       ],
       "Works" => [

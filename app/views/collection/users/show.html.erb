@@ -1,0 +1,23 @@
+<h1>Gebruikers</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Gebruiker</th>
+      <% @collections.each do |collection|%>
+        <th><%= collection.name%></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <th><strong><%= user.email%></strong><br/><small><%= I18n.t(user.role, scope: [:activerecord, :values, :user, :role]) %></small></th>
+        <% @collections.each do |collection|%>
+          <td><%= visual_boolean(user.accessible_collections.include?(collection)) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+

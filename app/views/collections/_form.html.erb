@@ -7,7 +7,6 @@
   <ul>
     <li><a href="#standard">Standaard</a></li>
     <li><a href="#stages">Projectfasering</a></li>
-    <li><a href="#numbering">Alternatieve nummers</a></li>
     <li><a href="#manage">Beheer</a></li>
   </ul>
   </nav>
@@ -64,42 +63,40 @@
     <p>Hieronder kies je de fases die geldig zijn voor deze collectie. Op de overzichtspagina kan een fase als voltooid worden gemarkeerd.</p>
     <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
   </section>
-  <section id="numbering">
-    <h3>Alternatieve nummers</h3>
-   <fieldset class="form-inputs">
-     <legend>Labels voor de 'alternatieve nummers'</legend>
-     <p>Standaard is er sprake van alt. nr. 1 t/m 3, in dit scherm kun je ze overschrijven zodat bij het invoeren, het tonen en het uitdraaien voor iedereen duidelijk is welke getallen wat representeren.</p>
-     <%= f.input :label_override_work_alt_number_1 %>
-     <%= f.input :label_override_work_alt_number_2 %>
-     <%= f.input :label_override_work_alt_number_3 %>
-   </fieldset>
-   <h3>Sortering</h3>
-   <%= f.input :sort_works_by, collection: Work::SORTING_FIELDS.collect{|a| [I18n.t(a, scope: [:activerecord, :attributes, :work]),a]}%>
-   <p><em>Opmerking</em>: Wanneer je sortering leeg laat wordt er standaard gesorteerd, en dat is op 'Inventarisnummer'.
-     De directe subcollecties 'erven' deze
-     instelling (maar kunnen deze instelling overschrijven). Wanneer de instelling niet is overschreven én er is een instelling
-     op een bovenliggende collectie dan wordt het volgende werk gekozen uit alle werken uit de bovenliggende collectie en alle
-     subcollecties. Deze bijzondere logica maakt het wellicht geen instelling die je op alle collecties wilt voeren; dus bij twijfel
-     uit laten staan.</p>
-  </section>
   <section id="manage">
     <h3>Beheer</h3>
-    <% if @collection.id %>
-      <p>Wanneer je kiest voor het verwijderen van een collectie worden ook alle onderliggende werken definitief verwijderd, tenzij er een bovenliggende collectie is, dan worden de werken naar deze bovenliggende collectie verplaatst.</p>
-      <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties. Wanneer er geen bovenliggende collectie is worden de werken definitief verwijderd. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
-    <% else %>
-    <p>Onder beheer kan een collectie t.z.t. worden verwijderd.</p>
+    <% if @collection.persisted? %>
+      <fieldset class="form-inputs warning">
+        <p>Wanneer je kiest voor het verwijderen van een collectie worden ook alle onderliggende werken definitief verwijderd, <em>tenzij</em> er een bovenliggende collectie is, dan worden de werken naar deze bovenliggende collectie verplaatst.</p>
+        <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties. Wanneer er geen bovenliggende collectie is worden de werken definitief verwijderd. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
+      </fieldset>
     <% end %>
-    <h4>Basis collectie</h4>
-    <p>Selecteer 'basis collectie' wanneer deze collectie de thema's en clusters dient te bevatten voor alle onderliggende collecties. Hierna worden de thema's en collecties automatisch gekoppeld aan deze collectie. Dit laatste kan niet meer teruggedraaid worden.</p>
-    <%= f.input :base%>
-    <h4>Verder</h4>
-    <%= f.input :appraise_with_ranges %>
+    <fieldset class="form-inputs">
+      <legend>Labels voor de 'alternatieve nummers'</legend>
+      <p>Standaard is er sprake van alt. nr. 1 t/m 3, in dit scherm kun je ze overschrijven zodat bij het invoeren, het tonen en het uitdraaien voor iedereen duidelijk is welke getallen wat representeren.</p>
+      <%= f.input :label_override_work_alt_number_1 %>
+      <%= f.input :label_override_work_alt_number_2 %>
+      <%= f.input :label_override_work_alt_number_3 %>
+    </fieldset>
+    <fieldset class="form-inputs">
+      <legend>Sortering</legend>
+      <%= f.input :sort_works_by, collection: Work::SORTING_FIELDS.collect{|a| [I18n.t(a, scope: [:activerecord, :attributes, :work]),a]}, hint: "Wanneer je sortering leeg laat wordt er standaard gesorteerd, en dat is op 'Inventarisnummer'.
+        De directe subcollecties 'erven' deze
+        instelling (maar kunnen deze instelling overschrijven). Wanneer de instelling niet is overschreven én er is een instelling
+        op een bovenliggende collectie dan wordt het volgende werk gekozen uit alle werken uit de bovenliggende collectie en alle
+        subcollecties. Deze bijzondere logica maakt het wellicht geen instelling die je op alle collecties wilt voeren; dus bij twijfel
+        uit laten staan." %>
+    </fieldset>
+    <fieldset class="form-inputs">
+      <legend>Basis collectie</legend>
+      <%= f.input :base, hint: "Selecteer 'basis collectie' wanneer deze collectie de thema's en clusters dient te bevatten voor alle onderliggende collecties. Hierna worden de thema's en collecties automatisch gekoppeld aan deze collectie. Dit laatste kan niet meer teruggedraaid worden."%>
+    </fieldset>
+    <fieldset class="form-inputs">
+      <legend>Taxatie opties</legend>
+      <%= f.input :appraise_with_ranges, hint: "Standaard wordt gewaardeerd met willekeurige prijzen, als deze optie is ingeschakeld kan er slechts gekozen worden uit een beperkt aantal prijsranges." %>
+    </fieldset>
   </section>
 </div>
-
-
-
 
   <div class="form-actions">
     <p><br/></p>

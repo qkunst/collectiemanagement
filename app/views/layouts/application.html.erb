@@ -87,7 +87,7 @@
         <div class="large-12 columns">
           <% if @collection and @collection.name %>
             <%= render partial: 'collections/subnav'%>
-            <% if request.path.match(/\/manage\//) %>
+            <% if request.path.match(/\/manage\//) || @manage_controller %>
               <%= render partial: 'collections/manage_subnav'%>
             <% end %>
           <% end %>

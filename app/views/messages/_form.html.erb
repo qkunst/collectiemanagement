@@ -3,7 +3,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs"  id="start_reply">
-    <%= f.input :subject, as: :string %>
+    <%= f.input :subject, as: :string unless @message.persisted? %>
     <%= f.input :message %>
     <%= f.input :in_reply_to_message_id, as: :hidden%>
     <input type="hidden" value="<%=request.path%>" name="referrer">

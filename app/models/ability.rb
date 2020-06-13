@@ -2,6 +2,12 @@
 
 class Ability
   include CanCan::Ability
+
+  #
+  # alias_action :index, :show, :to => :read
+  # alias_action :new, :to => :create
+  # alias_action :edit, :to => :update
+
   include Report
 
   attr_reader :user
@@ -9,7 +15,7 @@ class Ability
   def initialize(user)
     if user
       @user = user
-      alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection
+      alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection # Manage related object in the context of a collection, but not outside collection
       alias_action :show, :index, to: :read
       alias_action :read_location, :edit_location, to: :manage_location
 
@@ -26,7 +32,7 @@ class Ability
   # centralize store of fields editable per user; this array is used for sanctioning input parameters and filtering forms
   def editable_work_fields
     permitted_fields = []
-    permitted_fields += [:location_detail, :location, :location_floor] if can?(:edit_location, Work)
+    permitted_fields += [:location_detail, :location, :location_floor, :work_status_id] if can?(:edit_location, Work)
     permitted_fields += [:internal_comments] if can?(:write_internal_comments, Work)
     if can?(:edit_photos, Work)
       permitted_fields += [
@@ -43,7 +49,7 @@ class Ability
         :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
         :information_back, :other_comments, :source_comments, :subset_id, :public_description,
         :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
-        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :work_status_id,
+        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
         :placeability_id, artist_ids: [], source_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
                           theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
                             :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
@@ -107,7 +113,8 @@ class Ability
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:edit_photos, :read_information_back, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :show_details], Work, collection_id: accessible_collection_ids
+    can [:edit_photos, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can :manage, Message
 
     can [:destroy, :edit_admin], User
   end
@@ -118,8 +125,8 @@ class Ability
 
     can [:read, :copy], RkdArtist
 
-    can :manage, Appraisal
-    can :manage, CustomReport, collection_id: accessible_collection_ids
+    can [:create, :update, :read], Appraisal
+    can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
 
     can :manage_collection, :all
     cannot :manage_collection, ImportCollection
@@ -131,12 +138,12 @@ class Ability
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
 
-    can [:batch_edit, :manage, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
+    can [:batch_edit, :create, :update, :read, :download_photos, :download_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :tag, :edit_photos, :read_information_back, :manage_location, :manage, :read_internal_comments, :write_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
-    can :manage, Message
+    can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:create, :update, :read, :complete], Message
 
-    can :update, User
+    # can :update, User
     cannot [:destroy, :edit_admin], User
   end
 
@@ -153,14 +160,14 @@ class Ability
     can :review_collection, Theme, collection_id: accessible_collection_ids
     can :review_collection, ImportCollection, collection_id: accessible_collection_ids
     can :review_collection, Owner, collection_id: accessible_collection_ids
-
+    can :review_collection, User
     can :read, Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids
 
     can :read, ImportCollection, collection_id: accessible_collection_ids
     can :read, Reminder, collection_id: accessible_collection_ids
     can :read, Attachment
-    can :read, Message
+    can [:read, :create], Message
 
     can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
 
@@ -169,7 +176,7 @@ class Ability
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
 
-    can [:read, :read_information_back, :read_location, :read_internal_comments, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :read_information_back, :read_location, :read_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can :read, User
 
@@ -182,7 +189,7 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
 
-    can :manage, Appraisal
+    can [:create, :update, :read], Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids
     can [:create, :read], Message
     can :edit, Message do |message|
@@ -191,7 +198,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can [:create, :index], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
@@ -213,7 +220,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit_photos, :edit, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias initialize_qkunst initialize_registrator
 
@@ -221,10 +228,10 @@ class Ability
     can [:read], Artist
     can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
     can :batch_edit, Collection, id: accessible_collection_ids # note that a facility manager only has access to a limited set of fields
-    can [:read, :read_information_back, :manage_location, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can :create, Message
-    can :read, Message, qkunst_private: false
+    can [:read, :show], Message, qkunst_private: [false,nil]
   end
 
   def initialize_read_only

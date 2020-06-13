@@ -6,20 +6,26 @@
   <%= render 'form' %>
 
 </div>
-<% if @message.subject_url%>
 <aside class="medium-3 columns">
-  <h4>Context</h4>
-  <p>Deze conversatie vindt plaats in de context van:</p>
-  <div class="row">
-    <div class="large-12 columns">
-      <% if @message.subject_object %>
-        <%= render @message.subject_object %>
-      <% else %>
-        <p><em>Het onderwerp is verwijderd</em></p>
-      <% end %>
+  <% if can?(:complete, @message) && !@message.actioned_upon_by_qkunst_admin? %>
+    <%= button_to "Markeer conversatie als afgerond", message_url(@message), method: :patch, params: {message: {actioned_upon_by_qkunst_admin: true} }, class: :button %>
+  <% end %>
+  <% if @message.actioned_upon_by_qkunst_admin? %>
+    <p>Deze conversatie gemarkeerd als afgerond op <%= I18n.l @message.actioned_upon_by_qkunst_admin_at.to_date, format: :long %></p>
+  <% end %>
+  <% if @message.subject_url%>
+    <h4>Context</h4>
+    <p>Deze conversatie vindt plaats in de context van:</p>
+    <div class="row">
+      <div class="large-12 columns">
+        <% if @message.subject_object %>
+          <%= render @message.subject_object %>
+        <% else %>
+          <p><em>Het onderwerp is verwijderd</em></p>
+        <% end %>
+      </div>
     </div>
-  </div>
-  <%= link_to 'Ga naar het onderwerp →', @message.subject_url, class: 'small button'%>
+    <%= link_to 'Ga naar het onderwerp →', @message.subject_url, class: 'small button'%>
+  <% end %>
 </aside>
-<% end %>
 </div>

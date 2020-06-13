@@ -25,7 +25,7 @@ class Message < ApplicationRecord
   scope :thread_can_be_accessed_by_user, ->(user) do
     if user.admin?
       where("1=1")
-    elsif user.advisor?
+    elsif user.advisor? or user.compliance?
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1 OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Work') OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Collection')", user.id, user.id, user.id, user.id, user.accessible_works.map(&:id), user.accessible_collections.map(&:id))
     else
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id, user.id, user.id, user.id)
@@ -39,11 +39,7 @@ class Message < ApplicationRecord
   before_save :set_from_user_name!
   after_create :send_notification
 
-  def set_from_user_name!
-    if from_user
-      self.from_user_name = from_user.name
-    end
-  end
+  time_as_boolean :actioned_upon_by_qkunst_admin
 
   def from_user_name_without_email
     from_user_name.to_s.split("@")[0].to_s.capitalize
@@ -54,7 +50,7 @@ class Message < ApplicationRecord
   end
 
   def read(user = nil)
-    !actioned_upon_by_qkunst_admin_at.nil? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
+    actioned_upon_by_qkunst_admin? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
   end
 
   def unread(user = nil)
@@ -145,4 +141,13 @@ class Message < ApplicationRecord
       MessageMailer.new_message(user, self).deliver_now
     end
   end
+
+  private
+
+  def set_from_user_name!
+    if from_user
+      self.from_user_name = from_user.name
+    end
+  end
+
 end

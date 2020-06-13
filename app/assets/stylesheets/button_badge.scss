@@ -1,0 +1,12 @@
+@import 'variables';
+
+.button {
+  position: relative;
+}
+.button .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: $light-grey;
+  color: $black;
+}

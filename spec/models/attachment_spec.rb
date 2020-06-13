@@ -31,9 +31,31 @@ RSpec.describe Attachment, type: :model do
       end
     end
     describe "for_role" do
-      it "should always work for admin" do
-        a = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
-        expect(Attachment.for_role(:admin)).to include(a)
+      let(:admin_only_attachment) { works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection) }
+      let(:all_roles_attachment) { works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection, visibility: [:compliance, :facility_manager, :appraiser, :qkunst]) }
+
+      before do
+        admin_only_attachment
+        all_roles_attachment
+      end
+
+      [:advisor, :admin].each do |role|
+        it "should return all for #{role}" do
+          expect(Attachment.for_role(role)).to include(admin_only_attachment)
+          expect(Attachment.for_role(role)).to include(all_roles_attachment)
+        end
+      end
+      [:compliance, :facility_manager, :appraiser, :qkunst].each do |role|
+        it "should filter #{role}" do
+          expect(Attachment.for_role(role)).not_to include(admin_only_attachment)
+          expect(Attachment.for_role(role)).to include(all_roles_attachment)
+        end
+      end
+      [:readonly].each do |role|
+        it "should show none for #{role}" do
+          expect(Attachment.for_role(role)).not_to include(admin_only_attachment)
+          expect(Attachment.for_role(role)).not_to include(all_roles_attachment)
+        end
       end
     end
     describe "for_me" do

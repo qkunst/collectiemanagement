@@ -5,9 +5,13 @@
       <thead><tr>
         <th><strong>Locatie</strong></th>
         <td class="actions">
-          <% if can?(:edit_location, work) and work.id %>
-            <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
-            <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
+          <% if work.persisted? %>
+            <% if can?(:edit_location, work) %>
+              <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
+            <% end %>
+            <% if can?(:view_location_history, work) %>
+              <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
+            <% end %>
           <% end %>
         </td>
       </tr></thead>
@@ -15,6 +19,8 @@
       <%= define_unless_blank :location %>
       <%= define_unless_blank :location_floor %>
       <%= define_unless_blank :location_detail %>
+      <%= define_unless_blank :work_status %>
+
       <% if @selection[:display] == :detailed_with_location_history %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
         <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
@@ -118,7 +124,6 @@
       <%= define_unless_blank :inventoried_at, {classname: :complete_data} %>
       <%= define_unless_blank :refound_at, {classname: :complete_data} %>
       <%= define_unless_blank :new_found_at, {classname: :complete_data} %>
-      <%= define_unless_blank :work_status %>
     <% end %>
   <% end %>
   </div>

@@ -55,8 +55,7 @@ class User < ApplicationRecord
   end
 
   def accessible_collections
-    return Collection.all if admin?
-    collections.expand_with_child_collections
+    @accessible_collections ||= admin? ? Collection.all : collections.expand_with_child_collections
   end
 
   def accessible_collections_sorted_by_label

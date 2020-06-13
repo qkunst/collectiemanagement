@@ -1,5 +1,12 @@
 <%= simple_nested_form_for([@collection,@work], data: {offline: :offline}) do |f| %>
   <%= f.error_notification %>
+  <% if @work.errors.count > 0 %>
+  <ul>
+    <% @work.errors.full_messages.each do |error| %>
+      <li><%= error%></li>
+    <% end %>
+  </ul>
+  <% end %>
   <div class="form-inputs">
     <fieldset>
       <legend>Administratief</legend>
@@ -116,8 +123,6 @@
     <fieldset>
       <legend>Overig</legend>
       <%= f.input :other_comments  %>
-      <%= f.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
-      <%= f.input :source_comments  %>
       <%= f.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden %>
     </fieldset>
     <fieldset>

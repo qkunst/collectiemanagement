@@ -53,6 +53,6 @@ puts "Generating management report"
 puts "- Generate sub-report for features"
 # generate_feature_report
 puts "- Generate RSpec report"
-# generate_full_report
+generate_full_report
 puts "- Compile document"
 create_report_md

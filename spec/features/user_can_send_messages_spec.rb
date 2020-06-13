@@ -18,7 +18,10 @@ RSpec.feature "User can send messages", type: :feature do
           end
         end
 
+        expect(body).to match "Vraag of opmerking?"
+
         click_on "Vraag of opmerking?"
+
         fill_in "Onderwerp", with: "Ondewerp #{email_address}"
         fill_in "Berichttekst", with: "Berichttekst"
 
@@ -27,21 +30,28 @@ RSpec.feature "User can send messages", type: :feature do
         }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 0 : 1)
 
         expect(page).to have_content("Uw bericht is verstuurd")
+
         click_on "Berichten"
+
         expect(page).to have_content("Ondewerp #{email_address}")
+
+        click_on "Ondewerp #{email_address}"
+
+        expect(page).to have_content "Ondewerp #{email_address}"
+
 
         click_on "Uitloggen"
 
         login "qkunst-admin-user@murb.nl"
 
-        click_on "Berichten"
-        click_on "Ondewerp #{email_address}"
+          click_on "Berichten"
+          click_on "Ondewerp #{email_address}"
 
-        fill_in "Berichttekst", with: "Antwoord op bericht van #{email_address}"
+          fill_in "Berichttekst", with: "Antwoord op bericht van #{email_address}"
 
-        expect {
-          click_on "Bericht versturen"
-        }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 0 : 1)
+          expect {
+            click_on "Bericht versturen"
+          }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 0 : 1)
 
         click_on "Uitloggen"
 
@@ -52,6 +62,18 @@ RSpec.feature "User can send messages", type: :feature do
         click_on "Ondewerp #{email_address}"
 
         expect(page).to have_content "Antwoord op bericht van #{email_address}"
+
+        click_on "Uitloggen"
+
+        login "qkunst-admin-user@murb.nl"
+
+          click_on "Berichten"
+          click_on "Ondewerp #{email_address}"
+
+          expect {
+            click_on "Markeer conversatie als afgerond"
+          }.to change(Message.where(actioned_upon_by_qkunst_admin_at: nil), :count).by(-1)
+
       end
     end
   end

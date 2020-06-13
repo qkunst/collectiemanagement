@@ -49,4 +49,4 @@ set :application, "collectiemanagement.qkunst.nl"
 set :deploy_to, "~/public/#{fetch(:application)}"
 
 # set :deploy_to, '/home/qkunst/public/collectiebeheer.qkunst.nl'
-set :branch, "master"
+set :branch, "new_master"

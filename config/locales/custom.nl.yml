@@ -16,6 +16,7 @@ nl:
     show: Tonen
     index: Overzicht zien
     create: Aanmaken & opslaan
+    complete: Markeer als voltooid
     update: Bijwerken
     edit_admin: Administrator rol toekennen
     destroy: Verwijderen
@@ -27,6 +28,7 @@ nl:
     write_internal_comments: Toon interne opmerkingen
     read_internal_comments: Wijzig interne opmerkingen
     read_information_back: Toon informatie achterzijde
+    review_modified_works: Toon gewijzigde werken
     edit_photos: Foto's bewerken
     edit_visibility: Pas zichtbaarheid aan
     copy: Kopieer
