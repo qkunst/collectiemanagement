@@ -1,14 +1,14 @@
-# QKunst collectiebeheer
+# QKunst Collectiemanagement
 
 [![Build Status](https://travis-ci.org/qkunst/collectiebeheer.svg?branch=master)](https://travis-ci.org/qkunst/collectiebeheer) [![Code Climate](https://codeclimate.com/github/qkunst/collectiebeheer/badges/gpa.svg)](https://codeclimate.com/github/qkunst/collectiebeheer)
 
-Dit is de broncode van de QKunst Collectiebeheer applicatie, vrijgegeven onder een AGPL (GNU Affero General Public License v3.0) opensource licentie. Zie ook [LICENSE](LICENSE).
+Dit is de broncode van de QKunst Collectiemanagement applicatie, vrijgegeven onder een AGPL (GNU Affero General Public License v3.0) opensource licentie. Zie ook [LICENSE](LICENSE).
 Deze web applicatie stelt u in staat om kunstwerken binnen uw collectie te bekijken en, afhankelijk van de u toegewezen rol, te beheren.
 
-## Over QKunst Collectiebeheer
+## Over QKunst Collectiemanagement
 
 [QKunst](http://qkunst.nl) is gespecialiseerd in het inventariseren van grote bedrijfscollecties. Om deze inventarisaties
-nog soepeler te laten verlopen ontwikkelden wij QKunst Collectiebeheer, een web applicatie voor collectiebeheer.
+nog soepeler te laten verlopen ontwikkelden wij QKunst Collectiemanagement, een web applicatie voor collectiebeheer.
 Hiermee worden grote hoeveelheden informatie over een collectie toegankelijk en kunnen we uitgebreide rapportages uitdraaien.
 De applicatie wordt continu doorontwikkeld om de gebruiksvriendelijkheid ervan te vergroten.
 
