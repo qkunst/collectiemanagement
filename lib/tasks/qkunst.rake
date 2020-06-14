@@ -3,7 +3,7 @@
 namespace :qkunst do
   desc "Herindexeer alle werken"
   task reindex: :environment do
-    puts "Replaced by sidekiq scheduler"
+    puts "Replaced by sidekiq scheduler; ScheduleReindexWorkWorker.perform_async"
   end
 
   desc "Import Geonames data"
@@ -14,12 +14,7 @@ namespace :qkunst do
 
   desc "Doe de schoonmaak"
   task rinse_and_clean: :environment do
-    Cluster.remove_all_without_works
-    Artist.destroy_all_empty_artists!
-    Work.update_artist_name_rendered!
-    Artist.destroy_all_artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name!
-    Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
-    CachedApi.purge
+    puts "Replaced by sidekiq scheduler; RinseAndCleanWorker.perform_async"
   end
 
   desc "Bouw nieuwe index op en herindexeer alle werken (traag)"
@@ -39,9 +34,6 @@ namespace :qkunst do
 
   desc "test availability of the search engine"
   task test_search: :environment do
-    Work.search("demo").first
-  rescue Exception => e
-    puts "Search werkt niet"
-    ExceptionNotifier.notify_exception(e, data: {msg: "Search werkt niet!"})
+    puts "Replaced by sidekiq scheduler; TestSearchWorker.perform_async"
   end
 end
