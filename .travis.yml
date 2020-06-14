@@ -20,6 +20,8 @@ script:
   - sleep 10
   - RAILS_ENV=test bundle exec rails qkunst:new_index
   - sleep 2
+  - bundle audit update
+  - bundle audit
   - bundle exec rspec
 services:
   - docker
