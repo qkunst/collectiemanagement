@@ -8,7 +8,7 @@ rvm:
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
-  - docker-compose up -d
+  - docker-compose up # -d
 before_install:
   - gem install bundler
   - nvm install node
@@ -16,9 +16,9 @@ before_install:
   - npm i -g yarn
   - yarn install
 script:
-  - curl -X GET "localhost:59200"
   - bundle exec rails db:test:prepare
-  - sleep 10
+  - sleep 5
+  - curl -X GET "localhost:59200"
   - RAILS_ENV=test bundle exec rails qkunst:new_index
   - sleep 2
   - bundle audit update
