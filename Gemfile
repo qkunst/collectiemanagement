@@ -42,7 +42,7 @@ end
 ##
 ## BASIC
 ##
-
+gem "bundler-audit"
 gem "pg", "~>0.21"
 gem "devise"
 # gem 'omniauth-facebook'
