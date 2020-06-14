@@ -56,8 +56,8 @@ gem "attribute_normalizer" # keeps the database clean
 ## SEARCH
 ##
 
-gem "elasticsearch-model", "~> 5"
-gem "elasticsearch-rails", "~> 5"
+gem "elasticsearch-model", "~> 7"
+gem "elasticsearch-rails", "~> 7"
 gem "rspec-rails", group: [:development, :test]
 
 ##

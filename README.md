@@ -72,7 +72,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * postgresql
 * nginx
 * imagemagick
-* elasticsearch 5.4
+* elasticsearch 7
 * passenger
 * redis
 * Java 8 (geïnstalleerd met behulp van webupd8team ppa package, zie beneden en `apt-get install oracle-java8-installer`)
@@ -85,7 +85,7 @@ Op het moment van schrijven worden de volgende repositories hiervoor geraadpleeg
     deb http://debian.directvps.nl/debian jessie main
     deb http://debian.directvps.nl/security jessie/updates main
     deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main # let op: voeg key toe: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
-    deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    deb https://artifacts.elastic.co/packages/7.x/apt stable main
     deb https://oss-binaries.phusionpassenger.com/apt/passenger jessie main
 
 Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde versies gehanteerd en alle server pakketten worden dagelijks automatisch voorzien van veiligheidsupdates. Voor een basis inrichting kan het volgende artikel worden geraadpleegd:
@@ -349,3 +349,5 @@ Als je via de browser ingelogd bent kun je ook op die manier toegang krijgen.
 
 curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
 curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
+curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
+curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
