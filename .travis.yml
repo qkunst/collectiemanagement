@@ -16,6 +16,7 @@ before_install:
   - npm i -g yarn
   - yarn install
 script:
+  - curl -X GET "localhost:59200"
   - bundle exec rails db:test:prepare
   - sleep 10
   - RAILS_ENV=test bundle exec rails qkunst:new_index

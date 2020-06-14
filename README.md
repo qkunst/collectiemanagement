@@ -350,3 +350,4 @@ curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"
 curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
 curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
 curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
+curl -X GET "localhost:59200"
