@@ -32,7 +32,7 @@ module Work::Search
       end
     end
 
-    index_name "works-#{Rails.env.test? ? "test" : "a"}"
+    index_name "works-#{Rails.env.test? ? "testa" : "a"}"
 
     def as_indexed_json(*)
       as_json(

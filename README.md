@@ -71,12 +71,11 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 
 * postgresql
 * nginx
-* imagemagick
+* imagemagick jpegoptim optipng
 * elasticsearch 7
 * passenger
 * redis
-* Java 8 (geïnstalleerd met behulp van webupd8team ppa package, zie beneden en `apt-get install oracle-java8-installer`)
-* Ruby 2.3.3 (geïnstalleerd via rbenv)
+* Ruby 2.6.2 (geïnstalleerd via rbenv)
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
