@@ -21,8 +21,8 @@ script:
   - curl -X GET "localhost:59200"
   - RAILS_ENV=test bundle exec rails qkunst:new_index
   - sleep 2
-  - bundle audit update
-  - bundle audit
+  - bundle exec bundle audit update
+  - bundle exec bundle audit
   - bundle exec rspec
 services:
   - docker
