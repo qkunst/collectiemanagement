@@ -39,5 +39,5 @@ addons:
 # safelist
 branches:
   only:
-  - master
+  - main
   - develop
