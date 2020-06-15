@@ -17,6 +17,8 @@ module Works::Filtering
             @reset = true
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "location", "location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| a == "not_set" ? nil : a } if params[:filter][field]
+          elsif Work.column_types[field] == :boolean
+            @selection_filter[field] = parse_booleans(values)
           else
             @selection_filter[field] = clean_ids(values)
           end
@@ -93,6 +95,16 @@ module Works::Filtering
       current_user.filter_params[:sort] = @selection[:sort]
       current_user.filter_params[:filter] = @selection_filter
       current_user.save
+    end
+
+    private
+
+    def clean_ids noise
+      noise ? noise.collect { |a| a == "not_set" ? nil : a.to_i } : []
+    end
+
+    def parse_booleans noise
+      noise.collect{|a| [0,"0",false,"false",:false].include?(a) ? false : true }
     end
   end
 end

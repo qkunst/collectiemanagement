@@ -1,24 +1,3 @@
-class WorksModifiedForm
-  include ActiveModel::Model
-  include ActiveModel::AttributeAssignment
-
-  attr_accessor :only_location_changes
-  attr_accessor :only_non_qkunst
-
-  def only_location_changes?
-    truthy?(only_location_changes)
-  end
-
-  def only_non_qkunst?
-    truthy?(only_non_qkunst)
-  end
-
-  private
-
-  def truthy?(var)
-    var == "1" || var == true || var == "true"
-  end
-end
 # frozen_string_literal: true
 
 class WorksController < ApplicationController
@@ -191,7 +170,7 @@ class WorksController < ApplicationController
     authorize! :review_modified_works, @collection
     versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").order(created_at: :desc).limit(500)
 
-    @form = WorksModifiedForm.new(works_modified_form_params)
+    @form = Works::ModifiedForm.new(works_modified_form_params)
     # raise @form
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
@@ -209,10 +188,6 @@ class WorksController < ApplicationController
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def clean_ids noise
-    noise ? noise.collect { |a| a == "not_set" ? nil : a.to_i } : []
-  end
-
   def set_work
     @work = current_user.accessible_works.find(params[:work_id] || params[:id])
     redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))

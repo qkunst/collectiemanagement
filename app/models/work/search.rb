@@ -143,7 +143,7 @@ module Work::Search
         search = /[\"\(\~\'\*\?]|AND|OR/.match?(search) ? search : search.split(" ").collect { |a| "#{a}~" }.join(" ")
         [{
           query_string: {
-            default_field: :_all,
+            default_field: "*",
             query: search,
             default_operator: :and,
             fuzziness: 3

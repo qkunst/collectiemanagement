@@ -3,12 +3,13 @@
 require "rails_helper"
 
 RSpec.describe "Works", type: :request do
-  describe "PATCH /collections/:collection_id/works/:id" do
-    let(:user) { users(:admin) }
-    let(:work) { works(:work6) }
+  let(:user)       { users(:admin) }
+  let(:work)       { works(:work6) }
+  let(:collection) { collections(:collection1) }
 
+  describe "PATCH /collections/:collection_id/works/:id" do
     it "should render the edit form when changing location fails" do
-      work.collection = collections(:collection1)
+      work.collection = collection
       work.save
       work.update_column(:cluster_id, clusters(:cluster_private_to_collection_with_stages).id)
 
@@ -41,7 +42,6 @@ RSpec.describe "Works", type: :request do
     [:admin].each do |user_key|
       it "allows access for #{user_key}" do
         user = users(user_key)
-        collection = collections(:collection1)
         work = collection.works.first
 
         sign_in user
@@ -54,7 +54,6 @@ RSpec.describe "Works", type: :request do
     [:facility_manager, :appraiser, :compliance, :advisor].each  do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
-        collection = collections(:collection1)
         work = collection.works.first
 
         sign_in user
@@ -66,7 +65,6 @@ RSpec.describe "Works", type: :request do
   end
   describe "GET /collections/:id/works" do
     it "shouldn't be publicly accessible!" do
-      collection = collections(:collection1)
       get collection_works_path(collection)
       expect(response).to have_http_status(302)
     end
@@ -84,7 +82,6 @@ RSpec.describe "Works", type: :request do
         expect(response).to have_http_status(200)
       end
       it "should be able to get an index" do
-        collection = collections(:collection1)
         sign_in user
         get collection_works_path(collection)
         expect(response).to have_http_status(200)
@@ -92,14 +89,12 @@ RSpec.describe "Works", type: :request do
       end
       describe "sorting and grouping" do
         it "should be able to get a grouped index" do
-          collection = collections(:collection1)
           sign_in user
           get collection_works_path(collection, params: {group: :themes})
           expect(response).to have_http_status(200)
           expect(response.body).to match("<h3>wind</h3>")
         end
         it "should be able to sort" do
-          collection = collections(:collection1)
           sign_in user
 
           get collection_works_path(collection)
@@ -113,8 +108,6 @@ RSpec.describe "Works", type: :request do
           expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
         end
         it "should be able to filter and sort" do
-          collection = collections(:collection1)
-
           # required for TravisCI
           collections(:collection1).works_including_child_works.all.reindex!
 
@@ -130,6 +123,15 @@ RSpec.describe "Works", type: :request do
           response_body = response.body
           expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work5")).to eq(true)
           expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
+        end
+        it "should be able to search" do
+          # required for TravisCI
+          collection.works_including_child_works.all.reindex!
+
+          sign_in user
+
+          get collection_works_path(collection, params: {q: "multiple"})
+          expect(response.body).to match("Q007")
         end
       end
       describe "downloading" do

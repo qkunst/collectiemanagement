@@ -27,6 +27,16 @@ RSpec.feature "View report", type: :feature do
 
     expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 4 werken)")
     expect(page).to have_content("Q001")
+
+    within "#responsive-menu" do
+      click_on("Rapportage")
+    end
+
+    click_on "Overige"
+    click_on "Onlangs geïnventariseerd"
+
+    expect(page).to have_content("Deze (gefilterde) collectie bevat 2 werken (van de 4 werken)")
+    expect(page).to have_content("Q001")
   end
 
   scenario "as a facility manager (limited)" do
