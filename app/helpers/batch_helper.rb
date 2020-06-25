@@ -16,7 +16,7 @@ class SimpleForm::FormBuilder
 
     # p object
 
-    options = options.deep_merge(input_html: {onchange: "this.dispatchEvent(new Event('batchinput:change', {bubbles: true}))", data: {strategy_input_id: "#{model_name_prefix}_#{object.class.strategy_attribute_for(param_name)}"}})
+    options = options.deep_merge(input_html: {data: {strategy_input_id: "#{model_name_prefix}_#{object.class.strategy_attribute_for(param_name)}"}})
     [send(input_type, name, options), batch_editable_strategy_select(param_name)].join("\n").html_safe
   end
 end

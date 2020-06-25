@@ -40,7 +40,7 @@
     <% end %>
     <% if can_edit_field?(:cluster_name) %>
       <fieldset>
-      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', onchange: "this.dispatchEvent(new Event('batchinput:change:cluster', {bubbles: true}))", data: {placeholder: "Selecteer een bestaand cluster of geef een clusternaam op"}}%><span></span>
+      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', data: {placeholder: "Selecteer een bestaand cluster of geef een clusternaam op"}}%><span></span>
       <%= f.batch_editable_input :cluster_name %>
       </fieldset>
     <% end %>
@@ -57,7 +57,7 @@
       <fieldset style="padding-bottom: 8em">
         <label>Tags</label>
         <input type="hidden" name="work[tag_list][]" value=""/>
-        <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]">
+        <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]" data-strategy-input-id="work_update_tag_list_strategy">
         </select><%= f.batch_editable_strategy_select(:tag_list) %>
       </fieldset>
     <% end %>
