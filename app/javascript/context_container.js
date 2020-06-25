@@ -5,7 +5,6 @@
     if (typeof urlToOpen === 'undefined' || urlToOpen == '')
       return false;
 
-
     var contextContainer = $("#context-container");
     var closeFunction = function(){
       //cleanup
@@ -24,9 +23,11 @@
       if (contextContainer.data('url') != urlToOpen ) {
         $.ajax(urlToOpen).then(
           function(data){
-            var body = $(data).find("#main");
+            var focusArea = urlToOpen.match("#") ? urlToOpen.split("#")[1] : "main"
+            var body = $(data).find(`#${focusArea}`);
+
             if (body.length == 0){
-              console.warn("No #main-section found in the url ("+urlToOpen+")")
+              console.warn(`No #${focusArea}-section found in the url (${urlToOpen})`)
             }
             contextContainer.html( body.html() );
 
