@@ -6,6 +6,34 @@ RSpec.feature "Batch editor", type: :feature do
   include ActiveSupport::Testing::TimeHelpers
   include FeatureHelper
 
+  scenario "facility manager can scan works with batch editor" do
+    login "qkunst-test-facility_manager@murb.nl"
+
+    click_on "Collecties"
+    if page.body.match?("id=\"list-to-filter\"")
+      within "#list-to-filter" do
+        click_on "Collection 1"
+      end
+    end
+    click_on "Toon alle 4 werken"
+    click_on "Scan"
+    fill_in "Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden", with: [works(:work1), works(:work2)].map(&:stock_number).join("\n")
+
+    fill_in_with_strategy(:location, "Nieuw adres", :REPLACE)
+    fill_in_with_strategy(:location_floor, "Nieuwe verdieping", :REPLACE)
+    fill_in_with_strategy(:location_detail, "Nieuwe locatie specificatie", :REPLACE)
+
+    click_on "Werken bijwerken"
+    expect(page.body).to match("De onderstaande 2 werken zijn bijgewerkt ")
+
+    expect(works(:work1).reload.location).to eq("Nieuw adres")
+    expect(works(:work2).reload.location).to eq("Nieuw adres")
+    expect(works(:work1).location_floor).to eq("Nieuwe verdieping")
+    expect(works(:work2).location_floor).to eq("Nieuwe verdieping")
+    expect(works(:work1).location_detail).to eq("Nieuwe locatie specificatie")
+    expect(works(:work2).location_detail).to eq("Nieuwe locatie specificatie")
+  end
+
   scenario "move work to sub-collection in cluster" do
     login "qkunst-test-advisor@murb.nl"
 

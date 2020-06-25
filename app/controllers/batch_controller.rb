@@ -43,7 +43,7 @@ class BatchController < ApplicationController
   end
 
   def editable_appraisal_fields
-    return [] unless current_user.ability.editable_work_fields.last[:appraisals_attributes]
+    return [] unless current_user.ability.editable_work_fields.last.is_a?(Hash) && current_user.ability.editable_work_fields.last[:appraisals_attributes]
     current_user.ability.editable_work_fields.last[:appraisals_attributes].flat_map do |a|
       a.methods.include?(:keys) ? a.keys : a
     end
