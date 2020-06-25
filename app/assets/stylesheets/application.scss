@@ -19,7 +19,7 @@
 //= require_tree .
 
  */
-//@import 'lib/chosen.scss';
+//@import 'chosen-js/chosen';
 @import 'select2/dist/css/select2';
 
 @import 'variables';
@@ -28,10 +28,6 @@
 //blauw: 232EFB
 .turbolinks-progress-bar {
   background-color: lighten($qkunst-brown,20) !important;
-}
-
-.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
-  background-image: url("chosen-sprite.png");
 }
 
 ul.labels {
