@@ -29,9 +29,7 @@
         <%= f.batch_editable_input :location%>
         <%= f.batch_editable_input :location_floor%>
         <%= f.batch_editable_input :location_detail%>
-        <% if can_edit_field?(:work_status_id) %>
-          <%= f.batch_editable_input :work_status, param_name: :work_status_id, input_type: :association, input_html: {class: 'chosen-select'} %>
-        <% end %>
+        <%= f.batch_editable_input :work_status, param_name: :work_status_id, input_type: :association, input_html: {class: 'chosen-select'} %>
       </fieldset>
     <% end %>
     <% if can_edit_field?(:collection_id) %>

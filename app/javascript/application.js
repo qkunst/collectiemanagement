@@ -15,9 +15,6 @@ import('prototypes');
 
 require('jquery_nested_form');
 require('select2');
-require('chosen-js');
-
-
 
 import('context_container');
 import('cookie');
@@ -152,14 +149,17 @@ var collectieBeheerInit = function() {
     minimumInputLength: 1
   });
 
-  $(".chosen-select").chosen({
-    placeholder_text_single: "Selecteer een optie",
-    placeholder_text_multiple: "Type de opties",
-    no_results_text: "Geen optie gevonden",
-    allow_single_deselect: true
+
+  $(".chosen-select[multiple=multiple]").select2({
+    placeholder: "Type de opties",
+        allowClear: true
   })
 
 
+  $(".chosen-select:not([multiple=multiple])").select2({
+    placeholder: "Selecteer een optie",
+    allowClear: true
+  })
 
   $(".tabs section").hide();
   $(".tabs section").first().show();
