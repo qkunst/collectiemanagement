@@ -5,6 +5,11 @@ module ApplicationHelper
     @offline
   end
 
+  def debug?
+    enable_debugging = true
+    (params[:debug] == "true" || params[:debug] == true) && enable_debugging
+  end
+
   def kramdown string
     if string&.is_a?(String)
       sanitize Kramdown::Document.new(string, input: :markdown).to_html

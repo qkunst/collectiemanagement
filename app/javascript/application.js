@@ -21,6 +21,7 @@ require('chosen-js');
 
 import('context_container');
 import('cookie');
+import('debug');
 import('dom_diffing_turbolinks');
 import('filter-list');
 import('forms');
@@ -32,9 +33,14 @@ import('table_sortable');
 import('works');
 import('zxing/zxing_helper')
 
+setTimeout(function() {
+  window.debug("Debug message from application.js")
+},1000)
+
 
 const FormStore = require('formstore.js').default;
 window.FormStore = FormStore;
+
 
 var collectieBeheerInit = function() {
   FormStore.init();

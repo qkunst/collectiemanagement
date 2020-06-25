@@ -13,7 +13,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src    :self, :data
   policy.img_src     :self, :data
   policy.object_src  :none
-  policy.script_src  :self
+  policy.script_src  :self, :unsafe_eval
   policy.style_src   :self
 
 #   # Specify URI for violation reports

@@ -102,5 +102,14 @@
      </footer>
      <div id="context-container" class="closed">
      </div>
+     <% if debug? %>
+     <div class="debug-container">
+       <h3>Debug output</h3>
+<textarea id="debug-output">
+Start logging at <%= Time.now%> (server time)
+
+</textarea>
+     </div>
+     <% end %>
   </body>
 </html>

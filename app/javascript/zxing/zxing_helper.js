@@ -131,6 +131,7 @@ function scanBarcode(canvasElement, format) {
       var buffer = zxing._malloc(sourceBuffer.byteLength);
       zxing.HEAPU8.set(sourceBuffer, buffer);
       var result = zxing.readBarcodeFromPixmap(buffer, imgWidth, imgHeight, true, format);
+      window.debug(`${result.format} - ${result.text}`)
       zxing._free(buffer);
       sourceBuffer = null;
       buffer = null;
