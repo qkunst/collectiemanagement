@@ -4,7 +4,7 @@
     <p>Bij <%= @work.name %></p>
     <% if @attachments.any? %>
       <h3>Bestaande bijlage koppelen</h3>
-      <label>Filter vervaardigers <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
+      <label>Filter bijlagen <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
 
       <table class="sortable" id="attachments-table">
         <thead>
@@ -12,7 +12,7 @@
         </thead>
         <tbody>
           <% @attachments.each do |attachment| %>
-            <tr><td><%=attachment.name%></td><td><%=button_to "Koppel", attachment, params: {attachment: {append_work_ids: [@work.id] }}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
+            <tr><td><%=attachment.name.to_s.gsub(/\_/," ")%></td><td><%=button_to "Koppel", attachment, params: {attachment: {append_work_ids: [@work.id] }}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
           <% end %>
           </ul>
         </tbody>
