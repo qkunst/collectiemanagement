@@ -10,11 +10,11 @@ Rails.application.config.content_security_policy do |policy|
   policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
 
   policy.default_src :self
-  policy.font_src    :self, :data
+  policy.font_src    :self, :data, "https://fonts.gstatic.com"
   policy.img_src     :self, :data
   policy.object_src  :none
   policy.script_src  :self, :unsafe_eval
-  policy.style_src   :self
+  policy.style_src   :self, "https://fonts.googleapis.com"
 
 #   # Specify URI for violation reports
 #   # policy.report_uri "/csp-violation-report-endpoint"
