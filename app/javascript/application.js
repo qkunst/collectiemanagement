@@ -152,13 +152,15 @@ var collectieBeheerInit = function() {
 
   $(".chosen-select[multiple=multiple]").select2({
     placeholder: "Type de opties",
-        allowClear: true
+    allowClear: true,
+    minimumInputLength: 1
   })
 
 
   $(".chosen-select:not([multiple=multiple])").select2({
     placeholder: "Selecteer een optie",
-    allowClear: true
+    allowClear: true,
+    minimumInputLength: 1
   })
 
   $(".tabs section").hide();
