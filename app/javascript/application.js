@@ -130,7 +130,7 @@ var collectieBeheerInit = function() {
     templateSelection: formatRepo
   });
 
-  $(".select2.tags").select2({
+  $(".select2.tags:not(.select2-hidden-accessible)").select2({
     placeholder: "Voer tags in...",
     language: {
       // You can find all of the options in the language files provided in the
@@ -149,15 +149,13 @@ var collectieBeheerInit = function() {
     minimumInputLength: 1
   });
 
-
-  $(".chosen-select[multiple=multiple]").select2({
+  $(".chosen-select[multiple=multiple]:not(.select2-hidden-accessible)").select2({
     placeholder: "Type de opties",
     allowClear: true,
     minimumInputLength: 1
   })
 
-
-  $(".chosen-select:not([multiple=multiple])").select2({
+  $(".chosen-select:not([multiple=multiple]):not(.select2-hidden-accessible)").select2({
     placeholder: "Selecteer een optie",
     allowClear: true,
     minimumInputLength: 1
