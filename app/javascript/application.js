@@ -14,6 +14,7 @@ import Foundation from 'foundation-sites';
 import('prototypes');
 
 require('jquery_nested_form');
+require('chosen-js');
 require('select2');
 
 import('context_container');
@@ -144,16 +145,11 @@ var collectieBeheerInit = function() {
     minimumInputLength: 1
   });
 
-  $(".chosen-select[multiple=multiple]:not(.select2-added)").addClass('select2-added').select2({
-    placeholder: "Type de opties",
-    allowClear: true,
-    minimumInputLength: 1
-  })
-
-  $(".chosen-select:not([multiple=multiple]):not(.select2-added)").addClass('select2-added').select2({
-    placeholder: "Selecteer een optie",
-    allowClear: true,
-    minimumInputLength: 1
+  $(".chosen-select").chosen({
+    placeholder_text_single: "Selecteer een optie",
+    placeholder_text_multiple: "Type de opties",
+    no_results_text: "Geen optie gevonden",
+    allow_single_deselect: true
   })
 
   $(".tabs section").hide();

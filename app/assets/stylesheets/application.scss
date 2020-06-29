@@ -14,6 +14,7 @@
 //= require_tree .
  */
 @import 'select2/dist/css/select2';
+@import 'chosen-js/chosen';
 
 @import 'variables';
 @import 'settings';
@@ -118,6 +119,10 @@ input:not([type=submit]):not([type=search]).blurred, textarea.blurred {
   &:invalid {
     background: #f00;
   };
+}
+
+.chosen-choices li.search-field input[type="text"] {
+  font-size: inherit;
 }
 
 ul.chosen-results li, ul.select2-results__options li {
