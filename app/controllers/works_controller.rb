@@ -168,7 +168,7 @@ class WorksController < ApplicationController
 
   def modified_index
     authorize! :review_modified_works, @collection
-    versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").order(created_at: :desc).limit(500)
+    versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").where.not(object_changes: nil).order(created_at: :desc).limit(500)
 
     @form = Works::ModifiedForm.new(works_modified_form_params)
     # raise @form
