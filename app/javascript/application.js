@@ -126,7 +126,7 @@ var collectieBeheerInit = function() {
     templateSelection: formatRepo
   });
 
-  $(".select2.tags:not(.select2-added)").addClass('select2-added').select2({
+  $(".select2.tags").select2({
     placeholder: "Voer tags in...",
     language: {
       // You can find all of the options in the language files provided in the
