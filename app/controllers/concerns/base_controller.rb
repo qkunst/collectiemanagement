@@ -27,6 +27,7 @@ module BaseController
     def create
       self.named_variable = controlled_class.new(white_listed_params)
       named_variable.collection = @collection.base_collection if @collection
+
       if named_variable.save
         redirect_to named_collection_url, notice: "#{I18n.t(singularized_name, scope: [:activerecord, :models])} is gemaakt"
       else

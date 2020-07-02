@@ -129,6 +129,7 @@ class Ability
     can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
 
     can :manage_collection, :all
+    can :manage, Cluster, collection_id: accessible_collection_ids
     cannot :manage_collection, ImportCollection
 
     can [:create, :update, :edit_visibility, :index], Attachment do |attachment|
