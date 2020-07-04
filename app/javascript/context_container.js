@@ -42,8 +42,10 @@
 
     openInContextContainerFunction(urlToOpen);
     var openInContextContainerFunctionEventCallback = function(e) {
-      openInContextContainerFunction(e.target.href);
-      return false;
+      if (e.target.getAttribute("target") != "_blank") {
+        openInContextContainerFunction(e.target.href);
+        return false;
+      }
     }
 
     root.on('click.contextContainer.clickLink', "a", openInContextContainerFunctionEventCallback);
