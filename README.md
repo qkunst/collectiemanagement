@@ -1,6 +1,6 @@
 # QKunst Collectiemanagement
 
-[![Build Status](https://travis-ci.org/qkunst/collectiebeheer.svg?branch=main)](https://travis-ci.org/qkunst/collectiebeheer) [![Code Climate](https://codeclimate.com/github/qkunst/collectiebeheer/badges/gpa.svg)](https://codeclimate.com/github/qkunst/collectiebeheer)
+[![Build Status](https://travis-ci.org/qkunst/collectiemanagement.svg?branch=main)](https://travis-ci.org/qkunst/collectiemanagement)
 
 Dit is de broncode van de QKunst Collectiemanagement applicatie, vrijgegeven onder een AGPL (GNU Affero General Public License v3.0) opensource licentie. Zie ook [LICENSE](LICENSE).
 Deze web applicatie stelt u in staat om kunstwerken binnen uw collectie te bekijken en, afhankelijk van de u toegewezen rol, te beheren.
