@@ -142,7 +142,7 @@ module CollectionReportHelper
     total_max = range_counts.sum{|c| c[:max] * c[:count]}
 
     html += "<tfoot>"
-    html += "<tr><td class=\"count\" colspan=\"6\">Totaal:</td><td class=\"count\">#{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"
+    html += "<tr><td class=\"count\" colspan=\"7\">Totaal: #{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"
     html += "</tfoot>"
 
     range_counts.each do |range_count|
