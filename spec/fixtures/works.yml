@@ -15,6 +15,8 @@ work1:
   abstract_or_figurative: abstract
   created_by: :admin
   frame_height: 50
+  market_value: 50
+  replacement_value: 500
   purchase_price: 100
   purchase_price_currency: :nlg
   purchase_price_in_eur: 200
@@ -39,6 +41,10 @@ work2:
   cluster: :cluster2
   inventoried_at: 2012-01-01
   created_by: :admin
+  market_value_min: 50
+  market_value_max: 100
+  replacement_value_min: 500
+  replacement_value_max: 750
   object_categories:
     - fotografie
     - gebouwgebonden

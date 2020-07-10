@@ -7,7 +7,7 @@ RSpec.describe Report::Builder, type: :model do
     it "should work while I'm refactoring" do
       expected = {
         :total => {value_count: {field: :id}},
-        :artists => {terms: {field: "report_val_sorted_artist_ids", size: 999}},
+        :artists => {terms: {field: "report_val_sorted_artist_ids", size: 10_000}},
         :object_categories => {terms: {field: "report_val_sorted_object_category_ids", size: 999}, aggs: {techniques: {terms: {field: "report_val_sorted_technique_ids", size: 999}}, techniques_missing: {missing: {field: "report_val_sorted_technique_ids"}}}},
         :object_categories_split => {terms: {field: "report_val_sorted_object_category_ids", size: 999}, aggs: {techniques: {terms: {field: "techniques.id", size: 999}}, techniques_missing: {missing: {field: "techniques.id"}}}},
         :subset => {terms: {field: "subset_id", size: 999}},
@@ -32,10 +32,14 @@ RSpec.describe Report::Builder, type: :model do
                                                                                                                                                               "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}, "location_floor_raw_missing" => {missing: {field: "location_floor_raw"}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}}}, "location_raw_missing" => {missing: {field: "location_raw"}, aggs: {"location_floor_raw" => {terms: {field: "location_floor_raw", size: 999}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}, "location_floor_raw_missing" => {missing: {field: "location_floor_raw"}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}}},
         "market_value_max_missing" => {missing: {field: "market_value_max"}},
         "market_value_min_missing" => {missing: {field: "market_value_min"}},
+        "market_value_range_missing" => {:missing=>{:field=>:market_value_min}},
+        :market_value_range => {:aggs=>{:market_value_max=>{:terms=>{:field=>"market_value_max", :size=>999}}}, :terms=>{:field=>:market_value_min, :size=>999}},
         "minimum_bid_missing" => {missing: {field: "minimum_bid"}},
         "purchase_price_in_eur_missing" => {missing: {field: "purchase_price_in_eur"}},
         "replacement_value_max_missing" => {missing: {field: "replacement_value_max"}},
         "replacement_value_min_missing" => {missing: {field: "replacement_value_min"}},
+        "replacement_value_range_missing" => {:missing=>{:field=>:replacement_value_min}},
+        :replacement_value_range => {:aggs=>{:replacement_value_max=>{:terms=>{:field=>"replacement_value_max", :size=>999}}}, :terms=>{:field=>:replacement_value_min, :size=>999}},
         "selling_price_missing" => {missing: {field: "selling_price"}},
         :market_value_max => {terms: {field: "market_value_max", size: 999}},
         :market_value_min => {terms: {field: "market_value_min", size: 999}},

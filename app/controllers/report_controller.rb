@@ -8,34 +8,29 @@ class ReportController < ApplicationController
     @title = "Rapportage voor #{@collection.name}"
 
     @sections = {
-      :Locaties => [[:location_raw]],
-      "Ontsluiting" => [[:tag_list]]
+      :Locaties => [[:location_raw]]
     }
 
     if can?(:read_extended_report, @collection)
       @sections.deep_merge!({
         "Vervaardigers" => [[:artists]],
         "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-        "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:cluster]],
-        "Waardering" => [[:grade_within_collection, :purchase_year]],
+        "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
+        "Waardering" => [],
+        "Beprijzing" => [],
+        "Herkomst" => [[:sources],[:purchase_year]],
         "Object" => [[:object_categories_split], [:object_format_code, :frame_type], [:object_creation_year]],
-        "Overige" => [[:sources], [:owner], [:work_status], [:inventoried, :refound, :new_found]]
+        "Status" => [[:work_status, :grade_within_collection],[:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish]]
       })
-      @sections["Ontsluiting"] = [[:image_rights, :publish], [:tag_list]]
     end
 
     if can?(:read_valuation, @collection) && @sections["Waardering"]
-      @sections["Waardering"][0] += [:purchase_price_in_eur]
+      @sections["Herkomst"] << [:purchase_price_in_eur]
 
-      if @collection.appraise_with_ranges
-        @sections["Waardering"] += [[:market_value_min], [:market_value_max]]
-        @sections["Waardering"] += [[:replacement_value_min], [:replacement_value_max]]
-      else
-        @sections["Waardering"] << [:market_value]
-        @sections["Waardering"] << [:replacement_value]
-      end
+      @sections["Waardering"] += [[:market_value_range], [:market_value]]
+      @sections["Waardering"] += [[:replacement_value_range], [:replacement_value]]
 
-      @sections["Waardering"] << [:minimum_bid, :selling_price]
+      @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
 
     end
 

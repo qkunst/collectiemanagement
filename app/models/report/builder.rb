@@ -14,7 +14,7 @@ module Report
           },
           artists: {
             terms: {
-              field: "report_val_sorted_artist_ids", size: 999
+              field: "report_val_sorted_artist_ids", size: 10_000
             }
           },
           object_categories: {
@@ -52,6 +52,15 @@ module Report
               }
             }
           }
+          #
+          # :market_value_range=>{
+          #   :terms=>{
+          #     :field=>:market_value_min, :size=>999
+          #   }
+          # },
+          # "market_value_range_missing"=>{:missing=>{:field=>:market_value_min}},
+          # :aggs=>{:market_value_max_range=>{:terms=>{:field=>:market_value_max, :size=>999}}, "market_value_max_range_missing"=>{:missing=>{:field=>:market_value_max}}}}
+          #
         }
 
         [:subset, :style, :frame_type].each do |key|
@@ -73,6 +82,14 @@ module Report
         [:inventoried, :refound, :new_found].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key))
         end
+
+        market_value_range = basic_aggregation_snippet_with_missing(:market_value_range, "", :market_value_min)
+        market_value_range[:market_value_range][:aggs] = basic_aggregation_snippet(:market_value_max)
+        aggregation.merge!(market_value_range)
+
+        replacement_value_range = basic_aggregation_snippet_with_missing(:replacement_value_range, "", :replacement_value_min)
+        replacement_value_range[:replacement_value_range][:aggs] = basic_aggregation_snippet(:replacement_value_max)
+        aggregation.merge!(replacement_value_range)
 
         location_sub_sub = basic_aggregation_snippet_with_missing("location_detail_raw")
 
