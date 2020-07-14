@@ -3,10 +3,10 @@
 # config valid only for current version of Capistrano
 # lock '3.5.0'
 
-set :application, "collectiebeheer"
+set :application, "collectiemanagement"
 set :remote_user, :qkunst
 
-set :repo_url, "https://github.com/qkunst/collectiebeheer.git"
+set :repo_url, "https://github.com/qkunst/collectiemanagement.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp

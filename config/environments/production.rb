@@ -67,7 +67,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = {host: "collectiebeheer.qkunst.nl"}
+  config.action_mailer.default_url_options = {host: "collectiemanagement.qkunst.nl"}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -99,7 +99,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[QKunst] ",
-      sender_address: %("QKunst Exception" <execption_notification@collectiebeheer.qkunst.nl>),
+      sender_address: %("QKunst Exception" <execption_notification@collectiemanagement.qkunst.nl>),
       exception_recipients: %w[qkunst@murb.nl]
     }
 

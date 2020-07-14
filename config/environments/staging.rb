@@ -99,7 +99,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[QKunst-Staging] ",
-      sender_address: %("QKunst Exception" <execption_notification@collectiebeheer.qkunst.nl>),
+      sender_address: %("QKunst Exception" <execption_notification@collectiemanagement.qkunst.nl>),
       exception_recipients: %w[qkunst@murb.nl]
     }
 end

@@ -8,7 +8,7 @@ Deze web applicatie stelt u in staat om kunstwerken binnen uw collectie te bekij
 ## Over QKunst Collectiemanagement
 
 [QKunst](http://qkunst.nl) is gespecialiseerd in het inventariseren van grote bedrijfscollecties. Om deze inventarisaties
-nog soepeler te laten verlopen ontwikkelden wij QKunst Collectiemanagement, een web applicatie voor collectiebeheer.
+nog soepeler te laten verlopen ontwikkelden wij QKunst Collectiemanagement, een web applicatie voor collectiemanagement.
 Hiermee worden grote hoeveelheden informatie over een collectie toegankelijk en kunnen we uitgebreide rapportages uitdraaien.
 De applicatie wordt continu doorontwikkeld om de gebruiksvriendelijkheid ervan te vergroten.
 
@@ -99,10 +99,10 @@ Op macOS kunnen deze pakketten eventueel ook via homebrew worden geïnstalleerd.
 
 Clone de repository:
 
-    git clone https://github.com/qkunst/collectiebeheer.git
+    git clone https://github.com/qkunst/collectiemanagement.git
 
 De commando's die volgen worden allemaal uitgevoerd in de project folder, dus
-navigeer hier naartoe (`cd collectiebeheer`)
+navigeer hier naartoe (`cd collectiemanagement`)
 
 #### Installatie afhankelijkheden
 
@@ -196,7 +196,7 @@ Toegang tot een bepaald werk kan niet op het niveau van het individuele werk wor
 
 #### Tot functionaliteit
 
-QKunst collectiebeheer kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
+QKunst collectiemanagement kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
 
 * Administrator
 * Taxateur
@@ -297,7 +297,7 @@ Toegang tot de applicatie is slechts mogelijk via een HTTPS verbinding (min. TLS
 > * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
 > * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
 
-Zie voor meer details (en up to date): [Qualys SSL Report: collectiebeheer.qkunst.nl](https://www.ssllabs.com/ssltest/analyze.html?d=collectiebeheer.qkunst.nl).
+Zie voor meer details (en up to date): [Qualys SSL Report: collectiemanagement.qkunst.nl](https://www.ssllabs.com/ssltest/analyze.html?d=collectiemanagement.qkunst.nl).
 
 Certificaat wordt een maand voor verlopen vernieuwd.
 

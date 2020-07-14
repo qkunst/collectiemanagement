@@ -992,10 +992,10 @@ Currency
       should update works
 
 CustomReportTemplate
-  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/custom_report_template_spec.rb (PENDING: Not yet implemented)
+  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/custom_report_template_spec.rb (PENDING: Not yet implemented)
 
 Geoname
-  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geoname_spec.rb (PENDING: Not yet implemented)
+  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geoname_spec.rb (PENDING: Not yet implemented)
 
 GeonameSummary
   Class methods
@@ -1004,10 +1004,10 @@ GeonameSummary
       should return an empty array when not found
 
 GeonamesAdmindiv
-  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geonames_admindiv_spec.rb (PENDING: Not yet implemented)
+  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_admindiv_spec.rb (PENDING: Not yet implemented)
 
 GeonamesCountry
-  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geonames_country_spec.rb (PENDING: Not yet implemented)
+  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_country_spec.rb (PENDING: Not yet implemented)
 
 ImportCollection
   instance methods
@@ -1804,19 +1804,19 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Add a hash of attributes invalid for your model
      # ./spec/controllers/custom_reports_controller_spec.rb:139
 
-  5) CustomReportTemplate add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/custom_report_template_spec.rb
+  5) CustomReportTemplate add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/custom_report_template_spec.rb
      # Not yet implemented
      # ./spec/models/custom_report_template_spec.rb:6
 
-  6) Geoname add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geoname_spec.rb
+  6) Geoname add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geoname_spec.rb
      # Not yet implemented
      # ./spec/models/geoname_spec.rb:6
 
-  7) GeonamesAdmindiv add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geonames_admindiv_spec.rb
+  7) GeonamesAdmindiv add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_admindiv_spec.rb
      # Not yet implemented
      # ./spec/models/geonames_admindiv_spec.rb:6
 
-  8) GeonamesCountry add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiebeheer/spec/models/geonames_country_spec.rb
+  8) GeonamesCountry add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_country_spec.rb
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
