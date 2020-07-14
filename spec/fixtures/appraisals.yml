@@ -39,8 +39,10 @@ appraisal4:
 
 appraisal_with_existing_range:
   appraised_on: 1999-01-04
-  market_value_max: 1000
-  market_value_min: 500
+  replacement_value_max: 1000
+  replacement_value_min: 500
+  market_value_max: 500
+  market_value_min: 250
   appraised_by: "test"
   user: :admin
   reference: "Reference"
@@ -49,7 +51,9 @@ appraisal_with_existing_range:
 appraisal_with_non_existing_range:
   appraised_on: 1999-01-03
   market_value_max: 1000
-  market_value_min: 500
+  market_value_min: 572
+  replacement_value_min: 1000
+  replacement_value_max: 572
   appraised_by: "test"
   user: :admin
   reference: "Reference"

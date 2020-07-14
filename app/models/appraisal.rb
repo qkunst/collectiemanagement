@@ -49,7 +49,7 @@ class Appraisal < ApplicationRecord
   end
 
   def replacement_value_range
-    (replacement_value_min..replacement_value_max) if replacement_value_min && replacement_value_max
+    (replacement_value_min.to_i..replacement_value_max.to_i) if replacement_value_min && replacement_value_max
   end
 
   def update_work_appraisal_data!
