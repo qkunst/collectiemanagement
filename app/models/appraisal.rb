@@ -35,7 +35,7 @@ class Appraisal < ApplicationRecord
   end
 
   def market_value_range
-    (market_value_min..market_value_max) if market_value_min && market_value_max
+    (market_value_min.to_i..market_value_max.to_i) if market_value_min && market_value_max
   end
 
   def replacement_value_range= range

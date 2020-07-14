@@ -37,6 +37,24 @@ appraisal4:
   work: :work1
   id: 3
 
+appraisal_with_existing_range:
+  appraised_on: 1999-01-04
+  market_value_max: 1000
+  market_value_min: 500
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
+
+appraisal_with_non_existing_range:
+  appraised_on: 1999-01-03
+  market_value_max: 1000
+  market_value_min: 500
+  appraised_by: "test"
+  user: :admin
+  reference: "Reference"
+  work: :work1
+
 appraisal_without_date:
   market_value: 1000
   replacement_value: 2000
