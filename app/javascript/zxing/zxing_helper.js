@@ -194,6 +194,7 @@ function escapeProblemFreeMatch(text, target) {
 }
 
 function initializeScanner() {
+  document.getElementById("start-zxing-scanner-button").classList.add('hide');
   var video = document.createElement("video");
 
   video.width = 800;
@@ -225,7 +226,7 @@ function initializeScanner() {
   }
 
   // Use facingMode: environment to attemt to get the front camera on phones
-  navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: "environment", frameRate: { ideal: 16, max: 24 } } }).then(function(stream) {
+  navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: "environment" } }).then(function(stream) {
     video.srcObject = stream;
     video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
     video.play();
@@ -241,7 +242,7 @@ let startScan = function(event) {
   state.scanActive = true;
   state.targetElement = document.querySelector("*[data-zxing-output-target]");
   document.querySelector(".zxing-canvas-container").classList.add("active");
-  initializeScanner();
+  // initializeScanner();
 }
 let stopScan = function(event) {
   document.querySelector(".zxing-canvas-container").classList.remove("active")
@@ -249,6 +250,9 @@ let stopScan = function(event) {
   state.scanActive = false;
 }
 document.addDelegatedEventListener("contextmenu", "#zxing-canvas", function(e) { console.log("contextmenu"); e.preventDefault(); e.stopPropagation(); return false; })
+
+document.addDelegatedEventListener("touchstart", "[data-action='start-zxing-scanner']", initializeScanner)
+document.addDelegatedEventListener("mousedown", "[data-action='start-zxing-scanner']", initializeScanner)
 
 document.addDelegatedEventListener("touchstart", "#zxing-canvas", startScan)
 document.addDelegatedEventListener("touchend", "#zxing-canvas", stopScan)

@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   get "offline/collection"
 
+  get "scan" =>"scan#show"
+
   namespace :api do
     namespace :v1 do
       resources :collections, only: [] do
@@ -100,10 +102,6 @@ Rails.application.routes.draw do
     end
 
     get "works/modified" => "works#modified_index"
-
-    get "works/batch/edit" => "works_batch#edit"
-    post "works/batch/edit" => "works_batch#edit"
-    patch "works/batch" => "works_batch#update"
 
     get "batch" => "batch#show"
     post "batch" => "batch#show"

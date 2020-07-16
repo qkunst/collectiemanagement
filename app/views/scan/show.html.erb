@@ -1,0 +1,19 @@
+<div id="main">
+<h2>Scanner</h2>
+  <p>Richt eerst de camera op een barcode, en houd, zodra de barcode goed in beeld is, het beeld ingedrukt met je vinger of muisaanwijzer.</p>
+  <div class="zxing-canvas-container">
+    <button data-action="start-zxing-scanner" id="start-zxing-scanner-button" type="button" class="button">Start scanner</button>
+    <canvas id="zxing-canvas"></canvas>
+  </div>
+<hr/>
+<p><strong>Disclaimer:</strong> Deze scanner werkt met behulp van de camera van de telefoon of webcam. De kwaliteit en performance is ondergeschikt aan een échte barcode scanner, zeker in condities met weinig licht.</p>
+
+        <button data-action="start-zxing-scanner" type="button" class="button secondary">Herstart scanner</button>
+
+</div>
+
+
+      <div class="zxing-results-container">
+        <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
+        <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
+      </div>

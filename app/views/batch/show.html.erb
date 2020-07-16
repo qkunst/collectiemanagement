@@ -5,15 +5,11 @@
     <p>Pas <%= link_to "#{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> gelijktijdig aan.
       Wil je informatie verwijderen, maak (of houd) het veld leeg en selecteer ‘Vervang'. Wil je informatie toevoegen, vul de informatie in in het juiste veld en selecteer ‘Voeg toe’. Velden met daaronder de actie 'Negeer' worden niet aangepast.</p>
   <% else %>
-    <div class="zxing-wrapper">
-      <div class="zxing-canvas-container">
-        <canvas id="zxing-canvas"></canvas>
-      </div>
-      <div class="zxing-results-container">
-        <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
-        <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
-      </div>
-    </div>
+    <fieldset>
+      <%= link_to "Open camera scanner", scan_url(open_in_context: true), class: [:button, :tertiary, :right], data: { open_in_context: true} %>
+      <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
+      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
+    </fieldset>
   <% end %>
   <div class="batch-inputs">
     <% if @form.errors.messages != {} %>
