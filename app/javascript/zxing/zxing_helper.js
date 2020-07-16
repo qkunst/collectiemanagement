@@ -263,3 +263,9 @@ document.addDelegatedEventListener("touchend", "#zxing-canvas", stopScan)
 document.addDelegatedEventListener("mousedown", "#zxing-canvas", startScan)
 document.addDelegatedEventListener("mouseup", "#zxing-canvas", stopScan)
 
+let beepOnEnter = function(event) {
+  if (`${event.code}`.match(/Enter/)) {
+    beep(0.1, 150);
+  }
+}
+document.addDelegatedEventListener("keyup", "*[data-zxing-output-target]", beepOnEnter)
