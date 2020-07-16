@@ -236,22 +236,23 @@ function initializeScanner() {
   });
 }
 
-
 let startScan = function(event) {
   event.preventDefault();
   event.stopPropagation();
 
   state.scanActive = true;
   state.targetElement = document.querySelector("*[data-zxing-output-target]");
-  document.querySelector(".zxing-canvas-container").classList.add("active");
+  state.targetElement.blur();
   document.querySelector(".zxing-canvas-container").focus();
-  // initializeScanner();
+  document.querySelector(".zxing-canvas-container").classList.add("active");
 }
+
 let stopScan = function(event) {
   document.querySelector(".zxing-canvas-container").classList.remove("active")
   document.querySelector(".zxing-canvas-container").classList.remove("flash")
   state.scanActive = false;
 }
+
 document.addDelegatedEventListener("contextmenu", "#zxing-canvas", function(e) { console.log("contextmenu"); e.preventDefault(); e.stopPropagation(); return false; })
 
 document.addDelegatedEventListener("touchstart", "[data-action='start-zxing-scanner']", initializeScanner)
