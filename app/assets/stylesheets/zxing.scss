@@ -8,8 +8,13 @@
 }
 
 .zxing-canvas-container {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   max-height: calc( 480px + 2em );
   float: left;
+  width: 100%;
   border: 5px solid $white;
   border-color: $white;
   transition: border-color 0.1s;
@@ -19,6 +24,10 @@
   &.active.flash {
     transition: border-color 1s;
     border-color: $qkunst-green;
+  }
+  text-align: center;
+  button {
+    margin: auto 2em;
   }
 }
 .zxing-canvas-container canvas {

@@ -195,6 +195,8 @@ function escapeProblemFreeMatch(text, target) {
 
 function initializeScanner() {
   document.getElementById("start-zxing-scanner-button").classList.add('hide');
+  document.getElementById("zxing-canvas").classList.remove('hide');
+
   var video = document.createElement("video");
 
   video.width = 800;
@@ -242,6 +244,7 @@ let startScan = function(event) {
   state.scanActive = true;
   state.targetElement = document.querySelector("*[data-zxing-output-target]");
   document.querySelector(".zxing-canvas-container").classList.add("active");
+  document.querySelector(".zxing-canvas-container").focus();
   // initializeScanner();
 }
 let stopScan = function(event) {
