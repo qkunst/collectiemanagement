@@ -62,10 +62,10 @@
   <h3>Downloads</h3>
   <ul>
     <% if can? :download_datadump, @collection  %>
-      <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
+      <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, download: "Alle Werken.xlsx", params: {audience: :default}) %></li>
       <!-- <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li> -->
       <% if @collection.name.to_s.match "Provincie Gelderland" %>
-        <li><%=link_to "Export Erfgoed Gelderland.csv", collection_works_path(@collection, format: :csv, params: {audience: :erfgoed_gelderland}) %></li>
+        <li><%=link_to "Export Collectie Gelderland.xml", collection_works_path(@collection, format: :xml, download: "Export Collectie Gelderland.xml", params: {audience: :erfgoed_gelderland}) %></li>
       <% end %>
       <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
     <% end %>
@@ -80,7 +80,7 @@
   <hr/>
   <ul>
     <% @attachments.each do |attachment| %>
-      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
+      <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, download: attachment.file_name %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
     <% end %>
   </ul>
   <% if can? :create, @collection.attachments.new %>
