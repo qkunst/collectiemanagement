@@ -158,7 +158,7 @@ module CollectionReportHelper
     # make sure missing counts are added as well
     contents.each do |start|
       @params = {}
-      group =
+      group = max_range_column(group)
       if start[1][:subs] == {} || start[0] == :missing
         html += "<tr><td colspan=\"6\">#{link(group, start[0])}</td><td class=\"count\">#{start[1][:count]}</td></tr>"
       end
