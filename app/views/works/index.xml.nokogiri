@@ -1,6 +1,6 @@
 def dcterms_extent(parent_element, value, options)
   if value
-    parent_element['dcterms'].extent do
+    parent_element['dcterms'].extent({"qkunst:describes"=>options[:describes]}) do
       if options == {}
         value
       else
