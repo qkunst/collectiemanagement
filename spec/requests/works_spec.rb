@@ -135,6 +135,26 @@ RSpec.describe "Works", type: :request do
         end
       end
       describe "downloading" do
+        describe "xlsx" do
+          it "should be able to get an zip file" do
+            collection = collections(:collection1)
+            sign_in user
+            get collection_works_path(collection, format: :xlsx)
+            expect(response).to have_http_status(200)
+            expect(response.content_type).to eq("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+          end
+        end
+        describe "csv" do
+          it "should be able to get an zip file" do
+            collection = collections(:collection1)
+            sign_in user
+            get collection_works_path(collection, format: :csv)
+            expect(response).to have_http_status(200)
+            expect(response.content_type).to eq("text/csv")
+            expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
+            expect(response.body).to match('Q001,7201284,002123,0002.123')
+          end
+        end
         describe "zip" do
           it "should be able to get an zip file" do
             collection = collections(:collection1)
