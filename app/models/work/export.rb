@@ -27,7 +27,7 @@ module Work::Export
           value.file ? value.file.filename : nil
         elsif [GeonameSummary].include? value.class
           value.label
-        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner].include? value.class
+        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus].include? value.class
           value.name
         elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
           artist_name_rendered_without_years_nor_locality_semicolon_separated
