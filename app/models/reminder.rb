@@ -85,7 +85,6 @@ class Reminder < ApplicationRecord
   def to_message
     if collection
       messages.new(
-        to_user: User.find_by(email: "veronique@qkunst.nl"),
         qkunst_private: true,
         created_at: current_time,
         subject: "Herinnering: #{name}",

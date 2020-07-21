@@ -125,13 +125,18 @@ RSpec.describe Reminder, type: :model do
         expect(r.to_message.to_json).to eq(Message.new(
           subject: "Herinnering: Naam",
           message: "Uitgebreid bericht",
-          to_user: User.find_by(email: "veronique@qkunst.nl"),
           created_at: r.created_at,
           qkunst_private: true,
           subject_object: c,
           reminder: r,
           from_user_name: "QKunst Herinneringen"
         ).to_json)
+      end
+      it "should inform all admins" do
+        c = collections(:collection_with_stages)
+        r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
+        allow(r).to receive(:current_time).and_return r.created_at
+        expect(r.to_message.notifyable_users.map(&:email)).to eq(["qkunst-admin-user@murb.nl"])
       end
     end
     describe "#to_message!" do

@@ -21,7 +21,7 @@ RSpec.describe Message, type: :model do
         m = Message.new(from_user: u1, to_user: u2)
         expect(m.notifyable_users).to include(u2)
         expect(m.notifyable_users).not_to include(u3)
-        expect(m.notifyable_users).to include(users(:admin))
+        expect(m.notifyable_users).not_to include(users(:admin))
       end
       it "should return also not email receiving users with direct reply" do
         u1 = users(:user1)
@@ -31,7 +31,7 @@ RSpec.describe Message, type: :model do
         m = Message.new(from_user: u1, to_user: u2)
         expect(m.notifyable_users).to include(u2)
         expect(m.notifyable_users).not_to include(u3)
-        expect(m.notifyable_users).to include(users(:admin))
+        expect(m.notifyable_users).not_to include(users(:admin))
       end
       it "should return conversation users" do
         u1 = users(:user1)
@@ -42,7 +42,7 @@ RSpec.describe Message, type: :model do
         expect(m2.notifyable_users).not_to include(u2)
         expect(m2.notifyable_users).to include(u3)
         expect(m2.notifyable_users).to include(u1)
-        expect(m2.notifyable_users).to include(users(:admin))
+        expect(m2.notifyable_users).not_to include(users(:admin))
       end
       it "should return only qkunst admin when private" do
         u1 = users(:user1)

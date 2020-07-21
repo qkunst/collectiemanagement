@@ -150,6 +150,6 @@ class MessagesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def message_params
-    params.require(:message).permit(:to_user_id, :in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image, :actioned_upon_by_qkunst_admin)
+    params.require(:message).permit(:in_reply_to_message_id, :qkunst_private, :subject, :message, :just_a_note, :image, :actioned_upon_by_qkunst_admin)
   end
 end
