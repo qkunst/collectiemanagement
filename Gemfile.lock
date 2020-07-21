@@ -11,14 +11,15 @@ GIT
 
 GIT
   remote: https://github.com/murb/workbook.git
-  revision: 1c6b32c330e24c7d8ae360a2ef13601c3bf3fc30
+  revision: 8ed9eb0d9f19da56bd79c0ca107e2bbdc335d7a1
   specs:
     workbook (0.8.1)
-      axlsx (~> 3.0.0.pre)
-      json (~> 2.1)
-      nokogiri (~> 1.8)
-      rchardet (~> 1.3)
-      spreadsheet (~> 1.1)
+      caxlsx (> 3.0)
+      json (> 2.3)
+      nokogiri (> 1.10)
+      rchardet (>= 1.8.0)
+      rubyzip (>= 1.2.1, > 1.2)
+      spreadsheet (> 1.2)
 
 GEM
   remote: https://rubygems.org/
@@ -81,11 +82,6 @@ GEM
     arel (9.0.0)
     ast (2.4.1)
     attribute_normalizer (1.2.0)
-    axlsx (3.0.0.pre)
-      htmlentities (~> 4.3, >= 4.3.4)
-      mimemagic (~> 0.3)
-      nokogiri (~> 1.8, >= 1.8.2)
-      rubyzip (~> 1.2, >= 1.2.1)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -134,6 +130,11 @@ GEM
     carrierwave-imageoptimizer (1.5.0)
       carrierwave (>= 0.8, < 2.2)
       image_optimizer (~> 1.6)
+    caxlsx (3.0.2)
+      htmlentities (~> 4.3, >= 4.3.4)
+      mimemagic (~> 0.3)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (>= 1.3.0, < 3)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.3)
     crass (1.0.6)
@@ -185,7 +186,7 @@ GEM
     hashie (4.1.0)
     highline (2.0.3)
     htmlentities (4.3.4)
-    i18n (1.8.3)
+    i18n (1.8.4)
       concurrent-ruby (~> 1.0)
     image_optimizer (1.8.0)
     image_processing (1.11.0)
@@ -335,7 +336,7 @@ GEM
       rubocop-ast (>= 0.0.3)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.1.0)
+    rubocop-ast (0.2.0)
       parser (>= 2.7.0.1)
     rubocop-performance (1.6.1)
       rubocop (>= 0.71.0)
@@ -343,7 +344,7 @@ GEM
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
       ffi (~> 1.9)
-    rubyzip (1.3.0)
+    rubyzip (2.3.0)
     rufus-scheduler (3.6.0)
       fugit (~> 1.1, >= 1.1.6)
     sass (3.4.25)
