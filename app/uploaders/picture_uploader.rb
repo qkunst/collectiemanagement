@@ -60,9 +60,6 @@ class PictureUploader < CarrierWave::Uploader::Base
   end
 
   def to_be_path version = nil
-    puts "Store path: #{store_path}"
-    puts "version: #{version}"
-    puts "file.filename: #{file.filename}"
     this_store_path = store_path.gsub(file.filename, "")
     this_store_path + [version, file.filename].compact.join("_")
   end

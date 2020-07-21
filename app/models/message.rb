@@ -3,7 +3,9 @@
 class Message < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  mount_uploader :attachment, BasicFileUploader
   mount_uploader :image, PictureUploader
+
   before_create :set_conversation_start_message
 
   has_many :replies, class_name: "Message", foreign_key: :in_reply_to_message_id

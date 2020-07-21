@@ -58,6 +58,12 @@ class BasicFileUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def to_be_path version = nil
+    this_store_path = store_path.gsub(file.filename, "")
+    this_store_path
+  end
+
+
   protected
 
   def secure_token

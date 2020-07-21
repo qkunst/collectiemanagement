@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_205208) do
+ActiveRecord::Schema.define(version: 2020_07_21_140939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -370,6 +370,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_205208) do
     t.datetime "updated_at", null: false
     t.integer "reminder_id"
     t.string "from_user_name"
+    t.string "attachment"
   end
 
   create_table "object_categories", id: :serial, force: :cascade do |t|

@@ -95,9 +95,6 @@ xml.works(
         xml['dc'].subject tag
       end
       xml['qkunst'].photo_file_name work.hpd_photo_file_name
-      xml['qkunst'].photo_file_name work.hpd_photo_file_name
-      xml['qkunst'].photo_file_name work.hpd_photo_file_name
-      xml['qkunst'].photo_file_name work.hpd_photo_file_name
 
       work.object_categories.not_hidden.each do | tag |
         xml['dc'].type tag.name

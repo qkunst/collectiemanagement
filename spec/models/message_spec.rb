@@ -65,6 +65,17 @@ RSpec.describe Message, type: :model do
         expect(m.notifyable_users).to include(users(:admin))
       end
     end
+    describe "#attachment" do
+      it "accepts attachment" do
+        file = File.open('Gemfile')
+        u1 = users(:user1)
+
+        m = Message.new(from_user: u1, subject: "sub", message: "messss", qkunst_private: true, attachment: file)
+        m.save
+
+        expect(m.attachment.file.path).to match("uploads/message/attachment")
+      end
+    end
   end
   describe "scopes" do
     describe "sent_at_date" do

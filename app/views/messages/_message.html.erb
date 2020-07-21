@@ -31,12 +31,20 @@
   </header>
   <blockquote class="body">
     <% if message.image? %>
-      <%= link_to (root_url + message.image.to_be_path), target: '_blank' do %>
-      <%= image_tag (root_url + message.image.to_be_path(:thumb)), class: 'thumb right' %>
+      <%= link_to (root_url + message.image.to_be_path), download: true do %>
+        <%= image_tag (root_url + message.image.to_be_path(:thumb)), class: 'thumb right' %>
       <% end%>
     <% end %>
+
     <%= kramdown( message.message)  %>
 
+    <% if message.attachment? %>
+      <% if message.attachment.to_be_path.ends_with?("#{message.id}/") %>
+        <%= link_to "Bijlage", "#{root_url}#{message.attachment.url}", download: true %>
+      <% else %>
+        <%= link_to "#{message.attachment.filename}", "#{root_url}#{message.attachment.to_be_path}" %>
+      <% end %>
+    <% end %>
   </blockquote>
   <footer>
   <div class="meta">
