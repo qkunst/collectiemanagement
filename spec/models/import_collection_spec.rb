@@ -60,7 +60,7 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[3].id).to be > 0
         expect(read[1].title).to eq("Zonder Unieke Titel")
         expect(read[1].title_unknown).to be_falsy
-        expect(read[1].themes.collect { |a| a.name }).to eq(["earth", "wind"])
+        expect(read[1].themes.collect { |a| a.name }).to match_array(["earth", "wind"])
         expect(read[0].themes.collect { |a| a.name }).to eq(["earth"])
         expect(read[3].themes.collect { |a| a.name }).to eq(["fire"])
         expect(read[1].medium.name).to eq("Papier")
