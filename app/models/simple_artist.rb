@@ -4,7 +4,7 @@
 class SimpleArtist
   include Artist::NameRenderer
 
-  attr_accessor :first_name, :prefix, :last_name, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death
+  attr_accessor :first_name, :prefix, :last_name, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :artist_name
 
   def id
     "-"

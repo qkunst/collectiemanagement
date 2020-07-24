@@ -62,7 +62,7 @@ module Work::Export
 
       fields += ["collection_external_reference_code", "cached_tag_list", "location_floor", "information_back", "artist_unknown", "title_unknown", "description", "object_creation_year_unknown", "medium_comments", "no_signature_present", "condition_work_comments", "condition_frame_comments", "other_comments", "source_comments", "purchase_price", "price_reference", "public_description", "internal_comments", "imported_at", "created_at", "updated_at", "external_inventory", "artist_name_rendered", "valuation_on", "market_value", "replacement_value","lognotes"]
       5.times do |artist_index|
-        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
+        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name].each do |artist_property|
           fields << "artist_#{artist_index}_#{artist_property}"
         end
       end

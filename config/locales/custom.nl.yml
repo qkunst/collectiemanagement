@@ -215,6 +215,7 @@ nl:
         actual_stage: Stadium samenvoegen met
         previous_stage: Vorig stadium
       artist:
+        artist_name: Artiestennaam
         first_name: Voornaam
         prefix: Tussenvoegsel
         last_name: Achternaam

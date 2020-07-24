@@ -7,7 +7,12 @@ module Artist::NameRenderer
     def name(options = {})
       options = {include_years: true, include_locality: false, render_error: true}.merge(options)
       last_name_part = [first_name, prefix].join(" ").strip
-      namepart = [last_name, last_name_part].delete_if { |a| a == "" }.compact.join(", ")
+      namepart = [last_name, last_name_part].delete_if(&:blank?).compact.join(", ")
+      if artist_name.present? && namepart.present?
+        namepart = "#{artist_name} (#{namepart})"
+      elsif artist_name.present?
+        namepart = artist_name
+      end
       birth = options[:include_locality] && place_of_birth ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
       death = options[:include_locality] && place_of_death ? [place_of_death, year_of_death].join(", ") : year_of_death
       birthpart = [birth, death].compact.join(" - ")
@@ -18,7 +23,7 @@ module Artist::NameRenderer
     end
 
     def to_json_for_simple_artist return_pre_json = false
-      obj = {first_name: first_name, last_name: last_name, prefix: prefix, year_of_birth: year_of_birth, year_of_death: year_of_death, place_of_birth: place_of_birth, place_of_death: place_of_death}.select { |k, v| !v.nil? }
+      obj = {first_name: first_name, last_name: last_name, prefix: prefix, year_of_birth: year_of_birth, year_of_death: year_of_death, place_of_birth: place_of_birth, place_of_death: place_of_death, artist_name: artist_name}.select { |k, v| !v.nil? }
       return_pre_json ? obj : obj.to_json
     end
   end
