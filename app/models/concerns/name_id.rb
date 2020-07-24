@@ -5,6 +5,7 @@ module NameId
 
   included do
     default_scope -> { order(:name) }
+    scope :distinct_with_name, -> { distinct.unscope(:order) }
     scope :find_by_case_insensitive_name, ->(name) { where(arel_table[:name].matches_any([name].flatten)) }
 
     def <=> other

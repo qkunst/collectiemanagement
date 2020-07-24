@@ -8,7 +8,6 @@ class Batch::WorkForm < Work
   include Batch::BaseForm
 
   attr_writer :cluster_name
-
   attr_reader :cluster_name
 
   def model_name

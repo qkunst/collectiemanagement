@@ -46,12 +46,12 @@ class Work < ApplicationRecord
   belongs_to :work_status, optional: true
   belongs_to :geoname_summary, foreign_key: :locality_geoname_id, primary_key: :geoname_id, optional: true
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :frame_damage_types, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :object_categories, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :sources, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :techniques, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :themes, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :frame_damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :object_categories, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :sources, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :techniques, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :themes, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :custom_reports
   has_and_belongs_to_many :attachments
   has_many :appraisals

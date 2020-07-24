@@ -92,6 +92,22 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(appraisal.reference).to eq(nil)
       end
     end
+    describe "themes" do
+      it "appends themes" do
+        sign_in users(:admin)
+        collection = collections(:collection1)
+        works = [works(:work1), works(:work2)]
+        theme = themes(:fire)
+
+        patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
+        expect(response).to have_http_status(302)
+
+        works.each do |work|
+          work = Work.find(work.id)
+          expect(work.themes).to include(theme)
+        end
+      end
+    end
     describe "tag_list" do
       it "should REPLACE" do
         sign_in users(:admin)
