@@ -13,7 +13,7 @@ module Work::Export
     end
 
     5.times do |artist_index|
-      [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
+      [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name].each do |artist_property|
         define_method(:"artist_#{artist_index}_#{artist_property}") do
           artists[artist_index]&.send(artist_property)
         end

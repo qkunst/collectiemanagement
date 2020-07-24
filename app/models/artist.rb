@@ -44,8 +44,12 @@ class Artist < ApplicationRecord
   end
 
   def search_name
-    last_name_part = [first_name, prefix].join(" ").strip
-    [last_name, last_name_part].delete_if { |a| a == "" }.compact.join(", ")
+    if artist_name
+      artist_name
+    else
+      first_name_part = [first_name, prefix].join(" ").strip
+      [last_name, first_name_part].delete_if(&:blank?).compact.join(", ")
+    end
   end
 
   def geoname_ids
@@ -154,7 +158,7 @@ class Artist < ApplicationRecord
   def import!(other)
     other.to_parameters.each do |k, v|
       name_fields = false
-      skip_name_fields = prefix?
+      skip_name_fields = prefix? || artist_name?
       empty_value = (v.nil? || v.to_s.empty?)
       name_fields = ((k == "first_name") || (k == "last_name"))
 
@@ -192,7 +196,7 @@ class Artist < ApplicationRecord
     def names_hash
       unless defined?(@@artist_names)
         @@artist_names = {}
-        Artist.select("id,first_name,prefix,last_name,place_of_birth,year_of_birth,year_of_death").each do |artist|
+        Artist.all.each do |artist|
           @@artist_names[artist.id] = artist.name
         end
       end

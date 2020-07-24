@@ -8,9 +8,7 @@ module Artist::NameRenderer
       options = {include_years: true, include_locality: false, render_error: true}.merge(options)
       last_name_part = [first_name, prefix].join(" ").strip
       namepart = [last_name, last_name_part].delete_if(&:blank?).compact.join(", ")
-      if artist_name.present? && namepart.present?
-        namepart = "#{artist_name} (#{namepart})"
-      elsif artist_name.present?
+      if artist_name.present?
         namepart = artist_name
       end
       birth = options[:include_locality] && place_of_birth ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
@@ -18,7 +16,7 @@ module Artist::NameRenderer
       birthpart = [birth, death].compact.join(" - ")
       birthpart = "(#{birthpart})" if birthpart != ""
       birthpart = "" if (options[:include_years] == false) && (options[:include_locality] == false)
-      rname = [namepart, birthpart].delete_if { |a| a == "" }.join(" ")
+      rname = [namepart, birthpart].delete_if(&:blank?).join(" ")
       (rname == "") && options[:render_error] ? "-geen naam opgevoerd (#{id})-" : rname
     end
 

@@ -73,9 +73,9 @@ RSpec.describe Artist, type: :model do
       a = Artist.create(artist_name: "Antony", year_of_birth: 1900, year_of_death: 2000)
       expect(a.name).to eq("Antony (1900 - 2000)")
     end
-    it "should render both full name and artist name when present" do
+    it "should render not the full name, just the artist name when present" do
       a = Artist.create(artist_name: "Artistname", first_name: "Antony", last_name: "Hopkins",  year_of_birth: 1900, year_of_death: 2000)
-      expect(a.name).to eq("Artistname (Hopkins, Antony) (1900 - 2000)")
+      expect(a.name).to eq("Artistname (1900 - 2000)")
     end
   end
 

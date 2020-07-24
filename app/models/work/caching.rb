@@ -28,7 +28,7 @@ module Work::Caching
                          end
       end
 
-      names = [simple_artists].flatten.collect { |a| a.name(options) }.delete_if { |a| a == "" }
+      names = [simple_artists].flatten.collect { |a| a.name(options) }.delete_if(&:blank?)
 
       return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?
