@@ -22,7 +22,7 @@
       context_artist_path = [@collection, artist].compact
       %>
       <tr>
-        <td><%= link_to (artist.artist_name? ? artist.artist_name : [artist.last_name, artist.prefix].compact.join(", ")), context_artist_path %></td>
+        <td><%= link_to (artist.artist_name? ? "#{artist.artist_name} (artiestennaam)" : [artist.last_name, artist.prefix].compact.join(", ")), context_artist_path %></td>
         <td><%= link_to artist.first_name.to_s, context_artist_path %></td>
         <% if artist.date_of_birth %>
           <td data-sortkey="<%=artist.date_of_birth.iso8601 %>"><%= link_to I18n.l(artist.date_of_birth, format: :long), context_artist_path %></td>
