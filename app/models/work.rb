@@ -16,6 +16,8 @@ class Work < ApplicationRecord
   include Work::PreloadRelationsForDisplay
   include Work::Search
 
+  store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6]
+
   has_paper_trail
 
   has_cache_for_method :tag_list

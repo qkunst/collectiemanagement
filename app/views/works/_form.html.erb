@@ -46,6 +46,9 @@
           <%= f.input :alt_number_2, label: @collection.label_override_work_alt_number_2_with_inheritance, input_html: {data: {catch_return: true}} %>
         </div><div class="large-3 medium-6 columns">
           <%= f.input :alt_number_3, label: @collection.label_override_work_alt_number_3_with_inheritance, input_html: {data: {catch_return: true}} %>
+          <%
+            [:alt_number_4, :alt_number_5, :alt_number_6] #mention alt number 4-6 to enforce sorting (see export.rb)
+          %>
         </div>
       </div>
       <%= f.input :information_back   %>

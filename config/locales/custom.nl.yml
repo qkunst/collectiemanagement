@@ -275,6 +275,9 @@ nl:
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
+        alt_number_4: Alternatief nummer 4
+        alt_number_5: Alternatief nummer 5
+        alt_number_6: Alternatief nummer 6
         appraisals: Waarderingen
         appraised_on: Gewaardeerd op
         artists: Vervaardigers
@@ -356,6 +359,7 @@ nl:
         object_creation_year_unknown: Datering onbekend
         object_format_code: Formaatcode
         other_comments: Overige opmerkingen
+        other_structured_data: Overige gestructureerde gegevens
         owner: Eigendom
         photo_back: Foto achterkant
         photo_detail_1: Foto detail 1

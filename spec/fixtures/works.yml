@@ -27,6 +27,9 @@ work1:
   owner: :owner1
   artists:
     - :artist1
+  other_structured_data:
+    alt_number_4: "ALT4002123.1"
+
 work2:
   title: Work2
   stock_number: Q002
