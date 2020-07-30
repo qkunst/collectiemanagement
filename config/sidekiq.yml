@@ -11,7 +11,7 @@ queues:
   - [qkunst_default, 5]
   - [qkunst_seldom, 3]
 schedule:
-  schedule_request_certificate:
+  schedule_reindex_worker:
     cron: "22 5 * * *"
     class: ScheduleReindexWorkWorker
   schedule_rinse_and_clean:

@@ -36,6 +36,7 @@ module Work::Search
 
     def as_indexed_json(*)
       as_json(
+        except: [:other_structured_data],
         include: {
           artists: {only: [:id, :name], methods: [:name]},
           cluster: {only: [:id, :name]},
