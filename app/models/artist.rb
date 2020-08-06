@@ -33,6 +33,10 @@ class Artist < ApplicationRecord
 
   accepts_nested_attributes_for :artist_involvements
 
+  default_scope ->{ where(replaced_by_artist_id: nil) }
+
+  store :other_structured_data, accessors: [:kids_heden_kunstenaars_nummer]
+
   def place_of_birth
     rv = read_attribute(:place_of_birth)
     rv if !rv.nil? && !rv.to_s.strip.empty?
@@ -139,7 +143,7 @@ class Artist < ApplicationRecord
         work.save
         count += 1
       end
-      artist.destroy
+      artist.update_columns(replaced_by_artist_id: self.id)
     end
     count
   end

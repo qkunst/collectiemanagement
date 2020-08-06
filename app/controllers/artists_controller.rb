@@ -140,7 +140,12 @@ class ArtistsController < ApplicationController
     @artist = if @collection
       @collection.artists.find(params[:artist_id] || params[:id])
     else
-      Artist.find(params[:artist_id] || params[:id])
+      begin
+        Artist.find(params[:artist_id] || params[:id])
+      rescue ActiveRecord::RecordNotFound
+        artist = Artist.unscoped.find(params[:artist_id] || params[:id])
+        redirect_to artist, notice: "Gekoppelde vervaardiger"
+      end
     end
   end
 

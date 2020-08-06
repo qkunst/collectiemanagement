@@ -125,6 +125,14 @@ RSpec.describe Artist, type: :model do
     end
   end
 
+  describe "#other_structured_data" do
+    it "should work" do
+      a = Artist.create(first_name: "A", kids_heden_kunstenaars_nummer: "123")
+      expect(a.kids_heden_kunstenaars_nummer).to eq("123")
+      expect(a.other_structured_data["kids_heden_kunstenaars_nummer"]).to eq("123")
+    end
+  end
+
   describe "Class methods" do
     describe ".empty_artists" do
       it "should list all workless-artists" do
