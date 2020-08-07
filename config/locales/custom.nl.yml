@@ -215,6 +215,8 @@ nl:
         actual_stage: Stadium samenvoegen met
         previous_stage: Vorig stadium
       artist:
+        id: ID
+        alt_number_1: Alt. nr. 1
         artist_name: Artiestennaam
         first_name: Voornaam
         prefix: Tussenvoegsel
@@ -414,6 +416,8 @@ nl:
         artist_0_prefix: Vervaardiger 1 Tussenvoegsel
         artist_0_last_name: Vervaardiger 1 Achternaam
         artist_0_rkd_artist_id: Vervaardiger 1 RKD nummer
+        artist_0_id: Vervaardiger 1 QKunst ID
+        artist_0_alt_number_1: Vervaardiger 1 Alt. nr. 1
         artist_0_year_of_birth: Vervaardiger 1 Geboortejaar
         artist_0_year_of_death: Vervaardiger 1 Jaar van overlijden
         artist_1_artist_name: Vervaardiger 2 Artiestennaam
@@ -421,6 +425,8 @@ nl:
         artist_1_prefix: Vervaardiger 2 Tussenvoegsel
         artist_1_last_name: Vervaardiger 2 Achternaam
         artist_1_rkd_artist_id: Vervaardiger 2 RKD nummer
+        artist_1_id: Vervaardiger 2 QKunst ID
+        artist_1_alt_number_1: Vervaardiger 2 Alt. nr. 1
         artist_1_year_of_birth: Vervaardiger 2 Geboortejaar
         artist_1_year_of_death: Vervaardiger 2 Jaar van overlijden
         artist_2_artist_name: Vervaardiger 3 Artiestennaam
@@ -428,6 +434,8 @@ nl:
         artist_2_prefix: Vervaardiger 3 Tussenvoegsel
         artist_2_last_name: Vervaardiger 3 Achternaam
         artist_2_rkd_artist_id: Vervaardiger 3 RKD nummer
+        artist_2_id: Vervaardiger 3 QKunst ID
+        artist_2_alt_number_1: Vervaardiger 3 Alt. nr. 1
         artist_2_year_of_birth: Vervaardiger 3 Geboortejaar
         artist_2_year_of_death: Vervaardiger 3 Jaar van overlijden
         artist_3_artist_name: Vervaardiger 4 Artiestennaam
@@ -435,6 +443,8 @@ nl:
         artist_3_prefix: Vervaardiger 4 Tussenvoegsel
         artist_3_last_name: Vervaardiger 4 Achternaam
         artist_3_rkd_artist_id: Vervaardiger 4 RKD nummer
+        artist_3_id: Vervaardiger 4 QKunst ID
+        artist_3_alt_number_1: Vervaardiger 4 Alt. nr. 1
         artist_3_year_of_birth: Vervaardiger 4 year_of_birth
         artist_3_year_of_death: Vervaardiger 4 year_of_death
         artist_4_artist_name: Vervaardiger 5 Artiestennaam
@@ -442,6 +452,8 @@ nl:
         artist_4_prefix: Vervaardiger 5 Tussenvoegsel
         artist_4_last_name: Vervaardiger 5 Achternaam
         artist_4_rkd_artist_id: Vervaardiger 5 RKD nummer
+        artist_4_id: Vervaardiger 5 QKunst ID
+        artist_4_alt_number_1: Vervaardiger 5 Alt. nr. 1
         artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
         artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
       category:

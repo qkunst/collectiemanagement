@@ -130,6 +130,7 @@ RSpec.describe Artist, type: :model do
       a = Artist.create(first_name: "A", kids_heden_kunstenaars_nummer: "123")
       expect(a.kids_heden_kunstenaars_nummer).to eq("123")
       expect(a.other_structured_data["kids_heden_kunstenaars_nummer"]).to eq("123")
+      expect(a.alt_number_1).to eq("123")
     end
   end
 

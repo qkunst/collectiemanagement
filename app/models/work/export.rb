@@ -2,6 +2,7 @@
 
 module Work::Export
   extend ActiveSupport::Concern
+  ARTIST_EXPORT_FIELDS = [:id, :alt_number_1, :first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name]
 
   included do
     scope :audience, ->(audience) do
@@ -13,7 +14,7 @@ module Work::Export
     end
 
     5.times do |artist_index|
-      [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name].each do |artist_property|
+      ARTIST_EXPORT_FIELDS.each do |artist_property|
         define_method(:"artist_#{artist_index}_#{artist_property}") do
           artists[artist_index]&.send(artist_property)
         end
@@ -61,8 +62,11 @@ module Work::Export
       }.compact
 
       fields += ["collection_external_reference_code", "cached_tag_list", "location_floor", "information_back", "artist_unknown", "title_unknown", "description", "object_creation_year_unknown", "medium_comments", "no_signature_present", "condition_work_comments", "condition_frame_comments", "other_comments", "source_comments", "purchase_price", "price_reference", "public_description", "internal_comments", "imported_at", "created_at", "updated_at", "external_inventory", "artist_name_rendered", "valuation_on", "market_value", "replacement_value","lognotes"]
+
+      fields = fields.uniq
+
       5.times do |artist_index|
-        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name].each do |artist_property|
+        ARTIST_EXPORT_FIELDS.each do |artist_property|
           fields << "artist_#{artist_index}_#{artist_property}"
         end
       end

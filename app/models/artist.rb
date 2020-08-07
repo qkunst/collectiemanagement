@@ -42,6 +42,10 @@ class Artist < ApplicationRecord
     rv if !rv.nil? && !rv.to_s.strip.empty?
   end
 
+  def alt_number_1
+    kids_heden_kunstenaars_nummer
+  end
+
   def place_of_death
     rv = read_attribute(:place_of_death)
     rv if !rv.nil? && !rv.to_s.strip.empty?
