@@ -27,7 +27,7 @@ xml.works(
   "xmlns:skos"=>"http://www.w3.org/2004/02/skos/core#",
   "xmlns:rdau"=>"http://www.rdaregistry.info/Elements/u/",
   "xmlns:wgs84_pos"=>"http://www.w3.org/2003/01/geo/wgs84_pos#",
-  "xmlns:crm"=>"http://www.cidoc-­‐crm.org/cidoc-­‐crm/",
+  "xmlns:crm"=>"http://www.cidoc-crm.org/cidoc-crm/",
   "xmlns:cc"=>"http://creativecommons.org/ns#",
   'xmlns:xsi'=>'http://www.w3.org/2001/XMLSchema-instance'
 ) do

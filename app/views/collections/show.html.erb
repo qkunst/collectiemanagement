@@ -65,7 +65,7 @@
       <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, download: "Alle Werken.xlsx", params: {audience: :default}) %></li>
       <!-- <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li> -->
       <% if @collection.name.to_s.match "Provincie Gelderland" %>
-        <li><%=link_to "Export Collectie Gelderland.xml", collection_works_path(@collection, format: :xml, download: "Export Collectie Gelderland.xml", params: {audience: :erfgoed_gelderland}) %></li>
+        <li><%=link_to "Export Collectie Gelderland.xml", collection_works_path(@collection, format: :xml, params: {audience: :erfgoed_gelderland}), { download: "Export Collectie Gelderland.xml" } %></li>
       <% end %>
       <!-- <li><%=link_to "Excel HPD output", collection_works_path(@collection, format: :xlsx, params: {audience: :hpd}) %></li> -->
     <% end %>
