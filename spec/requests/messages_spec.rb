@@ -8,5 +8,11 @@ RSpec.describe "Messages", type: :request do
       get messages_path
       expect(response).to have_http_status(302)
     end
+    it "should be accessible when logged in as admin" do
+      user = users(:admin)
+      sign_in user
+      get messages_path
+      expect(response).to have_http_status(200)
+    end
   end
 end

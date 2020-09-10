@@ -47,7 +47,10 @@ class MessagesController < ApplicationController
     @message = @new_reply_message
     if params[:message_id]
       @original_message = Message.find(params[:message_id])
-      redirect_to messages_path, {alert: "U heeft geen toegang tot deze pagina"} unless current_user.can_access_message?(@original_message)
+      if @original_message
+        authorize! :read, @original_message
+      end
+      # redirect_to messages_path, {alert: "U heeft geen toegang tot deze pagina"} unless current_user.can_access_message?(@original_message)
       @message.in_reply_to_message = @original_message
     end
   end
@@ -70,10 +73,7 @@ class MessagesController < ApplicationController
 
     if message_params[:in_reply_to_message_id].to_i > 0
       original_message = Message.find(message_params[:in_reply_to_message_id].to_i)
-      unless current_user.can_access_message?(original_message)
-        redirect_to messages_path, {alert: "U probeert te reageren op een bericht welke u niet heeft kunnen zien."}
-        return false
-      end
+      authorize! :read, original_message
     end
 
     respond_to do |format|
@@ -133,8 +133,6 @@ class MessagesController < ApplicationController
 
     if subject_object
       redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless current_user.qkunst? || !@message.qkunst_private
-    else
-      redirect_to messages_path, {alert: "U heeft geen toegang tot dit bericht"} unless current_user.can_access_message?(@message)
     end
   end
 

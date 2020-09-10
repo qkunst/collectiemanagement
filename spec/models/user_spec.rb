@@ -22,6 +22,11 @@ RSpec.describe User, type: :model do
         end
       end
     end
+    describe "#collection_ids" do
+      it "should return ids of collections" do
+        expect(users(:qkunst_with_collection).collection_ids).to eq(users(:qkunst_with_collection).collections.map(&:id))
+      end
+    end
     describe "#collection_accessibility_log" do
       it "should be empty when new" do
         u = User.new({email: "test@example.com", password: "tops3crt!", password_confirmation: "tops3crt!"})
@@ -124,6 +129,21 @@ RSpec.describe User, type: :model do
         expect(accessible_users).to include(users(:advisor))
         expect(accessible_users).not_to include(users(:admin))
         expect(accessible_users).not_to include(users(:read_only_user)) # collection3 isn't in collection 1 tree
+      end
+    end
+    describe "#accessible_roles" do
+      it "should return all for admin" do
+        expect(users(:admin).accessible_roles).to eq(User::ROLES)
+      end
+
+      it "should return nil for regular advisor" do
+        expect(users(:advisor).accessible_roles).to eq([])
+      end
+
+      it "should return some for advisor with manager roles role" do
+        advisor = users(:advisor)
+        advisor.role_manager = true
+        expect(advisor.accessible_roles).to eq([:compliance, :facility_manager, :read_only])
       end
     end
   end

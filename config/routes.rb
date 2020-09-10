@@ -68,7 +68,7 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     get "manage" => "collections#manage"
-    resource :users, module: :collection
+    resources :users, module: :collection
 
     resources :reminders, path: "manage/reminders"
     resources :themes, path: "manage/themes"

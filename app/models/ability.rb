@@ -15,18 +15,25 @@ class Ability
   def initialize(user)
     if user
       @user = user
-      alias_action :review_collection, :modify_collection, :review_collection, to: :manage_collection # Manage related object in the context of a collection, but not outside collection
+      alias_action :review_collection, :review_collection_users, :modify_collection, :review_collection, to: :manage_collection # Manage related object in the context of a collection, but not outside collection
       alias_action :show, :index, to: :read
       alias_action :read_location, :edit_location, to: :manage_location
 
+      # default role settings
       send("initialize_#{user.role}")
+
+      # specific cross role functionality
+      message_rules
+
+      # special additional roles
+      role_manager
 
       cannot :manage, Collection, root: true
     end
   end
 
   def accessible_collection_ids
-    @accessible_collection_ids ||= user.accessible_collections.map(&:id)
+    user.accessible_collection_ids
   end
 
   # centralize store of fields editable per user; this array is used for sanctioning input parameters and filtering forms
@@ -96,6 +103,26 @@ class Ability
 
   private
 
+  def message_rules
+    can :read, Message, from_user: user
+    can :read, Message do |message|
+      (message.conversation_start_message && message.conversation_start_message.from_user == user) ||
+      (message.conversation_start_message && message.conversation_start_message.to_user == user) ||
+      (message.subject_object && can?(:read, message.subject_object))
+    end
+  end
+
+  def role_manager
+    if user.role_manager?
+      can [:review_collection_users], Collection, id: accessible_collection_ids
+      can [:read, :update, :update_compliance, :update_facility_manager, :update_read_only], User do |object_user|
+        return false if object_user == user
+        (((accessible_collection_ids & object_user.accessible_collection_ids) != []) || object_user.collection_ids.empty?) && !object_user.admin?
+      end
+      cannot [:update], User, id: user.id unless user.admin?
+    end
+  end
+
   def initialize_admin
     can :manage, :all
 
@@ -144,8 +171,6 @@ class Ability
     can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
 
-    # can :update, User
-    cannot [:destroy, :edit_admin], User
   end
 
   def initialize_compliance
@@ -170,7 +195,7 @@ class Ability
     can :read, Attachment
     can [:read, :create], Message
 
-    can [:read, :review, :review_collection, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
+    can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
 
     can :read, Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||

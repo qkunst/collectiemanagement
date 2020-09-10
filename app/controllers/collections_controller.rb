@@ -24,7 +24,7 @@ class CollectionsController < ApplicationController
   end
 
   def manage
-    authorize! :review, @collection
+    authorize! :review_collection_users, @collection
     @title = @collection.name
     @collections = @collection.child_collections
     current_user.reset_filters!

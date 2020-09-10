@@ -58,6 +58,10 @@ class User < ApplicationRecord
     @accessible_collections ||= admin? ? Collection.all : collections.expand_with_child_collections
   end
 
+  def accessible_collection_ids
+    @accessible_collection_ids ||= accessible_collections.map(&:id)
+  end
+
   def accessible_collections_sorted_by_label
     accessible_collections.sort_by(&:to_label)
   end
@@ -74,7 +78,7 @@ class User < ApplicationRecord
   end
 
   def accessible_roles
-    admin? ? User::ROLES : User::ROLES - [:admin]
+    @accessible_roles ||= User::ROLES.select{|role| ability.can?("update_#{role}".to_sym, User)}
   end
 
   def role= new_role
@@ -92,6 +96,10 @@ class User < ApplicationRecord
     qkunst? && (role == :qkunst)
   end
 
+  def read_only?
+    role == :read_only
+  end
+
   def generate_api_key!
     self.api_key = SecureRandom.hex(64)
   end
@@ -104,36 +112,15 @@ class User < ApplicationRecord
     read_attribute(:name) || email
   end
 
-  def can_access_message? message = nil
-    admin? || (message &&
-      message.from_user == self ||
-      (message.conversation_start_message && message.conversation_start_message.from_user == self) ||
-      (message.conversation_start_message && message.conversation_start_message.to_user == self) ||
-      (message.subject_object && can_access_object?(message.subject_object))
-              )
-  end
-
   def can_access_object? objekt = nil
     admin? || (objekt.methods.include?(:can_be_accessed_by_user?) && objekt.can_be_accessed_by_user?(self))
   end
 
-  def can_edit_most_of_work?
-    qkunst? || appraiser?
-  end
-
-  def can_edit_photos?
-    qkunst?
-  end
-
   def can_filter_and_group?(grouping)
     return true if grouping == :themes
-    return false if read_only?
+    return false if role == :read_only
     return false if [:techniques, :sources, :geoname_ids].include?(grouping) && facility_manager?
     true
-  end
-
-  def read_only?
-    role == :read_only
   end
 
   def reset_filters!

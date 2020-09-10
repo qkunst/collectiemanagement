@@ -9,6 +9,10 @@ class Ability::TestUser
     []
   end
 
+  def accessible_collection_ids
+    []
+  end
+
   def admin?
     @role == :admin
   end
@@ -35,5 +39,9 @@ class Ability::TestUser
 
   def read_only?
     @role == :read_only
+  end
+
+  def role_manager?
+    @role == :role_manager
   end
 end

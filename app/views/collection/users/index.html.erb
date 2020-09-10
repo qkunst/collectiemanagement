@@ -11,7 +11,10 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <th><strong><%= user.email%></strong><br/><small><%= I18n.t(user.role, scope: [:activerecord, :values, :user, :role]) %></small></th>
+        <th>
+        <strong>
+          <% if can? :update, user %><%= link_to user.email, edit_collection_user_path(@collection, user) %><% else %><%= user.email%><% end %>
+        </strong><br/><small><%= I18n.t(user.role, scope: [:activerecord, :values, :user, :role]) %></small></th>
         <% @collections.each do |collection|%>
           <td><%= visual_boolean(user.accessible_collections.include?(collection)) %></td>
         <% end %>
