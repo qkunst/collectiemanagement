@@ -3,6 +3,7 @@
 class Attachment < ApplicationRecord
   belongs_to :attache, polymorphic: true
   has_and_belongs_to_many :works
+  has_and_belongs_to_many :artists
 
   validates_presence_of :file
 

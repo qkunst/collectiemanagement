@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_090908) do
+ActiveRecord::Schema.define(version: 2020_09_15_183316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,11 @@ ActiveRecord::Schema.define(version: 2020_09_08_090908) do
     t.string "artist_name"
     t.integer "replaced_by_artist_id"
     t.text "other_structured_data"
+  end
+
+  create_table "artists_attachments", id: false, force: :cascade do |t|
+    t.bigint "attachment_id", null: false
+    t.bigint "work_id", null: false
   end
 
   create_table "artists_works", id: :serial, force: :cascade do |t|

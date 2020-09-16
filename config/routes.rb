@@ -96,6 +96,7 @@ Rails.application.routes.draw do
       patch "combine" => "artists#combine"
       get "rkd_artists" => "artists#rkd_artists"
       resources :artist_involvements
+      resources :attachments
     end
     resources :rkd_artists do
       patch "copy" => "rkd_artists#copy"
