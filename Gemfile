@@ -103,7 +103,6 @@ gem "paper_trail" # , '~>4.0.0.rc1'
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-gem "bundler-audit"
 # gem 'delayed_job_active_record'
 gem "redis-rails"
 gem "exception_notification"

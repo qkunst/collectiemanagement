@@ -111,16 +111,15 @@ class Work < ApplicationRecord
       rescue ArgumentError
       end
     end
+
     if date.is_a?(String) || date.is_a?(Numeric)
       date = date.to_i
       if (date > 1900) && (date < 2100)
         write_attribute(:purchase_year, date)
       end
-    else
-      if date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
-        write_attribute(:purchased_on, date)
-        write_attribute(:purchase_year, date.year)
-      end
+    elsif date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
+      write_attribute(:purchased_on, date)
+      write_attribute(:purchase_year, date.year)
     end
   end
 

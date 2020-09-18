@@ -115,13 +115,13 @@ namespace :server do
 
       begin
         execute "test -f #{shared_path}/config/secrets.yml && echo Secrets already present"
-      rescue SSHKit::Command::Failed => e
+      rescue SSHKit::Command::Failed
         execute "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
       end
 
       begin
         execute "test -f #{shared_path}/config/database.yml && echo Database config already present"
-      rescue SSHKit::Command::Failed => e
+      rescue SSHKit::Command::Failed
         execute "printf \"#{fetch(:stage)}:\\n  username: #{fetch(:database_user)}\\n  password: $PASSWORD\\n  adapter: postgresql\\n  encoding: unicode\\n  database: #{fetch(:database_name)}\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
       end
     end

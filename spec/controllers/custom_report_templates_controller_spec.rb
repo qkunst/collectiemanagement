@@ -46,11 +46,12 @@ RSpec.describe CustomReportTemplatesController, type: :controller do
 
   describe "GET #index" do
     it "returns a success response" do
-      custom_report_template = CustomReportTemplate.create! valid_attributes
+      CustomReportTemplate.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to redirect_to(new_user_session_path)
       sign_in users(:admin)
-      custom_report_template = CustomReportTemplate.create! valid_attributes
+
+      CustomReportTemplate.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to be_successful
     end

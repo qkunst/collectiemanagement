@@ -61,7 +61,10 @@ class Geoname < ApplicationRecord
       puts "Importing cities5000 data..."
 
       transaction do
-        File.open("data/cities5000.txt").read.split(/\n/).collect { |a| a.split(/\t/) }.each { |a| gn = Geoname.where(geonameid: a[0]).first_or_initialize; gn.update_attributes(name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18]); gn.save }
+        File.open("data/cities5000.txt").read.split(/\n/).collect { |a| a.split(/\t/) }.each do |a|
+          gn = Geoname.where(geonameid: a[0]).first_or_initialize
+          gn.update(name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18])
+        end
       end
       puts "Generating summaries data..."
       transaction do

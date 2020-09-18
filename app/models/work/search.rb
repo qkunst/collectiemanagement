@@ -126,12 +126,10 @@ module Work::Search
           values.each do |value|
             new_bool[:bool][:should] << if !value.nil?
               {term: {key => value}}
+            elsif key.ends_with?(".id")
+              {mustNot: {exists: {field: key}}}
             else
-              if key.ends_with?(".id")
-                {mustNot: {exists: {field: key}}}
-              else
-                {bool: {must_not: {exists: {field: key}}}}
-              end
+              {bool: {must_not: {exists: {field: key}}}}
             end
           end
         end

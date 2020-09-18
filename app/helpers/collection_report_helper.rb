@@ -78,7 +78,7 @@ module CollectionReportHelper
   end
 
   def sort_contents_by_group(contents, group)
-    contents = if DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group)
+    if DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group)
       contents.sort { |a, b| b[0][0].to_i <=> a[0][0].to_i }
     elsif [:grade_within_collection].include? group
       contents.sort { |a, b| a[0].to_s <=> b[0].to_s }
@@ -138,8 +138,8 @@ module CollectionReportHelper
         {min: min_value, max: k.first, count: v[:count]}
       end
     }
-    total_min = range_counts.sum { |c| c[:min] * c[:count]}
-    total_max = range_counts.sum { |c| c[:max] * c[:count]}
+    total_min = range_counts.sum { |c| c[:min] * c[:count] }
+    total_max = range_counts.sum { |c| c[:max] * c[:count] }
 
     html += "<tfoot>"
     html += "<tr><td class=\"count\" colspan=\"7\">Totaal: #{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"

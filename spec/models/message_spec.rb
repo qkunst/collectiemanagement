@@ -85,7 +85,7 @@ RSpec.describe Message, type: :model do
         u3 = users(:user3)
         Message.destroy_all
         m = Message.create(from_user: u1, to_user: u2, subject: "sub", message: "messss")
-        m2 = Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
+        Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
         expect(Message.sent_at_date(Time.now.to_date).count).to eq(2)
         expect(Message.sent_at_date(Time.now.to_date + 1.day).count).to eq(0)
       end

@@ -113,17 +113,25 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REPLACE"}}
         expect(response).to have_http_status(302)
-        works.collect { |a| a.reload }
+        works.collect do |a|
+          a.reload
+        end
         expect(works.first.tag_list).to match_array(["eerste nieuwe tag", "first new tag"])
       end
       it "should APPEND" do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }
@@ -133,7 +141,10 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag", "tag to delete"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag", "tag to delete"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["tag to delete", "eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REMOVE"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }

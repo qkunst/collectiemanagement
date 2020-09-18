@@ -289,10 +289,12 @@ RSpec.describe Work, type: :model do
       it "should return nil if object_creation_year_unknown = true" do
         w = works(:work2)
         w.object_creation_year = 2012
-        w.save; w.reload
+        w.save
+        w.reload
         expect(w.object_creation_year).to eq(2012)
         w.object_creation_year_unknown = true
-        w.save; w.reload
+        w.save
+        w.reload
         expect(w.object_creation_year).to eq(nil)
       end
     end
@@ -419,7 +421,8 @@ RSpec.describe Work, type: :model do
 
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
-        works = [works(:work1), works(:work2)]
+        works(:work1)
+        works(:work2)
         aggregations = Work.fast_aggregations [:title, :themes, :subset, :grade_within_collection]
         expect(aggregations.count).to eq 4
         expect(aggregations[:title]["Work1"][:count]).to eq 999999
@@ -493,8 +496,7 @@ RSpec.describe Work, type: :model do
 
         expect(works[0].collection).not_to eq new_collection
 
-        works = Work.where(id: works(:work1).id)
-        # expect(works[0].collection).to eq new_collection
+        Work.where(id: works(:work1).id)
       end
     end
     describe ".column_types" do

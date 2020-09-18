@@ -41,7 +41,7 @@ RSpec.describe InvolvementsController, type: :controller do
 
   describe "GET #index" do
     it "assigns all involvements as @involvements" do
-      involvement = Involvement.create! valid_attributes
+      Involvement.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(response).to redirect_to(new_user_session_path)
     end

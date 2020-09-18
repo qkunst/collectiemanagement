@@ -153,7 +153,11 @@ class Artist < ApplicationRecord
   end
 
   def touch_works
-    works.all.each { |work| work.update_artist_name_rendered!; work.cache_collection_locality_artist_involvements_texts!(true); work.touch }
+    works.all.each do |work|
+      work.update_artist_name_rendered!
+      work.cache_collection_locality_artist_involvements_texts!(true)
+      work.touch
+    end
   end
 
   def to_parameters
@@ -165,7 +169,6 @@ class Artist < ApplicationRecord
 
   def import!(other)
     other.to_parameters.each do |k, v|
-      name_fields = false
       skip_name_fields = prefix? || artist_name?
       empty_value = (v.nil? || v.to_s.empty?)
       name_fields = ((k == "first_name") || (k == "last_name"))
@@ -241,18 +244,18 @@ class Artist < ApplicationRecord
     end
 
     def artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name
-      _empty_artists = []
+      selected_empty_artists = []
       no_name.select(:id).each do |a|
         if a.works.count > 0
           artists_with_name = a.works.collect { |w|
             w.artists.have_name.count > 0
           }.compact.uniq
           if (artists_with_name.length == 1) && (artists_with_name.first == true)
-            _empty_artists << a
+            selected_empty_artists << a
           end
         end
       end
-      _empty_artists
+      selected_empty_artists
     end
 
     def group_by_name

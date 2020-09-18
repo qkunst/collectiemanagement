@@ -52,11 +52,11 @@ class WorksController < ApplicationController
       @works_count = @works.count
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
-    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @works_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
-    rescue Faraday::ConnectionFailed => e
+    rescue Faraday::ConnectionFailed
       @works = []
       @works_count = 0
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."

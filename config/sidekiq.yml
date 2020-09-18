@@ -17,6 +17,3 @@ schedule:
   schedule_rinse_and_clean:
     cron: "23 5 * * *"
     class: RinseAndCleanWorker
-  schedule_test_search_worker:
-    cron: "* */10 * * *"
-    class: TestSearchWorker

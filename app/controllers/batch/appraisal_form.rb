@@ -26,7 +26,7 @@ class Batch::AppraisalForm < Appraisal
   end
 
   def empty_params?
-    {} == appraisal_params.select { |k, v| k != :appraised_on }
+    appraisal_params.select { |k, v| k != :appraised_on }.empty?
   end
   alias_attribute :ignore_validation_errors?, :empty_params?
 end

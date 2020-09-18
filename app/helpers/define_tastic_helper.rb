@@ -114,20 +114,14 @@ module DefineTasticHelper
     @define_tastic_object = object
     @define_tastic_object_klass = object.class
     @define_tastic_render_as = :dl
-    html_string = ""
 
-    if args[0]
-      if args[0].is_a? String
-        html_string += "<h3>#{args[0]}</h3>"
-      else
-        if args[0][:render_as]
-          @define_tastic_render_as = args[0][:render_as] == :table ? :table : :dl
-        end
-        if args[0][:key_width]
-          @define_tastic_key_width = args[0][:key_width]
-        end
+    if args[0].is_a? Hash
+      if args[0][:render_as]
+        @define_tastic_render_as = args[0][:render_as] == :table ? :table : :dl
       end
-
+      if args[0][:key_width]
+        @define_tastic_key_width = args[0][:key_width]
+      end
     end
 
     block_contents = capture(&block).to_s

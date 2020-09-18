@@ -9,7 +9,7 @@ class Condition < ApplicationRecord
   class << self
     def find_by_name name
       if name.is_a?(String) && (name.length > 3)
-        all.select { |a| a.name.downcase.match(name.downcase) }.first
+        all.find { |a| a.name.downcase.match(name.downcase) }
       end
     end
   end

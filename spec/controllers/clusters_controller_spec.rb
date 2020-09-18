@@ -24,7 +24,7 @@ RSpec.describe ClustersController, type: :controller do
   describe "GET #index" do
     it "returns a success response when signed in as admin" do
       sign_in users(:admin)
-      cluster = Cluster.create! valid_attributes
+      Cluster.create! valid_attributes
       get :index, params: {collection_id: collections(:collection3).id}, session: valid_session
       expect(response).to be_successful
     end

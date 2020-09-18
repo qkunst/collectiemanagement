@@ -16,8 +16,8 @@ class RkdArtist < ApplicationRecord
   def year_of_death
     if /\d\d\d\d/.match?(api_response["sterfdatum_eind"])
       api_response["sterfdatum_eind"].to_i
-    else
-      api_response["sterfdatum_eind"].to_date.year if api_response["sterfdatum_eind"].length > 4
+    elsif api_response["sterfdatum_eind"].length > 4
+      api_response["sterfdatum_eind"].to_date.year
     end
   rescue
   end
@@ -44,8 +44,8 @@ class RkdArtist < ApplicationRecord
   def year_of_birth
     if /\d\d\d\d/.match?(api_response["geboortedatum_eind"])
       api_response["geboortedatum_eind"].to_i
-    else
-      api_response["geboortedatum_eind"].to_date.year if api_response["geboortedatum_eind"].length > 4
+    elsif api_response["geboortedatum_eind"].length > 4
+      api_response["geboortedatum_eind"].to_date.year
     end
   rescue
   end
@@ -80,34 +80,12 @@ class RkdArtist < ApplicationRecord
       place_of_death_geoname_id: place_of_death_geoname_id,
       place_of_birth_geoname_id: place_of_birth_geoname_id,
       rkd_artist_id: rkd_id
-      # first_name:
-      # t.string   "place_of_birth"
-      # t.string   "place_of_death"
-      # t.integer  "year_of_birth"
-      # t.integer  "year_of_death"
-      # t.text     "description"
-      # t.datetime "created_at",                null: false
-      # t.datetime "updated_at",                null: false
-      # t.string   "first_name"
-      # t.string   "prefix"
-      # t.string   "last_name"
-      # t.integer  "import_collection_id"
-      # t.integer  "rkd_artist_id"
-      # t.integer  "place_of_death_geoname_id"
-      # t.integer  "place_of_birth_geoname_id"
     }
   end
 
   def to_artist_involvement_params
     artist_involvements = []
-    #=> ArtistInvolvement(id: integer, involvement_id: integer, artist_id: integer, start_year: integer, end_year: integer, created_at: datetime, updated_at: datetime, involvement_type: string)
-    # t.integer  "involvement_id"
-    # t.integer  "artist_id"
-    # t.integer  "start_year"
-    # t.integer  "end_year"
-    # t.datetime "created_at",       null: false
-    # t.datetime "updated_at",       null: false
-    # t.string   "involvement_type"
+
     api_response["werkzaamheid"].each do |werkzaamheid|
       involvement = {
         involvement_type: :professional
@@ -148,8 +126,8 @@ class RkdArtist < ApplicationRecord
 
   def substring
     rv = ""
-    rv += "#{year_of_birth} (#{place_of_birth})" if year_of_birth
-    rv += year_of_death ? " - #{year_of_death} (#{place_of_death})" : ""
+    rv = "#{year_of_birth} (#{place_of_birth})" if year_of_birth
+    rv + (year_of_death ? " - #{year_of_death} (#{place_of_death})" : "")
   end
 
   def to_param
@@ -179,9 +157,10 @@ class RkdArtist < ApplicationRecord
 
     def search_rkd search
       search_rkd_by_artist(search) if search.is_a? Artist
-      json_response = nil
-      rkd_artists = []
+
       begin
+        rkd_artists = []
+
         if !search.nil? && !search.empty?
           search = search.strip
           if search.strip.match(/\d*/).to_s == search.strip

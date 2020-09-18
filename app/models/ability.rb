@@ -87,7 +87,7 @@ class Ability
         fields[:works_attributes] << a
       elsif a.is_a?(Hash)
         fields.keys.each do |group|
-          if a.keys.include?(group)
+          if a.key?(group)
             a[group].select { |b| b.is_a?(Symbol) }.each do |c|
               fields[group] << c
             end

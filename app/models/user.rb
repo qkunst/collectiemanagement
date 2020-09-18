@@ -77,14 +77,14 @@ class User < ApplicationRecord
   end
 
   def accessible_roles
-    @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User)}
+    @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User) }
   end
 
   def role= new_role
     User::ROLES.each do |r|
       send("#{r}=", r.to_s == new_role.to_s) if methods.include?(r)
     end
-    new_role
+    role
   end
 
   def activated?

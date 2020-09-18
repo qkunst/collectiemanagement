@@ -31,9 +31,4 @@ namespace :qkunst do
   task send_reminders: :environment do
     Reminder.send_reminders!
   end
-
-  desc "test availability of the search engine"
-  task test_search: :environment do
-    puts "Replaced by sidekiq scheduler; TestSearchWorker.perform_async"
-  end
 end

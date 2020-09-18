@@ -108,7 +108,7 @@ module Works::Filtering
     end
 
     def parse_booleans noise
-      noise.collect { |a| [0, "0", false, "false", :false].include?(a) ? false : true }
+      noise.collect { |a| ["0", "false"].include?(a.to_s) ? false : true }
     end
   end
 end

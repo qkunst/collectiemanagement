@@ -184,7 +184,7 @@ class Collection < ApplicationRecord
   end
 
   def touch_works_including_child_works!
-    if previous_changes.keys.include? "geoname_ids_cache"
+    if previous_changes.key? "geoname_ids_cache"
       works_including_child_works.each { |a| a.save }
     else
       works_including_child_works.each { |a| a.touch }
@@ -333,7 +333,7 @@ class Collection < ApplicationRecord
   end
 
   def attach_sub_collection_ownables_when_base
-    if persisted? && changes.keys.include?("base")
+    if persisted? && changes.key?("base")
       child_collection_ids = expand_with_child_collections.select { |c| c.id unless c.base? || c == self }.compact
 
       Theme.where(collection_id: child_collection_ids).each do |instance|

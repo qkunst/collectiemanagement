@@ -55,7 +55,10 @@ module Searchable
         __elasticsearch__.create_index! force: true
         __elasticsearch__.refresh_index!
       end
-      find_each { |a| a.reindex!; sleep(seconds_to_sleep) }
+      find_each do |a|
+        a.reindex!
+        sleep(seconds_to_sleep)
+      end
     end
 
     def reindex_async!

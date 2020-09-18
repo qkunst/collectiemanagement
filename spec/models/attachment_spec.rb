@@ -13,7 +13,10 @@ RSpec.describe Attachment, type: :model do
 
         Attachment.move_work_attaches_to_join_table
 
-        work1.reload; work2.reload; a1.reload; a2.reload
+        work1.reload
+        work2.reload
+        a1.reload
+        a2.reload
 
         expect(a1.attache).to eq(work1.collection)
         expect(a2.attache).to eq(work2.collection)

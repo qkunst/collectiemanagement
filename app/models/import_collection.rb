@@ -90,13 +90,11 @@ class ImportCollection < ApplicationRecord
         end
         field_type = :association
       else
-        column = Work.columns.select { |a| a.name == property.to_s }.first
+        column = Work.columns.find { |a| a.name == property.to_s }
         if column
           field_type = column.type
-        else
-          if Work.instance_methods.include?(fieldname.to_sym) && Work.instance_methods.include?("#{fieldname}=".to_sym)
-            field_type = Work.new.send(fieldname).class
-          end
+        elsif Work.instance_methods.include?(fieldname.to_sym) && Work.instance_methods.include?("#{fieldname}=".to_sym)
+          field_type = Work.new.send(fieldname).class
         end
       end
     else
@@ -167,7 +165,6 @@ class ImportCollection < ApplicationRecord
     import_settings.each do |key, import_setting|
       cell = row[key.to_sym] || row[key]
       next if cell.nil?
-      error = nil
 
       table_value = cell.value
       split_strategy = import_setting["split_strategy"].to_sym
@@ -177,8 +174,6 @@ class ImportCollection < ApplicationRecord
       fields = import_setting["fields"] || []
 
       # Iterate over all fields and/or values selected for this value
-
-      field_value_indexes = 0
 
       if fields.count > 0
         if split_strategy == :find_keywords
@@ -287,8 +282,6 @@ class ImportCollection < ApplicationRecord
     association = field_props[:association]
     has_many_association = field_props[:has_many_association]
     complex_association = field_props[:complex_association]
-    fieldname = field_props[:fieldname]
-    objekt = field_props[:objekt]
     field_type = field_props[:field_type]
 
     # Think of new value
@@ -327,7 +320,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def find_import_association_by_name(name)
-    import_associations.select { |a| a.name == name.to_sym }.first
+    import_associations.find { |a| a.name == name.to_sym }
   end
 
   def filter_columns_ending_on_id column_names

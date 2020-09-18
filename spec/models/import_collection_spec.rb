@@ -51,7 +51,10 @@ RSpec.describe ImportCollection, type: :model do
           "Themas" => {"split_strategy" => "find_keywords", "assign_strategy" => "append", "fields" => ["work.themes"]}
         })
         read = i.read
-        read.each { |a| a.save; a.reload }
+        read.each do |a|
+          a.save
+          a.reload
+        end
         expect(read[0].title).to eq(nil)
         expect(read[0].title_unknown).to eq(true)
         expect(read[0].id).to be > 0
@@ -124,7 +127,7 @@ RSpec.describe ImportCollection, type: :model do
           "Cluster" => {"split_strategy" => "find_keywords", "assign_strategy" => "replace", "fields" => ["work.cluster"]}
         })
         expect {
-          read = i.read
+          i.read
         }.to raise_error(ImportCollection::FailedImportError)
       end
     end
