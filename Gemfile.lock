@@ -1,15 +1,4 @@
 GIT
-  remote: https://github.com/mperham/sidekiq.git
-  revision: bb6aba24513617946aa0a014a171a9277a6ab37a
-  branch: 5-x
-  specs:
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
-      rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
-
-GIT
   remote: https://github.com/murb/workbook.git
   revision: 8ed9eb0d9f19da56bd79c0ca107e2bbdc335d7a1
   specs:
@@ -360,6 +349,11 @@ GEM
       sprockets-rails
       tilt
     semantic_range (2.3.0)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     sidekiq-scheduler (3.0.1)
       e2mmap
       redis (>= 3, < 5)
@@ -486,7 +480,7 @@ DEPENDENCIES
   redis-rails
   rspec-rails
   sass-rails
-  sidekiq!
+  sidekiq (~> 5.0)
   sidekiq-scheduler
   sidekiq-unique-jobs
   simple_form

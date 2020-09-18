@@ -113,7 +113,7 @@ gem "rack-headers_filter"
 gem "strip_attributes"
 
 # gem "sidekiq", "~> 5"
-gem 'sidekiq', git: 'https://github.com/mperham/sidekiq.git', branch: '5-x'
+gem "sidekiq", "~> 5.0"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
