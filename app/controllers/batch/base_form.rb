@@ -53,7 +53,7 @@ module Batch::BaseForm
     end
 
     def object_update_parameters(current_work)
-      own_parameters = self.class.batch_fields.map { |field_name|
+      self.class.batch_fields.map { |field_name|
         new_value = send(field_name)
         strategy = send(self.class.strategy_attribute_for(field_name))&.to_sym
 
@@ -81,8 +81,6 @@ module Batch::BaseForm
           end
         end
       }.compact.to_h
-
-      own_parameters
     end
 
     def not_to_ignore_paramaters

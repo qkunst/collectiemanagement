@@ -141,7 +141,7 @@ module Work::Search
 
     def search_to_elasticsearch_filter(search)
       if search && !search.to_s.strip.empty?
-        search = /[\"\(\~\'\*\?]|AND|OR/.match?(search) ? search : search.split(" ").collect { |a| "#{a}~" }.join(" ")
+        search = /["(~'*?]|AND|OR/.match?(search) ? search : search.split(" ").collect { |a| "#{a}~" }.join(" ")
         [{
           query_string: {
             default_field: "*",

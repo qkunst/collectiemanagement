@@ -1,4 +1,4 @@
-require 'action_view'
+require "action_view"
 
 module Builders
   class NokogiriBuilder
@@ -6,11 +6,10 @@ module Builders
     self.default_format = "application/xml"
 
     def call(template)
-      require 'nokogiri'
+      require "nokogiri"
       "xml = ::Nokogiri::XML::Builder.new { |xml|" +
         template.source +
         "}.to_xml;"
     end
   end
 end
-

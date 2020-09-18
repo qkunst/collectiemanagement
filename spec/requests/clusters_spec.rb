@@ -70,24 +70,23 @@ RSpec.describe "Clusters", type: :request do
   describe "POST /collections/:collection_id/clusters" do
     let(:perform_post) { post(collection_clusters_path(collection), {cluster: {name: "Nieuw cluster"}}) }
     it "anonymous cannot create cluster" do
-      expect do
+      expect {
         perform_post
-      end.to change(Cluster, :count).by(0)
+      }.to change(Cluster, :count).by(0)
       expect(last_response.redirect?).to be_truthy
-
     end
     it "admin can create cluster" do
       sign_in users(:admin)
-      expect do
+      expect {
         perform_post
-      end.to change(Cluster, :count).by(1)
+      }.to change(Cluster, :count).by(1)
       expect(last_response.redirect?).to be_truthy
     end
     it "advisor can create cluster" do
       sign_in users(:advisor)
-      expect do
+      expect {
         perform_post
-      end.to change(Cluster, :count).by(1)
+      }.to change(Cluster, :count).by(1)
       expect(last_response.redirect?).to be_truthy
     end
   end

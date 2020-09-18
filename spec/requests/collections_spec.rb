@@ -79,7 +79,7 @@ RSpec.describe "Collections", type: :request do
       end
     end
 
-    [:facility_manager, :appraiser, :compliance].each  do |user_key|
+    [:facility_manager, :appraiser, :compliance].each do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1).collections.create(name: "removable_sub")

@@ -42,8 +42,7 @@ class User < ApplicationRecord
     rv = User::ROLES.collect { |r|
       r if methods.include?(r) && send(r)
     }
-    rv = (rv.compact + [:read_only])
-    rv
+    (rv.compact + [:read_only])
   end
 
   def ability
@@ -78,7 +77,7 @@ class User < ApplicationRecord
   end
 
   def accessible_roles
-    @accessible_roles ||= User::ROLES.select{|role| ability.can?("update_#{role}".to_sym, User)}
+    @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User)}
   end
 
   def role= new_role

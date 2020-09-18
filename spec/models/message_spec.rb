@@ -67,7 +67,7 @@ RSpec.describe Message, type: :model do
     end
     describe "#attachment" do
       it "accepts attachment" do
-        file = File.open('Gemfile')
+        file = File.open("Gemfile")
         u1 = users(:user1)
 
         m = Message.new(from_user: u1, subject: "sub", message: "messss", qkunst_private: true, attachment: file)

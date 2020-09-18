@@ -61,7 +61,7 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:appraiser)
         get collection_batch_path(collections(:collection1))
         response_body = response.body
-        expect(response_body).to match('Waardering door')
+        expect(response_body).to match("Waardering door")
         expect(response_body).to match('Adres en\/of gebouw\(deel\)\<\/label\>')
         expect(response_body).to match('Overige opmerkingen<\/label>')
         expect(response_body).to match('Aankoopprijs<\/label>')

@@ -17,7 +17,7 @@ RSpec.describe "Admin level management", type: :request do
     "techniques",
     "themes",
     "work_statuses"
-  ].each do | name_id_admin_resource |
+  ].each do |name_id_admin_resource|
     describe name_id_admin_resource do
       let(:constant) { name_id_admin_resource.singularize.camelize.constantize }
       constant = name_id_admin_resource.singularize.camelize.constantize
@@ -64,23 +64,22 @@ RSpec.describe "Admin level management", type: :request do
 
         it "does not change #{constant}.count when performed by anonymous" do
           expect {
-            post path, params: { name_id_admin_resource.singularize => {name: "Nieuwe naam"} }
+            post path, params: {name_id_admin_resource.singularize => {name: "Nieuwe naam"}}
           }.not_to change(constant, :count)
         end
         it "does not change #{constant}.count when performed by advisor" do
           sign_in users(:advisor)
           expect {
-            post path, params: { name_id_admin_resource.singularize => {name: "Nieuwe naam"} }
+            post path, params: {name_id_admin_resource.singularize => {name: "Nieuwe naam"}}
           }.not_to change(constant, :count)
         end
         it "changes #{constant}.count by 1 when performed by admin" do
           sign_in users(:admin)
           expect {
-            post path, params: { name_id_admin_resource.singularize => {name: "Nieuwe naam"} }
+            post path, params: {name_id_admin_resource.singularize => {name: "Nieuwe naam"}}
           }.to change(constant, :count).by(1)
         end
       end
-
     end
   end
 end

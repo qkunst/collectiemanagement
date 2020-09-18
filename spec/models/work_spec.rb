@@ -360,7 +360,7 @@ RSpec.describe Work, type: :model do
     end
     describe "public_tag_list" do
       it "filters public tags" do
-        w = Work.create(collection: collections(:collection1), tag_list: %{inventariseren 2020, vermist, 1984, blauw, bekijKen op, aangetroffen, naar fotograaf, selectie, H3 definitief, ontzamelen, aankopen, herplaatsen, navragen, Herplaatsing, Industrie})
+        w = Work.create(collection: collections(:collection1), tag_list: %(inventariseren 2020, vermist, 1984, blauw, bekijKen op, aangetroffen, naar fotograaf, selectie, H3 definitief, ontzamelen, aankopen, herplaatsen, navragen, Herplaatsing, Industrie))
         expect(w.public_tag_list).to eq(["1984", "blauw", "Industrie"])
       end
     end

@@ -10,10 +10,10 @@ class AttachmentsController < ApplicationController
   authorize_resource
 
   def index
-    if @work
-      @attachments = @work.attachments.all
+    @attachments = if @work
+      @work.attachments.all
     else
-      @attachments = @collection.attachments.all
+      @collection.attachments.all
     end
   end
 
@@ -23,7 +23,7 @@ class AttachmentsController < ApplicationController
     @attachment.works << @work if @work
     @attachment.visibility = ["facility_manager", "compliance"]
     @attachments = @collection.attachments_including_parent_attachments.all
-    @attachments = @attachments - @work.attachments if @work
+    @attachments -= @work.attachments if @work
   end
 
   def edit

@@ -107,8 +107,8 @@ class Ability
     can :read, Message, from_user: user
     can :read, Message do |message|
       (message.conversation_start_message && message.conversation_start_message.from_user == user) ||
-      (message.conversation_start_message && message.conversation_start_message.to_user == user) ||
-      (message.subject_object && can?(:read, message.subject_object))
+        (message.conversation_start_message && message.conversation_start_message.to_user == user) ||
+        (message.subject_object && can?(:read, message.subject_object))
     end
   end
 
@@ -170,7 +170,6 @@ class Ability
 
     can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
-
   end
 
   def initialize_compliance
@@ -248,7 +247,7 @@ class Ability
 
     can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
-  alias initialize_qkunst initialize_registrator
+  alias_method :initialize_qkunst, :initialize_registrator
 
   def initialize_facility_manager
     can [:read], Artist
@@ -257,7 +256,7 @@ class Ability
     can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can :create, Message
-    can [:read, :show], Message, qkunst_private: [false,nil]
+    can [:read, :show], Message, qkunst_private: [false, nil]
   end
 
   def initialize_read_only

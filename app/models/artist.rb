@@ -33,7 +33,7 @@ class Artist < ApplicationRecord
 
   accepts_nested_attributes_for :artist_involvements
 
-  default_scope ->{ where(replaced_by_artist_id: nil) }
+  default_scope -> { where(replaced_by_artist_id: nil) }
 
   store :other_structured_data, accessors: [:kids_heden_kunstenaars_nummer]
 
@@ -147,7 +147,7 @@ class Artist < ApplicationRecord
         work.save
         count += 1
       end
-      artist.update_columns(replaced_by_artist_id: self.id)
+      artist.update_columns(replaced_by_artist_id: id)
     end
     count
   end

@@ -39,7 +39,6 @@ class MessagesController < ApplicationController
       @work ||= @message.subject_object
       @collection ||= @work.collection
     end
-
   end
 
   # GET /messages/new
@@ -140,7 +139,7 @@ class MessagesController < ApplicationController
     @new_reply_message = Message.new
     @new_reply_message.in_reply_to_message = @message
     if @message
-      @new_reply_message.subject = "Re: #{@message.subject}" if /^re\:(.*)/i.match?(@message.subject.to_s)
+      @new_reply_message.subject = "Re: #{@message.subject}" if /^re:(.*)/i.match?(@message.subject.to_s)
     end
     @new_reply_message.subject = (@work || @collection).try(:name) if @new_reply_message.subject.blank?
     @new_reply_message

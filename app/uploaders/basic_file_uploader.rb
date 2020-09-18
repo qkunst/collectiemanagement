@@ -59,10 +59,8 @@ class BasicFileUploader < CarrierWave::Uploader::Base
   end
 
   def to_be_path version = nil
-    this_store_path = store_path.gsub(file.filename, "")
-    this_store_path
+    store_path.gsub(file.filename, "")
   end
-
 
   protected
 

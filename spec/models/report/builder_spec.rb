@@ -32,14 +32,14 @@ RSpec.describe Report::Builder, type: :model do
                                                                                                                                                               "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}, "location_floor_raw_missing" => {missing: {field: "location_floor_raw"}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}}}, "location_raw_missing" => {missing: {field: "location_raw"}, aggs: {"location_floor_raw" => {terms: {field: "location_floor_raw", size: 999}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}, "location_floor_raw_missing" => {missing: {field: "location_floor_raw"}, aggs: {"location_detail_raw" => {terms: {field: "location_detail_raw", size: 999}}, "location_detail_raw_missing" => {missing: {field: "location_detail_raw"}}}}}},
         "market_value_max_missing" => {missing: {field: "market_value_max"}},
         "market_value_min_missing" => {missing: {field: "market_value_min"}},
-        "market_value_range_missing" => {:missing=>{:field=>:market_value_min}},
-        :market_value_range => {:aggs=>{:market_value_max=>{:terms=>{:field=>"market_value_max", :size=>999}}}, :terms=>{:field=>:market_value_min, :size=>999}},
+        "market_value_range_missing" => {missing: {field: :market_value_min}},
+        :market_value_range => {aggs: {market_value_max: {terms: {field: "market_value_max", size: 999}}}, terms: {field: :market_value_min, size: 999}},
         "minimum_bid_missing" => {missing: {field: "minimum_bid"}},
         "purchase_price_in_eur_missing" => {missing: {field: "purchase_price_in_eur"}},
         "replacement_value_max_missing" => {missing: {field: "replacement_value_max"}},
         "replacement_value_min_missing" => {missing: {field: "replacement_value_min"}},
-        "replacement_value_range_missing" => {:missing=>{:field=>:replacement_value_min}},
-        :replacement_value_range => {:aggs=>{:replacement_value_max=>{:terms=>{:field=>"replacement_value_max", :size=>999}}}, :terms=>{:field=>:replacement_value_min, :size=>999}},
+        "replacement_value_range_missing" => {missing: {field: :replacement_value_min}},
+        :replacement_value_range => {aggs: {replacement_value_max: {terms: {field: "replacement_value_max", size: 999}}}, terms: {field: :replacement_value_min, size: 999}},
         "selling_price_missing" => {missing: {field: "selling_price"}},
         :market_value_max => {terms: {field: "market_value_max", size: 999}},
         :market_value_min => {terms: {field: "market_value_min", size: 999}},
@@ -49,7 +49,7 @@ RSpec.describe Report::Builder, type: :model do
         :replacement_value_min => {terms: {field: "replacement_value_min", size: 999}},
         :selling_price => {terms: {field: "selling_price", size: 999}},
         :work_status => {terms: {field: "work_status.id", size: 999}},
-        "work_status_missing" => {:missing=>{:field=>"work_status.id"}}
+        "work_status_missing" => {missing: {field: "work_status.id"}}
       }
       expect(Report::Builder.aggregations).to eq(expected)
     end

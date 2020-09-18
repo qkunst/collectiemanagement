@@ -7,7 +7,7 @@ RSpec.describe CollectionDownloadWorker, type: :model do
     collection = collections(:collection_with_works)
     user = users(:admin)
 
-    expect{ CollectionDownloadWorker.new.perform(collection.id, user.id) }.to change(Message, :count).by(1)
+    expect { CollectionDownloadWorker.new.perform(collection.id, user.id) }.to change(Message, :count).by(1)
 
     message = Message.last
 

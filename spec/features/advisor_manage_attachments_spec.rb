@@ -62,7 +62,6 @@ RSpec.feature "Manage attachments", type: :feature do
     end
 
     scenario "reattach attachment" do
-
     end
   end
 end

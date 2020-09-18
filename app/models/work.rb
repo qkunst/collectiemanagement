@@ -330,9 +330,9 @@ class Work < ApplicationRecord
   end
 
   def public_tag_list
-    Array(cached_tag_list).select do |item|
+    Array(cached_tag_list).select { |item|
       !item.match(/(^((.+)\d\d\d\d)$)|(vermist)|(bekijKen op)|(aangetroffen)|(naar fotograaf)|(selectie)|(^[hn]\d\s)|(ontzamelen)|(aankopen)|(herplaatsen)|(navragen)|(Herplaatsing)/i)
-    end.compact
+    }.compact
   end
 
   def convert_purchase_price_in_eur

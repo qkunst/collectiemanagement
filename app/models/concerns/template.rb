@@ -49,7 +49,7 @@ module Template
     class << self
       def object_calls_with_modifiers contents
         rv = []
-        contents.to_s.scan(/\{\{\s*([A-Z]+[a-z\_\.\d]*)\s*\}\}/).flatten.each do |field_with_mod|
+        contents.to_s.scan(/\{\{\s*([A-Z]+[a-z_.\d]*)\s*\}\}/).flatten.each do |field_with_mod|
           field_with_mod_split = field_with_mod.split(".")
           objekt = field_with_mod_split.delete_at(0)
           method = field_with_mod_split.delete_at(0)
@@ -60,7 +60,7 @@ module Template
 
       def fields_with_modifiers contents
         rv = []
-        contents.to_s.scan(/\{\{\s*([a-z\_\.\d]*)\s*\}\}/).flatten.each do |field_with_mod|
+        contents.to_s.scan(/\{\{\s*([a-z_.\d]*)\s*\}\}/).flatten.each do |field_with_mod|
           field_with_mod_split = field_with_mod.split(".")
           field = field_with_mod_split.delete_at(0)
           rv << {field: field, mods: field_with_mod_split}

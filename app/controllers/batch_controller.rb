@@ -50,7 +50,7 @@ class BatchController < ApplicationController
   end
 
   def should_expose_field?(field_name)
-    Array(params[:expose_fields]).select{|a| a.present?}.blank? || params[:expose_fields].include?(field_name.to_s)
+    Array(params[:expose_fields]).select { |a| a.present?}.blank? || params[:expose_fields].include?(field_name.to_s)
   end
 
   def can_edit_field?(field_name)

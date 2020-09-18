@@ -20,12 +20,12 @@ module Work::Caching
       options = {include_years: true, include_locality: false, join: :to_sentence, render_error: false}.merge(opts)
       simple_artists = begin
         SimpleArtist.new_from_json(read_attribute(:artist_name_rendered))
-                       rescue JSON::ParserError
-                         if attributes["artist_name_rendered"]
-                           return attributes["artist_name_rendered"]
-                         else
-                           SimpleArtist.new_from_json(artists.to_json_for_simple_artist)
-                         end
+      rescue JSON::ParserError
+        if attributes["artist_name_rendered"]
+          return attributes["artist_name_rendered"]
+        else
+          SimpleArtist.new_from_json(artists.to_json_for_simple_artist)
+        end
       end
 
       names = [simple_artists].flatten.collect { |a| a.name(options) }.delete_if(&:blank?)

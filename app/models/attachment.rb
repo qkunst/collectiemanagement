@@ -7,7 +7,7 @@ class Attachment < ApplicationRecord
 
   validates_presence_of :file
 
-  scope :for_roles, ->(roles) { (roles.include?(:admin) || roles.include?(:advisor)) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
+  scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) ? where("") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
   scope :for_me, ->(user) { for_roles(user.roles) }
   scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil})}
@@ -36,7 +36,7 @@ class Attachment < ApplicationRecord
 
   class << self
     def move_work_attaches_to_join_table
-      self.where(attache_type: "Work").each do | attachment |
+      where(attache_type: "Work").each do |attachment|
         work = attachment.attache
         collection = work.collection
         attachment.works << work

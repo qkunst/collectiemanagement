@@ -202,7 +202,7 @@ module Work::ParameterRerendering
     end
 
     def stock_number_file_safe
-      stock_number.to_s.gsub(/[\/\\\:]/, "-")
+      stock_number.to_s.gsub(/[\/\\:]/, "-")
     end
 
     def title_rendered

@@ -123,7 +123,7 @@ class Collection < ApplicationRecord
   def appraise_with_ranges
     read_attribute(:appraise_with_ranges) || (self_and_parent_collections_flattened.where(appraise_with_ranges: true).count > 0)
   end
-  alias appraise_with_ranges? appraise_with_ranges
+  alias_method :appraise_with_ranges?, :appraise_with_ranges
 
   def sort_works_by= value
     write_attribute(:sort_works_by, (Work::SORTING_FIELDS & [value.to_sym]).first)
@@ -214,11 +214,11 @@ class Collection < ApplicationRecord
   end
 
   def users_including_child_collection_users
-    (users + expand_with_child_collections.flat_map{ |c| c.users }).uniq
+    (users + expand_with_child_collections.flat_map { |c| c.users }).uniq
   end
 
   def users_including_parent_users
-    (users + parent_collections_flattened.flat_map{ |a| a.users_including_parent_users }).uniq
+    (users + parent_collections_flattened.flat_map { |a| a.users_including_parent_users }).uniq
   end
 
   def exposable_fields= array
@@ -232,7 +232,7 @@ class Collection < ApplicationRecord
   def cached_collection_name_extended_with_fallback
     cached_collection_name_extended || collection_name_extended
   end
-  alias to_label cached_collection_name_extended_with_fallback
+  alias_method :to_label, :cached_collection_name_extended_with_fallback
 
   def exposable_fields
     read_attribute(:exposable_fields).to_s.split(",")
@@ -241,8 +241,8 @@ class Collection < ApplicationRecord
   def fields_to_expose(audience = :default)
     if audience == :default
       if exposable_fields.count == 0
-        fields = Work.possible_exposable_fields.collect { |k, v| v }
-        fields
+        Work.possible_exposable_fields.collect { |k, v| v }
+
       else
         exposable_fields
       end
@@ -302,7 +302,7 @@ class Collection < ApplicationRecord
   def can_be_accessed_by_user user
     users_including_parent_users.include?(user) || user.admin?
   end
-  alias can_be_accessed_by_user? can_be_accessed_by_user
+  alias_method :can_be_accessed_by_user?, :can_be_accessed_by_user
 
   def copy_default_reminders!
     if reminders.count == 0

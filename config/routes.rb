@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   get "offline/collection"
 
-  get "scan" =>"scan#show"
+  get "scan" => "scan#show"
 
   namespace :api do
     namespace :v1 do

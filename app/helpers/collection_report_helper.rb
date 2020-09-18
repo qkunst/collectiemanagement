@@ -36,7 +36,7 @@ module CollectionReportHelper
         "Niets ingevuld"
       end
     elsif selection.is_a?(Hash)
-      group = group.to_s.gsub(/(.*)\_split$/, '\1')
+      group = group.to_s.gsub(/(.*)_split$/, '\1')
       id_separator = "."
       id_separator = "_" unless group.to_s.ends_with?("s") || group.to_s.ends_with?("split")
       @params = @params.merge({"filter[#{group}][]" => nil})
@@ -132,14 +132,14 @@ module CollectionReportHelper
   def render_range(contents, group)
     html = ""
     contents_with_values = contents.select { |a| a.dig(1, :subs, max_range_column(group)) }
-    range_counts = contents_with_values.flat_map do |set|
-      min_value = set.dig(0,0)
-      set.dig(1, :subs, max_range_column(group)).map do |k,v|
+    range_counts = contents_with_values.flat_map { |set|
+      min_value = set.dig(0, 0)
+      set.dig(1, :subs, max_range_column(group)).map do |k, v|
         {min: min_value, max: k.first, count: v[:count]}
       end
-    end
-    total_min = range_counts.sum{|c| c[:min] * c[:count]}
-    total_max = range_counts.sum{|c| c[:max] * c[:count]}
+    }
+    total_min = range_counts.sum { |c| c[:min] * c[:count]}
+    total_max = range_counts.sum { |c| c[:max] * c[:count]}
 
     html += "<tfoot>"
     html += "<tr><td class=\"count\" colspan=\"7\">Totaal: #{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"
@@ -149,7 +149,7 @@ module CollectionReportHelper
       start_key = range_count[:min]
       finish_key = range_count[:max]
       finish_count = range_count[:count]
-      @params = {"filter[#{min_range_column(group)}][]"=>range_count[:min], "filter[#{max_range_column(group)}][]"=>range_count[:max]}
+      @params = {"filter[#{min_range_column(group)}][]" => range_count[:min], "filter[#{max_range_column(group)}][]" => range_count[:max]}
 
       link_label = "#{number_to_currency(start_key, precision: 0)} - #{number_to_currency(finish_key, precision: 0)}"
       html += "<tr><td colspan=\"6\">#{link_to(link_label, collection_works_path(@collection, @params))}</td><td class=\"count\">#{finish_count}</td></tr>"
@@ -165,6 +165,5 @@ module CollectionReportHelper
     end
 
     html
-
   end
 end

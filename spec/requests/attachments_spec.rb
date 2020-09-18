@@ -73,10 +73,10 @@ RSpec.describe "Attachments", type: :request do
         sign_in users(:admin)
         image_name = "#{SecureRandom.uuid}.jpg"
 
-        expect do
+        expect {
           file = fixture_file_upload("image.jpg", "image/jpeg", :binary)
           post collection_work_attachments_path(collection, work), {attachment: {file: file, name: image_name, visibility: [:admin]}}
-        end.to change(Attachment, :count).by(1)
+        }.to change(Attachment, :count).by(1)
 
         attachment = Attachment.find_by_name(image_name)
         expect(last_response.location).to end_with(collection_work_path(collection, work))
@@ -91,16 +91,15 @@ RSpec.describe "Attachments", type: :request do
         sign_in users(:admin)
         image_name = "#{SecureRandom.uuid}.jpg"
 
-        expect do
+        expect {
           file = fixture_file_upload("image.jpg", "image/jpeg", :binary)
           post collection_attachments_path(collection_id: collection.id), {attachment: {file: file, name: image_name, visibility: [:admin]}}
-        end.to change(Attachment, :count).by(1)
+        }.to change(Attachment, :count).by(1)
 
         attachment = Attachment.find_by_name(image_name)
         expect(attachment.collection).to eq(collection)
         expect(attachment.works).to eq([])
       end
     end
-
   end
 end
