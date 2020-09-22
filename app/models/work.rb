@@ -99,6 +99,8 @@ class Work < ApplicationRecord
 
   accepts_nested_attributes_for :appraisals
 
+  alias_attribute :name, :title
+
   def photos?
     photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
   end

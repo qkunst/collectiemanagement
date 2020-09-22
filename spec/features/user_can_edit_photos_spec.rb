@@ -21,7 +21,8 @@ RSpec.feature "Edit photos", type: :feature do
         attach_file "Foto voorkant", File.expand_path("../fixtures/image.jpg", __dir__)
         click_on "Werk bewaren"
         click_on "Beheer foto's"
-        expect(page).to have_content("Beheer foto's van Q001 artist_1")
+
+        expect(page).to have_content("Beheer foto's van Q001 Work1")
         click_on "Werk bewaren"
       end
     end

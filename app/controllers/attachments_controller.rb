@@ -61,9 +61,15 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
-    @attachment.destroy
+    if @subject
+      @subject.attachments -= [@attachment]
+      notice = "Attachment verwijderd bij #{I18n.t @subject.class.name.downcase, :activerecord, :models}"
+    else
+      notice = "Attachment volledig verwijderd"
+      @attachment.destroy
+    end
     respond_to do |format|
-      format.html { redirect_to redirect_url, notice: "Attachment verwijderd" }
+      format.html { redirect_to redirect_url, notice: notice }
       format.json { head :no_content }
     end
   end

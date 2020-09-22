@@ -7,7 +7,7 @@
     <ul class="menu right-aligned menu--only-buttons">
       <li><%= link_to 'Bewerk', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)), class: [:primary, :small, :button, :right] %></li>
       <% if can? :create, @artist.attachments.new(collection: @collection) %>
-        <% if @attachments.count == 0 and @collection%>
+        <% if !@attachments.present? and @collection%>
           <li><%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @artist), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
         <% elsif @collection%>
           <li>
@@ -63,7 +63,7 @@
   <% end %>
 
   <aside class="large-3 medium-3 columns">
-    <% if @attachments.any? %>
+    <% if @attachments.present? %>
       <h3>Bijlagen</h3>
       <ul>
         <% @attachments.each do |attachment| %>

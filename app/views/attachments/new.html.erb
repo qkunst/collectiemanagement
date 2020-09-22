@@ -23,7 +23,7 @@
     <%= render 'form', attachment: @attachment %>
   <% elsif @artist %>
     <p>Bij <%= @artist.name %></p>
-    <% if @attachments && @attachments.any? %>
+    <% if @attachments.present? %>
       <h3>Bestaande bijlage koppelen</h3>
       <label>Filter bijlagen <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
 

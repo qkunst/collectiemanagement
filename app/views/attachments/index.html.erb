@@ -33,7 +33,7 @@
         <% end %>
         <td><%= attachment.visibility.to_sentence %></td>
         <td><%= link_to 'Bewerk', edit_attachment_path(attachment) if can? :edit, attachment %></td>
-        <td><%= link_to 'Verwijder', [attachment.attache, attachment], method: :delete, data: { confirm: "Weet je zeker dat je '#{attachment.file_name}' wilt  verwijderen?" } if can? :destroy, attachment %></td>
+        <td><%= link_to 'Verwijder', [attachment.attache, @subject, attachment].compact, method: :delete, data: { confirm: @subject ? "Weet je zeker dat je de bijlage hier wilt weghalen (de bijlage blijft bij de collectie)?" :"Weet je zeker dat je '#{attachment.file_name}' definitief overal wilt verwijderen?" } if can? :destroy, attachment %></td>
       </tr>
     <% end %>
   </tbody>

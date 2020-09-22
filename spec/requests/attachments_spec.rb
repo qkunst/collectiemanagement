@@ -51,10 +51,24 @@ RSpec.describe "Attachments", type: :request do
       expect(last_response.body).to match(/<tbody>\s*<\/tbody>/)
     end
 
-    it "lists no attachments if none" do
+    it "lists no accessible attachments if none" do
       sign_in users(:appraiser)
 
       work_with_attachment = works(:work_with_attachments)
+
+      get collection_work_attachments_path(work_with_attachment.collection, work_with_attachment)
+      expect(last_response.ok?).to be_truthy
+
+      expect(last_response.body).to match(/<tbody>\s*<\/tbody>/)
+    end
+
+    it "lists  accessible attachments if some" do
+      user = users(:appraiser)
+      sign_in user
+
+      work_with_attachment = works(:work_with_attachments)
+
+      work_with_attachment.attachments.each{|a| a.update_columns(visibility: "facility_manager,appraiser,compliance")}
 
       get collection_work_attachments_path(work_with_attachment.collection, work_with_attachment)
       expect(last_response.ok?).to be_truthy
@@ -99,6 +113,43 @@ RSpec.describe "Attachments", type: :request do
         attachment = Attachment.find_by_name(image_name)
         expect(attachment.collection).to eq(collection)
         expect(attachment.works).to eq([])
+      end
+    end
+  end
+
+  describe "DELETE /attachment/:id" do
+    let(:attachment) { attachments(:work_attachment) }
+
+    context "collection" do
+      it "destroys" do
+        sign_in users(:admin)
+        expect {
+          delete collection_attachment_path(attachment.collection, attachment)
+        }.to change(Attachment, :count).by(-1)
+      end
+    end
+
+    context "collection" do
+      it "destroys" do
+        sign_in users(:admin)
+        expect {
+          delete collection_attachment_path(attachment.collection, attachment)
+        }.to change(Attachment, :count).by(-1)
+      end
+    end
+
+    context "work" do
+      it "removes at work" do
+        sign_in users(:admin)
+
+        work = attachment.works.first
+
+        expect {
+          delete collection_work_attachment_path(work.collection, work, attachment)
+        }.not_to change(Attachment, :count)
+
+        work.reload
+        expect(work.attachments).not_to include(attachment)
       end
     end
   end
