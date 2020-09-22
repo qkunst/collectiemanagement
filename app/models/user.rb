@@ -70,6 +70,11 @@ class User < ApplicationRecord
     Work.where(collection_id: accessible_collections)
   end
 
+  def accessible_artists
+    return Artist.all if admin?
+    Artist.joins(:works).where(works: {id: accessible_works})
+  end
+
   def accessible_users
     return User.where("1=1") if admin?
     return User.where("1=0") unless admin? || advisor?

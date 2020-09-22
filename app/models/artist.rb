@@ -10,6 +10,8 @@ class Artist < ApplicationRecord
   belongs_to :import_collection, optional: true
 
   has_and_belongs_to_many :works
+  has_and_belongs_to_many :attachments
+
   has_many :artist_involvements
   has_many :involvements, -> { distinct }, through: :artist_involvement
   has_many :subsets, through: :works

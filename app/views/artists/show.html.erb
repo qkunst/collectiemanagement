@@ -1,7 +1,34 @@
-<h2><%= @artist.name%><% if can?(:update, @artist)%> <small>(<%= link_to 'Bewerk gegevens', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small><% end %></h2>
+<h2><%= @artist.name%></h2>
+
 <% if can?(:update, @artist)%>
-<%= kramdown(@artist.description) %>
+  <%= kramdown(@artist.description) %>
+
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="artist navigation">
+    <ul class="menu right-aligned menu--only-buttons">
+      <li><%= link_to 'Bewerk', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)), class: [:primary, :small, :button, :right] %></li>
+      <% if can? :create, @artist.attachments.new(collection: @collection) %>
+        <% if @attachments.count == 0 and @collection%>
+          <li><%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @artist), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
+        <% elsif @collection%>
+          <li>
+            <%= link_to collection_artist_attachments_path(@collection, @artist), class: 'secondary small button right' do %>
+              Beheer bijlagen <span class="badge"><%=@attachments.count%></span>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+      <% if admin_user? %>
+        <li><%= link_to 'Combineer', artist_combine_prepare_path(@artist), class: [:secondary, :small, :button, :right] %></li>
+      <% end %>
+      <% if can?(:read, RkdArtist) %>
+        <li><%= link_to  @artist.rkd_artist ? "Beheer RKD koppeling" : "Maak RKD koppeling", (@collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)), class: [:small,:button, :right, :secondary ] %></p>
+
+      <% end %>
+    </ul>
+  </nav>
 <% end %>
+
+
 <div class="row">
   <% if can?(:update, @artist)%>
     <div  class="large-9 medium-9 columns">
@@ -34,10 +61,18 @@
       <% end %>
     </div>
   <% end %>
-  <% if can?(:read, RkdArtist) %>
-    <aside class="large-3 medium-3 columns">
-      <h3>RKDartists&amp;</h3>
 
+  <aside class="large-3 medium-3 columns">
+    <% if @attachments.any? %>
+      <h3>Bijlagen</h3>
+      <ul>
+        <% @attachments.each do |attachment| %>
+          <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, download: attachment.file_name %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if can?(:read, RkdArtist) %>
+      <h3>RKDartists&amp;</h3>
       <% if @artist.rkd_artist %>
         <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
         <%= render @artist.rkd_artist %>
@@ -47,10 +82,8 @@
         <p>Matches in RKDartists&amp;:</p>
         <%= render @artist.rkd_artists%>
       <% end %>
-      <hr />
-      <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', @collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)%></p>
-    </aside>
-  <% end %>
+    <% end %>
+  </aside>
 </div>
 <h3>Werken van deze vervaardiger</h3>
 <p>Overzicht van werken van deze vervaardiger in

@@ -42,6 +42,10 @@ class ArtistsController < ApplicationController
   def show
     authorize! :show, @artist
 
+    @title = @artist.name
+
+    @attachments = @artist.attachments.for_me(current_user)
+
     if @collection
       @works = @collection.works_including_child_works.artist(@artist).distinct
     else

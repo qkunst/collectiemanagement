@@ -33,6 +33,8 @@ module ApplicationHelper
   def edit_attachment_path attachment
     if @work
       edit_collection_work_attachment_path(@collection, @work, attachment)
+    elsif @artist
+      edit_collection_artist_attachment_path(@collection, @artist, attachment)
     else
       edit_collection_attachment_path(attachment.attache, attachment)
     end
@@ -41,6 +43,8 @@ module ApplicationHelper
   def attachment_path attachment
     if @work
       collection_work_attachment_path(@collection, @work, attachment)
+    elsif @artist
+      collection_artist_attachment_path(@collection, @artist, attachment)
     else
       collection_attachment_path(attachment.attache, attachment)
     end
