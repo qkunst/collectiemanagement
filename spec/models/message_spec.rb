@@ -78,7 +78,7 @@ RSpec.describe Message, type: :model do
     end
   end
   describe "scopes" do
-    describe "sent_at_date" do
+    describe ".sent_at_date" do
       it "should work" do
         u1 = users(:user1)
         u2 = users(:user2)
@@ -128,6 +128,14 @@ RSpec.describe Message, type: :model do
         expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter_about_collection_with_works))
         expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter))
         expect(Message.collections([collections(:collection1)])).to include(messages(:conversation_starter_about_work))
+      end
+    end
+    describe ".limit_age_to" do
+      it "should limit to last year" do
+        expect(Message.limit_age_to.count).to eq( Message.count - 1)
+      end
+      it "accepts overrrides" do
+        expect(Message.limit_age_to(1000.years).count).to eq( Message.count)
       end
     end
   end
