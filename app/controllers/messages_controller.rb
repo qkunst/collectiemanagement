@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.conversation_starters.order_by_reverse_creation_date.
+    @messages = Message.conversation_starters.order_by_reverse_creation_date
 
     if subject_object
       @messages = @messages.for(subject_object)
