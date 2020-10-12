@@ -91,7 +91,7 @@ RSpec.describe Message, type: :model do
       end
     end
     describe "thread_can_be_accessed_by_user" do
-      it "should work" do
+      it "should show the thread to participating users" do
         u1 = users(:user1)
         u2 = users(:user2)
         u3 = users(:user3)
@@ -103,6 +103,14 @@ RSpec.describe Message, type: :model do
         expect(Message.thread_can_be_accessed_by_user(u1)).to include(m2)
         expect(Message.thread_can_be_accessed_by_user(u2)).to include(m2)
         expect(Message.thread_can_be_accessed_by_user(u3)).to include(m2)
+      end
+      it "should show the thread to facility managers in same org" do
+        fm1 = users(:facility_manager_collection3)
+        fm2 = users(:facility_manager_two_collection3)
+        m = messages(:conversation_starter_collection3)
+
+        expect(Message.thread_can_be_accessed_by_user(fm1)).to include(m)
+        expect(Message.thread_can_be_accessed_by_user(fm2)).to include(m)
       end
       it "should block facility user from accessing messages from other collections" do
         facility_manager = users(:facility_manager)
