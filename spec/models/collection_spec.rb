@@ -56,6 +56,13 @@ RSpec.describe Collection, type: :model do
       it "#attach_sub_collection_ownables_when_base" do
         expect(collections(:sub_boring_collection).themes.count).to eq(1)
         expect(collections(:sub_boring_collection).clusters.count).to eq(1)
+        expect(collections(:sub_boring_collection).attachments.count).to eq(1)
+
+        # fix as fixture doesn't link to an actual file
+        attachment = collections(:sub_boring_collection).attachments.first
+        attachment.file = File.open("Gemfile")
+        attachment.save
+
         expect(collections(:boring_collection).themes.count).to eq(1)
         expect(collections(:boring_collection).clusters.count).to eq(1)
         expect(collections(:sub_boring_collection).themes.first.works.count).to eq(5)
@@ -72,9 +79,11 @@ RSpec.describe Collection, type: :model do
         c.save
         expect(collections(:sub_boring_collection).themes.count).to eq(0)
         expect(collections(:sub_boring_collection).clusters.count).to eq(0)
+        expect(collections(:sub_boring_collection).attachments.count).to eq(0)
         expect(collections(:boring_collection).themes.count).to eq(2)
         expect(collections(:boring_collection).themes.not_hidden.count).to eq(1)
         expect(collections(:boring_collection).clusters.count).to eq(1)
+        expect(collections(:boring_collection).attachments.count).to eq(1)
 
         boring_collection_theme.reload
         boring_collection_cluster.reload

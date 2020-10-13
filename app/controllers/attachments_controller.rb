@@ -19,7 +19,7 @@ class AttachmentsController < ApplicationController
 
   def new
     @attachment = Attachment.new
-    @attachment.collection = @collection
+    @attachment.collection = @collection.base_collection
     @attachment.works << @work if @work
     @attachment.artists << @artist if @artist
     @attachment.visibility = ["facility_manager", "compliance"]
@@ -32,7 +32,7 @@ class AttachmentsController < ApplicationController
 
   def create
     @attachment = Attachment.new(attachment_params)
-    @attachment.collection = @collection
+    @attachment.collection = @collection.base_collection
 
     respond_to do |format|
       if @attachment.save

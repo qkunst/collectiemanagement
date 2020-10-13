@@ -340,7 +340,7 @@ class Collection < ApplicationRecord
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
-            existing_instance = Theme.where(name: instance.name, collection_id: id).first
+            existing_instance = instance.class.where(name: instance.name, collection_id: id).first
             existing_instance.works += instance.works
             existing_instance.save
 
@@ -356,13 +356,20 @@ class Collection < ApplicationRecord
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
-            existing_instance = Cluster.where(name: instance.name, collection_id: id).first
+            existing_instance = instance.class.where(name: instance.name, collection_id: id).first
 
             instance.works.update_all(cluster_id: existing_instance.id)
             instance.destroy
           else
             raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}")
           end
+        end
+      end
+
+      Attachment.where(attache_type: "Collection", attache_id: child_collection_ids).each do |instance|
+        instance.collection = self
+        unless instance.save
+          raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")
         end
       end
     end

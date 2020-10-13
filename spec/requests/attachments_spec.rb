@@ -114,6 +114,23 @@ RSpec.describe "Attachments", type: :request do
         expect(attachment.collection).to eq(collection)
         expect(attachment.works).to eq([])
       end
+      it "attaches to a base collection when set" do
+        non_base_collection = collections(:collection_with_stages_child)
+        non_base_collection_base_collection = collections(:collection_with_stages)
+
+        expect(non_base_collection.base_collection).to eq(non_base_collection_base_collection)
+
+        image_name = "#{SecureRandom.uuid}.jpg"
+
+        sign_in users(:admin)
+        expect {
+          file = fixture_file_upload("image.jpg", "image/jpeg", :binary)
+          post collection_attachments_path(collection_id: non_base_collection.id), {attachment: {file: file, name: image_name, visibility: [:admin]}}
+        }.to change(Attachment, :count).by(1)
+
+        attachment = Attachment.find_by_name(image_name)
+        expect(attachment.collection).to eq(non_base_collection_base_collection)
+      end
     end
   end
 

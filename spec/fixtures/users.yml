@@ -72,7 +72,7 @@ appraiser:
 advisor:
   email: qkunst-test-advisor@murb.nl
   admin: false
-  qkunst: false
+  qkunst: true
   appraiser: false
   advisor: true
   collections:

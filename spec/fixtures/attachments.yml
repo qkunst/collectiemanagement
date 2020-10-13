@@ -8,3 +8,7 @@ collection_attachment:
   attache: collection3 (Collection)
   name: unpredictablecollectionattachmentname
   file: unpredictablecollectionattachmentfilename.png
+sub_boring_collection_attachment:
+  attache: sub_boring_collection (Collection)
+  name: anotherunpredictablecollectionattachmentname
+  file: anotherunpredictablecollectionattachmentfilename.png
