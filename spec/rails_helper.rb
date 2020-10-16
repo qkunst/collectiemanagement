@@ -55,6 +55,8 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
+Collection.all.each { |c| c.cache_collection_name_extended!(true) }
+
 if ENV["RSPEC_FORMATTER"] === "html"
   def p obj
     puts obj.inspect.gsub("<", "&lt;").gsub(">", "&gt;").to_s
