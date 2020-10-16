@@ -232,8 +232,34 @@ RSpec.describe "Works", type: :request do
             expect(response.body).to match("<qkunst:technique>Ets</qkunst:technique>")
             expect(response.body).to match("<dc:type>Fotografie</dc:type>")
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
+            expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
             expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
+            expect(response.body).to match(/<qkunst\:owner>\s*<dc\:title>Owner1<\/dc:title>\s*<qkunst\:id>\d*<\/qkunst\:id>\s*<\/qkunst\:owner>/)
+            expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
+
+            # would suggest that ruby objects are serialzed to string, instead of xml
+            expect(response.body).not_to match(/#&lt/)
           end
+          context "with public audience" do
+            let(:get_index) { get collection_works_path(collections(:collection1), format: :xml, audience: :public) }
+
+            it "respects audience public setting" do
+              sign_in user
+
+              get_index
+
+              expect(response).to have_http_status(200)
+              expect(response.body).to start_with("<?xml version=\"1.0\"?>")
+
+              expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
+              expect(response.body).not_to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
+
+              expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
+              expect(response.body).not_to match("<qkunst:lognotes/>")
+
+            end
+          end
+
           it "doesn't include work twice" do
             sign_in user
 

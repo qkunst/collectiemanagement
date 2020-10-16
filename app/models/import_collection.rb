@@ -125,9 +125,8 @@ class ImportCollection < ApplicationRecord
       Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
       analyzed_field_props = analyze_field_properties(fields.first)
       association = analyzed_field_props[:association]
-      # p analyzed_field_props
+
       if association&.findable_by_name?
-        # p association.klass
         options = association.klass.not_hidden.all
         names = options.collect { |a| a.name.to_s.downcase }
         keyword_finder = KeywordFinder::Keywords.new(names)

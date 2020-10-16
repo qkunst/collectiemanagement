@@ -175,7 +175,6 @@ class Artist < ApplicationRecord
       empty_value = (v.nil? || v.to_s.empty?)
       name_fields = ((k == "first_name") || (k == "last_name"))
 
-      # p "k: #{k} #{k.class}, v: #{v}, name_fields: #{name_fields} skip_name_fields: #{skip_name_fields} empty_value: #{empty_value}" if !empty_value
       if !empty_value && !(name_fields && skip_name_fields)
         send("#{k}=".to_sym, v)
       end

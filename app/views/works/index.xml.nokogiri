@@ -13,6 +13,15 @@ def dcterms_extent(parent_element, value, options)
   end
 end
 
+def has_name(parent_element, tag, value)
+  if value
+    parent_element['qkunst'].send(tag) do
+      parent_element['dc'].title value.name
+      parent_element['qkunst'].id value.id
+    end
+  end
+end
+
 # o = data_container
 xml.works(
   'xmlns'=>'https://qkunst.nl/work',
@@ -66,7 +75,10 @@ xml.works(
           end
         end
       end
-      # xml['edm'].currentLocation [work.location, work.location_floor, work.location_detail].join(";")
+
+      if @fields_to_expose.include? "location"
+        xml['edm'].currentLocation [work.location, work.location_floor, work.location_detail].join(";")
+      end
 
       xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_front.url}"}) if work.photo_front?
       xml['edm'].isShownBy({"rdf:resource"=>"https://#{request.host}#{work.photo_back.url}"}) if work.photo_back?
@@ -77,94 +89,89 @@ xml.works(
 
       xml.medium work.medium.name if work.medium
       xml.print_({unkown: work.print_unknown}, work.print)
-      xml.signature_comments({not_present: work.no_signature_present}, work.signature_comments)
+      xml.signature_comments({not_present: work.no_signature_present}, work.signature_comments) if @fields_to_expose.include? "signature_comments"
 
-      dcterms_extent(xml, work.frame_width,    {unit: "cm", dimension: "width", describes: "frame"})
-      dcterms_extent(xml, work.frame_depth,    {unit: "cm", dimension: "depth", describes: "frame"})
-      dcterms_extent(xml, work.frame_diameter, {unit: "cm", dimension: "diameter", describes: "frame"})
-      dcterms_extent(xml, work.height,         {unit: "cm", dimension: "height", describes: "work"})
-      dcterms_extent(xml, work.width,          {unit: "cm", dimension: "width", describes: "work"})
-      dcterms_extent(xml, work.depth,          {unit: "cm", dimension: "depth", describes: "work"})
-      dcterms_extent(xml, work.diameter,       {unit: "cm", dimension: "diameter", describes: "work"})
-      dcterms_extent(xml, work.hpd_height,     {unit: "cm", dimension: "height", describes: "outer"})
-      dcterms_extent(xml, work.hpd_width,      {unit: "cm", dimension: "width", describes: "outer"})
-      dcterms_extent(xml, work.hpd_depth,      {unit: "cm", dimension: "depth", describes: "outer"})
-      dcterms_extent(xml, work.hpd_diameter,   {unit: "cm", dimension: "diameter", describes: "outer"})
+      dcterms_extent(xml, work.frame_width,    {unit: "cm", dimension: "width", describes: "frame"})           if @fields_to_expose.include? "frame_width"
+      dcterms_extent(xml, work.frame_depth,    {unit: "cm", dimension: "depth", describes: "frame"})           if @fields_to_expose.include? "frame_depth"
+      dcterms_extent(xml, work.frame_diameter, {unit: "cm", dimension: "diameter", describes: "frame"})        if @fields_to_expose.include? "frame_diameter"
+      dcterms_extent(xml, work.height,         {unit: "cm", dimension: "height", describes: "work"})           if @fields_to_expose.include? "height"
+      dcterms_extent(xml, work.width,          {unit: "cm", dimension: "width", describes: "work"})            if @fields_to_expose.include? "width"
+      dcterms_extent(xml, work.depth,          {unit: "cm", dimension: "depth", describes: "work"})            if @fields_to_expose.include? "depth"
+      dcterms_extent(xml, work.diameter,       {unit: "cm", dimension: "diameter", describes: "work"})         if @fields_to_expose.include? "diameter"
+      dcterms_extent(xml, work.hpd_height,     {unit: "cm", dimension: "height", describes: "outer"})          if @fields_to_expose.include? "hpd_height"
+      dcterms_extent(xml, work.hpd_width,      {unit: "cm", dimension: "width", describes: "outer"})           if @fields_to_expose.include? "hpd_width"
+      dcterms_extent(xml, work.hpd_depth,      {unit: "cm", dimension: "depth", describes: "outer"})           if @fields_to_expose.include? "hpd_depth"
+      dcterms_extent(xml, work.hpd_diameter,   {unit: "cm", dimension: "diameter", describes: "outer"})        if @fields_to_expose.include? "hpd_diameter"
 
-      work.public_tag_list.each do | tag |
-        xml['dc'].subject tag
+      if @fields_to_expose.include? "cached_tag_list"
+        work.public_tag_list.each do | tag |
+          xml['dc'].subject tag
+        end
       end
+
       xml['qkunst'].photo_file_name work.hpd_photo_file_name
 
-      work.object_categories.not_hidden.each do | tag |
-        xml['dc'].type tag.name
+      if @fields_to_expose.include? "object_categories"
+        work.object_categories.not_hidden.each do | tag |
+          xml['dc'].type tag.name
+        end
       end
 
-      work.techniques.not_hidden.each do | tag |
-        xml['qkunst'].technique tag.name
+      if @fields_to_expose.include? "techniques"
+        work.techniques.not_hidden.each do | tag |
+          xml['qkunst'].technique tag.name
+        end
       end
 
       if work.locality_geoname_id
         xml['edm'].hasMet({"rdf:resource"=>"http://sws.geonames.org/#{work.locality_geoname_id}/"}, work.geoname_summary.label)
       end
 
-      # xml.collection_id work.collection_id
+      # TODO: improve 'rdf-ication of values below
 
-      # xml.condition_work_id work.condition_work_id
-      # xml.condition_work_comments work.condition_work_comments
-      # xml.condition_frame_id work.condition_frame_id
-      # xml.condition_frame_comments work.condition_frame_comments
-      # xml.information_back work.information_back
-      # xml.other_comments work.other_comments
-      # xml.source_id work.source_id
-      # xml.source_comments work.source_comments
-      # xml.style_id work.style_id
-      # xml.subset_id work.subset_id
-      # xml.market_value work.market_value
-      # xml.replacement_value work.replacement_value
-      # xml.purchase_price work.purchase_price
-      # xml.price_reference work.price_reference
-      # xml.grade_within_collection work.grade_within_collection
-      # xml.created_at work.created_at
-      # xml.updated_at work.updated_at
-      # xml.artist_unknown work.artist_unknown
-      # xml.entry_status work.entry_status
-      # xml.entry_status_description work.entry_status_description
-      # xml.created_by_id work.created_by_id
-      # xml.medium_comments work.medium_comments
-      # xml.abstract_or_figurative work.abstract_or_figurative
-      # xml.placeability_id work.placeability_id
-      # xml.purchase_price_currency_id work.purchase_price_currency_id
-      # xml.location_detail work.location_detail
-      # xml.valuation_on work.valuation_on
-      # xml.internal_comments work.internal_comments
-      # xml.cluster_id work.cluster_id
-      # xml.lognotes work.lognotes
-      # xml.imported_at work.imported_at
-      # xml.import_collection_id work.import_collection_id
-      # xml.external_inventory work.external_inventory
-      # xml.location_floor work.location_floor
-      # xml.purchased_on work.purchased_on
-      # xml.artist_name_rendered work.artist_name_rendered
-      # xml.main_collection work.main_collection
-      # xml.image_rights work.image_rights
-      # xml.publish work.publish
-      # xml.purchase_year work.purchase_year
-      # xml.frame_type_id work.frame_type_id
-      # xml.owner_id work.owner_id
-      # xml.created_by_name work.created_by_name
-      # xml.collection_locality_artist_involvements_texts_cache work.collection_locality_artist_involvements_texts_cache
-      # xml.inventoried_at work.inventoried_at
-      # xml.refound_at work.refound_at
-      # xml.new_found_at work.new_found_at
-      # xml.market_value_min work.market_value_min
-      # xml.market_value_max work.market_value_max
-      # xml.replacement_value_min work.replacement_value_min
-      # xml.replacement_value_max work.replacement_value_max
-      # xml.minimum_bid work.minimum_bid
-      # xml.selling_price work.selling_price
-      # xml.purchase_price_in_eur work.purchase_price_in_eur
-      # xml.selling_price_minimum_bid_comments work.selling_price_minimum_bid_comments
+      if @fields_to_expose.include? "sources"
+        work.sources.each do |source|
+          has_name(xml, :source, source)
+        end
+      end
+
+      has_name(xml, :collection, work.collection) if @fields_to_expose.include? "collection"
+      has_name(xml, :condition_work, work.condition_work) if @fields_to_expose.include? "condition_work"
+      has_name(xml, :condition_frame, work.condition_frame) if @fields_to_expose.include? "condition_frame"
+      has_name(xml, :style, work.style) if @fields_to_expose.include? "style_id"
+      has_name(xml, :subset, work.subset) if @fields_to_expose.include? "subset_id"
+      has_name(xml, :created_by, work.created_by) if @fields_to_expose.include? "created_by"
+      has_name(xml, :medium, work.medium) if @fields_to_expose.include? "medium_id"
+      has_name(xml, :placeability, work.placeability) if @fields_to_expose.include? "placeability"
+      has_name(xml, :owner, work.owner) if @fields_to_expose.include? "owner"
+      has_name(xml, :cluster, work.cluster) if @fields_to_expose.include? "cluster_id"
+      has_name(xml, :frame_type, work.frame_type) if @fields_to_expose.include? "frame_type"
+
+      %w[condition_work_comments condition_frame_comments information_back other_comments source_comments grade_within_collection created_at updated_at medium_comments abstract_or_figurative valuation_on internal_comments external_inventory purchased_on main_collection image_rights publish purchase_year inventoried_at refound_at new_found_at price_reference minimum_bid selling_price ].each do |field_name|
+        if @fields_to_expose.include? field_name
+          field_value = work.send(field_name)
+          xml['qkunst'].send(field_name, field_value)  if field_value.presence
+        end
+      end
+
+      if @fields_to_expose.include? "market_value"
+        xml['qkunst'].market_value work.market_value if work.market_value
+        xml['qkunst'].market_value_min work.market_value_min if work.market_value_min
+        xml['qkunst'].market_value_max work.market_value_max if work.market_value_max
+      end
+      if @fields_to_expose.include? "replacement_value"
+        xml['qkunst'].replacement_value work.replacement_value if work.replacement_value
+        xml['qkunst'].replacement_value_min work.replacement_value_min if work.replacement_value_min
+        xml['qkunst'].replacement_value_max work.replacement_value_max if work.replacement_value_max
+      end
+
+      if @fields_to_expose.include? "purchase_price"
+        xml['qkunst'].purchase_price work.purchase_price
+        xml['qkunst'].purchase_price_in_eur work.purchase_price_in_eur
+        xml['qkunst'].purchase_price_currency_id work.purchase_price_currency_id
+      end
+
+      xml['qkunst'].selling_price_minimum_bid_comments work.selling_price_minimum_bid_comments if @fields_to_expose.include? "selling_price_minimum_bid_comments"
     end
   end
 end

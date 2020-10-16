@@ -21,6 +21,14 @@ module NameId
     def to_s
       "#<#{self.class.name}:#{name} (#{object_id})>"
     end
+
+    def to_xml
+      Nokogiri::XML::Builder.new { |xml|
+        xml.root('xmlns' => 'default', 'xmlns:foo' => 'bar') do
+          xml.tenderlove
+        end
+      }
+    end
   end
 
   class_methods do

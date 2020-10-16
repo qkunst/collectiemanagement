@@ -24,7 +24,29 @@ work1:
   purchase_price_in_eur: 200
   inventoried_at: 2012-01-02
   frame_width: 100
+  publish: true
   owner: :owner1
+  condition_frame: :goed
+  condition_work: :goed
+  frame_type: :one
+  medium: :papier
+  placeability: :one
+  style: :one
+  work_status: :in_gebruik
+  locality_geoname_id: 123
+  techniques:
+    - :acrylverf
+    - :houtskool
+  sources:
+    - :bkr
+  damage_types:
+    - :a
+    - :b
+  frame_damage_types:
+    - :one
+  object_categories:
+    - :audiovisueel
+    - :gebouwgebonden
   artists:
     - :artist1
   other_structured_data:

@@ -239,21 +239,19 @@ class Collection < ApplicationRecord
   end
 
   def fields_to_expose(audience = :default)
-    if audience == :default
+    case audience
+    when :default
       if exposable_fields.count == 0
-        Work.possible_exposable_fields.collect { |k, v| v }
-
+        Work.possible_exposable_fields
       else
         exposable_fields
       end
-    elsif audience == :erfgoed_gelderland
-      fields = ["stock_number_file_safe", "title_rendered", "description", "public_description", "object_creation_year", "tags", "object_categories", "medium", "techniques", "hpd_height", "hpd_width", "hpd_depth", "hpd_diameter", "hpd_photo_file_name", "artist_name_rendered_without_years_nor_locality"]
-      5.times do |artist_index|
-        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
-          fields << "artist_#{artist_index}_#{artist_property}"
-        end
+    when :public
+      forbidden_words = ["value", "price", "location", "condition", "information_back", "internal", "damage", "placeability", "other_comments", "source", "purchase", "grade_within_collection", "created_by", "appraisal", "valuation", "lognotes"]
+
+      Work.possible_exposable_fields.select do |field_name|
+        !forbidden_words.collect{|forbidden_word| !!field_name.match(forbidden_word) }.include?(true)
       end
-      fields
     end
   end
 

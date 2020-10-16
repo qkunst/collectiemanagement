@@ -6,7 +6,7 @@ module Work::Export
 
   included do
     scope :audience, ->(audience) do
-      if audience == :erfgoed_gelderland
+      if audience == :public
         published
       else
         where("1=1")
@@ -81,7 +81,7 @@ module Work::Export
         a1 <=> b1
       end
 
-      @@possible_exposable_fields = fields.collect { |a| [Work.human_attribute_name(a.to_s), a] }
+      @@possible_exposable_fields = fields
     end
 
     def to_workbook(fields = [:id, :title_rendered], collection = nil)

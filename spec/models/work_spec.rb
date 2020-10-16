@@ -148,15 +148,15 @@ RSpec.describe Work, type: :model do
     end
     describe "#damage_types" do
       it "should be an empty by default" do
-        w = works(:work1)
+        w = works(:work2)
         expect(w.damage_types).to eq([])
       end
       it "should should touch work on add (and should only return once)" do
-        w = works(:work1)
+        w = works(:work2)
         original_updated_at = w.updated_at
         w.damage_types << damage_types(:a)
         w.damage_types << damage_types(:a)
-        expect(w.damage_types).to eq([damage_types(:a)])
+        expect(w.damage_types).to match_array([damage_types(:a)])
         expect(w.updated_at - original_updated_at).to be > 0.001
       end
     end
@@ -413,9 +413,9 @@ RSpec.describe Work, type: :model do
     end
     describe ".possible_exposable_fields" do
       it "should return possible_exposable_fields" do
-        expect(Work.possible_exposable_fields).to include(["Eigendom", "owner"])
-        expect(Work.possible_exposable_fields).to include(["Locatie specificatie", "location_detail"])
-        expect(Work.possible_exposable_fields).to include(["Verdieping", "location_floor"])
+        expect(Work.possible_exposable_fields).to include("owner")
+        expect(Work.possible_exposable_fields).to include("location_detail")
+        expect(Work.possible_exposable_fields).to include("location_floor")
       end
     end
 
