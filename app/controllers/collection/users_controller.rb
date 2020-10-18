@@ -2,7 +2,7 @@
 
 class Collection::UsersController < ApplicationController
   before_action :set_collection, only: [:show, :edit, :index, :update, :destroy, :manage] # includes authentication
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
     @manage_controller = true
@@ -22,7 +22,8 @@ class Collection::UsersController < ApplicationController
 
   def update
     authorize! :update, @user
-    if @user.update(user_params)
+
+    if @user.update(user_params.merge(updated_at: Time.now))
       redirect_to collection_users_path(@collection), notice: "De gebruiker is bijgewerkt."
     else
       render :edit
@@ -35,7 +36,13 @@ class Collection::UsersController < ApplicationController
   end
 
   def user_params
-    parameters = params.require(:user).permit(:role)
+    parameters = params.require(:user).permit(:role, collection_ids: [])
+
+    manageable_collection_ids = Array(parameters[:collection_ids]).map(&:to_i) & current_user.accessible_collection_ids
+    unaffected_collection_ids = @user ? (@user.collection_ids - current_user.accessible_collection_ids) : []
+
+    parameters[:collection_ids] = unaffected_collection_ids + manageable_collection_ids
+
     parameters.delete "role" unless current_user.accessible_roles.include?(parameters["role"].to_sym)
     parameters
   end

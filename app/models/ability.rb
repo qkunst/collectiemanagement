@@ -147,7 +147,7 @@ class Ability
     can [:edit_photos, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
 
-    can [:destroy, :edit_admin], User
+    can [:destroy, :edit_admin, :manage], User
   end
 
   def initialize_advisor

@@ -1,6 +1,18 @@
 <div class="row">
   <div class="columns">
-    <h2>Bewerk <%=@user.email%> <small><%= link_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn) if can?(:destroy, @user) %></small></h2>
+    <h2>Bewerk <%=@user.email%> <small></small></h2>
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="collection actions">
+  <ul class="menu right-aligned menu--only-buttons">
+    <%  if can?(:destroy, @user) %>
+      <%= button_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: [:button, :alert]) if can?(:destroy, @user) %>
+    <% end %>
+    <%  if can?(:edit, @user) %>
+      <%= button_to('Deactiveer gebruiker', user_path(@user), method: :post, params: {collection_ids: []}, data: {confirm: "Weet u zeker dat u deze gebruiker wilt deactiveren?"}, class: [:button, :alert]) if can?(:destroy, @user) %>
+    <% end %>
+  </ul>
+</nav>
+
+
     <p>Deze gebruiker wordt <strong><%= @user.activated? ? "wel" : "niet" %></strong> als geactiveerd beschouwd.</p>
     <%= simple_form_for([@collection, @user]) do |f| %>
       <h2>Rollen</h2>

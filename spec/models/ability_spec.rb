@@ -29,7 +29,7 @@ RSpec.describe Ability, type: :model do
         [:show_details, :work, :work1, true]
       ],
       "Users" => [
-        [:update, :user, :user_with_no_rights, false]
+        [:update, :user, :user_with_no_rights, false] #by default advisors canot edit user roles
       ]
     },
     compliance: {
@@ -46,6 +46,9 @@ RSpec.describe Ability, type: :model do
         [:edit_location, :work, :work1, false],
         [:read, :work, :work6, false],
         [:show_details, :work, :work1, true]
+      ],
+      "Users" => [
+        [:update, :user, :user_with_no_rights, false]
       ]
     },
     appraiser: {
@@ -65,6 +68,9 @@ RSpec.describe Ability, type: :model do
         [:read, :work, :work6, true],
         [:read, :work, :work_with_private_theme, false],
         [:show_details, :work, :work1, true]
+      ],
+      "Users" => [
+        [:update, :user, :user_with_no_rights, false]
       ]
     },
     facility_manager: {
@@ -82,6 +88,9 @@ RSpec.describe Ability, type: :model do
         [:edit_location, :work, :work1, true],
         [:read, :work, :work6, false],
         [:show_details, :work, :work1, true]
+      ],
+      "Users" => [
+        [:update, :user, :user_with_no_rights, false]
       ]
     }
   }
