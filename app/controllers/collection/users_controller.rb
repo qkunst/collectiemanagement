@@ -14,10 +14,12 @@ class Collection::UsersController < ApplicationController
 
     @users = users.uniq
     @collections = @collection.expand_with_child_collections
+    @inactive_users = User.inactive.to_a
   end
 
   def edit
     authorize! :update, @user
+    @manageable_collections = Collection.where(id: manageable_collection_ids)
   end
 
   def update
@@ -38,12 +40,16 @@ class Collection::UsersController < ApplicationController
   def user_params
     parameters = params.require(:user).permit(:role, collection_ids: [])
 
-    manageable_collection_ids = Array(parameters[:collection_ids]).map(&:to_i) & current_user.accessible_collection_ids
     unaffected_collection_ids = @user ? (@user.collection_ids - current_user.accessible_collection_ids) : []
+    selected_manageable_collection_ids = manageable_collection_ids & parameters[:collection_ids].map(&:to_i)
 
-    parameters[:collection_ids] = unaffected_collection_ids + manageable_collection_ids
+    parameters[:collection_ids] = unaffected_collection_ids + selected_manageable_collection_ids
 
-    parameters.delete "role" unless current_user.accessible_roles.include?(parameters["role"].to_sym)
+    parameters.delete "role" unless current_user.accessible_roles.include?(parameters["role"]&.to_sym)
     parameters
+  end
+
+  def manageable_collection_ids
+    @manageable_collection_ids ||= @collection.expand_with_child_collections.pluck(:id) & current_user.accessible_collection_ids
   end
 end

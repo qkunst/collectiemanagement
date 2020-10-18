@@ -54,52 +54,94 @@ RSpec.describe Collection::UsersController, type: :request do
       expect(response).to have_http_status(302)
     end
 
-    %w[facility_manager appraiser advisor compliance admin].each do |user_type|
-      context user_type do
-        before do
-          editing_user = users(user_type)
-          editing_user.update(role_manager: true)
-          sign_in editing_user
-        end
-
-        it "should update" do
-          travel_to(1.day.from_now) do
-            user_updated_at = user.updated_at.to_s
-
-            patch_user
-            expect(user.reload.updated_at.to_s).not_to eq(user_updated_at)
-            expect(response).to have_http_status(302)
+    context "not a role manager" do
+      %w[facility_manager appraiser advisor compliance].each do |user_type|
+        context user_type do
+          before do
+            sign_in  users(user_type)
           end
-        end
 
-        it "should update collection ids" do
-          patch_user
-          user.reload
+          it "should not update" do
+            travel_to(1.day.from_now) do
+              user_updated_at = user.updated_at.to_s
 
-          expect(user.collection_ids).to include(collections(:collection1).id)
-        end
+              patch_user
+              expect(user.reload.updated_at.to_s).to eq(user_updated_at)
+              expect(response).to have_http_status(302)
+            end
+          end
 
-        unless user_type == "admin"
-          it "should not allow editing roles outside current scope" do
+          it "should update collection ids" do
             patch_user
             user.reload
-            expect(user.collection_ids).not_to include(collections(:collection_with_stages_child).id)
+
+            expect(user.collection_ids).to include(collections(:collection1).id)
           end
-        end
 
-        context "user with existing roles" do
-          let(:user) { u = users(:read_only_user); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
-          let(:valid_params)  {{user: {role: :facility_manager, collection_ids: []}  }}
+          context "user with existing roles" do
+            let(:user) { u = users(:read_only_user); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
+            let(:valid_params)  {{user: {role: :facility_manager, collection_ids: []}  }}
 
-          it "should leave existing collections in tact" do
-            patch_user
-            user.reload
-            expect(user.collection_ids).to include(collections(:collection_with_stages_child).id) unless user_type == "admin"
-            expect(user.collection_ids).not_to include(collections(:collection1).id)
+            it "should leave existing collections in tact" do
+              patch_user
+              user.reload
+              expect(user.collection_ids).to include(collections(:collection_with_stages_child).id)
+              expect(user.collection_ids).to include(collections(:collection1).id)
+            end
           end
         end
       end
     end
+
+    context "role manager" do
+      %w[facility_manager appraiser advisor compliance admin].each do |user_type|
+        context user_type do
+          before do
+            editing_user = users(user_type)
+            editing_user.update(role_manager: true)
+            sign_in editing_user
+          end
+
+          it "should update" do
+            travel_to(1.day.from_now) do
+              user_updated_at = user.updated_at.to_s
+
+              patch_user
+              expect(user.reload.updated_at.to_s).not_to eq(user_updated_at)
+              expect(response).to have_http_status(302)
+            end
+          end
+
+          it "should update collection ids" do
+            patch_user
+            user.reload
+
+            expect(user.collection_ids).to include(collections(:collection1).id)
+          end
+
+          unless user_type == "admin"
+            it "should not allow editing roles outside current scope" do
+              patch_user
+              user.reload
+              expect(user.collection_ids).not_to include(collections(:collection_with_stages_child).id)
+            end
+          end
+
+          context "user with existing roles" do
+            let(:user) { u = users(:read_only_user); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
+            let(:valid_params)  {{user: {role: :facility_manager, collection_ids: []}  }}
+
+            it "should leave existing collections in tact" do
+              patch_user
+              user.reload
+              expect(user.collection_ids).to include(collections(:collection_with_stages_child).id) unless user_type == "admin"
+              expect(user.collection_ids).not_to include(collections(:collection1).id)
+            end
+          end
+        end
+      end
+    end
+
 
   end
 end

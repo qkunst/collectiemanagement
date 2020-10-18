@@ -58,7 +58,7 @@ class User < ApplicationRecord
   end
 
   def accessible_collection_ids
-    @accessible_collection_ids ||= accessible_collections.map(&:id)
+    @accessible_collection_ids ||= accessible_collections.pluck(:id)
   end
 
   def accessible_collections_sorted_by_label
