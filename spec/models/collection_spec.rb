@@ -225,6 +225,12 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Scopes" do
+    describe "default scope" do
+      it "orders by collection_name_extended_cache" do
+        collections = Collection.where(id: collections(:collection1).expand_with_child_collections.pluck(:id))
+        expect(collections.map(&:collection_name_extended_cache)).to eq(["\"Collection 1\"", "\"Collection 1 » Collection 2 (sub of Collection 1)\"", "\"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4\"", "\"Collection 1 » Collection with works (sub of Collection 1)\"", "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)\""])
+      end
+    end
     describe ".artist" do
       it "should return all works by certain artist" do
         artist_works = Work.artist(artists(:artist1))

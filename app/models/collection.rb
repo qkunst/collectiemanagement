@@ -47,7 +47,7 @@ class Collection < ApplicationRecord
 
   has_paper_trail # only enabled in may 2020
 
-  default_scope -> { order(:collection_name_extended_cache) }
+  default_scope -> { order("REPLACE(collections.collection_name_extended_cache, '\"', '') ASC") }
 
   scope :without_parent, -> { where(parent_collection_id: nil) }
   scope :not_hidden, -> { where("1=1") }
