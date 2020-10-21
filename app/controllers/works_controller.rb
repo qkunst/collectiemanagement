@@ -120,7 +120,8 @@ class WorksController < ApplicationController
 
   # GET /works/new
   def new
-    @work = Work.new
+    @work = @collection.works.new
+    @work.created_by = current_user
     @work.purchase_price_currency = Currency.find_by_iso_4217_code("EUR")
   end
 
@@ -130,8 +131,7 @@ class WorksController < ApplicationController
 
   # POST /works
   def create
-    @work = Work.new(work_params)
-    @work.collection = @collection
+    @work = @collection.works.new(work_params)
     @work.created_by = current_user
     if @work.save
       redirect_to collection_work_path(@collection, @work), notice: "Het werk is aangemaakt"

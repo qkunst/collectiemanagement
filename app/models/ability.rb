@@ -54,13 +54,23 @@ class Ability
         :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
         :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
         :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
-        :information_back, :other_comments, :source_comments, :subset_id, :public_description,
+        :information_back, :other_comments, :subset_id, :public_description,
         :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id,
-        :placeability_id, artist_ids: [], source_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
+        :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
                           theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
                             :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
                           ]
+      ]
+    end
+    if can?(:edit_source_information, Work)
+      permitted_fields += [
+        :source_comments, source_ids: []
+      ]
+    end
+    if can?(:edit_purchase_information, Work)
+      permitted_fields += [
+        :purchase_price, :purchased_on, :purchase_year
       ]
     end
     if can?(:create, Appraisal)
@@ -144,7 +154,7 @@ class Ability
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
-    can [:edit_photos, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
 
     can [:destroy, :edit_admin, :manage], User
@@ -172,7 +182,7 @@ class Ability
 
     can [:batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
-    can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
   end
 
@@ -227,7 +237,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can [:create, :index], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
@@ -249,7 +259,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments,  :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias_method :initialize_qkunst, :initialize_registrator
 

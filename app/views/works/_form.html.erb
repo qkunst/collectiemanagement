@@ -108,19 +108,22 @@
       </div>
       <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>
     </fieldset>
-    <% # TODO: Refine roles here; this is not really a relevant 'can?' when editing a work %>
-    <% if can?(:create, Appraisal)%>
+    <% if can?(:edit_source_information, @work) || can?(:edit_purchase_information, @work) %>
       <% wf = f %>
       <fieldset>
         <legend>Aankoopgegevens</legend>
+        <% if can?(:edit_purchase_information, @work) %>
           <%= wf.input :purchased_on, html5: true%>
           <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
           <div class="row">
             <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
             <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
           </div>
+        <% end %>
+        <% if can?(:edit_source_information, @work) %>
           <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
           <%= wf.input :source_comments %>
+        <% end %>
       </fieldset>
     <% end %>
     <fieldset>

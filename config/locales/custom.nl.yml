@@ -49,6 +49,8 @@ nl:
     modify_collection: Bewerk collectie in collectie-context
     manage_collection: Beheer (inclusief aanmaken) collectie in collectie-context
     review_collection: Overzicht tonen in collectie-context
+    edit_purchase_information: Kan aankoopgegevens bewerken (& inzien)
+    edit_source_information: Kan herkomst bewerken (& inzien)
   routes:
     books: boeken
     new: nieuw

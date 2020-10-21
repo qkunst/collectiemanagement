@@ -87,6 +87,15 @@ compliance:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+registrator:
+  email: qkunst-test-registrator@murb.nl
+  admin: false
+  qkunst: true
+  appraiser: false
+  compliance: false
+  collections:
+    - :collection1
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 collection_with_works_user:
   email: collection_with_works@murb.nl
   admin: false

@@ -64,10 +64,11 @@ RSpec.describe Ability, type: :model do
       "Works" => [
         [:read, :work, :work1, true],
         [:edit, :work, :work1, true],
+        [:edit_purchase_information, :work, :work1, true],
         [:edit_location, :work, :work1, true],
+        [:show_details, :work, :work1, true],
         [:read, :work, :work6, true],
-        [:read, :work, :work_with_private_theme, false],
-        [:show_details, :work, :work1, true]
+        [:read, :work, :work_with_private_theme, false]
       ],
       "Users" => [
         [:update, :user, :user_with_no_rights, false]
@@ -88,6 +89,29 @@ RSpec.describe Ability, type: :model do
         [:edit_location, :work, :work1, true],
         [:read, :work, :work6, false],
         [:show_details, :work, :work1, true]
+      ],
+      "Users" => [
+        [:update, :user, :user_with_no_rights, false]
+      ]
+    },
+    registrator: {
+      "Collections" => [
+        [:read, :collection, :collection_with_works, true],
+        [:read, :collection, :collection3, false],
+        [:manage_collection, :collection, :collection_with_works, false],
+        [:review_collection, :collection, :collection_with_works, false],
+        [:read_report, :collection, :collection_with_works, true],
+        [:read_extended_report, :collection, :collection_with_works, true]
+      ],
+      "Works" => [
+        [:read, :work, :work1, true],
+        [:edit, :work, :work1, true],
+        [:edit_location, :work, :work1, true],
+        [:show_details, :work, :work1, true],
+        [:edit_source_information, :work, :work1, true],
+        [:edit_purchase_information, :work, :work1, false],
+        [:read, :work, :work6, false],
+        [:edit, :work, :work6, false]
       ],
       "Users" => [
         [:update, :user, :user_with_no_rights, false]
