@@ -150,7 +150,7 @@ class Ability
 
     can [:read, :copy], RkdArtist
 
-    can :edit_visibility, Attachment
+    can [:edit_visibility, :update], Attachment
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
@@ -239,7 +239,7 @@ class Ability
 
     can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
-    can [:create, :index], Attachment do |attachment|
+    can [:create, :index, :update], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
@@ -252,7 +252,7 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
 
-    can [:create, :index], Attachment do |attachment|
+    can [:create, :index, :update], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end

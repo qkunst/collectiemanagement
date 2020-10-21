@@ -23,6 +23,8 @@ class AttachmentsController < ApplicationController
     @attachment.works << @work if @work
     @attachment.artists << @artist if @artist
     @attachment.visibility = ["facility_manager", "compliance"]
+    @attachment.visibility += ["qkunst"] if current_user.registrator?
+
     @attachments = @collection.attachments_including_parent_attachments.all
     @attachments -= @work.attachments if @work
   end
@@ -104,6 +106,7 @@ class AttachmentsController < ApplicationController
     a_params = params.require(:attachment).permit(:name, :file, :file_cache, visibility: [], append_work_ids: [], append_artist_ids: [])
     a_params[:append_works] = current_user.accessible_works.where(id: a_params.delete(:append_work_ids))
     a_params[:append_artists] = current_user.accessible_artists.where(id: a_params.delete(:append_artist_ids))
+    a_params.delete(:visibility) unless (!(@attachment && @attachment.persisted?) || can?(:edit_visibility, @attachment))
     a_params
   end
 end

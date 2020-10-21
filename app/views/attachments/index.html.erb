@@ -31,7 +31,7 @@
         <td><ul><% attachment.works.each do |work| %><li><%= link_to work.stock_number, collection_work_path(work.collection, work)%></li><% end %></ul></td>
         <td><ul><% attachment.artists.each do |artist| %><li><%= link_to artist.name, collection_artist_path(@collection, artist)%></li><% end %></ul></td>
         <% end %>
-        <td><%= attachment.visibility.to_sentence %></td>
+        <td><%= attachment.visibility.map{|v| I18n.t(v, scope: [:activerecord, :values, :user, :role]) }.to_sentence %></td>
         <td><%= link_to 'Bewerk', edit_attachment_path(attachment) if can? :edit, attachment %></td>
         <td><%= link_to 'Verwijder', [attachment.attache, @subject, attachment].compact, method: :delete, data: { confirm: @subject ? "Weet je zeker dat je de bijlage hier wilt weghalen (de bijlage blijft bij de collectie)?" :"Weet je zeker dat je '#{attachment.file_name}' definitief overal wilt verwijderen?" } if can? :destroy, attachment %></td>
       </tr>
