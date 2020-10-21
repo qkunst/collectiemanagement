@@ -7,7 +7,7 @@
 
     <%= f.input :name %>
 
-    <%= f.input :visibility, collection: (User::ROLES - [:admin, :advisor, :read_only]).collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, checked: @attachment.visibility, multiple: true, as: :check_boxes if can? :edit_visibility, @attachment %>
+    <%= f.input :visibility, collection: (User::ROLES - [:admin, :advisor, :read_only]).collect{|a| [I18n.t( a, scope:[:activerecord, :values, :user, :role]), a]}, checked: @attachment.visibility, multiple: true, as: :check_boxes %>
     <p><small>Met betrekking tot zichtbaarheid: administratoren en adviseurs kunnen altijd álle bijlagen zien.</small></p>
   </div>
 
