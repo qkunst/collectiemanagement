@@ -1,0 +1,6 @@
+book1:
+  works:
+    - :work1
+  collection: :collection1
+  item_type: "Boek"
+  title: LibrayItemBoekTitel

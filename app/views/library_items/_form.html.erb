@@ -1,0 +1,24 @@
+<%= simple_form_for([@collection, @subject, @library_item].compact) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs row columns">
+    <%= f.input :item_type, collection: LibraryItem::ITEM_TYPES %>
+    <%= f.input :title %>
+    <%= f.input :author %>
+    <div class="row">
+      <div class="medium-6 columns">
+        <%= f.input :ean %>
+      </div>
+      <div class="medium-6 columns">
+        <%= f.input :stock_number %>
+      </div>
+    </div>
+    <%= f.input :location %>
+    <%= f.input :description %>
+    <%= f.input :thumbnail %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

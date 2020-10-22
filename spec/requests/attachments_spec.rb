@@ -13,7 +13,7 @@ RSpec.describe "Attachments", type: :request do
       expect(last_response.redirect?).to be_truthy
     end
     it "redirects by default when not qkunst" do
-      sign_in users(:read_only_user)
+      sign_in users(:read_only)
       get new_collection_attachment_path(collection)
       expect(last_response.redirect?).to be_truthy
     end

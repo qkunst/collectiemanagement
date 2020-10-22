@@ -80,11 +80,19 @@
       <li><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
       <% else %>
       <li>
-        <%= link_to collection_work_attachments_path(@collection, @work), class: 'secondary small button right' do %>
+        <%= link_to collection_work_attachments_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
           Beheer bijlagen <span class="badge"><%=attachment_count%></span>
         <% end %>
       </li>
       <% end %>
+    <% end %>
+    <% if can? :create, @work.library_items.new(collection: @collection) %>
+      <% library_item_count = @work.library_items.count %>
+      <li>
+        <%= link_to collection_work_library_items_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
+          Bibliotheek <span class="badge"><%=library_item_count%></span>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 </nav>

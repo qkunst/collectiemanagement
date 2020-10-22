@@ -11,6 +11,7 @@ class Artist < ApplicationRecord
 
   has_and_belongs_to_many :works
   has_and_belongs_to_many :attachments
+  has_and_belongs_to_many :library_items
 
   has_many :artist_involvements
   has_many :involvements, -> { distinct }, through: :artist_involvement

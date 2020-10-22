@@ -80,7 +80,7 @@ RSpec.describe Attachment, type: :model do
         expect(Attachment.for_me(admin)).to include(b)
       end
       it "should always work correctly for readonly" do
-        admin = users(:read_only_user)
+        admin = users(:read_only)
         a = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
         b = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
         a.visibility = [:qkunst, :facility_manager]

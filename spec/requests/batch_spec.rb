@@ -30,7 +30,7 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to root_path
       end
       it "should not allow accesss to the batch editor for non qkunst user has access to" do
-        user = users(:read_only_user)
+        user = users(:read_only)
         sign_in user
         collection = collections(:collection3)
         get collection_batch_path(collection)
@@ -38,7 +38,7 @@ RSpec.describe "WorkBatchs", type: :request do
       end
 
       it "should redirect to the root when accessing anohter collection" do
-        user = users(:read_only_user)
+        user = users(:read_only)
         sign_in user
         collection = collections(:collection1)
         get collection_batch_path(collection)

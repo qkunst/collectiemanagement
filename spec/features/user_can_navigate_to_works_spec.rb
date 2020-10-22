@@ -6,7 +6,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
   include FeatureHelper
   extend FeatureHelper
 
-  ["qkunst-test-read_only_user@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
+  ["qkunst-test-read_only@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "cannot edit anything" do
         visit root_path

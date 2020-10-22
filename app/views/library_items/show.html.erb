@@ -1,0 +1,52 @@
+<% if @library_item.author.present? %>
+  <h3 class="subheader"><%= @library_item.author %></h3>
+<% end %>
+<h2><%=@library_item.item_type %>: <%= @library_item.title %></h2>
+<div class="row">
+  <div class="medium-6 columns">
+
+    <% if @library_item.thumbnail? %>
+    <div class="image">
+        <%= image_tag("#{@library_item.thumbnail_url(:screen)}?#{@library_item.updated_at.to_i}", class: "nonlinked_show", decoding: 'async')  %>
+    </div>
+    <% end %>
+  </div>
+  <div class="medium-6 columns">
+    <%= definition_list_for @library_item do%>
+      <%= define_unless_blank :ean%>
+      <%= define_unless_blank :stock_number%>
+      <%= define_unless_blank :location%>
+    <% end%>
+  </div>
+</div>
+
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+  <ul class="menu right-aligned menu--only-buttons">
+    <% if can? :edit, @library_item %>
+      <li><%= link_to 'Bewerk', edit_collection_library_item_path(@collection,@library_item), class: 'primary small button right' %></li>
+    <% end %>
+    <% if can? :destroy, @library_item %>
+      <li><%= button_to 'Verwijder', collection_library_item_path(@collection,@library_item), method: :destroy, class: 'primary small button right alert', data: {confirm: "Weet u zeker dat u dit item uit de bibliotheek wilt verwijderen?"} %></li>
+    <% end %>
+  </ul>
+</nav>
+<div class="row">
+  <div class="medium-6 columns">
+    <%=kramdown @library_item.description %>
+  </div>
+  <div class="medium-6 columns">
+    <% if @library_item.artists.any? %>
+      <h4>Betrokken vervaardigers</h4>
+      <ul>
+      <% @library_item.artists.each do |artist|%>
+        <li><%= link_to artist.name, collection_artist_path(@collection, artist)%></li>
+      <% end %>
+      </ul>
+    <% end %>
+
+    <% if @library_item.works.any? %>
+      <h4>Gerelateerde werken</h4>
+      <%= render @library_item.works %>
+    <% end %>
+</div>
+

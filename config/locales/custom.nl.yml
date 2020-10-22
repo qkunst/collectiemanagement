@@ -134,6 +134,7 @@ nl:
       theme: Thema
       user: Gebruiker
       work: Werk
+      library_item: Bibliotheek item
     values:
       user:
         role:
@@ -268,6 +269,16 @@ nl:
         interval_unit: Dagen/Weken...
         repeat: Herhaal herinnering?
         stage: Vanaf moment
+      library_item:
+        item_type: Type
+        collection: Collectie
+        title: Titel
+        author: Auteur
+        ean: EAN (barcode)
+        stock_number: Intern nummer
+        location: Locatie
+        description: Beschrijving
+        thumbnail: Voorvertoning
       owner:
         name: Naam
         hide: Verberg

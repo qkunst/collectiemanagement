@@ -17,6 +17,13 @@
           </li>
         <% end %>
       <% end %>
+      <% if can?(:create, @artist.library_items.new(collection: @collection)) && @collection %>
+        <li>
+          <%= link_to collection_artist_library_items_path(@collection, @artist), class: 'secondary small button right' do %>
+            Bibiliotheek <span class="badge"><%=@artist.library_items.count%></span>
+          <% end %>
+        </li>
+      <% end %>
       <% if admin_user? %>
         <li><%= link_to 'Combineer', artist_combine_prepare_path(@artist), class: [:secondary, :small, :button, :right] %></li>
       <% end %>
@@ -68,6 +75,14 @@
       <ul>
         <% @attachments.each do |attachment| %>
           <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, download: attachment.file_name %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if @library_items.present? %>
+      <h3>Bibliotheek</h3>
+      <ul>
+        <% @library_items.each do |library_item| %>
+          <li><%= link_to library_item.name, collection_artist_library_item_url(@collection, @artist, library_item)%></li>
         <% end %>
       </ul>
     <% end %>

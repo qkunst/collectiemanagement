@@ -389,7 +389,7 @@ RSpec.describe "Works", type: :request do
       end
     end
     context "read only user" do
-      let(:user) { users(:read_only_user) }
+      let(:user) { users(:read_only) }
 
       it "should allow accesss to the single collection the user has access to" do
         sign_in user

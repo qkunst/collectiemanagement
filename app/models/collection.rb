@@ -41,6 +41,7 @@ class Collection < ApplicationRecord
   has_many :messages, as: :subject_object
   has_many :collections_stages
   has_many :reminders
+  has_many :library_items
 
   has_cache_for_method :geoname_ids
   has_cache_for_method :collection_name_extended
@@ -177,6 +178,10 @@ class Collection < ApplicationRecord
 
   def attachments_including_parent_attachments
     Attachment.where(collection: expand_with_parent_collections)
+  end
+
+  def library_items_including_parent_library_items
+    LibraryItem.where(collection: expand_with_parent_collections)
   end
 
   def touch_parent

@@ -22,7 +22,7 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
     it "should redirect to the single collection the user has access to" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       get collections_path
       expect(response).to have_http_status(302)
@@ -51,14 +51,14 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
     it "should allow accesss to the single collection the user has access to" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       collection = collections(:collection1)
       get collection_path(collection)
       expect(response).to have_http_status(200)
     end
     it "should redirect to the root when accessing anohter collection" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       collection = collections(:collection3)
       get collection_path(collection)
@@ -113,7 +113,7 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
     it "should allow accesss to the single collection the user has access to" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       collection = collections(:collection3)
       get edit_collection_path(collection)
@@ -121,7 +121,7 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
     it "should redirect to the root when accessing anohter collection" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       collection = collections(:collection1)
       get edit_collection_path(collection)
@@ -148,7 +148,7 @@ RSpec.describe "Collections", type: :request do
       expect(response).to redirect_to root_path
     end
     it "should allow accesss to the single collection the user has access to" do
-      user = users(:read_only_user)
+      user = users(:read_only)
       sign_in user
       get new_collection_path
       expect(response).to have_http_status(302)

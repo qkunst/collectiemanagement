@@ -151,6 +151,7 @@ class Ability
     can [:read, :copy], RkdArtist
 
     can [:edit_visibility, :update], Attachment
+    can :manage, LibraryItem
 
     can [:batch_edit, :manage, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
@@ -168,6 +169,7 @@ class Ability
 
     can [:create, :update, :read], Appraisal
     can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
+    can :manage, LibraryItem, collection_id: accessible_collection_ids
 
     can :manage_collection, :all
     can :manage, Cluster, collection_id: accessible_collection_ids
@@ -205,7 +207,8 @@ class Ability
 
     can :read, ImportCollection, collection_id: accessible_collection_ids
     can :read, Reminder, collection_id: accessible_collection_ids
-    can :read, Attachment
+    can :read, LibraryItem, collection_id: accessible_collection_ids
+    can :read, Attachment, collection_id: accessible_collection_ids
     can [:read, :create], Message
 
     can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
@@ -235,6 +238,8 @@ class Ability
       message && message.from_user == user && message.replies.count == 0 && message.unread
     end
 
+    can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
+
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
     can [:read, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
@@ -252,10 +257,12 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
 
-    can [:create, :index, :update], Attachment do |attachment|
+    can [:read, :create, :update], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
         ((attachment.attache_type == "Work") && accessible_collection_ids.include?(attachment.attache.collection.id))
     end
+
+    can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 

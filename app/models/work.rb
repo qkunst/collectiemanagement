@@ -56,6 +56,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :themes, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :custom_reports
   has_and_belongs_to_many :attachments
+  has_and_belongs_to_many :library_items
   has_many :appraisals
   has_many :messages, as: :subject_object
 

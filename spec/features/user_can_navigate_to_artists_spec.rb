@@ -8,7 +8,7 @@ RSpec.feature "Navigate works", type: :feature do
   scenario "read only" do
     allow(RkdArtist).to receive(:search_rkd) { [rkd_artists(:rkd_artist2)] }
 
-    login "qkunst-test-read_only_user@murb.nl"
+    login "qkunst-test-read_only@murb.nl"
 
     click_on "Collecties"
     expect(page).not_to have_content("Bewerk")

@@ -26,7 +26,7 @@ class AttachmentsController < ApplicationController
     @attachment.visibility += ["qkunst"] if current_user.registrator?
 
     @attachments = @collection.attachments_including_parent_attachments.all
-    @attachments -= @work.attachments if @work
+    @attachments -= @subject.attachments if @subject
   end
 
   def edit

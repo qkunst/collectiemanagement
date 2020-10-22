@@ -128,7 +128,7 @@ RSpec.describe User, type: :model do
         expect(accessible_users).to include(users(:appraiser))
         expect(accessible_users).to include(users(:advisor))
         expect(accessible_users).not_to include(users(:admin))
-        expect(accessible_users).not_to include(users(:read_only_user)) # collection3 isn't in collection 1 tree
+        expect(accessible_users).not_to include(users(:read_only)) # collection3 isn't in collection 1 tree
       end
     end
     describe "#accessible_roles" do

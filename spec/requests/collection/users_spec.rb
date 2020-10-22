@@ -30,8 +30,8 @@ RSpec.describe Collection::UsersController, type: :request do
             body = response.body
             expect(body).to match(%r{<tr>\s*<th>Gebruiker</th>\s*<th>Collection 1</th>\s*<th>Collection 2 \(sub of Collection 1\)</th>\s*<th>Collection 4</th>\s*<th>Collection with works \(sub of Collection 1\)</th>\s*<th>Collection with works child \(sub of Collection 1 &gt;&gt; colection with works\)</th>\s*</tr>})
             expect(body).to match(%r{<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*})
-            expect(body).to match(%r{read_only_user\@murb\.nl.*\s*.*<\/th>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*</tr>})
-            expect(body).to match(%r{read_only_user@murb.nl.*\s*.*</strong><br/><small>Read-only</small>})
+            expect(body).to match(%r{read_only\@murb\.nl.*\s*.*<\/th>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*</tr>})
+            expect(body).to match(%r{read_only@murb.nl.*\s*.*</strong><br/><small>Read-only</small>})
             expect(body).to match('<th>Collection with works child \(sub of Collection 1')
 
           end
@@ -47,7 +47,7 @@ RSpec.describe Collection::UsersController, type: :request do
   end
 
   describe "POST /collection/:collection_id/users/:id" do
-    let(:user) { users(:read_only_user) }
+    let(:user) { users(:read_only) }
     let(:valid_params)  {{user: {role: :facility_manager, collection_ids: [:collection1, :collection_with_stages_child].map{|ud| collections(ud).id}  }}}
     let(:patch_user) { patch collection_user_path(collection, user), params: valid_params }
 
@@ -81,7 +81,7 @@ RSpec.describe Collection::UsersController, type: :request do
           end
 
           context "user with existing roles" do
-            let(:user) { u = users(:read_only_user); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
+            let(:user) { u = users(:read_only); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
             let(:valid_params)  {{user: {role: :facility_manager, collection_ids: []}  }}
 
             it "should leave existing collections in tact" do
@@ -130,7 +130,7 @@ RSpec.describe Collection::UsersController, type: :request do
           end
 
           context "user with existing roles" do
-            let(:user) { u = users(:read_only_user); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
+            let(:user) { u = users(:read_only); u.update(collections: [:collection1, :collection_with_stages_child].map{|a| collections(a)}); u }
             let(:valid_params)  {{user: {role: :facility_manager, collection_ids: []}  }}
 
             it "should leave existing collections in tact" do
