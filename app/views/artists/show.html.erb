@@ -48,8 +48,16 @@
         <dt>Gestorven:</dt>
         <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
       <% end %>
-        <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
-        <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+      <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
+      <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+      <% if @collection%>
+        <% @artist.collection_attributes.for_user(current_user).each do |collection_attribute| %>
+        <dt><%=collection_attribute.label%>:</dt>
+        <dd><%=collection_attribute.value%></dd>
+        <% end %>
+
+      <% end %>
+
       </dl>
 
       <div class="row">

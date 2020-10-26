@@ -1,0 +1,30 @@
+artist_1_collection_with_stages_attribute:
+  collection: :collection_with_stages
+  attributed: artist1 (Artist)
+  label: Kaas in collection with stages
+  value_ciphertext: "KNybED/yz05z0FDI/KofQnRIMQGEFfQ5IT89dxepE6i2zWqIFZ1W"
+
+artist_1_collection_with_stages_child_attribute:
+  collection: :collection_with_stages_child
+  attributed: artist1 (Artist)
+  label: Kaas in collection with stages child
+  value_ciphertext: "KNybED/yz05z0FDI/KofQnRIMQGEFfQ5IT89dxepE6i2zWqIFZ1W"
+
+artist_1_collection_with_works_child_attribute:
+  collection: :collection_with_works_child
+  attributed: artist1 (Artist)
+  label: Kaas in collection with works child
+  value_ciphertext: "KNybED/yz05z0FDI/KofQnRIMQGEFfQ5IT89dxepE6i2zWqIFZ1W"
+
+artist_1_collection1_attribute:
+  collection: :collection1
+  attributed: artist1 (Artist)
+  label: Kaas in collection1
+  value_ciphertext: "KNybED/yz05z0FDI/KofQnRIMQGEFfQ5IT89dxepE6i2zWqIFZ1W"
+
+artist_1_sub_boring_collection_attribute:
+  collection: :sub_boring_collection
+  attributed: artist1 (Artist)
+  label: Kaas in sub_boring_collection
+  value_ciphertext: "KNybED/yz05z0FDI/KofQnRIMQGEFfQ5IT89dxepE6i2zWqIFZ1W"
+

@@ -3,6 +3,25 @@
 require "rails_helper"
 
 RSpec.describe Artist, type: :model do
+  describe "#collection_attributes_attributes=" do
+    it "should create collection attributes" do
+      a = artists(:artist1)
+      c = collections(:collection1)
+
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+
+      expect(a.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
+    end
+    it "should destroy collection attributes when emptied" do
+      a = artists(:artist1)
+      c = collections(:collection1)
+
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
+
+      expect(a.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
+    end
+  end
   describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work" do
       ids = []

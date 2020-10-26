@@ -32,6 +32,7 @@ class Collection < ApplicationRecord
   has_many :clusters
   has_many :collections, class_name: "Collection", foreign_key: "parent_collection_id"
   has_many :collections_geoname_summaries
+  has_many :collection_attributes
   has_many :custom_reports
   has_many :geoname_summaries, through: :collections_geoname_summaries
   has_many :import_collections
@@ -370,6 +371,13 @@ class Collection < ApplicationRecord
       end
 
       Attachment.where(attache_type: "Collection", attache_id: child_collection_ids).each do |instance|
+        instance.collection = self
+        unless instance.save
+          raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")
+        end
+      end
+
+      CollectionAttribute.where(collection_id: child_collection_ids).each do |instance|
         instance.collection = self
         unless instance.save
           raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")

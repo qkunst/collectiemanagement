@@ -20,16 +20,34 @@
     <div class="large-6 medium-6 columns">
     </div>
   </div>
-  <%= f.input :description%>
+  <%= f.input :description, hint: @collection ? "Gebruik dit veld enkel voor beschrijvingen die niet specifiek zijn voor de collectie #{@collection.base_collection.name}" : "" %>
+
+  <% if @collection%>
+    <h4>Collectiespecifieke gegevens</h4>
+    <% @artist.collection_attributes.each do |collection_attribute| %>
+      <%= f.simple_fields_for :collection_attributes, collection_attribute do |caf|%>
+        <div class="row">
+          <div class="large-6 medium-6 columns">
+            <%= caf.input :label, as: :hidden %>
+            <%= caf.input :value, label: collection_attribute.label, required: false %>
+          </div>
+        </div>
+      <% end %>
+
+    <% end %>
+
+  <% end %>
 
   <div class="row">
-    <div class="large-offset-2 large-5 columns">
+    <div class="medium-6 columns">
+      <h4>Geboorte</h3>
       <%= f.select :place_of_birth_geoname_id, { @artist.place_of_birth_geoname_name => @artist.place_of_birth_geoname_id}, {}, class: 'select2 geoname-select' %>
       <%= f.input :place_of_birth, required: false  %>
       <%= f.input(:year_of_birth, as: :integer, required: false) unless f.object.date_of_birth  %>
       <%= f.input :date_of_birth, as: :date, required: false, html5: true  %>
     </div>
-    <div class="large-5 columns end">
+    <div class="medium-6 columns">
+      <h4>Overlijden</h4>
       <%= f.select :place_of_death_geoname_id, { @artist.place_of_death_geoname_name => @artist.place_of_death_geoname_id}, {}, class: 'select2 geoname-select' %>
 
       <%= f.input :place_of_death, required: false  %>

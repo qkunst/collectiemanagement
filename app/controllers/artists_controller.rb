@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ArtistsController < ApplicationController
+  COLLECTION_ATTRIBUTE_LABELS = ["Mailadres", "Telefoonnummer", "Website"]
+
   before_action :set_collection
   before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]
   before_action :authenticate_qkunst_user!, only: [:edit, :update, :destroy, :new, :create]
@@ -8,6 +10,7 @@ class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :rkd_artists]
   before_action :retrieve_rkd_artists, only: [:show]
   before_action :authenticate_admin_user_when_no_collection
+  before_action :populate_collection_attributes_for_artists, only: [:edit, :new]
 
   # GET /artists
   # GET /artists.json
@@ -153,6 +156,12 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def populate_collection_attributes_for_artists
+    COLLECTION_ATTRIBUTE_LABELS.each do |attribute_label|
+      @artist.collection_attributes.find_or_initialize_by(label: attribute_label)
+    end
+  end
+
   def authenticate_admin_user_when_no_collection
     authorize! :manage, Artist if @collection.nil?
   end
@@ -163,6 +172,8 @@ class ArtistsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def artist_params
-    params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :artist_name, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id)
+    a_params = params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :artist_name, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id, collection_attributes_attributes: [:label, :value])
+    a_params[:collection_attributes_attributes] = a_params[:collection_attributes_attributes].to_h.map{|k,v| [k, v.merge({collection_id: @collection.base_collection.id})]}.to_h if a_params[:collection_attributes_attributes]
+    a_params
   end
 end

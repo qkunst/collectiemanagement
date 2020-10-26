@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
 
     @title = "Collecties"
     current_user.reset_filters!
+
     if @collections.count == 1
       redirect_to @collections.first
     end

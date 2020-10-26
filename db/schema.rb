@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_21_140913) do
+ActiveRecord::Schema.define(version: 2020_10_23_212250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,6 +123,16 @@ ActiveRecord::Schema.define(version: 2020_10_21_140913) do
     t.integer "collection_id"
     t.string "name"
     t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "collection_attributes", force: :cascade do |t|
+    t.string "value_ciphertext"
+    t.integer "collection_id"
+    t.string "attributed_type"
+    t.string "attributed_id"
+    t.string "label"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
