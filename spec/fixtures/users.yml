@@ -17,6 +17,12 @@ admin:
   admin: true
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+super_admin:
+  email: qkunst-super-admin-user@murb.nl
+  admin: true
+  super_admin: true
+  name: Administrator
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 qkunst:
   email: qkunst-regular-user@murb.nl
   admin: false

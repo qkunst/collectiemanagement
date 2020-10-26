@@ -145,10 +145,8 @@ class CollectionsController < ApplicationController
   def set_collection
     authenticate_activated_user!
     @collection = Collection.find(params[:collection_id] || params[:id])
-    unless current_user.admin?
-      redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
-      redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
-    end
+    redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
+    redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

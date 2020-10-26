@@ -60,8 +60,11 @@ RSpec.describe Collection::Hierarchy, type: :model do
     end
 
     describe "#possible_parent_collections" do
-      it "should return all collections if new" do
-        expect(Collection.new.possible_parent_collections(user: users(:admin)).count).to eq(Collection.all.count)
+      it "should return all qkunst managed collections if new and qkunst admin" do
+        expect(Collection.new.possible_parent_collections(user: users(:admin)).count).to eq(Collection.qkunst_managed.count)
+      end
+      it "should return all collections if new if super admin" do
+        expect(Collection.new.possible_parent_collections(user: users(:super_admin)).count).to eq(Collection.all.count)
       end
 
       it "should not return child collections" do

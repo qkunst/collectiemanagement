@@ -55,3 +55,9 @@ sub_boring_collection:
   name: Just a sub boring collection
   parent_collection: :boring_collection
   collection_name_extended_cache: "\"Just a boring collection » Just a sub boring collection\""
+
+not_qkunst_managed_collection:
+  name: Not a QKunst managed Collection
+  parent_collection: :root_collection
+  collection_name_extended_cache: "\"Not a QKunst managed Collection\""
+  qkunst_managed: false

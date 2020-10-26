@@ -136,7 +136,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
         allow(r).to receive(:current_time).and_return r.created_at
-        expect(r.to_message.notifyable_users.map(&:email)).to eq(["qkunst-admin-user@murb.nl"])
+        expect(r.to_message.notifyable_users.map(&:email)).to match_array(["qkunst-admin-user@murb.nl", "qkunst-super-admin-user@murb.nl"])
       end
     end
     describe "#to_message!" do

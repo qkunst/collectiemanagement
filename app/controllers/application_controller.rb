@@ -82,10 +82,8 @@ class ApplicationController < ActionController::Base
       @collection = @work.collection
     end
     if @collection
-      unless current_user.admin?
-        redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
-        redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
-      end
+      redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
+      redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
     end
   end
 

@@ -54,6 +54,7 @@ class Collection < ApplicationRecord
   scope :without_parent, -> { where(parent_collection_id: nil) }
   scope :not_hidden, -> { where("1=1") }
   scope :not_system, -> { not_root }
+  scope :qkunst_managed, -> { where(qkunst_managed:true) }
 
   before_save :cache_geoname_ids!
   before_save :attach_sub_collection_ownables_when_base
@@ -304,7 +305,7 @@ class Collection < ApplicationRecord
   end
 
   def can_be_accessed_by_user user
-    users_including_parent_users.include?(user) || user.admin?
+    users_including_parent_users.include?(user) || user.super_admin? || (user.admin? && qkunst_managed?)
   end
   alias_method :can_be_accessed_by_user?, :can_be_accessed_by_user
 
@@ -398,13 +399,23 @@ class Collection < ApplicationRecord
     end
 
     def for_user user
-      return not_system.with_root_parent if user.admin? && !user.admin_with_favorites?
-      joins(:users).where(users: {id: user.id}).not_system
+      if user.super_admin? && !user.admin_with_favorites?
+        not_system.with_root_parent
+      elsif user.admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.where(qkunst_managed: true)
+      else
+        joins(:users).where(users: {id: user.id}).not_system
+      end
     end
 
     def for_user_expanded user
-      return not_system if user.admin? && !user.admin_with_favorites?
-      joins(:users).where(users: {id: user.id}).not_system.expand_with_child_collections
+      if user.super_admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.expand_with_child_collections
+      elsif user.admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.where(qkunst_managed: true).expand_with_child_collections
+      else
+        joins(:users).where(users: {id: user.id}).not_system.expand_with_child_collections
+      end
     end
 
     def for_user_or_if_no_user_all user = nil

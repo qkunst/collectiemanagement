@@ -5,8 +5,12 @@ require "rails_helper"
 RSpec.describe User, type: :model do
   describe "methods" do
     describe "#accessible_collections" do
-      it "should return all collections when admin" do
+      it "should return all collections when admin (except when not qkunst managed)" do
         u = users(:admin)
+        expect(u.accessible_collections.pluck(:id)).to eq(Collection.all.pluck(:id) - [collections(:not_qkunst_managed_collection).id])
+      end
+      it "should return all collections when the user is a super admin" do
+        u = users(:super_admin)
         expect(u.accessible_collections).to eq(Collection.all)
       end
       it "should return all collections and sub(sub)collections the user has access to" do

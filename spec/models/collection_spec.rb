@@ -211,8 +211,12 @@ RSpec.describe Collection, type: :model do
   end
   describe "Class methods" do
     describe ".for_user" do
-      it "returns collections with root parent for admin user" do
-        expect(Collection.for_user(users(:admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.all.collect(&:id).sort)
+      it "returns collections with root parent for super admin user" do
+        expect(Collection.for_user(users(:super_admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.all.collect(&:id).sort)
+      end
+
+      it "returns collections with root parent for admin user, except for those not qkunst managed" do
+        expect(Collection.for_user(users(:admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.qkunst_managed.all.collect(&:id).sort)
       end
 
       it "returns only base collection for user" do
@@ -221,8 +225,12 @@ RSpec.describe Collection, type: :model do
     end
 
     describe ".for_user_expanded" do
-      it "returns collections with root parent for admin user" do
-        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+      it "returns collections with root parent for super admin user" do
+        expect(Collection.for_user_expanded(users(:super_admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+      end
+
+      it "returns collections with root parent for admin user, except for those not qkunst managed" do
+        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.qkunst_managed.all.collect(&:id).sort)
       end
 
       it "returns only base collection for user" do

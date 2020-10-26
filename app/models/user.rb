@@ -54,7 +54,13 @@ class User < ApplicationRecord
   end
 
   def accessible_collections
-    @accessible_collections ||= admin? ? Collection.all : collections.expand_with_child_collections
+    @accessible_collections ||= if super_admin?
+      Collection.all
+    elsif admin?
+      Collection.qkunst_managed.all
+    else
+      collections.expand_with_child_collections
+    end
   end
 
   def accessible_collection_ids
