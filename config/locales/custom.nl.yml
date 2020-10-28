@@ -568,6 +568,7 @@ nl:
         email: E-mailadres
         order: Volgorde
         hide: Verberg
+        role_manager: Rollenbeheerder
         qkunst: QKunst registratiemedewerker
         admin: Administrator (heeft toegang tot alle collecties en functies)
         collections: 'Collecties waartoe deze gebruiker toegang toe heeft'
