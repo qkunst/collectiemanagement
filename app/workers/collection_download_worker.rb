@@ -19,6 +19,11 @@ class CollectionDownloadWorker
       filename = workbook.write_to_xlsx(Rails.root.join("tmp", "#{SecureRandom.uuid}.xlsx"))
 
       Message.create(to_user_id: requested_by_user_id, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: #{format}  \nDoelgroep: #{audience}  \nVelden: #{fields_to_expose.map { |f| "“#{f}”"}.to_sentence}", subject: "Download #{collection.name} gereed")
+    elsif format.to_sym == :csv
+      workbook = works.to_workbook(fields_to_expose, collection)
+      filename = workbook.write_to_csv(Rails.root.join("tmp", "#{SecureRandom.uuid}.csv"))
+
+      Message.create(to_user_id: requested_by_user_id, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: #{format}  \nDoelgroep: #{audience}  \nVelden: #{fields_to_expose.map { |f| "“#{f}”"}.to_sentence}", subject: "Download #{collection.name} gereed")
     end
   end
 end
