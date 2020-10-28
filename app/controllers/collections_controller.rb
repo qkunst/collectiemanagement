@@ -37,7 +37,7 @@ class CollectionsController < ApplicationController
     authorize! :show, @collection
     @title = @collection.name
     @collections = @collection.child_collections
-    @attachments = @collection.attachments.without_works.for_me(current_user)
+    @attachments = @collection.attachments.without_works.without_artists.for_me(current_user)
     current_user.reset_filters!
   end
 

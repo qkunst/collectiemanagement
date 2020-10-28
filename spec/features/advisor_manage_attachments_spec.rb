@@ -70,6 +70,7 @@ RSpec.feature "Manage attachments", type: :feature do
       visit collection_artists_path(collection)
 
       click_on "artist_1"
+      click_on "Beheer bijlagen 1"
       click_on "Bijlage toevoegen"
 
       attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
