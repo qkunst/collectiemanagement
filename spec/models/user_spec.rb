@@ -136,6 +136,8 @@ RSpec.describe User, type: :model do
       end
     end
     describe "#accessible_roles" do
+      manager_role_roles = [:advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
+
       it "should return all for admin" do
         expect(users(:admin).accessible_roles).to eq(User::ROLES)
       end
@@ -144,10 +146,10 @@ RSpec.describe User, type: :model do
         expect(users(:advisor).accessible_roles).to eq([])
       end
 
-      it "should return some for advisor with manager roles role" do
+      it "should return some for advisor with manager roles role (#{manager_role_roles.join(";")})" do
         advisor = users(:advisor)
         advisor.role_manager = true
-        expect(advisor.accessible_roles).to eq([:compliance, :facility_manager, :read_only])
+        expect(advisor.accessible_roles).to eq(manager_role_roles)
       end
     end
   end
