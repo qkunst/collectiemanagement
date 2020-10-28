@@ -7,6 +7,7 @@ class ArtistsController < ApplicationController
   before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]
   before_action :authenticate_qkunst_user!, only: [:edit, :update, :destroy, :new, :create]
   before_action :authenticate_qkunst_user_if_no_collection!
+  before_action :set_new_artist, only: [:new]
   before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :rkd_artists]
   before_action :retrieve_rkd_artists, only: [:show]
   before_action :authenticate_admin_user_when_no_collection
@@ -76,8 +77,6 @@ class ArtistsController < ApplicationController
   # GET /artists/new
   def new
     authorize! :create, Artist
-
-    @artist = Artist.new
   end
 
   # GET /artists/1/edit
@@ -156,9 +155,15 @@ class ArtistsController < ApplicationController
     end
   end
 
+  def set_new_artist
+    @artist = Artist.new
+  end
+
   def populate_collection_attributes_for_artists
-    COLLECTION_ATTRIBUTE_LABELS.each do |attribute_label|
-      @artist.collection_attributes.find_or_initialize_by(label: attribute_label)
+    if @collection
+      COLLECTION_ATTRIBUTE_LABELS.each do |attribute_label|
+        @artist.collection_attributes.find_or_initialize_by(label: attribute_label)
+      end
     end
   end
 
