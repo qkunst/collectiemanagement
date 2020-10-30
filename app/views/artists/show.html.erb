@@ -37,45 +37,41 @@
 
 
 <div class="row">
-  <% if can?(:update, @artist)%>
-    <div  class="large-9 medium-9 columns">
-      <dl>
-      <% if @artist.born? %>
-        <dt>Geboren:</dt>
-        <dd><%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%><% if @artist.place_of_birth %> te <%= @artist.place_of_birth %><% end%>
-      <% end %>
-      <% if @artist.died? %>
-        <dt>Gestorven:</dt>
-        <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
-      <% end %>
-      <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
-      <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
-      <% if @collection%>
-        <% @artist.collection_attributes.for_user(current_user).each do |collection_attribute| %>
+  <div  class="large-9 medium-9 columns">
+    <dl>
+    <% if @artist.born? %>
+      <dt>Geboren:</dt>
+      <dd><%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%><% if @artist.place_of_birth %> te <%= @artist.place_of_birth %><% end%>
+    <% end %>
+    <% if @artist.died? %>
+      <dt>Gestorven:</dt>
+      <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
+    <% end %>
+    <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
+    <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+    <% if @collection%>
+      <% @artist.collection_attributes.for_user(current_user).each do |collection_attribute| %>
         <dt><%=collection_attribute.label%>:</dt>
         <dd><%=collection_attribute.value%></dd>
-        <% end %>
-
       <% end %>
 
-      </dl>
+    <% end %>
 
-      <div class="row">
-        <div class="medium-6 columns">
-          <h3>Opleiding<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :education) : new_artist_artist_involvement_path(@artist, type: :education)%>)</small><% end %></h3>
-          <%= render @artist.artist_involvements.educational %>
-        </div>
-        <div class="medium-6 columns">
-          <h3>Werkgebied<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :professional) : new_artist_artist_involvement_path(@artist, type: :professional)%>)</small><% end %></h3>
-          <%= render @artist.artist_involvements.professional %>
+    </dl>
 
-        </div>
+    <div class="row">
+      <div class="medium-6 columns">
+        <h3>Opleiding<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :education) : new_artist_artist_involvement_path(@artist, type: :education)%>)</small><% end %></h3>
+        <%= render @artist.artist_involvements.educational %>
       </div>
-      <% if can?(:update, @artist)%>
-        <p><strong>De vervaardiger is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
-      <% end %>
+      <div class="medium-6 columns">
+        <h3>Werkgebied<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :professional) : new_artist_artist_involvement_path(@artist, type: :professional)%>)</small><% end %></h3>
+        <%= render @artist.artist_involvements.professional %>
+
+      </div>
     </div>
-  <% end %>
+    <p><strong>De vervaardiger is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
+  </div>
 
   <aside class="large-3 medium-3 columns">
     <% if @attachments.present? %>
