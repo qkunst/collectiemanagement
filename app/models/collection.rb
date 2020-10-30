@@ -182,6 +182,10 @@ class Collection < ApplicationRecord
     Attachment.where(collection: expand_with_parent_collections)
   end
 
+  def library_items_including_child_library_items
+    LibraryItem.where(collection: expand_with_child_collections)
+  end
+
   def library_items_including_parent_library_items
     LibraryItem.where(collection: expand_with_parent_collections)
   end

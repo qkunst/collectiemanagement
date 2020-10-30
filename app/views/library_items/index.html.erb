@@ -1,15 +1,18 @@
 <div id="main">
   <h2>Bibliotheek</h2>
 
-<table>
+  <label>Filter <input type="text" id="generic-table-filter" data-filters="library-items-table"></label>
+
+
+<table class="sortable" id="library-items-table">
   <thead>
     <tr>
-      <th><%= LibraryItem.human_attribute_name(:item_type) %></th>
-      <th><%= LibraryItem.human_attribute_name(:title) %></th>
-      <th><%= LibraryItem.human_attribute_name(:author) %></th>
-      <th><%= LibraryItem.human_attribute_name(:ean) %></th>
-      <th><%= LibraryItem.human_attribute_name(:stock_number) %></th>
-      <th><%= LibraryItem.human_attribute_name(:location) %></th>
+      <th data-filtered-by="generic-table-filter"><%= LibraryItem.human_attribute_name(:item_type) %></th>
+      <th data-filtered-by="generic-table-filter"><%= LibraryItem.human_attribute_name(:title) %></th>
+      <th data-filtered-by="generic-table-filter"><%= LibraryItem.human_attribute_name(:author) %></th>
+      <th data-filtered-by="generic-table-filter"><%= LibraryItem.human_attribute_name(:ean) %></th>
+      <th data-filtered-by="generic-table-filter" aria-sort="ascending"><%= LibraryItem.human_attribute_name(:stock_number) %></th>
+      <th data-filtered-by="generic-table-filter"><%= LibraryItem.human_attribute_name(:location) %></th>
     </tr>
   </thead>
 

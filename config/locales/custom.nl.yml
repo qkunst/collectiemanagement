@@ -29,6 +29,7 @@ nl:
     read_internal_comments: Wijzig interne opmerkingen
     read_information_back: Toon informatie achterzijde
     review_modified_works: Toon gewijzigde werken
+    review_collection_users: Toon gebruikers binnen de collectie
     edit_photos: Foto's bewerken
     edit_visibility: Pas zichtbaarheid aan
     copy: Kopieer
@@ -44,6 +45,7 @@ nl:
     read_extended_report: Uitgebreide rapportage lezen
     access_valuation: Kan waardering zien
     download_datadump: Kan gegevens downloaden
+    download_public_datadump: Kan publieke gegevens downloaden
     download_photos: Kan foto's downloaden
     batch_edit: Toegang tot de batch-editor
     modify_collection: Bewerk collectie in collectie-context
@@ -118,6 +120,8 @@ nl:
       importcollection: Import
       import_collection: Import
       involvement: Betrekking
+      library_item: Bibliotheek item
+      libraryitem: Bibliotheek item
       medium: Drager
       message: Bericht
       object_category: Categorie

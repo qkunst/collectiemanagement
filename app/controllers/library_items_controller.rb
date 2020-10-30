@@ -8,7 +8,7 @@ class LibraryItemsController < ApplicationController
   # GET /library_items
   # GET /library_items.json
   def index
-    @library_items = @subject ? @subject.library_items.all : @collection.library_items.all
+    @library_items = @subject ? @subject.library_items.order(stock_number: :asc).all : @collection.library_items_including_child_library_items.order(stock_number: :asc).all
   end
 
   # GET /library_items/1
@@ -74,7 +74,7 @@ class LibraryItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_library_item
-      @library_item = @collection.library_items.find(params[:id])
+      @library_item = @collection.library_items_including_child_library_items.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

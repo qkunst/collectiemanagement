@@ -155,12 +155,12 @@ table.non_cyclic_graph {
 
 table.sortable {
   thead td, thead th {
-    &.desc {
+    &[aria-sort="descending"] {
       &::after {
         content: '▼';
       }
     }
-    &.asc {
+    &[aria-sort="ascending"] {
       &::after {
         content: '▲';
       }
