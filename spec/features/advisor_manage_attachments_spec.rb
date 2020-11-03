@@ -48,6 +48,7 @@ RSpec.feature "Manage attachments", type: :feature do
       attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")
       check("Registrator")
+
       click_on "Bijlage toevoegen"
       expect(page).to have_content("Attachment toegevoegd")
 

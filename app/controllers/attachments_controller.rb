@@ -11,9 +11,9 @@ class AttachmentsController < ApplicationController
 
   def index
     @attachments = if @subject
-      @subject.attachments.for_me(current_user).all
+      attachment_scope.where(id: @subject.attachments).all
     else
-      @collection.attachments.for_me(current_user).all
+      attachment_scope.where(attache: @collection.expand_with_child_collections).all
     end
   end
 
@@ -25,7 +25,7 @@ class AttachmentsController < ApplicationController
     @attachment.visibility = ["facility_manager", "compliance"]
     @attachment.visibility += ["qkunst"] if current_user.registrator?
 
-    @attachments = @collection.attachments_including_parent_attachments.all
+    @attachments = attachment_scope.where(attache: @collection.expand_with_parent_collections).all
     @attachments -= @subject.attachments if @subject
   end
 
@@ -80,7 +80,11 @@ class AttachmentsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_attachment
-    @attachment = @collection.attachments_including_parent_attachments.find(params[:id])
+    @attachment = attachment_scope.find(params[:id])
+  end
+
+  def attachment_scope
+    Attachment.where(collection: current_user.accessible_collections).for_me(current_user)
   end
 
   def set_subject
