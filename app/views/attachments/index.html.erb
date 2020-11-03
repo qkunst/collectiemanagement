@@ -10,15 +10,17 @@
 <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if can? :create, @collection.attachments.new %>
 <% end %>
 
-<table>
+<label>Filter <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
+
+<table class="sortable" id="attachments-table">
   <thead>
     <tr>
-      <th>Naam</th>
+      <th data-filtered-by="generic-table-filter">Naam</th>
       <% unless @work || @artist %>
-      <th>Werken</th>
-      <th>Vervaardigers</th>
+      <th data-filtered-by="generic-table-filter">Werken</th>
+      <th data-filtered-by="generic-table-filter">Vervaardigers</th>
       <% end %>
-      <th>Zichtbaar voor</th>
+      <th data-filtered-by="generic-table-filter">Zichtbaar voor</th>
       <th colspan="3"></th>
     </tr>
   </thead>
