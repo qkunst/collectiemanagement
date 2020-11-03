@@ -15,4 +15,22 @@ RSpec.describe "Messages", type: :request do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe "GET /messages/:id" do
+    context "advisor" do
+      let(:user) { users(:advisor) }
+
+      before do
+        sign_in user
+      end
+
+      it "should be able to download the download message" do
+        collection = collections(:collection1)
+        message = CollectionDownloadWorker.new.perform(collection.id, user.id)
+        get message_path(message)
+        expect(response).to have_http_status(200)
+      end
+    end
+
+  end
 end
