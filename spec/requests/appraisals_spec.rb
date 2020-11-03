@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe "Appraisals", type: :request do
-
   describe "GET /collections/1/works/1/appraisals/new" do
     describe "HTTP response codes" do
       it "it refuses by default" do
@@ -64,8 +63,6 @@ RSpec.describe "Appraisals", type: :request do
         expect(response).to have_http_status(200)
       end
     end
-
-
   end
 
   describe "POST /collections/1/works/1/appraisals" do
@@ -76,10 +73,10 @@ RSpec.describe "Appraisals", type: :request do
       work = works(:work1)
 
       # params.require(:appraisal).permit(:appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference, work_attributes: [
-#         :id, :purchased_on, :purchase_year, :purchase_price, :purchase_price_currency_id, :print, :print_unknown, :source_comments,
-#         :grade_within_collection, :main_collection, :owner_id, :other_comments, source_ids: []
-#       ])
-#
+      #         :id, :purchased_on, :purchase_year, :purchase_price, :purchase_price_currency_id, :print, :print_unknown, :source_comments,
+      #         :grade_within_collection, :main_collection, :owner_id, :other_comments, source_ids: []
+      #       ])
+      #
 
       # "appraisal"=>{"appraised_by"=>"Maartje de Roy van Zuydewijn", "appraised_on"=>"2020-05-26", "market_value"=>"", "replacement_value"=>"", "reference"=>"", "work_attributes"=>{"purchased_on"=>"", "purchase_year"=>"", "purchase_price"=>"2578", "purchase_price_currency_id"=>"3", "source_ids"=>[""], "source_comments"=>"", "grade_within_collection"=>"C", "main_collection"=>"0", "owner_id"=>"", "print"=>"", "print_unknown"=>"0", "other_comments"=>"", "id"=>"1647"}
 

@@ -19,7 +19,7 @@ PASSWORD_HANDLER = SSHKit::MappingInteractionHandler.new(lambda { |data|
       ""
     when /(\[sudo\]\s)(([Pp]assword)|([Ww]achtwoord)).*:/
       "#{QA.sudo_pass}\n"
-    when /root(.*)\'s password\:/
+    when /root(.*)'s password:/
       "#{QA.root_pass}\n"
     when "sudo"
       "\n"

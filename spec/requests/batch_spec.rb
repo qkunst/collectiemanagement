@@ -30,7 +30,7 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to root_path
       end
       it "should not allow accesss to the batch editor for non qkunst user has access to" do
-        user = users(:read_only_user)
+        user = users(:read_only)
         sign_in user
         collection = collections(:collection3)
         get collection_batch_path(collection)
@@ -38,7 +38,7 @@ RSpec.describe "WorkBatchs", type: :request do
       end
 
       it "should redirect to the root when accessing anohter collection" do
-        user = users(:read_only_user)
+        user = users(:read_only)
         sign_in user
         collection = collections(:collection1)
         get collection_batch_path(collection)
@@ -61,7 +61,7 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:appraiser)
         get collection_batch_path(collections(:collection1))
         response_body = response.body
-        expect(response_body).to match('Waardering door')
+        expect(response_body).to match("Waardering door")
         expect(response_body).to match('Adres en\/of gebouw\(deel\)\<\/label\>')
         expect(response_body).to match('Overige opmerkingen<\/label>')
         expect(response_body).to match('Aankoopprijs<\/label>')
@@ -113,17 +113,25 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REPLACE"}}
         expect(response).to have_http_status(302)
-        works.collect { |a| a.reload }
+        works.collect do |a|
+          a.reload
+        end
         expect(works.first.tag_list).to match_array(["eerste nieuwe tag", "first new tag"])
       end
       it "should APPEND" do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }
@@ -133,7 +141,10 @@ RSpec.describe "WorkBatchs", type: :request do
         sign_in users(:admin)
         collection = collections(:collection1)
         works = [works(:work1), works(:work2)]
-        works.collect { |a| a.tag_list = ["existing_tag", "tag to delete"]; a.save }
+        works.collect do |a|
+          a.tag_list = ["existing_tag", "tag to delete"]
+          a.save
+        end
         patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["tag to delete", "eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REMOVE"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }

@@ -8,7 +8,7 @@ RSpec.feature "Navigate works", type: :feature do
   scenario "read only" do
     allow(RkdArtist).to receive(:search_rkd) { [rkd_artists(:rkd_artist2)] }
 
-    login "qkunst-test-read_only_user@murb.nl"
+    login "qkunst-test-read_only@murb.nl"
 
     click_on "Collecties"
     expect(page).not_to have_content("Bewerk")
@@ -59,7 +59,7 @@ RSpec.feature "Navigate works", type: :feature do
     click_on "Vervaardiger bewaren"
     expect(page).to have_content "Nieuwe voornaam"
     expect(page).to have_content("Collection 1")
-    click_on "Beheer RKD koppeling voor deze vervaardiger"
+    click_on "Maak RKD koppeling"
     click_on ": Artist 2"
     expect(page).to have_content("Haas, Konijn")
     expect(page).to have_content("Den Haag")
@@ -99,7 +99,7 @@ RSpec.feature "Navigate works", type: :feature do
     click_on "Vervaardiger bewaren"
     expect(page).to have_content "Nieuwe voornaam"
     expect(page).to have_content("Collection 1")
-    click_on "Beheer RKD koppeling voor deze vervaardiger"
+    click_on "Maak RKD koppeling"
     click_on ": Artist 2"
     expect(page).to have_content("Haas, Konijn")
     expect(page).to have_content("Den Haag")
@@ -144,7 +144,7 @@ RSpec.feature "Navigate works", type: :feature do
     click_on "Vervaardiger bewaren"
     expect(page).to have_content "Nieuwe voornaam"
     expect(page).to have_content("Collection 1")
-    click_on "Beheer RKD koppeling voor deze vervaardiger"
+    click_on "Maak RKD koppeling"
     click_on ": Artist 2"
     expect(page).to have_content("Haas, Konijn")
     expect(page).to have_content("Den Haag")
@@ -160,6 +160,7 @@ RSpec.feature "Navigate works", type: :feature do
     select "Involvement 1"
     click_on "Vervaardigersbetrekking toevoegen"
     expect(page).to have_content("Betrekking toegevoegd")
+    click_on "Beheer RKD koppeling"
   end
   scenario "compliance" do
     ra = rkd_artists(:rkd_artist2)

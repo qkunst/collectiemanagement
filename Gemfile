@@ -27,6 +27,8 @@ gem "turbolinks" # , '5.1.1' #, '~> 5.x'
 gem "jbuilder" # , '~> 2.0'
 gem "cancancan"
 gem "bootsnap"
+gem "lockbox"
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -103,7 +105,6 @@ gem "paper_trail" # , '~>4.0.0.rc1'
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-gem "bundler-audit"
 # gem 'delayed_job_active_record'
 gem "redis-rails"
 gem "exception_notification"
@@ -113,7 +114,7 @@ gem "rack-headers_filter"
 gem "strip_attributes"
 
 # gem "sidekiq", "~> 5"
-gem 'sidekiq', git: 'https://github.com/mperham/sidekiq.git', branch: '5-x'
+gem "sidekiq", "~> 5.0"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 

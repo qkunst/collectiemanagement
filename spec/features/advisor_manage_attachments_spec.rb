@@ -48,6 +48,7 @@ RSpec.feature "Manage attachments", type: :feature do
       attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")
       check("Registrator")
+
       click_on "Bijlage toevoegen"
       expect(page).to have_content("Attachment toegevoegd")
 
@@ -60,9 +61,33 @@ RSpec.feature "Manage attachments", type: :feature do
       expect(page).to have_content("Attachment bijgewerkt")
       expect(page).to have_content("Image1.jpg")
     end
+  end
+  context "in context of artist, as advisor" do
+    scenario "add new and couple existing attachment" do
+      login "qkunst-test-advisor@murb.nl"
 
-    scenario "reattach attachment" do
+      collection = collections(:collection1)
 
+      visit collection_artists_path(collection)
+
+      click_on "artist_1"
+      click_on "Beheer bijlagen 1"
+      click_on "Bijlage toevoegen"
+
+      attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
+      fill_in("Bestandsnaam / beschrijving", with: "ArtistImage1.jpg")
+      check("Registrator")
+      click_on "Bijlage toevoegen"
+      expect(page).to have_content("Attachment toegevoegd")
+      expect(page).to have_content("ArtistImage1.jpg")
+
+      visit collection_artists_path(collection)
+      click_on "artist_2"
+      click_on "Bijlage toevoegen"
+      first("[value=Koppel]").click
+
+      expect(page).to have_content("Attachment bijgewerkt")
+      expect(page).to have_content("ArtistImage1.jpg")
     end
   end
 end

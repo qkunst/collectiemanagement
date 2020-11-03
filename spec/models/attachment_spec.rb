@@ -13,7 +13,10 @@ RSpec.describe Attachment, type: :model do
 
         Attachment.move_work_attaches_to_join_table
 
-        work1.reload; work2.reload; a1.reload; a2.reload
+        work1.reload
+        work2.reload
+        a1.reload
+        a2.reload
 
         expect(a1.attache).to eq(work1.collection)
         expect(a2.attache).to eq(work2.collection)
@@ -24,10 +27,23 @@ RSpec.describe Attachment, type: :model do
     end
   end
   describe "Scopes" do
-    describe "without_works" do
+    describe ".without_works" do
       it "should return attachments without works" do
         expect(Attachment.without_works).to include(attachments(:collection_attachment))
         expect(Attachment.without_works).not_to include(attachments(:work_attachment))
+      end
+    end
+    describe ".without_artists" do
+      it "should return attachments without works" do
+        expect(Attachment.without_artists).to include(attachments(:collection_attachment))
+        expect(Attachment.without_artists).not_to include(attachments(:artist_attachment))
+        expect(Attachment.without_artists).to include(attachments(:work_attachment))
+      end
+
+      it "should only return attache less when combined with .without_works" do
+        expect(Attachment.without_artists.without_works).to include(attachments(:collection_attachment))
+        expect(Attachment.without_artists.without_works).not_to include(attachments(:artist_attachment))
+        expect(Attachment.without_artists.without_works).not_to include(attachments(:work_attachment))
       end
     end
     describe "for_role" do
@@ -77,7 +93,7 @@ RSpec.describe Attachment, type: :model do
         expect(Attachment.for_me(admin)).to include(b)
       end
       it "should always work correctly for readonly" do
-        admin = users(:read_only_user)
+        admin = users(:read_only)
         a = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
         b = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
         a.visibility = [:qkunst, :facility_manager]

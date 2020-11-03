@@ -8,7 +8,7 @@ class ReportController < ApplicationController
     @title = "Rapportage voor #{@collection.name}"
 
     @sections = {
-      :Locaties => [[:location_raw]]
+      Locaties: [[:location_raw]]
     }
 
     if can?(:read_extended_report, @collection)
@@ -18,9 +18,9 @@ class ReportController < ApplicationController
         "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
         "Waardering" => [],
         "Beprijzing" => [],
-        "Herkomst" => [[:sources],[:purchase_year]],
+        "Herkomst" => [[:sources], [:purchase_year]],
         "Object" => [[:object_categories_split], [:object_format_code, :frame_type], [:object_creation_year]],
-        "Status" => [[:work_status, :grade_within_collection],[:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish]]
+        "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish]]
       })
     end
 

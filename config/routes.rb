@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
   get "offline/collection"
 
-  get "scan" =>"scan#show"
+  get "scan" => "scan#show"
 
   namespace :api do
     namespace :v1 do
@@ -68,7 +68,8 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     get "manage" => "collections#manage"
-    resource :users, module: :collection
+    resources :users, module: :collection
+    resources :library_items
 
     resources :reminders, path: "manage/reminders"
     resources :themes, path: "manage/themes"
@@ -96,6 +97,8 @@ Rails.application.routes.draw do
       patch "combine" => "artists#combine"
       get "rkd_artists" => "artists#rkd_artists"
       resources :artist_involvements
+      resources :attachments
+      resources :library_items
     end
     resources :rkd_artists do
       patch "copy" => "rkd_artists#copy"
@@ -114,6 +117,7 @@ Rails.application.routes.draw do
       resources :attachments
       resources :appraisals
       resources :messages
+      resources :library_items
       get "edit_prices" => "works#edit_prices"
       get "location_history" => "works#location_history"
       get "edit_location" => "works#edit_location"

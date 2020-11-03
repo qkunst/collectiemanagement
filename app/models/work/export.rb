@@ -6,7 +6,7 @@ module Work::Export
 
   included do
     scope :audience, ->(audience) do
-      if audience == :erfgoed_gelderland
+      if audience == :public
         published
       else
         where("1=1")
@@ -32,7 +32,7 @@ module Work::Export
           value.name
         elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
           artist_name_rendered_without_years_nor_locality_semicolon_separated
-        elsif /ActiveRecord\_Associations\_CollectionProxy/.match?(value.class.to_s)
+        elsif /ActiveRecord_Associations_CollectionProxy/.match?(value.class.to_s)
           if value.first.is_a? PaperTrail::Version
             "Versie"
           elsif value.first.is_a? ActsAsTaggableOn::Tagging
@@ -56,12 +56,12 @@ module Work::Export
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
 
       fields = instance_methods.collect { |method|
-        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|\_|\=|\<|\!|\[|photo_|remote\_|remove\_|defined\_enums|find\_by\_statement\_cache|validation\_context|record\_timestamps|aggregate\_reflections|include\_root\_in\_json|destroyed\_by\_association|attributes|entry_status_description|entry_status|paper_trail|verions|custom_report|messages|tags|custom_contexts|base_tags|preserve_tag_order|tag_|taggings|version)(.*)/) && !method.to_s.match(/(.*)\_(id|ids|attributes|class_name|association_name|cache)\=$/)
+        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|_|=|<|!|\[|photo_|remote_|remove_|defined_enums|find_by_statement_cache|validation_context|record_timestamps|aggregate_reflections|include_root_in_json|destroyed_by_association|attributes|entry_status_description|entry_status|paper_trail|verions|custom_report|messages|tags|custom_contexts|base_tags|preserve_tag_order|tag_|taggings|version)(.*)/) && !method.to_s.match(/(.*)_(id|ids|attributes|class_name|association_name|cache)=$/)
           method.to_s.delete("=")
         end
       }.compact
 
-      fields += ["collection_external_reference_code", "cached_tag_list", "location_floor", "information_back", "artist_unknown", "title_unknown", "description", "object_creation_year_unknown", "medium_comments", "no_signature_present", "condition_work_comments", "condition_frame_comments", "other_comments", "source_comments", "purchase_price", "price_reference", "public_description", "internal_comments", "imported_at", "created_at", "updated_at", "external_inventory", "artist_name_rendered", "valuation_on", "market_value", "replacement_value","lognotes"]
+      fields += ["collection_external_reference_code", "cached_tag_list", "location_floor", "information_back", "artist_unknown", "title_unknown", "description", "object_creation_year_unknown", "medium_comments", "no_signature_present", "condition_work_comments", "condition_frame_comments", "other_comments", "source_comments", "purchase_price", "price_reference", "public_description", "internal_comments", "imported_at", "created_at", "updated_at", "external_inventory", "artist_name_rendered", "valuation_on", "market_value", "replacement_value", "lognotes"]
 
       fields = fields.uniq
 
@@ -81,7 +81,7 @@ module Work::Export
         a1 <=> b1
       end
 
-      @@possible_exposable_fields = fields.collect { |a| [Work.human_attribute_name(a.to_s), a] }
+      @@possible_exposable_fields = fields
     end
 
     def to_workbook(fields = [:id, :title_rendered], collection = nil)

@@ -1,13 +1,22 @@
 <div id="main">
 <h2>Bijlagen</h2>
-<p>Bij <%= (@work || @collection).name %></p>
+<p>Bij <%= (@subject || @collection).name %></p>
+
+<% if @work %>
+<%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
+<% elsif @artist %>
+<%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
+<% else %>
+<%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if can? :create, @collection.attachments.new %>
+<% end %>
 
 <table>
   <thead>
     <tr>
       <th>Naam</th>
-      <% unless @work %>
+      <% unless @work || @artist %>
       <th>Werken</th>
+      <th>Vervaardigers</th>
       <% end %>
       <th>Zichtbaar voor</th>
       <th colspan="3"></th>
@@ -18,20 +27,16 @@
     <% @attachments.each do |attachment| %>
       <tr>
         <td><%= link_to attachment.file_name, attachment.file.url %></td>
-        <% unless @work %>
+        <% unless @work || @artist %>
         <td><ul><% attachment.works.each do |work| %><li><%= link_to work.stock_number, collection_work_path(work.collection, work)%></li><% end %></ul></td>
+        <td><ul><% attachment.artists.each do |artist| %><li><%= link_to artist.name, collection_artist_path(@collection, artist)%></li><% end %></ul></td>
         <% end %>
-        <td><%= attachment.visibility.to_sentence %></td>
+        <td><%= attachment.visibility.map{|v| I18n.t(v, scope: [:activerecord, :values, :user, :role]) }.to_sentence %></td>
         <td><%= link_to 'Bewerk', edit_attachment_path(attachment) if can? :edit, attachment %></td>
-        <td><%= link_to 'Verwijder', [attachment.attache, attachment], method: :delete, data: { confirm: "Weet je zeker dat je '#{attachment.file_name}' wilt  verwijderen?" } if can? :destroy, attachment %></td>
+        <td><%= link_to 'Verwijder', [attachment.attache, @subject, attachment].compact, method: :delete, data: { confirm: @subject ? "Weet je zeker dat je de bijlage hier wilt weghalen (de bijlage blijft bij de collectie)?" :"Weet je zeker dat je '#{attachment.file_name}' definitief overal wilt verwijderen?" } if can? :destroy, attachment %></td>
       </tr>
     <% end %>
   </tbody>
-  <% if @work %>
-  <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'primary button', data: { open_in_context: true} if can? :create, @work.attachments.new(collection: @collection) %>
-  <% else %>
-  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if can? :create, @collection.attachments.new %>
-  <% end %>
 </table>
 
 

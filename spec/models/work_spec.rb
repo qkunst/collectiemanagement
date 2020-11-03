@@ -148,15 +148,15 @@ RSpec.describe Work, type: :model do
     end
     describe "#damage_types" do
       it "should be an empty by default" do
-        w = works(:work1)
+        w = works(:work2)
         expect(w.damage_types).to eq([])
       end
       it "should should touch work on add (and should only return once)" do
-        w = works(:work1)
+        w = works(:work2)
         original_updated_at = w.updated_at
         w.damage_types << damage_types(:a)
         w.damage_types << damage_types(:a)
-        expect(w.damage_types).to eq([damage_types(:a)])
+        expect(w.damage_types).to match_array([damage_types(:a)])
         expect(w.updated_at - original_updated_at).to be > 0.001
       end
     end
@@ -289,10 +289,12 @@ RSpec.describe Work, type: :model do
       it "should return nil if object_creation_year_unknown = true" do
         w = works(:work2)
         w.object_creation_year = 2012
-        w.save; w.reload
+        w.save
+        w.reload
         expect(w.object_creation_year).to eq(2012)
         w.object_creation_year_unknown = true
-        w.save; w.reload
+        w.save
+        w.reload
         expect(w.object_creation_year).to eq(nil)
       end
     end
@@ -360,7 +362,7 @@ RSpec.describe Work, type: :model do
     end
     describe "public_tag_list" do
       it "filters public tags" do
-        w = Work.create(collection: collections(:collection1), tag_list: %{inventariseren 2020, vermist, 1984, blauw, bekijKen op, aangetroffen, naar fotograaf, selectie, H3 definitief, ontzamelen, aankopen, herplaatsen, navragen, Herplaatsing, Industrie})
+        w = Work.create(collection: collections(:collection1), tag_list: %(inventariseren 2020, vermist, 1984, blauw, bekijKen op, aangetroffen, naar fotograaf, selectie, H3 definitief, ontzamelen, aankopen, herplaatsen, navragen, Herplaatsing, Industrie))
         expect(w.public_tag_list).to eq(["1984", "blauw", "Industrie"])
       end
     end
@@ -411,15 +413,16 @@ RSpec.describe Work, type: :model do
     end
     describe ".possible_exposable_fields" do
       it "should return possible_exposable_fields" do
-        expect(Work.possible_exposable_fields).to include(["Eigendom", "owner"])
-        expect(Work.possible_exposable_fields).to include(["Locatie specificatie", "location_detail"])
-        expect(Work.possible_exposable_fields).to include(["Verdieping", "location_floor"])
+        expect(Work.possible_exposable_fields).to include("owner")
+        expect(Work.possible_exposable_fields).to include("location_detail")
+        expect(Work.possible_exposable_fields).to include("location_floor")
       end
     end
 
     describe ".fast_aggregations" do
       it "should allow to be initialized" do
-        works = [works(:work1), works(:work2)]
+        works(:work1)
+        works(:work2)
         aggregations = Work.fast_aggregations [:title, :themes, :subset, :grade_within_collection]
         expect(aggregations.count).to eq 4
         expect(aggregations[:title]["Work1"][:count]).to eq 999999
@@ -493,8 +496,7 @@ RSpec.describe Work, type: :model do
 
         expect(works[0].collection).not_to eq new_collection
 
-        works = Work.where(id: works(:work1).id)
-        # expect(works[0].collection).to eq new_collection
+        Work.where(id: works(:work1).id)
       end
     end
     describe ".column_types" do

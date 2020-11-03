@@ -5,8 +5,12 @@ require "rails_helper"
 RSpec.describe User, type: :model do
   describe "methods" do
     describe "#accessible_collections" do
-      it "should return all collections when admin" do
+      it "should return all collections when admin (except when not qkunst managed)" do
         u = users(:admin)
+        expect(u.accessible_collections.pluck(:id)).to eq(Collection.all.pluck(:id) - [collections(:not_qkunst_managed_collection).id])
+      end
+      it "should return all collections when the user is a super admin" do
+        u = users(:super_admin)
         expect(u.accessible_collections).to eq(Collection.all)
       end
       it "should return all collections and sub(sub)collections the user has access to" do
@@ -20,6 +24,11 @@ RSpec.describe User, type: :model do
         assert_raises(ActiveRecord::RecordNotFound) do
           u.accessible_collections.find(collections(:collection3).id)
         end
+      end
+    end
+    describe "#collection_ids" do
+      it "should return ids of collections" do
+        expect(users(:qkunst_with_collection).collection_ids).to eq(users(:qkunst_with_collection).collections.map(&:id))
       end
     end
     describe "#collection_accessibility_log" do
@@ -123,7 +132,24 @@ RSpec.describe User, type: :model do
         expect(accessible_users).to include(users(:appraiser))
         expect(accessible_users).to include(users(:advisor))
         expect(accessible_users).not_to include(users(:admin))
-        expect(accessible_users).not_to include(users(:read_only_user)) # collection3 isn't in collection 1 tree
+        expect(accessible_users).not_to include(users(:read_only)) # collection3 isn't in collection 1 tree
+      end
+    end
+    describe "#accessible_roles" do
+      manager_role_roles = [:advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
+
+      it "should return all for admin" do
+        expect(users(:admin).accessible_roles).to eq(User::ROLES)
+      end
+
+      it "should return nil for regular advisor" do
+        expect(users(:advisor).accessible_roles).to eq([])
+      end
+
+      it "should return some for advisor with manager roles role (#{manager_role_roles.join(";")})" do
+        advisor = users(:advisor)
+        advisor.role_manager = true
+        expect(advisor.accessible_roles).to eq(manager_role_roles)
       end
     end
   end

@@ -35,3 +35,4 @@ results.html
 yarn-debug.log*
 .yarn-integrity
 .byebug_history
+spec/fixtures/image3.jpg

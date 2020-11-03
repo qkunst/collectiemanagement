@@ -1,0 +1,45 @@
+<div id="main">
+  <h2>Voeg bibliotheek item toe</h2>
+  <%
+  couple = false
+  attachment_params = {}
+  name = ""
+  if @work
+    couple = @library_items.any?
+    attachment_params = { append_work_ids: [@work.id] }
+    name = @work.name
+  elsif @artist
+    couple = @library_items.any?
+    attachment_params = { append_artist_ids: [@artist.id] }
+    name = @artist.name
+  end
+
+  %>
+
+<% if couple %>
+  <p>Bij <%= name %></p>
+  <h3>Bestaand bibliotheek item koppelen</h3>
+  <label>Filter bijlagen <input type="text" id="generic-table-filter" data-filters="library-items-table"></label>
+
+  <table class="sortable" id="library-items-table">
+    <thead>
+      <th data-filtered-by="generic-table-filter" class="asc">Naam</th><th>Acties</th></th>
+    </thead>
+    <tbody>
+      <% @library_items.each do |library_item| %>
+        <tr><td><%=library_item.name.to_s.gsub(/\_/," ")%></td><td><%=button_to "Koppel", [library_item.collection, library_item], params: {library_item: attachment_params}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
+      <% end %>
+      </ul>
+    </tbody>
+  </table>
+  <hr/>
+  <h3>Nieuwe bijlage</h3>
+
+<% else %>
+    <p>Bij <%= @library_item.collection.name %></p>
+<% end %>
+    <%= render 'form', attachment: @library_item %>
+</div>
+
+
+

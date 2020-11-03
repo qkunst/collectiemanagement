@@ -3,6 +3,25 @@
 require "rails_helper"
 
 RSpec.describe Artist, type: :model do
+  describe "#collection_attributes_attributes=" do
+    it "should create collection attributes" do
+      a = artists(:artist1)
+      c = collections(:collection1)
+
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+
+      expect(a.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
+    end
+    it "should destroy collection attributes when emptied" do
+      a = artists(:artist1)
+      c = collections(:collection1)
+
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
+
+      expect(a.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
+    end
+  end
   describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work" do
       ids = []
@@ -74,7 +93,7 @@ RSpec.describe Artist, type: :model do
       expect(a.name).to eq("Antony (1900 - 2000)")
     end
     it "should render not the full name, just the artist name when present" do
-      a = Artist.create(artist_name: "Artistname", first_name: "Antony", last_name: "Hopkins",  year_of_birth: 1900, year_of_death: 2000)
+      a = Artist.create(artist_name: "Artistname", first_name: "Antony", last_name: "Hopkins", year_of_birth: 1900, year_of_death: 2000)
       expect(a.name).to eq("Artistname (1900 - 2000)")
     end
   end

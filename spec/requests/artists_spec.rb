@@ -36,7 +36,30 @@ RSpec.describe "Artists", type: :request do
       expect(response).to have_http_status(200)
     end
   end
+  describe "GET /artists/:id/edit" do
+    it "should be accessible for an admin" do
+      sign_in users(:admin)
+      get edit_artist_path(artists(:artist1))
+      expect(response).to have_http_status(200)
+      expect(response.body).not_to match("Collectiespecifieke")
+    end
 
+    context "/collection/:collection_id" do
+      it "should be accessible for an appraiser" do
+        sign_in users(:appraiser)
+        get edit_collection_artist_path(collections(:collection1), artists(:artist1))
+        expect(response).to have_http_status(200)
+        expect(response.body).to match("Collectiespecifieke")
+      end
+    end
+  end
+  describe "GET /artists/new" do
+    it "should be accessible for an admin" do
+      sign_in users(:admin)
+      get new_artist_path
+      expect(response).to have_http_status(200)
+    end
+  end
   describe "POST /artists/clean" do
     it "shouldn't be publicly accessible!" do
       before_count = Artist.count

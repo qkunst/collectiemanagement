@@ -17,8 +17,8 @@ class CreateStages < ActiveRecord::Migration[5.0]
     s5b = Stage.create(name: "Inrichten", previous_stage: s4)
     s5c = Stage.create(name: "Kunst in opdracht", previous_stage: s4)
     s6 = Stage.create(name: "Oplevering", previous_stage: s5a)
-    s6a = Stage.create(name: "Oplevering", previous_stage: s5b, actual_stage: s6)
-    s6b = Stage.create(name: "Oplevering", previous_stage: s5c, actual_stage: s6)
-    s7 = Stage.create(name: "Beheer", previous_stage: s6)
+    Stage.create(name: "Oplevering", previous_stage: s5b, actual_stage: s6)
+    Stage.create(name: "Oplevering", previous_stage: s5c, actual_stage: s6)
+    Stage.create(name: "Beheer", previous_stage: s6)
   end
 end

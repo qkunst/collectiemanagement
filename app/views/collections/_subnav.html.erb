@@ -7,8 +7,9 @@
   <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
   <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
   <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
+  <li><%= menu_link_to "Bibliotheek", collection_library_items_path(@collection) if can? :read, LibraryItem %></li>
   <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
-  <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :review, Collection %></li>
+  <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can?(:review_collection_users, @collection) || can?(:review, @collection) %></li>
 </ul>
 
 <ul class="menu right-aligned menu--only-buttons">

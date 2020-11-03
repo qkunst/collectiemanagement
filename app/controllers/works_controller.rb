@@ -52,11 +52,11 @@ class WorksController < ApplicationController
       @works_count = @works.count
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
-    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @works_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
-    rescue Faraday::ConnectionFailed => e
+    rescue Faraday::ConnectionFailed
       @works = []
       @works_count = 0
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
@@ -120,7 +120,8 @@ class WorksController < ApplicationController
 
   # GET /works/new
   def new
-    @work = Work.new
+    @work = @collection.works.new
+    @work.created_by = current_user
     @work.purchase_price_currency = Currency.find_by_iso_4217_code("EUR")
   end
 
@@ -130,8 +131,7 @@ class WorksController < ApplicationController
 
   # POST /works
   def create
-    @work = Work.new(work_params)
-    @work.collection = @collection
+    @work = @collection.works.new(work_params)
     @work.created_by = current_user
     if @work.save
       redirect_to collection_work_path(@collection, @work), notice: "Het werk is aangemaakt"

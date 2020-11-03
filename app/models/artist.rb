@@ -10,10 +10,14 @@ class Artist < ApplicationRecord
   belongs_to :import_collection, optional: true
 
   has_and_belongs_to_many :works
+  has_and_belongs_to_many :attachments
+  has_and_belongs_to_many :library_items
+
   has_many :artist_involvements
   has_many :involvements, -> { distinct }, through: :artist_involvement
   has_many :subsets, through: :works
   has_many :techniques, through: :works
+  has_many :collection_attributes, as: :attributed
 
   has_cache_for_method :geoname_ids
 
@@ -33,7 +37,7 @@ class Artist < ApplicationRecord
 
   accepts_nested_attributes_for :artist_involvements
 
-  default_scope ->{ where(replaced_by_artist_id: nil) }
+  default_scope -> { where(replaced_by_artist_id: nil) }
 
   store :other_structured_data, accessors: [:kids_heden_kunstenaars_nummer]
 
@@ -133,6 +137,17 @@ class Artist < ApplicationRecord
     return gs.label if gs
   end
 
+  def collection_attributes_attributes= collection_attribute_params
+    collection_attribute_params.values.each do | collection_attribute_attributes |
+      collection_attribute = collection_attributes.find_or_initialize_by( collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label] )
+      if collection_attribute_attributes[:value].present?
+        collection_attribute.update(value: collection_attribute_attributes[:value])
+      else #if collection_attribute.persisted?
+        collection_attribute.destroy
+      end
+    end
+  end
+
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})
     options = {only_when_created_at_date_is_equal: false}.merge(options)
 
@@ -147,13 +162,17 @@ class Artist < ApplicationRecord
         work.save
         count += 1
       end
-      artist.update_columns(replaced_by_artist_id: self.id)
+      artist.update_columns(replaced_by_artist_id: id)
     end
     count
   end
 
   def touch_works
-    works.all.each { |work| work.update_artist_name_rendered!; work.cache_collection_locality_artist_involvements_texts!(true); work.touch }
+    works.all.each do |work|
+      work.update_artist_name_rendered!
+      work.cache_collection_locality_artist_involvements_texts!(true)
+      work.touch
+    end
   end
 
   def to_parameters
@@ -165,12 +184,10 @@ class Artist < ApplicationRecord
 
   def import!(other)
     other.to_parameters.each do |k, v|
-      name_fields = false
       skip_name_fields = prefix? || artist_name?
       empty_value = (v.nil? || v.to_s.empty?)
       name_fields = ((k == "first_name") || (k == "last_name"))
 
-      # p "k: #{k} #{k.class}, v: #{v}, name_fields: #{name_fields} skip_name_fields: #{skip_name_fields} empty_value: #{empty_value}" if !empty_value
       if !empty_value && !(name_fields && skip_name_fields)
         send("#{k}=".to_sym, v)
       end
@@ -241,18 +258,18 @@ class Artist < ApplicationRecord
     end
 
     def artists_with_no_name_that_have_works_that_already_belong_to_artists_with_a_name
-      _empty_artists = []
+      selected_empty_artists = []
       no_name.select(:id).each do |a|
         if a.works.count > 0
           artists_with_name = a.works.collect { |w|
             w.artists.have_name.count > 0
           }.compact.uniq
           if (artists_with_name.length == 1) && (artists_with_name.first == true)
-            _empty_artists << a
+            selected_empty_artists << a
           end
         end
       end
-      _empty_artists
+      selected_empty_artists
     end
 
     def group_by_name

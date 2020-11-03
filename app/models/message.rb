@@ -27,7 +27,7 @@ class Message < ApplicationRecord
   scope :thread_can_be_accessed_by_user, ->(user) do
     if user.admin?
       where("1=1")
-    elsif user.advisor? or user.compliance?
+    elsif user.advisor? || user.compliance? || user.facility_manager?
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1 OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Work') OR (messages.subject_object_id IN (?) AND messages.subject_object_type = 'Collection')", user.id, user.id, user.id, user.id, user.accessible_works.map(&:id), user.accessible_collections.map(&:id))
     else
       where("messages.from_user_id = ? OR messages.to_user_id = ? OR (SELECT COUNT(messages_a.id) FROM messages AS messages_a WHERE messages_a.id = messages.conversation_start_message_id AND (messages_a.from_user_id = ? OR messages_a.to_user_id = ?)) = 1", user.id, user.id, user.id, user.id)
@@ -36,7 +36,10 @@ class Message < ApplicationRecord
   scope :not_qkunst_private, -> { where(qkunst_private: [nil, false]) }
   scope :for, ->(subject_object) { where(subject_object: subject_object) }
   scope :sent_at_date, ->(date) { where("messages.created_at >= ? AND messages.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day) }
-  scope :collections, ->(collections) { collections = Collection.where(id: collections).expand_with_child_collections; joins("LEFT OUTER JOIN works ON messages.subject_object_id = works.id AND messages.subject_object_type = 'Work'").where("(messages.subject_object_type = 'Collection' AND messages.subject_object_id IN (?)) OR (messages.subject_object_type = 'Work' AND works.collection_id IN (?))", collections.map(&:id), collections.map(&:id)) }
+  scope :collections, ->(collections) do
+    collections = Collection.where(id: collections).expand_with_child_collections
+    joins("LEFT OUTER JOIN works ON messages.subject_object_id = works.id AND messages.subject_object_type = 'Work'").where("(messages.subject_object_type = 'Collection' AND messages.subject_object_id IN (?)) OR (messages.subject_object_type = 'Work' AND works.collection_id IN (?))", collections.map(&:id), collections.map(&:id))
+  end
   scope :limit_age_to, ->(age_limitation=1.year) { where("messages.created_at > ?", age_limitation.ago)}
 
   before_save :set_from_user_name!
@@ -123,7 +126,7 @@ class Message < ApplicationRecord
         users += User.admin.receive_mails.all
       end
     end
-    users = users.compact.uniq
+    users.compact.uniq
   end
 
   def from_qkunst?
@@ -158,5 +161,4 @@ class Message < ApplicationRecord
       self.from_user_name = from_user.name
     end
   end
-
 end

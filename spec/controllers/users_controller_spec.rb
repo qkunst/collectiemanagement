@@ -12,7 +12,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     [:user1, :qkunst, :appraiser, :advisor].each do |user|
-      context "#{user}" do
+      context user.to_s do
         it "is inaccessible" do
           sign_in users(user)
           get :index

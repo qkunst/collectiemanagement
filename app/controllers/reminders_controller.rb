@@ -87,15 +87,12 @@ class RemindersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_reminder
-    @reminder = if @collection
-      collection_scope.find(params[:id])
-    else
-      authenticate_admin_user!
-      collection_scope.find(params[:id])
-    end
+    @reminder = collection_scope.find(params[:id])
   end
 
   def collection_scope
+    authenticate_admin_user! unless @collection
+
     if current_user.admin? && @collection.nil?
       Reminder.where("1=1")
     else

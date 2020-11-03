@@ -18,7 +18,7 @@ RSpec.describe Validators::CollectionScopeValidator, type: :model do
     it "should fail on theme in other collection" do
       work.themes << themes(:star)
       expect(work.valid?).to eq(false)
-      expect(work.errors[:base].first).to match /Theme.*niet beschikbaar in collectie/
+      expect(work.errors[:base].first).to match(/Theme.*niet beschikbaar in collectie/)
     end
   end
 end

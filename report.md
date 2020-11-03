@@ -1,12 +1,12 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2020-06-07 20:16:46 +0200
+Date: 2020-10-30 16:39:05 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **93.23%** of the lines are covered by automated test. The code base consists of **8632** lines of code.
+In total **93.85%** of the lines are covered by automated test. The code base consists of **9524** lines of code.
 
 ## Abilities
 
@@ -22,32 +22,50 @@ This lists what a user can do per object-type.
 |*Beheren*|✔|✘|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Toon gebruikers binnen de collectie*|✔|✔|✘|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |**Rapport**||
-|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Beheren*|✔|✘|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Toon gebruikers binnen de collectie*|✔|✔|✘|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
+|*Aanmaken*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Tonen*|✔|✔|✔|✔|✘|✘|
 |**Bericht**||
-|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Beheren*|✔|✘|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Aanmaken & opslaan*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken*|✔|✔|✔|✔|✔|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Markeer als voltooid*|✔|✔|✘|✘|✘|✘|
+|**Bibliotheek item**||
+|*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✘|
 |*Tonen*|✔|✔|✔|✔|✔|✘|
-|*Aanmaken & opslaan*|✔|✔|✔|✔|✔|✘|
-|*Aanmaken*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Collectie**||
-|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Beheren*|✔|✘|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Toon gebruikers binnen de collectie*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Toegang tot de batch-editor*|✔|✔|✘|✔|✔|✘|
 |*Kan foto's downloaden*|✔|✔|✔|✘|✔|✘|
 |*Kan gegevens downloaden*|✔|✔|✔|✘|✘|✘|
+|*Kan publieke gegevens downloaden*|✔|✔|✔|✘|✘|✘|
 |*Kan waardering zien*|✔|✔|✔|✘|✘|✘|
 |*Rapportage lezen*|✔|✔|✔|✔|✔|✘|
 |*Uitgebreide rapportage lezen*|✔|✔|✔|✔|✘|✘|
@@ -60,15 +78,26 @@ This lists what a user can do per object-type.
 |*Verwijderen*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✔|
 |*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|
+|**Gebruiker**||
+|*Beheren*|✔|✘|✘|✘|✘|✘|
+|*Verwijderen*|✔|✘|✘|✘|✘|✘|
+|*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
+|*Lezen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
+|*Tonen*|✔|✘|✔|✘|✘|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |**Vervaardiger**||
 |*Opschonen*|✔|✘|✘|✘|✘|✘|
 |*Combineren*|✔|✘|✘|✘|✘|✘|
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘|
+|*Toon gebruikers binnen de collectie*|✔|✔|✘|✔|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
@@ -80,7 +109,9 @@ This lists what a user can do per object-type.
 |**Cluster**||
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|*Toon gebruikers binnen de collectie*|✔|✔|✘|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*Beheren*|✔|✔|✘|✘|✘|✘|
 |**RKD Artist**||
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
@@ -88,24 +119,16 @@ This lists what a user can do per object-type.
 |*Kopieer*|✔|✔|✘|✔|✘|✘|
 |**Bijlage**||
 |*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
-|*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
-|**Gebruiker**||
-|*Verwijderen*|✔|✘|✘|✘|✘|✘|
-|*Administrator rol toekennen*|✔|✘|✘|✘|✘|✘|
-|*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
-|*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht zien*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
-|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |**Werk**||
 |*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
+|*Kan herkomst bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
 |*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
@@ -117,18 +140,22 @@ This lists what a user can do per object-type.
 |*Taggen*|✔|✔|✘|✔|✘|✘|
 |*translation missing: nl.abilities.view_location_history*|✔|✔|✔|✔|✔|✘|
 |*Details tonen*|✔|✔|✔|✔|✔|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✔|
 |*Tonen*|✔|✔|✔|✔|✔|✔|
-|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Kan aankoopgegevens bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Waardering**||
-|*Beheren*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Tonen*|✔|✔|✔|✔|✘|✘|
@@ -157,6 +184,7 @@ This is a list of fields a user can write to
 |*location_detail*|✔|✔|✘|✔|✔|✘|
 |*location*|✔|✔|✘|✔|✔|✘|
 |*location_floor*|✔|✔|✘|✔|✔|✘|
+|*work_status_id*|✔|✔|✘|✔|✔|✘|
 |*internal_comments*|✔|✔|✘|✔|✘|✘|
 |*photo_front*|✔|✔|✘|✔|✘|✘|
 |*photo_back*|✔|✔|✘|✔|✘|✘|
@@ -202,7 +230,6 @@ This is a list of fields a user can write to
 |*condition_frame_comments*|✔|✔|✘|✔|✘|✘|
 |*information_back*|✔|✔|✘|✔|✘|✘|
 |*other_comments*|✔|✔|✘|✔|✘|✘|
-|*source_comments*|✔|✔|✘|✔|✘|✘|
 |*subset_id*|✔|✔|✘|✔|✘|✘|
 |*public_description*|✔|✔|✘|✔|✘|✘|
 |*grade_within_collection*|✔|✔|✘|✔|✘|✘|
@@ -217,21 +244,22 @@ This is a list of fields a user can write to
 |*collection_id*|✔|✔|✘|✔|✘|✘|
 |*cluster_id*|✔|✔|✘|✔|✘|✘|
 |*owner_id*|✔|✔|✘|✔|✘|✘|
-|*work_status_id*|✔|✔|✘|✔|✘|✘|
 |*placeability_id*|✔|✔|✘|✔|✘|✘|
 |*artist_ids*|✔|✔|✘|✔|✘|✘|
-|*source_ids*|✔|✔|✘|✔|✘|✘|
 |*damage_type_ids*|✔|✔|✘|✔|✘|✘|
 |*frame_damage_type_ids*|✔|✔|✘|✔|✘|✘|
 |*theme_ids*|✔|✔|✘|✔|✘|✘|
 |*object_category_ids*|✔|✔|✘|✔|✘|✘|
 |*technique_ids*|✔|✔|✘|✔|✘|✘|
-|*selling_price*|✔|✔|✘|✔|✘|✘|
-|*minimum_bid*|✔|✔|✘|✔|✘|✘|
+|*source_comments*|✔|✔|✘|✔|✘|✘|
+|*source_ids*|✔|✔|✘|✔|✘|✘|
 |*purchase_price*|✔|✔|✘|✔|✘|✘|
 |*purchased_on*|✔|✔|✘|✔|✘|✘|
 |*purchase_year*|✔|✔|✘|✔|✘|✘|
+|*selling_price*|✔|✔|✘|✔|✘|✘|
+|*minimum_bid*|✔|✔|✘|✔|✘|✘|
 |*selling_price_minimum_bid_comments*|✔|✔|✘|✔|✘|✘|
+|*purchase_price_currency_id*|✔|✔|✘|✔|✘|✘|
 |**artists_attributes**||
 |*_destroy*|✔|✔|✘|✔|✘|✘|
 |*first_name*|✔|✔|✘|✔|✘|✘|
@@ -524,10 +552,17 @@ OfflineController
 UsersController
   GET /users
     is inaccessible by default
-    is inaccessible by default even for most users
-    is accessible for admins and advisors
+    is accessible for admins
+    user1
+      is inaccessible
+    qkunst
+      is inaccessible
+    appraiser
+      is inaccessible
+    advisor
+      is inaccessible
   PUT /users/:id
-    allows for a advisor to change a collection membership he/she is part of
+    allows for a advisor not to change a collection membership he/she is part of
     allows for an admin to change collection membership he/she is part of
 
 WorksController
@@ -556,7 +591,8 @@ Manage attachments
     add attachment, change name
   in context of work, as advisor
     add existing attachment
-    reattach attachment
+  in context of artist, as advisor
+    add new and couple existing attachment
 
 Appraise works
   as appraiser
@@ -570,6 +606,7 @@ Manage Collection
     creating a sub-collection
 
 Batch editor
+  facility manager can scan works with batch editor
   move work to sub-collection in cluster
   appraise works
   modify other attributes (happy flow)
@@ -585,7 +622,7 @@ Edit photos
     can edit photo's
   as QKunst  advisor
     can edit photo's
-  as QKunst  read only user
+  as QKunst  read only
     can not edit photo's
   as QKunst  compliance
     can not edit photo's
@@ -609,7 +646,7 @@ Navigate works
   facility
 
 Navigate works in a collection
-  as QKunst  read only user
+  as QKunst  read only
     cannot edit anything
   as QKunst  compliance
     cannot edit anything
@@ -669,6 +706,9 @@ CollectionReportHelper
     should created the proper nested urls
   #iterate_report_sections
     should work
+  #render_range
+    works with simple example
+    works with complex example
 
 JsonHelper
   render_hash
@@ -694,6 +734,8 @@ Ability
       can edit_location work(:work1)
       can read work(:work6)
       can show_details work(:work1)
+    Users
+      can update user(:user_with_no_rights)
   advisor
     Test: alias working of :manage_collection
       can manage_collection collection(:collection_with_works)
@@ -704,6 +746,8 @@ Ability
       can edit_location work(:work1)
       cannot read work(:work6)
       can show_details work(:work1)
+    Users
+      cannot update user(:user_with_no_rights)
   compliance
     Collections
       can read collection(:collection_with_works)
@@ -717,6 +761,8 @@ Ability
       cannot edit_location work(:work1)
       cannot read work(:work6)
       can show_details work(:work1)
+    Users
+      cannot update user(:user_with_no_rights)
   appraiser
     Collections
       can read collection(:collection_with_works)
@@ -729,10 +775,13 @@ Ability
     Works
       can read work(:work1)
       can edit work(:work1)
+      can edit_purchase_information work(:work1)
       can edit_location work(:work1)
+      can show_details work(:work1)
       can read work(:work6)
       cannot read work(:work_with_private_theme)
-      can show_details work(:work1)
+    Users
+      cannot update user(:user_with_no_rights)
   facility_manager
     Collections
       can read collection(:collection_with_works)
@@ -747,10 +796,69 @@ Ability
       can edit_location work(:work1)
       cannot read work(:work6)
       can show_details work(:work1)
-  .report_field_abilities
-    should report field abilities
-  .report_abilities
-    should report field abilities
+    Users
+      cannot update user(:user_with_no_rights)
+  registrator
+    Collections
+      can read collection(:collection_with_works)
+      cannot read collection(:collection3)
+      cannot manage_collection collection(:collection_with_works)
+      cannot review_collection collection(:collection_with_works)
+      can read_report collection(:collection_with_works)
+      can read_extended_report collection(:collection_with_works)
+    Works
+      can read work(:work1)
+      can edit work(:work1)
+      can edit_location work(:work1)
+      can show_details work(:work1)
+      can edit_source_information work(:work1)
+      cannot edit_purchase_information work(:work1)
+      cannot read work(:work6)
+      cannot edit work(:work6)
+    Users
+      cannot update user(:user_with_no_rights)
+  Role manager role
+    when added to admin
+      can update anonymous users for a collection
+      can update an admin user
+      can update self
+      can update an user from another collection
+      can update an user from current collection
+    when added to advisor
+      can update anonymous users for a collection
+      cannot update an admin user
+      cannot update self
+      cannot update an user from another collection
+      can update an user from current collection
+    when added to compliance
+      can update anonymous users for a collection
+      cannot update an admin user
+      cannot update self
+      cannot update an user from another collection
+      can update an user from current collection
+    when added to appraiser
+      can update anonymous users for a collection
+      cannot update an admin user
+      cannot update self
+      cannot update an user from another collection
+      can update an user from current collection
+    when added to facility_manager
+      can update anonymous users for a collection
+      cannot update an admin user
+      cannot update self
+      cannot update an user from another collection
+      can update an user from current collection
+    when added to registrator
+      can update anonymous users for a collection
+      cannot update an admin user
+      cannot update self
+      cannot update an user from another collection
+      can update an user from current collection
+  report related functions
+    .report_field_abilities
+      should report field abilities
+    .report_abilities
+      should report field abilities
 
 Appraisal
   methods
@@ -783,6 +891,9 @@ ArtistInvolvement
       should include geoname when no name
 
 Artist
+  #collection_attributes_attributes=
+    should create collection attributes
+    should destroy collection attributes when emptied
   #combine_artists_with_ids(artist_ids_to_combine_with)
     should work
   #import
@@ -794,12 +905,16 @@ Artist
     should return a reasonable name string
     should return a reasonable name string with years if given
     should return a reasonable name string without years if given when include_years == false
+    should render artist name, when present
+    should render not the full name, just the artist name when present
   #save
     should update artist name at work
   #import
     should import basic params
     should not import name when middle name is given
     should import artist involvements
+  #other_structured_data
+    should work
   Class methods
     .empty_artists
       should list all workless-artists
@@ -817,8 +932,11 @@ Attachment
     move_work_attaches_to_join_table
       should migrate as intended
   Scopes
-    without_works
+    .without_works
       should return attachments without works
+    .without_artists
+      should return attachments without works
+      should only return attache less when combined with .without_works
     for_role
       should return all for advisor
       should return all for admin
@@ -874,7 +992,8 @@ Collection::Hierarchy
     #parent_collections_flattened
       should return the oldest parent, then that child .
     #possible_parent_collections
-      should return all collections if new
+      should return all qkunst managed collections if new and qkunst admin
+      should return all collections if new if super admin
       should not return child collections
   Class methods
     .expand_with_child_collections
@@ -882,6 +1001,18 @@ Collection::Hierarchy
       returns child collections until depth 1
       works with larger start-set that includes child
       works with larger start-set that does not  include child
+
+CollectionAttribute
+  class methods
+    .create
+      creates with an encrypted value
+      defaults to base_collection
+  scopes
+    .for_user
+      does not return parent collection's data if the user does not have access to that collection
+      does return parent collection's data if the user has access to that collection
+    .for_collection
+      returns one for the stages collection
 
 Collection
   callbacks
@@ -908,6 +1039,7 @@ Collection
       should have a logical order of parents
     #fields_to_expose
       should return almost all fields when fields_to_expose(:default)
+      should return no condition, appraisal and location fields when public
     #main_collection
       should return self if no main collection exists
       should return the parent collection marked as base when it exists
@@ -919,12 +1051,16 @@ Collection
       should return child collections' works
   Class methods
     .for_user
-      returns collections with root parent for admin user
+      returns collections with root parent for super admin user
+      returns collections with root parent for admin user, except for those not qkunst managed
       returns only base collection for user
     .for_user_expanded
-      returns collections with root parent for admin user
+      returns collections with root parent for super admin user
+      returns collections with root parent for admin user, except for those not qkunst managed
       returns only base collection for user
   Scopes
+    default scope
+      orders by collection_name_extended_cache
     .artist
       should return all works by certain artist
       should return all works by certain artist, but not expand scope
@@ -1039,16 +1175,22 @@ Message
       should return conversation users
       should return only qkunst admin when private
       should return only admin when qkunst private and no to user
+    #attachment
+      accepts attachment
   scopes
-    sent_at_date
+    .sent_at_date
       should work
     thread_can_be_accessed_by_user
-      should work
+      should show the thread to participating users
+      should show the thread to facility managers in same org
       should block facility user from accessing messages from other collections
     collections
       should not contain messages with another collection message subject
       should include message about a collection's work
       should include messages about child collections (and works in those)
+    .limit_age_to
+      should limit to last year
+      accepts overrrides
 
 Owner
   vaidations
@@ -1081,6 +1223,7 @@ Reminder
     #to_message
       should return nil if no collection is given
       should return message if collection is given
+      should inform all admins
     #to_message!
       should return nil if no collection is given
       should return message if collection is given
@@ -1122,9 +1265,12 @@ Stage
 User
   methods
     #accessible_collections
-      should return all collections when admin
+      should return all collections when admin (except when not qkunst managed)
+      should return all collections when the user is a super admin
       should return all collections and sub(sub)collections the user has access to
       should restrict find
+    #collection_ids
+      should return ids of collections
     #collection_accessibility_log
       should be empty when new
       should log accessible projects with name and id on save
@@ -1146,6 +1292,10 @@ User
       should return all users when admin
       should return no users when qkunst
       should return subset of users when advisor
+    #accessible_roles
+      should return all for admin
+      should return nil for regular advisor
+      should return some for advisor with manager roles role (advisor;compliance;qkunst;appraiser;facility_manager;read_only)
   Callbacks
     name change should result in name changes with work
       should change
@@ -1289,9 +1439,12 @@ Appraisals
       it refuses by qkunst
       it works for admin
   GET /collections/1/works/1/appraisals/1/edit
-    it refuses by default
-    it refuses by qkunst
-    it works for admin
+    refuses by default
+    refuses by qkunst
+    admin
+      works for admin
+      allows editing ranges
+      allows editing non-existing ranges
   POST /collections/1/works/1/appraisals
     stores an appraisal
 
@@ -1303,6 +1456,12 @@ Artists
   GET collection/id/artists
     shouldn't be publicly accessible
     should be accessible by QKunst having access to collection
+  GET /artists/:id/edit
+    should be accessible for an admin
+    /collection/:collection_id
+      should be accessible for an appraiser
+  GET /artists/new
+    should be accessible for an admin
   POST /artists/clean
     shouldn't be publicly accessible!
     should be accessible when logged in as admin
@@ -1316,14 +1475,30 @@ Attachments
     redirects by default when qkunst without access
     success when qkunst with acces
     success when admin
+    succeeds when registrator
   GET /attachments
     lists no attachments if none
-    lists no attachments if none
+    lists no accessible attachments if none
+    lists  accessible attachments if some
   POST /attachments
     work
       stores an attachment on work level
     collection
       stores an attachment on collection level
+      stores an attachment on collection level as registrator
+      attaches to a base collection when set
+  DELETE /attachment/:id
+    collection
+      destroys
+      doesn't destroy as registrator
+    collection
+      destroys
+    work
+      removes at work
+  PATCH /attachment/:id
+    collection
+      as admin it should update visibility
+      as registrator it should not update visibility
 
 BatchPhotoUploads
   GET /batch_photo_uploads
@@ -1345,17 +1520,31 @@ WorkBatchs
     process appraisal ignore
       should store appraisal
       should ignore ignored fields
+    themes
+      appends themes
     tag_list
       should REPLACE
       should APPEND
       should REMOVE
 
 Clusters
-  GET /clusters
+  GET /collections/:collection_id/clusters
     not accessible by default
     accessible by admin
+    accessible by advisor
+    shows create button for advisor
     is not accessible by a random registrerd user
     is not accessible by a facility manager with access to the collection
+  GET /collections/:collection_id/clusters/new
+    not accessible by default
+    accessible by admin
+    accessible by advisor
+    is not accessible by a random registrerd user
+    is not accessible by a facility manager with access to the collection
+  POST /collections/:collection_id/clusters
+    anonymous cannot create cluster
+    admin can create cluster
+    advisor can create cluster
 
 Collection::UsersController
   GET /collections/:id/users
@@ -1367,9 +1556,68 @@ Collection::UsersController
     advisor
       should return 200
       should show users
+      should show users from a few collections deep
     compliance
       should return 200
       should show users
+      should show users from a few collections deep
+    admin
+      should return 200
+      should show users
+      should show users from a few collections deep
+  POST /collection/:collection_id/users/:id
+    shouldn't be publicly accessible!
+    not a role manager
+      facility_manager
+        should not update
+        should update collection ids
+        user with existing roles
+          should leave existing collections in tact
+      appraiser
+        should not update
+        should update collection ids
+        user with existing roles
+          should leave existing collections in tact
+      advisor
+        should not update
+        should update collection ids
+        user with existing roles
+          should leave existing collections in tact
+      compliance
+        should not update
+        should update collection ids
+        user with existing roles
+          should leave existing collections in tact
+    role manager
+      facility_manager
+        should update
+        should update collection ids
+        should not allow editing roles outside current scope
+        user with existing roles
+          should leave existing collections in tact
+      appraiser
+        should update
+        should update collection ids
+        should not allow editing roles outside current scope
+        user with existing roles
+          should leave existing collections in tact
+      advisor
+        should update
+        should update collection ids
+        should not allow editing roles outside current scope
+        user with existing roles
+          should leave existing collections in tact
+      compliance
+        should update
+        should update collection ids
+        should not allow editing roles outside current scope
+        user with existing roles
+          should leave existing collections in tact
+      admin
+        should update
+        should update collection ids
+        user with existing roles
+          should leave existing collections in tact
 
 Collections
   GET /collections
@@ -1413,9 +1661,47 @@ Involvements
   GET /involvements
     works! (now write some real specs)
 
+/collection/:collection_id/library_items
+  GET /index
+    redirects to sign in path when not signed in
+    redirects to root path when insufficient credentials
+    displays for compliance
+    displays for compliance at work level
+    doesn't display for compliance at another collection
+  GET /show
+    renders a successful response for compliance at work level
+  GET /new
+    renders a redirect response for compliance
+    renders for registrator
+    renders couple action when isn't yet coupled
+    renders a form
+  GET /edit
+    render a successful response
+  POST /create
+    with valid parameters
+      creates a no new LibraryItem when not signed in
+      signed in as registrator
+        creates a new LibraryItem when signed in
+        redirects to the created library_item
+    with invalid parameters
+      does not create a new LibraryItem
+      renders a successful response (i.e. to display the 'new' template)
+  PATCH /update
+    with valid parameters
+      updates the requested library_item
+      redirects to the library_item
+    with invalid parameters
+      renders a successful response (i.e. to display the 'edit' template)
+  DELETE /destroy
+    doesnt destroys the requested library_item when not signed in
+    doesnt destroys the requested library_item when not signed in as registrator
+    does destroys the requested library_item when signed in as admin
+    redirects to the library_items list
+
 Messages
   GET /messages
     shouldn't be publicly accessible!
+    should be accessible when logged in as admin
 
 Admin level management
   conditions
@@ -1602,10 +1888,10 @@ Works
     should allow for updating work status
   DELETE /collections/:colletion_id/work_id
     allows access for admin
-    allows access for advisor
     denies access for facility_manager
     denies access for appraiser
     denies access for compliance
+    denies access for advisor
   GET /collections/:id/works
     shouldn't be publicly accessible!
     admin
@@ -1616,7 +1902,13 @@ Works
         should be able to get a grouped index
         should be able to sort
         should be able to filter and sort
+        should be able to search
       downloading
+        xlsx
+          should be able to get an zip file
+        csv
+          should be able to get an zip file
+          should include alt_number_4
         zip
           should be able to get an zip file
           should be able to get an zip file with photos
@@ -1626,6 +1918,8 @@ Works
           rejects facility
           downloads for admin
           doesn't include work twice
+          with public audience
+            respects audience public setting
     filtering & searching
       tag filtering
         should return no works when tags do not exist
@@ -1715,6 +2009,17 @@ InvolvementsController
     routes to #update via PATCH
     routes to #destroy
 
+LibraryItemsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #edit
+    routes to #create
+    routes to #update via PUT
+    routes to #update via PATCH
+    routes to #destroy
+
 MessagesController
   routing
     routes to #index
@@ -1786,11 +2091,14 @@ works/show
   renders attributes in <p>
   renders attachments
 
+CollectionDownloadWorker
+  performs
+
 Pending: (Failures listed here are expected and do not affect your suite's status)
 
   1) CustomReportTemplatesController PUT #update with valid params updates the requested custom_report_template
      # Add a hash of attributes valid for your model
-     # ./spec/controllers/custom_report_templates_controller_spec.rb:113
+     # ./spec/controllers/custom_report_templates_controller_spec.rb:114
 
   2) CustomReportsController POST #create with invalid params returns a success response (i.e. to display the 'new' template)
      # Add a hash of attributes invalid for your model
@@ -1820,8 +2128,8 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
-Finished in 1 minute 56.78 seconds (files took 3.93 seconds to load)
-819 examples, 0 failures, 8 pending
+Finished in 1 minute 41.26 seconds (files took 4 seconds to load)
+1004 examples, 0 failures, 8 pending
 
 
 ```

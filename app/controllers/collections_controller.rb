@@ -11,6 +11,7 @@ class CollectionsController < ApplicationController
 
     @title = "Collecties"
     current_user.reset_filters!
+
     if @collections.count == 1
       redirect_to @collections.first
     end
@@ -24,7 +25,7 @@ class CollectionsController < ApplicationController
   end
 
   def manage
-    authorize! :review, @collection
+    authorize! :review_collection_users, @collection
     @title = @collection.name
     @collections = @collection.child_collections
     current_user.reset_filters!
@@ -36,7 +37,7 @@ class CollectionsController < ApplicationController
     authorize! :show, @collection
     @title = @collection.name
     @collections = @collection.child_collections
-    @attachments = @collection.attachments.without_works.for_me(current_user)
+    @attachments = @collection.attachments.without_works.without_artists.for_me(current_user)
     current_user.reset_filters!
   end
 
@@ -144,10 +145,8 @@ class CollectionsController < ApplicationController
   def set_collection
     authenticate_activated_user!
     @collection = Collection.find(params[:collection_id] || params[:id])
-    unless current_user.admin?
-      redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
-      redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
-    end
+    redirect_options = offline? ? {} : {alert: "U heeft geen toegang tot deze collectie"}
+    redirect_to root_path, redirect_options unless @collection.can_be_accessed_by_user(current_user)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

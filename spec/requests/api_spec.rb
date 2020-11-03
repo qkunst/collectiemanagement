@@ -33,7 +33,7 @@ RSpec.describe "Collections", type: :request do
 
       c.users << api_user
       get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
-      response_data = JSON.parse(response.body)
+
       expect(response).to have_http_status(200)
     end
     it "an allowed user should be able to get a single work through the api" do
@@ -56,7 +56,6 @@ RSpec.describe "Collections", type: :request do
 
       c.users << api_user
       get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
-      response_data = JSON.parse(response.body)
 
       expect(response).to have_http_status(200)
     end
@@ -79,7 +78,7 @@ RSpec.describe "Collections", type: :request do
 
       c.users << api_user
       get "#{url}?meaningless", headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
-      response_data = JSON.parse(response.body)
+
       expect(response).to have_http_status(401)
     end
 

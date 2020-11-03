@@ -100,11 +100,15 @@ module Works::Filtering
     private
 
     def clean_ids noise
-      noise ? noise.collect { |a| a == "not_set" ? nil : a.to_i } : []
+      if noise
+        noise.collect { |a| a == "not_set" ? nil : a.to_i }
+      else
+        []
+      end
     end
 
     def parse_booleans noise
-      noise.collect{|a| [0,"0",false,"false",:false].include?(a) ? false : true }
+      noise.collect { |a| ["0", "false"].include?(a.to_s) ? false : true }
     end
   end
 end

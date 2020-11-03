@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_142608) do
+ActiveRecord::Schema.define(version: 2020_10_26_151017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,16 @@ ActiveRecord::Schema.define(version: 2020_08_06_142608) do
     t.text "other_structured_data"
   end
 
+  create_table "artists_attachments", id: false, force: :cascade do |t|
+    t.bigint "attachment_id", null: false
+    t.bigint "artist_id", null: false
+  end
+
+  create_table "artists_library_items", id: false, force: :cascade do |t|
+    t.bigint "library_item_id", null: false
+    t.bigint "artist_id", null: false
+  end
+
   create_table "artists_works", id: :serial, force: :cascade do |t|
     t.integer "artist_id"
     t.integer "work_id"
@@ -117,6 +127,16 @@ ActiveRecord::Schema.define(version: 2020_08_06_142608) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "collection_attributes", force: :cascade do |t|
+    t.string "value_ciphertext"
+    t.integer "collection_id"
+    t.string "attributed_type"
+    t.string "attributed_id"
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "collections", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -135,6 +155,7 @@ ActiveRecord::Schema.define(version: 2020_08_06_142608) do
     t.boolean "base"
     t.boolean "root", default: false
     t.boolean "appraise_with_ranges"
+    t.boolean "qkunst_managed", default: true
   end
 
   create_table "collections_geoname_summaries", id: :serial, force: :cascade do |t|
@@ -348,6 +369,25 @@ ActiveRecord::Schema.define(version: 2020_08_06_142608) do
     t.integer "place_geoname_id"
   end
 
+  create_table "library_items", force: :cascade do |t|
+    t.string "item_type"
+    t.integer "collection_id"
+    t.string "title"
+    t.string "author"
+    t.string "ean"
+    t.string "stock_number"
+    t.string "location"
+    t.text "description"
+    t.string "thumbnail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "library_items_works", id: false, force: :cascade do |t|
+    t.bigint "library_item_id", null: false
+    t.bigint "work_id", null: false
+  end
+
   create_table "media", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -550,6 +590,8 @@ ActiveRecord::Schema.define(version: 2020_08_06_142608) do
     t.text "collection_accessibility_serialization"
     t.boolean "advisor"
     t.boolean "compliance"
+    t.boolean "role_manager"
+    t.boolean "super_admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

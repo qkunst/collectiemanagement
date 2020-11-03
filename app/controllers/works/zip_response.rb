@@ -9,7 +9,7 @@ module Works::ZipResponse
     def show_zip_response
       if can?(:download_photos, @collection)
         zip_filename = "werken #{@collection.name}.zip"
-        headers['Content-Disposition'] = "attachment; filename=\"#{zip_filename}\""
+        headers["Content-Disposition"] = "attachment; filename=\"#{zip_filename}\""
 
         only_front = params[:only_front]
         filenames = []

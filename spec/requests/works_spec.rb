@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "Works", type: :request do
-  let(:user)       { users(:admin) }
-  let(:work)       { works(:work6) }
+  let(:user) { users(:admin) }
+  let(:work) { works(:work6) }
   let(:collection) { collections(:collection1) }
 
   describe "PATCH /collections/:collection_id/works/:id" do
@@ -51,7 +51,7 @@ RSpec.describe "Works", type: :request do
       end
     end
 
-    [:facility_manager, :appraiser, :compliance, :advisor].each  do |user_key|
+    [:facility_manager, :appraiser, :compliance, :advisor].each do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
         work = collection.works.first
@@ -152,7 +152,7 @@ RSpec.describe "Works", type: :request do
             expect(response).to have_http_status(200)
             expect(response.content_type).to eq("text/csv")
             expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
-            expect(response.body).to match('Q001,7201284,002123,0002.123')
+            expect(response.body).to match("Q001,7201284,002123,0002.123")
           end
           it "should include alt_number_4" do
             collection = collections(:collection1)
@@ -232,8 +232,34 @@ RSpec.describe "Works", type: :request do
             expect(response.body).to match("<qkunst:technique>Ets</qkunst:technique>")
             expect(response.body).to match("<dc:type>Fotografie</dc:type>")
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
+            expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
             expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
+            expect(response.body).to match(/<qkunst\:owner>\s*<dc\:title>Owner1<\/dc:title>\s*<qkunst\:id>\d*<\/qkunst\:id>\s*<\/qkunst\:owner>/)
+            expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
+
+            # would suggest that ruby objects are serialzed to string, instead of xml
+            expect(response.body).not_to match(/#&lt/)
           end
+          context "with public audience" do
+            let(:get_index) { get collection_works_path(collections(:collection1), format: :xml, audience: :public) }
+
+            it "respects audience public setting" do
+              sign_in user
+
+              get_index
+
+              expect(response).to have_http_status(200)
+              expect(response.body).to start_with("<?xml version=\"1.0\"?>")
+
+              expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
+              expect(response.body).not_to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
+
+              expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
+              expect(response.body).not_to match("<qkunst:lognotes/>")
+
+            end
+          end
+
           it "doesn't include work twice" do
             sign_in user
 
@@ -254,7 +280,7 @@ RSpec.describe "Works", type: :request do
 
       describe "tag filtering" do
         it "should return no works when tags do not exist" do
-          get collection_works_path(collection, params: { filter: { tags: ["nonexistingtag"] } })
+          get collection_works_path(collection, params: {filter: {tags: ["nonexistingtag"]}})
           expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*geen werken\s*\(van de 4 werken\)/)
         end
         it "should use AND for tags" do
@@ -270,10 +296,10 @@ RSpec.describe "Works", type: :request do
 
           collection.works_including_child_works.reindex!
 
-          get collection_works_path(collection, params: { filter: { tag_list: ["tagtest1"] } })
+          get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
           expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*2 werken\s*\(van de 4 werken\)/)
 
-          get collection_works_path(collection, params: { filter: { tag_list: ["tagtest1", "tagtest2"] } })
+          get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1", "tagtest2"]}})
           expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*1 werk\s*\(van de 4 werken\)/)
         end
       end
@@ -363,7 +389,7 @@ RSpec.describe "Works", type: :request do
       end
     end
     context "read only user" do
-      let(:user) { users(:read_only_user) }
+      let(:user) { users(:read_only) }
 
       it "should allow accesss to the single collection the user has access to" do
         sign_in user
@@ -406,7 +432,7 @@ RSpec.describe "Works", type: :request do
       end
     end
 
-    [:facility_manager, :appraiser].each  do |user_key|
+    [:facility_manager, :appraiser].each do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1)

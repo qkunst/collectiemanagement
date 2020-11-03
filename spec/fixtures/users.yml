@@ -17,6 +17,12 @@ admin:
   admin: true
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+super_admin:
+  email: qkunst-super-admin-user@murb.nl
+  admin: true
+  super_admin: true
+  name: Administrator
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 qkunst:
   email: qkunst-regular-user@murb.nl
   admin: false
@@ -32,13 +38,13 @@ qkunst_with_collection:
 user_with_no_rights:
   email: qkunst-test-user_with_no_rights@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
-read_only_user:
-  email: qkunst-test-read_only_user@murb.nl
+read_only:
+  email: qkunst-test-read_only@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection1
 read_only_with_access_to_collection_with_stages:
-  email: qkunst-test-read_only@murb.nl
+  email: qkunst-test-read_only_stages@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection_with_stages
@@ -50,6 +56,12 @@ facility_manager:
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
 facility_manager_collection3:
   email: qkunst-test-facility_manager-collection3@murb.nl
+  facility_manager: true
+  collections:
+    - :collection3
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+facility_manager_two_collection3:
+  email: qkunst-test-facility_manager_two-collection3@murb.nl
   facility_manager: true
   collections:
     - :collection3
@@ -66,7 +78,7 @@ appraiser:
 advisor:
   email: qkunst-test-advisor@murb.nl
   admin: false
-  qkunst: false
+  qkunst: true
   appraiser: false
   advisor: true
   collections:
@@ -81,6 +93,24 @@ compliance:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+registrator:
+  email: qkunst-test-registrator@murb.nl
+  admin: false
+  qkunst: true
+  appraiser: false
+  compliance: false
+  collections:
+    - :collection1
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+collection_with_works_user:
+  email: collection_with_works@murb.nl
+  admin: false
+  qkunst: false
+  appraiser: false
+  compliance: true
+  collections:
+    - :collection_with_works_child
+
 # admin_notify:
 #   email: qkunst-admin-user@murb.nl
 #

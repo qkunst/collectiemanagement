@@ -56,8 +56,18 @@ RSpec.describe Collection, type: :model do
       it "#attach_sub_collection_ownables_when_base" do
         expect(collections(:sub_boring_collection).themes.count).to eq(1)
         expect(collections(:sub_boring_collection).clusters.count).to eq(1)
+        expect(collections(:sub_boring_collection).attachments.count).to eq(1)
+        expect(collections(:sub_boring_collection).collection_attributes.count).to eq(1)
+
+        # fix as fixture doesn't link to an actual file
+        attachment = collections(:sub_boring_collection).attachments.first
+        attachment.file = File.open("Gemfile")
+        attachment.save
+
         expect(collections(:boring_collection).themes.count).to eq(1)
         expect(collections(:boring_collection).clusters.count).to eq(1)
+        expect(collections(:boring_collection).collection_attributes.count).to eq(0)
+
         expect(collections(:sub_boring_collection).themes.first.works.count).to eq(5)
         expect(collections(:sub_boring_collection).clusters.first.works.count).to eq(5)
 
@@ -72,9 +82,14 @@ RSpec.describe Collection, type: :model do
         c.save
         expect(collections(:sub_boring_collection).themes.count).to eq(0)
         expect(collections(:sub_boring_collection).clusters.count).to eq(0)
+        expect(collections(:sub_boring_collection).attachments.count).to eq(0)
+        expect(collections(:sub_boring_collection).collection_attributes.count).to eq(0)
+
         expect(collections(:boring_collection).themes.count).to eq(2)
         expect(collections(:boring_collection).themes.not_hidden.count).to eq(1)
         expect(collections(:boring_collection).clusters.count).to eq(1)
+        expect(collections(:boring_collection).attachments.count).to eq(1)
+        expect(collections(:boring_collection).collection_attributes.count).to eq(1)
 
         boring_collection_theme.reload
         boring_collection_cluster.reload
@@ -144,7 +159,16 @@ RSpec.describe Collection, type: :model do
         collection = collections(:collection4)
         fields = collection.fields_to_expose(:default)
 
-        expect(fields).to include("location", "location_floor", "location_detail", "stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "information_back", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "medium_comments", "signature_comments", "no_signature_present", "print", "frame_height", "frame_width", "frame_depth", "frame_diameter", "height", "width", "depth", "diameter", "condition_work", "damage_types", "condition_work_comments", "condition_frame", "frame_damage_types", "condition_frame_comments", "placeability", "other_comments", "sources", "source_comments", "abstract_or_figurative", "style", "themes", "subset", "purchased_on", "purchase_price", "purchase_price_currency", "price_reference", "grade_within_collection", "public_description", "internal_comments", "imported_at", "id", "created_at", "updated_at", "created_by", "appraisals", "collection", "external_inventory", "cluster", "artist_name_rendered", "valuation_on", "lognotes", "market_value", "replacement_value")
+        expect(fields).to include("location", "location_floor", "location_detail", "stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "information_back", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "medium_comments", "signature_comments", "no_signature_present", "print", "frame_height", "frame_width", "frame_depth", "frame_diameter", "height", "width", "depth", "diameter", "condition_work", "damage_types", "condition_work_comments", "condition_frame", "frame_damage_types", "condition_frame_comments", "placeability", "other_comments", "sources", "source_comments", "abstract_or_figurative", "style", "themes", "subset", "purchased_on", "purchase_price", "purchase_price_currency", "price_reference", "grade_within_collection", "public_description", "internal_comments", "imported_at", "id", "created_at", "updated_at", "created_by", "appraisals", "collection", "external_inventory", "cluster", "artist_name_rendered", "valuation_on", "lognotes", "market_value", "replacement_value", "cached_tag_list")
+      end
+
+      it "should return no condition, appraisal and location fields when public" do
+        collection = collections(:collection4)
+        fields = collection.fields_to_expose(:public)
+
+        expect(fields).to include("public_description", "title", "artists")
+
+        expect(fields).not_to include("market_value", "location_floor", "replacement_value", "damage_types")
       end
     end
 
@@ -187,8 +211,12 @@ RSpec.describe Collection, type: :model do
   end
   describe "Class methods" do
     describe ".for_user" do
-      it "returns collections with root parent for admin user" do
-        expect(Collection.for_user(users(:admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.all.collect(&:id).sort)
+      it "returns collections with root parent for super admin user" do
+        expect(Collection.for_user(users(:super_admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.all.collect(&:id).sort)
+      end
+
+      it "returns collections with root parent for admin user, except for those not qkunst managed" do
+        expect(Collection.for_user(users(:admin)).all.collect(&:id).sort).to eq(Collection.root_collection.collections.qkunst_managed.all.collect(&:id).sort)
       end
 
       it "returns only base collection for user" do
@@ -197,8 +225,12 @@ RSpec.describe Collection, type: :model do
     end
 
     describe ".for_user_expanded" do
-      it "returns collections with root parent for admin user" do
-        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+      it "returns collections with root parent for super admin user" do
+        expect(Collection.for_user_expanded(users(:super_admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+      end
+
+      it "returns collections with root parent for admin user, except for those not qkunst managed" do
+        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.qkunst_managed.all.collect(&:id).sort)
       end
 
       it "returns only base collection for user" do
@@ -207,6 +239,12 @@ RSpec.describe Collection, type: :model do
     end
   end
   describe "Scopes" do
+    describe "default scope" do
+      it "orders by collection_name_extended_cache" do
+        collections = Collection.where(id: collections(:collection1).expand_with_child_collections.pluck(:id))
+        expect(collections.map(&:collection_name_extended_cache)).to eq(["\"Collection 1\"", "\"Collection 1 » Collection 2 (sub of Collection 1)\"", "\"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4\"", "\"Collection 1 » Collection with works (sub of Collection 1)\"", "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)\""])
+      end
+    end
     describe ".artist" do
       it "should return all works by certain artist" do
         artist_works = Work.artist(artists(:artist1))

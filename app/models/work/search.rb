@@ -126,12 +126,10 @@ module Work::Search
           values.each do |value|
             new_bool[:bool][:should] << if !value.nil?
               {term: {key => value}}
+            elsif key.ends_with?(".id")
+              {mustNot: {exists: {field: key}}}
             else
-              if key.ends_with?(".id")
-                {mustNot: {exists: {field: key}}}
-              else
-                {bool: {must_not: {exists: {field: key}}}}
-              end
+              {bool: {must_not: {exists: {field: key}}}}
             end
           end
         end
@@ -141,7 +139,7 @@ module Work::Search
 
     def search_to_elasticsearch_filter(search)
       if search && !search.to_s.strip.empty?
-        search = /[\"\(\~\'\*\?]|AND|OR/.match?(search) ? search : search.split(" ").collect { |a| "#{a}~" }.join(" ")
+        search = /["(~'*?]|AND|OR/.match?(search) ? search : search.split(" ").collect { |a| "#{a}~" }.join(" ")
         [{
           query_string: {
             default_field: "*",

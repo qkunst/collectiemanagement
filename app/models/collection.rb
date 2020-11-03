@@ -32,6 +32,7 @@ class Collection < ApplicationRecord
   has_many :clusters
   has_many :collections, class_name: "Collection", foreign_key: "parent_collection_id"
   has_many :collections_geoname_summaries
+  has_many :collection_attributes
   has_many :custom_reports
   has_many :geoname_summaries, through: :collections_geoname_summaries
   has_many :import_collections
@@ -41,17 +42,19 @@ class Collection < ApplicationRecord
   has_many :messages, as: :subject_object
   has_many :collections_stages
   has_many :reminders
+  has_many :library_items
 
   has_cache_for_method :geoname_ids
   has_cache_for_method :collection_name_extended
 
   has_paper_trail # only enabled in may 2020
 
-  default_scope -> { order(:collection_name_extended_cache) }
+  default_scope -> { order(Arel.sql("REPLACE(collections.collection_name_extended_cache, '\"', '') ASC")) }
 
   scope :without_parent, -> { where(parent_collection_id: nil) }
   scope :not_hidden, -> { where("1=1") }
   scope :not_system, -> { not_root }
+  scope :qkunst_managed, -> { where(qkunst_managed:true) }
 
   before_save :cache_geoname_ids!
   before_save :attach_sub_collection_ownables_when_base
@@ -123,7 +126,7 @@ class Collection < ApplicationRecord
   def appraise_with_ranges
     read_attribute(:appraise_with_ranges) || (self_and_parent_collections_flattened.where(appraise_with_ranges: true).count > 0)
   end
-  alias appraise_with_ranges? appraise_with_ranges
+  alias_method :appraise_with_ranges?, :appraise_with_ranges
 
   def sort_works_by= value
     write_attribute(:sort_works_by, (Work::SORTING_FIELDS & [value.to_sym]).first)
@@ -179,12 +182,20 @@ class Collection < ApplicationRecord
     Attachment.where(collection: expand_with_parent_collections)
   end
 
+  def library_items_including_child_library_items
+    LibraryItem.where(collection: expand_with_child_collections)
+  end
+
+  def library_items_including_parent_library_items
+    LibraryItem.where(collection: expand_with_parent_collections)
+  end
+
   def touch_parent
     parent_collection&.touch
   end
 
   def touch_works_including_child_works!
-    if previous_changes.keys.include? "geoname_ids_cache"
+    if previous_changes.key? "geoname_ids_cache"
       works_including_child_works.each { |a| a.save }
     else
       works_including_child_works.each { |a| a.touch }
@@ -214,11 +225,11 @@ class Collection < ApplicationRecord
   end
 
   def users_including_child_collection_users
-    (users + expand_with_child_collections.flat_map{ |c| c.users }).uniq
+    (users + expand_with_child_collections.flat_map { |c| c.users }).uniq
   end
 
   def users_including_parent_users
-    (users + parent_collections_flattened.flat_map{ |a| a.users_including_parent_users }).uniq
+    (users + parent_collections_flattened.flat_map { |a| a.users_including_parent_users }).uniq
   end
 
   def exposable_fields= array
@@ -232,28 +243,26 @@ class Collection < ApplicationRecord
   def cached_collection_name_extended_with_fallback
     cached_collection_name_extended || collection_name_extended
   end
-  alias to_label cached_collection_name_extended_with_fallback
+  alias_method :to_label, :cached_collection_name_extended_with_fallback
 
   def exposable_fields
     read_attribute(:exposable_fields).to_s.split(",")
   end
 
   def fields_to_expose(audience = :default)
-    if audience == :default
+    case audience
+    when :default
       if exposable_fields.count == 0
-        fields = Work.possible_exposable_fields.collect { |k, v| v }
-        fields
+        Work.possible_exposable_fields
       else
         exposable_fields
       end
-    elsif audience == :erfgoed_gelderland
-      fields = ["stock_number_file_safe", "title_rendered", "description", "public_description", "object_creation_year", "tags", "object_categories", "medium", "techniques", "hpd_height", "hpd_width", "hpd_depth", "hpd_diameter", "hpd_photo_file_name", "artist_name_rendered_without_years_nor_locality"]
-      5.times do |artist_index|
-        [:first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death].each do |artist_property|
-          fields << "artist_#{artist_index}_#{artist_property}"
-        end
+    when :public
+      forbidden_words = ["value", "price", "location", "condition", "information_back", "internal", "damage", "placeability", "other_comments", "source", "purchase", "grade_within_collection", "created_by", "appraisal", "valuation", "lognotes"]
+
+      Work.possible_exposable_fields.select do |field_name|
+        !forbidden_words.collect{|forbidden_word| !!field_name.match(forbidden_word) }.include?(true)
       end
-      fields
     end
   end
 
@@ -300,9 +309,9 @@ class Collection < ApplicationRecord
   end
 
   def can_be_accessed_by_user user
-    users_including_parent_users.include?(user) || user.admin?
+    users_including_parent_users.include?(user) || user.super_admin? || (user.admin? && qkunst_managed?)
   end
-  alias can_be_accessed_by_user? can_be_accessed_by_user
+  alias_method :can_be_accessed_by_user?, :can_be_accessed_by_user
 
   def copy_default_reminders!
     if reminders.count == 0
@@ -333,14 +342,14 @@ class Collection < ApplicationRecord
   end
 
   def attach_sub_collection_ownables_when_base
-    if persisted? && changes.keys.include?("base")
+    if persisted? && changes.key?("base")
       child_collection_ids = expand_with_child_collections.select { |c| c.id unless c.base? || c == self }.compact
 
       Theme.where(collection_id: child_collection_ids).each do |instance|
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
-            existing_instance = Theme.where(name: instance.name, collection_id: id).first
+            existing_instance = instance.class.where(name: instance.name, collection_id: id).first
             existing_instance.works += instance.works
             existing_instance.save
 
@@ -356,13 +365,27 @@ class Collection < ApplicationRecord
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
-            existing_instance = Cluster.where(name: instance.name, collection_id: id).first
+            existing_instance = instance.class.where(name: instance.name, collection_id: id).first
 
             instance.works.update_all(cluster_id: existing_instance.id)
             instance.destroy
           else
             raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}")
           end
+        end
+      end
+
+      Attachment.where(attache_type: "Collection", attache_id: child_collection_ids).each do |instance|
+        instance.collection = self
+        unless instance.save
+          raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")
+        end
+      end
+
+      CollectionAttribute.where(collection_id: child_collection_ids).each do |instance|
+        instance.collection = self
+        unless instance.save
+          raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")
         end
       end
     end
@@ -380,13 +403,23 @@ class Collection < ApplicationRecord
     end
 
     def for_user user
-      return not_system.with_root_parent if user.admin? && !user.admin_with_favorites?
-      joins(:users).where(users: {id: user.id}).not_system
+      if user.super_admin? && !user.admin_with_favorites?
+        not_system.with_root_parent
+      elsif user.admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.where(qkunst_managed: true)
+      else
+        joins(:users).where(users: {id: user.id}).not_system
+      end
     end
 
     def for_user_expanded user
-      return not_system if user.admin? && !user.admin_with_favorites?
-      joins(:users).where(users: {id: user.id}).not_system.expand_with_child_collections
+      if user.super_admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.expand_with_child_collections
+      elsif user.admin? && !user.admin_with_favorites?
+        not_system.with_root_parent.where(qkunst_managed: true).expand_with_child_collections
+      else
+        joins(:users).where(users: {id: user.id}).not_system.expand_with_child_collections
+      end
     end
 
     def for_user_or_if_no_user_all user = nil

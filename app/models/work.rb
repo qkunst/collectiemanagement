@@ -56,6 +56,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :themes, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :custom_reports
   has_and_belongs_to_many :attachments
+  has_and_belongs_to_many :library_items
   has_many :appraisals
   has_many :messages, as: :subject_object
 
@@ -99,6 +100,8 @@ class Work < ApplicationRecord
 
   accepts_nested_attributes_for :appraisals
 
+  alias_attribute :name, :title
+
   def photos?
     photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
   end
@@ -111,16 +114,15 @@ class Work < ApplicationRecord
       rescue ArgumentError
       end
     end
+
     if date.is_a?(String) || date.is_a?(Numeric)
       date = date.to_i
       if (date > 1900) && (date < 2100)
         write_attribute(:purchase_year, date)
       end
-    else
-      if date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
-        write_attribute(:purchased_on, date)
-        write_attribute(:purchase_year, date.year)
-      end
+    elsif date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
+      write_attribute(:purchased_on, date)
+      write_attribute(:purchase_year, date.year)
     end
   end
 
@@ -330,9 +332,9 @@ class Work < ApplicationRecord
   end
 
   def public_tag_list
-    Array(cached_tag_list).select do |item|
+    Array(cached_tag_list).select { |item|
       !item.match(/(^((.+)\d\d\d\d)$)|(vermist)|(bekijKen op)|(aangetroffen)|(naar fotograaf)|(selectie)|(^[hn]\d\s)|(ontzamelen)|(aankopen)|(herplaatsen)|(navragen)|(Herplaatsing)/i)
-    end.compact
+    }.compact
   end
 
   def convert_purchase_price_in_eur

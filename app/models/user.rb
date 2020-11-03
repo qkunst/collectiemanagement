@@ -42,8 +42,7 @@ class User < ApplicationRecord
     rv = User::ROLES.collect { |r|
       r if methods.include?(r) && send(r)
     }
-    rv = (rv.compact + [:read_only])
-    rv
+    (rv.compact + [:read_only])
   end
 
   def ability
@@ -55,7 +54,17 @@ class User < ApplicationRecord
   end
 
   def accessible_collections
-    @accessible_collections ||= admin? ? Collection.all : collections.expand_with_child_collections
+    @accessible_collections ||= if super_admin?
+      Collection.all
+    elsif admin?
+      Collection.qkunst_managed.all
+    else
+      collections.expand_with_child_collections
+    end
+  end
+
+  def accessible_collection_ids
+    @accessible_collection_ids ||= accessible_collections.pluck(:id)
   end
 
   def accessible_collections_sorted_by_label
@@ -67,6 +76,11 @@ class User < ApplicationRecord
     Work.where(collection_id: accessible_collections)
   end
 
+  def accessible_artists
+    return Artist.all if admin?
+    Artist.joins(:works).where(works: {id: accessible_works})
+  end
+
   def accessible_users
     return User.where("1=1") if admin?
     return User.where("1=0") unless admin? || advisor?
@@ -74,14 +88,14 @@ class User < ApplicationRecord
   end
 
   def accessible_roles
-    admin? ? User::ROLES : User::ROLES - [:admin]
+    @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User) }
   end
 
   def role= new_role
     User::ROLES.each do |r|
       send("#{r}=", r.to_s == new_role.to_s) if methods.include?(r)
     end
-    new_role
+    role
   end
 
   def activated?
@@ -90,6 +104,10 @@ class User < ApplicationRecord
 
   def registrator?
     qkunst? && (role == :qkunst)
+  end
+
+  def read_only?
+    role == :read_only
   end
 
   def generate_api_key!
@@ -104,36 +122,15 @@ class User < ApplicationRecord
     read_attribute(:name) || email
   end
 
-  def can_access_message? message = nil
-    admin? || (message &&
-      message.from_user == self ||
-      (message.conversation_start_message && message.conversation_start_message.from_user == self) ||
-      (message.conversation_start_message && message.conversation_start_message.to_user == self) ||
-      (message.subject_object && can_access_object?(message.subject_object))
-              )
-  end
-
   def can_access_object? objekt = nil
     admin? || (objekt.methods.include?(:can_be_accessed_by_user?) && objekt.can_be_accessed_by_user?(self))
   end
 
-  def can_edit_most_of_work?
-    qkunst? || appraiser?
-  end
-
-  def can_edit_photos?
-    qkunst?
-  end
-
   def can_filter_and_group?(grouping)
     return true if grouping == :themes
-    return false if read_only?
+    return false if role == :read_only
     return false if [:techniques, :sources, :geoname_ids].include?(grouping) && facility_manager?
     true
-  end
-
-  def read_only?
-    role == :read_only
   end
 
   def reset_filters!

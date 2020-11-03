@@ -19,7 +19,7 @@ class GeonamesAdmindiv < ApplicationRecord
     if admin_type == 1
       GeonamesAdmindiv.where("geonames_admindivs.admin_code LIKE ?", "#{admin_code}.%")
     elsif admin_type == 2
-      cc, admin1_code, admin2_code = admin_code.split(".")
+      _cc, admin1_code, admin2_code = admin_code.split(".")
       Geoname.where(admin2_code: admin2_code, admin1_code: admin1_code).populated_places
     end
   end

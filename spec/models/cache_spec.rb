@@ -7,7 +7,7 @@ RSpec.feature "Cache spec", type: :model do
 
   describe "collection that changes" do
     it "should touch all related works" do
-      travel -1.day do
+      travel(-1.day) do
         Work.update_all(updated_at: Time.now)
       end
       c = collections(:collection_with_works)
@@ -22,9 +22,10 @@ RSpec.feature "Cache spec", type: :model do
     it "should touch all related works" do
       a = artists(:artist2)
       w = works(:work2)
-      w.save; w.reload # save & reload needed because incomplete record
+      w.save
+      w.reload # save & reload needed because incomplete record
       expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie")
-      travel -1.day do
+      travel(-1.day) do
         Work.update_all(updated_at: Time.now)
       end
       a.year_of_birth = 1980

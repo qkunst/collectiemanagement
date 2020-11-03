@@ -5,6 +5,7 @@ class RawImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
+  include SecureUploadFilename
 
   # Choose what kind of storage to use for this uploader:
   storage :file
@@ -41,28 +42,4 @@ class RawImageUploader < CarrierWave::Uploader::Base
   # def extension_whitelist
   #   %w(jpg jpeg gif png)
   # end
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  def filename
-    if original_filename
-      if model && model.read_attribute(mounted_as).present?
-        model.read_attribute(mounted_as)
-      else
-        "#{secure_token}.#{file.extension}" if original_filename.present?
-      end
-    end
-  end
-
-  protected
-
-  def secure_token
-    var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) || model.instance_variable_set(var, SecureRandom.uuid)
-  end
 end

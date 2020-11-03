@@ -14,16 +14,11 @@ class BatchPhotoUpload < ApplicationRecord
 
   def couple!
     images.each do |image|
-      if image.file_exists?
+      if image.file_exists? && image.work
+        attribute = image.image_type
         work = image.work
-
-        if work
-          attribute = image.image_type
-          work.send("#{attribute}=".to_sym, image.file)
-          work.save
-        end
-      else
-        # p "Image #{image.filename} bestaat niet (meer)..."
+        work.send("#{attribute}=".to_sym, image.file)
+        work.save
       end
     end
   end
@@ -47,9 +42,8 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def image_directory
-    path = images.first.path
     directory = images.first.path.gsub(images.first.filename, "")
-    directory = Dir.new(directory)
+    Dir.new(directory)
   end
 
   def unmatched_files

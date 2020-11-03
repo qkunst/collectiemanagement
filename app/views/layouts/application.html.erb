@@ -48,7 +48,7 @@
             <% unless offline? %>
               <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
               <li><%= menu_link_to 'Beheren', admin_path if can?(:manage, :all) %></li>
-              <li><%= menu_link_to 'Gebruikers', users_path if can?(:edit, User) %></li>
+              <li><%= menu_link_to 'Gebruikers', users_path if can?(:manage, User) %></li>
             <% end %>
           </ul>
         </div>

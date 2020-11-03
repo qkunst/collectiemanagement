@@ -136,7 +136,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", text: "Uitgebreid bericht", collection: c)
         allow(r).to receive(:current_time).and_return r.created_at
-        expect(r.to_message.notifyable_users.map(&:email)).to eq(["qkunst-admin-user@murb.nl"])
+        expect(r.to_message.notifyable_users.map(&:email)).to match_array(["qkunst-admin-user@murb.nl", "qkunst-super-admin-user@murb.nl"])
       end
     end
     describe "#to_message!" do
@@ -178,7 +178,7 @@ RSpec.describe Reminder, type: :model do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
-        allow(r).to receive(:current_time).and_return (r.created_at + 50.years)
+        allow(r).to receive(:current_time).and_return(r.created_at + 50.years)
         expect(r.current_date).to eq((r.created_at + 50.years).to_date)
         expect(r.next_date).to eq((r.created_at + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)

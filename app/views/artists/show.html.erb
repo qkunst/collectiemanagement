@@ -1,43 +1,97 @@
-<h2><%= @artist.name%><% if can?(:update, @artist)%> <small>(<%= link_to 'Bewerk gegevens', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)) %><% if admin_user? %> of <%= link_to 'combineer', artist_combine_prepare_path(@artist)%><% end %>)</small><% end %></h2>
+<h2><%= @artist.name%></h2>
+
 <% if can?(:update, @artist)%>
-<%= kramdown(@artist.description) %>
+  <%= kramdown(@artist.description) %>
+
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="artist navigation">
+    <ul class="menu right-aligned menu--only-buttons">
+      <li><%= link_to 'Bewerk', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)), class: [:primary, :small, :button, :right] %></li>
+      <% if can? :create, @artist.attachments.new(collection: @collection) %>
+        <% if !@attachments.present? and @collection%>
+          <li><%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @artist), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
+        <% elsif @collection%>
+          <li>
+            <%= link_to collection_artist_attachments_path(@collection, @artist), class: 'secondary small button right' do %>
+              Beheer bijlagen <span class="badge"><%=@attachments.count%></span>
+            <% end %>
+          </li>
+        <% end %>
+      <% end %>
+      <% if can?(:create, @artist.library_items.new(collection: @collection)) && @collection %>
+        <li>
+          <%= link_to collection_artist_library_items_path(@collection, @artist), class: 'secondary small button right' do %>
+            Bibiliotheek <span class="badge"><%=@artist.library_items.count%></span>
+          <% end %>
+        </li>
+      <% end %>
+      <% if admin_user? %>
+        <li><%= link_to 'Combineer', artist_combine_prepare_path(@artist), class: [:secondary, :small, :button, :right] %></li>
+      <% end %>
+      <% if can?(:read, RkdArtist) %>
+        <li><%= link_to  @artist.rkd_artist ? "Beheer RKD koppeling" : "Maak RKD koppeling", (@collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)), class: [:small,:button, :right, :secondary ] %></p>
+
+      <% end %>
+    </ul>
+  </nav>
 <% end %>
+
+
 <div class="row">
-  <% if can?(:update, @artist)%>
-    <div  class="large-9 medium-9 columns">
-      <dl>
-      <% if @artist.born? %>
-        <dt>Geboren:</dt>
-        <dd><%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%><% if @artist.place_of_birth %> te <%= @artist.place_of_birth %><% end%>
+  <div  class="large-9 medium-9 columns">
+    <dl>
+    <% if @artist.born? %>
+      <dt>Geboren:</dt>
+      <dd><%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%><% if @artist.place_of_birth %> te <%= @artist.place_of_birth %><% end%>
+    <% end %>
+    <% if @artist.died? %>
+      <dt>Gestorven:</dt>
+      <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
+    <% end %>
+    <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
+    <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+    <% if @collection%>
+      <% @artist.collection_attributes.for_user(current_user).each do |collection_attribute| %>
+        <dt><%=collection_attribute.label%>:</dt>
+        <dd><%=collection_attribute.value%></dd>
       <% end %>
-      <% if @artist.died? %>
-        <dt>Gestorven:</dt>
-        <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
-      <% end %>
-        <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
-        <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
-      </dl>
 
-      <div class="row">
-        <div class="medium-6 columns">
-          <h3>Opleiding<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :education) : new_artist_artist_involvement_path(@artist, type: :education)%>)</small><% end %></h3>
-          <%= render @artist.artist_involvements.educational %>
-        </div>
-        <div class="medium-6 columns">
-          <h3>Werkgebied<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :professional) : new_artist_artist_involvement_path(@artist, type: :professional)%>)</small><% end %></h3>
-          <%= render @artist.artist_involvements.professional %>
+    <% end %>
 
-        </div>
+    </dl>
+
+    <div class="row">
+      <div class="medium-6 columns">
+        <h3>Opleiding<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :education) : new_artist_artist_involvement_path(@artist, type: :education)%>)</small><% end %></h3>
+        <%= render @artist.artist_involvements.educational %>
       </div>
-      <% if can?(:update, @artist)%>
-        <p><strong>De vervaardiger is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
-      <% end %>
-    </div>
-  <% end %>
-  <% if can?(:read, RkdArtist) %>
-    <aside class="large-3 medium-3 columns">
-      <h3>RKDartists&amp;</h3>
+      <div class="medium-6 columns">
+        <h3>Werkgebied<% if can?(:create, ArtistInvolvement)%> <small>(<%=link_to 'voeg toe', @collection ? new_collection_artist_artist_involvement_path(@collection, @artist, type: :professional) : new_artist_artist_involvement_path(@artist, type: :professional)%>)</small><% end %></h3>
+        <%= render @artist.artist_involvements.professional %>
 
+      </div>
+    </div>
+    <p><strong>De vervaardiger is gekoppeld aan de volgende lokaliteiten: </strong> <%= @artist.localities_to_find_by.collect{|a| a.name}.to_sentence %></p>
+  </div>
+
+  <aside class="large-3 medium-3 columns">
+    <% if @attachments.present? %>
+      <h3>Bijlagen</h3>
+      <ul>
+        <% @attachments.each do |attachment| %>
+          <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, download: attachment.file_name %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if @library_items.present? %>
+      <h3>Bibliotheek</h3>
+      <ul>
+        <% @library_items.each do |library_item| %>
+          <li><%= link_to library_item.name, collection_artist_library_item_url(@collection, @artist, library_item)%></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if can?(:read, RkdArtist) %>
+      <h3>RKDartists&amp;</h3>
       <% if @artist.rkd_artist %>
         <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
         <%= render @artist.rkd_artist %>
@@ -47,10 +101,8 @@
         <p>Matches in RKDartists&amp;:</p>
         <%= render @artist.rkd_artists%>
       <% end %>
-      <hr />
-      <p><%= link_to 'Beheer RKD koppeling voor deze vervaardiger', @collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)%></p>
-    </aside>
-  <% end %>
+    <% end %>
+  </aside>
 </div>
 <h3>Werken van deze vervaardiger</h3>
 <p>Overzicht van werken van deze vervaardiger in

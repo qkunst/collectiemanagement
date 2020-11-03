@@ -5,7 +5,7 @@ module Report
     def parse_aggregation aggregation, aggregation_key
       counts = {}
       # raise aggregation
-      if aggregation.is_a?(Hash) && aggregation[:doc_count] && aggregation_key.to_s.match(/^.*\_missing$/)
+      if aggregation.is_a?(Hash) && aggregation[:doc_count] && aggregation_key.to_s.match(/^.*_missing$/)
         counts[:missing] = {count: aggregation[:doc_count], subs: {}}
       elsif aggregation.is_a?(Hash) && aggregation[:buckets]
         buckets = aggregation.buckets # .sort{|a,b| a[:key]<=>b[:key]}

@@ -1,30 +1,43 @@
 <div id="main">
   <h2>Voeg bijlage toe</h2>
-  <% if @work %>
-    <p>Bij <%= @work.name %></p>
-    <% if @attachments.any? %>
-      <h3>Bestaande bijlage koppelen</h3>
-      <label>Filter bijlagen <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
+  <%
+  couple = false
+  attachment_params = {}
+  name = ""
+  if @work
+    couple = @attachments.any?
+    attachment_params = { append_work_ids: [@work.id] }
+    name = @work.name
+  elsif @artist
+    couple = @attachments.any?
+    attachment_params = { append_artist_ids: [@artist.id] }
+    name = @artist.name
+  end
 
-      <table class="sortable" id="attachments-table">
-        <thead>
-          <th data-filtered-by="generic-table-filter" class="asc">Naam</th><th>Acties</th></th>
-        </thead>
-        <tbody>
-          <% @attachments.each do |attachment| %>
-            <tr><td><%=attachment.name.to_s.gsub(/\_/," ")%></td><td><%=button_to "Koppel", attachment, params: {attachment: {append_work_ids: [@work.id] }}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
-          <% end %>
-          </ul>
-        </tbody>
-      </table>
-      <hr/>
-    <% end %>
-    <h3>Nieuwe bijlage</h3>
-    <%= render 'form', attachment: @attachment %>
-  <% else %>
+  %>
+
+<% if couple %>
+  <p>Bij <%= name %></p>
+  <h3>Bestaande bijlage koppelen</h3>
+  <label>Filter bijlagen <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
+
+  <table class="sortable" id="attachments-table">
+    <thead>
+      <th data-filtered-by="generic-table-filter" class="asc">Naam</th><th>Acties</th></th>
+    </thead>
+    <tbody>
+      <% @attachments.each do |attachment| %>
+        <tr><td><%=attachment.name.to_s.gsub(/\_/," ")%></td><td><%=button_to "Koppel", attachment, params: {attachment: attachment_params}, method: :patch, class: [:button, :secondary, :small] %></td></tr>
+      <% end %>
+      </ul>
+    </tbody>
+  </table>
+  <hr/>
+  <h3>Nieuwe bijlage</h3>
+
+<% else %>
     <p>Bij <%= @attachment.collection.name %></p>
-
+<% end %>
     <%= render 'form', attachment: @attachment %>
-  <% end %>
 </div>
 
