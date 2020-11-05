@@ -62,7 +62,7 @@
   <h3>Downloads</h3>
   <ul>
     <% if can? :download_datadump, @collection  %>
-      <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}), { download: "Alle Werken.xlsx" } %></li>
+      <li><%=link_to "Alle Werken.xlsx", collection_works_path(@collection, format: :xlsx, params: {audience: :default}) %></li>
       <li><%=link_to "Alle Werken.xml", collection_works_path(@collection, format: :xml, params: {audience: :default}), { download: "Alle Werken.xml" } %></li>
       <!-- <li><%=link_to "Alle Werken.json", api_v1_collection_works_path(@collection, format: :json) %></li> -->
     <% end %>
