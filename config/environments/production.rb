@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -13,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -22,28 +20,25 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
-
-  # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
-  config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
+  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Mount Action Cable outside main process or domain
+  # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
@@ -56,18 +51,16 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [:request_id]
+  config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  config.cache_store = :redis_store, "redis://localhost:6379/0/cache", {expires_in: 2.week}
+  # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment)
-  # config.active_job.queue_adapter     = :delayed_job
-  # config.active_job.queue_name_prefix = "source_qkunstbeheer_#{Rails.env}"
+  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # config.active_job.queue_adapter     = :resque
+  # config.active_job.queue_name_prefix = "source_qkunstbeheer_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = {host: "collectiemanagement.qkunst.nl"}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -88,30 +81,57 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger = ActiveSupport::Logger.new($stdout)
+    logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
+    config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-    email: {
-      email_prefix: "[QKunst] ",
-      sender_address: %("QKunst Exception" <execption_notification@collectiemanagement.qkunst.nl>),
-      exception_recipients: %w[qkunst@murb.nl]
-    }
+  # Inserts middleware to perform automatic connection switching.
+  # The `database_selector` hash is used to pass options to the DatabaseSelector
+  # middleware. The `delay` is used to determine how long to wait after a write
+  # to send a subsequent read to the primary.
+  #
+  # The `database_resolver` class is used by the middleware to determine which
+  # database is appropriate to use based on the time delay.
+  #
+  # The `database_resolver_context` class is used by the middleware to set
+  # timestamps for the last write to the primary. The resolver uses the context
+  # class timestamps to determine how long to wait before reading from the
+  # replica.
+  #
+  # By default Rails will store a last write timestamp in the session. The
+  # DatabaseSelector middleware is designed as such you can define your own
+  # strategy for connection switching and pass that into the middleware through
+  # these configuration options.
+  # config.active_record.database_selector = { delay: 2.seconds }
+  # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+  # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  if Rails.application.secrets.elasticsearch_host
-    config.elasticsearch = {
-      hosts: [{
-        host: Rails.application.secrets.elasticsearch_host,
-        port: Rails.application.secrets.elasticsearch_port,
-        user: Rails.application.secrets.elasticsearch_user,
-        password: Rails.application.secrets.elasticsearch_password,
-        scheme: Rails.application.secrets.elasticsearch_scheme
-      }]
-    }
-  end
+
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.default_url_options = {host: "collectiemanagement.qkunst.nl"}
+
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+     email: {
+       email_prefix: "[QKunst] ",
+       sender_address: %("QKunst Exception" <execption_notification@collectiemanagement.qkunst.nl>),
+       exception_recipients: %w[qkunst@murb.nl]
+     }
+
+   if Rails.application.secrets.elasticsearch_host
+     config.elasticsearch = {
+       hosts: [{
+         host: Rails.application.secrets.elasticsearch_host,
+         port: Rails.application.secrets.elasticsearch_port,
+         user: Rails.application.secrets.elasticsearch_user,
+         password: Rails.application.secrets.elasticsearch_password,
+         scheme: Rails.application.secrets.elasticsearch_scheme
+       }]
+     }
+   end
+
+
 end

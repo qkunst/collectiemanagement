@@ -141,7 +141,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :xlsx)
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            expect(response.media_type).to eq("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
           end
         end
         describe "csv" do
@@ -150,7 +150,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :csv)
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("text/csv")
+            expect(response.media_type).to eq("text/csv")
             expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
             expect(response.body).to match("Q001,7201284,002123,0002.123")
           end
@@ -159,7 +159,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :csv)
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("text/csv")
+            expect(response.media_type).to eq("text/csv")
             expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3,Alternatief nummer 4,Alternatief nummer 5,Alternatief nummer 6")
             expect(response.body).to match(",Q001,7201284,002123,0002.123,ALT4002123.1,")
           end
@@ -170,7 +170,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :zip)
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("application/zip")
+            expect(response.media_type).to eq("application/zip")
             expect(response.body).to match(/Zip/)
           end
           it "should be able to get an zip file with photos" do
@@ -184,7 +184,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :zip)
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("application/zip")
+            expect(response.media_type).to eq("application/zip")
             expect(response.body).to match(/Zip/)
             expect(response.body).to match("#{work.stock_number}_front.jpg")
             expect(response.body).to match("#{work.stock_number}_back.jpg")
@@ -200,7 +200,7 @@ RSpec.describe "Works", type: :request do
             sign_in user
             get collection_works_path(collection, format: :zip, params: {only_front: true})
             expect(response).to have_http_status(200)
-            expect(response.content_type).to eq("application/zip")
+            expect(response.media_type).to eq("application/zip")
             expect(response.body).to match(/Zip/)
             expect(response.body).to match("#{work.stock_number}.jpg")
             expect(response.body).not_to match("#{work.stock_number}_front.jpg")
