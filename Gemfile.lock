@@ -59,12 +59,6 @@ GEM
     activerecord (6.0.3.4)
       activemodel (= 6.0.3.4)
       activesupport (= 6.0.3.4)
-    activerecord-session_store (1.1.3)
-      actionpack (>= 4.0)
-      activerecord (>= 4.0)
-      multi_json (~> 1.11, >= 1.11.2)
-      rack (>= 1.5.2, < 3)
-      railties (>= 4.0)
     activestorage (6.0.3.4)
       actionpack (= 6.0.3.4)
       activejob (= 6.0.3.4)
@@ -216,9 +210,6 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
-    markdown-rails (0.2.1)
-      rails
-      rdiscount (>= 1.6.8, < 2.0)
     memory_profiler (0.9.14)
     method_source (1.0.0)
     mimemagic (0.3.5)
@@ -291,7 +282,6 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rchardet (1.8.0)
-    rdiscount (1.6.8)
     redis (4.1.4)
     redis-actionpack (5.2.0)
       actionpack (>= 5, < 7)
@@ -454,7 +444,6 @@ PLATFORMS
 
 DEPENDENCIES
   act_as_time_as_boolean
-  activerecord-session_store
   acts-as-taggable-on
   attribute_normalizer
   bootsnap
@@ -485,7 +474,6 @@ DEPENDENCIES
   letter_opener
   listen
   lockbox
-  markdown-rails
   memory_profiler
   mini_magick
   nested_form

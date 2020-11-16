@@ -109,7 +109,6 @@ gem "daemons"
 gem "redis-rails"
 gem "exception_notification"
 gem "zipline"
-gem "activerecord-session_store"
 gem "rack-headers_filter"
 gem "strip_attributes"
 
