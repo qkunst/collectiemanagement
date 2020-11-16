@@ -1,15 +1,13 @@
 require "action_view"
 require "nokogiri"
 
-module Handlers
-  class NokogiriHandler
-    class_attribute :default_format
-    self.default_format = "application/xml"
+class NokogiriHandler
+  class_attribute :default_format
+  self.default_format = "application/xml"
 
-    def call(template, source)
-      "xml = ::Nokogiri::XML::Builder.new { |xml|" +
-        source +
-        "}.to_xml;"
-    end
+  def call(template, source)
+    "xml = ::Nokogiri::XML::Builder.new { |xml|" +
+      source +
+      "}.to_xml;"
   end
 end
