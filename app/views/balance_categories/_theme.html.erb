@@ -1,0 +1,3 @@
+<% if (balance_category.hide? == true and @show_hidden) or balance_category.hide? == false %>
+  <li><%= link_to_edit [balance_category].compact %> <%=balance_category.hide? ? "(verborgen)" : ""%></li>
+<% end %>

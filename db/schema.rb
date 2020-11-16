@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_16_151356) do
+ActiveRecord::Schema.define(version: 2020_11_16_160442) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,13 @@ ActiveRecord::Schema.define(version: 2020_11_16_151356) do
   create_table "attachments_works", id: false, force: :cascade do |t|
     t.bigint "attachment_id", null: false
     t.bigint "work_id", null: false
+  end
+
+  create_table "balance_categories", force: :cascade do |t|
+    t.string "name"
+    t.boolean "hide"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "batch_photo_uploads", id: :serial, force: :cascade do |t|

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :subsets
   resources :techniques
   resources :themes
+  resources :balance_categories
   resources :work_statuses
 
   resources :rkd_artists do
