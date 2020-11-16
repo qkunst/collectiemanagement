@@ -59,7 +59,7 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def schedule_process_images!
-    update_attributes(finished_uploading: true) if finished_uploading == false
+    update(finished_uploading: true) if finished_uploading == false
     ParsePhotosWorker.perform_async(id)
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe Message, type: :model do
         u1 = users(:user1)
         u2 = users(:user2)
         u3 = users(:user3)
-        u2.update_attributes(receive_mails: false)
+        u2.update(receive_mails: false)
         m = Message.new(from_user: u1, to_user: u2)
         expect(m.notifyable_users).to include(u2)
         expect(m.notifyable_users).not_to include(u3)
