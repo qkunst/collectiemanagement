@@ -105,7 +105,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=s\">S</a></td><td class=\"count\">357</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xl\">XL</a></td><td class=\"count\">211</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xs\">XS</a></td><td class=\"count\">132</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">71</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=not_set\">Formaatcode onbekend</a></td><td class=\"count\">71</td></tr>
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr>")
     end
   end
