@@ -77,6 +77,7 @@ class Collection < ApplicationRecord
     "frame_damage_types" => "FrameDamageType",
     "damage_types" => "DamageType",
     "placeability" => "Placeability",
+    "balance_category" => "BalanceCategory",
     "style" => "Style",
     "subset" => "Subset",
     "source" => "Source",

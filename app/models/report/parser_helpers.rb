@@ -42,6 +42,9 @@ module Report
       unless ["abstract_or_figurative", "object_format_code", "grade_within_collection", "location_raw", "location_floor_raw", "location_detail_raw", "tag_list"].include?(aggregation_key)
         bucket_key_parsed = bucket_key.to_s.split(",").map(&:to_i)
       end
+      if aggregation_key.match(/_value/) && bucket_key == -1.0
+        bucket_key_parsed = :missing
+      end
       bucket_key_parsed
     end
   end

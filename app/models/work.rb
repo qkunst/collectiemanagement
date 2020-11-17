@@ -46,6 +46,7 @@ class Work < ApplicationRecord
   belongs_to :style, optional: true
   belongs_to :subset, optional: true
   belongs_to :work_status, optional: true
+  belongs_to :balance_category, optional: true
   belongs_to :geoname_summary, foreign_key: :locality_geoname_id, primary_key: :geoname_id, optional: true
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at

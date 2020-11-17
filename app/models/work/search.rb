@@ -39,6 +39,7 @@ module Work::Search
         except: [:other_structured_data],
         include: {
           artists: {only: [:id, :name], methods: [:name]},
+          balance_category: {only: [:id, :name]},
           cluster: {only: [:id, :name]},
           condition_frame: {only: [:id, :name]},
           condition_work: {only: [:id, :name]},

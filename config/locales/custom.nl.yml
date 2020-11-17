@@ -107,7 +107,7 @@ nl:
       artist_involvement: Vervaardigersbetrekking
       attachment: Bijlage
       batch_photo_upload: Foto-import
-      book: Boek
+      balance_category: Balanscategorie
       cluster: Cluster
       collection: Collectie
       condition: Conditie beeld
@@ -252,6 +252,9 @@ nl:
         file: Bestand
         name: Bestandsnaam / beschrijving
         visibility: Zichtbaarheid
+      balance_category:
+        name: Naam
+        hide: Verberg
       batch_photo_upload:
         images: Afbeeldingen
       involvement:
@@ -304,6 +307,7 @@ nl:
         artist_name_rendered_without_years_nor_locality: Vervaardiger(s)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
         artist_unknown: Vervaardiger onbekend
+        balance_category: Balanscategorie
         cluster: Cluster
         cluster_name: Clusternaam
         collection: Collectie
