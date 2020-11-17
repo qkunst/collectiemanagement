@@ -7,6 +7,8 @@ module CollectionReportHelper
 
   RANGE_GROUP = [:market_value_range, :replacement_value_range]
 
+  DEEPEST = 6
+
   def report
     @report ||= @collection.report
   end
@@ -15,7 +17,7 @@ module CollectionReportHelper
     html = ""
     section_parts.each do |report_section|
       html += "<table>"
-      html += iterate_report_sections(report_section, report[report_section], 7)
+      html += iterate_report_sections(report_section, report[report_section], DEEPEST + 1)
       report.except!(report_section)
       html += "</table>"
     end
@@ -58,7 +60,7 @@ module CollectionReportHelper
 
   def render_spacers(depth)
     html = ""
-    (6 - depth).times do
+    (DEEPEST - depth).times do
       html += "<td class=\"spacer\"></td>"
     end
     html
@@ -103,18 +105,18 @@ module CollectionReportHelper
     html = ""
     if contents && depth > 0
       contents = sort_contents_by_group(contents, group)
-      if range?(group)
+      if range?(group) && depth == DEEPEST
         html += render_range(contents, group)
       else
         if PRICE_COLUMNS.include?(group)
           total = contents.sum { |a| a[0][0].to_i * a[1][:count] }
-          html += "<tfoot><tr><td  class=\"count\" colspan=\"6\">Totaal:</td><td class=\"count\">#{number_to_currency(total, precision: 0)}</td></tr></tfoot>"
+          html += "<tfoot><tr><td  class=\"count\" colspan=\"#{DEEPEST}\">Totaal:</td><td class=\"count\">#{number_to_currency(total, precision: 0)}</td></tr></tfoot>"
         end
         contents.each do |s|
           sk = s[0]
           sv = s[1]
-          @params = {} if depth == 6
-          sk = link(group, sk)
+          @params = {} if depth == DEEPEST
+          sk = link(min_range_column(group), sk)
           html += "<tr class=\"content span-#{depth}\">"
           html += render_spacers(depth)
           html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
@@ -152,7 +154,7 @@ module CollectionReportHelper
       @params = {"filter[#{min_range_column(group)}][]" => range_count[:min], "filter[#{max_range_column(group)}][]" => range_count[:max]}
 
       link_label = "#{number_to_currency(start_key, precision: 0)} - #{number_to_currency(finish_key, precision: 0)}"
-      html += "<tr><td colspan=\"6\">#{link_to(link_label, collection_works_path(@collection, @params))}</td><td class=\"count\">#{finish_count}</td></tr>"
+      html += "<tr><td colspan=\"#{DEEPEST}\">#{link_to(link_label, collection_works_path(@collection, @params))}</td><td class=\"count\">#{finish_count}</td></tr>"
     end
 
     # make sure missing counts are added as well
@@ -160,7 +162,7 @@ module CollectionReportHelper
       @params = {}
       group = max_range_column(group)
       if start[1][:subs] == {} || start[0] == :missing
-        html += "<tr><td colspan=\"6\">#{link(group, start[0])}</td><td class=\"count\">#{start[1][:count]}</td></tr>"
+        html += "<tr><td colspan=\"#{DEEPEST}\">#{link(group, start[0])}</td><td class=\"count\">#{start[1][:count]}</td></tr>"
       end
     end
 
