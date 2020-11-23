@@ -89,10 +89,19 @@ module Report
         end
 
 
-        aggregation[:market_value_missing][:aggs] = basic_aggregation_snippet(:balance_category, "_id")
-        aggregation[:market_value_missing][:aggs].merge!({market_value_range_missing: { missing: { field: :market_value_max }}})
-        aggregation[:replacement_value_missing][:aggs] = basic_aggregation_snippet(:balance_category, "_id")
-        aggregation[:replacement_value_missing][:aggs].merge!({replacement_value_range_missing: { missing: { field: :market_value_max }}})
+        aggregation[:market_value_missing][:aggs] = {
+          market_value_range_missing: {
+            missing: { field: :market_value_max },
+            aggs: basic_aggregation_snippet(:balance_category, "_id")
+          }
+        }
+
+        aggregation[:replacement_value_missing][:aggs] = {
+          replacement_value_range_missing: {
+            missing: { field: :market_value_max },
+            aggs: basic_aggregation_snippet(:balance_category, "_id")
+          }
+        }
 
         market_value_range = basic_aggregation_snippet(:market_value_range, "", :market_value_min)
         market_value_range[:market_value_range][:aggs] = basic_aggregation_snippet(:market_value_max)

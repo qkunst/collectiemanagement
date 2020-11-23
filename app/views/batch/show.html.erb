@@ -75,6 +75,9 @@
     <% end %>
     <% if can_edit_field? :appraisals_attributes %>
       <fieldset>
+        <%= f.batch_editable_input :balance_category, param_name: :balance_category_id, input_type: :association, input_html: {class: 'chosen-select'}%>
+      </fieldset>
+      <fieldset>
         <%= f.fields_for :appraisals, f.object.appraisal do |ap_form| %>
           <%= ap_form.batch_editable_input :appraised_by %>
           <%= ap_form.batch_editable_input :appraised_on, html5: true, required: false %>

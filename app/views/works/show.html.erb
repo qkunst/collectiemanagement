@@ -2,6 +2,8 @@
   <div class="medium-10 columns">
       <% if @work.artists.count > 0 %>
         <h3 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h3>
+      <% elsif @work.artist_unknown %>
+        <h3 class="subheader"><%= @work.artist_name_rendered%></h3>
       <% end %>
 
     <h2><%= @work.title_rendered %></h2>
