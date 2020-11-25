@@ -22,12 +22,10 @@ module Report
 
     def parse_aggregation aggregation, aggregation_key
       counts = {}
-      # raise aggregation
       if aggregation.is_a?(Hash) && aggregation[:doc_count] && aggregation_key.to_s.match(/^.*_missing$/) &&  (aggregation.keys - IGNORE_KEYS).count == 0
         counts[:missing] = {count: aggregation[:doc_count], subs: {}}
       elsif aggregation.is_a?(Hash) && aggregation[:buckets]
-        buckets = aggregation.buckets # .sort{|a,b| a[:key]<=>b[:key]}
-        # raise buckets
+        buckets = aggregation.buckets
         buckets.each do |bucket|
           subcounts_in_hash = parse_bucket(bucket)
 

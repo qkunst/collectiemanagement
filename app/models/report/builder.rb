@@ -52,18 +52,9 @@ module Report
               }
             }
           }
-          #
-          # :market_value_range=>{
-          #   :terms=>{
-          #     :field=>:market_value_min, :size=>999
-          #   }
-          # },
-          # "market_value_range_missing"=>{:missing=>{:field=>:market_value_min}},
-          # :aggs=>{:market_value_max_range=>{:terms=>{:field=>:market_value_max, :size=>999}}, "market_value_max_range_missing"=>{:missing=>{:field=>:market_value_max}}}}
-          #
         }
 
-        [:subset, :style, :frame_type, :balance_category].each do |key|
+        [:subset, :style, :frame_type].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key, "_id"))
         end
 
@@ -80,28 +71,12 @@ module Report
         end
 
         [:market_value, :replacement_value].each do |key|
-          aggregation.merge!(basic_aggregation_snippet_with_missing(key))
-          # aggregation.merge!(basic_aggregation_snippet(key, "", key, -1))
+          aggregation.merge!(basic_aggregation_snippet(key))
         end
 
         [:inventoried, :refound, :new_found].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key))
         end
-
-
-        aggregation[:market_value_missing][:aggs] = {
-          market_value_range_missing: {
-            missing: { field: :market_value_max },
-            aggs: basic_aggregation_snippet(:balance_category, "_id")
-          }
-        }
-
-        aggregation[:replacement_value_missing][:aggs] = {
-          replacement_value_range_missing: {
-            missing: { field: :market_value_max },
-            aggs: basic_aggregation_snippet(:balance_category, "_id")
-          }
-        }
 
         market_value_range = basic_aggregation_snippet(:market_value_range, "", :market_value_min)
         market_value_range[:market_value_range][:aggs] = basic_aggregation_snippet(:market_value_max)
@@ -110,6 +85,31 @@ module Report
         replacement_value_range = basic_aggregation_snippet(:replacement_value_range, "", :replacement_value_min)
         replacement_value_range[:replacement_value_range][:aggs] = basic_aggregation_snippet(:replacement_value_max)
         aggregation.merge!(replacement_value_range)
+
+        aggregation[:market_value_min_ignore_super_missing] = {
+          missing: {field: :market_value_min},
+          aggs: {
+            market_value_ignore_super_missing: {
+              missing: { field: :market_value},
+              aggs: basic_aggregation_snippet_with_missing(:balance_category, ".id")
+            }
+          }
+        }
+
+        aggregation[:replacement_value_min_ignore_super_missing] = {
+          missing: {field: :replacement_value_min},
+          aggs: {
+            replacement_value_ignore_super_missing: {
+              missing: { field: :replacement_value},
+              aggs: {
+                missing_explainer_missing: {
+                  missing: { field: :replacement_value }
+                }
+              }
+            }
+          }
+        }
+
 
         location_sub_sub = basic_aggregation_snippet_with_missing(:location_detail_raw)
 

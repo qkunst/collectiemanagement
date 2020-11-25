@@ -13,7 +13,7 @@ require "rails_helper"
 #   end
 # end
 RSpec.describe CollectionReportHelper, type: :helper do
-  describe "#render_report_section" do
+  describe "#render_report_column" do
     before(:each) do
       @collection = collections(:collection1)
 
@@ -34,10 +34,10 @@ RSpec.describe CollectionReportHelper, type: :helper do
       )
     end
     it "should render a empt report when no values are given" do
-      expect(helper.render_report_section([:frame_damage_types])).to eq("")
+      expect(helper.render_report_column([:frame_damage_types])).to eq("")
     end
     it "should render a simple report (with missing)" do
-      expect(helper.render_report_section([:condition_work])).to eq("<table><tr class=\"section condition_work span-7\"><th colspan=\"8\">Conditie beeld</th></tr>
+      expect(helper.render_report_column([:condition_work])).to eq("<table><tr class=\"section condition_work span-7\"><th colspan=\"8\">Conditie beeld</th></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bcondition_work_id%5D%5B%5D=1\">Goed (++)</a></td><td class=\"count\">2265</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bcondition_work_id%5D%5B%5D=4\">Slecht (--)</a></td><td class=\"count\">83</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bcondition_work_id%5D%5B%5D=3\">Matig (-)</a></td><td class=\"count\">38</td></tr>
@@ -46,13 +46,13 @@ RSpec.describe CollectionReportHelper, type: :helper do
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr></table>")
     end
     it "should render a report with numbers" do
-      expect(helper.render_report_section([:object_creation_year])).to eq("<table><tr class=\"section object_creation_year span-7\"><th colspan=\"8\">Datering (jaar)</th></tr>
+      expect(helper.render_report_column([:object_creation_year])).to eq("<table><tr class=\"section object_creation_year span-7\"><th colspan=\"8\">Datering (jaar)</th></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_creation_year%5D%5B%5D=2002\">2002</a></td><td class=\"count\">109</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_creation_year%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">993</td></tr>
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr></table>")
     end
     it "should render a report with a string/key" do
-      expect(helper.render_report_section([:object_format_code])).to eq("<table><tr class=\"section object_format_code span-7\"><th colspan=\"8\">Formaatcode</th></tr>
+      expect(helper.render_report_column([:object_format_code])).to eq("<table><tr class=\"section object_format_code span-7\"><th colspan=\"8\">Formaatcode</th></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=m\">M</a></td><td class=\"count\">1083</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=l\">L</a></td><td class=\"count\">553</td></tr>
 <tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=s\">S</a></td><td class=\"count\">357</td></tr>
@@ -62,7 +62,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr></table>")
     end
     it "should created the proper nested urls" do
-      @object_categories_split_result = helper.render_report_section([:object_categories_split])
+      @object_categories_split_result = helper.render_report_column([:object_categories_split])
 
       ["/collections/#{@collection.id}/works?filter%5Bobject_categories.id%5D%5B%5D=4",
         "/collections/#{@collection.id}/works?filter%5Bobject_categories.id%5D%5B%5D=4&amp;filter%5Btechniques.id%5D%5B%5D=33",

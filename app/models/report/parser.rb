@@ -14,14 +14,7 @@ module Report
       end
 
       def parse elastic_aggragations
-        report = {}
-        elastic_aggragations.each do |key, set|
-          counts = parse_aggregation(set, key)
-          key = key.gsub(/_missing$/, "")
-          report[key.to_sym] = {} unless report[key.to_sym]
-          report[key.to_sym].deep_merge!(counts) if counts
-        end
-        report
+        parse_bucket elastic_aggragations
       end
     end
   end

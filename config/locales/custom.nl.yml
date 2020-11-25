@@ -596,3 +596,7 @@ nl:
         header_row: Koprij
         decimal_separator: Scheidingsteken decimalen
         external_inventory: Externe inventarisatie
+  report:
+    titles:
+      balance_category: Geen marktwaarde toegekend
+      missing_explainer: Geen vervangingswaarde toegekend

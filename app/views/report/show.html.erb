@@ -22,7 +22,7 @@
         <div class="row">
           <% contents.each do |column| %>
             <div class="large-<%=(12.0/contents.length).to_i%> column float-left">
-              <%= render_report_section(column)%>
+              <%= render_report_column(column)%>
             </div>
           <% end %>
         </div>

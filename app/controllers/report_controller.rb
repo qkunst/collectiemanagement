@@ -16,7 +16,8 @@ class ReportController < ApplicationController
         "Vervaardigers" => [[:artists]],
         "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
         "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
-        "Waardering" => [],
+        "Marktwaardering" => [],
+        "Vervangingswaardering" => [],
         "Beprijzing" => [],
         "Herkomst" => [[:sources], [:purchase_year]],
         "Object" => [[:object_categories_split], [:object_format_code, :frame_type], [:object_creation_year]],
@@ -24,11 +25,11 @@ class ReportController < ApplicationController
       })
     end
 
-    if can?(:read_valuation, @collection) && @sections["Waardering"]
+    if can?(:read_valuation, @collection) && @sections["Marktwaardering"]
       @sections["Herkomst"] << [:purchase_price_in_eur]
 
-      @sections["Waardering"] += [[:market_value_range], [:market_value]]
-      @sections["Waardering"] += [[:replacement_value_range], [:replacement_value]]
+      @sections["Marktwaardering"] += [[:market_value_range], [:market_value], [:market_value_min_ignore_super]]
+      @sections["Vervangingswaardering"] += [[:replacement_value_range], [:replacement_value], [:replacement_value_min_ignore_super]]
 
       @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
 

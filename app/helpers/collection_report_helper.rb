@@ -13,15 +13,25 @@ module CollectionReportHelper
     @report ||= @collection.report
   end
 
-  def render_report_section(section_parts)
+  def render_report_column(sections)
     html = ""
-    section_parts.each do |report_section|
+    sections.each do |report_section|
       html += "<table>"
       html += iterate_report_sections(report_section, report[report_section], DEEPEST + 1)
       report.except!(report_section)
       html += "</table>"
     end
     html.gsub("<table></table>", "").html_safe
+  end
+
+  def missing_link_label(group)
+    if [:location, :location_raw, :location_detail_raw, :location_floor_raw, :object_format_code].include? group
+      "#{I18n.t group.to_s.gsub(".keyword", ""), scope: "activerecord.attributes.work"} onbekend"
+    elsif group == :balance_category
+      "Zonder toelichting"
+    else
+      "Niets ingevuld"
+    end
   end
 
   def link(group, selection)
@@ -32,11 +42,7 @@ module CollectionReportHelper
       @params = @params.merge({"filter[#{group}_id]" => nil})
       @params = @params.merge({"filter[#{group}][]" => :not_set})
 
-      link_label = if [:location, :location_raw, :location_detail_raw, :location_floor_raw, :object_format_code].include? group
-        "#{I18n.t group.to_s.gsub(".keyword", ""), scope: "activerecord.attributes.work"} onbekend"
-      else
-        "Niets ingevuld"
-      end
+      link_label =  missing_link_label(group)
     elsif selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)_split$/, '\1')
       id_separator = "."
@@ -68,15 +74,24 @@ module CollectionReportHelper
 
   def iterate_report_sections(section_head, section, depth)
     if section && (section.keys.count > 0)
-      html = "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
-      html += render_spacers(depth)
-      html += "<th colspan=\"#{depth + 1}\">#{I18n.t section_head.to_s.gsub(".keyword", ""), scope: "activerecord.attributes.work"}</th>"
-      html += "</tr>\n"
+      html = ""
+      unless ignore_super?(section_head)
+        html = "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
+        html += render_spacers(depth)
+        html += "<th colspan=\"#{depth + 1}\">#{titleize_section_head section_head}</th>"
+        html += "</tr>\n"
+      end
       html += iterate_groups(section_head, section, depth - 1)
       html
     else
       ""
     end
+  end
+
+  def titleize_section_head(section_head)
+    title_translation_key = section_head.to_s.gsub(".keyword", "")
+    default_title = I18n.t(title_translation_key, scope: "activerecord.attributes.work")
+    title = I18n.t(title_translation_key, scope: "report.titles", default: default_title)
   end
 
   def sort_contents_by_group(contents, group)
@@ -93,12 +108,16 @@ module CollectionReportHelper
     group.to_s.ends_with?("_range")
   end
 
+  def ignore_super?(group)
+    group.to_s.ends_with?("_ignore_super")
+  end
+
   def min_range_column(group)
-    group.to_s.sub(/_range$/, "_min").to_sym
+    group.to_s.sub(/_ignore_super$/,"").sub(/_range$/, "_min").to_sym
   end
 
   def max_range_column(group)
-    group.to_s.sub(/_range$/, "_max").to_sym
+    group.to_s.sub(/_ignore_super$/,"").sub(/_range$/, "_max").to_sym
   end
 
   def iterate_groups(group, contents, depth)
@@ -117,9 +136,11 @@ module CollectionReportHelper
           sv = s[1]
           @params = {} if depth == DEEPEST
           sk = link(min_range_column(group), sk)
-          html += "<tr class=\"content span-#{depth}\">"
-          html += render_spacers(depth)
-          html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
+          unless ignore_super?(group)
+            html += "<tr class=\"content span-#{depth}\">"
+            html += render_spacers(depth)
+            html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
+          end
           sv[:subs].each do |subbucketgroupname, subbucketgroup|
             html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth - 1))
           end
