@@ -214,7 +214,7 @@ class Ability
     can :read, Attachment, collection_id: accessible_collection_ids
     can [:read, :create], Message
 
-    can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :review_modified_works], Collection, id: accessible_collection_ids
+    can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :review_modified_works], Collection, id: accessible_collection_ids
 
     can :read, Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
