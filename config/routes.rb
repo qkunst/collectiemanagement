@@ -57,6 +57,8 @@ Rails.application.routes.draw do
   resources :themes
   resources :balance_categories
   resources :work_statuses
+  resources :work_sets
+  resources :work_set_types
 
   resources :rkd_artists do
     patch "copy" => "rkd_artists#copy"
@@ -71,6 +73,9 @@ Rails.application.routes.draw do
     get "manage" => "collections#manage"
     resources :users, module: :collection
     resources :library_items
+    resources :work_sets do
+      resources :appraisals
+    end
 
     resources :reminders, path: "manage/reminders"
     resources :themes, path: "manage/themes"

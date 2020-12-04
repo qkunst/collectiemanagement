@@ -1,0 +1,11 @@
+work_diptych:
+  work_set_type: :meerluik
+  works:
+    - :work_diptych_1
+    - :work_diptych_2
+
+random_other_collection:
+  work_set_type: :possible_same_artist
+  works:
+    - :work6
+    - :work7

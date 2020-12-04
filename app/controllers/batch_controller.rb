@@ -8,6 +8,8 @@ class BatchController < ApplicationController
   def show
     if params[:batch_process_property] == "create_report"
       redirect_to new_collection_custom_report_path(works: @works.map(&:id))
+    elsif params[:batch_process_property] == "create_work_set"
+      redirect_to new_work_set_path(works: @works.map(&:id))
     else
       @selection = {display: :complete}
 

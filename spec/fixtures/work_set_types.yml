@@ -1,0 +1,9 @@
+meerluik:
+  name: "Meerluik"
+  count_as_one: true
+  appraise_as_one: true
+
+possible_same_artist:
+  name: "Mogelijk zelfde vervaardiger"
+  count_as_one: false
+  appraise_as_one: false

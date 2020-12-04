@@ -1,10 +1,10 @@
 <div id="main">
 <h2>Waardeer</h2>
-<p>Waardering <%= @work.stock_number%> <%= @work.name%></p>
+<p>Waardering <%= @appraisee.stock_number%> <%= @appraisee.name%></p>
 
 <%= render 'form', appraisal: @appraisal %>
 
-<%= link_to 'Annuleer', collection_work_path(@collection, @work), class: 'hide-in-context' %>
+<%= link_to 'Annuleer', [@collection, @appraisee], class: 'hide-in-context' %>
 
 <% if @latest_appraisal%>
 <hr/>
@@ -12,6 +12,6 @@
 <h3>Eerdere waarderingen</h3>
 <%= render partial: 'appraisals'%>
 <h4>Uitgebreid</h4>
-<%= render @work.appraisals %>
+<%= render @appraisee.appraisals %>
 </div>
 <% end %>

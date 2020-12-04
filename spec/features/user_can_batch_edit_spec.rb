@@ -15,7 +15,7 @@ RSpec.feature "Batch editor", type: :feature do
         click_on "Collection 1"
       end
     end
-    click_on "Toon alle 4 werken"
+    click_on "Toon alle 5 werken"
     click_on "Scan"
     fill_in "Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden", with: [works(:work1), works(:work2)].map(&:stock_number).join("\n")
 
@@ -43,7 +43,7 @@ RSpec.feature "Batch editor", type: :feature do
         click_on "Collection 1"
       end
     end
-    click_on "Toon alle 4 werken"
+    click_on "Toon alle 5 werken"
     work_to_edit1 = works(:work1)
     work_to_edit2 = works(:work2)
     work_to_edit3 = works(:work5)
@@ -94,7 +94,7 @@ RSpec.feature "Batch editor", type: :feature do
           click_on "Collection 1"
         end
       end
-      click_on "Toon alle 4 werken"
+      click_on "Toon alle 5 werken"
 
       expect(work_to_edit1.cluster).not_to eq(work_to_edit2.cluster)
 
@@ -117,7 +117,7 @@ RSpec.feature "Batch editor", type: :feature do
           click_on "Collection 1"
         end
       end
-      click_on "Toon alle 4 werken"
+      click_on "Toon alle 5 werken"
 
       expect(work_to_edit1.cluster).not_to eq(work_to_edit2.cluster)
 
@@ -160,7 +160,7 @@ RSpec.feature "Batch editor", type: :feature do
         click_on "Collection 1"
       end
     end
-    click_on "Toon alle 4 werken"
+    click_on "Toon alle 5 werken"
 
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit2.id}"
@@ -197,7 +197,7 @@ RSpec.feature "Batch editor", type: :feature do
           click_on "Collection 1"
         end
       end
-      click_on "Toon alle 4 werken"
+      click_on "Toon alle 5 werken"
       work_to_add_to_cluster = works(:work1)
 
       check "selected_works_#{work_to_add_to_cluster.id}"

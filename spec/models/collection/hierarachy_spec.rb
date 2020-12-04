@@ -36,6 +36,18 @@ RSpec.describe Collection::Hierarchy, type: :model do
       it "should return all parents" do
         expect(collections(:collection_with_works_child).expand_with_parent_collections).to match_array([Collection.root_collection, collections(:collection_with_works_child), collections(:collection_with_works), collections(:collection1)])
       end
+      it "should return parents in order" do
+        expect(collections(:collection_with_works_child).expand_with_parent_collections.pluck(:id).join(",")).to eq([Collection.root_collection, collections(:collection1), collections(:collection_with_works), collections(:collection_with_works_child)].map(&:id).join(","))
+        collections(:collection_with_works).update_columns(parent_collection_id: Collection.root_collection.id)
+        expect(collections(:collection_with_works_child).expand_with_parent_collections.pluck(:id).join(",")).to eq([Collection.root_collection, collections(:collection_with_works), collections(:collection_with_works_child)].map(&:id).join(","))
+        collections(:collection1).update_columns(parent_collection_id: collections(:collection_with_works).id)
+        collections(:collection_with_works_child).update_columns(parent_collection_id: collections(:collection1).id)
+        expect(collections(:collection_with_works_child).expand_with_parent_collections.pluck(:id).join(",")).to eq([Collection.root_collection, collections(:collection_with_works), collections(:collection1), collections(:collection_with_works_child)].map(&:id).join(","))
+        collections(:collection1).update_columns(parent_collection_id: Collection.root_collection.id)
+        collections(:collection_with_works_child).update_columns(parent_collection_id: collections(:collection_with_works).id)
+        collections(:collection_with_works).update_columns(parent_collection_id: collections(:collection1).id)
+        expect(collections(:collection_with_works_child).expand_with_parent_collections.pluck(:id).join(",")).to eq([Collection.root_collection, collections(:collection1), collections(:collection_with_works), collections(:collection_with_works_child)].map(&:id).join(","))
+      end
     end
 
     describe "#self_and_parent_collections_flattened" do

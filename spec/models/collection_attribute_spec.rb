@@ -26,7 +26,7 @@ RSpec.describe CollectionAttribute, type: :model do
   context "scopes" do
     context ".for_user" do
       it "does not return parent collection's data if the user does not have access to that collection" do
-        attributes = CollectionAttribute.for_user(users(:collection_with_works_user)).all
+        attributes = CollectionAttribute.for_user(users(:collection_with_works_child_user)).all
 
         expect(attributes).to include(collection_attributes(:artist_1_collection_with_works_child_attribute))
         expect(attributes).not_to include(collection_attributes(:artist_1_collection1_attribute))

@@ -1,5 +1,5 @@
 <div class="row columns">
-  <%= simple_form_for([@collection, @work, @appraisal]) do |f| %>
+  <%= simple_form_for([@collection, @appraisee, @appraisal]) do |f| %>
   <p>Raadpleeg <a href="https://drive.google.com/drive/folders/1yEY2MH4r4JrU3RHASbk73g_Qd7SGjzZP?usp=sharing" target="_blank">de documentatiemap 'Taxatiemodule'</a> voor de werkwijze en referenties.</p>
   <%= f.error_notification %>
 
@@ -21,31 +21,35 @@
 
     <%= f.input :reference %>
 
-    <%= f.simple_fields_for :work do |wf| %>
-      <fieldset>
-        <legend>Aankoopgegevens</legend>
-          <%= wf.input :purchased_on, html5: true%>
-          <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
-          <div class="row">
-            <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
-            <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
-          </div>
-          <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
-          <%= wf.input :source_comments %>
-      </fieldset>
+    <%= f.simple_fields_for :appraisee do |wf| %>
+      <% if wf.object.is_a?(Work) %>
+        <fieldset>
+          <legend>Aankoopgegevens</legend>
+            <%= wf.input :purchased_on, html5: true%>
+            <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
+            <div class="row">
+              <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
+              <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
+            </div>
+            <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
+            <%= wf.input :source_comments %>
+        </fieldset>
 
-      <fieldset>
-        <legend>Andere werk-eigenschappen</legend>
-        <%= wf.input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION %>
-        <%= wf.input :main_collection  %>
-        <%= wf.association :balance_category, input_html: {class: 'chosen-select'}, collection: BalanceCategory.not_hidden %>
-        <%= wf.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden %>
-        <div class="row">
-          <div class="medium-8 columns"><%= wf.input :print %></div>
-          <div class="medium-4 columns"><%= wf.input :print_unknown %></div>
-        </div>
-        <%= wf.input :other_comments %>
-      </fieldset>
+        <fieldset>
+          <legend>Andere werk-eigenschappen</legend>
+          <%= wf.input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION %>
+          <%= wf.input :main_collection  %>
+          <%= wf.association :balance_category, input_html: {class: 'chosen-select'}, collection: BalanceCategory.not_hidden %>
+          <%= wf.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden %>
+          <div class="row">
+            <div class="medium-8 columns"><%= wf.input :print %></div>
+            <div class="medium-4 columns"><%= wf.input :print_unknown %></div>
+          </div>
+          <%= wf.input :other_comments %>
+        </fieldset>
+      <% else %>
+        Aankoopgegevens en andere werk-eigenschappen kunnen niet worden geannoteerd bij een waardering van meerdere werken als één.
+      <% end %>
     <% end %>
 
   </div>

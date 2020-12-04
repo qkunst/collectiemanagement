@@ -26,7 +26,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
         within "#responsive-menu" do
           click_on "Werken"
         end
-        expect(page).to have_content("Deze collectie bevat 4 werken")
+        expect(page).to have_content(/Deze collectie bevat \d werken/)
         expect(page).not_to have_content("Bewerk")
         click_on "Work1"
         expect(page).to have_content("Details")
@@ -50,7 +50,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
         within "#responsive-menu" do
           click_on "Werken"
         end
-        expect(page).to have_content("Deze collectie bevat 4 werken")
+        expect(page).to have_content(/Deze collectie bevat \d werken/)
         expect(page).to have_content("Deelcollectie")
         expect(page).to have_content("Herkomst")
         click_on "Work1"

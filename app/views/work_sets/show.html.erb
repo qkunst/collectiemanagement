@@ -1,0 +1,13 @@
+<h1><%= @title  %></h1>
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="work set navigation">
+  <ul class="menu right-aligned menu--only-buttons">
+    <% if (can? :edit, @work_set) %>
+      <li><%= button_to 'Verwijder', [@collection,@work_set].compact, method: :delete, class: 'warning small button right', data: {confirm: "Weet u zeker dat u deze werkverzameling wilt opheffen?"} %></li>
+    <% end %>
+    <% if (can? :appraise, @work_set) %>
+      <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
+    <% end %>
+</ul>
+</nav>
+
+<%= render @works %>

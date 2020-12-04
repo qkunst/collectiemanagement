@@ -21,11 +21,11 @@ RSpec.feature "View report", type: :feature do
     expect(page).to have_content("Room 1")
     expect(page).to have_content("Floor 1")
     expect(page).to have_content("Adres")
-    expect(page).to have_content("Formaatcode onbekend3 L1")
+    expect(page).to have_content("Formaatcode onbekend4 L1")
 
     click_on("Abstract")
 
-    expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 4 werken)")
+    expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 5 werken)")
     expect(page).to have_content("Q001")
 
     within "#responsive-menu" do
@@ -35,7 +35,7 @@ RSpec.feature "View report", type: :feature do
     click_on "Status"
     click_on "Onlangs geïnventariseerd"
 
-    expect(page).to have_content("Deze (gefilterde) collectie bevat 2 werken (van de 4 werken)")
+    expect(page).to have_content("Deze (gefilterde) collectie bevat 2 werken (van de 5 werken)")
     expect(page).to have_content("Q001")
   end
 

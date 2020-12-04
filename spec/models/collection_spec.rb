@@ -148,6 +148,37 @@ RSpec.describe Collection, type: :model do
       end
     end
 
+    describe "#can_be_accessed_by_user" do
+      it "collection_with_works not to be accessed by collection_with_works_child_user" do
+        user = users(:collection_with_works_child_user)
+        collection = collections(:collection_with_works)
+
+        expect(collection.can_be_accessed_by_user?(user)).to eq(false)
+      end
+      it "collection_with_works not to be accessed by collection_with_works_user" do
+        user = users(:collection_with_works_user)
+        collection = collections(:collection_with_works)
+
+        expect(collection.can_be_accessed_by_user?(user)).to eq(true)
+      end
+      it "admin can see collection_with_works" do
+        user = users(:admin)
+        collection = collections(:collection_with_works)
+        expect(collection.can_be_accessed_by_user?(user)).to eq(true)
+      end
+      it "admin can not see  not_qkunst_managed_collection" do
+        user = users(:admin)
+        collection = collections(:not_qkunst_managed_collection)
+        expect(collection.can_be_accessed_by_user?(user)).to eq(false)
+      end
+      it "super admin can see  not_qkunst_managed_collection" do
+        user = users(:super_admin)
+        collection = collections(:not_qkunst_managed_collection)
+
+        expect(collection.can_be_accessed_by_user?(user)).to eq(true)
+      end
+    end
+
     describe "#collection_name_extended" do
       it "should have a logical order of parents" do
         expect(collections(:collection_with_works_child).collection_name_extended).to eq("Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)")

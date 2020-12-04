@@ -1,4 +1,4 @@
-<h5>Waardering <%= I18n.l appraisal.appraised_on, format: :short_month_year if appraisal.appraised_on%> <small>(<%= link_to 'Bewerk', edit_collection_work_appraisal_path(@collection, @work, appraisal), data: { open_in_context: true} %>)</small></h5>
+<h5>Waardering <%= I18n.l appraisal.appraised_on, format: :short_month_year if appraisal.appraised_on%> <small>(<%= link_to 'Bewerk', (@appraisee.is_a?(Work) ? edit_collection_work_appraisal_path(@collection, @appraisee, appraisal) : edit_collection_work_set_appraisal_path(@collection, @appraisee, appraisal)), data: { open_in_context: true} %>)</small></h5>
 <div class="detailed_data">
   <%= definition_list_for appraisal, {render_as: :table, key_width: '40%'} do %>
   <%= define_unless_blank :appraised_by %>

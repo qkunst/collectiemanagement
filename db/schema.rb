@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_17_134853) do
+ActiveRecord::Schema.define(version: 2020_12_02_133308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,12 +25,13 @@ ActiveRecord::Schema.define(version: 2020_11_17_134853) do
     t.text "reference"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "work_id"
+    t.integer "appraisee_id"
     t.decimal "market_value_min", precision: 16, scale: 2
     t.decimal "market_value_max", precision: 16, scale: 2
     t.decimal "replacement_value_min", precision: 16, scale: 2
     t.decimal "replacement_value_max", precision: 16, scale: 2
-    t.index ["work_id"], name: "index_appraisals_on_work_id"
+    t.string "appraisee_type", default: "Work"
+    t.index ["appraisee_id"], name: "index_appraisals_on_appraisee_id"
   end
 
   create_table "artist_involvements", id: :serial, force: :cascade do |t|
@@ -603,6 +604,27 @@ ActiveRecord::Schema.define(version: 2020_11_17_134853) do
     t.datetime "created_at"
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "work_set_types", force: :cascade do |t|
+    t.string "name"
+    t.boolean "count_as_one"
+    t.boolean "appraise_as_one"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "hide"
+  end
+
+  create_table "work_sets", force: :cascade do |t|
+    t.integer "work_set_type_id"
+    t.string "identification_number"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "work_sets_works", id: false, force: :cascade do |t|
+    t.bigint "work_id", null: false
+    t.bigint "work_set_id", null: false
   end
 
   create_table "work_statuses", force: :cascade do |t|

@@ -111,11 +111,20 @@ work6:
   title: Work6
   stock_number: Q006
   artists:
-    - :artist4
+    - :artist2
+    - :artist_no_name
   collection: :collection3
+work7:
+  title: Work7
+  stock_number: Q007
+  artists:
+    - :artist2
+    - :artist_no_name
+  collection: :collection4
+
 work_with_multiple_artists:
   title: Work with multiple artists
-  stock_number: Q007
+  stock_number: Qwma
   artists:
     - :artist1
     - :artist2
@@ -141,3 +150,17 @@ work_with_private_theme:
 artistless_work:
   title: artistless work
   collection: :collection_with_stages
+
+work_diptych_1:
+  title: Work Diptych Left
+  stock_number: QDT2a
+  artists:
+    - :artist4
+  collection: :collection3
+
+work_diptych_2:
+  title: Work Diptych Right
+  stock_number: QDT2b
+  artists:
+    - :artist4
+  collection: :collection3

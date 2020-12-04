@@ -1,0 +1,14 @@
+<%= simple_form_for(@work_set_type) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :hide %>
+    <%= f.input :count_as_one %>
+    <%= f.input :appraise_as_one %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: :button %>
+  </div>
+<% end %>

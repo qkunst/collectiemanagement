@@ -81,12 +81,15 @@
     <%= define_unless_blank :owner, {classname: :complete_data} %>
     <% end %>
   <% end %>
+
   <%= definition_list_for work, {render_as: :table} do %>
+    <%= define_unless_blank :work_sets, {classname: :complete_data} %>
     <% if can?(:read_valuation, work.collection) %>
       <%= define_unless_blank :purchased_on_with_fallback %>
       <% if work.purchase_price %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
+
       <%= define_unless_blank :market_value, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value, modifier: :number_to_currency, description: "Vervangingswaarde" %>
       <%= define_unless_blank :market_value_range, modifier: :number_to_currency, description: "Marktwaarde" %>

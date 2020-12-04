@@ -5,7 +5,7 @@ appraisal1:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
 
 appraisal2:
   appraised_on: 2001-01-02
@@ -14,7 +14,7 @@ appraisal2:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
   id: 1
 
 appraisal3:
@@ -24,7 +24,7 @@ appraisal3:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
   id: 2
 
 appraisal4:
@@ -34,7 +34,7 @@ appraisal4:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
   id: 3
 
 appraisal_with_existing_range:
@@ -46,7 +46,7 @@ appraisal_with_existing_range:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
 
 appraisal_with_non_existing_range:
   appraised_on: 1999-01-03
@@ -57,7 +57,7 @@ appraisal_with_non_existing_range:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)
 
 appraisal_without_date:
   market_value: 1000
@@ -65,4 +65,4 @@ appraisal_without_date:
   appraised_by: "test"
   user: :admin
   reference: "Reference"
-  work: :work1
+  appraisee: work1 (Work)

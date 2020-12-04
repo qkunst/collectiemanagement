@@ -81,7 +81,7 @@ RSpec.describe "Appraisals", type: :request do
       # "appraisal"=>{"appraised_by"=>"Maartje de Roy van Zuydewijn", "appraised_on"=>"2020-05-26", "market_value"=>"", "replacement_value"=>"", "reference"=>"", "work_attributes"=>{"purchased_on"=>"", "purchase_year"=>"", "purchase_price"=>"2578", "purchase_price_currency_id"=>"3", "source_ids"=>[""], "source_comments"=>"", "grade_within_collection"=>"C", "main_collection"=>"0", "owner_id"=>"", "print"=>"", "print_unknown"=>"0", "other_comments"=>"", "id"=>"1647"}
 
       expect {
-        post collection_work_appraisals_path(work.collection, work), params: {appraisal: {appraised_by: "Someone", appraised_on: "2020-05-26", work_attributes: {purchase_price: 123, purchase_price_currency_id: currencies(:nlg).id, print_unknown: false, main_collection: false, grade_within_collection: "C"}}}
+        post collection_work_appraisals_path(work.collection, work), params: {appraisal: {appraised_by: "Someone", appraised_on: "2020-05-26", appraisee_attributes: {purchase_price: 123, purchase_price_currency_id: currencies(:nlg).id, print_unknown: false, main_collection: false, grade_within_collection: "C"}}}
       }.to change(Appraisal, :count).by(1)
 
       work.reload

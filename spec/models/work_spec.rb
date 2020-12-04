@@ -18,11 +18,20 @@ RSpec.describe Work, type: :model do
         parent = w.collection.parent_collection
         parent.sort_works_by = :inventoried_at
         parent.save
-        expect(w.all_work_ids_in_collection.count).to eq 4
+        expect(w.all_work_ids_in_collection.count).to eq 5
         expect(w.work_index_in_collection).to eq(1)
         w = works(:work2)
-        expect(w.all_work_ids_in_collection.count).to eq 4
+        expect(w.all_work_ids_in_collection.count).to eq 5
         expect(w.work_index_in_collection).to eq(0)
+      end
+    end
+
+    describe "#appraisable?" do
+      it "should return true by default" do
+        expect(works(:work1)).to be_appraisable
+      end
+      it "should return false on a work part of a diptych" do
+        expect(works(:work_diptych_1)).not_to be_appraisable
       end
     end
     describe "#artist_#\{index\}_methods" do

@@ -1,0 +1,8 @@
+<h2>Overzicht type werkverzamelingen</h2>
+<ul>
+    <% @work_set_types.each do |item| %>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+    <% end %>
+</ul>
+<%= link_to 'Nieuw type verzameling', new_work_set_type_path %>
+

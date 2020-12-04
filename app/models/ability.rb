@@ -234,7 +234,9 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
 
-    can [:create, :update, :read], Appraisal
+    can [:create, :update, :read], Appraisal do |appraisal|
+      appraisal.appraisee
+    end
     can :read, CustomReport, collection_id: accessible_collection_ids
     can [:create, :read], Message
     can :edit, Message do |message|

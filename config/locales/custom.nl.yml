@@ -138,6 +138,8 @@ nl:
       theme: Thema
       user: Gebruiker
       work: Werk
+      work_set_type: Werkverzamelingstype
+      work_set: Werk verzameling
       library_item: Bibliotheek item
     values:
       user:
@@ -430,6 +432,7 @@ nl:
         user: Gebruiker
         valuation_on: Datum waardebepaling
         width: Breedte beeld (cm)
+        work_sets: Werkverzamelingen
         work_size: Afmetingen beeld (cm)
         work_status: Status
         artist_0_artist_name: Vervaardiger 1 Artiestennaam
@@ -477,6 +480,11 @@ nl:
         artist_4_alt_number_1: Vervaardiger 5 Alt. nr. 1
         artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
         artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
+      work_set_type:
+        name: Label
+        hide: Verberg
+        count_as_one: Tel als één
+        appraise_as_one: Waardeer als één
       category:
         name: Naam
         order: Volgorde

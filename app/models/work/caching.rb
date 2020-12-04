@@ -57,6 +57,10 @@ module Work::Caching
       else
         self.market_value = nil
         self.replacement_value = nil
+        self.replacement_value_min = nil
+        self.replacement_value_max = nil
+        self.market_value_min = nil
+        self.market_value_max = nil
         self.price_reference = nil
         self.valuation_on = nil
       end

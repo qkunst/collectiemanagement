@@ -58,7 +58,8 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :custom_reports
   has_and_belongs_to_many :attachments
   has_and_belongs_to_many :library_items
-  has_many :appraisals
+  has_and_belongs_to_many :work_sets
+  has_many :appraisals, as: :appraisee
   has_many :messages, as: :subject_object
 
   scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }
@@ -105,6 +106,10 @@ class Work < ApplicationRecord
 
   def photos?
     photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
+  end
+
+  def appraisable?
+    work_sets.accepts_appraisals.empty?
   end
 
   # This method is built to be fault tolerant and tries to make the best out of user given input.

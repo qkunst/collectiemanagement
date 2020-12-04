@@ -102,6 +102,14 @@ registrator:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+collection_with_works_child_user:
+  email: collection_with_works_child@murb.nl
+  admin: false
+  qkunst: false
+  appraiser: false
+  compliance: true
+  collections:
+    - :collection_with_works_child
 collection_with_works_user:
   email: collection_with_works@murb.nl
   admin: false
@@ -109,7 +117,7 @@ collection_with_works_user:
   appraiser: false
   compliance: true
   collections:
-    - :collection_with_works_child
+    - :collection_with_works
 
 # admin_notify:
 #   email: qkunst-admin-user@murb.nl
