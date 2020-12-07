@@ -143,7 +143,7 @@ nl:
       user: Gebruiker
       work: Werk
       work_set_type: Werkgroeperingstype
-      work_set: Werk verzameling
+      work_set: Werkgroepering
       library_item: Bibliotheek item
     values:
       user:
@@ -485,10 +485,13 @@ nl:
         artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
         artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
       work_set_type:
-        name: Label
+        name: Naam
         hide: Verberg
         count_as_one: Tel als één
         appraise_as_one: Waardeer als één
+      work_set:
+        work_set_type: Type groepering
+        identification_number: Identificatienummer
       category:
         name: Naam
         order: Volgorde
