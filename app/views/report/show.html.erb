@@ -1,5 +1,11 @@
 <h2>Rapportage</h2>
-<p>In deze collectie zitten <strong><%=@collection.works_including_child_works.count%></strong> werken.
+<p>Deze collectie bevat <%= I18n.translate 'count.works', count:  @works_count %> (<%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>).
+  In de rapportage wordt geteld op basis van geïnventariseerde objecten.
+</p>
+<% if @inventoried_objects_count_in_search != @inventoried_objects_count %>
+   <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine.</div>
+<% end%>
+<p>
   <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :secondary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
 </p>
 <% begin %>

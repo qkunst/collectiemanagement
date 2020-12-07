@@ -57,9 +57,25 @@ RSpec.feature "Appraise works", type: :feature do
       expect(page).to have_content "Waarderingsreferentie van nu"
     end
 
-    it "can appraise work old style" do
-      work = collections(:collection3).works.first
+    it "cannot appraise a diptych at work level, but only at work set level" do
+      work = works(:work_diptych_1)
+      visit collection_work_path(work.collection, work)
+      click_on "Waardeer"
+      click_on "Open het Meerluik om te waarderen"
+      click_on "Waardeer"
+      fill_in "Marktwaarde (€)", with: 234
+      fill_in "Vervangingswaarde (€)", with: 567
 
+      click_on "Waardering toevoegen"
+      expect(page).to have_content "Waardering voor gehele Meerluik"
+      expect(page).to have_content "€234"
+      expect(page).to have_content "€567"
+
+
+    end
+
+    it "can appraise work old style" do
+      work = works(:work6)
       visit collection_work_path(work.collection, work)
       click_on "Waardeer"
 
@@ -68,6 +84,7 @@ RSpec.feature "Appraise works", type: :feature do
 
       click_on "Waardering toevoegen"
 
+      expect(page).not_to have_content "Waardering voor gehele Meerluik"
       expect(page).to have_content "€234"
       expect(page).to have_content "€567"
     end

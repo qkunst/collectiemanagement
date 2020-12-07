@@ -59,6 +59,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :attachments
   has_and_belongs_to_many :library_items
   has_and_belongs_to_many :work_sets
+  has_many :work_set_types, through: :work_sets
   has_many :appraisals, as: :appraisee
   has_many :messages, as: :subject_object
 
@@ -109,7 +110,32 @@ class Work < ApplicationRecord
   end
 
   def appraisable?
-    work_sets.accepts_appraisals.empty?
+    !appraised_in_set?
+  end
+
+  def appraisable_set
+    @appraisable_set ||= work_sets.accepts_appraisals.last
+  end
+
+  def countable_set
+    @countable_set ||= work_sets.count_as_one.last
+  end
+
+  def appraised_in_set?
+    !!appraisable_set
+  end
+
+  def market_value_complete
+    appraisable? ? market_value : appraisable_set.market_value
+  end
+  def replacement_value_complete
+    appraisable? ? replacement_value : appraisable_set.replacement_value
+  end
+  def market_value_range_complete
+    appraisable? ? market_value_range : appraisable_set.market_value_range
+  end
+  def replacement_value_range_complete
+    appraisable? ? replacement_value_range : appraisable_set.replacement_value_range
   end
 
   # This method is built to be fault tolerant and tries to make the best out of user given input.
@@ -365,6 +391,14 @@ class Work < ApplicationRecord
       else
         Work.human_attribute_name(field_name)
       end
+    end
+
+    # takes work sets into account where some are counted as one.
+    def count_as_whole_works
+      # works_not_individually_counted = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).count
+      not_counted_as_group = left_outer_joins(:work_set_types).where({work_set_types: {count_as_one: [nil, false]}}).count
+      unique_group_count = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).group("work_set_id").count.keys.count
+      not_counted_as_group + unique_group_count
     end
 
     def column_types

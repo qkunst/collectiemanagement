@@ -3,8 +3,8 @@ class WorkSetsController < ApplicationController
   before_action :set_work_set, only: [:show, :destroy, :update]
 
   def new
-    authorize! :new, WorkSet
     @work_set = WorkSet.new
+    authorize! :new, @work_set
 
     if params[:works]
       work_ids = params[:works].map { |w| w.to_i }
@@ -15,15 +15,25 @@ class WorkSetsController < ApplicationController
 
   def create
     @work_set = WorkSet.new(work_set_params)
+    authorize! :create, @work_set
 
     if @work_set.save
-      redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de verzameling"
+      redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de\ verzameling"
     else
       render :new
     end
   end
 
   def show
+    if params[:collection_id].blank?
+      redirect_to collection_work_set_path(@collection, @work_set) and return if params[:collection_id].blank? && @collection
+
+      authorize! :read_without_collection, @work_set
+    else
+      authorize! :show, @work_set
+    end
+
+
     @works = current_user.accessible_works.where(id: @work_set.work_ids)
 
     if @works.count < 20
@@ -33,6 +43,7 @@ class WorkSetsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, @work_set
     @collection ||= @work_set.works.first&.collection&.base_collection
 
     @work_ids = @work_set.work_ids

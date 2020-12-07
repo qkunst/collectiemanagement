@@ -7,6 +7,11 @@ class ReportController < ApplicationController
 
     @title = "Rapportage voor #{@collection.name}"
 
+    @inventoried_objects_count = @collection.works_including_child_works.count
+    @inventoried_objects_count_in_search = @collection.elastic_aggragations["total"].value
+    @works_count = @collection.works_including_child_works.count_as_whole_works
+
+
     @sections = {
       Locaties: [[:location_raw]]
     }

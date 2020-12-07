@@ -42,7 +42,7 @@
 
     openInContextContainerFunction(urlToOpen);
     var openInContextContainerFunctionEventCallback = function(e) {
-      if (e.target.getAttribute("target") != "_blank") {
+      if (e.target.getAttribute("target") != "_blank" && e.target.getAttribute("target") != "_self") {
         openInContextContainerFunction(e.target.href);
         return false;
       }

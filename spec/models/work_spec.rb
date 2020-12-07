@@ -420,6 +420,16 @@ RSpec.describe Work, type: :model do
         expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match(";")
       end
     end
+
+    describe ".count_as_whole_works" do
+      it "should return all works uniquele" do
+        work_count = Work.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        worksets_counted_as_one = WorkSet.count_as_one.count
+
+        expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
+      end
+    end
     describe ".possible_exposable_fields" do
       it "should return possible_exposable_fields" do
         expect(Work.possible_exposable_fields).to include("owner")

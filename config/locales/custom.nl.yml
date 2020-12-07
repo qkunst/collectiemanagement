@@ -1,5 +1,9 @@
 nl:
   count:
+    inventoried_objects_count:
+      zero: geen geïnventariseerde objecten
+      one: 1 geïnventariseerd object
+      other: ! '%{count} geïnventariseerde objecten'
     works:
       zero: geen werken
       one: 1 werk
@@ -138,7 +142,7 @@ nl:
       theme: Thema
       user: Gebruiker
       work: Werk
-      work_set_type: Werkverzamelingstype
+      work_set_type: Werkgroeperingstype
       work_set: Werk verzameling
       library_item: Bibliotheek item
     values:
@@ -432,7 +436,7 @@ nl:
         user: Gebruiker
         valuation_on: Datum waardebepaling
         width: Breedte beeld (cm)
-        work_sets: Werkverzamelingen
+        work_sets: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
         work_status: Status
         artist_0_artist_name: Vervaardiger 1 Artiestennaam

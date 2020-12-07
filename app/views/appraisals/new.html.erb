@@ -1,8 +1,17 @@
 <div id="main">
 <h2>Waardeer</h2>
+<% if @appraisee.appraisable? %>
 <p>Waardering <%= @appraisee.stock_number%> <%= @appraisee.name%></p>
 
 <%= render 'form', appraisal: @appraisal %>
+<% else %>
+  <p><%= @appraisee.stock_number%> <%= @appraisee.name%> kan niet worden gewaardeerd.</p>
+  <% if @appraisee.is_a?(Work) && @appraisee.appraisable_set %>
+  <p>Het werk kan niet afzonderlijk worden gewaardeerd.
+    <%= link_to "Open het #{@appraisee.appraisable_set.work_set_type_name} om te waarderen", @appraisee.appraisable_set, target: '_self' %>
+  </p>
+  <% end%>
+<% end %>
 
 <%= link_to 'Annuleer', [@collection, @appraisee], class: 'hide-in-context' %>
 

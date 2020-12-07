@@ -30,7 +30,7 @@ class WorksController < ApplicationController
     set_selection_display_options
 
     @show_work_checkbox = qkunst_user? ? true : false
-    @collection_works_count = @collection.works_including_child_works.count
+    @collection_works_count = @collection.works_including_child_works.count_as_whole_works
 
     @filter_localities = []
     @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
@@ -49,7 +49,8 @@ class WorksController < ApplicationController
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works = @works.published if params[:published]
       @works = @works.id(Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
-      @works_count = @works.count
+      @inventoried_objects_count = @works.count
+      @works_count = @works.count_as_whole_works
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest

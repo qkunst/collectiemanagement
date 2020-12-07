@@ -268,8 +268,9 @@ class Collection < ApplicationRecord
   end
 
   def elastic_aggragations
+    return @elastic_aggragations if @elastic_aggragations
     elastic_report = search_works("", {}, {force_elastic: true, return_records: false, limit: 1, aggregations: Report::Builder.aggregations})
-    elastic_report.aggregations
+    @elastic_aggragations = elastic_report.aggregations
   rescue Faraday::ConnectionFailed => e
     SystemMailer.error_message(e).deliver_now
     false

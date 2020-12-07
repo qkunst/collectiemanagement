@@ -27,6 +27,18 @@
   }
 }
 
+.image_wrapper {
+  min-height: 1em;
+  &.centered {
+    display: flex;
+    align-items: center;
+    .image {
+      margin: 1em;
+    }
+  }
+}
+
+
 .work.panel {
   position: relative;
   width: 23%;
@@ -40,9 +52,6 @@
   border: 0 none;
 
   border-top: 1px solid #ccc;
-  .image_wrapper {
-    min-height: 1em;
-  }
   .image {
     position: relative;
     height: 11em;

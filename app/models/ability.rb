@@ -162,11 +162,13 @@ class Ability
     can :manage, Message
 
     can [:destroy, :edit_admin, :manage], User
+    can [:read_without_collection, :manage], WorkSet
   end
 
   def initialize_advisor
-    can [:create, :update, :read, :manage_collection], Artist
-    can [:create, :update], ArtistInvolvement
+    can [:create, :read, :update, :manage_collection], Artist
+    can [:create, :read, :update], ArtistInvolvement
+    can [:create, :read, :update, :destroy], WorkSet
 
     can [:read, :copy], RkdArtist
 
@@ -197,6 +199,7 @@ class Ability
 
     can [:read, :review_collection], Artist
     can :read, RkdArtist
+    can [:read], WorkSet
 
     can :review_collection, Cluster, collection_id: accessible_collection_ids
     can :review_collection, CustomReport, collection_id: accessible_collection_ids
@@ -233,9 +236,10 @@ class Ability
     can [:create, :update, :read, :manage_collection], Artist
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
+    can [:create, :read, :update, :destroy], WorkSet
 
     can [:create, :update, :read], Appraisal do |appraisal|
-      appraisal.appraisee
+      appraisal.appraisee.can_be_accessed_by_user?(user)
     end
     can :read, CustomReport, collection_id: accessible_collection_ids
     can [:create, :read], Message
@@ -261,6 +265,7 @@ class Ability
     can [:create, :update, :read, :manage_collection], Artist
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
+    can [:create, :read, :update], WorkSet
 
     can [:read, :create, :update], Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||

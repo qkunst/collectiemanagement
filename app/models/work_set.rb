@@ -6,11 +6,19 @@ class WorkSet < ApplicationRecord
   belongs_to :work_set_type
 
   scope :accepts_appraisals, ->{ joins(:work_set_type).where(work_set_types: {appraise_as_one: true})}
+  scope :count_as_one, ->{ joins(:work_set_type).where(work_set_types: {count_as_one: true})}
 
   alias_attribute :stock_number, :identification_number
 
+  validate :works_are_not_appraisable_in_another_set, if: :work_set_type
+  validate :works_are_not_countable_as_one_in_another_set, if: :work_set_type
+
   def appraisable?
-    work_set_type.appraise_as_one? && works.count > 0
+    work_set_type.appraise_as_one? && works.length > 0
+  end
+
+  def count_as_one?
+    work_set_type.count_as_one? && works.length > 0
   end
 
   def work_set_type_name
@@ -20,6 +28,20 @@ class WorkSet < ApplicationRecord
   def name
     [work_set_type_name, identification_number].join(" - ")
   end
+
+  def replacement_value
+    appraisals.last&.replacement_value
+  end
+  def market_value
+    appraisals.last&.market_value
+  end
+  def market_value_range
+    appraisals.last&.market_value_range
+  end
+  def replacement_value_range
+    appraisals.last&.replacement_value_range
+  end
+
 
   def update_latest_appraisal_data!
     latest_appraisal = appraisals.descending_appraisal_on.first
@@ -66,6 +88,22 @@ class WorkSet < ApplicationRecord
       all_paths_include_search_id = !paths_include_search_id.include?(false)
       return Collection.find(search_id) if all_paths_include_search_id
       shortest_path_index -= 1
+    end
+  end
+
+  def works_are_not_appraisable_in_another_set
+    if appraisable?
+      works.each do |work|
+        errors.add(:base, "#{work.name} wordt reeds gewaardeerd vanuit een andere groepering.") if work.appraisable_set
+      end
+    end
+  end
+
+  def works_are_not_countable_as_one_in_another_set
+    if count_as_one?
+      works.each do |work|
+        errors.add(:base, "#{work.name} wordt reeds uniek geteld vanuit een andere groepering.") if work.countable_set
+      end
     end
   end
 end

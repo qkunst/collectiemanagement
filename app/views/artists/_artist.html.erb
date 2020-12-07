@@ -1,4 +1,4 @@
-<article class="artist">
+<article class="card">
   <header>
     <% if @collection or can?(:manage, Artist) %>
     <h4><%= link_to [@collection, artist].compact do %><%= artist.name %><% end %></h4>

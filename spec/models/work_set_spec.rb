@@ -19,6 +19,21 @@ RSpec.describe WorkSet, type: :model do
     end
   end
 
+  describe "validations" do
+    it "cannot have works exist in two appraisable sets" do
+      work_in_appraisable_set = work_sets(:work_diptych).works.first
+      ws = WorkSet.new(works: [work_in_appraisable_set, works(:work1)], work_set_type: work_set_types(:meerluik))
+      expect(ws.valid?).to eq(false)
+      expect(ws.errors[:base]).to include "Work Diptych Left wordt reeds gewaardeerd vanuit een andere groepering."
+      expect(ws.errors[:base]).to include "Work Diptych Left wordt reeds uniek geteld vanuit een andere groepering."
+    end
+    it "can have works exist in a multiple sets that are not all appraisable" do
+      work_in_appraisable_set = work_sets(:work_diptych).works.first
+      ws = WorkSet.new(works: [work_in_appraisable_set, works(:work1)], work_set_type: work_set_types(:possible_same_artist))
+      expect(ws.valid?).to eq(true)
+    end
+  end
+
   describe "instance methods" do
     it "#appraisable?" do
       expect(work_sets(:work_diptych)).to be_appraisable
