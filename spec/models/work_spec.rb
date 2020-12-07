@@ -375,6 +375,53 @@ RSpec.describe Work, type: :model do
         expect(w.public_tag_list).to eq(["1984", "blauw", "Industrie"])
       end
     end
+    describe "work_set_attributes=" do
+      it "ignores empty hashes" do
+        w = Work.create(work_set_attributes: {})
+        expect(w.work_sets.count).to eq(0)
+      end
+      it "ignores partially empty hashes" do
+        w = Work.create(work_set_attributes: {identification_number: 123})
+        expect(w.work_sets.count).to eq(0)
+      end
+      it "creates when full hash is given" do
+        w = Work.new
+        expect {
+          w = Work.create(collection: collections(:collection1), work_set_attributes: {work_set_type_id: work_set_types(:meerluik).id, identification_number: 123})
+        }.to change(WorkSet, :count).by(1)
+        expect(w.work_sets.count).to eq(1)
+      end
+      it "reuses when full hash is given equal to earlier in same collection" do
+        w1 = Work.new
+        w2 = Work.new
+        expect {
+          w1 = Work.create(collection: collections(:collection1), work_set_attributes: {work_set_type_id: work_set_types(:meerluik).id, identification_number: 123})
+        }.to change(WorkSet, :count).by(1)
+        expect {
+          w2 = Work.create(collection: collections(:collection1), work_set_attributes: {work_set_type_id: work_set_types(:meerluik).id, identification_number: 123})
+        }.to change(WorkSet, :count).by(0)
+        expect(w1.work_sets.count).to eq(1)
+        expect(w2.work_sets.count).to eq(1)
+        work_sets = w2.work_sets.reload
+        expect(w2.work_sets.first.work_ids).to match_array([w1, w2].map(&:id))
+      end
+      it "creates when full hash is given equal to earlier in other collection" do
+        w1 = Work.new
+        w2 = Work.new
+        expect {
+          w1 = Work.create(collection: collections(:collection1), work_set_attributes: {work_set_type_id: work_set_types(:meerluik).id, identification_number: 123})
+        }.to change(WorkSet, :count).by(1)
+        expect {
+          w2 = Work.create(collection: collections(:collection2), work_set_attributes: {work_set_type_id: work_set_types(:meerluik).id, identification_number: 123})
+        }.to change(WorkSet, :count).by(1)
+        expect(w1.work_sets.count).to eq(1)
+        expect(w2.work_sets.count).to eq(1)
+        work_sets = w1.work_sets.reload
+        work_sets = w2.work_sets.reload
+        expect(w1.work_sets.first.work_ids).not_to include(w2.id)
+        expect(w2.work_sets.first.work_ids).not_to include(w1.id)
+      end
+    end
   end
   describe "class methods" do
     describe ".artist_name_rendered" do

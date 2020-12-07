@@ -51,6 +51,19 @@
           %>
         </div>
       </div>
+      <% unless f.object.persisted? %>
+        <%= f.simple_fields_for :work_set, WorkSet.new do |wsf| %>
+        <div class="row">
+          <div class="large-3 medium-6 columns">
+            <%= wsf.association :work_set_type, required: false %>
+          </div>
+          <div class="large-3 medium-6 columns">
+            <%= wsf.input :identification_number, required: false %>
+          </div>
+          <div class="large-3 medium-6 columns"></div>
+        </div>
+        <% end %>
+      <% end %>
       <%= f.input :information_back   %>
     </fieldset>
     <fieldset id="vervaardigers">

@@ -63,6 +63,11 @@ class Ability
                           ]
       ]
     end
+    if can?(:create, WorkSet)
+      permitted_fields += [
+        work_set_attributes: [:identification_number, :work_set_type_id]
+      ]
+    end
     if can?(:edit_source_information, Work)
       permitted_fields += [
         :source_comments, source_ids: []

@@ -132,7 +132,7 @@ class WorksController < ApplicationController
 
   # POST /works
   def create
-    @work = @collection.works.new(work_params)
+    @work = @collection.works.new(work_params.merge({collection_id: @collection.id}))
     @work.created_by = current_user
     if @work.save
       redirect_to collection_work_path(@collection, @work), notice: "Het werk is aangemaakt"
