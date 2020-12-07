@@ -19,7 +19,6 @@ RSpec.feature "Werken groeperen", type: :feature do
     work_to_edit1 = works(:work1)
     work_to_edit2 = works(:work2)
 
-    save_and_open_page
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit2.id}"
 
@@ -28,6 +27,9 @@ RSpec.feature "Werken groeperen", type: :feature do
     select "Meerluik"
     fill_in "Identificatienummer", with: "123"
     click_on "Werkgroepering toevoegen"
-    save_and_open_page
+
+    expect(page.body).to match(work_to_edit1.stock_number)
+    expect(page.body).to match(work_to_edit2.stock_number)
+    expect(page.body).to match("Meerluik - 123")
   end
 end
