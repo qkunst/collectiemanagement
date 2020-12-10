@@ -78,6 +78,7 @@
         <%= f.batch_editable_input :balance_category, param_name: :balance_category_id, input_type: :association, input_html: {class: 'chosen-select'}%>
       </fieldset>
       <fieldset>
+        <p>Let op: wanneer een naam en datum wordt ingevuld wordt dit gezien als een nieuwe waardering die de oude overschrijft. Waarderingen die na 6 februari 2017 zijn toegevoegd blijven wel zichtbaar onder eerdere waarderingen.</p>
         <%= f.fields_for :appraisals, f.object.appraisal do |ap_form| %>
           <%= ap_form.batch_editable_input :appraised_by %>
           <%= ap_form.batch_editable_input :appraised_on, html5: true, required: false %>
