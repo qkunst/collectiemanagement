@@ -22,12 +22,10 @@ class Batch::WorkForm < Work
     @appraisal = Batch::AppraisalForm.new(options["0"])
   end
 
-  def update_work(work)
-    work.update(object_update_parameters(work))
-
+  def update_work!(work)
+    work.update!(object_update_parameters(work))
     unless appraisal.empty_params?
-      work.appraisals << Appraisal.new(appraisal.appraisal_params)
-      work.save
+      Appraisal.create!(appraisal.appraisal_params.merge(appraisee: work))
     end
   end
 
@@ -36,7 +34,7 @@ class Batch::WorkForm < Work
   end
 
   def validate_appraisal
-    appraisal.work = Work.new(collection: Collection.new)
+    appraisal.appraisee = Work.new(collection: Collection.new)
     errors.merge!(appraisal.errors) if !appraisal.ignore_validation_errors? && !appraisal.valid?
   end
 end

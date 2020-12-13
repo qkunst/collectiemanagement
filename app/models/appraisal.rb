@@ -11,6 +11,7 @@ class Appraisal < ApplicationRecord
   after_save :update_appraisee_appraisal_data!
 
   validates_presence_of :appraised_on
+  validate :validate_appraisable
 
   include ActionView::Helpers::NumberHelper
 
@@ -67,6 +68,12 @@ class Appraisal < ApplicationRecord
   private
 
   def validate_appraisable
-    errors.add(:base, "Object niet waardeerbaar") unless @appraisee.appraisable?
+    unless appraisee.appraisable?
+      if appraisee.is_a? Work
+        errors.add(:appraisee, "werk is niet afzonderlijk te waarderen")
+      else
+        errors.add(:appraisee, "kan niet gewaardeerd worden")
+      end
+    end
   end
 end

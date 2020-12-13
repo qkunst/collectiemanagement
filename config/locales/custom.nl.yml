@@ -254,6 +254,7 @@ nl:
         market_value: Marktwaarde (€)
         market_value_range: Marktwaardecategorie (€)
         appraised_on: Gewaardeerd op
+        appraisee: Het gewaardeerde
       attachment:
         file: Bestand
         name: Bestandsnaam / beschrijving

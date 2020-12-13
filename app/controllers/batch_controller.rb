@@ -20,12 +20,23 @@ class BatchController < ApplicationController
   def update
     @form = Batch::WorkForm.new(work_params.to_h.deep_merge(work_batch_strategies_params))
     @form.collection = @collection if @form.collection.nil?
+
     if @form.valid?
-      @works.map { |work| @form.update_work(work) }
+      Work.transaction do
+        @works.map { |work| @form.update_work!(work) }
+      end
       redirect_to_collection_works_return_url
     else
       render :show
     end
+
+  rescue ActiveRecord::RecordInvalid => invalid
+    if invalid.record.is_a? Appraisal
+      @form.errors.add(:appraisals, invalid.record.errors.full_messages.to_sentence)
+    else
+      @form.errors.merge!(invalid.record.errors)
+    end
+    render :show
   end
 
   def set_works_by_numbers

@@ -71,38 +71,56 @@ RSpec.describe "WorkBatchs", type: :request do
     end
   end
   describe "PATCH /collection/:collection_id/batch" do
-    describe "process appraisal ignore" do
+    let(:work_selection) { [works(:work1)] }
+
+    describe "appraisal" do
       it "should store appraisal" do
         sign_in users(:appraiser)
         appraisal_date = "2012-07-21".to_date
-        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "REPLACE"}}}}
+        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "REPLACE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
         expect(appraisal.market_value).to eq(2_000)
         expect(appraisal.reference).to eq("abc")
+        expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
       end
       it "should ignore ignored fields" do
         sign_in users(:appraiser)
         appraisal_date = Time.now.to_date
-        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: works(:work1).id, work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
+        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
         expect(appraisal.market_value).to eq(2_000)
         expect(appraisal.appraised_by).to eq("Harald")
         expect(appraisal.reference).to eq(nil)
+        expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
+      end
+      context "diptych" do
+        let(:work_selection) { [works(:work1),works(:work_diptych_1)] }
+
+        it "should stop when work cannot be appraised (diptych scenario)" do
+          sign_in users(:appraiser)
+          appraisal_date = Time.now.to_date+5.day
+          patch collection_batch_path(collections(:collection3)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
+          appraisal = Appraisal.find_by(appraised_on: appraisal_date)
+          expect(appraisal).to eq(nil)
+          expect(response.body).to match("Het gewaardeerde werk is niet afzonderlijk te waarderen")
+        end
       end
     end
     describe "themes" do
+      let(:work_selection) { [works(:work1), works(:work2)] }
+
       it "appends themes" do
         sign_in users(:admin)
         collection = collections(:collection1)
-        works = [works(:work1), works(:work2)]
         theme = themes(:fire)
 
-        patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
+        patch collection_batch_path(collection), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
+        expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
 
-        works.each do |work|
+        work_selection.each do |work|
           work = Work.find(work.id)
           expect(work.themes).to include(theme)
         end
