@@ -2,15 +2,29 @@
 <h2>Waardeer</h2>
 <% if @appraisee.appraisable? %>
 <p>Waardering <%= @appraisee.stock_number%> <%= @appraisee.name%></p>
-
 <%= render 'form', appraisal: @appraisal %>
 <% else %>
-  <p><%= @appraisee.stock_number%> <%= @appraisee.name%> kan niet worden gewaardeerd.</p>
   <% if @appraisee.is_a?(Work) && @appraisee.appraisable_set %>
-  <p>Het werk kan niet afzonderlijk worden gewaardeerd.
+  <p>Het werk <%= @appraisee.stock_number%> <%= @appraisee.name%> kan niet afzonderlijk worden gewaardeerd. De aankoopgegevens en andere werk- eigenschappen kunnen nog wel per werk worden opgevoerd.
     <%= link_to "Open het #{@appraisee.appraisable_set.work_set_type_name} om te waarderen", @appraisee.appraisable_set, target: '_self' %>
   </p>
+  <div class="row columns">
+    <%= simple_form_for([@collection, @appraisee]) do |f| %>
+      <%= f.error_notification %>
+      <%= render partial: "work_form", locals: {wf: f} %>
+      <%= f.button :submit, class: :button%>
+    <% end %>
+
+  </div>
+
+
+  <% else %>
+    <p><%= @appraisee.stock_number%> <%= @appraisee.name%> kan niet worden gewaardeerd.</p>
   <% end%>
+
+
+
+
 <% end %>
 
 <%= link_to 'Annuleer', [@collection, @appraisee], class: 'hide-in-context' %>

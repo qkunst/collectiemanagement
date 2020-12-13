@@ -22,34 +22,7 @@
     <%= f.input :reference %>
 
     <%= f.simple_fields_for :appraisee do |wf| %>
-      <% if wf.object.is_a?(Work) %>
-        <fieldset>
-          <legend>Aankoopgegevens</legend>
-            <%= wf.input :purchased_on, html5: true%>
-            <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
-            <div class="row">
-              <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
-              <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
-            </div>
-            <%= wf.association( :sources, input_html: {class: 'chosen-select'}, collection: Source.not_hidden) %>
-            <%= wf.input :source_comments %>
-        </fieldset>
-
-        <fieldset>
-          <legend>Andere werk-eigenschappen</legend>
-          <%= wf.input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION %>
-          <%= wf.input :main_collection  %>
-          <%= wf.association :balance_category, input_html: {class: 'chosen-select'}, collection: BalanceCategory.not_hidden %>
-          <%= wf.association :owner, input_html: {class: 'chosen-select'}, collection: @collection.available_owners.not_hidden %>
-          <div class="row">
-            <div class="medium-8 columns"><%= wf.input :print %></div>
-            <div class="medium-4 columns"><%= wf.input :print_unknown %></div>
-          </div>
-          <%= wf.input :other_comments %>
-        </fieldset>
-      <% else %>
-        Aankoopgegevens en andere werk-eigenschappen kunnen niet worden geannoteerd bij een waardering van meerdere werken als één.
-      <% end %>
+      <%= render partial: "work_form", locals: {wf: wf} %>
     <% end %>
 
   </div>

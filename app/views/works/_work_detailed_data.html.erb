@@ -96,13 +96,12 @@
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
+      <% if work.appraised_in_set? %>
+        <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
+      <% end %>
       <%= define_unless_blank :purchased_on_with_fallback %>
       <% if work.purchase_price %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
-      <% end %>
-
-      <% if work.appraised_in_set? %>
-        <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
 
       <%= define_unless_blank :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>

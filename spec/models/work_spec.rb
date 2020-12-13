@@ -476,6 +476,15 @@ RSpec.describe Work, type: :model do
 
         expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
       end
+
+      it "should return all works uniquely even when in two work sets" do
+        work_count = Work.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        worksets_counted_as_one = WorkSet.count_as_one.count
+        workset_to_ignore = WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
+
+        expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
+      end
     end
     describe ".possible_exposable_fields" do
       it "should return possible_exposable_fields" do

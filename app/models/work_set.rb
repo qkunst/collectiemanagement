@@ -78,6 +78,7 @@ class WorkSet < ApplicationRecord
     user.admin? || most_specific_shared_collection&.can_be_accessed_by_user?(user)
   end
 
+  # returns the collection that most specific to the user
   def most_specific_shared_collection
     paths = works.map{|w| w.collection.expand_with_parent_collections.not_system.pluck(:id) }
     shortest_path = paths.sort{|a,b| a.length <=> b.length}.first
