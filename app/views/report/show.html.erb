@@ -1,5 +1,5 @@
 <h2>Rapportage</h2>
-<p>Deze collectie bevat <%= I18n.translate 'count.works', count:  @works_count %> (<%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>).
+<p>Deze collectie bevat <%= I18n.translate 'count.works', count:  @works_count %>, bestaande uit <%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>.
   In de rapportage wordt geteld op basis van geïnventariseerde objecten.
 </p>
 <% if @inventoried_objects_count_in_search != @inventoried_objects_count %>

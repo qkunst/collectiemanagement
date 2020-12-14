@@ -13,7 +13,7 @@
         collectie <% unless @selection[:group] == :no_grouping%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
         <%= I18n.translate 'count.works', count:  @works_count %><% if @collection_works_count > @works_count %>
           (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)
-        <% end %><% if @inventoried_objects_count != @works_count%>, <%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %><% end%>
+        <% end %><% if @inventoried_objects_count != @works_count%>, bestaande uit <%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>.<% end%>
 
         <% if @collection_works_count > @works_count %>
           <span class="hide-for-print">
