@@ -12,6 +12,15 @@ user_with_api_key:
   email: qkunst-test-user-with-api-key@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   api_key: 0946281efb2d948c385bd7af96686484444180d657a6e18994f3054c36336891be85bf184d642447a73f3deaf8365cc4e02bf2324e09a1f58ae0ec613bbf4c7d
+  collections:
+    - :collection_with_works
+advisor_user_with_api_key:
+  email: qkunst-test-advisor-user-with-api-key@murb.nl
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  advisor: true
+  api_key: 0946281efb2d948c385bd7af96686484444180d657a6e18994f3054c36336891be85bf184d642447a73f3deaf8365cc4e02bf2324e09a1f58ae0ec613bbf4c7d
+  collections:
+    - :collection_with_works
 admin:
   email: qkunst-admin-user@murb.nl
   admin: true
