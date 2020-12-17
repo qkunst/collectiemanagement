@@ -112,6 +112,16 @@ De QKunst collectiedatabase is gebaseerd op het Ruby On Rails framework en ander
 
 Is het commando `bundle` niet aanwezig op het systeem, typ dan eerst `gem install bundler`.
 
+#### Niet-ruby afhankelijkheden
+
+De applicatie gebruikt naast rubygems ook diverse andere zaken:
+
+* ElasticSearch voor zoeken en rapportages
+* Redis voor achtergrond processen
+* PostgreSQL als database
+
+ElasticSearch wordt standaard gestart met Docker.
+
 #### Inrichting van de database
 
 Het Ruby on Rails framework komt met een ingebouwd migratiesysteem om een volledige database in te richten. Hiervoor dient de connectie met de database server geconfigureerd worden. Dit kan in het bestand `database.yml`.
@@ -125,7 +135,7 @@ Het bestand [`db/schema.rb`](db/schema.rb) kan geraadpleegd worden om een indruk
 
 De applicatie kan nu gestart worden middels het commando
 
-    rails s
+    foreman start
 
 #### Aanmaken van een eerste admin gebruiker
 
@@ -173,48 +183,6 @@ Rails bied ook ondersteuning voor andere databases, en draait ook op diverse ser
 We testen echter niet actief in andere omgevingen dan de hierboven beschreven omgeving.
 De applicatie wordt echter wel ontwikkeld op een macOS systeem.
 
-## Identity Access Management
-
-### Identificatie
-
-Identificatie geschied door invoer van een e-mail/wachtwoord inlog. De identiteit
-wordt na registratie geverifieerd door een administrator. Pas daarna krijgt een
-geregistreerde gebruiker toegang tot enige collectie.
-
-### Toegang
-
-#### Tot collecties
-
-Administratoren hebben toegang tot alle collecties, en zijn ook in staat de rollen
-van gebruikers aan te passen. Alle rol- en collectieaanpassingen worden op gebruikersmodel niveau automatisch gelogd.
-
-Collecties zijn hierarchisch georganiseerd. Er zijn dus super- en sub-collecties.
-Iemand met toegang tot een een collectie hoger in de hierarchie heeft automatisch
-toegang tot alle onderliggende collecties.
-
-Toegang tot een bepaald werk kan niet op het niveau van het individuele werk worden bepaald.
-
-#### Tot functionaliteit
-
-QKunst collectiemanagement kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
-
-* Administrator
-* Taxateur
-* Registrator
-* Facility Manager
-* Read only
-* Inactieve gebruiker (read only gebruiker zonder toegang tot enige collectie)
-
-Een gebruiker heeft slechts 1 rol, al is de functionaliteit van de rollen overlappend.
-
-Belangrijk onderscheid tussen Registrator en Taxateur is de toegang tot waarderingen van de werken (en deze kunnen toevoegen).
-Belangrijk onderscheid tussen Read only en Facility Manager is de toegang tot waarderingen. Een Facility Manager kan echter geen taxaties toevoegen of aanpassen.
-Read only gebruikers beschikken ook niet over alle filtermogelijkheden.
-
-### Management
-
-Het beheer van rollen en koppeling aan een collectie kan slechts gedaan worden door een administrator.
-
 ## Backup
 
 ### Herstellen met een databasebackup
@@ -233,121 +201,20 @@ Toegangsrechten dienen wel opnieuw ingesteld te worden.
 3. Vraag een pull request aan en beschrijf wat je hebt aangepast
 4. Wees behulpzaam en vriendelijk bij evt. vragen van de maintainer (QKunst)
 
-## EDM XML Export
-
-Er wordt gewerkt aan het mappen van de collectiedata linked XML / RDF gegevens volgens de [European Data Model](https://pro.europeana.eu/page/edm-documentation), een Europese aanbeveling voortkomend uit [Europeana](https://www.europeana.eu/en).
-
-### edm:ProvidedCHO
-
-Het eigenlijke werk
-
-| tag | beschrijving | cardinaliteit |
-|---|---|---|
-| dc:title | Titel kunstwerk | 0..1 |
-| dcterms:alternative | Beschrijving kunstwerk (veelal bij gebrek aan titel) | 0..1 |
-| dc:description | Publieke beschrijving | 0..1 |
-| dc:identifier | Identifiers, zie scheme voor type nummer | 1..4 |
-| dcterms:creator > edm:Agent | Creator; specificatie hieronder | 0..n |
-| dc:subject | Freeform tags | 0..1 |
-| qkunst:photo_file_name | photo file name | 0..6 |
-| dc:type | Type of artworks | 0..n |
-| qkunst:techniques | Techniques (no AAT) | 0..n |
-| edm:hasMet | Location | 0..n |
-
-### edm:Agent
-
-Vervaardiger
-
-| tag | beschrijving | cardinaliteit |
-|---|---|---|
-| skos:prefLabel | name | 0..1 |
-| edm:begin | date of birth | 0..1|
-| edm:end | date of death | 0..1|
-| rdau:P60599  | date of birth | 0..1|
-| rdau:P60598  | date of death | 0..1|
-| dc:identifier | RKD Artist ID | 0..1 |
-| rdau:P60594 | place of birth | 0..1|
-| rdau:P60592 | place of death | 0..1|
-
-
-## Toegepaste cryptografie-technieken
-
-### Connectie
-
-Toegang tot de applicatie is slechts mogelijk via een HTTPS verbinding (min. TLS 1.0). Dit wordt afgedwongen door zowel de applicatie als de webserver. De webserver staat slechts een beperkte set aan verlesutelingscombinaties toe. Zie onderstaand:
-
-> ##### TLS 1.2 (suites in voorkeursvolgorde van de server)
->
-> * TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-> * TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-> * TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
-> * TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
-> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
-> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
-> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA256
-> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
->
-> ##### TLS 1.1 (suites in voorkeursvolgorde van de server)
->
-> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
-> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
->
-> ##### TLS 1.0 (suites in voorkeursvolgorde van de server)
->
-> * TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
-> * TLS_DHE_RSA_WITH_AES_256_CBC_SHA
-
-Zie voor meer details (en up to date): [Qualys SSL Report: collectiemanagement.qkunst.nl](https://www.ssllabs.com/ssltest/analyze.html?d=collectiemanagement.qkunst.nl).
-
-Certificaat wordt een maand voor verlopen vernieuwd.
-
-#### Hashing wachtwoorden
-
-Wachtwoorden worden 10x gehashed met [bcrypt](https://en.wikipedia.org/wiki/Bcrypt)
-
-#### API
-
-De API loopt over dezelfde HTTPS verbinding als de eindgebruikersinterface. Voor de ondertekening van de berichten wordt [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code) gebruikt welke gebruik maakt van een SHA512 digest.
-Sleutels voor API's kennen geen beperking in levensduur, maar kunnen op verzoek worden gereset. Wanneer er geen API-key verzoek is gedaan, is API toegang voor die 'gebruiker' niet mogelijk.
-
-#### Servertoegang
-
-Voor deployment wordt gebruikt van een OpenSSH (dagelijks wordt gecontroleerd op veiligheids updates) SSL verbinding, waartoe slechts toegang wordt verleend middels SSH-sleutels. Directe root-toegang via SSH is uitgesloten. Configuratie van de gebruikte ciphers voor SSH wijkt niet af van de standaard configuratie die komt met Debian Jessie package voor OpenSSL.
-
-## API
-
-### Token based authentication
-
-Er is een zeer beperkte API beschikbaar om informatie te lezen uit het systeem. Hiervoor dient een gebruiker een API key toegewezen te krijgen via de console (`rails c`). Om te authentiseren dient er bij iedere request een token-header meegestuurd worden, het geen een met `bcrypt` geencodeerde string is van het externe ip adres, de url en de api key.
-
-    data = "#{self.externalip}#{url}#{method}#{request_body}"
-    user_id # known user id; send as header HTTP_API_USER_ID
-    api_key # shared key
-
-    digest = OpenSSL::Digest.new('sha512')
-    hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data) # send as HTTP_HMAC_TOKEN
-
-Om een volledige ruby request te doen:
-
-    data = "#{external_ip}#{url}"
-    digest = OpenSSL::Digest.new('sha512')
-    hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data)
-
-    uri = URI(url)
-    req = Net::HTTP::Get.new(uri)
-    req['api_user_id'] = user_id
-    req['hmac_token'] = hmac_token
-    res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
-    response_data = JSON.parse(res.body)
-
-Als je via de browser ingelogd bent kun je ook op die manier toegang krijgen.
 
 ## Ontwikkelen
 
 ### Afhankelijkheden
 
-curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
-curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
+
+
+#### Elastic Search
+
+curl -X GET "localhost:9200"
 curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
-curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
+curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
+
 curl -X GET "localhost:59200"
+curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
+curl -X PUT "localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
+
