@@ -45,7 +45,7 @@ module FeatureHelper
     visit root_path
     first(".large-12.columns .button").click
 
-    click_on("Log in met #{oauth_provider.to_s.titleize}")
+    click_on("Log in met Google")
   end
 
   def signout

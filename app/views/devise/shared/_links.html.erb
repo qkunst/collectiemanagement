@@ -18,8 +18,13 @@
   <%= link_to "Geen ontgrendelinstructies gekregen?", new_unlock_path(resource_name) %><br />
 <% end -%>
 
+
+<%= button_to "Log in met Google", omniauth_authorize_path(resource_name, :google_oauth2), class: [:secondary, :button] %><br />
+
 <%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
+  <% unless [:google_oauth2].include? provider %>
     <%= button_to "Log in met #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider), class: [:secondary, :button] %><br />
+  <% end %>
   <% end -%>
 <% end -%>
