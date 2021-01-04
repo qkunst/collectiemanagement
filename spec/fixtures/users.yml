@@ -32,6 +32,7 @@ admin:
   name: Administrator
   oauth_provider: google_oauth2
   oauth_subject: 1
+  domain: qkunst.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
 supposed_admin_without_oauth:
@@ -39,6 +40,7 @@ supposed_admin_without_oauth:
   admin: true
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  domain: qkunst.nl
   confirmed_at: 2000-01-01T01:00
 super_admin:
   email: qkunst-super-admin-user@murb.nl
@@ -46,6 +48,7 @@ super_admin:
   super_admin: true
   oauth_provider: google_oauth2
   oauth_subject: 2
+  domain: qkunst.nl
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
@@ -53,6 +56,7 @@ qkunst:
   email: qkunst-regular-user@murb.nl
   admin: false
   qkunst: true
+  domain: qkunst.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
 qkunst_with_collection:

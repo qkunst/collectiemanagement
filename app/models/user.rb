@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_paper_trail
 
   ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
+  ADMIN_DOMAINS = ["qkunst.nl"]
+  ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable,  omniauth_providers: [:google_oauth2]
@@ -17,7 +19,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :collections
 
-  scope :admin, -> { where(admin: true) }
+  scope :admin, -> { where(admin: true, oauth_provider: ADMIN_OAUTH_PROVIDERS, domain: ADMIN_DOMAINS) }
   scope :not_admin, -> { where.not(admin: true) }
   scope :advisor, -> { where(advisor: true).where(admin: [false, nil]) }
   scope :appraiser, -> { where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
@@ -111,9 +113,13 @@ class User < ApplicationRecord
   end
 
   def admin?
-    read_attribute(:admin) && oauthable?
+    read_attribute(:admin) && oauthable? && trusted_admin_domain?
   end
   alias_method :admin, :admin?
+
+  def trusted_admin_domain?
+    ADMIN_DOMAINS.include? domain
+  end
 
   def enforce_oauth?
     admin?

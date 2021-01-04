@@ -30,6 +30,7 @@ RSpec.feature "Signin in and out" do
     expect(page.body).not_to match("U dient in te loggen met de inlogmethode van uw organisatie")
     user.reload
     expect(user.oauth_provider).to eq("google_oauth2")
+    expect(user.domain).to eq("qkunst.nl")
     expect(user.oauth_subject).not_to eq(nil)
   end
 end

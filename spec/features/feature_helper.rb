@@ -36,7 +36,13 @@ module FeatureHelper
       info: {
         email: user.email,
         email_verified: true,
-        name: user.name
+        name: user.name,
+        hd: "qkunst.nl"
+      },
+      extra: {
+        id_info: {
+          hd: "qkunst.nl"
+        }
       }
     })
 
