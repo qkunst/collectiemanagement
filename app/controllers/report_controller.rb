@@ -1,17 +1,51 @@
 class ReportController < ApplicationController
+  include Works::Filtering
+
   before_action :set_collection # set_collection includes authentication
 
   def show
     authorize! :read_report, @collection
     current_user.reset_filters!
+    set_selection_filter
+    set_no_child_works
+
+    if params[:filter_on] == "works"
+      redirect_to collection_works_path(filter: params[:filter].to_unsafe_h)
+    end
 
     @title = "Rapportage voor #{@collection.name}"
 
-    @inventoried_objects_count = @collection.works_including_child_works.count
-    @inventoried_objects_count_in_search = @collection.elastic_aggragations["total"].value
-    @works_count = @collection.works_including_child_works.count_as_whole_works
+    prepare_report
+    prepare_report_outline
 
+    unless @report
+      redirect_to collection_path(@collection), notice: "Het rapport kon niet gegenereerd worden door een systeemfout. De beheerder is geïnformeerd."
+    end
+  end
 
+  private
+
+  def prepare_report
+    Report::Parser.key_model_relations = Collection::KEY_MODEL_RELATIONS.map{ |k, v| [k, v.constantize] }.to_h
+
+    elastic_works = @collection.search_works("", @selection_filter, {force_elastic: true, return_records: false, no_child_works: @no_child_works, aggregations: Report::Builder.aggregations})
+    elastic_aggregations = elastic_works.aggregations
+
+    @report = Report::Parser.parse(elastic_aggregations)
+
+    if @selection_filter
+      base_report = Report::Parser.parse(@collection.search_works("", {}, {force_elastic: true, return_records: false, no_child_works: @no_child_works, aggregations: Report::Builder.aggregations}).aggregations, base_report: true)
+      @report = base_report.deep_merge(@report)
+    end
+
+    @inventoried_objects_count_in_search = elastic_aggregations["total"].value
+    @inventoried_objects_count = elastic_works.count
+
+    @works_count = elastic_works.records.count_as_whole_works
+    @collection_works_count = @collection.works_including_child_works.count_as_whole_works
+  end
+
+  def prepare_report_outline
     @sections = {
       Locaties: [[:location_raw]]
     }
@@ -37,13 +71,6 @@ class ReportController < ApplicationController
       @sections["Vervangingswaardering"] += [[:replacement_value_range], [:replacement_value], [:replacement_value_min_ignore_super]]
 
       @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
-
-    end
-
-    @report = @collection.report
-
-    unless @report
-      redirect_to collection_path(@collection), notice: "Het rapport kon niet gegenereerd worden door een systeemfout. De beheerder is geïnformeerd."
     end
   end
 end

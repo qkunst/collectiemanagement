@@ -13,7 +13,8 @@ module Report
         @@key_model_relations
       end
 
-      def parse elastic_aggragations
+      def parse elastic_aggragations, base_report: false
+        self.base_report = base_report
         parse_bucket elastic_aggragations
       end
     end

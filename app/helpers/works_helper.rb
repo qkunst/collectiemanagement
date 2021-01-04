@@ -72,4 +72,45 @@ module WorksHelper
     end
     html.html_safe
   end
+
+  def translate_works_with_article count
+    I18n.translate 'count.works_with_article', count: count
+  end
+
+  def translate_works count
+    I18n.translate 'count.works', count: count
+  end
+  def translate_inventoried_objects count
+    I18n.translate 'count.inventoried_objects_count', count: count
+  end
+
+
+  def describe_work_counts
+    report = controller.is_a?(ReportController)
+    filtered = @collection_works_count > @works_count
+    grouped = @selection && @selection[:group] != :no_grouping
+    more_inventoried_objects_than_works = @inventoried_objects_count != @works_count
+
+    is_grouped_by_part = grouped ? "en is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])} en " : nil
+    inventoried_objects_comment = more_inventoried_objects_than_works ? ", bestaande uit #{translate_inventoried_objects(@inventoried_objects_count)}." : "."
+
+    sentence_items = ["Deze collectie bevat #{translate_works(@collection_works_count)}"]
+
+    if filtered
+      sentence_items << ". Er"
+      sentence_items << ((@works_count == 1 || report) ? " wordt " : " worden ")
+      sentence_items << "vanwege een filter "
+      sentence_items << (report ? "gerapporteerd over #{translate_works(@works_count)}" : "#{translate_works(@works_count)} getoond")
+    end
+    if more_inventoried_objects_than_works
+      sentence_items += [", bestaande uit ", translate_inventoried_objects(@inventoried_objects_count)]
+    end
+    sentence_items << ". "
+    if grouped
+      sentence_items << "Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}"
+    end
+
+    sentence_items.join("")
+
+  end
 end

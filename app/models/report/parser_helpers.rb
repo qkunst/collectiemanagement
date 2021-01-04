@@ -3,6 +3,7 @@
 module Report
   module ParserHelpers
     IGNORE_KEYS = ["key", "doc_count", "total"]
+    attr_accessor :base_report
 
     def parse_bucket bucket
       subcounts_in_hash = {}
@@ -23,7 +24,7 @@ module Report
     def parse_aggregation aggregation, aggregation_key
       counts = {}
       if aggregation.is_a?(Hash) && aggregation[:doc_count] && aggregation_key.to_s.match(/^.*_missing$/) &&  (aggregation.keys - IGNORE_KEYS).count == 0
-        counts[:missing] = {count: aggregation[:doc_count], subs: {}}
+        counts[:missing] = {count: (base_report ? 0 : aggregation[:doc_count]), subs: {}}
       elsif aggregation.is_a?(Hash) && aggregation[:buckets]
         buckets = aggregation.buckets
         buckets.each do |bucket|
@@ -36,7 +37,7 @@ module Report
             key = key_model.send(:names, key)
           end
 
-          counts[key] = {count: bucket.doc_count, subs: subcounts_in_hash}
+          counts[key] = {count: (base_report ? 0 : bucket.doc_count) , subs: subcounts_in_hash}
         end
       elsif aggregation.is_a?(Hash) && (aggregation.keys - IGNORE_KEYS).count > 0 && !IGNORE_KEYS.include?(aggregation_key)
         subcounts_in_hash = parse_bucket aggregation
@@ -45,7 +46,7 @@ module Report
           aggregation_key = :missing
         end
 
-        counts[aggregation_key] = {count: aggregation.doc_count, subs: subcounts_in_hash}
+        counts[aggregation_key] = {count: (base_report ? 0 : aggregation.doc_count), subs: subcounts_in_hash}
       end
       return counts unless IGNORE_KEYS.include?(aggregation_key)
     end

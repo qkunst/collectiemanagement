@@ -1,14 +1,16 @@
 <h2>Rapportage</h2>
-<p>Deze collectie bevat <%= I18n.translate 'count.works', count:  @works_count %>, bestaande uit <%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>.
+<p><%= describe_work_counts%>
   In de rapportage wordt geteld op basis van geïnventariseerde objecten.
 </p>
 <% if @inventoried_objects_count_in_search != @inventoried_objects_count %>
-   <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine.</div>
+   <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine<% if Sidekiq::Workers.new.size > 0%>, maar wordt momenteel bijgewerkt<% end %>.</div>
 <% end%>
 <p>
-  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :secondary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
+  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :tertiary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
 </p>
+
 <% begin %>
+  <%= form_tag collection_report_path, method: :get do %>
   <div class="tabs">
     <% if @sections.keys.count > 1 %>
     <nav class="tab-head">
@@ -35,6 +37,12 @@
       </section>
     <% end %>
   </div>
+  <div class="bottom-controls">
+  <%= button_tag "Toon #{translate_works_with_article(@works_count)}", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
+  <%= button_tag "Filter rapportage", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
+  </div>
+
+  <%end%>
   <p><small>Waar de prijzen oorspronkelijk niet in euro's waren, zijn deze voor de rapportage omgezet naar euro's.</small></p>
 <% rescue Elasticsearch::Transport::Transport::Errors::NotFound %>
 <p>De rapportage kon niet gedraaid worden</p>

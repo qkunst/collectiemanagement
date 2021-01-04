@@ -25,7 +25,7 @@ RSpec.feature "View report", type: :feature do
 
     click_on("Abstract")
 
-    expect(page).to have_content("Deze (gefilterde) collectie bevat 1 werk (van de 5 werken)")
+    expect(page).to have_content("Deze collectie bevat 5 werken. Er wordt vanwege een filter 1 werk getoond.")
     expect(page).to have_content("Q001")
 
     within "#responsive-menu" do
@@ -35,7 +35,7 @@ RSpec.feature "View report", type: :feature do
     click_on "Status"
     click_on "Onlangs geïnventariseerd"
 
-    expect(page).to have_content("Deze (gefilterde) collectie bevat 2 werken (van de 5 werken)")
+    expect(page).to have_content("Deze collectie bevat 5 werken. Er worden vanwege een filter 2 werken getoond.")
     expect(page).to have_content("Q001")
   end
 

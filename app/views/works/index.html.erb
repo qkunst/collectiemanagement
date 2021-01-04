@@ -8,13 +8,8 @@
       <input type="hidden" name="no_child_works" value="<%=@no_child_works ? 1 : 0%>" />
 
     <div class="large-5 columns print-12<%= " hide-for-print" if @limit_collection_information%>">
-      <p>Deze
-        <% if @collection_works_count > @works_count %> (gefilterde) <% end %>
-        collectie <% unless @selection[:group] == :no_grouping%><span class="hide-for-screen">is gegroepeerd op <%=I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])%> en </span><% end%>bevat
-        <%= I18n.translate 'count.works', count:  @works_count %><% if @collection_works_count > @works_count %>
-          (van de <%= I18n.translate 'count.works', count:  @collection_works_count %>)
-        <% end %><% if @inventoried_objects_count != @works_count%>, bestaande uit <%= I18n.translate 'count.inventoried_objects_count', count:  @inventoried_objects_count %>.<% end%>
-
+      <p>
+        <%= describe_work_counts%>
         <% if @collection_works_count > @works_count %>
           <span class="hide-for-print">
             <br/>
@@ -124,8 +119,8 @@
       <% else %>
         <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
       <% end %>
+      <%= render :partial => 'batch_edit_actions' %>
     </div>
-    <%= render :partial => 'batch_edit_actions' %>
 
     <% end #//batcheditformtag%>
   </div>

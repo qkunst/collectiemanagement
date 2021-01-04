@@ -4,8 +4,7 @@ reportInit = function() {
   $('#locaties tr').hide();
   return $('#locaties tr.location_raw, #locaties tr.span-6').show();
 };
-
-$(document).on('ready', reportInit);
+reportInit();
 
 $(document).on('turbolinks:load', reportInit);
 

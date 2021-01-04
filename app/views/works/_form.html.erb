@@ -169,14 +169,15 @@
     </fieldset>
   </div>
 
-  <div class="form-actions">
-    <% if @work.id %>
-    <label><%= check_box_tag 'submit_and_edit_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
-    <% end %>
-    <%= f.button :submit, class: :button %>
-    <% unless @work.id %>
-      <%= f.button :submit, class: "button no-reload", value: "Werk toevoegen en volgende voorinvullen", data: { no_reload: true, confirm: "Het formulier wordt op de achtergrond verstuurd. Foto's worden niet opgeslagen bij deze handeling. Als u op OK drukt kunt u beginnen met het volgende werk." } %>
-    <% end %>
-
+  <div class="bottom-controls">
+    <div class="form-actions">
+      <% if @work.id %>
+      <label><%= check_box_tag 'submit_and_edit_next'%> <%=I18n.t(:save_and_edit_next) =%></label>
+      <% end %>
+      <%= f.button :submit, class: :button %>
+      <% unless @work.id %>
+        <%= f.button :submit, class: "button no-reload", value: "Werk toevoegen en volgende voorinvullen", data: { no_reload: true, confirm: "Het formulier wordt op de achtergrond verstuurd. Foto's worden niet opgeslagen bij deze handeling. Als u op OK drukt kunt u beginnen met het volgende werk." } %>
+      <% end %>
+    </div>
   </div>
 <% end %>

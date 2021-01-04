@@ -20,7 +20,8 @@ class CollectionsController < ApplicationController
   def refresh_works
     authorize! :refresh, @parent_collection
     @parent_collection.purge_old_indexed_works!
-    @parent_collection.works_including_child_works.reindex!
+    @parent_collection.works_including_child_works.reindex_async!
+    sleep(2)
     redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
   end
 

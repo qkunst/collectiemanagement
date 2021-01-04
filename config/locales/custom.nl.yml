@@ -4,6 +4,10 @@ nl:
       zero: geen geïnventariseerde objecten
       one: 1 geïnventariseerd object
       other: ! '%{count} geïnventariseerde objecten'
+    works_with_article:
+      zero: geen werken
+      one: het werk
+      other: ! 'de %{count} werken'
     works:
       zero: geen werken
       one: 1 werk

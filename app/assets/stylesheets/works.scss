@@ -341,15 +341,7 @@ body.complete tr.complete_data {
 }
 
 #selected-works {
-  position: fixed;
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  position: fixed;
-  bottom: 1em;
-  width: 60%;
-  left: 20%;
-  padding: 0.5em 0 0;
-
+  float: left;
   p {
     text-align: left;
     padding: 0;

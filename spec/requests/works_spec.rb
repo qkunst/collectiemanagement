@@ -281,7 +281,8 @@ RSpec.describe "Works", type: :request do
       describe "tag filtering" do
         it "should return no works when tags do not exist" do
           get collection_works_path(collection, params: {filter: {tags: ["nonexistingtag"]}})
-          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*geen werken\s*\(van de \d* werken\)/)
+
+          expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter geen werken getoond./)
         end
         it "should use AND for tags" do
           w1, w2, w3 = collection.works_including_child_works[0..2]
@@ -297,10 +298,10 @@ RSpec.describe "Works", type: :request do
           collection.works_including_child_works.reindex!
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
-          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*2 werken\s*\(van de \d* werken\)/)
+          expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter 2 werken getoond./)
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1", "tagtest2"]}})
-          expect(response.body).to match(/Deze\s*\(gefilterde\)\s*collectie bevat\s*1 werk\s*\(van de \d* werken\)/)
+          expect(response.body).to match(/Deze collectie bevat \d* werken\. Er wordt vanwege een filter 1 werk getoond./)
         end
       end
     end

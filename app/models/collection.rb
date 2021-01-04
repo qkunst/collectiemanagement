@@ -298,7 +298,7 @@ class Collection < ApplicationRecord
 
   def report
     return @report if @report
-    Report::Parser.key_model_relations = KEY_MODEL_RELATIONS.map { |k, v| [k, v.constantize] }.to_h
+    Report::Parser.key_model_relations = Collection::KEY_MODEL_RELATIONS.map { |k, v| [k, v.constantize] }.to_h
     if elastic_aggragations
       @report = Report::Parser.parse(elastic_aggragations)
     else

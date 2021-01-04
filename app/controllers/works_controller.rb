@@ -28,6 +28,7 @@ class WorksController < ApplicationController
     set_selection_group_options
     set_selection_sort_options
     set_selection_display_options
+    set_no_child_works
 
     @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
@@ -39,7 +40,6 @@ class WorksController < ApplicationController
 
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] && !@reset
-    @no_child_works = (params[:no_child_works] == 1) || (params[:no_child_works] == "true") ? true : false
 
     if redirect_directly_to_work_using_search_text
       return true

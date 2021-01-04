@@ -34,6 +34,35 @@ module CollectionReportHelper
     end
   end
 
+
+  def filter_check_box(filter_params)
+    @selection_filter ||= {}
+
+    present_filter_params = filter_params.select{|k,v| v.present?}
+    present_filter_param = present_filter_params.to_a.last
+
+    param_name = present_filter_param[0]
+    field_name = param_name.sub(/filter\[/,"").gsub(/[\[\]]/,"")
+
+    value = present_filter_param[1]
+
+    if value.is_a?(Array)
+      url_param_name = "#{param_name}[]"
+      url_param_value = present_filter_param[1].first
+    else
+      url_param_name = param_name
+      url_param_value = value
+    end
+
+    param_value = (value == :not_set) ? nil : url_param_value
+
+    selected_filter_value_for_name = @selection_filter[field_name]
+
+    checked = selected_filter_value_for_name.is_a?(Array) ? selected_filter_value_for_name.map{|a| ((a == true) ? 1 : (a == false) ? 0 : a)}.include?(param_value) : (@selection_filter.keys.include?(field_name) && selected_filter_value_for_name == param_value)
+
+    check_box_tag(url_param_name, url_param_value, checked)#, title: "this_param_value: #{param_value.inspect}, field_name: #{field_name}, selected_filter_value_for_name: #{selected_filter_value_for_name.inspect}")
+  end
+
   def link(group, selection)
     link_label = selection
 
@@ -61,7 +90,7 @@ module CollectionReportHelper
       @params = @params.merge({"filter[#{group}][]" => selection})
     end
 
-    link_to(link_label, collection_works_path(@collection, @params))
+    [filter_check_box(@params), link_to(link_label, collection_works_path(@collection, @params))].join("").html_safe
   end
 
   def render_spacers(depth)
@@ -175,7 +204,8 @@ module CollectionReportHelper
       @params = {"filter[#{min_range_column(group)}][]" => range_count[:min], "filter[#{max_range_column(group)}][]" => range_count[:max]}
 
       link_label = "#{number_to_currency(start_key, precision: 0)} - #{number_to_currency(finish_key, precision: 0)}"
-      html += "<tr><td colspan=\"#{DEEPEST}\">#{link_to(link_label, collection_works_path(@collection, @params))}</td><td class=\"count\">#{finish_count}</td></tr>"
+      link = [filter_check_box(@params), link_to(link_label, collection_works_path(@collection, @params))].join("").html_safe
+      html += "<tr><td colspan=\"#{DEEPEST}\">#{link}</td><td class=\"count\">#{finish_count}</td></tr>"
     end
 
     # make sure missing counts are added as well

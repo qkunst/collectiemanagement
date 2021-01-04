@@ -17,7 +17,7 @@ module Works::Filtering
             @reset = true
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "location", "location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| a == "not_set" ? nil : a } if params[:filter][field]
-          elsif Work.column_types[field] == :boolean
+          elsif Work.column_types[field.to_s] == :boolean
             @selection_filter[field] = parse_booleans(values)
           else
             @selection_filter[field] = clean_ids(values)
@@ -89,6 +89,10 @@ module Works::Filtering
       }
     end
 
+    def set_no_child_works
+      @no_child_works = (params[:no_child_works] == 1) || (params[:no_child_works] == "true") ? true : false
+    end
+
     def update_current_user_with_params
       current_user.filter_params[:group] = @selection[:group]
       current_user.filter_params[:display] = @selection[:display]
@@ -108,7 +112,7 @@ module Works::Filtering
     end
 
     def parse_booleans noise
-      noise.collect { |a| ["0", "false"].include?(a.to_s) ? false : true }
+      noise.collect { |a| (["0", "false"].include?(a.to_s) ? false : ((["1", "true"].include?(a.to_s)) ? true : nil)) }
     end
   end
 end
