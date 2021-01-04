@@ -1,0 +1,8 @@
+Beste <%= @email %>,
+
+U heeft zich aangemeld voor QKunst Collectiemanagement. U kunt uw account met de onderstaande url bevestigen:
+
+<%= confirmation_url(@resource, confirmation_token: @token) %>
+
+Indien u zich niet heeft aangemeld, negeer dan deze e-mail.
+Zolang u de link hier boven niet opent kan de account niet gebruikt worden.

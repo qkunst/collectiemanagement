@@ -2,18 +2,22 @@
 user1:
   email: test-user1@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 user2:
   email: test-user2@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 user3:
   email: test-user3@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 user_with_api_key:
   email: qkunst-test-user-with-api-key@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   api_key: 0946281efb2d948c385bd7af96686484444180d657a6e18994f3054c36336891be85bf184d642447a73f3deaf8365cc4e02bf2324e09a1f58ae0ec613bbf4c7d
   collections:
     - :collection_with_works
+  confirmed_at: 2000-01-01T01:00
 advisor_user_with_api_key:
   email: qkunst-test-advisor-user-with-api-key@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
@@ -21,22 +25,36 @@ advisor_user_with_api_key:
   api_key: 0946281efb2d948c385bd7af96686484444180d657a6e18994f3054c36336891be85bf184d642447a73f3deaf8365cc4e02bf2324e09a1f58ae0ec613bbf4c7d
   collections:
     - :collection_with_works
+  confirmed_at: 2000-01-01T01:00
 admin:
   email: qkunst-admin-user@murb.nl
   admin: true
   name: Administrator
+  oauth_provider: google_oauth2
+  oauth_subject: 1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
+supposed_admin_without_oauth:
+  email: supposed-qkunst-admin-user@murb.nl
+  admin: true
+  name: Administrator
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 super_admin:
   email: qkunst-super-admin-user@murb.nl
   admin: true
   super_admin: true
+  oauth_provider: google_oauth2
+  oauth_subject: 2
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 qkunst:
   email: qkunst-regular-user@murb.nl
   admin: false
   qkunst: true
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 qkunst_with_collection:
   email: qkunst-regular-user-with-collection@murb.nl
   admin: false
@@ -44,37 +62,44 @@ qkunst_with_collection:
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection1
+  confirmed_at: 2000-01-01T01:00
 user_with_no_rights:
   email: qkunst-test-user_with_no_rights@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 read_only:
   email: qkunst-test-read_only@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection1
+  confirmed_at: 2000-01-01T01:00
 read_only_with_access_to_collection_with_stages:
   email: qkunst-test-read_only_stages@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection_with_stages
+  confirmed_at: 2000-01-01T01:00
 facility_manager:
   email: qkunst-test-facility_manager@murb.nl
   facility_manager: true
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 facility_manager_collection3:
   email: qkunst-test-facility_manager-collection3@murb.nl
   facility_manager: true
   collections:
     - :collection3
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 facility_manager_two_collection3:
   email: qkunst-test-facility_manager_two-collection3@murb.nl
   facility_manager: true
   collections:
     - :collection3
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 appraiser:
   email: qkunst-test-appraiser@murb.nl
   admin: false
@@ -84,6 +109,7 @@ appraiser:
     - :collection1
     - :collection3
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 advisor:
   email: qkunst-test-advisor@murb.nl
   admin: false
@@ -93,6 +119,7 @@ advisor:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 compliance:
   email: qkunst-test-compliance@murb.nl
   admin: false
@@ -102,6 +129,7 @@ compliance:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 registrator:
   email: qkunst-test-registrator@murb.nl
   admin: false
@@ -111,6 +139,7 @@ registrator:
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
 collection_with_works_child_user:
   email: collection_with_works_child@murb.nl
   admin: false
@@ -119,12 +148,15 @@ collection_with_works_child_user:
   compliance: true
   collections:
     - :collection_with_works_child
+  confirmed_at: 2000-01-01T01:00
 collection_with_works_user:
   email: collection_with_works@murb.nl
   admin: false
   qkunst: false
   appraiser: false
   compliance: true
+  oauth_provider: google_oauth2
+  oauth_subject: 3
   collections:
     - :collection_with_works
 

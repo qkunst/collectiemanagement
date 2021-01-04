@@ -311,7 +311,7 @@ class Collection < ApplicationRecord
   end
 
   def can_be_accessed_by_user user
-    users_including_parent_users.include?(user) || user.super_admin? || (user.admin? && qkunst_managed?)
+    !!(users_including_parent_users.include?(user) || user.super_admin? || (user.admin? && qkunst_managed?))
   end
   alias_method :can_be_accessed_by_user?, :can_be_accessed_by_user
 

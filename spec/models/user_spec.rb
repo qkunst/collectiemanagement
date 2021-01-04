@@ -84,14 +84,27 @@ RSpec.describe User, type: :model do
         expect(users(:user1).name).to eq(users(:user1).email)
       end
     end
+    describe "#oauthable?" do
+      {supposed_admin_without_oauth: false, admin: true, collection_with_works_user: true, compliance: false, advisor: false, appraiser: false}.each do |k,v|
+        context k do
+          let(:user) { users(k) }
+          it "should return #{v}" do
+            expect(user.oauthable?).to eq(v)
+          end
+        end
+      end
+    end
     describe "#role" do
       it "should return read_only by default" do
         u = User.new
         expect(u.role).to eq(:read_only)
       end
-      it "should return read_only by default" do
-        u = users(:admin)
-        expect(u.role).to eq(:admin)
+      it "should return admin for admin" do
+        expect(users(:admin).role).to eq(:admin)
+      end
+      it "should return not admin when supposedly admin" do
+        u = users(:supposed_admin_without_oauth)
+        expect(u.role).to eq(:read_only)
       end
     end
     describe "#roles" do
@@ -102,6 +115,14 @@ RSpec.describe User, type: :model do
       it "should return read_only by default, even for admin" do
         u = users(:admin)
         expect(u.roles).to eq([:admin, :read_only])
+      end
+    end
+    describe "#super_admin?" do
+      it "should return false for regular admin" do
+        expect(users(:admin).super_admin?).to eq(false)
+      end
+      it "should return true for super admin" do
+        expect(users(:super_admin).super_admin?).to eq(true)
       end
     end
     describe "#works_created" do
@@ -154,6 +175,23 @@ RSpec.describe User, type: :model do
     end
   end
   describe "Class methods" do
+    describe ".from_omniauth_callback_data" do
+      it "raises argument error when invalid data is passed" do
+        expect{User.from_omniauth_callback_data(nil)}.to raise_error(ArgumentError)
+        expect{User.from_omniauth_callback_data(Users::OmniauthCallbackData.new)}.to raise_error(ArgumentError)
+      end
+      it "creates a new user when given" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123"))
+        expect(new_user.persisted?).to eq(true)
+        expect(new_user.qkunst).to be_falsey
+        expect(new_user.email).to eq(email)
+        expect(new_user.oauth_provider).to eq("google_oauth2")
+        expect(new_user.oauth_subject).to eq("123")
+        expect(new_user).to be_a(User)
+      end
+    end
   end
   describe "Scopes" do
   end

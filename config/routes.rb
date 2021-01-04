@@ -39,7 +39,10 @@ Rails.application.routes.draw do
     get "new_reply" => "messages#new"
   end
   devise_for :users, controllers: {
-    registrations: "registrations"
+    confirmation: "confirmation",
+    registrations: "registrations",
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    sessions: 'users/sessions'
   }
   resources :users, only: [:index, :edit, :update, :destroy]
 

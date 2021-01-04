@@ -2,7 +2,7 @@
 
 ### Identificatie
 
-Identificatie geschied door invoer van een e-mail/wachtwoord inlog. De identiteit
+Identificatie geschied door invoer van een e-mail/wachtwoord inlog of externe authenticatiepartij. De identiteit
 wordt na registratie geverifieerd door een administrator. Pas daarna krijgt een
 geregistreerde gebruiker toegang tot enige collectie.
 

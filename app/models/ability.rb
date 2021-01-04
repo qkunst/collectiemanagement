@@ -138,8 +138,7 @@ class Ability
       # ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
 
       can [:read, :update, :update_advisor, :update_compliance, :update_qkunst, :update_appraiser, :update_facility_manager, :update_read_only], User do |object_user|
-        return false if object_user == user
-        (((accessible_collection_ids & object_user.accessible_collection_ids) != []) || object_user.collection_ids.empty?) && !object_user.admin?
+        (((accessible_collection_ids & object_user.accessible_collection_ids) != []) || object_user.collection_ids.empty?) && (!object_user.admin? || user.admin?) && (object_user != user || user.admin?)
       end
       cannot [:update], User, id: user.id unless user.admin?
     end

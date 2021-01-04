@@ -3,16 +3,14 @@
 require_relative "feature_helper"
 
 RSpec.feature "Edit tags", type: :feature do
+  include FeatureHelper
   extend FeatureHelper
 
   ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "can edit tags" do
-        visit root_path
-        first(".large-12.columns .button").click
-        fill_in("E-mailadres", with: email_address)
-        fill_in("Wachtwoord", with: "password")
-        first("#new_user input[type=submit]").click
+        login(email_address)
+
         click_on "Collecties"
 
         if page.body.match?("id=\"list-to-filter\"")

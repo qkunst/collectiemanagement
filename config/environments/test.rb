@@ -59,3 +59,5 @@ Rails.application.configure do
     Bullet.bullet_logger = true
   end
 end
+
+OmniAuth.config.test_mode = true

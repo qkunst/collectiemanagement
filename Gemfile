@@ -84,7 +84,7 @@ end
 ##
 
 gem "simple_form"
-gem "kramdown" # parsing markdown
+gem "kramdown"
 
 ##
 ## STYLING
@@ -100,19 +100,17 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git"
 gem "nested_form"
-# gem 'rack-offline', git: 'https://github.com/murb/rack-offline.git'
-gem "paper_trail" # , '~>4.0.0.rc1'
+gem "paper_trail"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-# gem 'delayed_job_active_record'
 gem "redis-rails"
 gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
+gem 'omniauth-google-oauth2'
 
-# gem "sidekiq", "~> 5"
 gem "sidekiq", "~> 5.0"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
@@ -124,18 +122,10 @@ gem "flamegraph"
 gem "stackprof"
 gem "memory_profiler"
 
-# source 'https://rails-assets.org' do
-#   gem 'rails-assets-jquery' #, '~>2.2'
-#   gem 'rails-assets-chosen'
-#   gem 'rails-assets-select2'
-#   gem 'rails-assets-fetch', '2.0.4'
-#   gem 'rails-assets-morphdom', '~>2.3.0'
-#   gem 'rails-assets-Stickyfill', '~>1.1'
-# end
-
 group :test do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
 end
 gem "standard", group: [:development, :test]
+gem 'dotenv-rails', groups: [:development, :test]

@@ -39,7 +39,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
       scenario "can edit work through main form" do
         login email_address
 
-        expect(page).to have_content("Succesvol ingelogd")
+        expect(page).to have_content(/Succesvol (ingelogd|geautoriseerd)/)
         expect(page).to have_content("Ingelogd als #{email_address}")
         click_on "Collecties"
         expect(page).to have_content("Collection 1")
@@ -82,7 +82,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
       scenario "can edit location through location form" do
         login email_address
 
-        expect(page).to have_content("Succesvol ingelogd")
+        expect(page).to have_content(/Succesvol (ingelogd|geautoriseerd)/)
         expect(page).to have_content("Ingelogd als #{email_address}")
         click_on "Collecties"
         expect(page).to have_content("Collection 1")

@@ -75,7 +75,7 @@ class WorkSet < ApplicationRecord
 
 
   def can_be_accessed_by_user?(user)
-    user.admin? || most_specific_shared_collection&.can_be_accessed_by_user?(user)
+    !!(user.admin? || most_specific_shared_collection&.can_be_accessed_by_user?(user))
   end
 
   # returns the collection that most specific to the user

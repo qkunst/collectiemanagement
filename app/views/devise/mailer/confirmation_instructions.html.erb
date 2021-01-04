@@ -1,5 +1,8 @@
-<p>Beste <%= @email %>!</p>
+<p>Beste <%= @email %></p>
 
-<p>U kunt uw e-mail account met de onderstaande link bevestigen:</p>
+<p>U bent aangemeld voor QKunst Collectiemanagement. Indien u zichzelf heeft aangemeld kunt u uw account met de onderstaande link bevestigen:</p>
 
 <p><%= link_to 'Bevestig account', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>Indien u zich niet heeft aangemeld, negeer dan deze e-mail.</p>
+<p>Zolang u de link hier boven niet opent kan de account niet gebruikt worden.</p>
