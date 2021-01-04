@@ -183,12 +183,25 @@ RSpec.describe User, type: :model do
       it "creates a new user when given" do
         email = "a@a.com"
         User.where(email: email).destroy_all
-        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123"))
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: false))
         expect(new_user.persisted?).to eq(true)
         expect(new_user.qkunst).to be_falsey
         expect(new_user.email).to eq(email)
         expect(new_user.oauth_provider).to eq("google_oauth2")
         expect(new_user.oauth_subject).to eq("123")
+        expect(new_user.confirmed?).to eq(false)
+        expect(new_user).to be_a(User)
+      end
+      it "creates a new user when given and confirms when confirmed" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true))
+        expect(new_user.persisted?).to eq(true)
+        expect(new_user.qkunst).to be_falsey
+        expect(new_user.email).to eq(email)
+        expect(new_user.oauth_provider).to eq("google_oauth2")
+        expect(new_user.oauth_subject).to eq("123")
+        expect(new_user.confirmed?).to eq(true)
         expect(new_user).to be_a(User)
       end
     end

@@ -195,6 +195,7 @@ class User < ApplicationRecord
         user.qkunst = data.qkunst
         user.facility_manager = data.facility_manager
         user.domain = data.domain
+        user.confirmed_at ||= Time.now if data.email_confirmed?
         user.save
         user
       end

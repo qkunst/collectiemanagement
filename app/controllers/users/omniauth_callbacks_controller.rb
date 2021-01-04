@@ -5,6 +5,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: "google_oauth2")
     data.email = omniauth_data.info[:email] unless omniauth_data.info[:email_verified] == false
+    data.email_confirmed = omniauth_data.info[:email_verified]
     data.name = omniauth_data.info[:name]
     data.qkunst = true if omniauth_data.info[:hd] == "qkunst.nl"
     data.domain = omniauth_data.info[:hd] # hd contains organisation's domain in case of GoogleSuite-subscriber
