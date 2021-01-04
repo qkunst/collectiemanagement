@@ -22,7 +22,7 @@ script:
   - RAILS_ENV=test bundle exec rails qkunst:new_index
   - sleep 2
   - bundle exec bundle audit update
-  - bundle exec bundle audit
+  - bundle exec bundle audit check --ignore CVE-2015-9284 # resolved via https://github.com/omniauth/omniauth/wiki/Resolving-CVE-2015-9284
   - bundle exec rspec
 services:
   - docker

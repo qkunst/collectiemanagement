@@ -110,6 +110,7 @@ gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
 gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
 
 gem "sidekiq", "~> 5.0"
 gem "sidekiq-scheduler"
