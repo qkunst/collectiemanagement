@@ -65,7 +65,7 @@ class AttachmentsController < ApplicationController
   def destroy
     if @subject
       @subject.attachments -= [@attachment]
-      notice = "Attachment verwijderd bij #{I18n.t @subject.class.name.downcase, :activerecord, :models}"
+      notice = "Attachment verwijderd bij #{I18n.t(@subject.class.name.downcase, scope: [:activerecord, :models])}"
     else
       notice = "Attachment volledig verwijderd"
       @attachment.destroy
