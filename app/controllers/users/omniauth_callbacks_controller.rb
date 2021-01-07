@@ -21,6 +21,15 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def failure
+    if failure_message == "Csrf detected"
+      set_flash_message! :alert, "Er ging iets mis bij het inloggen via de externe dienst (CSRF Fout), probeer het nogmaals."
+    else
+      set_flash_message! :alert, :failure, kind: OmniAuth::Utils.camelize(failed_strategy.name), reason: failure_message
+    end
+    redirect_to after_omniauth_failure_path_for(resource_name)
+  end
+
   private
 
   def omniauth_data
