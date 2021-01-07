@@ -104,7 +104,8 @@ gem "paper_trail"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-gem "redis-rails"
+gem "redis-rails" #jobs
+gem "dalli" #memcache
 gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
