@@ -110,6 +110,7 @@ gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
+gem 'omniauth', "< 2.0.0"
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 
