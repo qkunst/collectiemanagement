@@ -33,6 +33,7 @@ nl:
     manage_location: Beheer locatie
     edit_location: Bewerk locatie
     read_location: Toon locatie
+    read_api: API toegang (alleen lezen)
     write_internal_comments: Toon interne opmerkingen
     read_internal_comments: Wijzig interne opmerkingen
     read_information_back: Toon informatie achterzijde
@@ -61,6 +62,9 @@ nl:
     review_collection: Overzicht tonen in collectie-context
     edit_purchase_information: Kan aankoopgegevens bewerken (& inzien)
     edit_source_information: Kan herkomst bewerken (& inzien)
+    update_status: Status bijwerken
+    read_without_collection: Tonen buiten collectie-context
+    view_location_history: Toon locatiegeschiedenis
   routes:
     books: boeken
     new: nieuw
@@ -147,6 +151,7 @@ nl:
       user: Gebruiker
       work: Werk
       work_set_type: Werkgroeperingstype
+      workset: Werkgroepering
       work_set: Werkgroepering
       library_item: Bibliotheek item
     values:

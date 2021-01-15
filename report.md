@@ -1,12 +1,12 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2020-10-30 16:39:05 +0100
+Date: 2021-01-15 16:46:55 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **93.85%** of the lines are covered by automated test. The code base consists of **9524** lines of code.
+In total **93.81%** of the lines are covered by automated test. The code base consists of **10154** lines of code.
 
 ## Abilities
 
@@ -32,11 +32,11 @@ This lists what a user can do per object-type.
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|
-|*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Tonen*|✔|✔|✔|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |**Bericht**||
 |*Beheren*|✔|✘|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
@@ -62,6 +62,7 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Toon gebruikers binnen de collectie*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
+|*API toegang (alleen lezen)*|✔|✔|✘|✘|✘|✘|
 |*Toegang tot de batch-editor*|✔|✔|✘|✔|✔|✘|
 |*Kan foto's downloaden*|✔|✔|✔|✘|✔|✘|
 |*Kan gegevens downloaden*|✔|✔|✔|✘|✘|✘|
@@ -71,18 +72,18 @@ This lists what a user can do per object-type.
 |*Uitgebreide rapportage lezen*|✔|✔|✔|✔|✘|✘|
 |*Waardering zien*|✔|✔|✔|✔|✔|✘|
 |*Status inzien*|✔|✔|✔|✔|✔|✘|
-|*Waarderingsreferentie lezen*|✔|✔|✔|✔|✘|✘|
+|*Waarderingsreferentie lezen*|✔|✔|✘|✔|✘|✘|
 |*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
-|*translation missing: nl.abilities.update_status*|✔|✔|✘|✘|✘|✘|
+|*Status bijwerken*|✔|✔|✘|✘|✘|✘|
 |*Toon gewijzigde werken*|✔|✔|✔|✘|✘|✘|
 |*Verwijderen*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|
-|*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✔|
 |*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✘|✘|✘|
 |*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|
 |**Gebruiker**||
 |*Beheren*|✔|✘|✘|✘|✘|✘|
@@ -92,6 +93,17 @@ This lists what a user can do per object-type.
 |*Overzicht zien*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
+|**Werkgroepering**||
+|*Beheren*|✔|✘|✘|✘|✘|✘|
+|*Tonen buiten collectie-context*|✔|✘|✘|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Verwijderen*|✔|✔|✘|✔|✘|✘|
 |**Vervaardiger**||
 |*Opschonen*|✔|✘|✘|✘|✘|✘|
 |*Combineren*|✔|✘|✘|✘|✘|✘|
@@ -101,17 +113,38 @@ This lists what a user can do per object-type.
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
-|*Bijwerken*|✔|✔|✘|✔|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✔|
 |*Overzicht zien*|✔|✔|✔|✔|✔|✔|
 |*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Cluster**||
 |*Beheer (inclusief aanmaken) collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Toon gebruikers binnen de collectie*|✔|✔|✘|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Beheren*|✔|✔|✘|✘|✘|✘|
+|**Werk**||
+|*API toegang (alleen lezen)*|✔|✔|✘|✘|✘|✘|
+|*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
+|*Kan herkomst bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
+|*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘|
+|*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘|
+|*Beheer locatie*|✔|✔|✘|✔|✔|✘|
+|*Toon locatie*|✔|✔|✔|✔|✔|✘|
+|*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
+|*Taggen*|✔|✔|✘|✔|✘|✘|
+|*Toon locatiegeschiedenis*|✔|✔|✔|✔|✔|✘|
+|*Details tonen*|✔|✔|✔|✔|✔|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✔|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
+|*Tonen*|✔|✔|✔|✔|✔|✔|
+|*Bijwerken*|✔|✔|✘|✘|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Kan aankoopgegevens bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
 |**RKD Artist**||
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
@@ -126,39 +159,22 @@ This lists what a user can do per object-type.
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Tonen*|✔|✘|✔|✘|✘|✘|
-|**Werk**||
-|*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
-|*Kan herkomst bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
-|*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
-|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
-|*Aanmaken*|✔|✔|✘|✔|✘|✘|
-|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✘|✘|
-|*Toon interne opmerkingen*|✔|✔|✘|✔|✘|✘|
-|*Beheer locatie*|✔|✔|✘|✔|✔|✘|
-|*Toon locatie*|✔|✔|✔|✔|✔|✘|
-|*Bewerk locatie*|✔|✔|✘|✔|✔|✘|
-|*Taggen*|✔|✔|✘|✔|✘|✘|
-|*translation missing: nl.abilities.view_location_history*|✔|✔|✔|✔|✔|✘|
-|*Details tonen*|✔|✔|✔|✔|✔|✘|
-|*Bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
-|*Lezen*|✔|✔|✔|✔|✔|✔|
-|*Overzicht zien*|✔|✔|✔|✔|✔|✔|
-|*Tonen*|✔|✔|✔|✔|✔|✔|
-|*Kan aankoopgegevens bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✘|✘|✘|✘|
+|*Overzicht zien*|✔|✔|✘|✘|✘|✘|
+|*Tonen*|✔|✔|✘|✘|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Waardering**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
-|*Bijwerken*|✔|✔|✘|✔|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✘|✘|
 |*Overzicht zien*|✔|✔|✔|✔|✘|✘|
 |*Tonen*|✔|✔|✔|✔|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
 |**Import**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht zien*|✔|✘|✔|✘|✘|✘|
@@ -260,6 +276,7 @@ This is a list of fields a user can write to
 |*minimum_bid*|✔|✔|✘|✔|✘|✘|
 |*selling_price_minimum_bid_comments*|✔|✔|✘|✔|✘|✘|
 |*purchase_price_currency_id*|✔|✔|✘|✔|✘|✘|
+|*balance_category_id*|✔|✔|✘|✔|✘|✘|
 |**artists_attributes**||
 |*_destroy*|✔|✔|✘|✔|✘|✘|
 |*first_name*|✔|✔|✘|✔|✘|✘|
@@ -549,6 +566,13 @@ OfflineController
   GET #collection
     returns http success
 
+Users::OmniauthCallbackData
+  Validations
+    returns invalid when no params given
+    returns true when minimum params are given
+    doesn't allow qkunst registrations for non qkunst
+    does allow qkunst registrations for qkunst domain
+
 UsersController
   GET /users
     is inaccessible by default
@@ -598,12 +622,19 @@ Appraise works
   as appraiser
     cannot appraise work outside scope
     can appraise work using ranges
+    cannot appraise a diptych at work level, but only at work set level
     can appraise work old style
 
 Manage Collection
   as admin
     editing a collection
     creating a sub-collection
+
+Signin in and out
+  should sign in a regular user using password login
+  should not allow password login as admin user
+  should allow oauth login as admin user
+  should allow oauth login as never oauthed admin user
 
 Batch editor
   facility manager can scan works with batch editor
@@ -612,6 +643,9 @@ Batch editor
   modify other attributes (happy flow)
   Specialized batch editors
     move work to subcollection in using the cluster-batch editor
+
+Werken groeperen
+  Advisor can group works
 
 Edit photos
   as QKunst regular user with collection
@@ -698,7 +732,7 @@ ApplicationHelper
     doesn't parse tables
 
 CollectionReportHelper
-  #render_report_section
+  #render_report_column
     should render a empt report when no values are given
     should render a simple report (with missing)
     should render a report with numbers
@@ -985,6 +1019,7 @@ Collection::Hierarchy
     #expand_with_parent_collections
       should return only the root when expanded from root
       should return all parents
+      should return parents in order
     #self_and_parent_collections_flattened
       should return sorted from parent to child
     #parent_collections_flattened
@@ -1035,6 +1070,12 @@ Collection
       should not include hidden generic themes
       should not include themes that belong to another collection
       should include collection specific themes if any
+    #can_be_accessed_by_user
+      collection_with_works not to be accessed by collection_with_works_child_user
+      collection_with_works not to be accessed by collection_with_works_user
+      admin can see collection_with_works
+      admin can not see  not_qkunst_managed_collection
+      super admin can see  not_qkunst_managed_collection
     #collection_name_extended
       should have a logical order of parents
     #fields_to_expose
@@ -1280,12 +1321,29 @@ User
     #name
       should return name when set
       should return email when not set
+    #oauthable?
+      supposed_admin_without_oauth
+        should return false
+      admin
+        should return true
+      collection_with_works_user
+        should return true
+      compliance
+        should return false
+      advisor
+        should return false
+      appraiser
+        should return false
     #role
       should return read_only by default
-      should return read_only by default
+      should return admin for admin
+      should return not admin when supposedly admin
     #roles
       should return read_only by default
       should return read_only by default, even for admin
+    #super_admin?
+      should return false for regular admin
+      should return true for super admin
     #works_created
       should count 2 for admin
     #accessible_users
@@ -1296,6 +1354,11 @@ User
       should return all for admin
       should return nil for regular advisor
       should return some for advisor with manager roles role (advisor;compliance;qkunst;appraiser;facility_manager;read_only)
+  Class methods
+    .from_omniauth_callback_data
+      raises argument error when invalid data is passed
+      creates a new user when given
+      creates a new user when given and confirms when confirmed
   Callbacks
     name change should result in name changes with work
       should change
@@ -1307,11 +1370,47 @@ Validators::CollectionScopeValidator
     works with theme in hidden super collection
     should fail on theme in other collection
 
+WorkSet
+  has and belongs to many works
+  requires a type
+  scopes
+    .accepts_appraisals
+      should return only diptych
+  validations
+    cannot have works exist in two appraisable sets
+    can have works exist in a multiple sets that are not all appraisable
+  instance methods
+    #appraisable?
+    #can_be_accessed_by_user?(user)
+      only work1
+        returns true for admin
+        returns false for user1
+        returns true for appraiser
+        returns false for collection_with_works_child_user
+        returns true for collection_with_works_user
+      work1, work2, work7
+        returns true for admin
+        returns false for user1
+        returns true for appraiser
+        returns false for collection_with_works_child_user
+        returns false for collection_with_works_user
+    #most_specific_shared_collection
+      returns single work's collection as base
+      returns shared collection as base
+      returns shared parent collection as base
+      returns nil when nothing shared
+
+WorkSetType
+  add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/work_set_type_spec.rb (PENDING: Not yet implemented)
+
 Work
   instance methods
     #all_work_ids_in_collection
       sorts by default on inventory and id
       can sort on super collection
+    #appraisable?
+      should return true by default
+      should return false on a work part of a diptych
     #artist_#{index}_methods
       should have a first artist
       should return nil when no artist is found at index
@@ -1375,6 +1474,12 @@ Work
       should save, even without info
     public_tag_list
       filters public tags
+    work_set_attributes=
+      ignores empty hashes
+      ignores partially empty hashes
+      creates when full hash is given
+      reuses when full hash is given equal to earlier in same collection
+      creates when full hash is given equal to earlier in other collection
   class methods
     .artist_name_rendered
       should not fail on an empty name
@@ -1386,6 +1491,9 @@ Work
     .artist_name_rendered_without_years_nor_locality_semicolon_separated
       should summarize the artist nicely
       should summarize the artists nicely
+    .count_as_whole_works
+      should return all works uniquele
+      should return all works uniquely even when in two work sets
     .possible_exposable_fields
       should return possible_exposable_fields
     .fast_aggregations
@@ -1427,7 +1535,8 @@ Work
 Collections
   GET /collections
     shouldn't be publicly accessible!
-    an allowed user should be able to get an index
+    an api user without advisor role should be access the collection
+    an api user with advisor role should be access the collection
     an allowed user should be able to get a single work through the api
     even an allowed user shouldn't be able to mess with the url
     not allowed user should be not be able to get an index
@@ -1445,8 +1554,13 @@ Appraisals
       works for admin
       allows editing ranges
       allows editing non-existing ranges
-  POST /collections/1/works/1/appraisals
-    stores an appraisal
+  POST appraisals (#create)
+    POST /collections/1/works/1/appraisals
+      stores an appraisal
+    POST /collections/:collection_id/work_sets/:work_set_id/appraisals
+      allows for appraising
+      single work not in accessible collection
+        does not allow appraising a work set that is partially not accessible
 
 Artists
   GET /artists
@@ -1517,9 +1631,11 @@ WorkBatchs
       describe facility should only be able to edit location
       describe facility should only be able to edit location
   PATCH /collection/:collection_id/batch
-    process appraisal ignore
+    appraisal
       should store appraisal
       should ignore ignored fields
+      diptych
+        should stop when work cannot be appraised (diptych scenario)
     themes
       appends themes
     tag_list
@@ -1702,6 +1818,9 @@ Messages
   GET /messages
     shouldn't be publicly accessible!
     should be accessible when logged in as admin
+  GET /messages/:id
+    advisor
+      should be able to download the download message
 
 Admin level management
   conditions
@@ -2128,8 +2247,12 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Not yet implemented
      # ./spec/models/geonames_country_spec.rb:6
 
-Finished in 1 minute 41.26 seconds (files took 4 seconds to load)
-1004 examples, 0 failures, 8 pending
+  9) WorkSetType add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/work_set_type_spec.rb
+     # Not yet implemented
+     # ./spec/models/work_set_type_spec.rb:4
+
+Finished in 1 minute 48.23 seconds (files took 4.55 seconds to load)
+1067 examples, 0 failures, 9 pending
 
 
 ```
