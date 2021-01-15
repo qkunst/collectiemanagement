@@ -152,6 +152,7 @@ class Ability
     can :manage_collection, Cluster
     can :manage_collection, Collection
     can :read_api, Collection
+    can :filter_report, Collection
     can :manage_collection, CustomReport
     can :manage, CustomReport
     can :manage, Message

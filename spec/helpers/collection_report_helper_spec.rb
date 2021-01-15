@@ -13,6 +13,8 @@ require "rails_helper"
 #   end
 # end
 RSpec.describe CollectionReportHelper, type: :helper do
+  include Devise::Test::ControllerHelpers
+
   describe "#render_report_column" do
     before(:each) do
       @collection = collections(:collection1)
@@ -32,6 +34,8 @@ RSpec.describe CollectionReportHelper, type: :helper do
 
         }
       )
+      allow(helper).to receive(:show_filter_check_boxes).and_return(true)
+
     end
     it "should render a empt report when no values are given" do
       expect(helper.render_report_column([:frame_damage_types])).to eq("")
@@ -100,12 +104,12 @@ RSpec.describe CollectionReportHelper, type: :helper do
     it "should work" do
       section = helper.report[:object_format_code]
       expect(iterate_report_sections("object_format_code", section, 7)).to eq("<tr class=\"section object_format_code span-7\"><th colspan=\"8\">Formaatcode</th></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"m\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=m\">M</a></td><td class=\"count\">1083</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"l\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=l\">L</a></td><td class=\"count\">553</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"s\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=s\">S</a></td><td class=\"count\">357</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"xl\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xl\">XL</a></td><td class=\"count\">211</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"xs\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xs\">XS</a></td><td class=\"count\">132</td></tr>
-<tr class=\"content span-6\"><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[object_format_code][]\" id=\"filter_object_format_code_\" value=\"not_set\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=not_set\">Formaatcode onbekend</a></td><td class=\"count\">71</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=m\">M</a></td><td class=\"count\">1083</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=l\">L</a></td><td class=\"count\">553</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=s\">S</a></td><td class=\"count\">357</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xl\">XL</a></td><td class=\"count\">211</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=xs\">XS</a></td><td class=\"count\">132</td></tr>
+<tr class=\"content span-6\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=not_set\">Formaatcode onbekend</a></td><td class=\"count\">71</td></tr>
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr>")
     end
   end
@@ -123,7 +127,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 
       section = sort_contents_by_group(helper.report[group], group)
 
-      expect(render_range(section, group)).to eq("<tfoot><tr><td class=\"count\" colspan=\"7\">Totaal: €50 - €100</td></tr></tfoot><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[replacement_value_max][]\" id=\"filter_replacement_value_max_\" value=\"100\" /><a href=\"/collections/#{@collection.id}/works?filter%5Breplacement_value_max%5D%5B%5D=100&amp;filter%5Breplacement_value_min%5D%5B%5D=50\">€50 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[replacement_value_max][]\" id=\"filter_replacement_value_max_\" value=\"not_set\" /><a href=\"/collections/#{@collection.id}/works?filter%5Breplacement_value_max%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">3</td></tr>")
+      expect(render_range(section, group)).to eq("<tfoot><tr><td class=\"count\" colspan=\"7\">Totaal: €50 - €100</td></tr></tfoot><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Breplacement_value_max%5D%5B%5D=100&amp;filter%5Breplacement_value_min%5D%5B%5D=50\">€50 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Breplacement_value_max%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">3</td></tr>")
     end
 
     it "works with complex example" do
@@ -132,7 +136,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 
       section = sort_contents_by_group(helper.report[group], group)
 
-      expect(render_range(section, group)).to eql("<tfoot><tr><td class=\"count\" colspan=\"7\">Totaal: €250 - €700</td></tr></tfoot><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[market_value_max][]\" id=\"filter_market_value_max_\" value=\"100\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=100&amp;filter%5Bmarket_value_min%5D%5B%5D=75\">€75 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[market_value_max][]\" id=\"filter_market_value_max_\" value=\"250\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=250&amp;filter%5Bmarket_value_min%5D%5B%5D=75\">€75 - €250</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[market_value_max][]\" id=\"filter_market_value_max_\" value=\"100\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=100&amp;filter%5Bmarket_value_min%5D%5B%5D=50\">€50 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[market_value_max][]\" id=\"filter_market_value_max_\" value=\"250\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=250&amp;filter%5Bmarket_value_min%5D%5B%5D=50\">€50 - €250</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><input type=\"checkbox\" name=\"filter[market_value_max][]\" id=\"filter_market_value_max_\" value=\"not_set\" /><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">3</td></tr>")
+      expect(render_range(section, group)).to eql("<tfoot><tr><td class=\"count\" colspan=\"7\">Totaal: €250 - €700</td></tr></tfoot><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=100&amp;filter%5Bmarket_value_min%5D%5B%5D=75\">€75 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=250&amp;filter%5Bmarket_value_min%5D%5B%5D=75\">€75 - €250</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=100&amp;filter%5Bmarket_value_min%5D%5B%5D=50\">€50 - €100</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=250&amp;filter%5Bmarket_value_min%5D%5B%5D=50\">€50 - €250</a></td><td class=\"count\">1</td></tr><tr><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bmarket_value_max%5D%5B%5D=not_set\">Niets ingevuld</a></td><td class=\"count\">3</td></tr>")
     end
   end
 end

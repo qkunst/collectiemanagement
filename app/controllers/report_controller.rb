@@ -14,6 +14,7 @@ class ReportController < ApplicationController
     end
 
     @title = "Rapportage voor #{@collection.name}"
+    @show_filter_check_boxes = can?(:filter_report, @collection)
 
     prepare_report
     prepare_report_outline
