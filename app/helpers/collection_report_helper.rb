@@ -69,17 +69,17 @@ module CollectionReportHelper
     link_label = selection
 
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
-      @params = @params.merge({"filter[#{group}.id]" => nil})
-      @params = @params.merge({"filter[#{group}_id]" => nil})
-      @params = @params.merge({"filter[#{group}][]" => :not_set})
+      @params.delete("filter[#{group}.id]")
+      @params.delete("filter[#{group}_id]")
+      @params.merge!({"filter[#{group}][]" => :not_set})
 
       link_label =  missing_link_label(group)
     elsif selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)_split$/, '\1')
       id_separator = "."
       id_separator = "_" unless group.to_s.ends_with?("s") || group.to_s.ends_with?("split")
-      @params = @params.merge({"filter[#{group}][]" => nil})
-      @params = @params.merge({"filter[#{group}#{id_separator}id]" => selection.keys})
+      @params.delete("filter[#{group}][]")
+      @params.merge!({"filter[#{group}#{id_separator}id]" => selection.keys})
 
       link_label = selection.values.to_sentence
     else
@@ -177,7 +177,7 @@ module CollectionReportHelper
           end
         end
       end
-      html += "<tr class=\"group_separator\"><td colspan=\"7\"></td></tr>"
+      html += "<tr class=\"group_separator\"><td colspan=\"7\"></td></tr>\n"
       @params.delete(@params.keys.last)
     end
     html
