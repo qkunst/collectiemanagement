@@ -66,7 +66,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet(key, ".id"))
         end
 
-        ["abstract_or_figurative", "grade_within_collection", "object_format_code", "tag_list", :object_creation_year, :purchase_year, :purchase_price_in_eur, :minimum_bid, :selling_price, :publish, :image_rights].each do |key|
+        ["abstract_or_figurative", "grade_within_collection", "object_format_code", "tag_list", :object_creation_year, :purchase_year, :purchase_price_in_eur, :minimum_bid, :selling_price, :publish, :image_rights, :permanently_fixed].each do |key|
           aggregation.merge!(basic_aggregation_snippet_with_missing(key))
         end
 

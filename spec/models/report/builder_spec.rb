@@ -13,6 +13,8 @@ RSpec.describe Report::Builder, type: :model do
         :subset => {terms: {field: "subset_id", size: 999}},
         :cluster => {terms: {field: "cluster.id", size: 999}},
         :cluster_missing => {missing: {field: "cluster.id"}},
+        :permanently_fixed => {:terms=>{:field=>"permanently_fixed", :size=>999}},
+        :permanently_fixed_missing => {:missing=>{:field=>"permanently_fixed"}},
         :owner_missing => {missing: {field: "owner.id"}},
         :owner => {terms: {field: "owner.id", size: 999}},
         :refound => {terms: {field: "refound", size: 999}},

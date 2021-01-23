@@ -119,7 +119,14 @@
         <div class="medium-3 columns"><%= f.association( :frame_damage_types, input_html: {class: 'chosen-select'}, collection: FrameDamageType.not_hidden ) %></div>
         <div class="medium-6 columns"><%= f.input :condition_frame_comments  %></div>
       </div>
-      <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>
+      <div class="row">
+        <div class="medium-9 columns">
+          <%= f.association( :placeability, input_html: {class: 'chosen-select'}, collection: Placeability.not_hidden)  %>
+        </div>
+        <div class="medium-3 columns">
+          <%= f.input :permanently_fixed %>
+        </div>
+      </div>
     </fieldset>
     <% if can?(:edit_source_information, @work) || can?(:edit_purchase_information, @work) %>
       <% wf = f %>
@@ -129,8 +136,8 @@
           <%= wf.input :purchased_on, html5: true%>
           <%= wf.input :purchase_year, hint: "Alleen invoeren indien geen exacte datum bekend" %>
           <div class="row">
-            <div class="medium-8 columns"><%= wf.input :purchase_price %></div>
-            <div class="medium-4 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
+            <div class="medium-9 columns"><%= wf.input :purchase_price %></div>
+            <div class="medium-3 columns"><%= wf.association :purchase_price_currency, value: 1%></div>
           </div>
         <% end %>
         <% if can?(:edit_source_information, @work) %>

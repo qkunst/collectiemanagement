@@ -219,6 +219,9 @@ nl:
         image_rights:
           "0": Nee
           "1": Ja
+        permanently_fixed:
+          "0": Nee
+          "1": Aard- en nagelvast
         publish:
           "0": Niet publiceren
           "1": Publiceer
@@ -400,6 +403,7 @@ nl:
         other_comments: Overige opmerkingen
         other_structured_data: Overige gestructureerde gegevens
         owner: Eigendom
+        permanently_fixed: Aard- en nagelvast
         photo_back: Foto achterkant
         photo_detail_1: Foto detail 1
         photo_detail_2: Foto detail 2

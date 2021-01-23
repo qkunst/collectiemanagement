@@ -54,7 +54,7 @@ class ReportController < ApplicationController
     if can?(:read_extended_report, @collection)
       @sections.deep_merge!({
         "Vervaardigers" => [[:artists]],
-        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
+        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability, :permanently_fixed]],
         "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
         "Marktwaardering" => [],
         "Vervangingswaardering" => [],
