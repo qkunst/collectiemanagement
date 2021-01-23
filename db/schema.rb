@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_160742) do
+ActiveRecord::Schema.define(version: 2021_01_23_141438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_160742) do
     t.decimal "replacement_value_min", precision: 16, scale: 2
     t.decimal "replacement_value_max", precision: 16, scale: 2
     t.string "appraisee_type", default: "Work"
+    t.text "notice"
     t.index ["appraisee_id"], name: "index_appraisals_on_appraisee_id"
   end
 
@@ -627,6 +628,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_160742) do
     t.string "identification_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "appraisal_notice"
   end
 
   create_table "work_sets_works", id: false, force: :cascade do |t|
@@ -732,6 +734,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_160742) do
     t.text "other_structured_data"
     t.integer "balance_category_id"
     t.boolean "permanently_fixed"
+    t.text "appraisal_notice"
     t.index ["collection_id"], name: "index_works_on_collection_id"
   end
 

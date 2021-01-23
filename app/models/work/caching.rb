@@ -54,6 +54,7 @@ module Work::Caching
         self.market_value_max = latest_appraisal.market_value_max
         self.price_reference = latest_appraisal.reference
         self.valuation_on = latest_appraisal.appraised_on
+        self.appraisal_notice = latest_appraisal.notice
       else
         self.market_value = nil
         self.replacement_value = nil
@@ -63,6 +64,7 @@ module Work::Caching
         self.market_value_max = nil
         self.price_reference = nil
         self.valuation_on = nil
+        self.appraisal_notice = nil
       end
       save
     end

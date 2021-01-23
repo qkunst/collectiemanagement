@@ -1,5 +1,5 @@
 class Batch::AppraisalForm < Appraisal
-  BATCH_FIELDS = %w[appraised_by appraised_on replacement_value market_value replacement_value_range market_value_range reference].sort_by(&:length).reverse.map(&:to_sym)
+  BATCH_FIELDS = %w[appraised_by appraised_on replacement_value market_value replacement_value_range market_value_range reference notice].sort_by(&:length).reverse.map(&:to_sym)
   UNAPPENDABLE_FIELDS = BATCH_FIELDS # .select{|field_name| field_name.to_s.ends_with?("_id")}
   REMOVABLE_FIELDS = %w[]
 

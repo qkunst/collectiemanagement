@@ -109,6 +109,7 @@
       <%= define_unless_blank :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
       <%= define_unless_blank :replacement_value_range_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
       <%= define_unless_blank :valuation_on %>
+      <%= define_unless_blank :appraisal_notice %>
 
       <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
       <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
@@ -118,6 +119,7 @@
       <% if can?(:read_valuation_reference, work.collection) %>
         <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>
       <% end %>
+
     <% end %>
   <% end %>
   <%= definition_list_for work, {render_as: :table} do %>

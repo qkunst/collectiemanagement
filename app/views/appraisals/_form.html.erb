@@ -20,6 +20,7 @@
   </div>
 
     <%= f.input :reference %>
+    <%= f.input :notice %>
 
     <%= f.simple_fields_for :appraisee do |wf| %>
       <%= render partial: "work_form", locals: {wf: wf} %>

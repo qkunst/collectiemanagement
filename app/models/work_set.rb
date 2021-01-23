@@ -57,6 +57,7 @@ class WorkSet < ApplicationRecord
           work.market_value_max = latest_appraisal.market_value_max ? (latest_appraisal.market_value_max / works_count).round : nil
           work.price_reference = latest_appraisal.reference
           work.valuation_on = latest_appraisal.appraised_on
+          work.appraisal_notice = latest_appraisal.notice
         else
           work.market_value = nil
           work.replacement_value = nil
@@ -66,6 +67,7 @@ class WorkSet < ApplicationRecord
           work.market_value_max = nil
           work.price_reference = nil
           work.valuation_on = nil
+          work.appraisal_notice = nil
         end
         work.save
 

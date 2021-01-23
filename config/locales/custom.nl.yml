@@ -260,6 +260,7 @@ nl:
         end_year: Tot (jaar)
       appraisal:
         appraised_by: Waardering door
+        notice: Toelichting waardering voor klant
         reference: Referentie / Opmerkingen
         replacement_value: Vervangingswaarde (€)
         replacement_value_range: Vervangingswaardecategorie (€)
@@ -319,6 +320,7 @@ nl:
         alt_number_4: Alternatief nummer 4
         alt_number_5: Alternatief nummer 5
         alt_number_6: Alternatief nummer 6
+        appraisal_notice: Toelichting waardering
         appraisals: Waarderingen
         appraised_on: Gewaardeerd op
         artists: Vervaardigers
