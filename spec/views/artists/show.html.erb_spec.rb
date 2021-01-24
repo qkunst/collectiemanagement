@@ -12,7 +12,7 @@ RSpec.describe "artists/show", type: :view do
     @works = []
   end
 
-  it "renders attributes in <p>" do
+  it "renders attributes" do
     user = users(:admin)
     sign_in user
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ArtistsController < ApplicationController
-  COLLECTION_ATTRIBUTE_LABELS = ["Mailadres", "Telefoonnummer", "Website"]
+  COLLECTION_ATTRIBUTE_LABELS = {"Mailadres"=>{type: :string}, "Telefoonnummer"=>{type: :string}, "Website"=>{type: :string}, "Beschrijving"=>{type: :text}}
 
   before_action :set_collection
   before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]
@@ -161,7 +161,7 @@ class ArtistsController < ApplicationController
 
   def populate_collection_attributes_for_artists
     if @collection
-      COLLECTION_ATTRIBUTE_LABELS.each do |attribute_label|
+      COLLECTION_ATTRIBUTE_LABELS.keys.each do |attribute_label|
         @artist.collection_attributes.find_or_initialize_by(label: attribute_label)
       end
     end

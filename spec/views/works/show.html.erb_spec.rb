@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "works/show", type: :view do
   include Devise::Test::ControllerHelpers
 
-  it "renders attributes in <p>" do
+  it "renders attributes" do
     @collection = collections(:collection1)
     @selection = {display: :complete}
     @work = assign(:work, Work.create!(

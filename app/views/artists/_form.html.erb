@@ -29,7 +29,7 @@
         <div class="row">
           <div class="large-6 medium-6 columns">
             <%= caf.input :label, as: :hidden %>
-            <%= caf.input :value, label: collection_attribute.label, required: false %>
+            <%= caf.input :value, label: collection_attribute.label, required: false, as: ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) %>
           </div>
         </div>
       <% end %>
