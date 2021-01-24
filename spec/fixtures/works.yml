@@ -34,6 +34,7 @@ work1:
   style: :one
   work_status: :in_gebruik
   locality_geoname_id: 123
+  internal_comments: Interne opmerking bij werk 1
   techniques:
     - :acrylverf
     - :houtskool

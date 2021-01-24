@@ -33,7 +33,7 @@ this_works_collection_work_url = work.id ? collection_work_path(work.collection_
         case @selection[:display]
         when :compact
           ""
-        when :complete, :detailed, :detailed_with_location_history
+        when :complete, :detailed, :detailed_with_location_history, :detailed_discreet
           render :partial => 'works/work_detailed_data', locals: {work: work}
         when :limited, :limited_auction
           render :partial => 'works/work_limited_data', locals: {work: work}

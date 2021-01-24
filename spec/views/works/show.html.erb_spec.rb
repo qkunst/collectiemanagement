@@ -27,6 +27,44 @@ RSpec.describe "works/show", type: :view do
     expect(rendered).to match(/aul07alert\(1\)kviak/)
   end
 
+  describe "display modes" do
+    let(:display) {:complete}
+    before(:each) do
+      @selection = {display: display}
+      @work = works(:work1)
+      @collection = collections(:collection1)
+      assign(:work, @work)
+      sign_in users(:admin)
+      @custom_reports = []
+      render
+    end
+
+    context(:complete) do
+      it "renders correctly" do
+        expect(rendered).to match("Interne opmerking bij werk 1")
+        expect(rendered).to match("Marktwaarde")
+      end
+    end
+
+    context(:detailed) do
+      let(:display) {:detailed}
+
+      it "renders correctly" do
+        expect(rendered).to match("Interne opmerking bij werk 1")
+        expect(rendered).to match("Marktwaarde")
+      end
+    end
+
+    context(:detailed_discreet) do
+      let(:display) {:detailed_discreet}
+
+      it "renders correctly" do
+        expect(rendered).not_to match("Interne opmerking bij werk 1")
+        expect(rendered).not_to match("Marktwaarde")
+      end
+    end
+  end
+
   it "renders attachments" do
     @collection = collections(:collection1)
     @selection = {display: :complete}
