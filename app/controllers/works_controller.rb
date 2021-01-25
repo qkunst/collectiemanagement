@@ -96,7 +96,11 @@ class WorksController < ApplicationController
         else
           @max_index ||= 159
           @max_index = 159 if @max_index < 159
-          @works = @works.limit(@max_index).uniq
+          if @works.is_a? Array
+            @works = @works[0..@max_index-1].uniq
+          else
+            @works = @works.limit(@max_index).uniq
+          end
         end
       end
     end
