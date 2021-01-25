@@ -7,6 +7,7 @@ class Message < ApplicationRecord
   mount_uploader :image, PictureUploader
 
   before_create :set_conversation_start_message
+  after_create :set_previous_message_as_actioned_upon_by_qkunst_admin_when_replied_to
 
   has_many :replies, class_name: "Message", foreign_key: :in_reply_to_message_id
   has_many :conversation, class_name: "Message", foreign_key: :conversation_start_message_id
@@ -71,11 +72,6 @@ class Message < ApplicationRecord
 
   def subject_rendered
     subject.nil? || subject.empty? ? "[Geen onderwerp]" : subject
-  end
-
-  def actioned_upon_by_qkunst_admin!
-    self.actioned_upon_by_qkunst_admin_at = Time.now
-    save
   end
 
   def url_options
@@ -159,6 +155,12 @@ class Message < ApplicationRecord
   def set_from_user_name!
     if from_user
       self.from_user_name = from_user.name
+    end
+  end
+
+  def set_previous_message_as_actioned_upon_by_qkunst_admin_when_replied_to
+    if conversation_start_message
+      conversation_start_message.actioned_upon_by_qkunst_admin! if from_user&.qkunst?
     end
   end
 end

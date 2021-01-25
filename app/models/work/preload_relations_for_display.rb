@@ -9,9 +9,9 @@ module Work::PreloadRelationsForDisplay
       when :compact
         includes(:collection)
       when :limited, :limited_auction
-        includes(:collection, :techniques, :object_categories, :medium, :condition_work, :condition_frame, artists: [:artist_involvements])
+        includes(:work_sets, :collection, :techniques, :object_categories, :medium, :condition_work, :condition_frame, artists: [:artist_involvements])
       else
-        includes(:collection, :created_by, :purchase_price_currency, :techniques, :object_categories, :damage_types, :frame_damage_types, :frame_type, :medium, :style, :themes, :subset, :sources, :owner, :work_status, :attachments, :appraisals, :condition_work, :condition_frame, :cluster, :placeability, artists: [:artist_involvements])
+        includes(:work_sets, :collection, :created_by, :purchase_price_currency, :techniques, :object_categories, :damage_types, :frame_damage_types, :frame_type, :medium, :style, :themes, :subset, :sources, :owner, :work_status, :attachments, :appraisals, :condition_work, :condition_frame, :cluster, :placeability, artists: [:artist_involvements])
       end
     end
   end

@@ -3,6 +3,22 @@
 require "rails_helper"
 
 RSpec.describe Message, type: :model do
+  describe "callbacks" do
+    it "should not mark initial message as actioned upon when not qkunst" do
+      m_o = Message.create(from_user: users(:user1))
+      expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
+      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:user1))
+      m_o.reload
+      expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
+    end
+    it "should not mark initial message as actioned upon when qkunst" do
+      m_o = Message.create(from_user: users(:user1))
+      expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
+      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:advisor))
+      m_o.reload
+      expect(m_o.actioned_upon_by_qkunst_admin?).to eq(true)
+    end
+  end
   describe "methods" do
     describe "set_from_user_name!" do
       it "should set on save" do
