@@ -48,12 +48,3 @@
     <%= render @new_artist %>
   </div>
 </div>
-
-  <% if current_user.email == 'home@murb.nl' and false %>
-  <div class="row columns">
-    <h3>[DEBUG] Alle informatie uit RKD:</h3>
-    <%= render_hash @rkd_artist.api_response%>
-    <p><small>Deze informatie is <%= link_to 'afkomstig', @rkd_artist.end_user_link %> uit de RKDartists&amp;-database, en vrijgegeven onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
-
-  </div>
-  <% end %>
