@@ -64,7 +64,7 @@
   <div class="medium-6 columns">
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :cached_tag_list %>
+    <%= define_unless_blank :cached_tag_list if @selection[:display] != :detailed_discreet %>
     <%= define_unless_blank :condition_work_rendered %>
     <%= define_unless_blank :condition_frame_rendered %>
     <% if @selection[:display] == :complete %>
@@ -96,24 +96,24 @@
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? %>
+      <% if work.appraised_in_set? and @selection[:display] != :detailed_discreet %>
         <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
       <%= define_unless_blank :purchased_on_with_fallback %>
-      <% if work.purchase_price %>
+      <% if work.purchase_price and @selection[:display] != :detailed_discreet %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
       <% if @selection[:display] != :detailed_discreet %>
-      <%= define_unless_blank :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
-      <%= define_unless_blank :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
-      <%= define_unless_blank :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
-      <%= define_unless_blank :replacement_value_range_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
-      <%= define_unless_blank :valuation_on %>
-      <%= define_unless_blank :appraisal_notice %>
+        <%= define_unless_blank :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
+        <%= define_unless_blank :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+        <%= define_unless_blank :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
+        <%= define_unless_blank :replacement_value_range_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+        <%= define_unless_blank :valuation_on %>
+        <%= define_unless_blank :appraisal_notice %>
 
-      <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
-      <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
-      <%= define_unless_blank :balance_category %>
+        <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
+        <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
+        <%= define_unless_blank :balance_category %>
         <%= define_unless_blank :selling_price_minimum_bid_comments %>
         <% if can?(:read_valuation_reference, work.collection) %>
           <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>

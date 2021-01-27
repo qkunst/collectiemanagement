@@ -54,13 +54,13 @@ class ReportController < ApplicationController
     if can?(:read_extended_report, @collection)
       @sections.deep_merge!({
         "Vervaardigers" => [[:artists]],
-        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability, :permanently_fixed]],
+        "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
         "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
         "Marktwaardering" => [],
         "Vervangingswaardering" => [],
         "Beprijzing" => [],
         "Herkomst" => [[:sources], [:purchase_year]],
-        "Object" => [[:object_categories_split], [:object_format_code, :frame_type], [:object_creation_year]],
+        "Object" => [[:object_categories_split], [:permanently_fixed, :object_format_code, :frame_type], [:object_creation_year]],
         "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish]]
       })
     end

@@ -127,7 +127,7 @@ class Work < ApplicationRecord
   end
 
   def appraisable_set
-    @appraisable_set ||= work_sets.accepts_appraisals.last
+    @appraisable_set ||= work_sets.select{|ws| ws.work_set_type.count_as_one }.last
   end
 
   def countable_set
