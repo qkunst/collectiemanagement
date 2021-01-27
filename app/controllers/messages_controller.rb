@@ -11,15 +11,18 @@ class MessagesController < ApplicationController
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.conversation_starters.order_by_reverse_creation_date
+    messages = Message.conversation_starters.order_by_reverse_creation_date
 
     if subject_object
-      @messages = @messages.for(subject_object)
-      @messages = @messages.not_qkunst_private unless current_user.qkunst?
+      messages = messages.for(subject_object)
+      messages = messages.not_qkunst_private unless current_user.qkunst?
     else
-      @messages = @messages.collections(current_user.collections) if current_user.admin? && current_user.admin_with_favorites?
-      @messages = @messages.thread_can_be_accessed_by_user(current_user).limit_age_to
+      messages = messages.collections(current_user.collections) if current_user.admin? && current_user.admin_with_favorites?
+      messages = messages.thread_can_be_accessed_by_user(current_user).limit_age_to
     end
+
+    @messages = messages.human_messages
+    @reminders = messages.system_messages
     new
   end
 

@@ -8,14 +8,24 @@
 <% end %>
 
 <% if @messages.count > 0%>
+<div class="tabs">
+<nav class="tab-head">
+<ul>
+    <li><a href="#conversations" class="selected">Conversaties</a></li>
+    <li><a href="#reminders" class="blurred">Herinneringen &amp; Notificaties</a></li>
+</ul>
+</nav>
+<section id="conversations">
 <h4>Eerder<span class="hide-in-context">e conversaties</span></h4>
-<table class="conversations">
+  <label>Filter <input type="text" id="conversations-table-filter" data-filters="conversations-table"></label>
+
+<table class="conversations sortable" id="conversations-table">
   <thead>
     <tr>
-      <th>Datum</th>
-      <th>Gebruiker</th>
-      <th class="hide-in-context">Collectie</th>
-      <th>Onderwerp</th>
+      <th aria-sort="descending" data-filtered-by="conversations-table-filter">Datum</th>
+      <th data-filtered-by="conversations-table-filter">Gebruiker</th>
+      <th class="hide-in-context" data-filtered-by="conversations-table-filter">Collectie</th>
+      <th data-filtered-by="conversations-table-filter">Onderwerp</th>
     </tr>
   </thead>
 
@@ -31,7 +41,7 @@
 
       %>
       <tr class="<%= 'unread' if message.unread_messages_in_thread(current_user) %>">
-        <td><%= I18n.l message.created_at, format: :short %></td>
+        <td data-sortkey="<%=message.created_at.to_f%>"><%= I18n.l message.created_at, format: :short %></td>
         <td>
           <% if message.unread_messages_in_thread  %>
             <span class="label primary round unread" title="ongelezen"><span>ongelezen</span></span>
@@ -57,7 +67,64 @@
     <% end %>
   </tbody>
 </table>
+</section>
+<section id="reminders">
+  <h4>Herinneringen &amp; notificaties</span></h4>
+
+  <label>Filter <input type="text" id="reminders-table-filter" data-filters="reminders-table"></label>
+
+  <table class="conversations sortable" id="reminders-table">
+
+  <thead>
+    <tr>
+      <th aria-sort="descending" data-filtered-by="reminders-table-filter">Datum</th>
+      <th data-filtered-by="reminders-table-filter">Gebruiker</th>
+      <th class="hide-in-context" data-filtered-by="reminders-table-filter">Collectie</th>
+      <th data-filtered-by="reminders-table-filter">Onderwerp</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @reminders.each do |message| %>
+      <%
+        collectie = ""
+        begin
+          collectie = message.subject_object.name if message.subject_object.is_a?(Collection)
+          collectie = message.subject_object.collection.name if message.subject_object.is_a?(Work)
+        rescue
+        end
+
+      %>
+      <tr class="<%= 'unread' if message.unread_messages_in_thread(current_user) %>">
+        <td data-sortkey="<%=message.created_at.to_f%>"><%= I18n.l message.created_at, format: :short %></td>
+        <td>
+          <% if message.unread_messages_in_thread  %>
+            <span class="label primary round unread" title="ongelezen"><span>ongelezen</span></span>
+          <% end %>
+          <% if current_user.qkunst? %>
+            <strong><%= link_to message.from_user_name, message %></strong>
+          <% else %>
+            <strong><%= link_to message.from_user_name_without_email, message %></strong>
+          <% end %>
+        </td>
+        <td class="hide-in-context"> <%=collectie%></td>
+        <td><%= link_to message.subject_rendered, message %>
+          <ul class="labels right">
+            <% if message.qkunst_private %>
+              <li class="label round qkunst_private qkunst">QKunst Intern</li>
+            <% end %>
+            <% if message.just_a_note %>
+              <li class="label round just_a_note secondary">Notitie</li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</section>
 <% end %>
+</div>
 
 <% if @work or @collection%>
 <hr/>
