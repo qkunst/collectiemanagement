@@ -121,8 +121,7 @@ module Work::ParameterRerendering
     end
 
     def locality_geoname_name
-      gs = locality_geoname_id ? GeonameSummary.where(geoname_id: locality_geoname_id).first : nil
-      return gs.label if gs
+      geoname_summary&.label
     end
 
     def market_value_range
