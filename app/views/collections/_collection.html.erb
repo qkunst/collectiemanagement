@@ -7,7 +7,7 @@
   end
 
 %>
-<% cache(["collection/_collection", "1.0", collection, parent_has_themes, render_themes, themes, @collections]) do %>
+<% cache(["collection/_collection", "1.0", collection, parent_has_themes, render_themes, @show_hidden]) do %>
 <% if render_themes %>
   <% if themes.count > 0 or (defined?(parent_has_themes) && parent_has_themes) %>
     <li><%= link_to collection.name, collection_themes_path(collection, params: {show_hidden: @show_hidden}) if !collection.child_collections_flattened.include?(collection) %>
