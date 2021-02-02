@@ -17,7 +17,7 @@ module Collection::Hierarchy
     end
 
     def self_and_parent_collections_flattened
-      expand_with_parent_collections.not_system
+      @self_and_parent_collections_flattened ||= expand_with_parent_collections.not_system
     end
 
     def expand_with_child_collections
@@ -49,7 +49,7 @@ module Collection::Hierarchy
 
   class_methods do
     def root_collection
-      ::Collection.root_collections.first
+      @@root_collection ||= ::Collection.root_collections.first
     end
 
     def expand_with_child_collections(depth = 5)
