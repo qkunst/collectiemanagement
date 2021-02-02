@@ -10,7 +10,9 @@ class ReportController < ApplicationController
     set_no_child_works
 
     if params[:filter_on] == "works"
-      redirect_to collection_works_path(filter: params[:filter].to_unsafe_h)
+      redirect_to collection_works_path({filter: params[:filter].to_unsafe_h})
+    elsif params[:filter_on] == "works_unlimited"
+      redirect_to collection_works_path({filter: params[:filter].to_unsafe_h, max_index: 9999999})
     end
 
     @title = "Rapportage voor #{@collection.name}"

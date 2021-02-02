@@ -10,7 +10,7 @@
 </p>
 
 <% begin %>
-  <%= form_tag collection_report_path, method: :get do %>
+  <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
   <div class="tabs">
     <% if @sections.keys.count > 1 %>
     <nav class="tab-head">
@@ -38,7 +38,10 @@
     <% end %>
   </div>
   <div class="bottom-controls">
+  <span>
   <%= button_tag "Toon #{translate_works_with_article(@works_count)}", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
+  <%= button_tag "Toon #{translate_works_with_article(@works_count)} (onbeperkt)", name: :filter_on, value: :works_unlimited, class: [:tertiary, :button, :small]%>
+  </span>
   <%= button_tag "Filter rapportage", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
   </div>
 
