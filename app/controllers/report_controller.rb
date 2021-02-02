@@ -55,7 +55,7 @@ class ReportController < ApplicationController
       @sections.deep_merge!({
         "Vervaardigers" => [[:artists]],
         "Conditie" => [[:condition_work, :damage_types], [:condition_frame, :frame_damage_types], [:placeability]],
-        "Typering" => [[:abstract_or_figurative, :style], [:subset], [:themes], [:tag_list]],
+        "Typering" => [[:abstract_or_figurative, :style, :subset], [:cluster], [:themes], [:tag_list]],
         "Marktwaardering" => [],
         "Vervangingswaardering" => [],
         "Beprijzing" => [],
