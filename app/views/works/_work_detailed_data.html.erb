@@ -138,11 +138,14 @@
     <% if @selection[:display] == :complete %>
       <% if work.attachments.to_a.delete_if{|a| a.id.nil?}.count > 0 %>
         <tr><th>Bijlagen:</th><td><ul>
-          <% work.attachments.to_a.select do |attachment|
-              role = role.to_s
-              role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s)
-            end.each do |attachment| %>
-            <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank' %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
+          <% work.attachments.to_a.each do |attachment|
+            role = current_user.role.to_s
+            if (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s)) && attachment.id
+              %>
+              <li>
+                <%= link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
+              </li>
+            <% end %>
           <% end %>
         </ul></td></tr>
       <% end %>
