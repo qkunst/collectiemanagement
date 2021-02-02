@@ -31,7 +31,7 @@ module DefineTasticHelper
 
   def humanize_value val, options = {}
     if val.is_a?(ActiveRecord::Base) && (val.methods.include?(:name) || val.methods.include?("name"))
-      val = val.send(:name)
+      val = val.name
     end
     if val.is_a? Date
       val = I18n.l(val, {format: :short})
@@ -55,27 +55,31 @@ module DefineTasticHelper
       value = options[:override_value]
     else
       modifier_func = options[:modifier]
+      human_attribute_value = options[:human_attribute_value]
 
       value = if property.is_a? Symbol
-        @define_tastic_object.send(property)
+        @define_tastic_object.public_send(property)
       else
         property
       end
 
-      values = if value.is_a? Range
+      is_a_range = value.is_a?(Range)
+      is_a_string = value.is_a?(String)
+
+      values = if is_a_range
         [value.min, value.max]
       elsif value.methods.include? :collect
-        value.collect { |val| val }
+        value.to_a
       else
-        [value]
+        value = apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+        return is_a_string ? value.html_safe : value.to_s
       end
 
-      values = values.compact.collect { |val|
-        val = apply_modifier_to_value(modifier_func, val)
-        humanize_value(val, options.select { |k, v| k == :human_attribute_value })
+      values = values.compact.map { |value|
+        apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
       }
 
-      value = if value.is_a?(Range)
+      value = if is_a_range
         values.join("-")
       else
         values.to_sentence
@@ -86,9 +90,16 @@ module DefineTasticHelper
 
   def apply_modifier_to_value modifier, value, obj = self
     if value && modifier
-      return obj.send(modifier, value)
+      return obj.public_send(modifier, value)
     end
     value
+  end
+
+  def apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+    humanize_value(
+      apply_modifier_to_value(modifier_func, value),
+      {human_attribute_value: human_attribute_value}
+    )
   end
 
   def upcase value

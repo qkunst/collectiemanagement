@@ -165,8 +165,7 @@ module Work::ParameterRerendering
     end
 
     def purchased_on_with_fallback
-      return purchased_on if purchased_on
-      return purchase_year if purchase_year
+      purchased_on || purchase_year
     end
 
     def whd_to_s width = nil, height = nil, depth = nil, diameter = nil
