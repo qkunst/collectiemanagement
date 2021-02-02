@@ -107,10 +107,10 @@ module WorksHelper
     end
     sentence_items << ". "
     if grouped
-      sentence_items << "Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}"
+      sentence_items << "<span class=\"hide-for-screen\">Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}.</span>"
     end
 
-    sentence_items.join("")
+    sanitize(sentence_items.join(""))
 
   end
 end

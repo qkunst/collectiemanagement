@@ -7,7 +7,8 @@ module Works::XlsxResponse
     include ActionController::Streaming
 
     def show_xlsx_response
-      if @works.count < 500
+      filter_active = @collection_works_count > @works_count
+      if direct_download?
         send_data prepare_workbook.stream_xlsx, filename: "werken #{@collection.name}.xlsx"
       elsif CollectionDownloadWorker.perform_async(download_parameters[:collection_id], download_parameters[:requested_by_user_id], :xlsx, download_parameters[:audience], download_parameters[:fields_to_expose])
         redirect_to collection_path(@collection), notice: "De download wordt voorbereid. U krijgt een bericht (vanuit de berichtenmodule) wanneer de download gereed is."
@@ -16,7 +17,7 @@ module Works::XlsxResponse
       end
     end
 
-    def show_csv_response
+    def direct_download?
       if @works.count < 500
         send_data prepare_workbook.sheet.table.to_csv, filename: "werken #{@collection.name}.csv"
       elsif CollectionDownloadWorker.perform_async(download_parameters[:collection_id], download_parameters[:requested_by_user_id], :csv, download_parameters[:audience], download_parameters[:fields_to_expose])
@@ -27,6 +28,10 @@ module Works::XlsxResponse
     end
 
     private
+
+    def direct_download?
+      @works.count < 500 || filter_active
+    end
 
     def download_parameters
       audience = params[:audience] ? params[:audience].to_s.to_sym : :default
