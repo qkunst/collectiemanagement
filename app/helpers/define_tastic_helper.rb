@@ -50,6 +50,7 @@ module DefineTasticHelper
 
   def value_render property, options = {}
     value = nil
+    values = []
 
     if options[:override_value]
       value = options[:override_value]
@@ -63,26 +64,16 @@ module DefineTasticHelper
         property
       end
 
-      is_a_range = value.is_a?(Range)
-      is_a_string = value.is_a?(String)
-
-      values = if is_a_range
-        [value.min, value.max]
-      elsif value.methods.include? :collect
-        value.to_a
+      value = if value.is_a?(Range)
+        [value.min, value.max].map { |value|
+          apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+        }.join("-")
+      elsif value.is_a?(Enumerable)
+        value.to_a.compact.map { |value|
+          apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+        }.to_sentence
       else
-        value = apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
-        return is_a_string ? value.html_safe : value.to_s
-      end
-
-      values = values.compact.map { |value|
-        apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
-      }
-
-      value = if is_a_range
-        values.join("-")
-      else
-        values.to_sentence
+        apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value).to_s
       end
     end
     value.html_safe
