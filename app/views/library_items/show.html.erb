@@ -26,7 +26,7 @@
       <li><%= link_to 'Bewerk', edit_collection_library_item_path(@collection,@library_item), class: 'primary small button right' %></li>
     <% end %>
     <% if can? :destroy, @library_item %>
-      <li><%= button_to 'Verwijder', collection_library_item_path(@collection,@library_item), method: :destroy, class: 'primary small button right alert', data: {confirm: "Weet u zeker dat u dit item uit de bibliotheek wilt verwijderen?"} %></li>
+      <li><%= button_to 'Verwijder', collection_library_item_path(@collection,@library_item), method: :delete, class: 'primary small button right alert', data: {confirm: "Weet u zeker dat u dit item uit de bibliotheek wilt verwijderen?"} %></li>
     <% end %>
   </ul>
 </nav>
