@@ -45,8 +45,8 @@ end
 ## BASIC
 ##
 gem "bundler-audit"
-gem "pg", "~>0.21"
-gem "devise"
+gem "pg" #, "~>0.21"
+gem "devise", git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave" # , '~> 1.0'
@@ -110,7 +110,7 @@ gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
-gem 'omniauth', "< 2.0.0"
+gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 

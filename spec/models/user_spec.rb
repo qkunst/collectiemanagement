@@ -26,6 +26,29 @@ RSpec.describe User, type: :model do
         end
       end
     end
+    describe "#accessible_artists" do
+      it "should return all artists for admin" do
+        u = users(:admin)
+        expect(u.accessible_artists).to eq(Artist.all)
+      end
+
+      it "should return a subset for users with a single collection" do
+        u = users(:qkunst_with_collection)
+        artists = collections(:collection1).works_including_child_works.flat_map{|w| w.artists}
+        expect(u.accessible_artists.pluck(:id).sort).to eq(artists.map(&:id).sort)
+      end
+    end
+    describe "#accessible_works" do
+      it "should return all works for admin" do
+        u = users(:admin)
+        expect(u.accessible_works).to eq(Work.all)
+      end
+
+      it "should return a subset for users with a single collection" do
+        u = users(:qkunst_with_collection)
+        expect(u.accessible_works.pluck(&:id)).to eq(collections(:collection1).works_including_child_works.pluck(&:id))
+      end
+    end
     describe "#collection_ids" do
       it "should return ids of collections" do
         expect(users(:qkunst_with_collection).collection_ids).to eq(users(:qkunst_with_collection).collections.map(&:id))

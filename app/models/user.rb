@@ -80,7 +80,7 @@ class User < ApplicationRecord
 
   def accessible_artists
     return Artist.all if admin?
-    Artist.joins(:works).where(works: {id: accessible_works})
+    Artist.joins(:works).where(works: accessible_works)
   end
 
   def accessible_users
