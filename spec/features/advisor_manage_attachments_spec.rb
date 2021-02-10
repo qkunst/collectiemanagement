@@ -17,7 +17,7 @@ RSpec.feature "Manage attachments", type: :feature do
       end
       click_on "Beheer bijlagen"
       click_on "Bijlage toevoegen"
-      attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
+      attach_file "Bestand", File.expand_path("../fixtures/files/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")
       check("Registrator")
       click_on "Bijlage toevoegen"
@@ -45,7 +45,7 @@ RSpec.feature "Manage attachments", type: :feature do
       click_on "Beheer bijlagen"
       click_on "Bijlage toevoegen"
 
-      attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
+      attach_file "Bestand", File.expand_path("../fixtures/files/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "Image1.jpg")
       check("Registrator")
 
@@ -74,7 +74,7 @@ RSpec.feature "Manage attachments", type: :feature do
       click_on "Beheer bijlagen 1"
       click_on "Bijlage toevoegen"
 
-      attach_file "Bestand", File.expand_path("../fixtures/image.jpg", __dir__)
+      attach_file "Bestand", File.expand_path("../fixtures/files/image.jpg", __dir__)
       fill_in("Bestandsnaam / beschrijving", with: "ArtistImage1.jpg")
       check("Registrator")
       click_on "Bijlage toevoegen"

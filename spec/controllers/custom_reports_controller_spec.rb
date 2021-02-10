@@ -41,7 +41,11 @@ RSpec.describe CustomReportsController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      title: nil,
+      collection_id: collections(:collection1).id,
+      custom_report_template_id: nil
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -107,7 +111,8 @@ RSpec.describe CustomReportsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {custom_report: invalid_attributes}, session: valid_session
+        sign_in(users(:admin))
+        post :create, params: {custom_report: invalid_attributes, collection_id: collections(:collection1).id}, session: valid_session
         expect(response).to be_successful
       end
     end
@@ -116,15 +121,18 @@ RSpec.describe CustomReportsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          title: "cheese",
+          custom_report_template_id: custom_report_templates(:minimal_custom_report_template).id
+        }
       }
 
       it "updates the requested custom_report" do
         sign_in users(:admin)
         custom_report = CustomReport.create! valid_attributes
-        put :update, params: {id: custom_report.to_param, custom_report: new_attributes}, session: valid_session
+        put :update, params: {collection_id: collections(:collection1).id, id: custom_report.to_param, custom_report: new_attributes}, session: valid_session
         custom_report.reload
-        skip("Add assertions for updated state")
+        expect(custom_report.title).to eq("cheese")
       end
 
       it "redirects to the custom_report" do
@@ -137,6 +145,8 @@ RSpec.describe CustomReportsController, type: :controller do
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
+        sign_in users(:admin)
+
         custom_report = CustomReport.create! valid_attributes
         put :update, params: {id: custom_report.to_param, custom_report: invalid_attributes, collection_id: custom_report.collection_id}, session: valid_session
         expect(response).to be_successful
