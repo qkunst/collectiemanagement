@@ -113,7 +113,7 @@ gem "strip_attributes"
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
-
+gem 'omniauth-azure-activedirectory', git: 'https://github.com/murb/omniauth-azure-activedirectory.git'
 gem "sidekiq", "~> 5.0"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
