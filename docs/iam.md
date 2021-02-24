@@ -42,3 +42,5 @@ Administrators have access to all collections and can change all roles. Users wi
 to change collection access to collections in their scope.
 
 All mutations in role and collection access are automatically logged by the system.
+
+*SCIM user provisioning is not supported yet*

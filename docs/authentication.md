@@ -47,3 +47,24 @@ Per collection can be configured whether:
   - email domain match
   - sso system match
 * if -->
+
+## SSO Provider specific
+
+### Microsoft Login
+
+Different identifiers can be used for auto-provisioning through information received in the open-id token. When applying for semi-auto provisioning, please collect:
+
+Minimal requirement:
+
+* Tenant ID (allows us to identify the user group/organization)
+
+Additionally:
+
+* Group IDs (groups) and Role IDs (wids)
+
+The QKunst application IDs are:
+
+* production: cd4e2cd4-045b-4460-a109-b78bcc833fed (https://collectiemanagement.qkunst.nl)
+* accept: 5ee084cf-0bea-48b2-83d9-09d5497096b0
+
+QKunst Collectionmanagement is not available in the Azure Directory.

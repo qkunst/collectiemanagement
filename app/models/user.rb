@@ -202,6 +202,7 @@ class User < ApplicationRecord
         user.facility_manager = data.facility_manager
         user.domain = data.domain
         user.confirmed_at ||= Time.now if data.email_confirmed?
+        user.raw_open_id_token = data.raw_open_id_token
         user.save
         user
       end
