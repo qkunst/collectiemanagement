@@ -3,7 +3,7 @@
   <% if can?(:read_location, work) %>
     <%= definition_list_for work, {render_as: :table} do %>
       <thead><tr>
-        <th><strong>Locatie</strong></th>
+        <th>Locatie</th>
         <td class="actions">
           <% if work.persisted? %>
             <% if can?(:edit_location, work) %>

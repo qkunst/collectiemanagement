@@ -10,7 +10,7 @@ class User < ApplicationRecord
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
-    :recoverable, :rememberable, :trackable, :validatable, :timeoutable,  omniauth_providers: [:google_oauth2]
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable,  omniauth_providers: [:google_oauth2, :azureactivedirectory]
 
   store :collection_accessibility_serialization
   store :filter_params
@@ -80,7 +80,7 @@ class User < ApplicationRecord
 
   def accessible_artists
     return Artist.all if admin?
-    Artist.joins(:works).where(works: {id: accessible_works})
+    Artist.joins(:works).where(works: accessible_works)
   end
 
   def accessible_users
@@ -186,7 +186,7 @@ class User < ApplicationRecord
       raise "Subject empty" if oauth_subject.blank?
       raise "Provider empty" if oauth_provider.blank?
 
-      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email) || User.new(email: email, password: Devise.friendly_token[0,48])
+      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0,48])
     end
 
     def from_omniauth_callback_data(data)
@@ -202,6 +202,7 @@ class User < ApplicationRecord
         user.facility_manager = data.facility_manager
         user.domain = data.domain
         user.confirmed_at ||= Time.now if data.email_confirmed?
+        user.raw_open_id_token = data.raw_open_id_token
         user.save
         user
       end

@@ -176,10 +176,10 @@ RSpec.describe "Works", type: :request do
           it "should be able to get an zip file with photos" do
             collection = collections(:collection1)
             work = collection.works_including_child_works.first
-            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
-            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
-            work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
-            work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
+            work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
+            work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
             work.save
             sign_in user
             get collection_works_path(collection, format: :zip)
@@ -192,10 +192,10 @@ RSpec.describe "Works", type: :request do
           it "should be able to get an zip file with only front photos" do
             collection = collections(:collection1)
             work = collection.works_including_child_works.first
-            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image2.jpg", __dir__))
-            FileUtils.cp(File.expand_path("../fixtures/image.jpg", __dir__), File.expand_path("../fixtures/image3.jpg", __dir__))
-            work.photo_front = File.open(File.expand_path("../fixtures/image2.jpg", __dir__))
-            work.photo_back = File.open(File.expand_path("../fixtures/image3.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
+            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
+            work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
+            work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
             work.save
             sign_in user
             get collection_works_path(collection, format: :zip, params: {only_front: true})

@@ -28,3 +28,9 @@ $(document).on('click', '#locaties tr.span-6 td[colspan], #locaties tr.span-4 td
     }
   }
 });
+
+$(document).on('change', '#report_filter input', function(event) {
+  document.querySelectorAll("button[name=filter_on]").forEach(function(element) {
+    element.innerText = element.innerText.replace(/\d/g, "")
+  })
+})

@@ -48,7 +48,7 @@ class WorksController < ApplicationController
     begin
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works = @works.published if params[:published]
-      @works = @works.id(Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
+      @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
       @inventoried_objects_count = @works.count
       @works_count = @works.count_as_whole_works
       @works = @works.preload_relations_for_display(@selection[:display])

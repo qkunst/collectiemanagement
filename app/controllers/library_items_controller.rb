@@ -39,7 +39,7 @@ class LibraryItemsController < ApplicationController
       @library_item.works << @work if @work
       @library_item.artists << @artist if @artist
 
-      redirect_to [@collection, @library_item], notice: 'Het item is toegevoegd aan de bibliotheek'
+      redirect_to [@collection.base_collection, @library_item], notice: 'Het item is toegevoegd aan de bibliotheek'
     else
       render :new
     end

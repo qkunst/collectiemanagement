@@ -1,41 +1,46 @@
-## Identity Access Management
+# Identity Access Management
 
-### Identificatie
+## Identification
 
-Identificatie geschied door invoer van een e-mail/wachtwoord inlog of externe authenticatiepartij. De identiteit
-wordt na registratie geverifieerd door een administrator. Pas daarna krijgt een
-geregistreerde gebruiker toegang tot enige collectie.
+A user may authenticate him or herself to the application through a username and password login, provided by the application itself, or by using an external authentication solution.
+When an external authentication solution is used for a particular user account, username and password login is blocked for this user.
 
-### Toegang
+In case of a username / password registration, or an external authentication solution that does not allow for direct coupling between organization and/or roles, the identity
+will be verified by either a QKunst-administrator or someone with a role manager function within the organization.
 
-#### Tot collecties
+## Access
 
-Administratoren hebben toegang tot alle collecties, en zijn ook in staat de rollen
-van gebruikers aan te passen. Alle rol- en collectieaanpassingen worden op gebruikersmodel niveau automatisch gelogd.
+To see works within the application you both need collection access and a functional role.
 
-Collecties zijn hierarchisch georganiseerd. Er zijn dus super- en sub-collecties.
-Iemand met toegang tot een een collectie hoger in de hierarchie heeft automatisch
-toegang tot alle onderliggende collecties.
+### Collection-access
 
-Toegang tot een bepaald werk kan niet op het niveau van het individuele werk worden bepaald.
+Collections are hierarchically organized. Someone with access to a collection as automatically access to the underlying collections. Access to certain works within a collection cannot be managed on work-level.
 
-#### Tot functionaliteit
+### Functional access (roles)
 
-QKunst collectiemanagement kent een simpel rollenmodel. De rollen die worden onderscheiden zijn:
+QKunst Collection Management has a relatively simple role-model. Roles discerned are:
 
 * Administrator
-* Adviseur - als een administrator, maar dan beperkt tot collecties
-* Taxateur - heeft toegang tot waarderingen en kan waarderen
-* Compliance - heeft toegang als een adviseur, maar dan read-only
-* Registrator - kan werken toevoegen, bewerken en bekijken
-* Facility Manager - kan locaties muteren, en werken bekijken, kan ook waarderingen zien
-* Read only - Kan alleen werken beperkt zien
-* Inactieve gebruiker (read only gebruiker zonder toegang tot enige collectie)
+* Advisor - like an administrator, but limited to the collections
+* Appraiser - has access to valuations and can appraise
+* Compliance - has access to everything, like and Advisor, but read-only.
+* Registrar - can add works (in detail), edit and view works, but has no access to valuations
+* Facility Manager - can update location, view works and view valuations
+* Read only - has a limited view of the works
+* Inactive worker (typically a read only user without access to any collection)
 
-Een gebruiker heeft slechts 1 basisrol, al is de functionaliteit van de rollen overlappend.
+A user can only have one base-role; the functionality of the roles has functionality in common.
 
-Al deze rollen kunnen worden uitgebreid met de rol *rollen beheerder*, waarmee die persoon in diens domein rollen kan toekennen aan gebruikers.
+As of late 2020 roles can be extended with the role *role manager*, which allows individual users within the organization to update roles and access to collections to users within
+their organization.
 
-### Management
+## Management
 
-Het beheer van rollen en koppeling aan een collectie kan slechts gedaan worden door een administrator, of door een reguliere gebruiker met een rollenbeheer add-on rol.
+Management is performed by either a QKunst-administrator or a regular user with a role-management add-on role.
+
+Administrators have access to all collections and can change all roles. Users with a role-management role can only manage roles up to the advisor role and are only able
+to change collection access to collections in their scope.
+
+All mutations in role and collection access are automatically logged by the system.
+
+*SCIM user provisioning is not supported yet*

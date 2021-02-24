@@ -3,6 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Attachments", type: :request do
+  include ActionDispatch::TestProcess::FixtureFile
   include Rack::Test::Methods
 
   let(:collection) { collections(:collection1) }

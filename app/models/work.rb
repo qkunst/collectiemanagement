@@ -65,7 +65,6 @@ class Work < ApplicationRecord
 
   scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }
   scope :has_number, ->(number) { number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
-  scope :id, ->(ids) { where(id: ids) }
   scope :no_photo_front, -> { where(photo_front: nil) }
   scope :order_by, ->(sort_key) do
     case sort_key.to_sym

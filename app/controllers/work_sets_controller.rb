@@ -36,7 +36,7 @@ class WorkSetsController < ApplicationController
     end
 
 
-    @works = current_user.accessible_works.where(id: @work_set.work_ids)
+    @works = current_user.accessible_works.where(id: @work_set.work_ids).order(:stock_number)
 
     if @works.count < 20
       @selection = {display: :complete}

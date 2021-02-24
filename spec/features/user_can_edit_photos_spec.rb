@@ -18,7 +18,7 @@ RSpec.feature "Edit photos", type: :feature do
 
         click_on "Work1"
         click_on "Voeg foto’s toe"
-        attach_file "Foto voorkant", File.expand_path("../fixtures/image.jpg", __dir__)
+        attach_file "Foto voorkant", File.expand_path("../fixtures/files/image.jpg", __dir__)
         click_on "Werk bewaren"
         click_on "Beheer foto's"
 

@@ -19,7 +19,7 @@
 <p>De volgende werken zullen hiermee worden gegroepeerd. </p>
 <%= render @works.limit(24) %>
 <% if @works.count > 24%>
-<p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @works.count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %>.</p>
+<p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @works.count) }", collection_works_path(@collection, params: {ids: @works.pluck(:id).join(",") }), target: "_blank" if @collection %>.</p>
 <% end%>
 
 <% else %>

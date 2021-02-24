@@ -4,7 +4,7 @@ class Users::OmniauthCallbackData
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :email, :email_confirmed, :name, :oauth_subject, :oauth_provider, :qkunst, :facility_manager, :domain
+  attr_accessor :email, :email_confirmed, :name, :oauth_subject, :oauth_provider, :qkunst, :facility_manager, :domain, :raw_open_id_token
 
   validates_presence_of :email, :oauth_subject, :oauth_provider
 
