@@ -49,7 +49,8 @@ module OmniAuth
       #
       # @return String
       def read_nonce
-        decrypt(request.cookies.delete("omniauth.azure.nonce"))
+        azureNonceCookie = request.cookies.delete("omniauth.azure.nonce")
+        decrypt(azureNonceCookie) if azureNonceCookie
       end
 
     end
