@@ -85,7 +85,7 @@
     </aside>
     <% end #formtag /works?q... %>
     <%= form_tag collection_batch_path, method: :post do %>
-    <div class="large-10 medium-10 columns print-12" id="works-list">
+    <div class="large-10 medium-10 columns print-12 <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
       <div class="<%= @limit_collection_information ? "hide" : "only-for-print" %>">
       <%= kramdown( @collection.description) %>
       </div>
