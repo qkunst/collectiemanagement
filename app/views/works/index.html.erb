@@ -41,7 +41,7 @@ Download:<br/>
       </div>
     </div>
     <div class="columns"></div>
-    <% if @works_count > @max_index+1%>
+    <% if @inventoried_objects_count > @max_index+1%>
     <div class="columns callout" style="text-align: center">
       <p>Momenteel wordt slechts een beperkt aantal werken getoond <%= link_to "Toon alle werken", collection_works_path(@collection, params: @cleaned_params.merge({max_index: 9999999})), class: "hide-for-print button inline small secondary"%></p>
     </div>
