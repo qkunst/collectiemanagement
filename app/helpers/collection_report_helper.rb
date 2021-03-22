@@ -34,7 +34,6 @@ module CollectionReportHelper
     end
   end
 
-
   def filter_check_box(filter_params)
     @selection_filter ||= {}
 
@@ -61,7 +60,7 @@ module CollectionReportHelper
     checked = selected_filter_value_for_name.is_a?(Array) ? selected_filter_value_for_name.map{|a| ((a == true) ? 1 : (a == false) ? 0 : a)}.include?(param_value) : (@selection_filter.keys.include?(field_name) && selected_filter_value_for_name == param_value)
 
     if show_filter_check_boxes
-      check_box_tag(url_param_name, url_param_value, checked)#, title: "this_param_value: #{param_value.inspect}, field_name: #{field_name}, selected_filter_value_for_name: #{selected_filter_value_for_name.inspect}")
+      check_box_tag(url_param_name, url_param_value, checked)
     end
   end
 
