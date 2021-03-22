@@ -1,0 +1,1 @@
+Rails.application.config.session_store :cookie_store, expire_after: 2.days, same_site: :none, secure: Rails.env.development? ? false : true
