@@ -9,7 +9,7 @@ class ReportController < ApplicationController
     set_selection_filter
     set_no_child_works
 
-    unsafe_filter_params = params[:filter].to_unsafe_h || {}
+    unsafe_filter_params = params[:filter]&.to_unsafe_h || {}
 
     if params[:filter_on] == "works"
       redirect_to collection_works_path({filter: unsafe_filter_params})
