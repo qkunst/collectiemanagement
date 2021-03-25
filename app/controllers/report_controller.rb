@@ -9,10 +9,12 @@ class ReportController < ApplicationController
     set_selection_filter
     set_no_child_works
 
+    unsafe_filter_params = params[:filter].to_unsafe_h || {}
+
     if params[:filter_on] == "works"
-      redirect_to collection_works_path({filter: params[:filter].to_unsafe_h})
+      redirect_to collection_works_path({filter: unsafe_filter_params})
     elsif params[:filter_on] == "works_unlimited"
-      redirect_to collection_works_path({filter: params[:filter].to_unsafe_h, max_index: 9999999})
+      redirect_to collection_works_path({filter: unsafe_filter_params, max_index: 9999999})
     end
 
     @title = "Rapportage voor #{@collection.name}"
