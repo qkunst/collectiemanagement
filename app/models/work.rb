@@ -73,7 +73,7 @@ class Work < ApplicationRecord
     when :created_at
       order(created_at: :desc)
     when :artist_name, :artist_name_rendered
-      left_outer_joins(:artists).order(Arel.sql("artists.id IS NULL ASC, artists.last_name ASC, artists.first_name ASC, works.stock_number ASC, works.created_at ASC"))
+      order(Arel.sql("works.artist_name_for_sorting ASC, works.created_at ASC"))
     when :stock_number
       order(:stock_number)
     end
