@@ -26,9 +26,9 @@ collection_with_works:
   collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1)\""
 
 collection_with_works_child:
-  name: Collection with works child (sub of Collection 1 >> colection with works)
+  name: Collection with works child (sub of Collection 1 » colection with works)
   parent_collection: :collection_with_works
-  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 >> colection with works)\""
+  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 » colection with works)\""
 
 collection3:
   name: Collection 3
