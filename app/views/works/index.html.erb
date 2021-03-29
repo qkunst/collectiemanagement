@@ -36,13 +36,15 @@
     <div class="columns callout" style="text-align: center">
       <p>Momenteel wordt slechts een beperkt aantal werken getoond <%= link_to "Toon alle werken", collection_works_path(@collection, params: @cleaned_params.merge({max_index: 9999999})), class: "hide-for-print button inline small secondary"%></p>
     </div>
-    <% elsif @inventoried_objects_count > @max_index+1 && params[:min_index] %>
+    <% elsif params[:min_index] %>
     <div class="columns callout hide-for-print" style="text-align: center">
       <p>
         <% if @min_index > 0 %>
         <%= link_to "←", collection_works_path(@collection, params: @cleaned_params.merge({min_index: @min_index-(@max_index-@min_index)-1, max_index: @min_index-1 })), class: " button inline small secondary"%>
         <% end %>
+        <% if  @max_index <= @inventoried_objects_count %>
         <%= link_to "→", collection_works_path(@collection, params: @cleaned_params.merge({min_index: @max_index+1, max_index: (@max_index+@max_index-@min_index+1) })), class: " button inline small secondary"%>
+        <% end %>
       </p>
     </div>
     <% end %>
