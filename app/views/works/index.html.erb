@@ -18,13 +18,15 @@
         <label class="small-3 columns">Sorteer: <%= select_tag :sort, options_for_select(@selection_sort_options, @selection[:sort]), data: {auto_submit: true}  %></label>
         <label class="small-3 columns">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
         <label class="small-3 columns"><% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) %>
-Download:<br/>
-  <ul class="inline tags">
+<br/><ul class="dropdown menu collapsed" id="download-dropdown-button">
+  <li class="is-dropdown-submenu-parent">
+    <button data-qtoggle="download-dropdown-button" data-qtoggle-class="collapsed" class="tertiary button">Download</button>
+    <ul class="vertical menu">
     <% if can? :download_datadump, @collection  %>
       <li><%=link_to "xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xlsx" } %></li>
       <li><%=link_to "csv", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})), { download: "Werken.csv" } %></li>
       <li><%=link_to "xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
-      <li><%=link_to "json", collection_works_path(@collection, format: :json, params: @cleaned_params.merge({audience: :default})), { download: "Werken.json" } %></li>
+      <!-- <li><%=link_to "json", collection_works_path(@collection, format: :json, params: @cleaned_params.merge({audience: :default})), { download: "Werken.json" } %></li> -->
     <% end %>
     <% if can? :download_public_datadump, @collection %>
       <% if @collection.name.to_s.match "Provincie Gelderland" %>
@@ -35,7 +37,11 @@ Download:<br/>
       <li><%=link_to "zip (foto’s)", collection_works_path(@collection, params: @cleaned_params, format: :zip) %></li>
       <li><%=link_to "zip (foto’s voor)", collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})) %></li>
     <% end %>
-  </ul>
+    </ul>
+  </li>
+</ul>
+
+
 <% end %>
 </div>
       </div>

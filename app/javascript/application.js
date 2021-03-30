@@ -11,7 +11,7 @@ UJS.start();
 
 import Foundation from 'foundation-sites';
 //import "controllers"
-import('prototypes');
+require('prototypes');
 
 require('jquery_nested_form');
 require('chosen-js');
@@ -29,6 +29,7 @@ import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
+require('toggle');
 import('zxing/zxing_helper')
 
 const FormStore = require('formstore.js').default;
@@ -37,7 +38,6 @@ window.FormStore = FormStore;
 
 var collectieBeheerInit = function() {
   FormStore.init();
-
   // stickyfill
   setTimeout(function(){
     var stickyElements = document.getElementsByClassName('sub-nav');
