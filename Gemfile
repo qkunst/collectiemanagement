@@ -28,7 +28,6 @@ gem "jbuilder" # , '~> 2.0'
 gem "cancancan"
 gem "bootsnap"
 gem "lockbox"
-gem "mimemagic", "~> 0.3.7"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -90,7 +89,8 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails", "~> 6.3.0"
+gem "foundation-rails" #, "~> 6.3.0"
+gem 'autoprefixer-rails'
 
 ##
 ## OTHER FREQUENTLY USED
@@ -100,7 +100,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git"
 gem "nested_form"
-gem "paper_trail"
+gem "paper_trail", "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
