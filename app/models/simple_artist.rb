@@ -22,7 +22,7 @@ class SimpleArtist
       if obj.is_a? Array
         obj.collect { |a| new(a) }
       else
-        new(a)
+        new(obj)
       end
     else
       new

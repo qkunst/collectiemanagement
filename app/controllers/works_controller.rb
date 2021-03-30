@@ -38,6 +38,8 @@ class WorksController < ApplicationController
 
     update_current_user_with_params
 
+    @min_index = params["min_index"].to_i if params["min_index"]
+    @min_index ||= 0
     @max_index = params["max_index"].to_i if params["max_index"]
     @search_text = params["q"].to_s if params["q"] && !@reset
 
@@ -56,10 +58,12 @@ class WorksController < ApplicationController
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @works_count = 0
+      @inventoried_objects_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
     rescue Faraday::ConnectionFailed
       @works = []
       @works_count = 0
+      @inventoried_objects_count = 0
       @alert = "Momenteel kan er niet gezocht worden, de zoekmachine (ElasticSearch) draait niet (meer) of is onjuist ingesteld."
     end
 
@@ -95,11 +99,10 @@ class WorksController < ApplicationController
           end
         else
           @max_index ||= 159
-          @max_index = 159 if @max_index < 159
           if @works.is_a? Array
-            @works = @works[0..@max_index-1].uniq
+            @works = @works[0..@max_index].uniq
           else
-            @works = @works.limit(@max_index).uniq
+            @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
           end
         end
       end

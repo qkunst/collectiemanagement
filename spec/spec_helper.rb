@@ -98,4 +98,9 @@ RSpec.configure do |config|
     config.before(:each) { Bullet.start_request }
     config.after(:each) { Bullet.end_request }
   end
+
+  config.before do
+    Work.all.each(&:update_artist_name_rendered!)
+    Collection.all.each { |c| c.cache_collection_name_extended!(true) }
+  end
 end
