@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # first line of defense; only allowed parameters
 
 class Users::OmniauthCallbackData

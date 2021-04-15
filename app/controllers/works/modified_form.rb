@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Works::ModifiedForm
   include ActiveModel::Model
   include ActiveModel::AttributeAssignment

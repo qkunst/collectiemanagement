@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StatusController < ApplicationController
   def application_status
     @sidekiq_running = Sidekiq::Workers.new.size > 0

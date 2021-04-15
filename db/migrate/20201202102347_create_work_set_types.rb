@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateWorkSetTypes < ActiveRecord::Migration[6.0]
   def change
     create_table :work_set_types do |t|

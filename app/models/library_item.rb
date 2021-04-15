@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibraryItem < ApplicationRecord
   ITEM_TYPES = ["Artikel", "Boek", "DVD"]
 

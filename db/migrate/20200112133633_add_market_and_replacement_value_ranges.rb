@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMarketAndReplacementValueRanges < ActiveRecord::Migration[5.2]
   def change
     add_column :collections, :appraise_with_ranges, :boolean, default: false

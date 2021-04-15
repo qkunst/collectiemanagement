@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkSetsController < ApplicationController
   before_action :set_collection
   before_action :set_work_set, only: [:show, :destroy, :update]

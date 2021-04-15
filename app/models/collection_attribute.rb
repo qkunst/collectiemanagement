@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CollectionAttribute < ApplicationRecord
   encrypts :value
   belongs_to :collection

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddMinimumBidAndSellingPriceToWorks < ActiveRecord::Migration[5.2]
   def change
     add_column :works, :minimum_bid, :decimal, scale: 2, precision: 16 # nl: startbod

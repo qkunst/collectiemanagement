@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "#{Rails.root}/app/handlers/nokogiri_handler"
 require "#{Rails.root}/app/handlers/markdown_handler"
 

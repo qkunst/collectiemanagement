@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "feature_helper"
 
 RSpec.feature "Signin in and out" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndexesToWorkId < ActiveRecord::Migration[5.2]
   def change
     add_index :artists_works, :artist_id

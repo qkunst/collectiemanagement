@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibraryItemsController < ApplicationController
   before_action :set_collection
   before_action :set_subject

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkSet < ApplicationRecord
   has_and_belongs_to_many :works
 

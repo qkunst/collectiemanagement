@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddParentGeonameIdsCachedToGeonameSummaries < ActiveRecord::Migration[5.2]
   def change
     add_column :geoname_summaries, :parent_geoname_ids_cache, :text

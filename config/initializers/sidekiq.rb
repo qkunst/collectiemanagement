@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SourceQkunstbeheer::SidekiqErrorLogger
   def call(worker, msg, queue)
     begin

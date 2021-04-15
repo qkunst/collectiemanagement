@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropSessionsTable < ActiveRecord::Migration[6.0]
   def change
     drop_table "sessions", id: :serial, force: :cascade do |t|
