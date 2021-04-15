@@ -56,6 +56,8 @@ Rails.application.configure do
     }]
   }
 
+  config.log_level = :fatal
+
   config.after_initialize do
     Bullet.enable = true
     Bullet.bullet_logger = true

@@ -28,7 +28,7 @@ RSpec.describe Collection::UsersController, type: :request do
           it "should show users" do
             get collection_users_path(collection)
             body = response.body
-            expect(body).to match(%r{<tr>\s*<th>Gebruiker</th>\s*<th>Collection 1</th>\s*<th>Collection 2 \(sub of Collection 1\)</th>\s*<th>Collection 4</th>\s*<th>Collection with works \(sub of Collection 1\)</th>\s*<th>Collection with works child \(sub of Collection 1 &gt;&gt; colection with works\)</th>\s*</tr>})
+            expect(body).to match(%r{<tr>\s*<th>Gebruiker</th>\s*<th>Collection 1</th>\s*<th>Collection 2 \(sub of Collection 1\)</th>\s*<th>Collection 4</th>\s*<th>Collection with works \(sub of Collection 1\)</th>\s*<th>Collection with works child \(sub of Collection 1 » colection with works\)</th>\s*</tr>})
             expect(body).to match(%r{<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*})
             expect(body).to match(%r{read_only\@murb\.nl.*\s*.*<\/th>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*<td>✔︎</td>\s*</tr>})
             expect(body).to match(%r{read_only@murb.nl.*\s*.*</strong><br/><small>Read-only</small>})

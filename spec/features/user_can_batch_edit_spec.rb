@@ -64,9 +64,8 @@ RSpec.feature "Batch editor", type: :feature do
     expect(work_to_edit1.cluster).to eq(work_to_edit2.cluster)
     expect(work_to_edit1.cluster.name).to eq(new_cluster_name)
 
-    within "#responsive-filter" do
-      click_on "Reset filters"
-    end
+    visit collection_works_path(collections(:collection1))
+
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit3.id}"
     click_on "Overige velden"
@@ -206,11 +205,11 @@ RSpec.feature "Batch editor", type: :feature do
       click_on "1 werk bijwerken"
       check "selected_works_#{work_to_add_to_cluster.id}"
       click_on "Collectie"
-      select "Collection with works child (sub of Collection 1 >> colection with works)"
+      select "Collection with works child (sub of Collection 1 » colection with works)"
       select "⇆ Vervang"
       click_on "1 werk bijwerken"
       click_on "Work1"
-      expect(page).to have_content("Collection with works child (sub of Collection 1 >> colection with works)")
+      expect(page).to have_content("Collection with works child (sub of Collection 1 » colection with works)")
       expect(page).to have_content("My first batch cluster")
     end
   end

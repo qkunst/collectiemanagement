@@ -17,6 +17,12 @@ module Works::XlsxResponse
       end
     end
 
+    def show_csv_response
+      filter_active = @collection_works_count > @works_count
+      # download worker probably doesnt' stream the table yet
+      send_data prepare_workbook.sheet.table.to_csv, filename: "werken #{@collection.name}.csv"
+    end
+
     def direct_download?
       if @works.count < 500
         send_data prepare_workbook.sheet.table.to_csv, filename: "werken #{@collection.name}.csv"
