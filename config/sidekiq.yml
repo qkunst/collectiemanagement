@@ -6,6 +6,9 @@
 verbose: true
 pidfile: ./tmp/pids/sidekiq.pid
 concurrency:  5
+timeout: 300
+default:
+  max_retries: 5
 queues:
   - [qkunst_often, 7]
   - [qkunst_default, 5]
