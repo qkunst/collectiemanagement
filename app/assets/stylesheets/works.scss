@@ -2,18 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
+@import 'settings';
 @import 'variables';
 
-.stocknumber {
+.stocknumber, .stocknumber a {
   background: $qkunst-grey;
   color: #fff;
-  font-size: 1.2em;
+  font-size: 1rem;
   line-height: 1.2;
   margin-top: 3px;
   padding: 3px 5px;
   border-radius: 2px;
   width: auto;
+  font-weight: normal;
+  font-family: $body-font-family;
 }
 #stocknumber-nav {
   a {

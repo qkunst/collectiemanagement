@@ -288,7 +288,7 @@ class Ability
 
   def initialize_facility_manager
     can [:read], Artist
-    can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
+    can [:read, :read_report, :read_status, :read_valuation], Collection, id: accessible_collection_ids
     can :batch_edit, Collection, id: accessible_collection_ids # note that a facility manager only has access to a limited set of fields
     can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
