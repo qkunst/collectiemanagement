@@ -18,11 +18,11 @@ show_offline_stored_count_message = ->
   if messageContainer
     offline_stored_count = (FormStore.Store.count_by_key_start(document.location.toString().split("/works")[0]+"/works"));
     if (offline_stored_count > 0)
-      messageContainer.classList.remove("hidden")
+      messageContainer.classList.remove("hide")
 
       messageContainer.innerText = "Er zijn "+offline_stored_count+" werk(en) nog niet gesynchroniseerd met de server, zodra de server terug online is worden deze opnieuw geprobeerd"
     else
-      messageContainer.classList.add("hidden")
+      messageContainer.classList.add("hide")
 
 click_thumb_event = (e)->
   image_url = $(e.currentTarget).attr("href")

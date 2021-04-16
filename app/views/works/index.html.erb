@@ -1,6 +1,6 @@
 <h2 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h2>
 
-  <p id="offline-works-message" data-collection-id=class="callout alert hide-for-print"></p>
+  <p id="offline-works-message" data-collection-id="<%= @collection.id %>" class="callout alert hide-for-print hide"></p>
 
   <div class="row">
     <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
@@ -33,18 +33,15 @@
     <button data-qtoggle="download-dropdown-button" data-qtoggle-class="collapsed" class="tertiary button">Download</button>
     <ul class="vertical menu">
     <% if can? :download_datadump, @collection  %>
-      <li><%=link_to "xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xlsx" } %></li>
-      <li><%=link_to "xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
-      <!-- <li><%=link_to "json", collection_works_path(@collection, format: :json, params: @cleaned_params.merge({audience: :default})), { download: "Werken.json" } %></li> -->
+      <li><%=link_to ".xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xlsx" } %></li>
+      <li><%=link_to ".xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
     <% end %>
     <% if can? :download_public_datadump, @collection %>
-      <% if @collection.name.to_s.match "Provincie Gelderland" %>
-        <li><%=link_to "xml (public)", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml" } %></li>
-      <% end %>
+      <li><%=link_to ".xml (publiek)", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml" } %></li>
     <% end %>
     <% if can? :download_photos, @collection  %>
-      <li><%=link_to "zip (foto’s)", collection_works_path(@collection, params: @cleaned_params, format: :zip) %></li>
-      <li><%=link_to "zip (foto’s voor)", collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})) %></li>
+      <li><%=link_to ".zip (alle foto’s)", collection_works_path(@collection, params: @cleaned_params, format: :zip) %></li>
+      <li><%=link_to ".zip (foto’s voor)", collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})) %></li>
     <% end %>
     </ul>
   </li>

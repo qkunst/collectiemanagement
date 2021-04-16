@@ -1,15 +1,15 @@
 <div id="main">
 <h2>Bijlagen</h2>
-<p>Bij <%= (@subject || @collection).name %></p>
-
+<p>Bij <%= (@subject || @collection).name %>. <% if @collection.name.to_s.match("Provincie Gelderland") && !@subject %>Voorgedefinieerde export-functies kunnen hier niet beheerd worden.<% end%></p>
+<p>
 <% if @work %>
-<%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
+  <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
 <% elsif @artist %>
-<%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
+  <%= link_to 'Bijlage toevoegen', new_collection_artist_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>
 <% else %>
-<%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if can? :create, @collection.attachments.new %>
+  <%= link_to 'Bijlage toevoegen', new_collection_attachment_path(@collection), class: 'primary button', data: { open_in_context: true} if can? :create, @collection.attachments.new %>
 <% end %>
-
+</p>
 <label>Filter <input type="text" id="generic-table-filter" data-filters="attachments-table"></label>
 
 <table class="sortable" id="attachments-table">
@@ -43,12 +43,11 @@
 
 
 <% if @work %>
-<% @custom_reports = @work.custom_reports.to_a %>
-<% if @custom_reports.count > 0 and qkunst_user? %>
-<hr />
-  <h3>Rapportages</h3>
-  <p>Rapportages worden automatisch aan een werk gekoppeld zodra hiernaar wordt verwezen in de rapportage.</p>
-    <%= render partial: 'custom_reports/index' %>
-<% end %>
-
+  <% @custom_reports = @work.custom_reports.to_a %>
+  <% if @custom_reports.count > 0 and qkunst_user? %>
+  <hr />
+    <h3>Rapportages</h3>
+    <p>Rapportages worden automatisch aan een werk gekoppeld zodra hiernaar wordt verwezen in de rapportage.</p>
+      <%= render partial: 'custom_reports/index' %>
+  <% end %>
 <% end %>
