@@ -179,11 +179,11 @@ class WorksController < ApplicationController
     versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").where.not(object_changes: nil).order(created_at: :desc).limit(500)
 
     @form = Works::ModifiedForm.new(works_modified_form_params)
-    # raise @form
+
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name] }.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact
   end
 
   # DELETE /works/1

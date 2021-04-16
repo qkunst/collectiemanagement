@@ -41,8 +41,7 @@ module Work::Caching
 
     def update_artist_name_rendered!
       self.artist_name_rendered = artists.to_json_for_simple_artist
-      update_column(:artist_name_rendered, self.read_attribute(:artist_name_rendered))
-      update_column(:artist_name_for_sorting, artist_name_rendered_without_years_nor_locality_semicolon_separated)
+      update_columns(artist_name_rendered: self.read_attribute(:artist_name_rendered), artist_name_for_sorting: artist_name_rendered_without_years_nor_locality_semicolon_separated, updated_at: Time.now)
     end
 
     def update_latest_appraisal_data!

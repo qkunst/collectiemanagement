@@ -21,8 +21,8 @@ class Artist < ApplicationRecord
 
   has_cache_for_method :geoname_ids
 
-  after_save :touch_works
-  after_touch :touch_works
+  after_save :update_artist_name_rendered_async
+  after_touch :update_artist_name_rendered_async
 
   before_save :sync_dates_and_years
   before_save :sync_places
@@ -167,14 +167,6 @@ class Artist < ApplicationRecord
     count
   end
 
-  def touch_works
-    works.all.each do |work|
-      work.update_artist_name_rendered!
-      work.cache_collection_locality_artist_involvements_texts!(true)
-      work.touch
-    end
-  end
-
   def to_parameters
     parameters = JSON.parse(to_json)
     parameters.delete("updated_at")
@@ -215,6 +207,12 @@ class Artist < ApplicationRecord
     end
 
     save
+  end
+
+  private
+
+  def update_artist_name_rendered_async
+    works.pluck(:id).collect{|a| UpdateWorkCachesWorker.perform_async(a, :artist)}
   end
 
   class << self

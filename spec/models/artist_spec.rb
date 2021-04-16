@@ -100,15 +100,17 @@ RSpec.describe Artist, type: :model do
 
   describe "#save" do
     it "should update artist name at work" do
-      w = works(:work1)
-      a = Artist.create(first_name: "Antony", last_name: "Hopkins")
-      w.artists = [a]
-      w.save
-      expect(w.artist_name_rendered).to eq("Hopkins, Antony")
-      a.first_name = "Charly"
-      a.save
-      w.reload
-      expect(w.artist_name_rendered).to eq("Hopkins, Charly")
+      Sidekiq::Testing.inline! do
+        w = works(:work1)
+        a = Artist.create(first_name: "Antony", last_name: "Hopkins")
+        w.artists = [a]
+        w.save
+        expect(w.artist_name_rendered).to eq("Hopkins, Antony")
+        a.first_name = "Charly"
+        a.save
+        w.reload
+        expect(w.artist_name_rendered).to eq("Hopkins, Charly")
+      end
     end
   end
 

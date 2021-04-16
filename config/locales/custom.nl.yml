@@ -442,6 +442,7 @@ nl:
         style: Stijl
         subset: Deelcollectie
         tag_list: Tags
+        tag_list_cache: Tags
         cached_tag_list: Tags
         techniques: Technieken
         themes: "Thema's"
