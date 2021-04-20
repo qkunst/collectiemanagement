@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class WorksController < ApplicationController
+  MAX_WORK_COUNT = 99999
+  DEFAULT_WORK_COUNT = 159
+  DEFAULT_GROUPED_WORK_COUNT = 7
+
   include ActionController::Streaming
   include Works::ZipResponse
   include Works::XlsxResponse
@@ -89,7 +93,7 @@ class WorksController < ApplicationController
               works_grouped[group] << work
             end
           end
-          @max_index ||= @works_count < 159 ? 99999 : 7
+          @max_index ||= @works_count < DEFAULT_WORK_COUNT ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
           @works_grouped = {}
           works_grouped.keys.compact.sort.each do |key|
             @works_grouped[key] = works_grouped[key].uniq
@@ -98,7 +102,7 @@ class WorksController < ApplicationController
             @works_grouped[nil] = works_grouped[nil].uniq
           end
         else
-          @max_index ||= 159
+          @max_index ||= DEFAULT_WORK_COUNT
           if @works.is_a? Array
             @works = @works[0..@max_index].uniq
           else

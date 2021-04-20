@@ -79,6 +79,29 @@ class Work < ApplicationRecord
     end
   end
   scope :published, -> { where(publish: true) }
+  scope :by_group, ->(group, rough_ids) {
+    ids = rough_ids.map{|a| (a.to_s == "not_set" || a == nil) ? nil : a }
+    case group.to_sym
+    when :cluster
+      where(cluster_id: ids)
+    when :subset
+      where(subset_id: ids)
+    when :placeability
+      where(placeability_id: ids)
+    when :grade_within_collection
+      where(grade_within_collection: ids)
+    when :themes
+      left_outer_joins(:themes).where(themes: {id: ids})
+    when :techniques
+      left_outer_joins(:techniques).where(techniques: {id: ids})
+    when :sources
+      left_outer_joins(:sources).where(sources: {id: ids})
+    when :skip
+      where("1=0")
+    else
+      raise "unsupported parameter #{group}"
+    end
+  }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

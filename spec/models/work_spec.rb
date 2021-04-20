@@ -589,6 +589,58 @@ RSpec.describe Work, type: :model do
     end
   end
   describe "Scopes" do
+    describe ".by_group" do
+      describe "has and belongs to many" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:themes, [themes(:wind).id])).to match_array([works(:work1), works(:work2)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:themes, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:themes, ["not_set"])).not_to include(works(:work2))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work3))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work4))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work5))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:themes, [themes(:wind).id, :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+          expect(result_set).to include(works(:work4))
+          expect(result_set).to include(works(:work5))
+        end
+      end
+      describe "belongs to" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:subset, [subsets(:contemporary).id])).to match_array([works(:work1)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:subset, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:subset, [:not_set])).to include(works(:work3))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:subset, [subsets(:contemporary).id, :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).not_to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+        end
+      end
+      describe "string to" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:grade_within_collection, ["A"])).to match_array([works(:work1)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:grade_within_collection, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:grade_within_collection, [:not_set])).to include(works(:work3))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:grade_within_collection, ["A", :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).not_to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+        end
+      end
+    end
     describe ".has_number" do
       it "finds nothing when an unknown number is passed" do
         expect(Work.has_number("not a known number").pluck(:id)).to eq([])

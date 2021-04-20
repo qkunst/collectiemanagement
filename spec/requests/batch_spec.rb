@@ -108,6 +108,7 @@ RSpec.describe "WorkBatchs", type: :request do
         end
       end
     end
+
     describe "themes" do
       let(:work_selection) { [works(:work1), works(:work2)] }
 
@@ -124,6 +125,29 @@ RSpec.describe "WorkBatchs", type: :request do
           work = Work.find(work.id)
           expect(work.themes).to include(theme)
         end
+      end
+
+      it "allows for group selections" do
+        sign_in users(:admin)
+        collection = collections(:collection1)
+        theme = themes(:wind)
+
+        post collection_batch_path(collection), params: {"selected_work_groups"=>{"themes"=>[theme.id]}, "collection_id"=>collection.id}
+
+        expect(response.body).to match("Q001")
+        expect(response.body).to match("Q002")
+        expect(response.body).not_to match("Q005")
+        expect(response.body).not_to match("Q007")
+
+        expect(response.body).to match("2 werken bijwerken")
+
+        post collection_batch_path(collection), params: {"selected_work_groups"=>{"themes"=>[theme.id, "not_set"]}, "collection_id"=>collection.id}
+
+        expect(response.body).to match("Q001")
+        expect(response.body).to match("Q002")
+        expect(response.body).to match("Q005")
+        expect(response.body).to match("Q007")
+        expect(response.body).to match(/\d werken bijwerken/)
       end
     end
     describe "tag_list" do

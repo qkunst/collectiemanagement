@@ -3,12 +3,28 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 show_or_hide_selected_works = ->
-  selected_works_count = $(".work.panel input[type=checkbox]:checked").length
+  selected_works_count = 0
+
+  select_all_scopes = document.querySelectorAll("#works-list .select_all_scope")
+
+  for select_all_scope in select_all_scopes
+    checked_group_selector = select_all_scope.querySelector "input[name^='selected_work_groups']:checked"
+
+    if checked_group_selector
+      selected_works_count += parseInt checked_group_selector.dataset.workCount
+    else
+      selected_works_count += select_all_scope.querySelectorAll("input[type=checkbox]:checked").length
+
   if selected_works_count > 0
     $("#selected-works-count").html(selected_works_count)
     $("#selected-works").show()
   else
     $("#selected-works").hide()
+
+disable_group_selections = (e)->
+  selection = new Selection($(e.target).parents(".select_all_scope, body")[0])
+  selection.disableGroupSelect()
+
 
 show_screen_image = (e)->
   document.location = e.target.src.replace('screen_','')
@@ -32,9 +48,11 @@ click_thumb_event = (e)->
     show_area.click(show_screen_image)
     return false
 
-$(document).on("change",".work.panel input[type=checkbox], #batch_edit_property", ->
-  show_or_hide_selected_works()
+$(document).on("change",".work.panel input[type=checkbox], #batch_edit_property", (e)->
+  disable_group_selections(e)
+  show_or_hide_selected_works(e)
 )
+
 $(document).on("click","img.show",show_screen_image)
 $(document).on("click",".imageviewer .thumbs a", click_thumb_event)
 $(document).on("submit","form#new_work", ->
@@ -69,34 +87,60 @@ $(document).on "keydown", "input[data-catch-return]", (e)->
   else
     return true
 
-$(document).on("click", "span.select_all", (e)->
-  container_div = $(e.target).parents(".select_all_scope, body")[0]
-  inputs = container_div.querySelectorAll("input[name='selected_works[]']")
-  for elem in inputs
-    elem.checked = true
-  $(inputs[0]).trigger('change')
-  e.target.classList.add "unselect_all"
-  e.target.classList.remove "select_all"
-  e.target.innerHTML = "Deselecteer alles"
-  buttons = container_div.querySelectorAll("span.select_all")
-  for elem in buttons
-    elem.classList.add "unselect_all"
-    elem.classList.remove "select_all"
-    elem.innerHTML = "Deselecteer alles"
-)
+class Selection
+  constructor: (@container)->
 
-$(document).on("click", "span.unselect_all", (e)->
-  container_div = $(e.target).parents(".select_all_scope, body")[0]
-  inputs = container_div.querySelectorAll("input[name='selected_works[]']")
-  for elem in inputs
-    elem.checked = false
-  $(inputs[0]).trigger('change')
-  e.target.classList.add "select_all"
-  e.target.classList.remove "unselect_all"
-  e.target.innerHTML = "Selecteer alles"
-  buttons = container_div.querySelectorAll("span.unselect_all")
-  for elem in buttons
+  groupInputs: ()->
+    @container.querySelectorAll("input[name^='selected_work_groups[']")
+
+  inputs: ()->
+    @container.querySelectorAll("input[name='selected_works[]']")
+
+  _changeStatus: (elements, status)->
+    inputs =elements
+    for elem in inputs
+      elem.checked = status
+    show_or_hide_selected_works()
+
+  disableGroupSelect: ()->
+    @_changeStatus(@groupInputs(), false)
+
+    buttons = @container.querySelectorAll("button.unselect_all")
+    for elem in buttons
+      elem.classList.add "select_all"
+      elem.classList.remove "unselect_all"
+      elem.innerHTML = "Selecteer alles"
+
+    elem = document.getElementById("global-select-button")
     elem.classList.add "select_all"
     elem.classList.remove "unselect_all"
     elem.innerHTML = "Selecteer alles"
+
+  unselectAll: ()->
+    @_changeStatus(@inputs(), false)
+    @disableGroupSelect()
+
+  selectAll: ()->
+    @_changeStatus(@inputs(), true)
+    @_changeStatus(@groupInputs(), true)
+
+    buttons = @container.querySelectorAll("button.select_all")
+    for elem in buttons
+      elem.classList.add "unselect_all"
+      elem.classList.remove "select_all"
+      elem.innerHTML = "Deselecteer alles"
+
+
+$(document).on("click", "button.select_all", (e)->
+  selection = new Selection($(e.target).parents(".select_all_scope, body")[0])
+  selection.selectAll()
 )
+
+$(document).on("click", "button.unselect_all", (e)->
+  selection = new Selection($(e.target).parents(".select_all_scope, body")[0])
+  selection.unselectAll()
+)
+
+
+
+

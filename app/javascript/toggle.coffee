@@ -29,7 +29,6 @@ class AltFoundation
       else
         document.addDelegatedEventListener("click", "button[data-qtoggle]", AltFoundation.Toggle.clickHandler)
       document.addDelegatedEventListener("keypress", "button[data-qtoggle]", AltFoundation.Toggle.keyPressEventHandler)
-      console.log(document.addDelegatedEventListener)
 
     @hide: (elem, toggleClass) ->
       elem.style.display = null;
