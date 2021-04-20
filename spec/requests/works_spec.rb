@@ -296,7 +296,7 @@ RSpec.describe "Works", type: :request do
           w3.tag_list = ["tagtest3", "tagtest2"]
           w3.save
 
-          [w1, w2, w3].each{|a| a.reindex!}
+          collection.works_including_child_works.reindex!
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
           expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter 2 werken getoond./)

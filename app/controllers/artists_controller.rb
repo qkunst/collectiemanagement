@@ -90,32 +90,24 @@ class ArtistsController < ApplicationController
     @artist = Artist.new(artist_params)
     authorize! :create, @artist
 
-    respond_to do |format|
-      if @artist.save
-        format.html { redirect_to @artist, notice: "De vervaardiger is aangemaakt." }
-        format.json { render :show, status: :created, location: @artist }
-      else
-        format.html { render :new }
-        format.json { render json: @artist.errors, status: :unprocessable_entity }
-      end
+    if @artist.save
+      redirect_to @artist, notice: "De vervaardiger is aangemaakt."
+    else
+      render :new
     end
   end
 
   # PATCH/PUT /artists/1
   # PATCH/PUT /artists/1.json
   def update
-    respond_to do |format|
-      if @artist.update(artist_params)
-        if artist_params["rkd_artist_id"] && (artist_params["rkd_artist_id"].to_i > 0) && (artist_params.keys.count == 1)
-          format.html { redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: "De vervaardiger is gekoppeld met een RKD artist" }
-        else
-          format.html { redirect_to [@collection, @artist].compact, notice: "De vervaardiger is bijgewerkt" }
-        end
-        format.json { render :show, status: :ok, location: @artist }
+    if @artist.update(artist_params)
+      if artist_params["rkd_artist_id"] && (artist_params["rkd_artist_id"].to_i > 0) && (artist_params.keys.count == 1)
+        redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: "De vervaardiger is gekoppeld met een RKD artist"
       else
-        format.html { render :edit }
-        format.json { render json: @artist.errors, status: :unprocessable_entity }
+        redirect_to [@collection, @artist].compact, notice: "De vervaardiger is bijgewerkt"
       end
+    else
+      render :edit
     end
   end
 
@@ -123,10 +115,7 @@ class ArtistsController < ApplicationController
   # DELETE /artists/1.json
   def destroy
     @artist.destroy
-    respond_to do |format|
-      format.html { redirect_to artists_url, notice: "De vervaardiger is verwijderd." }
-      format.json { head :no_content }
-    end
+    redirect_to artists_url, notice: "De vervaardiger is verwijderd."
   end
 
   def rkd_artists

@@ -50,14 +50,12 @@ module Searchable
 
   class_methods do
     def reindex!(recreate_index = false)
-      seconds_to_sleep = recreate_index ? 0 : 1
       if recreate_index
         __elasticsearch__.create_index! force: true
         __elasticsearch__.refresh_index!
       end
       find_each do |a|
         a.reindex!
-        sleep(seconds_to_sleep)
       end
     end
 

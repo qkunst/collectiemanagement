@@ -41,6 +41,8 @@
   <div class="row">
     <div class="medium-6 columns">
       <h4>Geboorte</h3>
+      <input type="hidden" value="" name="artist[place_of_birth_geoname_id]" />
+      <%= f.input :place_of_death_geoname_id, as: :hidden%>
       <%= f.select :place_of_birth_geoname_id, { @artist.place_of_birth_geoname_name => @artist.place_of_birth_geoname_id}, {}, class: 'select2 geoname-select' %>
       <%= f.input :place_of_birth, required: false  %>
       <%= f.input(:year_of_birth, as: :integer, required: false) unless f.object.date_of_birth  %>
@@ -48,6 +50,7 @@
     </div>
     <div class="medium-6 columns">
       <h4>Overlijden</h4>
+      <input type="hidden" value="" name="artist[place_of_death_geoname_id]" />
       <%= f.select :place_of_death_geoname_id, { @artist.place_of_death_geoname_name => @artist.place_of_death_geoname_id}, {}, class: 'select2 geoname-select' %>
 
       <%= f.input :place_of_death, required: false  %>
