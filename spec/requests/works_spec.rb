@@ -99,13 +99,14 @@ RSpec.describe "Works", type: :request do
 
           get collection_works_path(collection)
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work2")).to eq(true)
-          expect(response_body.index("<h4>Work2") < response_body.index("<h4>Work5")).to eq(true)
+
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
+          expect(response_body.index("Work2</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
 
           get collection_works_path(collection, params: {sort: :location})
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work5")).to eq(true)
-          expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
+          expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
         it "should be able to filter and sort" do
           # required for TravisCI
@@ -116,13 +117,13 @@ RSpec.describe "Works", type: :request do
           get collection_works_path(collection, params: {filter: {location_raw: ["Adres"]}})
           response_body = response.body
 
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work2")).to eq(true)
-          expect(response_body.index("<h4>Work2") < response_body.index("<h4>Work5")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
+          expect(response_body.index("Work2</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
 
           get collection_works_path(collection, params: {sort: :location, filter: {location_raw: ["Adres"]}})
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work5")).to eq(true)
-          expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
+          expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
         it "should be able to search" do
           # required for TravisCI
@@ -295,7 +296,7 @@ RSpec.describe "Works", type: :request do
           w3.tag_list = ["tagtest3", "tagtest2"]
           w3.save
 
-          collection.works_including_child_works.reindex!
+          [w1, w2, w3].each{|a| a.reindex!}
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
           expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter 2 werken getoond./)

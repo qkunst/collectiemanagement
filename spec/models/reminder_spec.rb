@@ -77,18 +77,21 @@ RSpec.describe Reminder, type: :model do
       it "should return today for event that triggers today" do
         c = collections(:collection_with_stages)
         s1 = stages(:stage1)
-        r = Reminder.create(interval_unit: :day, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: true)
+        r = Reminder.create(interval_unit: :year, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: true)
+
+        next_first_jan = (Time.now.beginning_of_year + 1.year).to_date
+
         expect(r.next_dates).to eq([
-          Time.now.to_date,
-          Time.now.to_date + 1.day,
-          Time.now.to_date + 2.day,
-          Time.now.to_date + 3.day,
-          Time.now.to_date + 4.day,
-          Time.now.to_date + 5.day,
-          Time.now.to_date + 6.day,
-          Time.now.to_date + 7.day,
-          Time.now.to_date + 8.day,
-          Time.now.to_date + 9.day
+          next_first_jan,
+          next_first_jan + 1.year,
+          next_first_jan + 2.year,
+          next_first_jan + 3.year,
+          next_first_jan + 4.year,
+          next_first_jan + 5.year,
+          next_first_jan + 6.year,
+          next_first_jan + 7.year,
+          next_first_jan + 8.year,
+          next_first_jan + 9.year
         ])
       end
       it "should return today for singular event that triggers today" do
