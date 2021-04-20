@@ -29,6 +29,7 @@ class User < ApplicationRecord
   scope :has_collections, -> { joins(:collections).uniq }
   scope :receive_mails, -> { where(receive_mails: true) }
   scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil}) }
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
 
   before_save :serialize_collection_accessibility!
 
