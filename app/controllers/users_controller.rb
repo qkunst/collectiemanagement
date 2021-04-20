@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @admin_users = current_user.accessible_users.admin.order(:email).all
     @appraisal_users = current_user.accessible_users.appraiser.order(:email).all
     @registrator_users = current_user.accessible_users.registrator.order(:email).all
-    other_users = current_user.accessible_users.other.order(:email)
+    other_users = current_user.accessible_users.other.confirmed.order(:email)
     @external_users = other_users.has_collections.to_a
     @unregistered_users = other_users.all - @external_users
   end
