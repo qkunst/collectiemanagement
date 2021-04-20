@@ -297,6 +297,7 @@ RSpec.describe "Works", type: :request do
           w3.save
 
           collection.works_including_child_works.reindex!
+          sleep(1)
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
           expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter 2 werken getoond./)
