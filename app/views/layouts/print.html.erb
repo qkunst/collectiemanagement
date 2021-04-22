@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= "QKunst Collectiemanagement - #{@title}" %></title>
+
+    <%= stylesheet_link_tag    "application", media: 'all' %>
+    <%= stylesheet_link_tag "//fonts.googleapis.com/css?family=Poppins:400,700,300,600,500|Droid+Serif:400,700|Roboto+Slab:300&subset=latin,latin-ext&ver=1.0", media: "all" %>
+    <%#= javascript_include_tag "application" %>
+    <%= javascript_pack_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
+    <nav class="top-bar">
+      <div class="top-bar-title">
+        <h1>
+            <%= image_tag "logo3.svg", id: 'logo', alt: "QKunst Collectiemanagement"%>
+        </h1>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="large-12 columns">
+        <%= yield %>
+       </div>
+     </div>
+     <footer class="">
+       <div class="row">
+          <%= yield(:footer)%>
+       </div>
+     </footer>
+  </body>
+</html>

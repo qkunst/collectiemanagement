@@ -104,7 +104,7 @@ class BatchController < ApplicationController
 
   def redirect_to_collection_works_return_url
     ids = @works.pluck(:id)
-    if ids.count > WorksController::DEFAULT_GROUPED_WORK_COUNT
+    if ids.count > Works::Filtering::DEFAULT_GROUPED_WORK_COUNT
       redirect_to collection_works_path(@collection, params: {ids: ids[0..WorksController::DEFAULT_GROUPED_WORK_COUNT-1].join(",")}), notice: "Er zijn #{ids.count} werken bijgewerkt, een selectie daarvan wordt hieronder getoond."
     else
       redirect_to collection_works_path(@collection, params: {ids: ids.join(",")}), notice: "De onderstaande #{ids.count} werken zijn bijgewerkt"

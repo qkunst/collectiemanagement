@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CollectionDownloadWorker
+class Collection::DownloadWorker
   include Sidekiq::Worker
 
   sidekiq_options retry: true, backtrace: true, queue: :qkunst_default

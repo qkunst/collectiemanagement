@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class WorksController < ApplicationController
-  MAX_WORK_COUNT = 99999
-  DEFAULT_WORK_COUNT = 159
-  DEFAULT_GROUPED_WORK_COUNT = 7
-
   include ActionController::Streaming
   include Works::ZipResponse
   include Works::XlsxResponse
@@ -33,32 +29,24 @@ class WorksController < ApplicationController
     set_selection_sort_options
     set_selection_display_options
     set_no_child_works
+    set_selected_localities
+    set_search_text
 
     @show_work_checkbox = qkunst_user? ? true : false
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
-
-    @filter_localities = []
-    @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
 
     update_current_user_with_params
 
     @min_index = params["min_index"].to_i if params["min_index"]
     @min_index ||= 0
     @max_index = params["max_index"].to_i if params["max_index"]
-    @search_text = params["q"].to_s if params["q"] && !@reset
 
     if redirect_directly_to_work_using_search_text
       return true
     end
 
     begin
-      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
-      @works = @works.published if params[:published]
-      @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
-      @inventoried_objects_count = @works.count
-      @works_count = @works.count_as_whole_works
-      @works = @works.preload_relations_for_display(@selection[:display])
-      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
+      set_works
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @works_count = 0
@@ -84,30 +72,9 @@ class WorksController < ApplicationController
 
       format.html do
         if @selection[:group] != :no_grouping
-          works_grouped = {}
-          @works.each do |work|
-            groups = work.send(@selection[:group])
-            groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
-            [groups].flatten.each do |group|
-              works_grouped[group] ||= []
-              works_grouped[group] << work
-            end
-          end
-          @max_index ||= @works_count < DEFAULT_WORK_COUNT ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
-          @works_grouped = {}
-          works_grouped.keys.compact.sort.each do |key|
-            @works_grouped[key] = works_grouped[key].uniq
-          end
-          if works_grouped[nil]
-            @works_grouped[nil] = works_grouped[nil].uniq
-          end
+          set_works_grouped
         else
-          @max_index ||= DEFAULT_WORK_COUNT
-          if @works.is_a? Array
-            @works = @works[0..@max_index].uniq
-          else
-            @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
-          end
+          reset_works_limited
         end
       end
     end

@@ -3,6 +3,10 @@
 module Works::Filtering
   extend ActiveSupport::Concern
 
+  MAX_WORK_COUNT = 99999
+  DEFAULT_WORK_COUNT = 159
+  DEFAULT_GROUPED_WORK_COUNT = 7
+
   included do
     private
 
@@ -35,6 +39,51 @@ module Works::Filtering
         @selection[thing] = current_user.filter_params[thing].to_sym
       end
       @selection[thing]
+    end
+
+    def set_works
+      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
+      @works = @works.published if params[:published]
+      @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
+      @inventoried_objects_count = @works.count
+      @works_count = @works.count_as_whole_works
+      @works = @works.preload_relations_for_display(@selection[:display])
+      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
+    end
+
+    def set_works_grouped
+      works_grouped = {}
+      @works.each do |work|
+        groups = work.send(@selection[:group])
+        groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
+        [groups].flatten.each do |group|
+          works_grouped[group] ||= []
+          works_grouped[group] << work
+        end
+      end
+      @max_index ||= @works_count < DEFAULT_WORK_COUNT ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
+      @works_grouped = {}
+      works_grouped.keys.compact.sort.each do |key|
+        @works_grouped[key] = works_grouped[key].uniq
+      end
+      if works_grouped[nil]
+        @works_grouped[nil] = works_grouped[nil].uniq
+      end
+    end
+
+    def reset_works_limited
+      @max_index ||= DEFAULT_WORK_COUNT
+      if @works.is_a? Array
+        @works = @works[0..@max_index].uniq
+      else
+        @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
+      end
+    end
+
+
+
+    def set_selected_localities
+      @filter_localities = @selection_filter["geoname_ids"] ? GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) : []
     end
 
     def set_selection_group
@@ -92,6 +141,10 @@ module Works::Filtering
 
     def set_no_child_works
       @no_child_works = (params[:no_child_works] == 1) || (params[:no_child_works] == "true") ? true : false
+    end
+
+    def set_search_text
+      @search_text = params["q"].to_s if params["q"] && !@reset
     end
 
     def update_current_user_with_params

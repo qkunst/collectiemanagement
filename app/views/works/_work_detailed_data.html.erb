@@ -5,7 +5,7 @@
       <thead><tr>
         <th>Locatie</th>
         <td class="actions">
-          <% if work.persisted? %>
+          <% if work.persisted? && !@for_print %>
             <% if can?(:edit_location, work) %>
               <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
             <% end %>
@@ -31,9 +31,9 @@
     <% end %>
   <% end %>
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, @collection) %>
-    <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, @collection) %>
-    <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, @collection) %>
+    <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
+    <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
+    <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
     <%= define_unless_blank :alt_number_4 %>
     <%= define_unless_blank :alt_number_5 %>
     <%= define_unless_blank :alt_number_6 %>
@@ -92,7 +92,7 @@
         <% end %>
           <%=Work.human_attribute_name(:work_sets)%>
         </th>
-        <td><%= sanitize work.work_sets.map{|ws| link_to(ws.name, ws)}.to_sentence %></td>
+        <td><%= sanitize work.work_sets.map{|ws| @for_print ? ws.name : link_to(ws.name, ws) }.to_sentence %></td>
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
@@ -143,7 +143,7 @@
             if (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s)) && attachment.id
               %>
               <li>
-                <%= link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
+                <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
               </li>
             <% end %>
           <% end %>

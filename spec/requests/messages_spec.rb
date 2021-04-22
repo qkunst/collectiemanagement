@@ -26,7 +26,7 @@ RSpec.describe "Messages", type: :request do
 
       it "should be able to download the download message" do
         collection = collections(:collection1)
-        message = CollectionDownloadWorker.new.perform(collection.id, user.id)
+        message = Collection::DownloadWorker.new.perform(collection.id, user.id)
         get message_path(message)
         expect(response).to have_http_status(200)
       end

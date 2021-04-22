@@ -77,7 +77,6 @@ work2:
   replacement_value_max: 750
   object_categories:
     - fotografie
-    - gebouwgebonden
   techniques:
     - pen
     - ets
