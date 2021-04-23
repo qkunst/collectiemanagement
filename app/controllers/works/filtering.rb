@@ -15,7 +15,8 @@ module Works::Filtering
       if params[:filter] || params[:group] || params[:sort] || params[:display]
         @selection_filter = {}
       end
-      if params[:filter] && (params[:filter] != "") && (params[:filter][:reset] != "true")
+
+      if params[:filter] && params.dig(:filter, :reset) != true
         params[:filter].each do |field, values|
           if field == "reset"
             @reset = true
@@ -79,8 +80,6 @@ module Works::Filtering
         @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
       end
     end
-
-
 
     def set_selected_localities
       @filter_localities = @selection_filter["geoname_ids"] ? GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) : []

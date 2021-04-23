@@ -515,7 +515,7 @@ body.offline {
 @media print {
   html {
     font-size: 75%;
-
+    -webkit-print-color-adjust: exact;
   }
   body {
     margin: 0;

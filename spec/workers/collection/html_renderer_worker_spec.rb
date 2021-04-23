@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Collection::DownloadWorker, type: :model do
+RSpec.describe Collection::HtmlRendererWorker, type: :model do
   it "performs a basic renderer" do
     collection = collections(:collection_with_works)
     user = users(:admin)
@@ -55,6 +55,16 @@ RSpec.describe Collection::DownloadWorker, type: :model do
     expect(html).not_to match("Q006")
     expect(html).to match("Collectie Collection with works")
     expect(html).to match("<h3>Houtskool</h3>")
+  end
+
+  it "triggers generation of a pdf" do
+    collection = collections(:collection_with_works)
+    user = users(:admin)
+
+    expect(SecureRandom).to receive(:base58).and_return("abc")
+    expect(PdfPrinterWorker).to receive(:perform_async).with("/tmp/abc.html", inform_user_id: user.id, subject_object_id: collection.id, subject_object_type: "Collection")
+
+    Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {group: "techniques"}, {generate_pdf: true, send_message: true} )
   end
 
 end

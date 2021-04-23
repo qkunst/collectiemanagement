@@ -5,6 +5,7 @@ class WorksController < ApplicationController
   include Works::ZipResponse
   include Works::XlsxResponse
   include Works::XmlResponse
+  include Works::PdfResponse
   include Works::Filtering
 
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
@@ -64,11 +65,13 @@ class WorksController < ApplicationController
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action: nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
     @title = "Werken van #{@collection.name}"
+
     respond_to do |format|
       format.xlsx { show_xlsx_response }
-      format.xml { show_xml_response }
-      format.csv { show_csv_response }
-      format.zip { show_zip_response }
+      format.pdf  { show_pdf_response }
+      format.xml  { show_xml_response }
+      format.csv  { show_csv_response }
+      format.zip  { show_zip_response }
 
       format.html do
         if @selection[:group] != :no_grouping

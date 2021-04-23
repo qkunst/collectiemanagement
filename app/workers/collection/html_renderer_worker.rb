@@ -21,8 +21,12 @@ class Collection::HtmlRendererWorker
     end
   end
 
-  def perform(collection_id, as_user_id, params = {})
-    @params = ActiveSupport::HashWithIndifferentAccess.new(params)
+  # params => as request params, Works::Filtering Concern (a controller concern) is used in this worker
+  # options: { send_message: Bool, generate_pdf: Bool}
+
+  def perform(collection_id, as_user_id, params = {}, options = {})
+    @params = ActiveSupport::HashWithIndifferentAccess.new(params.is_a?(String) ? JSON.parse(params) : params)
+    options = ActiveSupport::HashWithIndifferentAccess.new(options)
     @collection = Collection.find(collection_id)
     @current_user = User.find(as_user_id)
     @min_index = 0
@@ -61,6 +65,16 @@ class Collection::HtmlRendererWorker
       selection: @selection,
       works_grouped: @works_grouped
     }
+
+    filename = "/tmp/#{SecureRandom.base58(32)}.html"
+
+    File.write(filename, html)
+
+    if options[:generate_pdf] && options[:send_message]
+      PdfPrinterWorker.perform_async(filename, inform_user_id: (options[:send_message] ? as_user_id : nil), subject_object_id: @collection.id, subject_object_type: "Collection")
+    elsif !options[:generate_pdf] && options[:send_message]
+      Message.create(to_user_id: inform_user_id, subject_object: subject_object, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: HTML", subject: "HTML download gereed")
+    end
 
     html
   end
