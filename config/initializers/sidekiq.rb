@@ -5,7 +5,8 @@ class SourceQkunstbeheer::SidekiqErrorLogger
     begin
       yield
     rescue => ex
-      SystemMailer.error_message(ex)
+      SystemMailer.error_message(ex).deliver!
+      raise ex
     end
   end
 end
