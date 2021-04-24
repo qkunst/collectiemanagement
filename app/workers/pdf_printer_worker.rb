@@ -22,7 +22,7 @@ class PdfPrinterWorker
       raise "Unsecure location (#{url})"
     end
 
-    Grover.new(grover_resource, format: "A4", path: filename, emulate_media: :print,  launch_args: ['--font-render-hinting=medium'], user_agent: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0').to_pdf
+    Grover.new(grover_resource, format: "A4", path: filename, emulate_media: :print,  launch_args: ['--font-render-hinting=none'], user_agent: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0').to_pdf
 
     if inform_user_id
       Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_id: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
