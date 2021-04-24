@@ -75,6 +75,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * elasticsearch 7
 * passenger
 * redis
+* node >= 10.21 met yarn
 * Ruby 2.6.2 (geïnstalleerd via rbenv)
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
@@ -90,6 +91,10 @@ Op het moment van schrijven worden de volgende repositories hiervoor geraadpleeg
 Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde versies gehanteerd en alle server pakketten worden dagelijks automatisch voorzien van veiligheidsupdates. Voor een basis inrichting kan het volgende artikel worden geraadpleegd:
 
 * [Basis server inrichting handleiding voor Rails op basis van Debian, nginx, passenger en rbenv](https://murb.nl/articles/204-a-somewhat-secure-debian-server-with-nginx-passenger-rbenv-for-hosting-ruby-on-rails-with-mail-support-and-deployment-with-capistrano)
+
+#### PDF generatie via Puppeteer
+
+Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chromium. Voor het sandboxed draaien van Chromium is het van belang de meegeleverde chrome-sandbox executable beschikbaar te maken; draai daarvoor middels `sudo ./bin/copy-chrome-sandbox-for-puppeteer` eenmalig.
 
 ### Inrichting ontwikkelomgeving
 
