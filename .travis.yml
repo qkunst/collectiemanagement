@@ -4,7 +4,7 @@ notifications:
   email:
     - travis-ci.com+qkunst@murb.nl
 rvm:
-  - 2.6.2
+  - 2.7.3
 before_install:
   - gem install bundler
   - nvm install node
