@@ -10,7 +10,7 @@ before_install:
   - nvm install node
   - node -v
   - npm i -g yarn
-  - yarn install
+  - yarn install -std=c++17
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
   - cp config/database.yml.travis config/database.yml

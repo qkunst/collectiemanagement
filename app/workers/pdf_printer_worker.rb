@@ -31,7 +31,7 @@ class PdfPrinterWorker
     ).to_pdf
 
     if inform_user_id
-      Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_id: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
+      Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_type: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
     end
 
     return filename
