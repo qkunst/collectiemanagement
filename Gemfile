@@ -45,7 +45,7 @@ end
 ##
 gem "bundler-audit"
 gem "pg" #, "~>0.21"
-gem "devise", git: "https://github.com/heartcombo/devise.git"
+gem "devise" #, git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave" # , '~> 1.0'
