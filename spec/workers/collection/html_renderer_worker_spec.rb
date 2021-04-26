@@ -28,6 +28,9 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     collection = collections(:collection_with_works)
     user = users(:admin)
 
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
     html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id"=>[object_categories(:gebouwgebonden).id]}, display: "complete"})
 
     # expect html not to include any links
