@@ -1,44 +1,33 @@
 <h2 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h2>
-
-  <div class="row">
-    <div class=" columns">
-      <div class="<%= @limit_collection_information ? "hide" : "only-for-print" %>">
-        <%= kramdown( @collection.description) %>
-      </div>
-      <p><%= describe_work_counts %></p>
-    </div>
-  </div>
-
-  <div class="row columns <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
-    <% if @works_grouped %>
-      <% if @works_grouped[nil] %>
-        <% works = @works_grouped[nil] %>
+<div class="row columns <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
+  <% if @works_grouped %>
+    <% if @works_grouped[nil] %>
+      <% works = @works_grouped[nil] %>
+      <div class="select_all_scope cluster">
+        <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
+        <p>
+          Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
+        </p>
+          <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
+        </div>
+      <hr/>
+    <% end %>
+    <% @works_grouped.each do |cluster, works| %>
+      <% if cluster %>
         <div class="select_all_scope cluster">
-          <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
-          <p>
-            Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
+          <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
+          <p>Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
           </p>
-            <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
-          </div>
+          <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
+          <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
+        </div>
         <hr/>
       <% end %>
-      <% @works_grouped.each do |cluster, works| %>
-        <% if cluster %>
-          <div class="select_all_scope cluster">
-            <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
-            <p>Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
-            </p>
-            <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
-            <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
-          </div>
-          <hr/>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
     <% end %>
-  </div>
-
+  <% else %>
+    <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
+  <% end %>
+</div>
 <% content_for :footer do %>
 <p>Dit overzicht is gemaakt op <%= I18n.l Time.current, format: :long %>.</p>
 <% end %>

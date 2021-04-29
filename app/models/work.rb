@@ -28,10 +28,11 @@ class Work < ApplicationRecord
   before_save :enforce_nil_or_true
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
-  after_save :touch_collection!
-  after_save :update_artist_name_rendered!
+  before_save :update_artist_name_rendered
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
+
+  after_save :touch_collection!
 
   belongs_to :cluster, optional: true
   belongs_to :collection

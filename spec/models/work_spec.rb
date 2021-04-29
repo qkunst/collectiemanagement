@@ -3,6 +3,21 @@
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
+  describe "versioning" do
+    describe "artist_name" do
+      it "should keep a log of changed artists" do
+        w = works(:work1)
+        w.save # saving just to make the diff smaller
+        w_artists = w.artists
+        w.artists << artists(:artist2)
+        w.save
+        change_set = YAML.load(w.versions.last.object_changes)
+        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"] #["artist_1, firstname", "artist_2 achternaam, firstie;artist_1, firstname"]
+        expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
+        expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
+      end
+    end
+  end
   describe "instance methods" do
     describe "#all_work_ids_in_collection" do
       it "sorts by default on inventory and id" do
@@ -25,7 +40,6 @@ RSpec.describe Work, type: :model do
         expect(w.work_index_in_collection).to eq(0)
       end
     end
-
     describe "#appraisable?" do
       it "should return true by default" do
         expect(works(:work1)).to be_appraisable
@@ -204,6 +218,7 @@ RSpec.describe Work, type: :model do
         expect(w.cluster_name).to eq("cluster new")
       end
     end
+
     describe "#location_description" do
       it "concats the location fields" do
         expect(works(:work1).location_description).to eq("Adres; Floor 1; Room 1")
@@ -347,7 +362,6 @@ RSpec.describe Work, type: :model do
         w.reload
         expect(w.location_description).to eq(original_location_description)
       end
-
       it "should not 'restore' a location if location is set" do
         w = collections(:collection1).works.create(location: "first location")
         w.location = "new location"

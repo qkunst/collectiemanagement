@@ -34,12 +34,13 @@ module JsonHelper
   end
 
   def render_object_changes_json json
-    ignore_keys = ["updated_at", "other_structured_data", "lognotes", "created_by_name"]
+    ignore_keys = ["updated_at", "other_structured_data", "lognotes", "created_by_name", "artist_name_rendered"]
     html_bits = []
 
     first = true
 
     json.each do |key, values|
+
       unless ignore_keys.include?(key)
         key_human = Work.human_attribute_name(key.gsub(/_id$/,""))
         if !first
