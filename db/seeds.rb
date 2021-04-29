@@ -48,3 +48,19 @@ collections = ["Demo Collectie A", "Demo Collectie B", "Subcollectie"]
 collections.each { |name| Collection.where({name: name}).first_or_create }
 
 Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Collection.find_by(name: "Demo Collectie A").id)
+
+1000.times do |time|
+   Work.create(
+     title: "Werk #{time}",
+     artists: [Artist.all.sample],
+     stock_number: "AUTO#{time}",
+     collection_id: [Collection.all.sample],
+     location: ["Depot 1","Vestiging A"].sample,
+     location_floor: [0,1,2,3].sample,
+     location_detail: ["A","B","C"].sample,
+     purchase_year: (2000..2021).to_a.sample,
+     object_categories: [ObjectCategory.all.sample],
+     techniques: Technique.all.sample([1,2].sample).to_a,
+     grade_within_collection: %w{A B C D E F}.sample
+   )
+end
