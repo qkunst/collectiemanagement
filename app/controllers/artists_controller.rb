@@ -151,7 +151,7 @@ class ArtistsController < ApplicationController
   def populate_collection_attributes_for_artists
     if @collection
       COLLECTION_ATTRIBUTE_LABELS.keys.each do |attribute_label|
-        @artist.collection_attributes.find_or_initialize_by(label: attribute_label)
+        @artist.collection_attributes.find_or_initialize_by(label: attribute_label, collection: @collection.base_collection)
       end
     end
   end

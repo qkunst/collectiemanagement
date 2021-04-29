@@ -24,18 +24,19 @@
 
   <% if @collection%>
     <h4>Collectiespecifieke gegevens</h4>
-    <% @artist.collection_attributes.each do |collection_attribute| %>
-      <%= f.simple_fields_for :collection_attributes, collection_attribute do |caf|%>
-        <div class="row">
-          <div class="large-6 medium-6 columns">
-            <%= caf.input :label, as: :hidden %>
-            <%= caf.input :value, label: collection_attribute.label, required: false, as: ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) %>
-          </div>
-        </div>
-      <% end %>
-
-    <% end %>
-
+    <p>Gegevens worden gekoppeld aan <%= link_to @collection.base_collection.cached_collection_name_extended, @collection.base_collection %>.</p>
+    <div class="row">
+      <div class="large-6 medium-6 columns">
+        <% @artist.collection_attributes.each do |collection_attribute| %>
+          <% if collection_attribute.collection_id == @collection.base_collection.id %>
+            <%= f.simple_fields_for :collection_attributes, collection_attribute do |caf|%>
+              <%= caf.input :label, as: :hidden %>
+              <%= caf.input :value, label: collection_attribute.label, required: false, as: ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   <% end %>
 
   <div class="row">
