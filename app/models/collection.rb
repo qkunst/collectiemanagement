@@ -258,6 +258,8 @@ class Collection < ApplicationRecord
       else
         exposable_fields
       end
+    when :simple
+      ["stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "id", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "print", "print_unknown","frame_width", "frame_height", "frame_depth", "frame_diameter", "width", "height", "depth", "diameter", "condition_work"]
     when :public
       forbidden_words = ["value", "price", "location", "condition", "information_back", "internal", "damage", "placeability", "other_comments", "source", "purchase", "grade_within_collection", "created_by", "appraisal", "valuation", "lognotes"]
 

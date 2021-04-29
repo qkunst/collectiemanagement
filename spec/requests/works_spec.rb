@@ -149,10 +149,10 @@ RSpec.describe "Works", type: :request do
           it "should be able to get the file" do
             collection = collections(:collection1)
             sign_in user
-            get collection_works_path(collection, format: :csv)
+            get collection_works_path(collection, {format: :csv, audience: :simple})
             expect(response).to have_http_status(200)
             expect(response.media_type).to eq("text/csv")
-            expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
+            expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3")
             expect(response.body).to match("Q001,7201284,002123,0002.123")
             expect(response.body.scan(/^Q002/).count).to eq(1) #shouldn't be two occurrences of the same count
           end

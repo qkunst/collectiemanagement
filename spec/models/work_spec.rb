@@ -566,7 +566,7 @@ RSpec.describe Work, type: :model do
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
         expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
-        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname (1900 - 2000)")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
       end
     end
     describe ".update" do
