@@ -42,7 +42,7 @@ module Works::XlsxResponse
 
     def prepare_workbook
       if can?(:download_datadump, @collection)
-        @works = @works.audience(download_parameters[:audience]).preload_relations_for_display(:complete)
+        @works = @works.audience(download_parameters[:audience]).preload_relations_for_display(:complete).distinct
         @works.to_workbook(download_parameters[:fields_to_expose], @collection)
       else
         redirect_to collection_path(@collection), alert: "U heeft onvoldoende rechten om te kunnen downloaden"

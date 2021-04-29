@@ -137,7 +137,7 @@ RSpec.describe "Works", type: :request do
       end
       describe "downloading" do
         describe "xlsx" do
-          it "should be able to get an zip file" do
+          it "should be able to get the file" do
             collection = collections(:collection1)
             sign_in user
             get collection_works_path(collection, format: :xlsx)
@@ -146,7 +146,7 @@ RSpec.describe "Works", type: :request do
           end
         end
         describe "csv" do
-          it "should be able to get an zip file" do
+          it "should be able to get the file" do
             collection = collections(:collection1)
             sign_in user
             get collection_works_path(collection, format: :csv)
@@ -154,6 +154,7 @@ RSpec.describe "Works", type: :request do
             expect(response.media_type).to eq("text/csv")
             expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
             expect(response.body).to match("Q001,7201284,002123,0002.123")
+            expect(response.body.scan(/^Q002/).count).to eq(1) #shouldn't be two occurrences of the same count
           end
           it "should include alt_number_4" do
             collection = collections(:collection1)
