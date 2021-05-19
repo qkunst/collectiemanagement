@@ -38,11 +38,8 @@
     <% end %>
   </div>
   <div class="bottom-controls">
-  <span>
-  <%= button_tag "Toon #{translate_works_with_article(@works_count)}", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
-  <%= button_tag "Toon #{translate_works_with_article(@works_count)} (onbeperkt)", name: :filter_on, value: :works_unlimited, class: [:tertiary, :button, :small]%>
-  </span>
-  <%= button_tag "Filter rapportage", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
+  <%= button_tag "Toon geselecteerde werken", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
+  <%= button_tag "Werk aantallen selectie in rapportage bij", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
   </div>
 
   <%end%>

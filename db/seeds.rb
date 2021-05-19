@@ -54,7 +54,7 @@ Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Co
      title: "Werk #{time}",
      artists: [Artist.all.sample],
      stock_number: "AUTO#{time}",
-     collection_id: [Collection.all.sample],
+     collection_id: Collection.all.pluck(:id).sample,
      location: ["Depot 1","Vestiging A"].sample,
      location_floor: [0,1,2,3].sample,
      location_detail: ["A","B","C"].sample,

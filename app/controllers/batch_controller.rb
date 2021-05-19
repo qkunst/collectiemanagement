@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BatchController < ApplicationController
+  include Works::Filtering
+
   before_action :set_collection
   before_action :set_works_by_numbers
   before_action :check_ability
@@ -51,9 +53,12 @@ class BatchController < ApplicationController
       selected_work_group_ids = params[:selected_work_groups][selected_work_group_type]
     end
 
+    set_selection_filter
 
     @form = Batch::WorkForm.new(collection: @collection)
-    @works = @collection.works_including_child_works.by_group(selected_work_group_type, selected_work_group_ids).or(@collection.works_including_child_works.has_number(work_numbers)).or(@collection.works_including_child_works.where(id: work_ids))
+    filtered_works = @collection.search_works("", @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
+
+    @works = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).or(filtered_works.has_number(work_numbers)).or(filtered_works.where(id: work_ids))
     @work_count = @works.count
     @work_ids = @works.pluck(:id)
   end

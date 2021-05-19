@@ -127,6 +127,7 @@
 <% end #formtag /works?q... %>
 
 <%= form_tag collection_batch_path, method: :post do %>
+
   <div class="large-10 medium-10 columns print-12 <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
     <% if defined?(@works_grouped) %>
       <% if @works_grouped[nil] %>
@@ -165,8 +166,16 @@
         <% end %>
       <% end %>
     <% else %>
+      <label class="work-selector hide-for-print hide">
+        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_all_all", data: {work_count: @works_count} %>
+      </label>
+
       <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
     <% end %>
+
+  </div>
+  <div class="hidden inputs for batch filter">
+    <%= data_to_hidden_inputs({filter: @selection_filter}) %>
   </div>
   <%= render :partial => 'batch_edit_actions' %>
 <% end #//batcheditformtag%>

@@ -99,6 +99,8 @@ class Work < ApplicationRecord
       left_outer_joins(:sources).where(sources: {id: ids})
     when :skip
       where("1=0")
+    when :all
+      where("1=1")
     else
       raise "unsupported parameter #{group}"
     end

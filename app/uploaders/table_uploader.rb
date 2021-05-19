@@ -45,7 +45,6 @@ class TableUploader < CarrierWave::Uploader::Base
   end
 
   def set_import_file_snippet
-    # raise self
     model.set_import_file_snippet! file
   end
 end
