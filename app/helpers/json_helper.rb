@@ -30,7 +30,7 @@ module JsonHelper
   end
 
   def simple_format_value value
-    sanitize value.to_s.gsub(/\s\d\d:\d\d:\d\d\sUTC/,"").gsub(/^false$/, "uit").gsub(/^true$/, "aan")
+    sanitize value.to_s.gsub(/\s\d\d:\d\d:\d\d\sUTC/, "").gsub(/^false$/, "uit").gsub(/^true$/, "aan")
   end
 
   def render_object_changes_json json
@@ -40,23 +40,22 @@ module JsonHelper
     first = true
 
     json.each do |key, values|
-
       unless ignore_keys.include?(key)
-        key_human = Work.human_attribute_name(key.gsub(/_id$/,""))
+        key_human = Work.human_attribute_name(key.gsub(/_id$/, ""))
         if !first
           key_human = key_human.downcase
           first = false
         end
         key_human_formatted = "<strong>#{key_human}</strong>"
 
-        if key.ends_with? "_id"
-          html_bits << "#{key_human_formatted} gewijzigd"
+        html_bits << if key.ends_with? "_id"
+          "#{key_human_formatted} gewijzigd"
         elsif key.starts_with? "photo_"
-          html_bits << "#{key_human_formatted} #{values[0].blank? ? "toegevoegd" : "gewijzigd"}"
+          "#{key_human_formatted} #{values[0].blank? ? "toegevoegd" : "gewijzigd"}"
         elsif values[0].blank?
-          html_bits << "#{key_human_formatted} #{simple_format_value(values[1].to_s)}"
+          "#{key_human_formatted} #{simple_format_value(values[1].to_s)}"
         else
-          html_bits << "#{key_human_formatted} <s>#{simple_format_value(values[0].to_s)}</s>#{simple_format_value(values[1].to_s)}"
+          "#{key_human_formatted} <s>#{simple_format_value(values[0].to_s)}</s>#{simple_format_value(values[1].to_s)}"
         end
       end
     end

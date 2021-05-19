@@ -74,7 +74,7 @@ RSpec.describe "Attachments", type: :request do
 
       work_with_attachment = works(:work_with_attachments)
 
-      work_with_attachment.attachments.each{|a| a.update_columns(visibility: "facility_manager,appraiser,compliance")}
+      work_with_attachment.attachments.each { |a| a.update_columns(visibility: "facility_manager,appraiser,compliance") }
 
       get collection_work_attachments_path(work_with_attachment.collection, work_with_attachment)
       expect(last_response.ok?).to be_truthy
@@ -197,10 +197,10 @@ RSpec.describe "Attachments", type: :request do
   end
 
   describe "PATCH /attachment/:id" do
-    let(:current_visibility) {["qkunst", "admin"] }
+    let(:current_visibility) { ["qkunst", "admin"] }
     let(:attachment) { collections(:collection1).attachments.create(file: File.open("Gemfile"), visibility: current_visibility) }
     let(:new_visibility) { ["qkunst", "admin", "appraiser"] }
-    let(:update_visibility) { patch(collection_attachment_path(attachment.collection, attachment), { attachment: { visibility: new_visibility }}) }
+    let(:update_visibility) { patch(collection_attachment_path(attachment.collection, attachment), {attachment: {visibility: new_visibility}}) }
 
     context "collection" do
       it "as admin it should update visibility" do

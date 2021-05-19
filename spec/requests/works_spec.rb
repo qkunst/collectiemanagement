@@ -154,7 +154,7 @@ RSpec.describe "Works", type: :request do
             expect(response.media_type).to eq("text/csv")
             expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3")
             expect(response.body).to match("Q001,7201284,002123,0002.123")
-            expect(response.body.scan(/^Q002/).count).to eq(1) #shouldn't be two occurrences of the same count
+            expect(response.body.scan(/^Q002/).count).to eq(1) # shouldn't be two occurrences of the same count
           end
           it "should include alt_number_4" do
             collection = collections(:collection1)
@@ -236,7 +236,7 @@ RSpec.describe "Works", type: :request do
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
             expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
-            expect(response.body).to match(/<qkunst\:owner>\s*<dc\:title>Owner1<\/dc:title>\s*<qkunst\:id>\d*<\/qkunst\:id>\s*<\/qkunst\:owner>/)
+            expect(response.body).to match(/<qkunst:owner>\s*<dc:title>Owner1<\/dc:title>\s*<qkunst:id>\d*<\/qkunst:id>\s*<\/qkunst:owner>/)
             expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
 
             # would suggest that ruby objects are serialzed to string, instead of xml
@@ -258,7 +258,6 @@ RSpec.describe "Works", type: :request do
 
               expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
               expect(response.body).not_to match("<qkunst:lognotes/>")
-
             end
           end
 

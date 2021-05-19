@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'kramdown'
+require "kramdown"
 
 class MarkdownHandler
   def erb

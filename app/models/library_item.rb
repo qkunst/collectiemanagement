@@ -24,5 +24,4 @@ class LibraryItem < ApplicationRecord
   def name
     "#{item_type}: #{title}"
   end
-
 end

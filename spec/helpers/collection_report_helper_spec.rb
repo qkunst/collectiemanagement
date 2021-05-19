@@ -27,7 +27,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
           object_creation_year: {:missing => {count: 993, subs: {}}, [2002] => {count: 109, subs: {}}},
           object_categories_split: {{4 => "Grafiek"} => {count: 1144, subs: {techniques: {:missing => {count: 20, subs: {}}, {33 => "Zeefdruk"} => {count: 454, subs: {}}, {7 => "Ets"} => {count: 278, subs: {}}, {17 => "Lithografie"} => {count: 169, subs: {}}, {13 => "Houtsnede"} => {count: 126, subs: {}}, {16 => "Linoleumsnede"} => {count: 44, subs: {}}, {35 => "Handgekleurd"} => {count: 41, subs: {}}, {45 => "Gravure"} => {count: 26, subs: {}}, {9 => "Droge naald"} => {count: 16, subs: {}}, {91 => "Hoogdruk"} => {count: 12, subs: {}}, {158 => "Fosforprent"} => {count: 9, subs: {}}, {92 => "Diepdruk"} => {count: 8, subs: {}}, {137 => "Monotype"} => {count: 4, subs: {}}, {12 => "Gemengde techniek"} => {count: 3, subs: {}}, {162 => "Reproductie"} => {count: 3, subs: {}}, {172 => "Sjabloondruk"} => {count: 3, subs: {}}, {4 => "Blinddruk"} => {count: 1, subs: {}}, {72 => "Giclée"} => {count: 1, subs: {}}}}}},
           market_value: {missing: {count: 2407, subs: {}}},
-          location_raw: {"Location A" => {count: 1527, subs: {location_floor_raw: {"Floor 1" => {count: 12, subs: {location_detail_raw: {missing: {count: 12, subs: {}}}}}, "Floor 2" => {count: 429, subs: {location_detail_raw: {"Detail I" => {count: 61, subs: {}}, "Detail II" => {count: 57, subs: {}}, missing: {count: 55, subs: {}}}}}}}}},
+          location_raw: {"Location A" => {count: 1527, subs: {location_floor_raw: {"Floor 1" => {count: 12, subs: {location_detail_raw: {missing: {count: 12, subs: {}}}}}, "Floor 2" => {count: 429, subs: {location_detail_raw: {"Detail I" => {count: 61, subs: {}}, "Detail II" => {count: 57, subs: {}}, :missing => {count: 55, subs: {}}}}}}}}},
           style: {}, subset: {},
           market_value_range: {[50] => {count: 2, subs: {market_value_max: {[100] => {count: 1, subs: {}}, [250] => {count: 1, subs: {}}}}}, [75] => {count: 2, subs: {market_value_max: {[100] => {count: 1, subs: {}}, [250] => {count: 1, subs: {}}}}}, :missing => {count: 3, subs: {}}},
           replacement_value_range: {[50] => {count: 1, subs: {market_value_max: {[100] => {count: 1, subs: {}}}}}, :missing => {count: 3, subs: {}}}
@@ -35,7 +35,6 @@ RSpec.describe CollectionReportHelper, type: :helper do
         }
       )
       allow(helper).to receive(:show_filter_check_boxes).and_return(true)
-
     end
     it "should render a empt report when no values are given" do
       expect(helper.render_report_column([:frame_damage_types])).to eq("")

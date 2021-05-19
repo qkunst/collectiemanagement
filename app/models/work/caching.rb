@@ -45,8 +45,8 @@ module Work::Caching
     end
 
     def update_artist_name_rendered!
-      self.update_artist_name_rendered
-      update_columns(artist_name_rendered: self.read_attribute(:artist_name_rendered), artist_name_for_sorting: self.read_attribute(:artist_name_for_sorting), updated_at: Time.now)
+      update_artist_name_rendered
+      update_columns(artist_name_rendered: read_attribute(:artist_name_rendered), artist_name_for_sorting: read_attribute(:artist_name_for_sorting), updated_at: Time.now)
     end
 
     def update_latest_appraisal_data!

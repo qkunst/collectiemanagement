@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'omniauth'
-require 'openssl'
-require 'securerandom'
+require "jwt"
+require "omniauth"
+require "openssl"
+require "securerandom"
 
 ####
 # Monkey patching the updated azuread gem from Microsoft 2015: https://github.com/murb/omniauth-azure-activedirectory.git
@@ -13,7 +13,6 @@ module OmniAuth
   module Strategies
     # A strategy for authentication against Azure Active Directory.
     class AzureActiveDirectory
-
       private
 
       ##
@@ -21,18 +20,18 @@ module OmniAuth
       #
       # @return String
       def store_nonce
-        new_response.set_cookie("omniauth.azure.nonce", {value: encrypt(new_nonce), path: "/", expires: (Time.now+60*60), secure: true, httponly: true, same_site: :none})
+        new_response.set_cookie("omniauth.azure.nonce", {value: encrypt(new_nonce), path: "/", expires: (Time.now + 60 * 60), secure: true, httponly: true, same_site: :none})
       end
 
       def generate_salt
-        len   = ActiveSupport::MessageEncryptor.key_len
+        len = ActiveSupport::MessageEncryptor.key_len
         @generate_salt ||= SecureRandom.random_bytes(len)
       end
 
-      def crypt(salt=generate_salt)
+      def crypt(salt = generate_salt)
         return @crypt if @crypt
-        len   = ActiveSupport::MessageEncryptor.key_len
-        key   = ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key(salt, len)
+        len = ActiveSupport::MessageEncryptor.key_len
+        key = ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key(salt, len)
         @crypt = ActiveSupport::MessageEncryptor.new(key)
       end
 
@@ -54,23 +53,20 @@ module OmniAuth
         azureNonceCookie = request.cookies.delete("omniauth.azure.nonce")
         decrypt(azureNonceCookie) if azureNonceCookie
       end
-
     end
   end
 end
 
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  skip_before_action :verify_authenticity_token #, :only => [:callback]
+  skip_before_action :verify_authenticity_token
 
   def google_oauth2
-    # attr_accessor :email, :name, :oauth_subject, :oauth_provider, :qkunst, :facility_manager, :domain
-
     data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: "google_oauth2")
     data.email = omniauth_data.info[:email] unless omniauth_data.info[:email_verified] == false
     data.email_confirmed = omniauth_data.info[:email_verified]
     data.name = omniauth_data.info[:name]
     data.qkunst = true if omniauth_data.info[:hd] == "qkunst.nl"
-    data.domain = omniauth_data.dig("extra","id_info","hd")  # hd contains organisation's domain in case of GoogleSuite-subscriber
+    data.domain = omniauth_data.dig("extra", "id_info", "hd") # hd contains organisation's domain in case of GoogleSuite-subscriber
 
     data.raw_open_id_token = omniauth_data&.extra&.raw_info.to_h
 
@@ -89,15 +85,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     create_user_with_callback_data(data, "Microsoft")
   end
 
-
   def create_user_with_callback_data(data, kind)
     @user = User.from_omniauth_callback_data(data)
 
     if @user.persisted?
-      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: kind
+      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: kind
       sign_in_and_redirect @user, event: :authentication
     else
-      session['devise.omniauth_data'] = request.env['omniauth.auth'].except('extra') # Removing extra as it can overflow some session stores
+      session["devise.omniauth_data"] = request.env["omniauth.auth"].except("extra") # Removing extra as it can overflow some session stores
       redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
     end
   end
@@ -114,7 +109,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def omniauth_data
-    request.env['omniauth.auth']
+    request.env["omniauth.auth"]
   end
-
 end

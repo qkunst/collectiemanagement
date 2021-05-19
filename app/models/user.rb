@@ -10,7 +10,7 @@ class User < ApplicationRecord
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
-    :recoverable, :rememberable, :trackable, :validatable, :timeoutable,  omniauth_providers: [:google_oauth2, :azureactivedirectory]
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable, omniauth_providers: [:google_oauth2, :azureactivedirectory]
 
   store :collection_accessibility_serialization
   store :filter_params
@@ -187,14 +187,14 @@ class User < ApplicationRecord
       raise "Subject empty" if oauth_subject.blank?
       raise "Provider empty" if oauth_provider.blank?
 
-      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0,48])
+      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0, 48])
     end
 
     def from_omniauth_callback_data(data)
-      if (!data.is_a?(Users::OmniauthCallbackData) || !data.valid?)
+      if !data.is_a?(Users::OmniauthCallbackData) || !data.valid?
         raise ArgumentError.new("invalid omniauth data passed")
       else
-        user = self.find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
+        user = find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
         user.oauth_provider = data.oauth_provider
         user.oauth_subject = data.oauth_subject
         user.email = data.email

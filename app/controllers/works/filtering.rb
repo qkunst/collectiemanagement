@@ -74,10 +74,10 @@ module Works::Filtering
 
     def reset_works_limited
       @max_index ||= DEFAULT_WORK_COUNT
-      if @works.is_a? Array
-        @works = @works[0..@max_index].uniq
+      @works = if @works.is_a? Array
+        @works[0..@max_index].uniq
       else
-        @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
+        @works.offset(@min_index).limit(@max_index - @min_index + 1).uniq
       end
     end
 
@@ -165,7 +165,11 @@ module Works::Filtering
     end
 
     def parse_booleans noise
-      noise.collect { |a| (["0", "false"].include?(a.to_s) ? false : ((["1", "true"].include?(a.to_s)) ? true : nil)) }
+      noise.map do |bit|
+        bit_s = bit.to_s
+        return false if ["0", "false"].include?(bit_s)
+        return true if ["1", "true"].include?(bit_s)
+      end
     end
   end
 end

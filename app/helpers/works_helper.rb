@@ -73,16 +73,16 @@ module WorksHelper
   end
 
   def translate_works_with_article count
-    I18n.translate 'count.works_with_article', count: count
+    I18n.translate "count.works_with_article", count: count
   end
 
   def translate_works count
-    I18n.translate 'count.works', count: count
-  end
-  def translate_inventoried_objects count
-    I18n.translate 'count.inventoried_objects_count', count: count
+    I18n.translate "count.works", count: count
   end
 
+  def translate_inventoried_objects count
+    I18n.translate "count.inventoried_objects_count", count: count
+  end
 
   def describe_work_counts
     report = controller.is_a?(ReportController)
@@ -97,7 +97,7 @@ module WorksHelper
 
     if filtered
       sentence_items << ". Er"
-      sentence_items << ((@works_count == 1 || report) ? " wordt " : " worden ")
+      sentence_items << (@works_count == 1 || report ? " wordt " : " worden ")
       sentence_items << "vanwege een filter "
       sentence_items << (report ? "gerapporteerd over #{translate_works(@works_count)}" : "#{translate_works(@works_count)} getoond")
     end
@@ -110,6 +110,5 @@ module WorksHelper
     end
 
     sanitize(sentence_items.join(""))
-
   end
 end

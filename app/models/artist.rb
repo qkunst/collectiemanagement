@@ -138,11 +138,11 @@ class Artist < ApplicationRecord
   end
 
   def collection_attributes_attributes= collection_attribute_params
-    collection_attribute_params.values.each do | collection_attribute_attributes |
-      collection_attribute = collection_attributes.find_or_initialize_by( collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label] )
+    collection_attribute_params.values.each do |collection_attribute_attributes|
+      collection_attribute = collection_attributes.find_or_initialize_by(collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label])
       if collection_attribute_attributes[:value].present?
         collection_attribute.update(value: collection_attribute_attributes[:value])
-      else #if collection_attribute.persisted?
+      else # if collection_attribute.persisted?
         collection_attribute.destroy
       end
     end
@@ -215,7 +215,7 @@ class Artist < ApplicationRecord
   private
 
   def update_artist_name_rendered_async
-    works.pluck(:id).collect{|a| UpdateWorkCachesWorker.perform_async(a, :artist)}
+    works.pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, :artist) }
   end
 
   class << self

@@ -87,8 +87,8 @@ RSpec.describe "Appraisals", type: :request do
     end
 
     describe "POST /collections/:collection_id/work_sets/:work_set_id/appraisals" do
-      let(:user) { users(:appraiser) } #collection1, collection3
-      let(:appraisee) { work_sets(:work_diptych) } #by default all in collection3
+      let(:user) { users(:appraiser) } # collection1, collection3
+      let(:appraisee) { work_sets(:work_diptych) } # by default all in collection3
       let(:create_appraisal) { post collection_work_set_appraisals_path(collections(:collection3), appraisee), params: params }
       it "allows for appraising" do
         expect {

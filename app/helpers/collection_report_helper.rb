@@ -37,11 +37,11 @@ module CollectionReportHelper
   def filter_check_box(filter_params)
     @selection_filter ||= {}
 
-    present_filter_params = filter_params.select{|k,v| v.present?}
+    present_filter_params = filter_params.select { |k, v| v.present? }
     present_filter_param = present_filter_params.to_a.last
 
     param_name = present_filter_param[0]
-    field_name = param_name.sub(/filter\[/,"").gsub(/[\[\]]/,"")
+    field_name = param_name.sub(/filter\[/, "").gsub(/[\[\]]/, "")
 
     value = present_filter_param[1]
 
@@ -53,11 +53,23 @@ module CollectionReportHelper
       url_param_value = value
     end
 
-    param_value = (value == :not_set) ? nil : url_param_value
+    param_value = value == :not_set ? nil : url_param_value
 
     selected_filter_value_for_name = @selection_filter[field_name]
 
-    checked = selected_filter_value_for_name.is_a?(Array) ? selected_filter_value_for_name.map{|a| ((a == true) ? 1 : (a == false) ? 0 : a)}.include?(param_value) : (@selection_filter.keys.include?(field_name) && selected_filter_value_for_name == param_value)
+    checked = if selected_filter_value_for_name.is_a?(Array)
+      selected_filter_value_for_name.map do |a|
+        if a == true
+          1
+        elsif a == false
+          0
+        else
+          a
+        end
+      end.include?(param_value)
+    else
+      @selection_filter.keys.include?(field_name) && selected_filter_value_for_name == param_value
+    end
 
     if show_filter_check_boxes
       check_box_tag(url_param_name, url_param_value, checked)
@@ -72,7 +84,7 @@ module CollectionReportHelper
       @params.delete("filter[#{group}_id]")
       @params.merge!({"filter[#{group}][]" => :not_set})
 
-      link_label =  missing_link_label(group)
+      link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)_split$/, '\1')
       id_separator = "."
@@ -143,11 +155,11 @@ module CollectionReportHelper
   end
 
   def min_range_column(group)
-    group.to_s.sub(/_ignore_super$/,"").sub(/_range$/, "_min").to_sym
+    group.to_s.sub(/_ignore_super$/, "").sub(/_range$/, "_min").to_sym
   end
 
   def max_range_column(group)
-    group.to_s.sub(/_ignore_super$/,"").sub(/_range$/, "_max").to_sym
+    group.to_s.sub(/_ignore_super$/, "").sub(/_range$/, "_max").to_sym
   end
 
   def iterate_groups(group, contents, depth)

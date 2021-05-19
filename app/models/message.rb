@@ -41,9 +41,9 @@ class Message < ApplicationRecord
     collections = Collection.where(id: collections).expand_with_child_collections
     joins("LEFT OUTER JOIN works ON messages.subject_object_id = works.id AND messages.subject_object_type = 'Work'").where("(messages.subject_object_type = 'Collection' AND messages.subject_object_id IN (?)) OR (messages.subject_object_type = 'Work' AND works.collection_id IN (?))", collections.map(&:id), collections.map(&:id))
   end
-  scope :limit_age_to, ->(age_limitation=1.year) { where("messages.created_at > ?", age_limitation.ago)}
-  scope :human_messages, ->{ where.not(from_user_id: nil) }
-  scope :system_messages, ->{ where(from_user_id: nil) }
+  scope :limit_age_to, ->(age_limitation = 1.year) { where("messages.created_at > ?", age_limitation.ago) }
+  scope :human_messages, -> { where.not(from_user_id: nil) }
+  scope :system_messages, -> { where(from_user_id: nil) }
 
   before_save :set_from_user_name!
   after_create :send_notification

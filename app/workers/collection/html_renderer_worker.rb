@@ -10,15 +10,16 @@ class Collection::HtmlRendererWorker
     def initialize(user)
       @user = user
     end
+
     def authenticated?
       true
     end
+
     def authenticate(a)
       @user
     end
-    def user
-      @user
-    end
+
+    attr_reader :user
   end
 
   # params => as request params, Works::Filtering Concern (a controller concern) is used in this worker
@@ -85,12 +86,10 @@ class Collection::HtmlRendererWorker
     @params || {}
   end
 
-  def current_user
-    @current_user
-  end
+  attr_reader :current_user
 
   def renderer_with_user
     fake_warden = FakeWarden.new(@current_user)
-    WorksController.renderer.new("warden"=> fake_warden)
+    WorksController.renderer.new("warden" => fake_warden)
   end
 end

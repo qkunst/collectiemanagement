@@ -13,7 +13,7 @@ class WorkSetsController < ApplicationController
       @works = current_user.accessible_works.where(id: work_ids)
       @work_set.works = @works
     else
-      redirect_back fallback_location: (@collection ? @collection : root_path), notice: "Er konden geen werken geselecteerd worden."
+      redirect_back fallback_location: (@collection || root_path), notice: "Er konden geen werken geselecteerd worden."
     end
   end
 
@@ -36,7 +36,6 @@ class WorkSetsController < ApplicationController
     else
       authorize! :show, @work_set
     end
-
 
     @works = current_user.accessible_works.where(id: @work_set.work_ids).order(:stock_number)
 
@@ -63,7 +62,6 @@ class WorkSetsController < ApplicationController
       redirect_to [@collection, @work_set].compact, alert: "De verzamling kon niet worden verwijderd"
 
     end
-
   end
 
   private

@@ -10,6 +10,5 @@ class CreateWorkSets < ActiveRecord::Migration[6.0]
     end
 
     create_join_table :works, :work_sets
-
   end
 end

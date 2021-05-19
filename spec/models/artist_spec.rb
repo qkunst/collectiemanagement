@@ -8,7 +8,7 @@ RSpec.describe Artist, type: :model do
       a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
 
       expect(a.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
     end
@@ -16,8 +16,8 @@ RSpec.describe Artist, type: :model do
       a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
 
       expect(a.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
     end
@@ -49,7 +49,7 @@ RSpec.describe Artist, type: :model do
       expect(artist1.collection_attributes.count).to eq(0)
 
       expect {
-        artist2.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: collection.id.to_s}})
+        artist2.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: collection.id.to_s}})
         artist1.combine_artists_with_ids([artist2.id])
       }.to change(artist1.collection_attributes, :count).by(1)
     end

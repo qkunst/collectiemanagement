@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WorkSet, type: :model do
   it "has and belongs to many works" do
@@ -45,10 +45,10 @@ RSpec.describe WorkSet, type: :model do
     describe "#can_be_accessed_by_user?(user)" do
       context "only work1" do
         let!(:work_set) { WorkSet.new(works: [works(:work1)]) }
-        examples = {admin: true, user1: false, appraiser: true, collection_with_works_child_user: false,  collection_with_works_user: true}
-        examples.each do |k,v|
+        examples = {admin: true, user1: false, appraiser: true, collection_with_works_child_user: false, collection_with_works_user: true}
+        examples.each do |k, v|
           it "returns #{v} for #{k}" do
-            #assertions
+            # assertions
             expect(work_set.most_specific_shared_collection).to eq(collections(:collection_with_works))
             expect(collections(:collection_with_works).can_be_accessed_by_user?(users(k))).to eq(v)
 
@@ -58,10 +58,10 @@ RSpec.describe WorkSet, type: :model do
       end
       context "work1, work2, work7" do
         let!(:work_set) { WorkSet.new(works: [works(:work2), works(:work1), works(:work7)]) }
-        examples = {admin: true, user1: false, appraiser: true, collection_with_works_child_user: false,  collection_with_works_user: false}
-        examples.each do |k,v|
+        examples = {admin: true, user1: false, appraiser: true, collection_with_works_child_user: false, collection_with_works_user: false}
+        examples.each do |k, v|
           it "returns #{v} for #{k}" do
-            #assertions
+            # assertions
             expect(work_set.most_specific_shared_collection).to eq(collections(:collection1))
             expect(collections(:collection1).can_be_accessed_by_user?(users(k))).to eq(v)
 
@@ -89,7 +89,5 @@ RSpec.describe WorkSet, type: :model do
         expect(ws.most_specific_shared_collection).to eq(nil)
       end
     end
-
-
   end
 end

@@ -282,7 +282,7 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments,  :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias_method :initialize_qkunst, :initialize_registrator
 

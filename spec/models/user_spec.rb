@@ -34,7 +34,7 @@ RSpec.describe User, type: :model do
 
       it "should return a subset for users with a single collection" do
         u = users(:qkunst_with_collection)
-        artists = collections(:collection1).works_including_child_works.flat_map{|w| w.artists}
+        artists = collections(:collection1).works_including_child_works.flat_map { |w| w.artists }
         expect(u.accessible_artists.pluck(:id).sort).to eq(artists.map(&:id).sort)
       end
     end
@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       end
     end
     describe "#oauthable?" do
-      {supposed_admin_without_oauth: false, admin: true, collection_with_works_user: true, compliance: false, advisor: false, appraiser: false}.each do |k,v|
+      {supposed_admin_without_oauth: false, admin: true, collection_with_works_user: true, compliance: false, advisor: false, appraiser: false}.each do |k, v|
         context k do
           let(:user) { users(k) }
           it "should return #{v}" do
@@ -200,8 +200,8 @@ RSpec.describe User, type: :model do
   describe "Class methods" do
     describe ".from_omniauth_callback_data" do
       it "raises argument error when invalid data is passed" do
-        expect{User.from_omniauth_callback_data(nil)}.to raise_error(ArgumentError)
-        expect{User.from_omniauth_callback_data(Users::OmniauthCallbackData.new)}.to raise_error(ArgumentError)
+        expect { User.from_omniauth_callback_data(nil) }.to raise_error(ArgumentError)
+        expect { User.from_omniauth_callback_data(Users::OmniauthCallbackData.new) }.to raise_error(ArgumentError)
       end
       it "creates a new user when given" do
         email = "a@a.com"

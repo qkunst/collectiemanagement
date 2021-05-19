@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe CollectionAttribute, type: :model do
   let(:artist) { artists(:artist1) }
@@ -34,7 +34,7 @@ RSpec.describe CollectionAttribute, type: :model do
         expect(attributes).not_to include(collection_attributes(:artist_1_collection1_attribute))
       end
       it "does return parent collection's data if the user has access to that collection" do
-        attributes = CollectionAttribute.for_user(users(:read_only)).all #read only has access tot collection1
+        attributes = CollectionAttribute.for_user(users(:read_only)).all # read only has access tot collection1
 
         expect(attributes).to include(collection_attributes(:artist_1_collection_with_works_child_attribute))
         expect(attributes).to include(collection_attributes(:artist_1_collection1_attribute))

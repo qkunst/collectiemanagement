@@ -96,11 +96,11 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
       end
       context "diptych" do
-        let(:work_selection) { [works(:work1),works(:work_diptych_1)] }
+        let(:work_selection) { [works(:work1), works(:work_diptych_1)] }
 
         it "should stop when work cannot be appraised (diptych scenario)" do
           sign_in users(:appraiser)
-          appraisal_date = Time.now.to_date+5.day
+          appraisal_date = Time.now.to_date + 5.day
           patch collection_batch_path(collections(:collection3)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
           appraisal = Appraisal.find_by(appraised_on: appraisal_date)
           expect(appraisal).to eq(nil)
@@ -132,7 +132,7 @@ RSpec.describe "WorkBatchs", type: :request do
         collection = collections(:collection1)
         theme = themes(:wind)
 
-        post collection_batch_path(collection), params: {"selected_work_groups"=>{"themes"=>[theme.id]}, "collection_id"=>collection.id}
+        post collection_batch_path(collection), params: {"selected_work_groups" => {"themes" => [theme.id]}, "collection_id" => collection.id}
 
         expect(response.body).to match("Q001")
         expect(response.body).to match("Q002")
@@ -141,7 +141,7 @@ RSpec.describe "WorkBatchs", type: :request do
 
         expect(response.body).to match("2 werken bijwerken")
 
-        post collection_batch_path(collection), params: {"selected_work_groups"=>{"themes"=>[theme.id, "not_set"]}, "collection_id"=>collection.id}
+        post collection_batch_path(collection), params: {"selected_work_groups" => {"themes" => [theme.id, "not_set"]}, "collection_id" => collection.id}
 
         expect(response.body).to match("Q001")
         expect(response.body).to match("Q002")

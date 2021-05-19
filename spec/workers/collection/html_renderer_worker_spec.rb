@@ -21,7 +21,6 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("Vervangingswaarde")
     expect(html).not_to match("Acrylverf")
     expect(html).not_to match("<h3>Houtskool</h3>")
-
   end
 
   it "performs a filtered render" do
@@ -31,7 +30,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     # required for TravisCI
     collections(:collection_with_works).works_including_child_works.all.reindex!
 
-    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id"=>[object_categories(:gebouwgebonden).id]}, display: "complete"})
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id" => [object_categories(:gebouwgebonden).id]}, display: "complete"})
 
     # expect html not to include any links
     expect(html).not_to match("<a ")
@@ -67,7 +66,6 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(SecureRandom).to receive(:base58).and_return("abc")
     expect(PdfPrinterWorker).to receive(:perform_async).with("/tmp/abc.html", inform_user_id: user.id, subject_object_id: collection.id, subject_object_type: "Collection")
 
-    Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {group: "techniques"}, {generate_pdf: true, send_message: true} )
+    Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {group: "techniques"}, {generate_pdf: true, send_message: true})
   end
-
 end

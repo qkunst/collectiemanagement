@@ -6,7 +6,7 @@ RSpec.feature "Pagination of works", type: :feature do
   include FeatureHelper
   extend FeatureHelper
 
-  let(:collection) { collections(:collection1)}
+  let(:collection) { collections(:collection1) }
 
   ["qkunst-test-read_only@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_to_role(email_address) do

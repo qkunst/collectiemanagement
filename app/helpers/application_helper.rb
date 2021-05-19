@@ -102,12 +102,12 @@ module ApplicationHelper
       else
         # render value
         index = 0
-        name = (hierarchy + [key]).map{|a| index += 1; (index == 1 ? a : "[#{a}]")}.join
+        name = (hierarchy + [key]).map { |a| index += 1; (index == 1 ? a : "[#{a}]") }.join
 
         if value.is_a? Array
-          value.map{|a| hidden_field_tag "#{name}[]", a}
+          value.map { |a| hidden_field_tag "#{name}[]", a }
         else
-          hidden_field_tag "#{name}", value
+          hidden_field_tag name.to_s, value
         end
       end
     end.join("\n").html_safe

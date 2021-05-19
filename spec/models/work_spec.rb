@@ -12,7 +12,7 @@ RSpec.describe Work, type: :model do
         w.artists << artists(:artist2)
         w.save
         change_set = YAML.load(w.versions.last.object_changes)
-        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"] #["artist_1, firstname", "artist_2 achternaam, firstie;artist_1, firstname"]
+        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"] # ["artist_1, firstname", "artist_2 achternaam, firstie;artist_1, firstname"]
         expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
         expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
       end
@@ -485,7 +485,7 @@ RSpec.describe Work, type: :model do
     describe ".count_as_whole_works" do
       it "should return all works uniquele" do
         work_count = Work.count
-        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map { |a| a.works.pluck(:id) }.uniq.count
         worksets_counted_as_one = WorkSet.count_as_one.count
 
         expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
@@ -493,7 +493,7 @@ RSpec.describe Work, type: :model do
 
       it "should return all works uniquely even when in two work sets" do
         work_count = Work.count
-        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map { |a| a.works.pluck(:id) }.uniq.count
         worksets_counted_as_one = WorkSet.count_as_one.count
         workset_to_ignore = WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
 
