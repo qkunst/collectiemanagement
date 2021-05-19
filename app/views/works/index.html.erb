@@ -35,7 +35,7 @@
                   <button data-qtoggle="download-dropdown-button" data-qtoggle-class="collapsed" class="tertiary button">Download</button>
                   <ul class="vertical menu">
                   <% if can? :download_datadump, @collection  %>
-                    <li><%=link_to ".xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xlsx" } %></li>
+                    <li><%=link_to ".xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})) %></li>
                     <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
                     <li><%=link_to ".xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
                   <% end %>
