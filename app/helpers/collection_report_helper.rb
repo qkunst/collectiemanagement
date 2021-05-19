@@ -68,7 +68,7 @@ module CollectionReportHelper
         end
       end.include?(param_value)
     else
-      @selection_filter.keys.include?(field_name) && selected_filter_value_for_name == param_value
+      @selection_filter.key?(field_name) && selected_filter_value_for_name == param_value
     end
 
     if show_filter_check_boxes
@@ -82,7 +82,7 @@ module CollectionReportHelper
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
       @params.delete("filter[#{group}.id]")
       @params.delete("filter[#{group}_id]")
-      @params.merge!({"filter[#{group}][]" => :not_set})
+      @params["filter[#{group}][]"] = :not_set
 
       link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
@@ -90,7 +90,7 @@ module CollectionReportHelper
       id_separator = "."
       id_separator = "_" unless group.to_s.ends_with?("s") || group.to_s.ends_with?("split")
       @params.delete("filter[#{group}][]")
-      @params.merge!({"filter[#{group}#{id_separator}id]" => selection.keys})
+      @params["filter[#{group}#{id_separator}id]"] = selection.keys
 
       link_label = selection.values.to_sentence
     else
@@ -100,7 +100,7 @@ module CollectionReportHelper
       else
         I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection)
       end
-      @params = @params.merge({"filter[#{group}][]" => selection})
+      @params["filter[#{group}][]"] = selection
     end
 
     [filter_check_box(@params), link_to(link_label, collection_works_path(@collection, @params))].join("").html_safe
@@ -133,7 +133,7 @@ module CollectionReportHelper
   def titleize_section_head(section_head)
     title_translation_key = section_head.to_s.gsub(".keyword", "")
     default_title = I18n.t(title_translation_key, scope: "activerecord.attributes.work")
-    title = I18n.t(title_translation_key, scope: "report.titles", default: default_title)
+    I18n.t(title_translation_key, scope: "report.titles", default: default_title)
   end
 
   def sort_contents_by_group(contents, group)

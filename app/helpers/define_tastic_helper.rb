@@ -50,7 +50,6 @@ module DefineTasticHelper
 
   def value_render property, options = {}
     value = nil
-    values = []
 
     if options[:override_value]
       value = options[:override_value]

@@ -33,7 +33,7 @@ class WorksController < ApplicationController
     set_selected_localities
     set_search_text
 
-    @show_work_checkbox = qkunst_user? ? true : false
+    @show_work_checkbox = qkunst_user?
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
 
     update_current_user_with_params
@@ -157,7 +157,7 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
   end
 
   # DELETE /works/1

@@ -151,7 +151,7 @@ class Work < ApplicationRecord
   end
 
   def appraisable_set
-    @appraisable_set ||= work_sets.select { |ws| ws.work_set_type.count_as_one }.last
+    @appraisable_set ||= work_sets.reverse.find(&:count_as_one?)
   end
 
   def countable_set

@@ -4,7 +4,6 @@ require "rails_helper"
 
 RSpec.describe PdfPrinterWorker, type: :model do
   it "works for /" do
-    collection = collections(:collection_with_works)
     user = users(:admin)
 
     expect { PdfPrinterWorker.new.perform(Rails.root.join("public", "404.html").to_s, {inform_user_id: user.id}) }.to change(Message, :count).by(1)

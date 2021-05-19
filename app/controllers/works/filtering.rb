@@ -139,7 +139,7 @@ module Works::Filtering
     end
 
     def set_no_child_works
-      @no_child_works = (params[:no_child_works] == 1) || (params[:no_child_works] == "true") ? true : false
+      @no_child_works = parse_boolean(params[:no_child_works])
     end
 
     def set_search_text
@@ -166,10 +166,12 @@ module Works::Filtering
 
     def parse_booleans noise
       noise.map do |bit|
-        bit_s = bit.to_s
-        return false if ["0", "false"].include?(bit_s)
-        return true if ["1", "true"].include?(bit_s)
+        parse_boolean bit
       end
+    end
+
+    def parse_boolean fake_boolean
+      {"0" => false, "false" => false, "1" => true, "true" => true}[fake_boolean.to_s]
     end
   end
 end

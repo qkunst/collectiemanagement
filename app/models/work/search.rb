@@ -71,7 +71,7 @@ module Work::Search
       options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
       sort = options[:sort] || ["_score"]
 
-      unless use_elasticsearch?(search, filter, options[:force_elastic])
+      if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
         return options[:no_child_works] ? base_collection.works.limit(options[:limit]) : base_collection.works_including_child_works.limit(options[:limit])
       end
 
@@ -104,10 +104,10 @@ module Work::Search
 
     private
 
-    def use_elasticsearch?(search, filter, force_elasticsearch)
-      !((search == "" || search.nil?) &&
-      (filter.nil? || filter == {} || (filter.is_a?(Hash) && filter.sum { |k, v| v.count } == 0)) &&
-      !force_elasticsearch)
+    def non_filter?(filter)
+      if filter.is_a? Hash
+        !filter.any? { |k, v| v.present? }
+      end
     end
 
     def filter_to_elasticsearch_filter(filter_hash)

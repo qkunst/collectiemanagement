@@ -102,7 +102,10 @@ module ApplicationHelper
       else
         # render value
         index = 0
-        name = (hierarchy + [key]).map { |a| index += 1; (index == 1 ? a : "[#{a}]") }.join
+        name = (hierarchy + [key]).map do |a|
+          index += 1
+          index == 1 ? a : "[#{a}]"
+        end.join
 
         if value.is_a? Array
           value.map { |a| hidden_field_tag "#{name}[]", a }

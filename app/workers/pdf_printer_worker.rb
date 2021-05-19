@@ -16,7 +16,7 @@ class PdfPrinterWorker
     grover_resource = if /\A\/[A-Za-z]*\//.match?(url)
       File.read(url)
     # only trust our own content
-    elsif /\Ahttps:\/\/collectiemanagement\.qkunst\.nl/.match?(url)
+    elsif url.start_with? "https://collectiemanagement.qkunst.nl/"
       url
     else
       raise "Unsecure location (#{url})"

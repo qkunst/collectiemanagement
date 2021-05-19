@@ -8,11 +8,10 @@ RSpec.describe Work, type: :model do
       it "should keep a log of changed artists" do
         w = works(:work1)
         w.save # saving just to make the diff smaller
-        w_artists = w.artists
         w.artists << artists(:artist2)
         w.save
-        change_set = YAML.load(w.versions.last.object_changes)
-        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"] # ["artist_1, firstname", "artist_2 achternaam, firstie;artist_1, firstname"]
+        change_set = YAML.load(w.versions.last.object_changes) # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"]
         expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
         expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
       end
@@ -416,7 +415,7 @@ RSpec.describe Work, type: :model do
         }.to change(WorkSet, :count).by(0)
         expect(w1.work_sets.count).to eq(1)
         expect(w2.work_sets.count).to eq(1)
-        work_sets = w2.work_sets.reload
+        w2.work_sets.reload
         expect(w2.work_sets.first.work_ids).to match_array([w1, w2].map(&:id))
       end
       it "creates when full hash is given equal to earlier in other collection" do
@@ -430,8 +429,10 @@ RSpec.describe Work, type: :model do
         }.to change(WorkSet, :count).by(1)
         expect(w1.work_sets.count).to eq(1)
         expect(w2.work_sets.count).to eq(1)
-        work_sets = w1.work_sets.reload
-        work_sets = w2.work_sets.reload
+
+        w1.work_sets.reload
+        w2.work_sets.reload
+
         expect(w1.work_sets.first.work_ids).not_to include(w2.id)
         expect(w2.work_sets.first.work_ids).not_to include(w1.id)
       end
@@ -495,7 +496,8 @@ RSpec.describe Work, type: :model do
         work_count = Work.count
         works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map { |a| a.works.pluck(:id) }.uniq.count
         worksets_counted_as_one = WorkSet.count_as_one.count
-        workset_to_ignore = WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
+
+        WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
 
         expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
       end

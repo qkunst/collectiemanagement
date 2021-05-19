@@ -36,7 +36,7 @@ module OmniAuth
       end
 
       def encrypt(string)
-        encrypted_data = "#{Base64.encode64(generate_salt).strip}----#{crypt.encrypt_and_sign(string)}"
+        "#{Base64.encode64(generate_salt).strip}----#{crypt.encrypt_and_sign(string)}"
       end
 
       def decrypt(salt_with_encrypted_data)
@@ -50,8 +50,8 @@ module OmniAuth
       #
       # @return String
       def read_nonce
-        azureNonceCookie = request.cookies.delete("omniauth.azure.nonce")
-        decrypt(azureNonceCookie) if azureNonceCookie
+        azure_nonce_cookie = request.cookies.delete("omniauth.azure.nonce")
+        decrypt(azure_nonce_cookie) if azure_nonce_cookie
       end
     end
   end

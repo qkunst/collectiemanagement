@@ -9,7 +9,7 @@ class CachedApi < ApplicationRecord
 
   def pull_url!
     require "open-uri"
-    self.response = URI.open(query).read
+    self.response = URI.open(query).read # standard:disable Security/Open is only used for known urls
   end
 
   def json

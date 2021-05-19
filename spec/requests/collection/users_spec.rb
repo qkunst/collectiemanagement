@@ -80,7 +80,11 @@ RSpec.describe Collection::UsersController, type: :request do
           end
 
           context "user with existing roles" do
-            let(:user) { u = users(:read_only); u.update(collections: [:collection1, :collection_with_stages_child].map { |a| collections(a) }); u }
+            let(:user) do
+              u = users(:read_only)
+              u.update(collections: [:collection1, :collection_with_stages_child].map { |a| collections(a) })
+              u
+            end
             let(:valid_params) { {user: {role: :facility_manager, collection_ids: []}} }
 
             it "should leave existing collections in tact" do
@@ -129,7 +133,11 @@ RSpec.describe Collection::UsersController, type: :request do
           end
 
           context "user with existing roles" do
-            let(:user) { u = users(:read_only); u.update(collections: [:collection1, :collection_with_stages_child].map { |a| collections(a) }); u }
+            let(:user) do
+              u = users(:read_only)
+              u.update(collections: [:collection1, :collection_with_stages_child].map { |a| collections(a) })
+              u
+            end
             let(:valid_params) { {user: {role: :facility_manager, collection_ids: []}} }
 
             it "should leave existing collections in tact" do

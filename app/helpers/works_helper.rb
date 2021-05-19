@@ -90,9 +90,6 @@ module WorksHelper
     grouped = @selection && @selection[:group] != :no_grouping
     more_inventoried_objects_than_works = @inventoried_objects_count != @works_count
 
-    is_grouped_by_part = grouped ? "en is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])} en " : nil
-    inventoried_objects_comment = more_inventoried_objects_than_works ? ", bestaande uit #{translate_inventoried_objects(@inventoried_objects_count)}." : "."
-
     sentence_items = ["Deze collectie bevat #{translate_works(@collection_works_count)}"]
 
     if filtered
