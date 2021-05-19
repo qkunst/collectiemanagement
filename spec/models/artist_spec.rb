@@ -41,6 +41,18 @@ RSpec.describe Artist, type: :model do
       expect(Artist.where(id: ids).count).to eq(0)
       expect(a.works.count).to eq(3)
     end
+    it "should move the collection specific atributes over" do
+      artist1 = artists(:artist2)
+      artist2 = artists(:artist2_dup1)
+      collection = collections(:collection1)
+
+      expect(artist1.collection_attributes.count).to eq(0)
+
+      expect {
+        artist2.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: collection.id.to_s}})
+        artist1.combine_artists_with_ids([artist2.id])
+      }.to change(artist1.collection_attributes, :count).by(1)
+    end
   end
   describe "#import" do
     it "should import from another artist" do

@@ -162,6 +162,9 @@ class Artist < ApplicationRecord
         work.save
         count += 1
       end
+      artist.collection_attributes.each do |collection_attribute|
+        collection_attribute.update(attributed: self)
+      end
       artist.update_columns(replaced_by_artist_id: id)
     end
     count
