@@ -69,7 +69,7 @@
     <%= define_unless_blank :condition_frame_rendered %>
     <% if @selection[:display] == :complete %>
       <%= define_unless_blank :placeability  %>
-      <%= define_unless_blank :permanently_fixed %>
+      <%= define_unless_blank :permanently_fixed if work.permanently_fixed %>
       <%= define_unless_blank :grade_within_collection %>
       <%= define_unless_blank :main_collection %>
     <% end %>
