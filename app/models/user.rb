@@ -171,6 +171,10 @@ class User < ApplicationRecord
     Work.where(created_by_id: id)
   end
 
+  def messages_sent
+    Message.where(from_user_id: id)
+  end
+
   private
 
   def serialize_collection_accessibility!
