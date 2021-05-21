@@ -2,10 +2,15 @@
 // doesnt' seem to work here, somehow jQuery's delegated even listening is smarter / better / stronger / especially with e.g. select2 events
 
 $(document).on('change', '#batch-work input[data-strategy-input-id], #batch-work textarea[data-strategy-input-id], #batch-work select[data-strategy-input-id]', function(e) {
+  console.log("change", e);
   var cluster_selector, cluster_selector_text_value, strategyElement;
   strategyElement = document.getElementById(e.target.dataset.strategyInputId);
   if (strategyElement && strategyElement.value === "IGNORE") {
-    strategyElement.value = "REPLACE";
+    if (strategyElement.id === "work_update_tag_list_strategy" ) {
+      strategyElement.value = "APPEND";
+    } else {
+      strategyElement.value = "REPLACE";
+    }
   }
   if (e.target.id === "work_cluster_name") {
     cluster_selector = document.getElementById("work_cluster_id");
