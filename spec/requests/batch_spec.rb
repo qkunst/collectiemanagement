@@ -46,6 +46,73 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to root_path
       end
     end
+    describe "Selection of works" do
+      let(:user) { users(:admin) }
+      let(:collection) { collections(:collection1) }
+      let(:works) { [] }
+
+      let(:expectations_checker) do
+        works.each do |work|
+          expect(response.body).to match(work.title)
+          expect(response.body).to match(work.stock_number)
+        end
+      end
+
+      before do
+        sign_in user
+      end
+
+      after do
+        expectations_checker
+      end
+
+      describe "by ids" do
+        let(:works) { collection.works_including_child_works.limit(2) }
+
+        it "should work for get with selected_works array" do
+          get collection_batch_path(collection, params: {selected_works: works.map(&:id)})
+        end
+
+        it "should work for post with selected_works array" do
+          post collection_batch_path(collection, params: {selected_works: works.map(&:id)})
+        end
+      end
+
+      describe "with filter" do
+        let(:theme) { themes(:wind)}
+        let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme) }
+
+        it "off" do
+          expect(works.count).to be == 2
+          post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]} })
+        end
+
+        describe "on" do
+          let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme).where(market_value: 50) }
+
+          it "works" do
+            expect(works.count).to be == 1
+            post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]} })
+
+            other_works_stock_number = (collection.works_including_child_works.joins(:themes).where(themes: theme).map(&:stock_number) - works.pluck(:stock_number))
+
+            expect(response.body).not_to match(other_works_stock_number[0])
+          end
+        end
+      end
+
+      describe "by cluster group" do
+        let(:cluster) { clusters(:cluster1)}
+        let(:works) { collection.works_including_child_works.where(cluster: clusters(:cluster1)) }
+
+        it "should work for post with cluster ids" do
+          expect(works.count).to be >= 1
+          post collection_batch_path(collection, params: { selected_work_groups: {cluster: [cluster.id]} })
+        end
+
+
+      end
+    end
     describe "Field-accessibility" do
       it "describe facility should only be able to edit location" do
         sign_in users(:facility_manager)
