@@ -91,7 +91,7 @@ class WorkSetsController < ApplicationController
   end
 
   def work_set_params
-    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids)
+    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment)
     rv[:work_ids] = current_user.accessible_works.where(id: rv[:work_ids].split(/[\s,]/)).pluck(:id) if rv[:work_ids]
     rv
   end
