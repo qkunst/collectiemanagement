@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_101340) do
+ActiveRecord::Schema.define(version: 2021_05_21_144031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -423,6 +423,16 @@ ActiveRecord::Schema.define(version: 2021_05_21_101340) do
     t.integer "reminder_id"
     t.string "from_user_name"
     t.string "attachment"
+  end
+
+  create_table "o_auth_group_mappings", force: :cascade do |t|
+    t.string "issuer"
+    t.string "value_type"
+    t.string "value"
+    t.string "collection_id"
+    t.string "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "object_categories", id: :serial, force: :cascade do |t|

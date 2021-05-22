@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   store :collection_accessibility_serialization
   store :filter_params
+  store :raw_open_id_token
 
   after_update :schedule_sync_stored_user_names
 
@@ -175,6 +176,21 @@ class User < ApplicationRecord
     Message.where(from_user_id: id)
   end
 
+  def reset_all_roles
+    ROLES.each do |role|
+      unless role == :read_only # "default" role
+        self.send("#{role}=", false)
+      end
+    end
+  end
+
+  private
+
+  def serialize_collection_accessibility!
+    to_store = collections.each_with_object({}) { |c, h| h[c.id] = c.name; }
+    self.collection_accessibility_serialization = to_store
+  end
+
   private
 
   def serialize_collection_accessibility!
@@ -208,7 +224,21 @@ class User < ApplicationRecord
         user.domain = data.domain
         user.confirmed_at ||= Time.now if data.email_confirmed?
         user.raw_open_id_token = data.raw_open_id_token
+
+        if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
+          user.reset_all_roles
+          new_role = ([:read_only, :facility_manager, :compliance] & OAuthGroupMapping.retrieve_roles(data))[0]
+          user.role = new_role
+        end
+
+        if OAuthGroupMapping.collection_mappings_exists_for?(data.issuer)
+          user.collection_ids = OAuthGroupMapping.retrieve_collection_ids(data)
+
+          user.role = new_role
+        end
+
         user.save
+
         user
       end
     end

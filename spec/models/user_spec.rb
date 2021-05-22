@@ -227,6 +227,47 @@ RSpec.describe User, type: :model do
         expect(new_user.confirmed?).to eq(true)
         expect(new_user).to be_a(User)
       end
+      it "auto subscribes a user to a role when configured as such" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_truthy
+        expect(new_user.collections).not_to include(collections(:collection1))
+      end
+      it "auto subscribes a user to a role and group when configured as such" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_truthy
+        expect(new_user.collections).to include(collections(:collection1))
+      end
+      it "auto overides a user's memberschip when configured as such" do
+        email = users(:facility_manager).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.collections).to include(collections(:collection1))
+      end
+      it "auto overides a user's memberschip when configured as such" do
+        email = users(:appraiser).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.appraiser?).to be_falsey
+        expect(existing_user.collections).to include(collections(:collection1))
+        expect(existing_user.collections).not_to include(collections(:collection3))
+      end
+      it "leaves a user's memberschip as is when not configured as such" do
+        email = users(:appraiser).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "micfrosoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_falsey
+        expect(existing_user.appraiser?).to be_truthy
+        expect(existing_user.collections).to include(collections(:collection1))
+        expect(existing_user.collections).to include(collections(:collection3))
+      end
     end
   end
   describe "Scopes" do

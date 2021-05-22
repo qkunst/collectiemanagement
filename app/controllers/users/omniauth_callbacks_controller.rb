@@ -67,8 +67,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     data.name = omniauth_data.info[:name]
     data.qkunst = true if omniauth_data.info[:hd] == "qkunst.nl"
     data.domain = omniauth_data.dig("extra", "id_info", "hd") # hd contains organisation's domain in case of GoogleSuite-subscriber
-
     data.raw_open_id_token = omniauth_data&.extra&.raw_info.to_h
+
+    data.issuer = "google_oauth2/#{data.domain}"
+    data.groups = []
+    data.roles = []
 
     create_user_with_callback_data(data, "Google")
   end
@@ -81,6 +84,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     data.qkunst = false
 
     data.raw_open_id_token = omniauth_data&.extra&.raw_info&.id_token_claims&.to_h
+    data.issuer = "#{omniauth_data["provider"]}/#{data.raw_open_id_token["iss"]}"
+
+    data.groups = data.raw_open_id_token["groups"]
+    data.roles = data.raw_open_id_token["wids"]
 
     create_user_with_callback_data(data, "Microsoft")
   end
