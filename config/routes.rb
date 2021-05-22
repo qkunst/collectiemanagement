@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
   resources :users, only: [:index, :edit, :update, :destroy]
+  get "users/oauth"
 
   resources :conditions
   resources :currencies
