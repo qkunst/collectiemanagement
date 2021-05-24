@@ -12,6 +12,7 @@
     "jquery_nested_form": ">=0.3.3",
     "morphdom": ">=2.5.12",
     "promise-polyfill": ">=8.1.3",
+    "puppeteer": ">=9.0.0",
     "rails-ujs": ">=5.2.4-1",
     "select2": ">=4.0.12",
     "stickyfilljs": ">=2.1.0",
@@ -19,7 +20,6 @@
     "what-input": ">=5.2.6"
   },
   "devDependencies": {
-    "puppeteer": ">=9.0.0",
     "webpack-dev-server": ">=3.10.3"
   }
 }
