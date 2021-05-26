@@ -152,7 +152,6 @@ class Message < ApplicationRecord
     end
   end
 
-
   def actioned_upon_by_qkunst_admin= bool
     self.actioned_upon_by_qkunst_admin_at ||= Time.now
     if conversation_start_message.nil?
@@ -174,7 +173,4 @@ class Message < ApplicationRecord
       conversation_start_message.actioned_upon_by_qkunst_admin! if from_user&.qkunst?
     end
   end
-
-
-
 end
