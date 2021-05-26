@@ -69,3 +69,12 @@ fieldset.warning {
   margin-bottom: 1rem!important;
 }
 
+.medium-3, .small-3, .small-4 {
+  select, .button, .dropdwon.menu, .dropdown.menu .is-dropdown-submenu-parent {
+    width: 100%;
+  }
+}
+
+.menu > li.is-dropdown-submenu-parent {
+  padding: 0;
+}

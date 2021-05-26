@@ -21,8 +21,8 @@ class Artist < ApplicationRecord
 
   has_cache_for_method :geoname_ids
 
-  after_save :touch_works
-  after_touch :touch_works
+  after_save :update_artist_name_rendered_async
+  after_touch :update_artist_name_rendered_async
 
   before_save :sync_dates_and_years
   before_save :sync_places
@@ -138,11 +138,11 @@ class Artist < ApplicationRecord
   end
 
   def collection_attributes_attributes= collection_attribute_params
-    collection_attribute_params.values.each do | collection_attribute_attributes |
-      collection_attribute = collection_attributes.find_or_initialize_by( collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label] )
+    collection_attribute_params.values.each do |collection_attribute_attributes|
+      collection_attribute = collection_attributes.find_or_initialize_by(collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label])
       if collection_attribute_attributes[:value].present?
         collection_attribute.update(value: collection_attribute_attributes[:value])
-      else #if collection_attribute.persisted?
+      else # if collection_attribute.persisted?
         collection_attribute.destroy
       end
     end
@@ -162,17 +162,12 @@ class Artist < ApplicationRecord
         work.save
         count += 1
       end
+      artist.collection_attributes.each do |collection_attribute|
+        collection_attribute.update(attributed: self)
+      end
       artist.update_columns(replaced_by_artist_id: id)
     end
     count
-  end
-
-  def touch_works
-    works.all.each do |work|
-      work.update_artist_name_rendered!
-      work.cache_collection_locality_artist_involvements_texts!(true)
-      work.touch
-    end
   end
 
   def to_parameters
@@ -215,6 +210,12 @@ class Artist < ApplicationRecord
     end
 
     save
+  end
+
+  private
+
+  def update_artist_name_rendered_async
+    works.pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, :artist) }
   end
 
   class << self

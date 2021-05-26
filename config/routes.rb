@@ -41,10 +41,11 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     confirmation: "confirmation",
     registrations: "registrations",
-    omniauth_callbacks: 'users/omniauth_callbacks',
-    sessions: 'users/sessions'
+    omniauth_callbacks: "users/omniauth_callbacks",
+    sessions: "users/sessions"
   }
   resources :users, only: [:index, :edit, :update, :destroy]
+  get "users/oauth"
 
   resources :conditions
   resources :currencies

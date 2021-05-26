@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # first line of defense; only allowed parameters
 
 class Users::OmniauthCallbackData
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  attr_accessor :email, :email_confirmed, :name, :oauth_subject, :oauth_provider, :qkunst, :facility_manager, :domain, :raw_open_id_token
+  attr_accessor :email, :email_confirmed, :name, :oauth_subject, :oauth_provider, :qkunst, :facility_manager, :domain, :raw_open_id_token, :issuer, :groups, :roles
 
   validates_presence_of :email, :oauth_subject, :oauth_provider
 

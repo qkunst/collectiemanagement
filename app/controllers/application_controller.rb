@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception, except: [:service_worker]
-  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries, :tags, :privacy, :data_policy, :application_status]
+  before_action :authenticate_activated_user!, except: [:heartbeat, :home, :service_worker, :geoname_summaries, :tags, :privacy, :data_policy, :application_status, :oauth]
   # before_action :authenticate_qkunst_user!, except: [:heartbeat, :home]
   before_action :offline?
   before_action :show_hidden
@@ -160,7 +160,6 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, alert: "Je hebt geen toegang tot deze pagina"
     else
       redirect_to new_user_session_url(redirect_to: request.url), alert: "Je moet ingelogd zijn om deze pagina te kunnen bekijken."
-      # raise exception
     end
   end
 end

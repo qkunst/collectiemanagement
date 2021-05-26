@@ -1,19 +1,6 @@
 <h1>Groepeer werken</h1>
 <% if @work_set.works.any? %>
-<div class="row">
-  <div class="medium-6 column">
-    <%= hidden_field_tag name: :collection_id, value: @collection.id if @collection %>
-    <%= simple_form_for [@collection, @work_set].compact do |f| %>
-      <%= f.association :work_set_type%>
-      <%= f.input :identification_number %>
-      <%= f.association :works, as: :hidden%>
-      <%= f.submit class: :button%>
-    <% end %>
-  </div>
-  <div class="medium-6 column">
-
-  </div>
-</div>
+<%= render partial: "form"%>
 <hr/>
 <h3 id="works">Werken</h3>
 <p>De volgende werken zullen hiermee worden gegroepeerd. </p>

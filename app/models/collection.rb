@@ -54,7 +54,7 @@ class Collection < ApplicationRecord
   scope :without_parent, -> { where(parent_collection_id: nil) }
   scope :not_hidden, -> { where("1=1") }
   scope :not_system, -> { not_root }
-  scope :qkunst_managed, -> { where(qkunst_managed:true) }
+  scope :qkunst_managed, -> { where(qkunst_managed: true) }
 
   before_save :cache_geoname_ids!
   before_save :attach_sub_collection_ownables_when_base
@@ -258,11 +258,13 @@ class Collection < ApplicationRecord
       else
         exposable_fields
       end
+    when :simple
+      ["stock_number", "alt_number_1", "alt_number_2", "alt_number_3", "id", "artists", "artist_unknown", "title", "title_unknown", "description", "object_creation_year", "object_creation_year_unknown", "object_categories", "techniques", "medium", "print", "print_unknown", "frame_width", "frame_height", "frame_depth", "frame_diameter", "width", "height", "depth", "diameter", "condition_work"]
     when :public
       forbidden_words = ["value", "price", "location", "condition", "information_back", "internal", "damage", "placeability", "other_comments", "source", "purchase", "grade_within_collection", "created_by", "appraisal", "valuation", "lognotes"]
 
       Work.possible_exposable_fields.select do |field_name|
-        !forbidden_words.collect{|forbidden_word| !!field_name.match(forbidden_word) }.include?(true)
+        !forbidden_words.collect { |forbidden_word| !!field_name.match(forbidden_word) }.include?(true)
       end
     end
   end

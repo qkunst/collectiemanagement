@@ -16,7 +16,6 @@ class Users::SessionsController < Devise::SessionsController
       # set_flash_message! :notice, ""
       set_flash_message! :alert, :oauth_required
     end
-    # raise
   end
 
   # DELETE /resource/sign_out

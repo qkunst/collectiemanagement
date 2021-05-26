@@ -28,7 +28,7 @@ RSpec.describe "works/show", type: :view do
   end
 
   describe "display modes" do
-    let(:display) {:complete}
+    let(:display) { :complete }
     before(:each) do
       @selection = {display: display}
       @work = works(:work1)
@@ -47,7 +47,7 @@ RSpec.describe "works/show", type: :view do
     end
 
     context(:detailed) do
-      let(:display) {:detailed}
+      let(:display) { :detailed }
 
       it "renders correctly" do
         expect(rendered).to match("Interne opmerking bij werk 1")
@@ -56,7 +56,7 @@ RSpec.describe "works/show", type: :view do
     end
 
     context(:detailed_discreet) do
-      let(:display) {:detailed_discreet}
+      let(:display) { :detailed_discreet }
 
       it "renders correctly" do
         expect(rendered).not_to match("Interne opmerking bij werk 1")

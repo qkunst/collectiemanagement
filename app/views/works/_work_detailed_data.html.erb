@@ -5,7 +5,7 @@
       <thead><tr>
         <th>Locatie</th>
         <td class="actions">
-          <% if work.persisted? %>
+          <% if work.persisted? && !@for_print %>
             <% if can?(:edit_location, work) %>
               <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
             <% end %>
@@ -31,9 +31,9 @@
     <% end %>
   <% end %>
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, @collection) %>
-    <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, @collection) %>
-    <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, @collection) %>
+    <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
+    <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
+    <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
     <%= define_unless_blank :alt_number_4 %>
     <%= define_unless_blank :alt_number_5 %>
     <%= define_unless_blank :alt_number_6 %>
@@ -41,22 +41,22 @@
     <%= define_unless_blank :object_categories, {human_attributize_value: true} %>
     <%= define_unless_blank :techniques %>
     <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :medium, {classname: :complete_data} %>
-      <%= define_unless_blank :medium_comments, {classname: :complete_data} %>
-      <%= define_unless_blank :frame_type, {classname: :complete_data} %>
+      <%= define_unless_blank :medium %>
+      <%= define_unless_blank :medium_comments %>
+      <%= define_unless_blank :frame_type %>
     <% end %>
     <%= define_unless_blank :signature_rendered %>
     <%= define_unless_blank :object_format_code, {modifier: :upcase} %>
     <%= define_unless_blank :work_size, {description: "Afm. beeld (cm)"} %>
     <%= define_unless_blank :frame_size, {description: "Afm. lijst (cm)"}  %>
     <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :abstract_or_figurative_rendered, {classname: :complete_data} %>
-      <%= define_unless_blank :style, {classname: :complete_data} %>
-      <%= define_unless_blank :subset, {classname: :complete_data} %>
-      <%= define_unless_blank :collection_name_extended, {classname: :complete_data} %>
-      <%= define_unless_blank :themes, {classname: :complete_data} %>
-      <%= define_unless_blank :locality_geoname_name, {classname: :complete_data} %>
-      <%= define_unless_blank :cluster, {classname: :complete_data} %>
+      <%= define_unless_blank :abstract_or_figurative_rendered %>
+      <%= define_unless_blank :style %>
+      <%= define_unless_blank :subset %>
+      <%= define_unless_blank :collection_name_extended %>
+      <%= define_unless_blank :themes %>
+      <%= define_unless_blank :locality_geoname_name %>
+      <%= define_unless_blank :cluster %>
     <% end%>
     <%= define_unless_blank :print_rendered  %>
   <% end %>
@@ -68,17 +68,18 @@
     <%= define_unless_blank :condition_work_rendered %>
     <%= define_unless_blank :condition_frame_rendered %>
     <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :placeability, {classname: :complete_data}  %>
-      <%= define_unless_blank :grade_within_collection, {classname: :complete_data} %>
-      <%= define_unless_blank :main_collection, {classname: :complete_data} %>
+      <%= define_unless_blank :placeability  %>
+      <%= define_unless_blank :permanently_fixed if work.permanently_fixed %>
+      <%= define_unless_blank :grade_within_collection %>
+      <%= define_unless_blank :main_collection %>
     <% end %>
     <%= define_unless_blank :information_back, description: "Info. achterz." if can?(:read_information_back, work) %>
     <%= define_unless_blank :other_comments, description: "Overige opm." %>
     <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @selection[:display] != :detailed_discreet %>
     <% if @selection[:display] == :complete %>
-    <%= define_unless_blank :sources, {classname: :complete_data} %>
-    <%= define_unless_blank :source_comments, {classname: :complete_data} %>
-    <%= define_unless_blank :owner, {classname: :complete_data} %>
+    <%= define_unless_blank :sources %>
+    <%= define_unless_blank :source_comments %>
+    <%= define_unless_blank :owner %>
     <% end %>
   <% end %>
 
@@ -92,7 +93,7 @@
         <% end %>
           <%=Work.human_attribute_name(:work_sets)%>
         </th>
-        <td><%= sanitize work.work_sets.map{|ws| link_to(ws.name, ws)}.to_sentence %></td>
+        <td><%= sanitize work.work_sets.map{|ws| @for_print ? ws.name : link_to(ws.name, ws) }.to_sentence %></td>
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
@@ -116,7 +117,7 @@
         <%= define_unless_blank :balance_category %>
         <%= define_unless_blank :selling_price_minimum_bid_comments %>
         <% if can?(:read_valuation_reference, work.collection) %>
-          <%= define_unless_blank :price_reference, {classname: :complete_data} if @selection[:display] == :complete %>
+          <%= define_unless_blank :price_reference if @selection[:display] == :complete %>
         <% end %>
       <% end %>
 
@@ -143,18 +144,18 @@
             if (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s)) && attachment.id
               %>
               <li>
-                <%= link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
+                <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
               </li>
             <% end %>
           <% end %>
         </ul></td></tr>
       <% end %>
-      <%= define_unless_blank :image_rights, {classname: :complete_data} %>
-      <%= define_unless_blank :publish, {classname: :complete_data} %>
-      <%= define_unless_blank :created_at, {classname: :complete_data} %>
-      <%= define_unless_blank :inventoried_at, {classname: :complete_data} %>
-      <%= define_unless_blank :refound_at, {classname: :complete_data} %>
-      <%= define_unless_blank :new_found_at, {classname: :complete_data} %>
+      <%= define_unless_blank :image_rights %>
+      <%= define_unless_blank :publish %>
+      <%= define_unless_blank :created_at %>
+      <%= define_unless_blank :inventoried_at %>
+      <%= define_unless_blank :refound_at %>
+      <%= define_unless_blank :new_found_at %>
     <% end %>
   <% end %>
   </div>

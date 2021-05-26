@@ -18,11 +18,11 @@ class MessagesController < ApplicationController
       messages = messages.not_qkunst_private unless current_user.qkunst?
     else
       messages = messages.collections(current_user.collections) if current_user.admin? && current_user.admin_with_favorites?
-      messages = messages.thread_can_be_accessed_by_user(current_user).limit_age_to
+      messages = messages.thread_can_be_accessed_by_user(current_user)
     end
 
     @messages = messages.human_messages
-    @reminders = messages.system_messages
+    @reminders = messages.system_messages.limit_age_to
     new
   end
 

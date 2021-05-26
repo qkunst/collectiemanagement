@@ -24,7 +24,7 @@ module NameId
 
     def to_xml
       Nokogiri::XML::Builder.new { |xml|
-        xml.root('xmlns' => 'default', 'xmlns:foo' => 'bar') do
+        xml.root("xmlns" => "default", "xmlns:foo" => "bar") do
           xml.tenderlove
         end
       }

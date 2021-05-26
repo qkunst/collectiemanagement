@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkStatus < ApplicationRecord
   include Hidable
   include NameId

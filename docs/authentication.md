@@ -34,21 +34,11 @@ When signing in the JWToken's information is processed and QKunst Collection man
 Role based authorization mitigates the risk that an employee who is no longer working for an organization still has access to data from that organization, it however does not
 mitigate the risk that an employee has access to collections that this employee should not (in case of poor manual configuration) or no longer (change of position) have access to.
 
-#### Role and collection based authorization
-
-Like above, but complemented with logic that automatically couples users to subcollections. This logic is custom to every organization and will have to be agreed upon.
-
-<!--#### Auto connect collection
-
-Per collection can be configured whether:
-
-* if SSO users are trusted without confirmation
-* if users are trusted to access a single base collection without authorization based on parameters:
-  - email domain match
-  - sso system match
-* if -->
-
 ## SSO Provider specific
+
+### Google Login
+
+Google does not support groups, and hence only simple sign in is supported by Google. All authorizationmanagement will be done via the QKunst Collectionmanagement application.
 
 ### Microsoft Login
 
@@ -56,11 +46,11 @@ Different identifiers can be used for auto-provisioning through information rece
 
 Minimal requirement:
 
-* Tenant ID (allows us to identify the user group/organization)
+* Tenant ID (allows us to identify the user group/organization); to the application the *issuer*: "https://login.microsoftonline.com/#{tenant}/v2.0"
 
 Additionally:
 
-* Group IDs (groups) and Role IDs (wids)
+* Group IDs (groups) and Role IDs (wids) (and how these map to either roles and collections in Qkunst Collectionmanagement)
 
 The QKunst application IDs are:
 

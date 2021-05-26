@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 class SourceQkunstbeheer::SidekiqErrorLogger
   def call(worker, msg, queue)
-    begin
-      yield
-    rescue => ex
-      SystemMailer.error_message(ex)
-    end
+    yield
+  rescue => ex
+    SystemMailer.error_message(ex).deliver!
+    raise ex
   end
 end
 

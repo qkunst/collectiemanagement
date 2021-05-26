@@ -13,6 +13,10 @@
 //= require foundation_and_overrides
 //= require_tree .
  */
+
+$-zf-size: null;
+$-zf-bp-value: null;
+
 @import 'select2/dist/css/select2';
 @import 'chosen-js/chosen';
 
@@ -511,7 +515,7 @@ body.offline {
 @media print {
   html {
     font-size: 75%;
-
+    -webkit-print-color-adjust: exact;
   }
   body {
     margin: 0;

@@ -24,7 +24,7 @@ module Work::Export
     def collect_values_for_fields(fields)
       fields.collect do |field|
         value = send(field)
-        if value.class == PictureUploader
+        if value.instance_of?(PictureUploader)
           value.file ? value.file.filename : nil
         elsif [GeonameSummary].include? value.class
           value.label

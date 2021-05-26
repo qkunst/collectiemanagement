@@ -2,18 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
+@import 'settings';
 @import 'variables';
 
-.stocknumber {
+.stocknumber, .stocknumber a {
   background: $qkunst-grey;
   color: #fff;
-  font-size: 1.2em;
+  font-size: 1rem;
   line-height: 1.2;
   margin-top: 3px;
   padding: 3px 5px;
   border-radius: 2px;
   width: auto;
+  font-weight: normal;
+  font-family: $body-font-family;
 }
 #stocknumber-nav {
   a {
@@ -123,9 +125,6 @@
 }
 
 #group_sort_display {
-  label {
-    float: right;
-  }
 }
 .detailed, .detailed_discreet, .complete, .detailed_with_location_history, .limited, .limited_auction {
   .work.panel {
@@ -234,10 +233,6 @@ body.complete div.complete_data,
 body.complete div.detailed_data,
 body.detailed div.detailed_data {
   display: block;
-}
-
-body.complete tr.complete_data {
-  display: table-row;
 }
 
 .imageviewer {
@@ -384,5 +379,15 @@ body.complete tr.complete_data {
     display: inline;
     color: inherit;
     font-size: inherit;
+  }
+}
+
+aside.filter {
+  .form-actions {
+    border-top: 1px solid $dark-gray;
+    padding-top: 1em;
+    position: sticky;
+    bottom: 0em;
+    background: #eee;
   }
 }

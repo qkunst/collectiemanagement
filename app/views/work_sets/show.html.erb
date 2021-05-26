@@ -1,4 +1,5 @@
 <h1><%= @title  %></h1>
+<%= kramdown @work_set.comment %>
 <div class="image_wrapper centered">
 <% @works.each do |work|%>
       <% if work.photo_front? %>
@@ -15,10 +16,12 @@
     <% if (can? :edit, @work_set) %>
       <li><%= button_to 'Verwijder', [@collection,@work_set].compact, method: :delete, class: 'warning small button right', data: {confirm: "Weet u zeker dat u deze Werkgroepering wilt opheffen?"} %></li>
     <% end %>
-    <% if can?(:create, Appraisal.new(appraisee: @work_set)) %>
+    <% if (can? :edit, @work_set) %>
+      <li><%= link_to 'Bewerk', edit_collection_work_set_path(@collection,@work_set), class: 'secondary small button right' %></li>
+    <% end %>
+    <% if can?(:create, Appraisal.new(appraisee: @work_set)) && @work_set.appraisable? %>
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
 </ul>
 </nav>
-
 <%= render @works %>

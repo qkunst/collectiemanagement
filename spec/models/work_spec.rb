@@ -3,6 +3,20 @@
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
+  describe "versioning" do
+    describe "artist_name" do
+      it "should keep a log of changed artists" do
+        w = works(:work1)
+        w.save # saving just to make the diff smaller
+        w.artists << artists(:artist2)
+        w.save
+        change_set = YAML.load(w.versions.last.object_changes) # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"]
+        expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
+        expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
+      end
+    end
+  end
   describe "instance methods" do
     describe "#all_work_ids_in_collection" do
       it "sorts by default on inventory and id" do
@@ -25,7 +39,6 @@ RSpec.describe Work, type: :model do
         expect(w.work_index_in_collection).to eq(0)
       end
     end
-
     describe "#appraisable?" do
       it "should return true by default" do
         expect(works(:work1)).to be_appraisable
@@ -204,6 +217,7 @@ RSpec.describe Work, type: :model do
         expect(w.cluster_name).to eq("cluster new")
       end
     end
+
     describe "#location_description" do
       it "concats the location fields" do
         expect(works(:work1).location_description).to eq("Adres; Floor 1; Room 1")
@@ -347,7 +361,6 @@ RSpec.describe Work, type: :model do
         w.reload
         expect(w.location_description).to eq(original_location_description)
       end
-
       it "should not 'restore' a location if location is set" do
         w = collections(:collection1).works.create(location: "first location")
         w.location = "new location"
@@ -402,7 +415,7 @@ RSpec.describe Work, type: :model do
         }.to change(WorkSet, :count).by(0)
         expect(w1.work_sets.count).to eq(1)
         expect(w2.work_sets.count).to eq(1)
-        work_sets = w2.work_sets.reload
+        w2.work_sets.reload
         expect(w2.work_sets.first.work_ids).to match_array([w1, w2].map(&:id))
       end
       it "creates when full hash is given equal to earlier in other collection" do
@@ -416,8 +429,10 @@ RSpec.describe Work, type: :model do
         }.to change(WorkSet, :count).by(1)
         expect(w1.work_sets.count).to eq(1)
         expect(w2.work_sets.count).to eq(1)
-        work_sets = w1.work_sets.reload
-        work_sets = w2.work_sets.reload
+
+        w1.work_sets.reload
+        w2.work_sets.reload
+
         expect(w1.work_sets.first.work_ids).not_to include(w2.id)
         expect(w2.work_sets.first.work_ids).not_to include(w1.id)
       end
@@ -471,7 +486,7 @@ RSpec.describe Work, type: :model do
     describe ".count_as_whole_works" do
       it "should return all works uniquele" do
         work_count = Work.count
-        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map { |a| a.works.pluck(:id) }.uniq.count
         worksets_counted_as_one = WorkSet.count_as_one.count
 
         expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
@@ -479,9 +494,10 @@ RSpec.describe Work, type: :model do
 
       it "should return all works uniquely even when in two work sets" do
         work_count = Work.count
-        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map{|a| a.works.pluck(:id)}.uniq.count
+        works_in_worksets_counted_as_one = WorkSet.count_as_one.flat_map { |a| a.works.pluck(:id) }.uniq.count
         worksets_counted_as_one = WorkSet.count_as_one.count
-        workset_to_ignore = WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
+
+        WorkSet.create(work_set_type: work_set_types(:possible_same_artist), works: [works(:work_diptych_1), works(:artistless_work)])
 
         expect(Work.count_as_whole_works).to eq(work_count - works_in_worksets_counted_as_one + worksets_counted_as_one)
       end
@@ -552,7 +568,7 @@ RSpec.describe Work, type: :model do
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
         expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
-        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname (1900 - 2000)")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
       end
     end
     describe ".update" do
@@ -589,6 +605,58 @@ RSpec.describe Work, type: :model do
     end
   end
   describe "Scopes" do
+    describe ".by_group" do
+      describe "has and belongs to many" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:themes, [themes(:wind).id])).to match_array([works(:work1), works(:work2)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:themes, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:themes, ["not_set"])).not_to include(works(:work2))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work3))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work4))
+          expect(Work.by_group(:themes, [nil])).to include(works(:work5))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:themes, [themes(:wind).id, :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+          expect(result_set).to include(works(:work4))
+          expect(result_set).to include(works(:work5))
+        end
+      end
+      describe "belongs to" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:subset, [subsets(:contemporary).id])).to match_array([works(:work1)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:subset, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:subset, [:not_set])).to include(works(:work3))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:subset, [subsets(:contemporary).id, :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).not_to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+        end
+      end
+      describe "string to" do
+        it "returns works when id is passed in array" do
+          expect(Work.by_group(:grade_within_collection, ["A"])).to match_array([works(:work1)])
+        end
+        it "returns relationless works when :not_set is passed in array" do
+          expect(Work.by_group(:grade_within_collection, [:not_set])).not_to include(works(:work1))
+          expect(Work.by_group(:grade_within_collection, [:not_set])).to include(works(:work3))
+        end
+        it "returns relationless works and works with relations when both :not_set and and id is passed" do
+          result_set = Work.by_group(:grade_within_collection, ["A", :not_set])
+          expect(result_set).to include(works(:work1))
+          expect(result_set).not_to include(works(:work2))
+          expect(result_set).to include(works(:work3))
+        end
+      end
+    end
     describe ".has_number" do
       it "finds nothing when an unknown number is passed" do
         expect(Work.has_number("not a known number").pluck(:id)).to eq([])

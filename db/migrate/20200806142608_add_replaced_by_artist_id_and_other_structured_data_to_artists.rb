@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddReplacedByArtistIdAndOtherStructuredDataToArtists < ActiveRecord::Migration[5.2]
   def change
     add_column :artists, :replaced_by_artist_id, :integer

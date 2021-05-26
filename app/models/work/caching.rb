@@ -39,10 +39,14 @@ module Work::Caching
       self.created_by_name = created_by.name if created_by
     end
 
-    def update_artist_name_rendered!
+    def update_artist_name_rendered
       self.artist_name_rendered = artists.to_json_for_simple_artist
-      update_column(:artist_name_rendered, self.read_attribute(:artist_name_rendered))
-      update_column(:artist_name_for_sorting, artist_name_rendered_without_years_nor_locality_semicolon_separated)
+      self.artist_name_for_sorting = artist_name_rendered_without_years_nor_locality_semicolon_separated
+    end
+
+    def update_artist_name_rendered!
+      update_artist_name_rendered
+      update_columns(artist_name_rendered: read_attribute(:artist_name_rendered), artist_name_for_sorting: read_attribute(:artist_name_for_sorting), updated_at: Time.now)
     end
 
     def update_latest_appraisal_data!

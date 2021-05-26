@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BatchController < ApplicationController
+  include Works::Filtering
+
   before_action :set_collection
   before_action :set_works_by_numbers
   before_action :check_ability
@@ -29,7 +31,6 @@ class BatchController < ApplicationController
     else
       render :show
     end
-
   rescue ActiveRecord::RecordInvalid => invalid
     if invalid.record.is_a? Appraisal
       @form.errors.add(:appraisals, invalid.record.errors.full_messages.to_sentence)
@@ -43,8 +44,20 @@ class BatchController < ApplicationController
     work_numbers = separate_by(params[:work_numbers_return_separated], /\n/)
     work_ids = separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works])
 
+    selected_work_group_type = :skip
+    selected_work_group_ids = []
+
+    if params[:selected_work_groups]
+      selected_work_group_type = params[:selected_work_groups].keys.first
+      selected_work_group_ids = params[:selected_work_groups][selected_work_group_type]
+    end
+
+    set_selection_filter
+
     @form = Batch::WorkForm.new(collection: @collection)
-    @works = @collection.works_including_child_works.has_number(work_numbers).or(@collection.works_including_child_works.where(id: work_ids))
+    filtered_works = @collection.search_works("", @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
+
+    @works = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).or(filtered_works.has_number(work_numbers)).or(filtered_works.where(id: work_ids))
     @work_count = @works.count
     @work_ids = @works.pluck(:id)
   end
@@ -94,6 +107,11 @@ class BatchController < ApplicationController
   end
 
   def redirect_to_collection_works_return_url
-    redirect_to collection_works_path(@collection, params: {ids: @works.map(&:id).join(",")}), notice: "De onderstaande #{@works.count} werken zijn bijgewerkt"
+    ids = @works.pluck(:id)
+    if ids.count > Works::Filtering::DEFAULT_GROUPED_WORK_COUNT
+      redirect_to collection_works_path(@collection, params: {ids: ids[0..WorksController::DEFAULT_GROUPED_WORK_COUNT - 1].join(",")}), notice: "Er zijn #{ids.count} werken bijgewerkt, een selectie daarvan wordt hieronder getoond."
+    else
+      redirect_to collection_works_path(@collection, params: {ids: ids.join(",")}), notice: "De onderstaande #{ids.count} werken zijn bijgewerkt"
+    end
   end
 end

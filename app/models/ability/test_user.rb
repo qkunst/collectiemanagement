@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Ability::TestUser
   def initialize(role)
     @role = role

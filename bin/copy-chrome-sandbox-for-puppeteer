@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# run as sudo ./copy-chrome-sandbox-for-puppeteer username
+
+echo Setting up for $1
+
+filename=`find /home/$1/public/**/current/node_modules/puppeteer/.local-chromium/**/chrome-linux/chrome_sandbox`
+chown root:root $filename
+chmod 4755 $filename
+
+# copy sandbox executable to a shared location
+cp -p $filename /usr/local/sbin/chrome-devel-sandbox
+# export CHROME_DEVEL_SANDBOX env variable
+export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox
+
+echo "export CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox" >> /home/$1/.bashrc

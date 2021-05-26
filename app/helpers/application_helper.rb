@@ -94,4 +94,25 @@ module ApplicationHelper
       link
     end
   end
+
+  def data_to_hidden_inputs data, hierarchy = []
+    data.collect do |key, value|
+      if value.is_a? Hash
+        data_to_hidden_inputs(value, hierarchy + [key])
+      else
+        # render value
+        index = 0
+        name = (hierarchy + [key]).map do |a|
+          index += 1
+          index == 1 ? a : "[#{a}]"
+        end.join
+
+        if value.is_a? Array
+          value.map { |a| hidden_field_tag "#{name}[]", a }
+        else
+          hidden_field_tag name.to_s, value
+        end
+      end
+    end.join("\n").html_safe
+  end
 end

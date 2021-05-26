@@ -6,6 +6,7 @@ class Api::V1::ApiController < ApplicationController
   def api_authorize! action, subject
     Ability.new(current_api_user).authorize! action, subject
   end
+
   def current_api_user
     if current_user
       @user = current_user
@@ -20,6 +21,7 @@ class Api::V1::ApiController < ApplicationController
       @user
     end
   end
+
   def authenticate_activated_user!
     current_api_user
   end

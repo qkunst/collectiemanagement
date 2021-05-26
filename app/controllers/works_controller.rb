@@ -5,6 +5,7 @@ class WorksController < ApplicationController
   include Works::ZipResponse
   include Works::XlsxResponse
   include Works::XmlResponse
+  include Works::PdfResponse
   include Works::Filtering
 
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
@@ -29,32 +30,24 @@ class WorksController < ApplicationController
     set_selection_sort_options
     set_selection_display_options
     set_no_child_works
+    set_selected_localities
+    set_search_text
 
-    @show_work_checkbox = qkunst_user? ? true : false
+    @show_work_checkbox = qkunst_user?
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
-
-    @filter_localities = []
-    @filter_localities = GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) if @selection_filter["geoname_ids"]
 
     update_current_user_with_params
 
     @min_index = params["min_index"].to_i if params["min_index"]
     @min_index ||= 0
     @max_index = params["max_index"].to_i if params["max_index"]
-    @search_text = params["q"].to_s if params["q"] && !@reset
 
     if redirect_directly_to_work_using_search_text
       return true
     end
 
     begin
-      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
-      @works = @works.published if params[:published]
-      @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
-      @inventoried_objects_count = @works.count
-      @works_count = @works.count_as_whole_works
-      @works = @works.preload_relations_for_display(@selection[:display])
-      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
+      set_works
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest
       @works = []
       @works_count = 0
@@ -72,38 +65,19 @@ class WorksController < ApplicationController
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action: nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
     @title = "Werken van #{@collection.name}"
+
     respond_to do |format|
       format.xlsx { show_xlsx_response }
+      format.pdf { show_pdf_response }
       format.xml { show_xml_response }
       format.csv { show_csv_response }
       format.zip { show_zip_response }
 
       format.html do
         if @selection[:group] != :no_grouping
-          works_grouped = {}
-          @works.each do |work|
-            groups = work.send(@selection[:group])
-            groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
-            [groups].flatten.each do |group|
-              works_grouped[group] ||= []
-              works_grouped[group] << work
-            end
-          end
-          @max_index ||= @works_count < 159 ? 99999 : 7
-          @works_grouped = {}
-          works_grouped.keys.compact.sort.each do |key|
-            @works_grouped[key] = works_grouped[key].uniq
-          end
-          if works_grouped[nil]
-            @works_grouped[nil] = works_grouped[nil].uniq
-          end
+          set_works_grouped
         else
-          @max_index ||= 159
-          if @works.is_a? Array
-            @works = @works[0..@max_index].uniq
-          else
-            @works = @works.offset(@min_index).limit(@max_index-@min_index+1).uniq
-          end
+          reset_works_limited
         end
       end
     end
@@ -179,11 +153,11 @@ class WorksController < ApplicationController
     versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").where.not(object_changes: nil).order(created_at: :desc).limit(500)
 
     @form = Works::ModifiedForm.new(works_modified_form_params)
-    # raise @form
+
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name] }.compact
+    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
   end
 
   # DELETE /works/1

@@ -37,5 +37,26 @@ RSpec.describe ApplicationHelper, type: :helper do
     it "doesn't parse tables" do
       expect(helper.kramdown("a | b")).to eq("<p>a | b</p>\n")
     end
+    it "doesn't render javascript" do
+      # the code uses the sanitize method; which is considered to be safe; these test just test whether basic sanitazion takes place
+      expect(helper.kramdown("<script>alert('hey');</script>")).to eq("alert('hey');\n\n")
+      expect(helper.kramdown('<a href="/internal_link" onclick="document.location=\'evilsite.com\'">')).to eq("<p><a href=\"/internal_link\"></a></p>\n")
+    end
+  end
+
+  describe "#data_to_hidden_inputs" do
+    it "renders key-value" do
+      expect(helper.data_to_hidden_inputs({fieldname: 1})).to eq('<input type="hidden" name="fieldname" id="fieldname" value="1" />')
+    end
+    it "renders array" do
+      expect(helper.data_to_hidden_inputs({fieldname: [1, 2]})).to eq(['<input type="hidden" name="fieldname[]" id="fieldname_" value="1" />', '<input type="hidden" name="fieldname[]" id="fieldname_" value="2" />'].join("\n"))
+    end
+    it "renders nested structure" do
+      expect(helper.data_to_hidden_inputs({fieldname: {nested: [1, 2], other: {nested: 3}}})).to eq([
+        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="1" />',
+        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="2" />',
+        '<input type="hidden" name="fieldname[other][nested]" id="fieldname_other_nested" value="3" />'
+      ].join("\n"))
+    end
   end
 end

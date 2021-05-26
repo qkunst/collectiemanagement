@@ -3,17 +3,17 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>6" # , '5.2.0' #, '>= 5.0.0.rc1', '< 5.1'
+gem "rails", "~>6"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
 # gem 'webrick'
 # gem "markdown-rails"
-gem "puma" # , '~> 3.0'
+gem "puma"
 # Use SCSS for stylesheets
-gem "sass-rails" # , '~> 5.0'
+gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
-gem "uglifier" # , '>= 1.3.0'
+gem "uglifier"
 # Use CoffeeScript for .coffee assets and views
 # gem "coffee-rails" # , '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -22,14 +22,13 @@ gem "uglifier" # , '>= 1.3.0'
 # Use jquery as the JavaScript library
 # gem "jquery-rails"
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem "turbolinks" # , '5.1.1' #, '~> 5.x'
+gem "turbolinks"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder" # , '~> 2.0'
+gem "jbuilder"
 gem "cancancan"
 gem "bootsnap"
 gem "lockbox"
-gem "mimemagic", "~> 0.3.7"
-
+gem "grover"
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "capybara"
@@ -45,11 +44,11 @@ end
 ## BASIC
 ##
 gem "bundler-audit"
-gem "pg" #, "~>0.21"
+gem "pg"
 gem "devise", git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
-gem "carrierwave" # , '~> 1.0'
+gem "carrierwave"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
 gem "nokogiri"
@@ -72,8 +71,8 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-rails"
   gem "highline"
-  gem "web-console" # , '~> 2.0'
-  gem "listen" # , '~> 3.0.5'
+  gem "web-console"
+  gem "listen"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'spring-watcher-listen' #, '~> 2.0.0'
@@ -90,7 +89,8 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails", "~> 6.3.0"
+gem "foundation-rails"
+gem "autoprefixer-rails"
 
 ##
 ## OTHER FREQUENTLY USED
@@ -100,21 +100,21 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git"
 gem "nested_form"
-gem "paper_trail"
+gem "paper_trail", "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-gem "redis-rails" #jobs
-gem "dalli" #memcache
+gem "redis-rails" # jobs
+gem "dalli" # memcache
 gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
-gem 'omniauth-azure-activedirectory', git: 'https://github.com/murb/omniauth-azure-activedirectory.git'
-gem "sidekiq", "~> 5.0"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
+gem "sidekiq", "~> 5"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
@@ -131,4 +131,4 @@ group :test do
   gem "bullet"
 end
 gem "standard", group: [:development, :test]
-gem 'dotenv-rails', groups: [:development, :test]
+gem "dotenv-rails", groups: [:development, :test]

@@ -10,9 +10,7 @@
   if checkbox.is_a? Hash
     value = checkbox.keys[0]
     label = checkbox.values[0]
-    # raise checkbox if value != :not_set
   end
-  # raise field_name
   checked = @selection_filter[field_name] && (@selection_filter[field_name].include?(value) || @selection_filter[field_name].include?(value.to_s) || (value == :not_set and @selection_filter[field_name].include?(nil)))
 %>
 <label>

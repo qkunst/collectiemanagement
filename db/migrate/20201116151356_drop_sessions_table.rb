@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropSessionsTable < ActiveRecord::Migration[6.0]
   def change
     drop_table "sessions", id: :serial, force: :cascade do |t|
@@ -8,6 +10,5 @@ class DropSessionsTable < ActiveRecord::Migration[6.0]
       t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
       t.index ["updated_at"], name: "index_sessions_on_updated_at"
     end
-
   end
 end

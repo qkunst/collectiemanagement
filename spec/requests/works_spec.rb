@@ -99,13 +99,14 @@ RSpec.describe "Works", type: :request do
 
           get collection_works_path(collection)
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work2")).to eq(true)
-          expect(response_body.index("<h4>Work2") < response_body.index("<h4>Work5")).to eq(true)
+
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
+          expect(response_body.index("Work2</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
 
           get collection_works_path(collection, params: {sort: :location})
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work5")).to eq(true)
-          expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
+          expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
         it "should be able to filter and sort" do
           # required for TravisCI
@@ -116,13 +117,13 @@ RSpec.describe "Works", type: :request do
           get collection_works_path(collection, params: {filter: {location_raw: ["Adres"]}})
           response_body = response.body
 
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work2")).to eq(true)
-          expect(response_body.index("<h4>Work2") < response_body.index("<h4>Work5")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
+          expect(response_body.index("Work2</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
 
           get collection_works_path(collection, params: {sort: :location, filter: {location_raw: ["Adres"]}})
           response_body = response.body
-          expect(response_body.index("<h4>Work1") < response_body.index("<h4>Work5")).to eq(true)
-          expect(response_body.index("<h4>Work5") < response_body.index("<h4>Work2")).to eq(true)
+          expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
+          expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
         it "should be able to search" do
           # required for TravisCI
@@ -136,7 +137,7 @@ RSpec.describe "Works", type: :request do
       end
       describe "downloading" do
         describe "xlsx" do
-          it "should be able to get an zip file" do
+          it "should be able to get the file" do
             collection = collections(:collection1)
             sign_in user
             get collection_works_path(collection, format: :xlsx)
@@ -145,14 +146,15 @@ RSpec.describe "Works", type: :request do
           end
         end
         describe "csv" do
-          it "should be able to get an zip file" do
+          it "should be able to get the file" do
             collection = collections(:collection1)
             sign_in user
-            get collection_works_path(collection, format: :csv)
+            get collection_works_path(collection, {format: :csv, audience: :simple})
             expect(response).to have_http_status(200)
             expect(response.media_type).to eq("text/csv")
-            expect(response.body).to match(/Geïnventariseerd,Teruggevonden,Nieuw aangetroffen,Status,Adres en\/of gebouw\(deel\)/)
+            expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3")
             expect(response.body).to match("Q001,7201284,002123,0002.123")
+            expect(response.body.scan(/^Q002/).count).to eq(1) # shouldn't be two occurrences of the same count
           end
           it "should include alt_number_4" do
             collection = collections(:collection1)
@@ -234,7 +236,7 @@ RSpec.describe "Works", type: :request do
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
             expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
             expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
-            expect(response.body).to match(/<qkunst\:owner>\s*<dc\:title>Owner1<\/dc:title>\s*<qkunst\:id>\d*<\/qkunst\:id>\s*<\/qkunst\:owner>/)
+            expect(response.body).to match(/<qkunst:owner>\s*<dc:title>Owner1<\/dc:title>\s*<qkunst:id>\d*<\/qkunst:id>\s*<\/qkunst:owner>/)
             expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
 
             # would suggest that ruby objects are serialzed to string, instead of xml
@@ -256,7 +258,6 @@ RSpec.describe "Works", type: :request do
 
               expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
               expect(response.body).not_to match("<qkunst:lognotes/>")
-
             end
           end
 
@@ -296,6 +297,7 @@ RSpec.describe "Works", type: :request do
           w3.save
 
           collection.works_including_child_works.reindex!
+          sleep(1)
 
           get collection_works_path(collection, params: {filter: {tag_list: ["tagtest1"]}})
           expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter 2 werken getoond./)

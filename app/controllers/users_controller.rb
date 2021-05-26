@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
-  authorize_resource
+  authorize_resource except: [:oauth]
 
   def index
     authorize! :update, @user
@@ -17,6 +17,16 @@ class UsersController < ApplicationController
 
   def edit
     authorize! :update, @user
+  end
+
+  def oauth
+    if params[:methods] == "google"
+      @methods = [:google]
+    elsif params[:methods] == "microsoft"
+      @methods = [:microsoft]
+    else
+      @methods = [:google, :microsoft]
+    end
   end
 
   def update

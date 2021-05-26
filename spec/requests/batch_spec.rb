@@ -46,6 +46,73 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to root_path
       end
     end
+    describe "Selection of works" do
+      let(:user) { users(:admin) }
+      let(:collection) { collections(:collection1) }
+      let(:works) { [] }
+
+      let(:expectations_checker) do
+        works.each do |work|
+          expect(response.body).to match(work.title)
+          expect(response.body).to match(work.stock_number)
+        end
+      end
+
+      before do
+        sign_in user
+      end
+
+      after do
+        expectations_checker
+      end
+
+      describe "by ids" do
+        let(:works) { collection.works_including_child_works.limit(2) }
+
+        it "should work for get with selected_works array" do
+          get collection_batch_path(collection, params: {selected_works: works.map(&:id)})
+        end
+
+        it "should work for post with selected_works array" do
+          post collection_batch_path(collection, params: {selected_works: works.map(&:id)})
+        end
+      end
+
+      describe "with filter" do
+        let(:theme) { themes(:wind)}
+        let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme) }
+
+        it "off" do
+          expect(works.count).to be == 2
+          post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]} })
+        end
+
+        describe "on" do
+          let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme).where(market_value: 50) }
+
+          it "works" do
+            expect(works.count).to be == 1
+            post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]} })
+
+            other_works_stock_number = (collection.works_including_child_works.joins(:themes).where(themes: theme).map(&:stock_number) - works.pluck(:stock_number))
+
+            expect(response.body).not_to match(other_works_stock_number[0])
+          end
+        end
+      end
+
+      describe "by cluster group" do
+        let(:cluster) { clusters(:cluster1)}
+        let(:works) { collection.works_including_child_works.where(cluster: clusters(:cluster1)) }
+
+        it "should work for post with cluster ids" do
+          expect(works.count).to be >= 1
+          post collection_batch_path(collection, params: { selected_work_groups: {cluster: [cluster.id]} })
+        end
+
+
+      end
+    end
     describe "Field-accessibility" do
       it "describe facility should only be able to edit location" do
         sign_in users(:facility_manager)
@@ -96,11 +163,11 @@ RSpec.describe "WorkBatchs", type: :request do
         expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
       end
       context "diptych" do
-        let(:work_selection) { [works(:work1),works(:work_diptych_1)] }
+        let(:work_selection) { [works(:work1), works(:work_diptych_1)] }
 
         it "should stop when work cannot be appraised (diptych scenario)" do
           sign_in users(:appraiser)
-          appraisal_date = Time.now.to_date+5.day
+          appraisal_date = Time.now.to_date + 5.day
           patch collection_batch_path(collections(:collection3)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
           appraisal = Appraisal.find_by(appraised_on: appraisal_date)
           expect(appraisal).to eq(nil)
@@ -108,6 +175,7 @@ RSpec.describe "WorkBatchs", type: :request do
         end
       end
     end
+
     describe "themes" do
       let(:work_selection) { [works(:work1), works(:work2)] }
 
@@ -124,6 +192,29 @@ RSpec.describe "WorkBatchs", type: :request do
           work = Work.find(work.id)
           expect(work.themes).to include(theme)
         end
+      end
+
+      it "allows for group selections" do
+        sign_in users(:admin)
+        collection = collections(:collection1)
+        theme = themes(:wind)
+
+        post collection_batch_path(collection), params: {"selected_work_groups" => {"themes" => [theme.id]}, "collection_id" => collection.id}
+
+        expect(response.body).to match("Q001")
+        expect(response.body).to match("Q002")
+        expect(response.body).not_to match("Q005")
+        expect(response.body).not_to match("Q007")
+
+        expect(response.body).to match("2 werken bijwerken")
+
+        post collection_batch_path(collection), params: {"selected_work_groups" => {"themes" => [theme.id, "not_set"]}, "collection_id" => collection.id}
+
+        expect(response.body).to match("Q001")
+        expect(response.body).to match("Q002")
+        expect(response.body).to match("Q005")
+        expect(response.body).to match("Q007")
+        expect(response.body).to match(/\d werken bijwerken/)
       end
     end
     describe "tag_list" do

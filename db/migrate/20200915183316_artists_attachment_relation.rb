@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArtistsAttachmentRelation < ActiveRecord::Migration[5.2]
   def change
     create_table "artists_attachments", id: false, force: :cascade do |t|

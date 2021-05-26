@@ -14,7 +14,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.img_src :self, :data
   policy.object_src :none
   policy.script_src :self, :unsafe_eval
-  policy.style_src :self, "http#{Rails.env.development? ? "" : "s"}://fonts.googleapis.com", :unsafe_inline #unsafe inline is needed for turbolinks transitions
+  policy.style_src :self, "http#{Rails.env.development? ? "" : "s"}://fonts.googleapis.com", :unsafe_inline # unsafe inline is needed for turbolinks transitions
 
   #   # Specify URI for violation reports
   #   # policy.report_uri "/csp-violation-report-endpoint"

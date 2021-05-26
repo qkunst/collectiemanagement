@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="medium-6 column">
+    <%= hidden_field_tag name: :collection_id, value: @collection.id if @collection %>
+    <%= simple_form_for [@collection, @work_set].compact do |f| %>
+      <%= f.error_notification %>
+      <ul>
+        <% @work_set.errors.each do |a| %>
+          <li><%= a.message%></li>
+        <% end %>
+      </ul>
+      <%= f.association :work_set_type%>
+      <%= f.input :identification_number %>
+      <%= f.input :comment %>
+      <%= f.association :works, as: :hidden%>
+      <%= f.submit class: :button%>
+    <% end %>
+  </div>
+  <div class="medium-6 column">
+
+  </div>
+</div>

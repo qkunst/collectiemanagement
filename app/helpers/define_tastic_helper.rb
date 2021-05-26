@@ -50,7 +50,6 @@ module DefineTasticHelper
 
   def value_render property, options = {}
     value = nil
-    values = []
 
     if options[:override_value]
       value = options[:override_value]
@@ -99,7 +98,7 @@ module DefineTasticHelper
 
   def link_to_with_name object, options = {}
     options = {nil_value: "-"}.merge(options)
-    subject = if object.class == Array
+    subject = if object.instance_of?(Array)
       object.last
     else
       object

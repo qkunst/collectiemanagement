@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RootCollection < ActiveRecord::Migration[5.2]
   def self.up
     enable_extension "tablefunc" #    CREATE EXTENSION IF NOT EXISTS tablefunc;

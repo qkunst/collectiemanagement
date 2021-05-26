@@ -29,7 +29,7 @@ RSpec.describe Ability, type: :model do
         [:show_details, :work, :work1, true]
       ],
       "Users" => [
-        [:update, :user, :user_with_no_rights, false] #by default advisors canot edit user roles
+        [:update, :user, :user_with_no_rights, false] # by default advisors canot edit user roles
       ]
     },
     compliance: {

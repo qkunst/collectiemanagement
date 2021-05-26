@@ -64,7 +64,6 @@ module WorksHelper
   def options_from_aggregation_for_select aggregation, selected = nil
     html = ""
     aggregation.each do |k, v|
-      # raise selected if selected.first.to_param == "3383330"
       selected_true = (selected && (selected == k) || (selected.methods.include?(:include?) && selected.collect { |a| a.to_param }.include?(k.to_param)))
       html += "<option value=\"#{k.to_param}\""
       html += "selected=\"selected\"" if selected_true
@@ -74,16 +73,16 @@ module WorksHelper
   end
 
   def translate_works_with_article count
-    I18n.translate 'count.works_with_article', count: count
+    I18n.translate "count.works_with_article", count: count
   end
 
   def translate_works count
-    I18n.translate 'count.works', count: count
-  end
-  def translate_inventoried_objects count
-    I18n.translate 'count.inventoried_objects_count', count: count
+    I18n.translate "count.works", count: count
   end
 
+  def translate_inventoried_objects count
+    I18n.translate "count.inventoried_objects_count", count: count
+  end
 
   def describe_work_counts
     report = controller.is_a?(ReportController)
@@ -91,14 +90,11 @@ module WorksHelper
     grouped = @selection && @selection[:group] != :no_grouping
     more_inventoried_objects_than_works = @inventoried_objects_count != @works_count
 
-    is_grouped_by_part = grouped ? "en is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])} en " : nil
-    inventoried_objects_comment = more_inventoried_objects_than_works ? ", bestaande uit #{translate_inventoried_objects(@inventoried_objects_count)}." : "."
-
     sentence_items = ["Deze collectie bevat #{translate_works(@collection_works_count)}"]
 
     if filtered
       sentence_items << ". Er"
-      sentence_items << ((@works_count == 1 || report) ? " wordt " : " worden ")
+      sentence_items << (@works_count == 1 || report ? " wordt " : " worden ")
       sentence_items << "vanwege een filter "
       sentence_items << (report ? "gerapporteerd over #{translate_works(@works_count)}" : "#{translate_works(@works_count)} getoond")
     end
@@ -107,10 +103,9 @@ module WorksHelper
     end
     sentence_items << ". "
     if grouped
-      sentence_items << "Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}"
+      sentence_items << "<span class=\"hide-for-screen\">Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}.</span>"
     end
 
-    sentence_items.join("")
-
+    sanitize(sentence_items.join(""))
   end
 end

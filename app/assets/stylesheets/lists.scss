@@ -1,0 +1,20 @@
+@import 'settings';
+
+ul.inline, ol.inline {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  li {
+    display: inline-block;
+  }
+}
+
+.inline.tags a {
+  border: $card-border;
+  font-size: 0.9em;
+  padding: 0.05em;
+  color: $dark-gray;
+  &:hover {
+    color: $black;
+  };
+}

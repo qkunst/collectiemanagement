@@ -50,11 +50,10 @@
     <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
     <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
     <% if @collection%>
-      <% @artist.collection_attributes.for_user(current_user).each do |collection_attribute| %>
-        <dt><%=collection_attribute.label%>:</dt>
+      <% @artist.collection_attributes.for_collection(@collection.parent_collections_flattened + @collection.expand_with_child_collections).each do |collection_attribute| %>
+        <dt title="<%=collection_attribute.label%> uit collectie <%=collection_attribute.collection.cached_collection_name_extended%>"><%=collection_attribute.label%>:</dt>
         <dd><%=ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) == :text ? simple_format(collection_attribute.value) : collection_attribute.value%></dd>
       <% end %>
-
     <% end %>
 
     </dl>

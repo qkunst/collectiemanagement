@@ -10,10 +10,11 @@ class User < ApplicationRecord
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
-    :recoverable, :rememberable, :trackable, :validatable, :timeoutable,  omniauth_providers: [:google_oauth2, :azureactivedirectory]
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable, omniauth_providers: [:google_oauth2, :azureactivedirectory]
 
   store :collection_accessibility_serialization
   store :filter_params
+  store :raw_open_id_token
 
   after_update :schedule_sync_stored_user_names
 
@@ -175,6 +176,14 @@ class User < ApplicationRecord
     Message.where(from_user_id: id)
   end
 
+  def reset_all_roles
+    ROLES.each do |role|
+      unless role == :read_only # "default" role
+        self.send("#{role}=", false)
+      end
+    end
+  end
+
   private
 
   def serialize_collection_accessibility!
@@ -191,14 +200,14 @@ class User < ApplicationRecord
       raise "Subject empty" if oauth_subject.blank?
       raise "Provider empty" if oauth_provider.blank?
 
-      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0,48])
+      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0, 48])
     end
 
     def from_omniauth_callback_data(data)
-      if (!data.is_a?(Users::OmniauthCallbackData) || !data.valid?)
+      if !data.is_a?(Users::OmniauthCallbackData) || !data.valid?
         raise ArgumentError.new("invalid omniauth data passed")
       else
-        user = self.find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
+        user = find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
         user.oauth_provider = data.oauth_provider
         user.oauth_subject = data.oauth_subject
         user.email = data.email
@@ -208,7 +217,21 @@ class User < ApplicationRecord
         user.domain = data.domain
         user.confirmed_at ||= Time.now if data.email_confirmed?
         user.raw_open_id_token = data.raw_open_id_token
+
+        if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
+          user.reset_all_roles
+          new_role = ([:read_only, :facility_manager, :compliance] & OAuthGroupMapping.retrieve_roles(data))[0]
+          user.role = new_role
+        end
+
+        if OAuthGroupMapping.collection_mappings_exists_for?(data.issuer)
+          user.collection_ids = OAuthGroupMapping.retrieve_collection_ids(data)
+
+          user.role = new_role
+        end
+
         user.save
+
         user
       end
     end

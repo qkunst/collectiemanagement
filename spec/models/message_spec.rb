@@ -156,10 +156,10 @@ RSpec.describe Message, type: :model do
     end
     describe ".limit_age_to" do
       it "should limit to last year" do
-        expect(Message.limit_age_to.count).to eq( Message.count - 1)
+        expect(Message.limit_age_to.count).to eq(Message.count - 1)
       end
       it "accepts overrrides" do
-        expect(Message.limit_age_to(1000.years).count).to eq( Message.count)
+        expect(Message.limit_age_to(1000.years).count).to eq(Message.count)
       end
     end
   end

@@ -8,6 +8,9 @@ RSpec.feature "View report", type: :feature do
   scenario "as an admin" do
     login "qkunst-admin-user@murb.nl"
 
+    # required for TravisCI
+    collections(:collection1).works_including_child_works.all.reindex!
+
     visit collections_path
 
     click_on("Collection 1")

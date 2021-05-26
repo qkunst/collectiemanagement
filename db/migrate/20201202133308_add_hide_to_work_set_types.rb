@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddHideToWorkSetTypes < ActiveRecord::Migration[6.0]
   def change
     add_column :work_set_types, :hide, :boolean

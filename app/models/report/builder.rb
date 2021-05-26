@@ -90,7 +90,7 @@ module Report
           missing: {field: :market_value_min},
           aggs: {
             market_value_ignore_super_missing: {
-              missing: { field: :market_value},
+              missing: {field: :market_value},
               aggs: basic_aggregation_snippet_with_missing(:balance_category, ".id")
             }
           }
@@ -100,16 +100,15 @@ module Report
           missing: {field: :replacement_value_min},
           aggs: {
             replacement_value_ignore_super_missing: {
-              missing: { field: :replacement_value},
+              missing: {field: :replacement_value},
               aggs: {
                 missing_explainer_missing: {
-                  missing: { field: :replacement_value }
+                  missing: {field: :replacement_value}
                 }
               }
             }
           }
         }
-
 
         location_sub_sub = basic_aggregation_snippet_with_missing(:location_detail_raw)
 

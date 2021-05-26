@@ -1,0 +1,16 @@
+# t.string "issuer"
+# t.string "value_type"
+# t.string "value"
+# t.string "collection_id"
+# t.string "role"
+
+microsoft_abc_fm:
+  issuer: microsoft/abc
+  role: facility_manager
+  value_type: role
+  value: jfjfjk
+microsoft_abc_collection_1:
+  issuer: microsoft/abc
+  collection: :collection1
+  value_type: group
+  value: jfaaa

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LibraryItem < ApplicationRecord
   ITEM_TYPES = ["Artikel", "Boek", "DVD"]
 
@@ -22,5 +24,4 @@ class LibraryItem < ApplicationRecord
   def name
     "#{item_type}: #{title}"
   end
-
 end

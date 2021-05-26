@@ -8,7 +8,7 @@ RSpec.describe Artist, type: :model do
       a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
 
       expect(a.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
     end
@@ -16,8 +16,8 @@ RSpec.describe Artist, type: :model do
       a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
-      a.update(collection_attributes_attributes: {"0"=>{label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
 
       expect(a.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
     end
@@ -40,6 +40,18 @@ RSpec.describe Artist, type: :model do
       expect(a.combine_artists_with_ids(ids)).to eq(2)
       expect(Artist.where(id: ids).count).to eq(0)
       expect(a.works.count).to eq(3)
+    end
+    it "should move the collection specific atributes over" do
+      artist1 = artists(:artist2)
+      artist2 = artists(:artist2_dup1)
+      collection = collections(:collection1)
+
+      expect(artist1.collection_attributes.count).to eq(0)
+
+      expect {
+        artist2.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: collection.id.to_s}})
+        artist1.combine_artists_with_ids([artist2.id])
+      }.to change(artist1.collection_attributes, :count).by(1)
     end
   end
   describe "#import" do
@@ -100,15 +112,17 @@ RSpec.describe Artist, type: :model do
 
   describe "#save" do
     it "should update artist name at work" do
-      w = works(:work1)
-      a = Artist.create(first_name: "Antony", last_name: "Hopkins")
-      w.artists = [a]
-      w.save
-      expect(w.artist_name_rendered).to eq("Hopkins, Antony")
-      a.first_name = "Charly"
-      a.save
-      w.reload
-      expect(w.artist_name_rendered).to eq("Hopkins, Charly")
+      Sidekiq::Testing.inline! do
+        w = works(:work1)
+        a = Artist.create(first_name: "Antony", last_name: "Hopkins")
+        w.artists = [a]
+        w.save
+        expect(w.artist_name_rendered).to eq("Hopkins, Antony")
+        a.first_name = "Charly"
+        a.save
+        w.reload
+        expect(w.artist_name_rendered).to eq("Hopkins, Charly")
+      end
     end
   end
 

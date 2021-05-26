@@ -70,8 +70,6 @@ RSpec.feature "Appraise works", type: :feature do
       expect(page).to have_content "Waardering voor gehele Meerluik"
       expect(page).to have_content "€234"
       expect(page).to have_content "€567"
-
-
     end
 
     it "can appraise work old style" do

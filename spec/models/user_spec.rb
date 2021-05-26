@@ -34,7 +34,7 @@ RSpec.describe User, type: :model do
 
       it "should return a subset for users with a single collection" do
         u = users(:qkunst_with_collection)
-        artists = collections(:collection1).works_including_child_works.flat_map{|w| w.artists}
+        artists = collections(:collection1).works_including_child_works.flat_map { |w| w.artists }
         expect(u.accessible_artists.pluck(:id).sort).to eq(artists.map(&:id).sort)
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe User, type: :model do
 
       it "should return a subset for users with a single collection" do
         u = users(:qkunst_with_collection)
-        expect(u.accessible_works.pluck(&:id)).to eq(collections(:collection1).works_including_child_works.pluck(&:id))
+        expect(u.accessible_works.pluck(:id)).to eq(collections(:collection1).works_including_child_works.pluck(:id))
       end
     end
     describe "#collection_ids" do
@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       end
     end
     describe "#oauthable?" do
-      {supposed_admin_without_oauth: false, admin: true, collection_with_works_user: true, compliance: false, advisor: false, appraiser: false}.each do |k,v|
+      {supposed_admin_without_oauth: false, admin: true, collection_with_works_user: true, compliance: false, advisor: false, appraiser: false}.each do |k, v|
         context k do
           let(:user) { users(k) }
           it "should return #{v}" do
@@ -200,8 +200,8 @@ RSpec.describe User, type: :model do
   describe "Class methods" do
     describe ".from_omniauth_callback_data" do
       it "raises argument error when invalid data is passed" do
-        expect{User.from_omniauth_callback_data(nil)}.to raise_error(ArgumentError)
-        expect{User.from_omniauth_callback_data(Users::OmniauthCallbackData.new)}.to raise_error(ArgumentError)
+        expect { User.from_omniauth_callback_data(nil) }.to raise_error(ArgumentError)
+        expect { User.from_omniauth_callback_data(Users::OmniauthCallbackData.new) }.to raise_error(ArgumentError)
       end
       it "creates a new user when given" do
         email = "a@a.com"
@@ -226,6 +226,47 @@ RSpec.describe User, type: :model do
         expect(new_user.oauth_subject).to eq("123")
         expect(new_user.confirmed?).to eq(true)
         expect(new_user).to be_a(User)
+      end
+      it "auto subscribes a user to a role when configured as such" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_truthy
+        expect(new_user.collections).not_to include(collections(:collection1))
+      end
+      it "auto subscribes a user to a role and group when configured as such" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_truthy
+        expect(new_user.collections).to include(collections(:collection1))
+      end
+      it "auto overides a user's memberschip when configured as such" do
+        email = users(:facility_manager).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.collections).to include(collections(:collection1))
+      end
+      it "auto overides a user's memberschip when configured as such" do
+        email = users(:appraiser).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.appraiser?).to be_falsey
+        expect(existing_user.collections).to include(collections(:collection1))
+        expect(existing_user.collections).not_to include(collections(:collection3))
+      end
+      it "leaves a user's memberschip as is when not configured as such" do
+        email = users(:appraiser).email
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "micfrosoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_falsey
+        expect(existing_user.appraiser?).to be_truthy
+        expect(existing_user.collections).to include(collections(:collection1))
+        expect(existing_user.collections).to include(collections(:collection3))
       end
     end
   end

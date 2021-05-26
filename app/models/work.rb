@@ -28,10 +28,11 @@ class Work < ApplicationRecord
   before_save :enforce_nil_or_true
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
-  after_save :touch_collection!
-  after_save :update_artist_name_rendered!
+  before_save :update_artist_name_rendered
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
+
+  after_save :touch_collection!
 
   belongs_to :cluster, optional: true
   belongs_to :collection
@@ -79,6 +80,31 @@ class Work < ApplicationRecord
     end
   end
   scope :published, -> { where(publish: true) }
+  scope :by_group, ->(group, rough_ids) {
+    ids = rough_ids.map { |a| a.to_s == "not_set" || a.nil? ? nil : a }
+    case group.to_sym
+    when :cluster
+      where(cluster_id: ids)
+    when :subset
+      where(subset_id: ids)
+    when :placeability
+      where(placeability_id: ids)
+    when :grade_within_collection
+      where(grade_within_collection: ids)
+    when :themes
+      left_outer_joins(:themes).where(themes: {id: ids})
+    when :techniques
+      left_outer_joins(:techniques).where(techniques: {id: ids})
+    when :sources
+      left_outer_joins(:sources).where(sources: {id: ids})
+    when :skip
+      where("1=0")
+    when :all
+      where("1=1")
+    else
+      raise "unsupported parameter #{group}"
+    end
+  }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -99,7 +125,6 @@ class Work < ApplicationRecord
   time_as_boolean :new_found
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
-
 
   alias_attribute :name, :title
 
@@ -126,7 +151,7 @@ class Work < ApplicationRecord
   end
 
   def appraisable_set
-    @appraisable_set ||= work_sets.select{|ws| ws.work_set_type.count_as_one }.last
+    @appraisable_set ||= work_sets.reverse.find(&:count_as_one?)
   end
 
   def countable_set
@@ -140,12 +165,15 @@ class Work < ApplicationRecord
   def market_value_complete
     appraisable? ? market_value : appraisable_set.market_value
   end
+
   def replacement_value_complete
     appraisable? ? replacement_value : appraisable_set.replacement_value
   end
+
   def market_value_range_complete
     appraisable? ? market_value_range : appraisable_set.market_value_range
   end
+
   def replacement_value_range_complete
     appraisable? ? replacement_value_range : appraisable_set.replacement_value_range
   end

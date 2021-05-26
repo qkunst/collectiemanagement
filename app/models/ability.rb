@@ -282,13 +282,13 @@ class Ability
 
     can [:batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments,  :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias_method :initialize_qkunst, :initialize_registrator
 
   def initialize_facility_manager
     can [:read], Artist
-    can [:read, :read_report, :read_status, :download_photos, :read_valuation], Collection, id: accessible_collection_ids
+    can [:read, :read_report, :read_status, :read_valuation], Collection, id: accessible_collection_ids
     can :batch_edit, Collection, id: accessible_collection_ids # note that a facility manager only has access to a limited set of fields
     can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids

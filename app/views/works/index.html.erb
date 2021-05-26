@@ -1,37 +1,61 @@
 <h2 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h2>
 
-  <p id="offline-works-message" data-collection-id=class="callout alert hide-for-print"></p>
+<p id="offline-works-message" data-collection-id="<%= @collection.id %>" class="callout alert hide-for-print hide"></p>
 
+<%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
   <div class="row">
-    <%= form_tag collection_works_path, method: :get, authenticity_token: false, data: {auto_submit: true} do %>
       <input type="hidden" name="max_index" value="<%=@max_index%>" />
       <input type="hidden" name="no_child_works" value="<%=@no_child_works ? 1 : 0%>" />
 
-    <div class="large-5 columns print-12<%= " hide-for-print" if @limit_collection_information%>">
-      <p>
-        <%= describe_work_counts%>
-        <% if @collection_works_count > @works_count %>
-          <span class="hide-for-print">
-            <br/>
-            <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
-          </span>
-        <% end %>
-
-        <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>
-      </p>
-
-
-    </div>
-    <div class="large-7 columns">
-      <div class="right hide-for-print row" id="group_sort_display">
-        <% unless current_user.read_only? %>
-          <label class="small-4 columns">Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
-        <% end %>
-        <label class="small-4 columns">Sorteer: <%= select_tag :sort, options_for_select(@selection_sort_options, @selection[:sort]), data: {auto_submit: true}  %></label>
-        <label class="small-4 columns">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
+      <div class="large-6 columns">
+        <div class="<%= @limit_collection_information ? "hide" : "only-for-print" %>">
+        <%= kramdown( @collection.description) %>
+        </div>
+        <p><%= describe_work_counts %>
+          <br/>
+          <% if @collection_works_count > @works_count %>
+            <span class="hide-for-print"><%= button_tag type: :submit, name: "filter[reset]", value: true, class: [:inline, :small] do %>Reset filters<% end %></span>
+          <% end %>
+          <% if qkunst_user? %><button type="button" class="select_all hide-for-print tertiary small button" id="global-select-button" data-work-count="<%=@inventoried_objects_count%>">Selecteer alles</button><% end %>
+        </p>
       </div>
-    </div>
-    <div class="columns"></div>
+
+      <div class="large-6 columns">
+        <div class="right hide-for-print row columns" id="group_sort_display">
+          <% unless current_user.read_only? %>
+            <label class="medium-3 small-6 columns right">Groepeer: <%= select_tag :group, options_for_select(@selection_group_options, @selection[:group]), data: {auto_submit: true}  %></label>
+          <% end %>
+            <label class="medium-3 small-6 columns right">Sorteer: <%= select_tag :sort, options_for_select(@selection_sort_options, @selection[:sort]), data: {auto_submit: true}  %></label>
+            <label class="medium-3 small-6 columns right">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
+          <% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) %>
+            <div class="medium-3 small-6 columns right">
+              <br/>
+              <ul class="dropdown menu collapsed" id="download-dropdown-button">
+                <li class="is-dropdown-submenu-parent">
+                  <button data-qtoggle="download-dropdown-button" data-qtoggle-class="collapsed" class="tertiary button">Download</button>
+                  <ul class="vertical menu">
+                  <% if can? :download_datadump, @collection  %>
+                    <li><%=link_to ".xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})) %></li>
+                    <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
+                    <li><%=link_to ".xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
+                  <% end %>
+                  <% if can? :download_public_datadump, @collection %>
+                    <li><%=link_to ".xml (publiek)", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml" } %></li>
+                  <% end %>
+                  <% if can? :download_photos, @collection  %>
+                    <li><%=link_to ".zip (alle foto’s)", collection_works_path(@collection, params: @cleaned_params, format: :zip) %></li>
+                    <li><%=link_to ".zip (foto’s voor)", collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})) %></li>
+                  <% end %>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+      </div>
+  </div>
+
+  <div class="row">
     <% if @inventoried_objects_count > @max_index+1 && !params[:min_index]%>
     <div class="columns callout" style="text-align: center">
       <p>Momenteel wordt slechts een beperkt aantal werken getoond <%= link_to "Toon alle werken", collection_works_path(@collection, params: @cleaned_params.merge({max_index: 9999999})), class: "hide-for-print button inline small secondary"%></p>
@@ -48,94 +72,114 @@
       </p>
     </div>
     <% end %>
-    <aside class="large-2 medium-2 columns filter hide-for-print end">
-      <h4>Zoeken</h4>
-      <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoeken... "%>
-      <p class="hint"><small>Probeer ook: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
-      <div data-responsive-toggle="responsive-filter" class="hide-for-medium hide-for-print responsive-toggle right">
-        <button class="menu-icon dark" type="button" data-toggle></button>
-      </div>
-      <h4>Filteren</h4>
-      <div id="responsive-filter">
-      <% unless current_user.read_only? %>
-        <% if current_user.can_filter_and_group?(:object_categories) %>
-          <%= filter_checkboxes_with_header("Categorie", @aggregations[:object_categories], "object_categories.id") %>
-        <% end %>
-        <%= filter_checkboxes_with_header("Cluster", @aggregations[:cluster], "cluster_id") %>
-        <%= filter_checkboxes_with_header("Kerncollectie", @aggregations[:main_collection], "main_collection") %>
-        <%= filter_checkboxes_with_header("Deelcollectie", @aggregations[:subset], "subset_id") %>
-        <% if current_user.can_filter_and_group?(:sources) %>
-          <%= filter_checkboxes_with_header("Herkomst", @aggregations[:sources], "sources.id") %>
-        <% end %>
-
-        <%= filter_checkboxes_with_header("Niveau", @aggregations[:grade_within_collection], "grade_within_collection") %>
-        <%= filter_checkboxes_with_header("Plaatsbaarheid", @aggregations[:placeability], "placeability_id") %>
-      <% end %>
-
-      <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
-
-      <% [ "location_floor_raw", "location_raw", "publish", "image_rights" ].each do |column| %>
-        <%= filter_hidden column %>
-      <% end %>
-
-      <% if current_user.can_filter_and_group?(:geoname_ids) %>
-        <h5>Lokaliteit</h5>
-        <%= select_tag "filter[geoname_ids][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
-      <% end %>
-      <h5>Tags</h5>
-      <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list][]">
-        <% (@selection_filter["tag_list"] || []).each do |tag|%>
-          <option selected="selected" value="<%=tag%>"><%=tag%></option>
-        <% end %>
-      </select>
-
-      <hr/>
-      <%= button_tag type: :submit, class: :button do %>Filter<% end %>
-      <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
-      </div>
-    </aside>
-    <% end #formtag /works?q... %>
-    <%= form_tag collection_batch_path, method: :post do %>
-    <div class="large-10 medium-10 columns print-12 <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
-      <div class="<%= @limit_collection_information ? "hide" : "only-for-print" %>">
-      <%= kramdown( @collection.description) %>
-      </div>
-      <% if defined?(@works_grouped) %>
-        <% if @works_grouped[nil] %>
-          <% works = @works_grouped[nil] %>
-          <div class="select_all_scope cluster">
-            <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
-            <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>
-              <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span></p><% end %>
-              <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
-            </div>
-          <hr/>
-        <% end %>
-        <% @works_grouped.each do |cluster, works| %>
-          <% if cluster %>
-            <div class="select_all_scope cluster">
-              <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
-              <p>Deze groep bevat <%= I18n.translate 'count.works', count: works.count %>
-                <% if qkunst_user? %><span class="select_all hide-for-print tertiary small button inline">Selecteer alles</span><% end %>
-                <% if cluster.is_a? Cluster %>
-                  <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span>
-                <% end %>
-              </p>
-              <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
-              <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
-            </div>
-            <hr/>
-          <% end %>
-        <% end %>
-      <% else %>
-        <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
-      <% end %>
-    </div>
-    <%= render :partial => 'batch_edit_actions' %>
-
-    <% end #//batcheditformtag%>
   </div>
 
-  <% content_for :footer do %>
-  <p>Dit overzicht is gemaakt op <%= I18n.l Time.current, format: :long %>.</p>
-  <% end %>
+  <aside class="large-2 medium-2 columns filter hide-for-print end">
+    <h4>Zoeken</h4>
+    <%= text_field_tag :q, @search_text, type: :search, placeholder: "Zoeken... "%>
+    <p class="hint"><small>Probeer ook: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
+    <div data-responsive-toggle="responsive-filter" class="hide-for-medium hide-for-print responsive-toggle right">
+      <button class="menu-icon dark" type="button" data-toggle></button>
+    </div>
+    <h4>Filteren</h4>
+    <div id="responsive-filter">
+    <% unless current_user.read_only? %>
+      <% if current_user.can_filter_and_group?(:object_categories) %>
+        <%= filter_checkboxes_with_header("Categorie", @aggregations[:object_categories], "object_categories.id") %>
+      <% end %>
+      <%= filter_checkboxes_with_header("Cluster", @aggregations[:cluster], "cluster_id") %>
+      <%= filter_checkboxes_with_header("Kerncollectie", @aggregations[:main_collection], "main_collection") %>
+      <%= filter_checkboxes_with_header("Deelcollectie", @aggregations[:subset], "subset_id") %>
+      <% if current_user.can_filter_and_group?(:sources) %>
+        <%= filter_checkboxes_with_header("Herkomst", @aggregations[:sources], "sources.id") %>
+      <% end %>
+
+      <%= filter_checkboxes_with_header("Niveau", @aggregations[:grade_within_collection], "grade_within_collection") %>
+      <%= filter_checkboxes_with_header("Plaatsbaarheid", @aggregations[:placeability], "placeability_id") %>
+    <% end %>
+
+    <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
+
+    <% [ "location_floor_raw", "location_raw", "publish", "image_rights" ].each do |column| %>
+      <%= filter_hidden column %>
+    <% end %>
+
+    <% if current_user.can_filter_and_group?(:geoname_ids) %>
+      <h5>Lokaliteit</h5>
+      <%= select_tag "filter[geoname_ids][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
+    <% end %>
+    <h5>Tags</h5>
+    <select id="works_tags" class="select2 tags" multiple="multiple" name="filter[tag_list][]">
+      <% (@selection_filter["tag_list"] || []).each do |tag|%>
+        <option selected="selected" value="<%=tag%>"><%=tag%></option>
+      <% end %>
+    </select>
+    <div class="form-actions">
+    <p>
+      <%= button_tag type: :submit, class: :button do %>Filter<% end %>
+      <% if @collection_works_count > @works_count %>
+        <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
+      <% end %>
+    </p>
+    </div>
+    </div>
+  </aside>
+<% end #formtag /works?q... %>
+
+<%= form_tag collection_batch_path, method: :post do %>
+
+  <div class="large-10 medium-10 columns print-12 <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
+    <% if defined?(@works_grouped) %>
+      <% if @works_grouped[nil] %>
+        <% works = @works_grouped[nil] %>
+        <div class="select_all_scope cluster">
+          <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
+          <p>
+            Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
+            <% if qkunst_user? %><button type="button" class="select_all hide-for-print tertiary small button">Selecteer alles</button><% end %>
+            <label class="work-selector hide-for-print">
+              <%= check_box_tag "selected_work_groups[#{@selection[:group]}][]", "not_set", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_#{@selection[:group]}_not_set", data: {work_count: works.count} %>
+            </label>
+          </p>
+            <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
+          </div>
+        <hr/>
+      <% end %>
+      <% @works_grouped.each do |cluster, works| %>
+        <% if cluster %>
+          <div class="select_all_scope cluster">
+            <h3><%= cluster.methods.include?(:name) ? cluster.name : cluster %></h3>
+            <p>Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
+              <% if cluster.is_a? Cluster %>
+                <span class="hide-for-print"><%= link_to 'Bewerk clusternaam en beschrijving', edit_collection_cluster_path(@collection,cluster) if qkunst_user? %></span>
+              <% end %>
+              <% if qkunst_user? %><button type="button" class="select_all hide-for-print tertiary small button">Selecteer alles</button><% end %>
+              <label class="work-selector hide-for-print">
+                <% cluster_id = cluster.methods.include?(:id) ? cluster.id : cluster %>
+                <%= check_box_tag "selected_work_groups[#{@selection[:group]}][]", cluster_id, (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]][cluster_id]), id: "selected_work_groups_#{@selection[:group]}_#{cluster_id}", data: {work_count: works.count} %>
+              </label>
+            </p>
+            <%= kramdown(cluster.description) if cluster.methods.include?(:description) %>
+            <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
+          </div>
+          <hr/>
+        <% end %>
+      <% end %>
+    <% else %>
+      <label class="work-selector hide-for-print hide">
+        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_all_all", data: {work_count: @works_count} %>
+      </label>
+
+      <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
+    <% end %>
+
+  </div>
+  <div class="hidden inputs for batch filter">
+    <%= data_to_hidden_inputs({filter: @selection_filter}) %>
+  </div>
+  <%= render :partial => 'batch_edit_actions' %>
+<% end #//batcheditformtag%>
+
+<% content_for :footer do %>
+<p>Dit overzicht is gemaakt op <%= I18n.l Time.current, format: :long %>.</p>
+<% end %>

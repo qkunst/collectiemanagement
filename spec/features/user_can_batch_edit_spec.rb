@@ -64,9 +64,8 @@ RSpec.feature "Batch editor", type: :feature do
     expect(work_to_edit1.cluster).to eq(work_to_edit2.cluster)
     expect(work_to_edit1.cluster.name).to eq(new_cluster_name)
 
-    within "#responsive-filter" do
-      click_on "Reset filters"
-    end
+    visit collection_works_path(collections(:collection1))
+
     check "selected_works_#{work_to_edit1.id}"
     check "selected_works_#{work_to_edit3.id}"
     click_on "Overige velden"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WorkSet < ApplicationRecord
   has_and_belongs_to_many :works
 
@@ -5,8 +7,8 @@ class WorkSet < ApplicationRecord
 
   belongs_to :work_set_type
 
-  scope :accepts_appraisals, ->{ joins(:work_set_type).where(work_set_types: {appraise_as_one: true})}
-  scope :count_as_one, ->{ joins(:work_set_type).where(work_set_types: {count_as_one: true})}
+  scope :accepts_appraisals, -> { joins(:work_set_type).where(work_set_types: {appraise_as_one: true}) }
+  scope :count_as_one, -> { joins(:work_set_type).where(work_set_types: {count_as_one: true}) }
 
   alias_attribute :stock_number, :identification_number
 
@@ -32,16 +34,18 @@ class WorkSet < ApplicationRecord
   def replacement_value
     appraisals.last&.replacement_value
   end
+
   def market_value
     appraisals.last&.market_value
   end
+
   def market_value_range
     appraisals.last&.market_value_range
   end
+
   def replacement_value_range
     appraisals.last&.replacement_value_range
   end
-
 
   def update_latest_appraisal_data!
     latest_appraisal = appraisals.descending_appraisal_on.first
@@ -70,11 +74,9 @@ class WorkSet < ApplicationRecord
           work.appraisal_notice = nil
         end
         work.save
-
       end
     end
   end
-
 
   def can_be_accessed_by_user?(user)
     !!(user.admin? || most_specific_shared_collection&.can_be_accessed_by_user?(user))
@@ -82,12 +84,12 @@ class WorkSet < ApplicationRecord
 
   # returns the collection that most specific to the user
   def most_specific_shared_collection
-    paths = works.map{|w| w.collection.expand_with_parent_collections.not_system.pluck(:id) }
-    shortest_path = paths.sort{|a,b| a.length <=> b.length}.first
+    paths = works.map { |w| w.collection.expand_with_parent_collections.not_system.pluck(:id) }
+    shortest_path = paths.min_by(&:length)
     shortest_path_index = shortest_path.length - 1
     while shortest_path_index >= 0
       search_id = shortest_path[shortest_path_index]
-      paths_include_search_id = paths.map{|a| a.include?(search_id)}
+      paths_include_search_id = paths.map { |a| a.include?(search_id) }
       all_paths_include_search_id = !paths_include_search_id.include?(false)
       return Collection.find(search_id) if all_paths_include_search_id
       shortest_path_index -= 1

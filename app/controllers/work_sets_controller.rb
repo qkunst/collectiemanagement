@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class WorkSetsController < ApplicationController
   before_action :set_collection
-  before_action :set_work_set, only: [:show, :destroy, :update]
+  before_action :set_work_set, only: [:show, :edit, :destroy, :update]
 
   def new
     @work_set = WorkSet.new
@@ -11,12 +13,15 @@ class WorkSetsController < ApplicationController
       @works = current_user.accessible_works.where(id: work_ids)
       @work_set.works = @works
     else
-      redirect_back fallback_location: (@collection ? @collection : root_path), notice: "Er konden geen werken geselecteerd worden."
+      redirect_back fallback_location: (@collection || root_path), notice: "Er konden geen werken geselecteerd worden."
     end
   end
 
   def create
     @work_set = WorkSet.new(work_set_params)
+    work_ids = @work_set.works.map(&:id)
+    @works = current_user.accessible_works.where(id: work_ids)
+
     authorize! :create, @work_set
 
     if @work_set.save
@@ -35,13 +40,26 @@ class WorkSetsController < ApplicationController
       authorize! :show, @work_set
     end
 
-
     @works = current_user.accessible_works.where(id: @work_set.work_ids).order(:stock_number)
 
     if @works.count < 20
       @selection = {display: :complete}
     end
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")
+  end
+
+  def edit
+    authorize! :edit, @work_set
+  end
+
+  def update
+    authorize! :update, @work_set
+
+    if @work_set.update(work_set_params)
+      redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de verzameling"
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -61,7 +79,6 @@ class WorkSetsController < ApplicationController
       redirect_to [@collection, @work_set].compact, alert: "De verzamling kon niet worden verwijderd"
 
     end
-
   end
 
   private
@@ -69,11 +86,13 @@ class WorkSetsController < ApplicationController
   def set_work_set
     @work_set = WorkSet.find(params[:id])
     @collection ||= @work_set.most_specific_shared_collection
+    work_ids = @work_set.work_ids
+    @works = current_user.accessible_works.where(id: work_ids).order(:stock_number)
   end
 
   def work_set_params
-    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids)
-    rv[:work_ids] = current_user.accessible_works.where(id: rv[:work_ids].split(/[\s,]/)).pluck(:id)
+    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment)
+    rv[:work_ids] = current_user.accessible_works.where(id: rv[:work_ids].split(/[\s,]/)).pluck(:id) if rv[:work_ids]
     rv
   end
 end

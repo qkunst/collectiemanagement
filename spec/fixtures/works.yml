@@ -1,4 +1,5 @@
 work1:
+  created_at: 2012-01-01T01:00:00.000
   title: Work1
   stock_number: Q001
   alt_number_1: 7201284
@@ -54,6 +55,7 @@ work1:
     alt_number_4: "ALT4002123.1"
 
 work2:
+  created_at: 2012-01-01T02:00:00.000
   title: Work2
   stock_number: Q002
   alt_number_1: 7201286
@@ -75,7 +77,6 @@ work2:
   replacement_value_max: 750
   object_categories:
     - fotografie
-    - gebouwgebonden
   techniques:
     - pen
     - ets
@@ -83,18 +84,21 @@ work2:
     - :artist2
     - :artist_no_name
 work3:
+  created_at: 2012-01-01T03:00:00.000
   title: Work3
   alt_number_2: 7201212
   stock_number: Q003
   artists:
     - :artist3
 work4:
+  created_at: 2012-01-01T04:00:00.000
   title: Work4
   alt_number_3: 7201213
   stock_number: Q004
   artists:
     - :artist4
 work5:
+  created_at: 2012-01-01T05:00:00.000
   title: Work5
   stock_number: Q005
   location: Adres
@@ -109,6 +113,7 @@ work5:
     - :artist2
     - :artist_no_name
 work6:
+  created_at: 2012-01-01T06:00:00.000
   title: Work6
   stock_number: Q006
   artists:
@@ -116,6 +121,7 @@ work6:
     - :artist_no_name
   collection: :collection3
 work7:
+  created_at: 2012-01-01T07:00:00.000
   title: Work7
   stock_number: Q007
   artists:
