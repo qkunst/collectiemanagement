@@ -6,9 +6,6 @@ class Message < ApplicationRecord
   mount_uploader :attachment, BasicFileUploader
   mount_uploader :image, PictureUploader
 
-  before_create :set_conversation_start_message
-  after_create :set_previous_message_as_actioned_upon_by_qkunst_admin_when_replied_to
-
   has_many :replies, class_name: "Message", foreign_key: :in_reply_to_message_id
   has_many :conversation, class_name: "Message", foreign_key: :conversation_start_message_id
 
@@ -45,8 +42,11 @@ class Message < ApplicationRecord
   scope :human_messages, -> { where.not(from_user_id: nil) }
   scope :system_messages, -> { where(from_user_id: nil) }
 
+  before_create :set_conversation_start_message
   before_save :set_from_user_name!
+
   after_create :send_notification
+  after_create :set_previous_message_as_actioned_upon_by_qkunst_admin_when_replied_to
 
   time_as_boolean :actioned_upon_by_qkunst_admin
 
@@ -152,6 +152,15 @@ class Message < ApplicationRecord
     end
   end
 
+
+  def actioned_upon_by_qkunst_admin= bool
+    self.actioned_upon_by_qkunst_admin_at ||= Time.now
+    if conversation_start_message.nil?
+      time = Time.now
+      conversation.each{|a| a.actioned_upon_by_qkunst_admin_at ||= time; a.save }
+    end
+  end
+
   private
 
   def set_from_user_name!
@@ -165,4 +174,7 @@ class Message < ApplicationRecord
       conversation_start_message.actioned_upon_by_qkunst_admin! if from_user&.qkunst?
     end
   end
+
+
+
 end
