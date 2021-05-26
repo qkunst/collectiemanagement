@@ -11,7 +11,7 @@
     <%= button_to "Markeer conversatie als afgerond", message_url(@message), method: :patch, params: {message: {actioned_upon_by_qkunst_admin: true} }, class: :button %>
   <% end %>
   <% if @message.actioned_upon_by_qkunst_admin? %>
-    <p>Deze conversatie is gemarkeerd als afgerond op <%= (@message.conversation + [@message]).map{ |message| message.actioned_upon_by_qkunst_admin_at.to_date }.uniq.sort.map{|date| I18n.l(date, format: :long) }.to_sentence %></p>
+    <p>Deze conversatie is gemarkeerd als afgerond op <%= (@message.conversation + [@message]).map{ |message| message.actioned_upon_by_qkunst_admin_at&.to_date }.compact.uniq.sort.map{|date| I18n.l(date, format: :long) }.to_sentence %></p>
   <% end %>
   <% if @message.subject_url%>
     <h4>Context</h4>
