@@ -26,7 +26,7 @@ RSpec.describe CollectionAttribute, type: :model do
   end
 
   context "scopes" do
-    context ".for_user" do
+    context ".for_user (currently not used)" do
       it "does not return parent collection's data if the user does not have access to that collection" do
         attributes = CollectionAttribute.for_user(users(:collection_with_works_child_user)).all
 
