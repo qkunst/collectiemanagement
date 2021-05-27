@@ -179,7 +179,7 @@ class User < ApplicationRecord
   def reset_all_roles
     ROLES.each do |role|
       unless role == :read_only # "default" role
-        self.send("#{role}=", false)
+        send("#{role}=", false)
       end
     end
   end

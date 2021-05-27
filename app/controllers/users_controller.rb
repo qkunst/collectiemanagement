@@ -20,12 +20,12 @@ class UsersController < ApplicationController
   end
 
   def oauth
-    if params[:methods] == "google"
-      @methods = [:google]
+    @methods = if params[:methods] == "google"
+      [:google]
     elsif params[:methods] == "microsoft"
-      @methods = [:microsoft]
+      [:microsoft]
     else
-      @methods = [:google, :microsoft]
+      [:google, :microsoft]
     end
   end
 

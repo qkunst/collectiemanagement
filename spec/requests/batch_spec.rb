@@ -79,12 +79,12 @@ RSpec.describe "WorkBatchs", type: :request do
       end
 
       describe "with filter" do
-        let(:theme) { themes(:wind)}
+        let(:theme) { themes(:wind) }
         let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme) }
 
         it "off" do
           expect(works.count).to be == 2
-          post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]} })
+          post collection_batch_path(collection, params: {selected_work_groups: {themes: [theme.id]}})
         end
 
         describe "on" do
@@ -92,7 +92,7 @@ RSpec.describe "WorkBatchs", type: :request do
 
           it "works" do
             expect(works.count).to be == 1
-            post collection_batch_path(collection, params: { selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]} })
+            post collection_batch_path(collection, params: {selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]}})
 
             other_works_stock_number = (collection.works_including_child_works.joins(:themes).where(themes: theme).map(&:stock_number) - works.pluck(:stock_number))
 
@@ -102,15 +102,13 @@ RSpec.describe "WorkBatchs", type: :request do
       end
 
       describe "by cluster group" do
-        let(:cluster) { clusters(:cluster1)}
+        let(:cluster) { clusters(:cluster1) }
         let(:works) { collection.works_including_child_works.where(cluster: clusters(:cluster1)) }
 
         it "should work for post with cluster ids" do
           expect(works.count).to be >= 1
-          post collection_batch_path(collection, params: { selected_work_groups: {cluster: [cluster.id]} })
+          post collection_batch_path(collection, params: {selected_work_groups: {cluster: [cluster.id]}})
         end
-
-
       end
     end
     describe "Field-accessibility" do

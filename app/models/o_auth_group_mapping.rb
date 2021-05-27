@@ -7,7 +7,7 @@
 class OAuthGroupMapping < ApplicationRecord
   has_paper_trail
 
-  validates_inclusion_of :value_type, in: %w( role group ), allow_blank: false
+  validates_inclusion_of :value_type, in: %w[role group], allow_blank: false
   validates_presence_of :issuer
   validates_presence_of :value
   validates_inclusion_of :role, in: User::ROLES, allow_blank: true
@@ -16,15 +16,15 @@ class OAuthGroupMapping < ApplicationRecord
 
   class << self
     def collection_mappings_exists_for?(issuer)
-      self.where(issuer: issuer).where.not(collection_id: nil).any?
+      where(issuer: issuer).where.not(collection_id: nil).any?
     end
 
     def role_mappings_exists_for?(issuer)
-      self.where(issuer: issuer).where.not(role: nil).any?
+      where(issuer: issuer).where.not(role: nil).any?
     end
 
     def for(data)
-      self.where(value_type: :role, value: data.roles, issuer: data.issuer).or(self.where(value_type: :group, value: data.groups, issuer: data.issuer))
+      where(value_type: :role, value: data.roles, issuer: data.issuer).or(where(value_type: :group, value: data.groups, issuer: data.issuer))
     end
 
     def retrieve_roles(data)

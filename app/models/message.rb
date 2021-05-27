@@ -90,8 +90,8 @@ class Message < ApplicationRecord
     elsif subject_object.is_a? Work
       redirect_to_obj = [subject_object.collection, subject_object]
     end
-    if redirect_to_obj
 
+    if redirect_to_obj
       url_for(redirect_to_obj)
     end
   end
@@ -156,7 +156,10 @@ class Message < ApplicationRecord
     self.actioned_upon_by_qkunst_admin_at ||= Time.now
     if conversation_start_message.nil?
       time = Time.now
-      conversation.each{|a| a.actioned_upon_by_qkunst_admin_at ||= time; a.save }
+      conversation.each do |conversation_message|
+        conversation_message.actioned_upon_by_qkunst_admin_at ||= time
+        conversation_message.save
+      end
     end
   end
 
