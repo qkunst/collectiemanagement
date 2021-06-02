@@ -55,7 +55,7 @@ class BatchController < ApplicationController
     set_selection_filter
 
     @form = Batch::WorkForm.new(collection: @collection)
-    filtered_works = @collection.search_works("", @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
+    filtered_works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
 
     @works = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).or(filtered_works.has_number(work_numbers)).or(filtered_works.where(id: work_ids))
     @work_count = @works.count

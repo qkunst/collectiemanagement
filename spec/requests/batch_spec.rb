@@ -101,6 +101,30 @@ RSpec.describe "WorkBatchs", type: :request do
         end
       end
 
+      describe "with search" do
+        let(:q) { "\"Bijzondere tekst\"" }
+        let(:works) { collection.works_including_child_works }
+
+        it "off" do
+          expect(works.count).to be == 5
+          post collection_batch_path(collection, params: {selected_work_groups: {all: [:all]}})
+        end
+
+        describe "on" do
+          let(:works) { collection.works_including_child_works.where(description: "Bijzondere tekst") }
+
+          it "works" do
+            works.reindex!
+            expect(works.count).to be == 1
+            post collection_batch_path(collection, params: {selected_work_groups: {all: [:all]}, q: q})
+
+            other_works_stock_number = (collection.works_including_child_works.map(&:stock_number) - works.pluck(:stock_number))
+
+            expect(response.body).not_to match(other_works_stock_number[0])
+          end
+        end
+      end
+
       describe "by cluster group" do
         let(:cluster) { clusters(:cluster1) }
         let(:works) { collection.works_including_child_works.where(cluster: clusters(:cluster1)) }

@@ -29,6 +29,9 @@ module Works::Filtering
           end
         end
       end
+
+      set_search_text
+
       @selection_filter
     end
 

@@ -31,7 +31,6 @@ class WorksController < ApplicationController
     set_selection_display_options
     set_no_child_works
     set_selected_localities
-    set_search_text
 
     @show_work_checkbox = qkunst_user?
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
