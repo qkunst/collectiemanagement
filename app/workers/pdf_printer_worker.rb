@@ -27,7 +27,9 @@ class PdfPrinterWorker
       path: filename,
       emulate_media: :print,
       launch_args: ["--font-render-hinting=none"],
-      printBackground: true).to_pdf
+      printBackground: true,
+      timeout: 0
+    ).to_pdf
 
     if inform_user_id
       Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_type: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
