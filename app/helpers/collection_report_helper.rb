@@ -71,8 +71,9 @@ module CollectionReportHelper
       @selection_filter.key?(field_name) && selected_filter_value_for_name == param_value
     end
 
+    parent_json = [filter_params.select { |k, v| k != param_name }.to_a.last].compact.to_h.to_json
     if show_filter_check_boxes
-      check_box_tag(url_param_name, url_param_value, checked)
+      check_box_tag(url_param_name, url_param_value, checked, data: {parent: parent_json})
     end
   end
 
@@ -178,11 +179,13 @@ module CollectionReportHelper
           sv = s[1]
           @params = {} if depth == DEEPEST
           sk = link(min_range_column(group), sk)
-          unless ignore_super?(group)
-            html += "<tr class=\"content span-#{depth}\">"
-            html += render_spacers(depth)
-            html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
-          end
+          hidden = ignore_super?(group)
+          group_hash = @params.to_a
+          group_hash.pop
+
+          html += "<tr class=\"content span-#{depth} #{hidden ? "hide" : ""}\" data-group=\"#{Digest::MD5.hexdigest(group_hash.to_s)}\">"
+          html += render_spacers(depth)
+          html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
           sv[:subs].each do |subbucketgroupname, subbucketgroup|
             html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth - 1))
           end

@@ -15,6 +15,17 @@ require "rails_helper"
 RSpec.describe CollectionReportHelper, type: :helper do
   include Devise::Test::ControllerHelpers
 
+  describe "#filter_check_box" do
+    before do
+      allow(helper).to receive(:show_filter_check_boxes).and_return(true)
+
+    end
+    it "renders a checkbox" do
+      filter_params = {"filter[location_raw][]"=>"asdf", "filter[location_floor_raw][]"=>"verd", "filter[location_detail_raw][]"=>"loc"}
+      expect(helper.filter_check_box(filter_params)).to eq("<input type=\"checkbox\" name=\"filter[location_detail_raw][]\" id=\"filter_location_detail_raw_\" value=\"loc\" data-parent=\"{&quot;filter[location_floor_raw][]&quot;:&quot;verd&quot;}\" />")
+    end
+  end
+
   describe "#render_report_column" do
     before(:each) do
       @collection = collections(:collection1)
@@ -36,6 +47,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
       )
       allow(helper).to receive(:show_filter_check_boxes).and_return(true)
     end
+
     it "should render a empt report when no values are given" do
       expect(helper.render_report_column([:frame_damage_types])).to eq("")
     end

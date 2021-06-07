@@ -12,6 +12,7 @@
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
   <div class="tabs">
+
     <% if @sections.keys.count > 1 %>
     <nav class="tab-head">
     <ul>
@@ -21,6 +22,7 @@
     </ul>
     </nav>
     <% end %>
+
     <% @sections.each do |head, contents| %>
       <section id="<%=head.to_s.parameterize%>">
         <% if @sections.keys.count > 1 %>
@@ -36,7 +38,9 @@
         </div>
       </section>
     <% end %>
+
   </div>
+
   <div class="bottom-controls">
   <%= button_tag "Toon geselecteerde werken", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
   <%= button_tag "Werk aantallen selectie in rapportage bij", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
