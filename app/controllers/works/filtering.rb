@@ -10,16 +10,19 @@ module Works::Filtering
   included do
     private
 
+    def reset_filter?
+      @reset ||= parse_boolean(params.dig(:filter, :reset))
+    end
+
     def set_selection_filter
       @selection_filter = current_user.filter_params[:filter] || {}
       if params[:filter] || params[:group] || params[:sort] || params[:display]
         @selection_filter = {}
       end
 
-      if params[:filter] && params.dig(:filter, :reset) != true
+      if params[:filter] && !reset_filter?
         params[:filter].each do |field, values|
           if field == "reset"
-            @reset = true
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "location", "location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| a == "not_set" ? nil : a } if params[:filter][field]
           elsif Work.column_types[field.to_s] == :boolean
@@ -145,7 +148,7 @@ module Works::Filtering
     end
 
     def set_search_text
-      @search_text = params["q"].to_s if params["q"] && !@reset
+      @search_text = params["q"].to_s if params["q"] && !reset_filter?
     end
 
     def update_current_user_with_params
