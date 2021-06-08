@@ -10,8 +10,8 @@ RSpec.feature "Batch editor", type: :feature do
     login "qkunst-test-facility_manager@murb.nl"
 
     click_on "Collecties"
-    if page.body.match?("id=\"list-to-filter\"")
-      within "#list-to-filter" do
+    if page.body.match?("id=\"collections-list\"")
+      within "#collections-list" do
         click_on "Collection 1"
       end
     end
@@ -38,8 +38,8 @@ RSpec.feature "Batch editor", type: :feature do
     login "qkunst-test-advisor@murb.nl"
 
     click_on "Collecties"
-    if page.body.match?("id=\"list-to-filter\"")
-      within "#list-to-filter" do
+    if page.body.match?("id=\"collections-list\"")
+      within "#collections-list" do
         click_on "Collection 1"
       end
     end
@@ -88,8 +88,8 @@ RSpec.feature "Batch editor", type: :feature do
       login "qkunst-test-appraiser@murb.nl"
 
       click_on "Collecties"
-      if page.body.match?("id=\"list-to-filter\"")
-        within "#list-to-filter" do
+      if page.body.match?("id=\"collections-list\"")
+        within "#collections-list" do
           click_on "Collection 1"
         end
       end
@@ -111,8 +111,8 @@ RSpec.feature "Batch editor", type: :feature do
       expect(work_to_edit2.appraisals.where(created_at: (5.minutes.ago..5.minutes.from_now)).count).to eq(0)
 
       click_on "Collecties"
-      if page.body.match?("id=\"list-to-filter\"")
-        within "#list-to-filter" do
+      if page.body.match?("id=\"collections-list\"")
+        within "#collections-list" do
           click_on "Collection 1"
         end
       end
@@ -154,8 +154,8 @@ RSpec.feature "Batch editor", type: :feature do
     login "qkunst-test-appraiser@murb.nl"
 
     click_on "Collecties"
-    if page.body.match?("id=\"list-to-filter\"")
-      within "#list-to-filter" do
+    if page.body.match?("id=\"collections-list\"")
+      within "#collections-list" do
         click_on "Collection 1"
       end
     end
@@ -191,8 +191,8 @@ RSpec.feature "Batch editor", type: :feature do
       login "qkunst-test-advisor@murb.nl"
 
       click_on "Collecties"
-      if page.body.match?("id=\"list-to-filter\"")
-        within "#list-to-filter" do
+      if page.body.match?("id=\"collections-list\"")
+        within "#collections-list" do
           click_on "Collection 1"
         end
       end

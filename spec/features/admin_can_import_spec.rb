@@ -10,8 +10,8 @@ RSpec.feature "Import works", type: :feature do
     login users(:admin)
 
     click_on "Collecties"
-    if page.body.match?("id=\"list-to-filter\"")
-      within "#list-to-filter" do
+    if page.body.match?("id=\"collections-list\"")
+      within "#collections-list" do
         click_on "Collection 3"
       end
     end
@@ -41,8 +41,8 @@ RSpec.feature "Import works", type: :feature do
     login users(:admin)
 
     click_on "Collecties"
-    if page.body.match?("id=\"list-to-filter\"")
-      within "#list-to-filter" do
+    if page.body.match?("id=\"collections-list\"")
+      within "#collections-list" do
         click_on "Collection 1"
       end
     end

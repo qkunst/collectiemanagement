@@ -10,8 +10,8 @@ RSpec.feature "Manage attachments", type: :feature do
       login "qkunst-test-advisor@murb.nl"
 
       click_on "Collecties"
-      if page.body.match?("id=\"list-to-filter\"")
-        within "#list-to-filter" do
+      if page.body.match?("id=\"collections-list\"")
+        within "#collections-list" do
           click_on "Collection 1"
         end
       end
