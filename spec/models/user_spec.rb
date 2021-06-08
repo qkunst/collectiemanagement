@@ -46,12 +46,12 @@ RSpec.describe User, type: :model do
 
       it "should return a subset for users with a single collection" do
         u = users(:qkunst_with_collection)
-        expect(u.accessible_works.pluck(:id)).to eq(collections(:collection1).works_including_child_works.pluck(:id))
+        expect(u.accessible_works.pluck(:id).sort).to eq(collections(:collection1).works_including_child_works.pluck(:id).sort)
       end
     end
     describe "#collection_ids" do
       it "should return ids of collections" do
-        expect(users(:qkunst_with_collection).collection_ids).to eq(users(:qkunst_with_collection).collections.map(&:id))
+        expect(users(:qkunst_with_collection).collection_ids.sort).to eq(users(:qkunst_with_collection).collections.map(&:id).sort)
       end
     end
     describe "#collection_accessibility_log" do
