@@ -167,7 +167,7 @@
       <% end %>
     <% else %>
       <label class="work-selector hide">
-        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_all_all", data: {work_count: @works_count} %>
+        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_all_all", data: {work_count: @inventoried_objects_count} %>
       </label>
 
       <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>
