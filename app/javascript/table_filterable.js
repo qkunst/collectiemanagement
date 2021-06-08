@@ -51,9 +51,11 @@ FilterableTableField = class FilterableTableField {
     var filter, filterTable, table;
     if (e.target.dataset.filters) {
       filter = e.target;
-      filterTable = document.getElementById(e.target.dataset.filters);
-      table = new FilterableTableField(filterTable);
-      return table.filterWith(filter.id, filter.value);
+      filterTable = document.querySelector("table#"+e.target.dataset.filters);
+      if (filterTable) {
+        table = new FilterableTableField(filterTable);
+        return table.filterWith(filter.id, filter.value);
+      }
     }
   }
 

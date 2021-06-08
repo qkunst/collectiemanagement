@@ -14,8 +14,8 @@
   <h2>Overzicht van de collecties </h2>
   <div class="row">
     <div class="medium-9 columns">
-      <label>Zoek op naam van de collectie<input type="search" class="list-filter" data-filters="list-to-filter"></label>
-      <ul id="list-to-filter" class="collapsable">
+      <label>Zoek op naam van de collectie<input type="search" class="list-filter" data-filters="collections-list"></label>
+      <ul id="collections-list" class="collapsable" data-collections="<%=Collection.not_system.select(:id, :name).all.to_json(only: [:id, :name]) %>">
         <% @collections.each do |collection| %>
           <%= render collection%>
         <% end %>
@@ -24,7 +24,3 @@
   </div>
 <% end %>
 
-<script type="text/javascript">
-localStorage.setItem('collections', JSON.stringify(<%= Collection.all.to_json(only: [:id, :name]).html_safe %>));
-localStorage.setItem('qkunst_user', <%= qkunst_user? %>);
-</script>

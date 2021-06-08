@@ -29,6 +29,7 @@ import('report');
 import('table_filterable');
 import('table_sortable');
 import('works');
+import('offline_collections')
 import('block_link');
 require('toggle');
 import('zxing/zxing_helper')

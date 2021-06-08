@@ -1,12 +1,4 @@
 <h2>Voeg werk offline toe</h2>
-
+<div data-offline="true">
 <%= render 'works/form' %>
-
-<script type="text/javascript">
-  var url = document.location.toString();
-  var path = url.split("//")[1].split("/").slice(1,1000).join("/");
-  var collectionId = path.match(/collections\/(\d+)/i);
-  collectionId = collectionId ? collectionId[1] : null;
-
-  document.querySelector('form[action="/collections/-1/works"]').action = "/collections/"+collectionId+"/works";
-</script>
+</div>

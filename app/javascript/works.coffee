@@ -8,7 +8,7 @@ show_or_hide_selected_works = ->
   select_all_scopes = document.querySelectorAll("#works-list .select_all_scope")
 
   if select_all_scopes.length == 0
-    select_all_scopes = [document.getElementById("works-list")]
+    select_all_scopes = [document.getElementById("works-list")].filter((elem)->elem)
 
   for select_all_scope in select_all_scopes
     checked_group_selector = select_all_scope.querySelector "input[name^='selected_work_groups']:checked"
