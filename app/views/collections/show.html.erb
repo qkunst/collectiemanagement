@@ -61,14 +61,6 @@
 <aside class="large-3 medium-3 columns" style="margin-top: 1em">
   <h3>Bijlagen</h3>
   <ul>
-    <% if @collection.name.to_s.match "Provincie Gelderland" %>
-      <% if can? :download_public_datadump, @collection %>
-        <li><%=link_to "Export Collectie Gelderland.xml", collection_works_path(@collection, format: :xml, params: {audience: :public}), { download: "Export Collectie Gelderland.xml" } %></li>
-      <% end %>
-      <% if can? :download_photos, @collection  %>
-        <li><%=link_to "Export te publiceren foto's voor.zip", collection_works_path(@collection, format: :zip, params: {only_front: true, published: true}) %> <small>(<%= number_to_human_size(@collection.works_including_child_works.published.count * 417582 )%> (schatting))</small></li>
-      <% end %>
-    <% end %>
     <% @attachments.each do |attachment| %>
       <li><%= link_to attachment.file_name.truncate(30, omission: "…#{attachment.file_name.last(15)}"), attachment.file.url, title: attachment.file_name, download: attachment.file_name %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small></li>
     <% end %>
