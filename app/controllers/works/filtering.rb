@@ -122,7 +122,7 @@ module Works::Filtering
       if /vermist/i.match?(@collection.name)
         @selection_display_options["Basis met locatiegeschiedenis"] = :detailed_with_location_history
       end
-      @selection_display_options["Basis Discreet"] = :detailed_discreet if current_user.qkunst?
+      @selection_display_options["Basis Discreet"] = :detailed_discreet if (current_user.qkunst? || current_user.facility_manager?)
       @selection_display_options["Compleet"] = :complete unless current_user.read_only?
       if current_user.qkunst?
         @selection_display_options["Beperkt"] = :limited

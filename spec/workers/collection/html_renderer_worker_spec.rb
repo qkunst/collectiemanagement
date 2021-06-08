@@ -40,7 +40,87 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("Q006")
     expect(html).to match("Collectie Collection with works")
     expect(html).to match("Vervangingswaarde")
+    expect(html).to match("Plaatsbaarheid")
     expect(html).to match("Acrylverf")
+    expect(html).to match("Interne opmerking bij werk 1")
+  end
+
+  it "doesn't export internal comments to facility manager" do
+    collection = collections(:collection_with_works)
+    user = users(:facility_manager)
+
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id" => [object_categories(:gebouwgebonden).id]}, display: "complete"})
+
+    # expect html not to include any links
+    expect(html).not_to match("<a ")
+
+    expect(html).to match("Q001")
+    expect(html).not_to match("Q002")
+    expect(html).not_to match("Q006")
+    expect(html).to match("Collectie Collection with works")
+    expect(html).to match("Vervangingswaarde")
+    expect(html).to match("Plaatsbaarheid")
+    expect(html).to match("Acrylverf")
+    expect(html).not_to match("Interne opmerking bij werk 1")
+  end
+
+  it "doesn't show complete data to read only user" do
+    collection = collections(:collection_with_works)
+    user = users(:read_only)
+
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id" => [object_categories(:gebouwgebonden).id]}, display: "complete"})
+
+    # expect html not to include any links
+    expect(html).not_to match("<a ")
+
+    expect(html).to match("Q001")
+    expect(html).not_to match("Q002")
+    expect(html).not_to match("Q006")
+    expect(html).to match("Collectie Collection with works")
+    expect(html).not_to match("Vervangingswaarde")
+    expect(html).not_to match("Plaatsbaarheid")
+    expect(html).not_to match("Acrylverf")
+    expect(html).not_to match("Interne opmerking bij werk 1")
+  end
+
+  it "does show basic data to read only" do
+    collection = collections(:collection_with_works)
+    user = users(:read_only)
+
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {filter: {"object_categories.id" => [object_categories(:gebouwgebonden).id]}, display: "detailed"})
+
+    # expect html not to include any links
+    expect(html).not_to match("<a ")
+
+    expect(html).to match("Q001")
+    expect(html).not_to match("Q002")
+    expect(html).not_to match("Q006")
+    expect(html).to match("Collectie Collection with works")
+    expect(html).not_to match("Vervangingswaarde")
+    expect(html).not_to match("Plaatsbaarheid")
+    expect(html).to match("Acrylverf")
+    expect(html).not_to match("Interne opmerking bij werk 1")
+  end
+
+  it "does not render any data when none" do
+    collection = collections(:collection_with_works)
+    user = nil
+
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
+    expect do
+      Collection::HtmlRendererWorker.new.perform(collection.id, user&.id, {filter: {"object_categories.id" => [object_categories(:gebouwgebonden).id]}, display: "detailed"})
+    end.to raise_error(ActiveRecord::RecordNotFound)
   end
 
   it "performs a grouped render" do

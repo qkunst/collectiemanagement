@@ -28,7 +28,7 @@ class PdfPrinterWorker
       emulate_media: :print,
       launch_args: ["--font-render-hinting=none"],
       printBackground: true,
-      timeout: 0
+      timeout: 1800000 #half hour max, limit just in case
     ).to_pdf
 
     if inform_user_id

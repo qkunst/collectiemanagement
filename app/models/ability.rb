@@ -162,7 +162,7 @@ class Ability
     can [:edit_visibility, :update], Attachment
     can :manage, LibraryItem
 
-    can [:read_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
+    can [:read_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
     can [:read_api, :edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
@@ -193,7 +193,7 @@ class Ability
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
 
-    can [:read_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
+    can [:read_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
     can [:read_api, :read, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
@@ -223,7 +223,7 @@ class Ability
     can :read, Attachment, collection_id: accessible_collection_ids
     can [:read, :create], Message
 
-    can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :review_modified_works], Collection, id: accessible_collection_ids
+    can [:read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_pdf, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :review_modified_works], Collection, id: accessible_collection_ids
 
     can :read, Attachment do |attachment|
       ((attachment.attache_type == "Collection") && accessible_collection_ids.include?(attachment.attache_id)) ||
@@ -288,8 +288,7 @@ class Ability
 
   def initialize_facility_manager
     can [:read], Artist
-    can [:read, :read_report, :read_status, :read_valuation], Collection, id: accessible_collection_ids
-    can :batch_edit, Collection, id: accessible_collection_ids # note that a facility manager only has access to a limited set of fields
+    can [:read, :read_report, :read_status, :read_valuation, :download_pdf, :batch_edit], Collection, id: accessible_collection_ids
     can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
 

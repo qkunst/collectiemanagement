@@ -137,136 +137,166 @@ RSpec.describe "Works", type: :request do
       end
       describe "downloading" do
         describe "xlsx" do
-          it "should be able to get the file" do
-            collection = collections(:collection1)
-            sign_in user
-            get collection_works_path(collection, format: :xlsx)
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+          context(:admin) do
+            it "should be able to get the file" do
+              collection = collections(:collection1)
+              sign_in user
+              get collection_works_path(collection, format: :xlsx)
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            end
           end
         end
         describe "csv" do
-          it "should be able to get the file" do
-            collection = collections(:collection1)
-            sign_in user
-            get collection_works_path(collection, {format: :csv, audience: :simple})
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("text/csv")
-            expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3")
-            expect(response.body).to match("Q001,7201284,002123,0002.123")
-            expect(response.body.scan(/^Q002/).count).to eq(1) # shouldn't be two occurrences of the same count
-          end
-          it "should include alt_number_4" do
-            collection = collections(:collection1)
-            sign_in user
-            get collection_works_path(collection, format: :csv)
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("text/csv")
-            expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3,Alternatief nummer 4,Alternatief nummer 5,Alternatief nummer 6")
-            expect(response.body).to match(",Q001,7201284,002123,0002.123,ALT4002123.1,")
+          context(:admin) do
+            it "should be able to get the file" do
+              collection = collections(:collection1)
+              sign_in user
+              get collection_works_path(collection, {format: :csv, audience: :simple})
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("text/csv")
+              expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3")
+              expect(response.body).to match("Q001,7201284,002123,0002.123")
+              expect(response.body.scan(/^Q002/).count).to eq(1) # shouldn't be two occurrences of the same count
+            end
+            it "should include alt_number_4" do
+              collection = collections(:collection1)
+              sign_in user
+              get collection_works_path(collection, format: :csv)
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("text/csv")
+              expect(response.body).to match("Alternatief nummer 1,Alternatief nummer 2,Alternatief nummer 3,Alternatief nummer 4,Alternatief nummer 5,Alternatief nummer 6")
+              expect(response.body).to match(",Q001,7201284,002123,0002.123,ALT4002123.1,")
+            end
           end
         end
         describe "zip" do
-          it "should be able to get an zip file" do
-            collection = collections(:collection1)
-            sign_in user
-            get collection_works_path(collection, format: :zip)
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("application/zip")
-            expect(response.body).to match(/Zip/)
+          context(:admin) do
+            it "should be able to get an zip file" do
+              collection = collections(:collection1)
+              sign_in user
+              get collection_works_path(collection, format: :zip)
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("application/zip")
+              expect(response.body).to match(/Zip/)
+            end
+            it "should be able to get an zip file with photos" do
+              collection = collections(:collection1)
+              work = collection.works_including_child_works.first
+              FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
+              FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
+              work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
+              work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
+              work.save
+              sign_in user
+              get collection_works_path(collection, format: :zip)
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("application/zip")
+              expect(response.body).to match(/Zip/)
+              expect(response.body).to match("#{work.stock_number}_front.jpg")
+              expect(response.body).to match("#{work.stock_number}_back.jpg")
+            end
+            it "should be able to get an zip file with only front photos" do
+              collection = collections(:collection1)
+              work = collection.works_including_child_works.first
+              FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
+              FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
+              work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
+              work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
+              work.save
+              sign_in user
+              get collection_works_path(collection, format: :zip, params: {only_front: true})
+              expect(response).to have_http_status(200)
+              expect(response.media_type).to eq("application/zip")
+              expect(response.body).to match(/Zip/)
+              expect(response.body).to match("#{work.stock_number}.jpg")
+              expect(response.body).not_to match("#{work.stock_number}_front.jpg")
+              expect(response.body).not_to match("#{work.stock_number}_back.jpg")
+            end
           end
-          it "should be able to get an zip file with photos" do
-            collection = collections(:collection1)
-            work = collection.works_including_child_works.first
-            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
-            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
-            work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
-            work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
-            work.save
-            sign_in user
-            get collection_works_path(collection, format: :zip)
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("application/zip")
-            expect(response.body).to match(/Zip/)
-            expect(response.body).to match("#{work.stock_number}_front.jpg")
-            expect(response.body).to match("#{work.stock_number}_back.jpg")
+        end
+        describe "pdf" do
+          let(:get_index) do
+            sign_in user if user
+            get collection_works_path(collections(:collection1), format: :pdf)
           end
-          it "should be able to get an zip file with only front photos" do
-            collection = collections(:collection1)
-            work = collection.works_including_child_works.first
-            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image2.jpg", __dir__))
-            FileUtils.cp(File.expand_path("../fixtures/files/image.jpg", __dir__), File.expand_path("../fixtures/files/image3.jpg", __dir__))
-            work.photo_front = File.open(File.expand_path("../fixtures/files/image2.jpg", __dir__))
-            work.photo_back = File.open(File.expand_path("../fixtures/files/image3.jpg", __dir__))
-            work.save
-            sign_in user
-            get collection_works_path(collection, format: :zip, params: {only_front: true})
-            expect(response).to have_http_status(200)
-            expect(response.media_type).to eq("application/zip")
-            expect(response.body).to match(/Zip/)
-            expect(response.body).to match("#{work.stock_number}.jpg")
-            expect(response.body).not_to match("#{work.stock_number}_front.jpg")
-            expect(response.body).not_to match("#{work.stock_number}_back.jpg")
+          context(:anonymous) do
+            let(:user) {nil}
+
+            it "requires login" do
+              get_index
+              expect(response).to have_http_status(401)
+            end
           end
         end
         describe "xml" do
-          let(:get_index) { get collection_works_path(collections(:collection1), format: :xml) }
-
-          it "requires login" do
-            get_index
-            expect(response).to have_http_status(401)
+          let(:get_index) do
+            sign_in user if user
+            get collection_works_path(collections(:collection1), format: :xml)
           end
-          it "rejects facility" do
-            sign_in users(:facility_manager)
 
-            get_index
+          context(:anonymous) do
+            let(:user) {nil}
 
-            expect(response).to have_http_status(302)
+            it "requires login" do
+              get_index
+              expect(response).to have_http_status(401)
+            end
           end
-          it "downloads for admin" do
-            sign_in user
 
-            get_index
+          context(:facility_manager) do
+            let(:user) { users(:facility_manager) }
 
-            expect(response).to have_http_status(200)
-            expect(response.body).to start_with("<?xml version=\"1.0\"?>")
-
-            expect(response.body).to match("<qkunst:technique>Ets</qkunst:technique>")
-            expect(response.body).to match("<dc:type>Fotografie</dc:type>")
-            expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
-            expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
-            expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
-            expect(response.body).to match(/<qkunst:owner>\s*<dc:title>Owner1<\/dc:title>\s*<qkunst:id>\d*<\/qkunst:id>\s*<\/qkunst:owner>/)
-            expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
-
-            # would suggest that ruby objects are serialzed to string, instead of xml
-            expect(response.body).not_to match(/#&lt/)
+            it "rejects facility" do
+              get_index
+              expect(response).to have_http_status(302)
+            end
           end
-          context "with public audience" do
-            let(:get_index) { get collection_works_path(collections(:collection1), format: :xml, audience: :public) }
 
-            it "respects audience public setting" do
-              sign_in user
-
+          context(:admin) do
+            it "downloads for admin" do
               get_index
 
               expect(response).to have_http_status(200)
               expect(response.body).to start_with("<?xml version=\"1.0\"?>")
 
+              expect(response.body).to match("<qkunst:technique>Ets</qkunst:technique>")
+              expect(response.body).to match("<dc:type>Fotografie</dc:type>")
               expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
-              expect(response.body).not_to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
+              expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
+              expect(response.body).to match("<edm:hasMet rdf:resource=\"http://sws.geonames.org/123/\">Geoname Summary 1")
+              expect(response.body).to match(/<qkunst:owner>\s*<dc:title>Owner1<\/dc:title>\s*<qkunst:id>\d*<\/qkunst:id>\s*<\/qkunst:owner>/)
+              expect(response.body).to match(/qkunst:frame_type>\s*<dc:title>Frame type<\/dc:title>\s*<qkunst:id/)
 
-              expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
-              expect(response.body).not_to match("<qkunst:lognotes/>")
+              # would suggest that ruby objects are serialzed to string, instead of xml
+              expect(response.body).not_to match(/#&lt/)
             end
-          end
 
-          it "doesn't include work twice" do
-            sign_in user
+            context "with public audience" do
+              let(:get_index) do
+                sign_in user
+                get collection_works_path(collections(:collection1), format: :xml, audience: :public)
+              end
 
-            get_index
+              it "respects audience public setting" do
+                get_index
 
-            expect(response.body.scan("stock_number\">Q007").count).to eq(1)
+                expect(response).to have_http_status(200)
+                expect(response.body).to start_with("<?xml version=\"1.0\"?>")
+
+                expect(response.body).to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q001</dc:identifier>")
+                expect(response.body).not_to match("<dc:identifier xsi:scheme=\"qkunst:stock_number_file_safe\">Q002</dc:identifier>")
+
+                expect(response.body).to match("<qkunst:abstract_or_figurative>abstract</qkunst:abstract_or_figurative>")
+                expect(response.body).not_to match("<qkunst:lognotes/>")
+              end
+            end
+
+            it "doesn't include work twice" do
+              get_index
+
+              expect(response.body.scan("stock_number\">Q007").count).to eq(1)
+            end
           end
         end
       end

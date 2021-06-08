@@ -54,6 +54,7 @@ nl:
     read_extended_report: Uitgebreide rapportage lezen
     access_valuation: Kan waardering zien
     download_datadump: Kan gegevens downloaden
+    download_pdf: Kan pdf downloaden
     download_public_datadump: Kan publieke gegevens downloaden
     download_photos: Kan foto's downloaden
     batch_edit: Toegang tot de batch-editor

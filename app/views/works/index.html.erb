@@ -27,7 +27,7 @@
           <% end %>
             <label class="medium-3 small-6 columns right">Sorteer: <%= select_tag :sort, options_for_select(@selection_sort_options, @selection[:sort]), data: {auto_submit: true}  %></label>
             <label class="medium-3 small-6 columns right">Weergave: <%= select_tag :display, options_for_select(@selection_display_options, @selection[:display]), data: {auto_submit: true}  %></label>
-          <% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) %>
+          <% if can?(:download_datadump, @collection) or can?(:download_photos, @collection) or can?(:download_pdf, @collection) %>
             <div class="medium-3 small-6 columns right">
               <br/>
               <ul class="dropdown menu collapsed" id="download-dropdown-button">
@@ -36,8 +36,10 @@
                   <ul class="vertical menu">
                   <% if can? :download_datadump, @collection  %>
                     <li><%=link_to ".xlsx", collection_works_path(@collection, format: :xlsx, params: @cleaned_params.merge({audience: :default})) %></li>
-                    <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
                     <li><%=link_to ".xml", collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :default})), { download: "Werken.xml" } %></li>
+                  <% end %>
+                  <% if can? :download_pdf, @collection  %>
+                    <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
                   <% end %>
                   <% if can? :download_public_datadump, @collection %>
                     <li><%=link_to ".xml <small>(publiek)</small>".html_safe, collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml", title: "xml-file zonder gevoelige informatie" } %></li>
