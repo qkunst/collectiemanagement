@@ -288,7 +288,7 @@ class Ability
 
   def initialize_facility_manager
     can [:read], Artist
-    can [:read, :read_report, :read_status, :read_valuation, :download_pdf, :batch_edit], Collection, id: accessible_collection_ids
+    can [:read, :read_report, :read_status, :read_valuation, :download_pdf, :download_photos, :batch_edit], Collection, id: accessible_collection_ids
     can [:read, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
 

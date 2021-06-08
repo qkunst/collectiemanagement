@@ -127,7 +127,6 @@ module Works::Filtering
       if current_user.qkunst?
         @selection_display_options["Beperkt"] = :limited
         @selection_display_options["Veilinghuis"] = :limited_auction
-        @limit_collection_information = true
       end
       @selection_display_options
     end

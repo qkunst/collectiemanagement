@@ -1,4 +1,4 @@
-<h2 class="<%= "hide-for-print" if @limit_collection_information%>">Collectie <%= @collection.name %></h2>
+<h2>Collectie <%= @collection.name %></h2>
 <div class="row columns <%=@show_work_checkbox ? "show-work-checkbox" : ""%>" id="works-list">
   <% if @works_grouped %>
     <% if @works_grouped[nil] %>
