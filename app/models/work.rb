@@ -73,6 +73,12 @@ class Work < ApplicationRecord
       order(:location, Arel.sql("works.location_floor = '-3' DESC, works.location_floor = '-2' DESC, works.location_floor = '-1' DESC, works.location_floor = '0' DESC, works.location_floor = 'BG' DESC"), :location_floor, :location_detail)
     when :created_at
       order(created_at: :desc)
+    when :created_at_asc
+      order(created_at: :asc)
+    when :updated_at
+      order(updated_at: :desc)
+    when :updated_at_asc
+      order(updated_at: :asc)
     when :artist_name, :artist_name_rendered
       order(Arel.sql("works.artist_name_for_sorting ASC, works.created_at ASC"))
     when :stock_number

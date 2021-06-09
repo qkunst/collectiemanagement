@@ -346,9 +346,7 @@ nl:
         condition_work: Conditie beeld
         condition_work_comments: "Conditie beeld toelichting & locatie"
         condition_work_rendered: Conditie werk
-        created_at: Gemaakt op
-        created_at: Opgeslagen op
-        created_by: Gemaakt door
+        created_at: Toegevoegd op
         created_by: Invoerder
         damage_types: Type schade beeld
         depth: Diepte beeld (cm)
