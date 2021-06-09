@@ -1,9 +1,26 @@
 <h2>Recent gewijzigd in <%= @collection.name%></h2>
 <%= simple_form_for @form, method: :get do |f| %>
-<%= f.input :only_location_changes, label: "Alleen locatiewijzigingen", as: :boolean%>
-<%= f.input :only_non_qkunst, label: "Alleen niet-qkunst wijzigingen", as: :boolean%>
+<fieldset class="row">
+  <div class="small-6 columns">
+    <%= f.input :only_location_changes, label: "Alleen locatiewijzigingen", as: :boolean%>
+    <%= f.input :only_non_qkunst, label: "Alleen niet-qkunst wijzigingen", as: :boolean%>
+  </div>
+  <div class="small-6 columns">
+    <%= f.input :from_date, label: "Wijzigingen van", as: :date, html5: true%>
+    <%= f.input :to_date, label: "Wijzigingen tot", as: :date, html5: true%>
+  </div>
+</fieldset>
 <%= f.submit "Filter", class: :button%>
 <% end%>
+<% if @result_count < @unlimited_result_count%>
+<div class="callout primary">
+  Merk op: Er worden <%= I18n.t "count.changes", count: @result_count%>  getoond, van de  <%= I18n.t "count.changes", count: @unlimited_result_count%>. Beperkt de selectie.
+</div>
+<% else %>
+<div class="callout secondary">
+  Dit overzicht bevat <%= I18n.t "count.changes", count: @result_count%>
+</div>
+<% end %>
 <table>
   <thead>
     <tr>

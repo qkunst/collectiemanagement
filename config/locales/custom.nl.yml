@@ -12,6 +12,10 @@ nl:
       zero: geen werken
       one: 1 werk
       other: ! '%{count} werken'
+    changes:
+      zero: geen wijzigingen
+      one: 1 wijziging
+      other: ! '%{count} wijzigingen'
   simple_form:
     include_blanks:
       theme:

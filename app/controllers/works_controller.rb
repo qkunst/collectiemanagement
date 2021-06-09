@@ -149,14 +149,23 @@ class WorksController < ApplicationController
 
   def modified_index
     authorize! :review_modified_works, @collection
-    versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").where.not(object_changes: nil).order(created_at: :desc).limit(500)
+    versions = PaperTrail::Version.where(item_id: @collection.works_including_child_works.select(:id), item_type: "Work").where.not(object_changes: nil).order(created_at: :desc).limit(250).includes(:item).order(created_at: :desc)
 
     @form = Works::ModifiedForm.new(works_modified_form_params)
 
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    @works_with_version_created_at = versions.includes(:item).order(created_at: :desc).collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+    versions = versions.where("versions.created_at >= ?", @form.from_date) if @form.from_date
+    versions = versions.where("versions.created_at <= ?", @form.to_date) if @form.to_date
+
+    if @form.active?
+      versions = versions.limit(2500)
+    end
+
+    @result_count = versions.count
+    @unlimited_result_count = versions.unscope(:limit).count
+    @works_with_version_created_at = versions.collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
   end
 
   # DELETE /works/1
@@ -207,7 +216,7 @@ class WorksController < ApplicationController
 
   def works_modified_form_params
     if params["works_modified_form"]
-      params.require(:works_modified_form).permit(:only_location_changes, :only_non_qkunst)
+      params.require(:works_modified_form).permit(:only_location_changes, :only_non_qkunst, :from_date, :to_date)
     else
       {}
     end
