@@ -6,8 +6,8 @@
     <%= f.input :only_non_qkunst, label: "Alleen niet-qkunst wijzigingen", as: :boolean%>
   </div>
   <div class="small-6 columns">
-    <%= f.input :from_date, label: "Wijzigingen van", as: :date, html5: true%>
-    <%= f.input :to_date, label: "Wijzigingen tot", as: :date, html5: true%>
+    <%= f.input :from_date, label: "Wijzigingen van", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>
+    <%= f.input :to_date, label: "Wijzigingen tot", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>
   </div>
 </fieldset>
 <%= f.submit "Filter", class: :button%>
