@@ -8,6 +8,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+first_names = ["Henk", "Jan", "Marie", "Janette"]
+last_names = ["Schepper", "Maker"]
+
+10.times do 
+  Artist.create(first_name: first_names.sample, last_name: last_names.sample)
+end
+
 object_categories = ["Audiovisueel", "Fotografie", "Gebouwgebonden", "Grafiek", "Schilderkunst", "Sculptuur (binnen)", "Sculptuur (buiten)", "Uniek werk op papier", "Vormgeving"]
 object_categories.each { |name| ObjectCategory.where({name: name}).first_or_create }
 

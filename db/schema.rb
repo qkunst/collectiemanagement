@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_144031) do
     t.datetime "updated_at", null: false
     t.text "exposable_fields"
     t.text "description"
-    t.integer "parent_collection_id", default: 9
+    t.integer "parent_collection_id", default: 1
     t.string "label_override_work_alt_number_1"
     t.string "label_override_work_alt_number_2"
     t.string "label_override_work_alt_number_3"
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_144031) do
     t.string "sort_works_by"
     t.boolean "base"
     t.boolean "root", default: false
-    t.boolean "appraise_with_ranges"
+    t.boolean "appraise_with_ranges", default: false
     t.boolean "qkunst_managed", default: true
   end
 

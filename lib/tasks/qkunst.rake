@@ -24,7 +24,7 @@ namespace :qkunst do
     rescue Elasticsearch::Transport::Transport::Errors::NotFound
       puts "Already deleted..."
     end
-    Work.reindex!(true)
+    ScheduleReindexWorkWorker.perform_async
   end
 
   desc "Send all reminders"

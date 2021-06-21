@@ -6,11 +6,11 @@ class RootCollection < ActiveRecord::Migration[5.2]
 
     add_column :collections, :root, :boolean, default: false
 
-    c = Collection.create(root: true, name: "-")
-
+    c = Collection.unscoped.insert(root: true, name: "-", created_at: Time.now, updated_at: Time.now)
+    c = Collection.unscoped.where(root: true).first
     change_column_default :collections, :parent_collection_id, c.id
 
-    Collection.where(parent_collection_id: nil).where.not(root: true).update_all(parent_collection_id: c.id)
+    Collection.unscoped.where(parent_collection_id: nil).where.not(root: true).update_all(parent_collection_id: c.id)
   end
 
   def self.down
@@ -23,7 +23,7 @@ class RootCollection < ActiveRecord::Migration[5.2]
 
     change_column_default :collections, :parent_collection_id, nil
 
-    Collection.where(root: true).destroy_all
+    Collection.unscoped.where(root: true).destroy_all
 
     remove_column :collections, :root
   end
