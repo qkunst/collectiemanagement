@@ -15,7 +15,7 @@ class AddDefaultRemindersOnAllCollections < ActiveRecord::Migration[5.0]
       t.boolean "hide", default: false
       t.integer "collection_id"
     end
-    Collection.all.each do |c|
+    Collection.unscope(:order).all.each do |c|
       c.copy_default_reminders!
     end
     drop_table :owners
