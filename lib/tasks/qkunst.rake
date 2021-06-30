@@ -21,11 +21,22 @@ namespace :qkunst do
   task new_index: :environment do
     begin
       Work.__elasticsearch__.delete_index!
-      Work.__elasticsearch__.create_index!
     rescue Elasticsearch::Transport::Transport::Errors::NotFound
       puts "Already deleted..."
     end
+    Work.__elasticsearch__.create_index!
     ScheduleReindexWorkWorker.perform_async
+  end
+
+  desc "Bouw nieuwe index op en herindexeer alle werken in sync (traag)"
+  task new_index_and_sync: :environment do
+    begin
+      Work.__elasticsearch__.delete_index!
+    rescue Elasticsearch::Transport::Transport::Errors::NotFound
+      puts "Already deleted..."
+    end
+    Work.__elasticsearch__.create_index!
+    ScheduleReindexWorkWorker.new.perform
   end
 
   desc "Send all reminders"
