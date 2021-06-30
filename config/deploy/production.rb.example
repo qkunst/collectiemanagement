@@ -1,15 +1,13 @@
 set :stage, :production
-
-# Vervang 'user' en 'domain' in dit bestand.
+set :application, domain
+set :branch, 'main'
 
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
-role :app, %w{user@domain}
-role :web, %w{user@domain}
-role :db,  %w{user@domain}
+
 
 # Extended Server Syntax
 # ======================
@@ -42,6 +40,8 @@ role :db,  %w{user@domain}
 # setting per server overrides global ssh_options
 
 # fetch(:default_env).merge!(rails_env: :testing)
-set :application, domain
-set :deploy_to, "/home/user/public/domain"
-set :branch, 'master'
+set :deploy_to, "/home/#{fetch(:remote_user)}/public/#{fetch(:application)}"
+
+role :app, ["#{fetch(:remote_user)}@#{fetch(:application})"]
+role :web, ["#{fetch(:remote_user)}@#{fetch(:application})"]
+role :db,  ["#{fetch(:remote_user)}@#{fetch(:application})"]
