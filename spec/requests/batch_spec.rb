@@ -208,7 +208,7 @@ RSpec.describe "WorkBatchs", type: :request do
 
         patch collection_batch_path(collection), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).join(","))
+        expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).sort.join(","))
 
         work_selection.each do |work|
           work = Work.find(work.id)
