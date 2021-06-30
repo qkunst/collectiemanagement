@@ -98,7 +98,7 @@ gem "autoprefixer-rails"
 
 gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
-gem "workbook", git: "https://github.com/murb/workbook.git"
+gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
 gem "paper_trail", "11.1.0"
 gem "paper_trail-association_tracking"
