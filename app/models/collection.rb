@@ -26,7 +26,7 @@ class Collection < ApplicationRecord
   has_and_belongs_to_many :users
   has_and_belongs_to_many :stages
 
-  has_many :attachments, as: :attache
+  has_many :attachments
   has_many :batch_photo_uploads
   has_many :child_collections, class_name: "Collection", foreign_key: "parent_collection_id"
   has_many :clusters
@@ -379,7 +379,7 @@ class Collection < ApplicationRecord
         end
       end
 
-      Attachment.where(attache_type: "Collection", attache_id: child_collection_ids).each do |instance|
+      Attachment.where(collection_id: child_collection_ids).each do |instance|
         instance.collection = self
         unless instance.save
           raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")

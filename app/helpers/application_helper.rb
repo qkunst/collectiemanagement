@@ -36,7 +36,7 @@ module ApplicationHelper
     elsif @artist
       edit_collection_artist_attachment_path(@collection, @artist, attachment)
     else
-      edit_collection_attachment_path(attachment.attache, attachment)
+      edit_collection_attachment_path(attachment.collection, attachment)
     end
   end
 
@@ -46,7 +46,7 @@ module ApplicationHelper
     elsif @artist
       collection_artist_attachment_path(@collection, @artist, attachment)
     else
-      collection_attachment_path(attachment.attache, attachment)
+      collection_attachment_path(attachment.collection, attachment)
     end
   end
 

@@ -63,15 +63,14 @@ RSpec.feature "Manage attachments", type: :feature do
     end
   end
   context "in context of artist, as advisor" do
+    let(:collection) { collections(:collection1) }
     scenario "add new and couple existing attachment" do
       login "qkunst-test-advisor@murb.nl"
-
-      collection = collections(:collection1)
 
       visit collection_artists_path(collection)
 
       click_on "artist_1"
-      click_on "Beheer bijlagen 1"
+      expect(page).not_to have_content("Beheer bijlagen 1")
       click_on "Bijlage toevoegen"
 
       attach_file "Bestand", File.expand_path("../fixtures/files/image.jpg", __dir__)
@@ -82,6 +81,11 @@ RSpec.feature "Manage attachments", type: :feature do
       expect(page).to have_content("ArtistImage1.jpg")
 
       visit collection_artists_path(collection)
+      click_on "artist_1"
+      expect(page).to have_content("Beheer bijlagen 1")
+
+      visit collection_artists_path(collection)
+
       click_on "artist_2"
       click_on "Bijlage toevoegen"
       first("[value=Koppel]").click

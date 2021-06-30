@@ -13,7 +13,7 @@ class AttachmentsController < ApplicationController
     @attachments = if @subject
       attachment_scope.where(id: @subject.attachments).all
     else
-      attachment_scope.where(attache: @collection.expand_with_child_collections).all
+      attachment_scope.where(collection: @collection.expand_with_child_collections).all
     end
   end
 
@@ -25,7 +25,7 @@ class AttachmentsController < ApplicationController
     @attachment.visibility = ["facility_manager", "compliance"]
     @attachment.visibility += ["qkunst"] if current_user.registrator?
 
-    @attachments = attachment_scope.where(attache: @collection.expand_with_parent_collections).all
+    @attachments = attachment_scope.where(collection: @collection.expand_with_parent_collections).all
     @attachments -= @subject.attachments if @subject
   end
 

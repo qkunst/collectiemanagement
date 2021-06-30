@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Attachment < ApplicationRecord
-  belongs_to :attache, polymorphic: true
+  belongs_to :collection
   has_and_belongs_to_many :works
   has_and_belongs_to_many :artists
 
@@ -9,13 +9,11 @@ class Attachment < ApplicationRecord
 
   scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) ? where("1 = 1") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
-  scope :for_me, ->(user) { for_roles(user.roles) }
+  scope :for_me, ->(user) { for_roles(user.roles).where(collection_id: user.accessible_collection_ids) }
   scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil}) }
   scope :without_artists, -> { left_outer_joins(:artists).where(artists: {id: nil}) }
 
   mount_uploader :file, BasicFileUploader
-
-  alias_attribute :collection, :attache
 
   def visibility
     read_attribute(:visibility).to_s.split(",")
@@ -37,17 +35,4 @@ class Attachment < ApplicationRecord
     name? ? name : read_attribute(:file)
   end
 
-  private
-
-  class << self
-    def move_work_attaches_to_join_table
-      where(attache_type: "Work").each do |attachment|
-        work = attachment.attache
-        collection = work.collection
-        attachment.works << work
-        attachment.collection = collection
-        attachment.save
-      end
-    end
-  end
 end

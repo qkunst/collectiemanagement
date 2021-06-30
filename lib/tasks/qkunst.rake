@@ -21,6 +21,7 @@ namespace :qkunst do
   task new_index: :environment do
     begin
       Work.__elasticsearch__.delete_index!
+      Work.__elasticsearch__.create_index!
     rescue Elasticsearch::Transport::Transport::Errors::NotFound
       puts "Already deleted..."
     end

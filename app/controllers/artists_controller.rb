@@ -48,12 +48,13 @@ class ArtistsController < ApplicationController
 
     @title = @artist.name
 
-    @attachments = @artist.attachments.for_me(current_user)
 
     if @collection
+      @attachments = @artist.attachments.for_me(current_user).where(collection: @collection.expand_with_child_collections)
       @works = @collection.works_including_child_works.artist(@artist).distinct
     else
       authorize! :manage, Artist
+      @attachments = @artist.attachments.for_me(current_user).where(collection: @collection)
       @works = @artist.works.distinct
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_21_144031) do
+ActiveRecord::Schema.define(version: 2021_06_30_094046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,14 +89,11 @@ ActiveRecord::Schema.define(version: 2021_05_21_144031) do
 
   create_table "attachments", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.integer "attache_id"
-    t.string "attache_type"
     t.string "file"
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["attache_id", "attache_type"], name: "index_attachments_on_attache_id_and_attache_type"
-    t.index ["attache_id"], name: "index_attachments_on_attache_id"
+    t.integer "collection_id"
   end
 
   create_table "attachments_works", id: false, force: :cascade do |t|
@@ -152,7 +149,7 @@ ActiveRecord::Schema.define(version: 2021_05_21_144031) do
     t.datetime "updated_at", null: false
     t.text "exposable_fields"
     t.text "description"
-    t.integer "parent_collection_id", default: 1
+    t.integer "parent_collection_id", default: 7
     t.string "label_override_work_alt_number_1"
     t.string "label_override_work_alt_number_2"
     t.string "label_override_work_alt_number_3"

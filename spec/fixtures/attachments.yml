@@ -1,20 +1,20 @@
 work_attachment:
-  attache: collection3 (Collection)
+  collection: collection3
   name: unpredictableattachmentname
   file: unpredictableattachmentfilename.png
   works:
     - work_with_attachments
 artist_attachment:
-  attache: collection3 (Collection)
+  collection: collection3
   name: unpredictableattachmentname
   file: unpredictableattachmentfilename.png
   artists:
     - :artist1
 collection_attachment:
-  attache: collection3 (Collection)
+  collection: collection3
   name: unpredictablecollectionattachmentname
   file: unpredictablecollectionattachmentfilename.png
 sub_boring_collection_attachment:
-  attache: sub_boring_collection (Collection)
+  collection: sub_boring_collection
   name: anotherunpredictablecollectionattachmentname
   file: anotherunpredictablecollectionattachmentfilename.png
