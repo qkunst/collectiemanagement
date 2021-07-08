@@ -31,7 +31,7 @@ gem "lockbox"
 gem "grover"
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "capybara"
+  gem "capybara", ">= 3.35.3"
   gem "byebug", platform: :mri
   gem "foreman"
 end
@@ -48,8 +48,8 @@ gem "pg"
 gem "devise", git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
-gem "carrierwave"
-gem "carrierwave-imageoptimizer"
+gem "carrierwave", ">= 2.2.2"
+gem "carrierwave-imageoptimizer", ">= 1.6.0"
 gem "mini_magick" # transforming images
 gem "nokogiri"
 gem "attribute_normalizer" # keeps the database clean
@@ -65,7 +65,7 @@ gem "rspec-rails", group: [:development, :test]
 ## DEVELOPMENT
 ##
 group :development do
-  gem "letter_opener"
+  gem "letter_opener", ">= 1.7.0"
   gem "capistrano"
   gem "capistrano-rbenv"
   gem "capistrano-bundler"

@@ -96,7 +96,7 @@ GEM
       zeitwerk (~> 2.3)
     acts-as-taggable-on (8.1.0)
       activerecord (>= 5.0, < 6.2)
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
@@ -537,9 +537,9 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rbenv
-  capybara
-  carrierwave
-  carrierwave-imageoptimizer
+  capybara (>= 3.35.3)
+  carrierwave (>= 2.2.2)
+  carrierwave-imageoptimizer (>= 1.6.0)
   daemons
   dalli
   database_cleaner
@@ -556,7 +556,7 @@ DEPENDENCIES
   jbuilder
   keyword_finder
   kramdown
-  letter_opener
+  letter_opener (>= 1.7.0)
   listen
   lockbox
   memory_profiler
