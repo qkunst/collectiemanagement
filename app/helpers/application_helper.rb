@@ -108,7 +108,7 @@ module ApplicationHelper
         end.join
 
         if value.is_a? Array
-          value.map { |a| hidden_field_tag "#{name}[]", a }
+          value.map { |a| hidden_field_tag "#{name}[]", a.blank? ? :not_set : a }
         else
           hidden_field_tag name.to_s, value
         end
