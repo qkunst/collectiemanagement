@@ -57,9 +57,14 @@ class BatchController < ApplicationController
     @form = Batch::WorkForm.new(collection: @collection)
     filtered_works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
 
-    @works = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).or(filtered_works.has_number(work_numbers)).or(filtered_works.where(id: work_ids))
-    @work_count = @works.count
-    @work_ids = @works.pluck(:id)
+    @work_ids = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).pluck(:id)
+    @work_ids += filtered_works.has_number(work_numbers).pluck(:id)
+    @work_ids += filtered_works.where(id: work_ids).pluck(:id)
+    @work_ids = @work_ids.uniq
+
+
+    @works = filtered_works.where(id: @work_ids)
+    @work_count = @work_ids.count
   end
 
   def editable_fields
@@ -108,8 +113,8 @@ class BatchController < ApplicationController
 
   def redirect_to_collection_works_return_url
     ids = @works.pluck(:id)
-    if ids.count > Works::Filtering::DEFAULT_GROUPED_WORK_COUNT
-      redirect_to collection_works_path(@collection, params: {ids: ids[0..WorksController::DEFAULT_GROUPED_WORK_COUNT - 1].sort.join(",")}), notice: "Er zijn #{ids.count} werken bijgewerkt, een selectie daarvan wordt hieronder getoond."
+    if ids.count > Works::Filtering::DEFAULT_WORK_COUNT
+      redirect_to collection_works_path(@collection, params: {ids: ids[0..WorksController::DEFAULT_WORK_COUNT - 1].sort.join(",")}), notice: "Er zijn #{ids.count} werken bijgewerkt, een selectie daarvan wordt hieronder getoond."
     else
       redirect_to collection_works_path(@collection, params: {ids: ids.sort.join(",")}), notice: "De onderstaande #{ids.count} werken zijn bijgewerkt"
     end

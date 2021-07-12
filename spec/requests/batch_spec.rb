@@ -60,6 +60,7 @@ RSpec.describe "WorkBatchs", type: :request do
 
       before do
         sign_in user
+        works.reindex!
       end
 
       after do
@@ -91,7 +92,9 @@ RSpec.describe "WorkBatchs", type: :request do
           let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme).where(market_value: 50) }
 
           it "works" do
+
             expect(works.count).to be == 1
+
             post collection_batch_path(collection, params: {selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]}})
 
             other_works_stock_number = (collection.works_including_child_works.joins(:themes).where(themes: theme).map(&:stock_number) - works.pluck(:stock_number))

@@ -42,6 +42,6 @@ set :branch, 'main'
 # fetch(:default_env).merge!(rails_env: :testing)
 set :deploy_to, "/home/#{fetch(:remote_user)}/public/#{fetch(:application)}"
 
-role :app, ["#{fetch(:remote_user)}@#{fetch(:application})"]
-role :web, ["#{fetch(:remote_user)}@#{fetch(:application})"]
-role :db,  ["#{fetch(:remote_user)}@#{fetch(:application})"]
+role :app, ["#{fetch(:remote_user)}@#{fetch(:application)}"]
+role :web, ["#{fetch(:remote_user)}@#{fetch(:application)}"]
+role :db,  ["#{fetch(:remote_user)}@#{fetch(:application)}"]

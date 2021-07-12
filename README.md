@@ -24,6 +24,13 @@ queries mogelijk maakt. De belangrijkste zijn:
 * *?*: l?tter (als je een letter niet meer weet)
 * *OR*: Als één van de woorden er in moet voorkomen (“tentoonstelling expo”, levert 13 werken op (impliciet wordt “tentoonstelling AND expo” uitgevoerd), "tentoonstelling OR expo” levert veel meer werken op).
 * *()*: "(tentoonstelling OR expo) AND direct inzetbaar” (iets met tentoonstelling of expo én direct inzetbaar).
+* *tag\_list:hond* zorgt ervoor dat er gezocht wordt in enkel het veld tag\_list (de lijst met tags); merk op dat dit ook matched op 'honden' (niet zo strict dus als tags normaliter zijn)
+
+Geavanceerd voorbeeld:
+
+> "tag\_list:h?nd OR tag\_list:vog*"
+
+Zoekt dus naar werken met in de lijst van tags "hond", of "hand", of "vogel" of "vogelverschrikker"
 
 Wanneer geen van dit soort tekens / commando's worden gebruikt wordt getracht de applicatie 'fuzzy' te doorzoeken; hetgeen betekend dat de zoekmachine iets vergevingsgezinder is t.a.v. typfouten/spelfouten.
 
