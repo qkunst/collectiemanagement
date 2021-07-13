@@ -38,6 +38,7 @@ class Collection::UsersController < ApplicationController
   end
 
   def user_params
+    # role is cleaned up later and well tested; ignored in brakeman
     parameters = params.require(:user).permit(:role, collection_ids: [])
 
     unaffected_collection_ids = @user ? (@user.collection_ids - current_user.accessible_collection_ids) : []

@@ -1,0 +1,313 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "286bdf780102de3daf1b0655f0311bfcfd73ebfe5668ffdec246529af8dbd1dc",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/batch/show.html.erb",
+      "line": 107,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BatchController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/batch_controller.rb",
+          "rendered": {
+            "name": "batch/show",
+            "file": "app/views/batch/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "batch/show"
+      },
+      "user_input": "params[:selected_works]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "52633daec30259a45a8920b95f7c1783d4c3e347b5b0f53e9aff53b032d802dc",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/import_collections/_import_table.html.erb",
+      "line": 68,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(current_user.accessible_collections.find(params[:collection_id]) or @work.collection).import_collections.find((params[:import_collection_id] or params[:id])).import_file_snippet_to_workbook_table.to_html.gsub(/data-key=\\\"([A-Za-z0-9\\_\\-]+)\\\"\\>/) do\n match = match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1]\n((((((((((((\"><div class=\\\"field-settings\\\">\\n      <label><select name=\\\"[import_settings][\" + match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1]) + \"][split_strategy]\\\" title=\\\"Splits veld\\\">\") + split_strategy_options_html(match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1])) + \"</select></label>\\n      <label><select name=\\\"[import_settings][\") + match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1]) + \"][assign_strategy]\\\" title=\\\"Selecteer voor veld\\\">\") + assign_strategy_options_html(match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1])) + \"</select></label>\\n      <label><select name=\\\"[import_settings][\") + match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1]) + \"][fields][]\\\" multiple=\\\"multiple\\\" title=\\\"Plaats in veld(en)\\\" class=\\\"select2\\\">\") + field_options_html(match.match(/\\\"([A-Za-z0-9\\_\\-]+)\\\"/)[1])) + \"</select></label>\\n    </div>\")\n end.gsub(\"<tbody>\", \"<tbody style=\\\"height: 50em; overflow-y: scroll\\\">\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ImportCollectionsController",
+          "method": "edit",
+          "line": 30,
+          "file": "app/controllers/import_collections_controller.rb",
+          "rendered": {
+            "name": "import_collections/edit",
+            "file": "app/views/import_collections/edit.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "import_collections/edit",
+          "line": 38,
+          "file": "app/views/import_collections/edit.html.erb",
+          "rendered": {
+            "name": "import_collections/_import_table",
+            "file": "app/views/import_collections/_import_table.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "import_collections/_import_table"
+      },
+      "user_input": "current_user.accessible_collections.find(params[:collection_id])",
+      "confidence": "Weak",
+      "note": "n"
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "59c73e9ba895f3ac1ff9099f83378edb5fa9a81c6cdb1fe4a6a8d4147b0a0fc1",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/users_controller.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:role, :role_manager, :receive_mails, :name, :collection_ids => ([]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": "solved with requiring an admin user here explicitly"
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "75ced50aadaff88d38a30272b6fb4644a5bb1bd729fe3edb09b9d07ecd7f1a65",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/import_collections/preview.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).import_collections.find((params[:import_collection_id] or params[:id])).read, {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ImportCollectionsController",
+          "method": "preview",
+          "line": 37,
+          "file": "app/controllers/import_collections_controller.rb",
+          "rendered": {
+            "name": "import_collections/preview",
+            "file": "app/views/import_collections/preview.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "import_collections/preview"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "76f937db97e02f7fe6e00dd39a135a8aea04af50e604cea77004109d0e89b5ab",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/collection/download_worker.rb",
+      "line": 21,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).write_to_xlsx(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.xlsx\")))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Collection::DownloadWorker",
+        "method": "perform"
+      },
+      "user_input": "Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).write_to_xlsx(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.xlsx\"))",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "a262490bf8ca5862e835df75a7a7a5804ddf36a231c301179922b2e1f589ae2d",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/messages/show.html.erb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Ga naar het onderwerp \\u2192\", Message.new(message_params).subject_url, :class => \"small button\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "MessagesController",
+          "method": "create",
+          "line": 90,
+          "file": "app/controllers/messages_controller.rb",
+          "rendered": {
+            "name": "messages/show",
+            "file": "app/views/messages/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "messages/show"
+      },
+      "user_input": "Message.new(message_params).subject_url",
+      "confidence": "Weak",
+      "note": "this is a url_for attribute at model level because of reasons"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "aa8d8d16cd83fc841d36ba39b9c746474e77f5d075044c2edb0703a14bd21907",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/rkd_artists/show.html.erb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Toon artist op RKD \\u2794\", RkdArtist.find_by_rkd_id!(params[:id]).end_user_link, :class => ([:small, :secondary, :button]), :target => \"_blank\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "RkdArtistsController",
+          "method": "show",
+          "line": 13,
+          "file": "app/controllers/rkd_artists_controller.rb",
+          "rendered": {
+            "name": "rkd_artists/show",
+            "file": "app/views/rkd_artists/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "rkd_artists/show"
+      },
+      "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
+      "confidence": "Weak",
+      "note": "end user link is a database value; safe"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "aa8d8d16cd83fc841d36ba39b9c746474e77f5d075044c2edb0703a14bd21907",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/rkd_artists/show.html.erb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Toon artist op RKD \\u2794\", RkdArtist.find_by_rkd_id!(params[:id]).end_user_link, :class => ([:small, :secondary, :button]), :target => \"_blank\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "RkdArtistsController",
+          "method": "show",
+          "line": 13,
+          "file": "app/controllers/rkd_artists_controller.rb",
+          "rendered": {
+            "name": "rkd_artists/show",
+            "file": "app/views/rkd_artists/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "rkd_artists/show"
+      },
+      "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
+      "confidence": "Weak",
+      "note": "end user link is a database value; safe"
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "addfa47db7da47a4757371d464c357b157d138f7218f61d7fc4d2c33e5e4ea41",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/collection/download_worker.rb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).sheet.table.write_to_csv(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.csv\")))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Collection::DownloadWorker",
+        "method": "perform"
+      },
+      "user_input": "Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).sheet.table.write_to_csv(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.csv\"))",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "dde85b0bd7001ce45286136385e1ca994e197a0140028be017e6d9b25c83d3c2",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/library_items/show.html.erb",
+      "line": 49,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).library_items_including_child_library_items.find(params[:id]).works, {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "LibraryItemsController",
+          "method": "show",
+          "line": 20,
+          "file": "app/controllers/library_items_controller.rb",
+          "rendered": {
+            "name": "library_items/show",
+            "file": "app/views/library_items/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "library_items/show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "ec5318dfc5a8271e3d83545a2ea943235c291241e583d8c97b1ece9190d019a0",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/collection/users_controller.rb",
+      "line": 42,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:user).permit(:role, :collection_ids => ([]))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Collection::UsersController",
+        "method": "user_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2021-07-13 16:53:06 +0200",
+  "brakeman_version": "5.0.4"
+}
