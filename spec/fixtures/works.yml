@@ -118,7 +118,7 @@ work6:
   title: Work6
   stock_number: Q006
   artists:
-    - :artist2
+    - :artist1
     - :artist_no_name
   collection: :collection3
 work7:
@@ -172,3 +172,10 @@ work_diptych_2:
   artists:
     - :artist4
   collection: :collection3
+
+not_qkunst_managed_work:
+  collection: :not_qkunst_managed_collection
+  title: Not QKunst managed Work
+  stock_number: NQKMCW01
+  artists:
+    - :artist1

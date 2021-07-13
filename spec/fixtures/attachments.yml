@@ -8,6 +8,7 @@ artist_attachment:
   collection: collection3
   name: unpredictableattachmentname
   file: unpredictableattachmentfilename.png
+  visibility: appraiser,advisor
   artists:
     - :artist1
 collection_attachment:
