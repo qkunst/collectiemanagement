@@ -11,7 +11,7 @@
 first_names = ["Henk", "Jan", "Marie", "Janette"]
 last_names = ["Schepper", "Maker"]
 
-10.times do 
+10.times do
   Artist.create(first_name: first_names.sample, last_name: last_names.sample)
 end
 

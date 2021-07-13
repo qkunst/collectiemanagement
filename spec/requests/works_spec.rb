@@ -221,7 +221,7 @@ RSpec.describe "Works", type: :request do
             get collection_works_path(collections(:collection1), format: :pdf)
           end
           context(:anonymous) do
-            let(:user) {nil}
+            let(:user) { nil }
 
             it "requires login" do
               get_index
@@ -236,7 +236,7 @@ RSpec.describe "Works", type: :request do
           end
 
           context(:anonymous) do
-            let(:user) {nil}
+            let(:user) { nil }
 
             it "requires login" do
               get_index

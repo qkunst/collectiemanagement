@@ -7,6 +7,7 @@ class ChangePolymorphicAssociationToRegularInAttachments < ActiveRecord::Migrati
     remove_column :attachments, :attache_type
     remove_column :attachments, :attache_id
   end
+
   def self.down
     add_column :attachments, :attache_type, :string
     add_column :attachments, :attache_id, :integer

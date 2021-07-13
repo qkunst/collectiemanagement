@@ -22,13 +22,14 @@ class PdfPrinterWorker
       raise "Unsecure location (#{url})"
     end
 
-    Grover.new(grover_resource,
+    Grover.new(
+      grover_resource,
       format: "A4",
       path: filename,
       emulate_media: :print,
       launch_args: ["--font-render-hinting=none"],
       printBackground: true,
-      timeout: 1800000 #half hour max, limit just in case
+      timeout: 1800000 # half hour max, limit just in case
     ).to_pdf
 
     if inform_user_id

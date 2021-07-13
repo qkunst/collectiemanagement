@@ -6,8 +6,8 @@ class Works::ModifiedForm
 
   attr_accessor :only_location_changes
   attr_accessor :only_non_qkunst
-  attr_accessor :to_date
-  attr_accessor :from_date
+  attr_reader :to_date
+  attr_reader :from_date
 
   def to_date= value
     if value.is_a? String
@@ -38,7 +38,7 @@ class Works::ModifiedForm
   end
 
   def active?
-    only_location_changes? ||  only_non_qkunst? || to_date || from_date
+    only_location_changes? || only_non_qkunst? || to_date || from_date
   end
 
   private

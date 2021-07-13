@@ -34,5 +34,4 @@ class Attachment < ApplicationRecord
   def file_name
     name? ? name : read_attribute(:file)
   end
-
 end

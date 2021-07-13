@@ -48,7 +48,6 @@ class ArtistsController < ApplicationController
 
     @title = @artist.name
 
-
     if @collection
       @attachments = @artist.attachments.for_me(current_user).where(collection: @collection.expand_with_child_collections)
       @works = @collection.works_including_child_works.artist(@artist).distinct

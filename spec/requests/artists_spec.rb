@@ -89,29 +89,29 @@ RSpec.describe "Artists", type: :request do
     end
     describe "GET collection/:collection_id/artists/:id" do
       it "shouldn't be publicly accessible" do
-        get collection_artist_path(collections(:collection1),artists(:artist1))
+        get collection_artist_path(collections(:collection1), artists(:artist1))
         expect(response).to have_http_status(302)
       end
       it "should be accessible by QKunst having access to collection" do
         sign_in users(:qkunst)
-        get collection_artist_path(collections(:collection1),artists(:artist1))
+        get collection_artist_path(collections(:collection1), artists(:artist1))
         expect(response).to have_http_status(302)
         sign_in users(:qkunst_with_collection)
-        get collection_artist_path(collections(:collection1),artists(:artist1))
+        get collection_artist_path(collections(:collection1), artists(:artist1))
         expect(response).to have_http_status(200)
       end
       it "should not give access to artists not visible in collection" do
         sign_in users(:qkunst_with_collection)
-        expect { get collection_artist_path(collections(:collection1),artists(:artist2_dup2)) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { get collection_artist_path(collections(:collection1), artists(:artist2_dup2)) }.to raise_error(ActiveRecord::RecordNotFound)
       end
       it "should not expose attachments outside original collection" do
         sign_in users(:appraiser)
-        get collection_artist_path(collections(:collection3),artists(:artist1))
+        get collection_artist_path(collections(:collection3), artists(:artist1))
         expect(response.body).to match("unpredictableattachmentname")
-        get collection_artist_path(collections(:collection1),artists(:artist1))
+        get collection_artist_path(collections(:collection1), artists(:artist1))
         expect(response.body).not_to match("unpredictableattachmentname")
         sign_in users(:non_qkunst_advisor)
-        get collection_artist_path(collections(:not_qkunst_managed_collection),artists(:artist1))
+        get collection_artist_path(collections(:not_qkunst_managed_collection), artists(:artist1))
         expect(response.body).not_to match("unpredictableattachmentname")
       end
     end
