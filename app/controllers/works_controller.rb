@@ -156,8 +156,8 @@ class WorksController < ApplicationController
     versions = versions.where.not(whodunnit: User.qkunst.select(:id).map(&:id)) if @form.only_non_qkunst?
     versions = versions.where("versions.object_changes LIKE '%location%'") if @form.only_location_changes?
 
-    versions = versions.where("versions.created_at >= ?", @form.from_date) if @form.from_date
-    versions = versions.where("versions.created_at <= ?", @form.to_date) if @form.to_date
+    versions = versions.where("versions.created_at >= ?", @form.from_date.beginning_of_day) if @form.from_date
+    versions = versions.where("versions.created_at <= ?", @form.to_date.end_of_day) if @form.to_date
 
     if @form.active?
       versions = versions.limit(2500)

@@ -7,7 +7,7 @@
   </div>
   <div class="small-6 columns">
     <%= f.input :from_date, label: "Wijzigingen van", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>
-    <%= f.input :to_date, label: "Wijzigingen tot", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>
+    <%= f.input :to_date, label: "Wijzigingen tot en met", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>
   </div>
 </fieldset>
 <%= f.submit "Filter", class: :button%>

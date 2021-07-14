@@ -3,13 +3,28 @@
 <ul class="menu simple left hide-for-small-only">
 
   <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
-  <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true unless can?(:review_collection_users, @collection) || can?(:review, @collection) %></li>
+  <% unless can?(:review_collection_users, @collection) || can?(:review, @collection) %>
+  <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
+  <% end %>
   <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
-  <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
-  <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
-  <li><%= menu_link_to "Bibliotheek", collection_library_items_path(@collection) if can? :read, LibraryItem %></li>
-  <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
-  <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can?(:review_collection_users, @collection) || can?(:review, @collection) %></li>
+  <% if can? :read_report, @collection %>
+  <li><%= menu_link_to "Rapportage", collection_report_path(@collection) %></li>
+  <% end %>
+  <% if can? :read, Artist %>
+  <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) %></li>
+  <% end %>
+  <% if can? :read, LibraryItem %>
+  <li><%= menu_link_to "Bibliotheek", collection_library_items_path(@collection) %></li>
+  <% end %>
+  <% if can? :review_collection, Cluster%>
+  <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) %></li>
+  <% end %>
+  <% if can?(:review_modified_works, @collection) && !(can?(:review_collection_users, @collection) || can?(:review, @collection)) %>
+  <li><%= menu_link_to "Recent gewijzigd", collection_works_modified_path(@collection) %></li>
+  <% end %>
+  <% if can?(:review_collection_users, @collection) || can?(:review, @collection) %>
+  <li><%= menu_link_to "Beheer", collection_manage_path(@collection) %></li>
+  <% end %>
 </ul>
 
 <ul class="menu right-aligned menu--only-buttons">
