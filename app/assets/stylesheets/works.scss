@@ -124,8 +124,15 @@
   }
 }
 
-#group_sort_display {
+tr.show-only-sort-updated_at {
+  display: none;
 }
+.sort-significantly_updated_at, .significantly_updated_at_asc, .sort-updated_at_asc, .sort-updated_at, .show-work {
+  tr.show-only-sort-updated_at {
+    display: table-row;
+  }
+}
+
 .detailed, .detailed_discreet, .complete, .detailed_with_location_history, .limited, .limited_auction {
   .work.panel {
     width: 100%;

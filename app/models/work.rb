@@ -3,6 +3,8 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
+  INSIGNIFICANT_FIELDS = [:updated_at, :other_structured_data, :lognotes, :created_by_name, :artist_name_rendered, :created_by_name, :tag_list_cache, :collection_locality_artist_involvements_texts_cache, :purchase_price_in_eur, :other_structured_data] # insignificant fields are not considered significant to trigger a significantly_updated_at + its changes are not shown in display of changes-overview
+
   GRADES_WITHIN_COLLECTION = %w[A B C D E F G W]
 
   include ActionView::Helpers::NumberHelper
@@ -31,6 +33,8 @@ class Work < ApplicationRecord
   before_save :update_artist_name_rendered
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
+  before_save :mark_significant_update_if_significant
+  before_create :significantly_updated!
 
   after_save :touch_collection!
 
@@ -79,6 +83,10 @@ class Work < ApplicationRecord
       order(updated_at: :desc)
     when :updated_at_asc
       order(updated_at: :asc)
+    when :significantly_updated_at
+      order(significantly_updated_at: :desc)
+    when :significantly_updated_at_asc
+      order(significantly_updated_at: :asc)
     when :artist_name, :artist_name_rendered
       order(Arel.sql("works.artist_name_for_sorting ASC, works.created_at ASC"))
     when :stock_number
@@ -417,6 +425,14 @@ class Work < ApplicationRecord
 
   def convert_purchase_price_in_eur
     self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price && purchase_price_currency
+  end
+
+  def significantly_updated!
+    self.significantly_updated_at = Time.now
+  end
+
+  def mark_significant_update_if_significant
+    self.significantly_updated! if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
   end
 
   class << self
