@@ -3,7 +3,7 @@
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
-  describe "versioning" do
+  describe "callbacks" do
     describe "artist_name" do
       it "should keep a log of changed artists" do
         w = works(:work1)
@@ -14,6 +14,36 @@ RSpec.describe Work, type: :model do
         artist_name_for_sorting_changes = change_set["artist_name_for_sorting"]
         expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
         expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
+      end
+    end
+    describe "significantly_updated_at" do
+      it "does not update when nothing changed" do
+        w = works(:work1)
+        expect {
+          w.save
+        }.not_to change(w, :significantly_updated_at)
+      end
+      it "does update on create" do
+        w = collections(:collection1).works.create
+        expect(w.significantly_updated_at.to_date).to eq(w.created_at.to_date)
+      end
+      it "does update on a title change" do
+        w = works(:work1)
+        expect {
+          w.title = "abc"
+          w.save
+        }.to change(w, :significantly_updated_at)
+        w = works(:work1)
+        expect {
+          w.update(title: "abca")
+        }.to change(w, :significantly_updated_at)
+      end
+      it "does update on a artist change" do
+        w = works(:work1)
+        expect {
+          w.artists << artists(:artist2)
+          w.save
+        }.to change(w, :significantly_updated_at)
       end
     end
   end

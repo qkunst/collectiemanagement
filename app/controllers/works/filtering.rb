@@ -96,7 +96,7 @@ module Works::Filtering
     end
 
     def set_selection_sort
-      set_selection :sort, [:stock_number, :artist_name, :location, :created_at, :created_at_asc, :updated_at, :updated_at_asc]
+      set_selection :sort, [:stock_number, :artist_name, :location, :created_at, :created_at_asc, :significantly_updated_at, :significantly_updated_at_asc]
     end
 
     def set_selection_display
@@ -139,10 +139,10 @@ module Works::Filtering
         "Inventarisnummer" => :stock_number,
         "Vervaardiger" => :artist_name,
         "Locatie" => :location,
-        "Toevoegdatum (laatste eerst)" => :created_at,
+        "Toevoegdatum (nieuwste eerst)" => :created_at,
         "Toevoegdatum (oudste eerst)" => :created_at_asc,
-        "Wijzigingsdatum (laatste eerst)" => :updated_at,
-        "Wijzigingsdatum (oudste eerst)" => :updated_at_asc
+        "Wijzigingsdatum (nieuwste eerst)" => :significantly_updated_at,
+        "Wijzigingsdatum (oudste eerst)" => :significantly_updated_at_asc
       }
     end
 

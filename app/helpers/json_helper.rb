@@ -34,7 +34,7 @@ module JsonHelper
   end
 
   def render_object_changes_json json
-    ignore_keys = ["updated_at", "other_structured_data", "lognotes", "created_by_name", "artist_name_rendered"]
+    ignore_keys = Work::INSIGNIFICANT_FIELDS.map(&:to_s)
     html_bits = []
 
     first = true

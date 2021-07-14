@@ -153,7 +153,7 @@
       <%= define_unless_blank :image_rights %>
       <%= define_unless_blank :publish %>
       <%= define_unless_blank :created_at %>
-      <%= define_unless_blank :updated_at if work.updated_at != work.created_at%>
+      <%= define_unless_blank :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
       <%= define_unless_blank :inventoried_at %>
       <%= define_unless_blank :refound_at %>
       <%= define_unless_blank :new_found_at %>
