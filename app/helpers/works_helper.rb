@@ -35,11 +35,11 @@ module WorksHelper
 
   def filter_checkbox field_name, filter_value, data = {}, options = {}
     field_name = field_name.to_s
-    field_name = field_name.gsub(".id", "") if filter_value == :not_set
+    field_name = field_name.gsub(".id", "") if filter_value == Work::Search::NOT_SET_VALUE
     i18n_scope = [:activerecord, :values, :work] << field_name.to_sym
     value_methods = filter_value.methods
     check_box_value = (value_methods.include?(:id) ? filter_value.id : filter_value)
-    checked = reference[field_name] && (reference[field_name].include?(check_box_value) || reference[field_name].include?(check_box_value.to_s) || ((filter_value == :not_set) && reference[field_name].include?(nil)))
+    checked = reference[field_name] && (reference[field_name].include?(check_box_value) || reference[field_name].include?(check_box_value.to_s) || ((filter_value == Work::Search::NOT_SET_VALUE) && reference[field_name].include?(nil)))
 
     label_tag do
       label_str = check_box_tag "filter[#{field_name}][]", check_box_value, checked

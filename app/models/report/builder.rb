@@ -110,14 +110,14 @@ module Report
           }
         }
 
-        location_sub_sub = basic_aggregation_snippet_with_missing(:location_detail_raw)
+        location_sub_sub = basic_aggregation_snippet(:location_detail_raw)
 
-        location_sub = basic_aggregation_snippet_with_missing(:location_floor_raw)
+        location_sub = basic_aggregation_snippet(:location_floor_raw)
         location_sub.keys.each do |key|
           location_sub[key][:aggs] = location_sub_sub
         end
 
-        location = basic_aggregation_snippet_with_missing("location_raw")
+        location = basic_aggregation_snippet(:location_raw)
         location.keys.each do |key|
           location[key][:aggs] = location_sub
         end

@@ -452,7 +452,7 @@ RSpec.describe "Works", type: :request do
     end
   end
   describe "GET /collections/:colletion_id/works/modified" do
-    [:admin, :compliance, :advisor].each do |user_key|
+    [:admin, :compliance, :advisor, :facility_manager].each do |user_key|
       it "allows access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1)
@@ -465,7 +465,7 @@ RSpec.describe "Works", type: :request do
       end
     end
 
-    [:facility_manager, :appraiser].each do |user_key|
+    [:appraiser].each do |user_key|
       it "denies access for #{user_key}" do
         user = users(user_key)
         collection = collections(:collection1)

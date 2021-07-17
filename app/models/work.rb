@@ -95,7 +95,7 @@ class Work < ApplicationRecord
   end
   scope :published, -> { where(publish: true) }
   scope :by_group, ->(group, rough_ids) {
-    ids = rough_ids.map { |a| a.to_s == "not_set" || a.nil? ? nil : a }
+    ids = rough_ids.map { |a| a.to_s == Work::Search::NOT_SET_VALUE || a.nil? ? nil : a }
     case group.to_sym
     when :cluster
       where(cluster_id: ids)

@@ -104,19 +104,31 @@ module Work::ParameterRerendering
     end
 
     def location_raw
-      location if location && location.to_s.strip != ""
+      if location && location.to_s.strip != ""
+        location.strip
+      else
+        Work::Search::NOT_SET_VALUE
+      end
     end
 
     def location_floor_raw
-      location_floor if location_floor && location_floor.to_s.strip != ""
+      if location_floor && location_floor.to_s.strip != ""
+        [location_raw,location_floor.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+      else
+        [location_raw,Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+      end
     end
 
     def location_detail_raw
-      location_detail if location_detail && location_detail.to_s.strip != ""
+      if location_detail && location_detail.to_s.strip != ""
+        [location_floor_raw,location_detail.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+      else
+        [location_floor_raw,Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+      end
     end
 
     def location_description
-      rv = [location_raw, location_floor_raw, location_detail_raw].compact.join("; ")
+      rv = [location, location_floor, location_detail].compact.map(&:strip).filter(&:present?).join("; ")
       rv unless rv.blank?
     end
 
