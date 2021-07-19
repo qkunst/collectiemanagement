@@ -4,7 +4,7 @@ module CollectionReportHelper
   BOOLEANS = [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection]
   PRICE_COLUMNS = [:replacement_value, :replacement_value_min, :purchase_price_in_eur, :replacement_value_max, :market_value, :market_value_min, :market_value_max, :minimum_bid, :selling_price]
   DATE_OR_TIME_COLUMNS = [:object_creation_year, :purchase_year, :refound, :inventoried, :new_found]
-
+  HAS_JOIN_STRING_NESTED_VALUES = [:location_raw, :location_floor_raw, :location_detail_raw]
   RANGE_GROUP = [:market_value_range, :replacement_value_range]
 
   DEEPEST = 6
@@ -53,7 +53,7 @@ module CollectionReportHelper
       url_param_value = value
     end
 
-    param_value = value == :not_set ? nil : url_param_value
+    param_value = value == Work::Search::NOT_SET_VALUE ? nil : url_param_value
 
     selected_filter_value_for_name = @selection_filter[field_name]
 
@@ -83,7 +83,7 @@ module CollectionReportHelper
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
       @params.delete("filter[#{group}.id]")
       @params.delete("filter[#{group}_id]")
-      @params["filter[#{group}][]"] = :not_set
+      @params["filter[#{group}][]"] = Work::Search::NOT_SET_VALUE
 
       link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
@@ -98,6 +98,8 @@ module CollectionReportHelper
       selection = selection.first if selection.is_a? Array
       link_label = if PRICE_COLUMNS.include?(group)
         number_to_currency(selection, precision: 0)
+      elsif HAS_JOIN_STRING_NESTED_VALUES.include?(group)
+        I18n.t(selection.split(Work::Search::JOIN_STRING_NESTED_VALUES).last, scope: "activerecord.values.work.#{group}", default: selection.split(Work::Search::JOIN_STRING_NESTED_VALUES).last)
       else
         I18n.t(selection, scope: "activerecord.values.work.#{group}", default: selection)
       end

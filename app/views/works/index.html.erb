@@ -138,7 +138,7 @@
             Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
             <% if qkunst_user? %><button type="button" class="select_all hide-for-print tertiary small button">Selecteer alles</button><% end %>
             <label class="work-selector hide">
-              <%= check_box_tag "selected_work_groups[#{@selection[:group]}][]", "not_set", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_#{@selection[:group]}_not_set", data: {work_count: works.count} %>
+              <%= check_box_tag "selected_work_groups[#{@selection[:group]}][]", Work::Search::NOT_SET_VALUE, (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]][Work::Search::NOT_SET_VALUE]), id: "selected_work_groups_#{@selection[:group]}_#{Work::Search::NOT_SET_VALUE}", data: {work_count: works.count} %>
             </label>
           </p>
             <%= render partial: 'index_works', locals: {works: works, max_index: @max_index}%>
@@ -167,7 +167,7 @@
       <% end %>
     <% else %>
       <label class="work-selector hide">
-        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]]["not_set"]), id: "selected_work_groups_all_all", data: {work_count: @inventoried_objects_count} %>
+        <%= check_box_tag "selected_work_groups[all][]", "all", (params[:selected_work_groups] && params[:selected_works][@selection[:group]] && params[:selected_works][@selection[:group]][Work::Search::NOT_SET_VALUE]), id: "selected_work_groups_all_all", data: {work_count: @inventoried_objects_count} %>
       </label>
 
       <%= render partial: 'index_works', locals: {works: @works, max_index: @max_index}%>

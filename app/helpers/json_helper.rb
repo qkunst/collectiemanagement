@@ -35,6 +35,7 @@ module JsonHelper
 
   def render_object_changes_json json
     ignore_keys = Work::INSIGNIFICANT_FIELDS.map(&:to_s)
+    ignore_keys += ["internal_comments"] unless current_user.qkunst?
     html_bits = []
 
     first = true

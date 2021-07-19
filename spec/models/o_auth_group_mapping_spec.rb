@@ -26,4 +26,11 @@ RSpec.describe OAuthGroupMapping, type: :model do
       expect(OAuthGroupMapping.collection_mappings_exists_for?("microsoft/abc")).to be_truthy
     end
   end
+  describe ".create" do
+    it "creates with valid data" do
+      expect {
+        OAuthGroupMapping.create(issuer: "trustworthytenant", value_type: :group, value: "collection1", collection_id: collections(:collection1).id, role: :facility_manager)
+      }.to change(OAuthGroupMapping, :count).by(1)
+    end
+  end
 end

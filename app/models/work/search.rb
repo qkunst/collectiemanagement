@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Work::Search
+  JOIN_STRING_NESTED_VALUES = "|>|"
+  NOT_SET_VALUE = "not_set"
+
   extend ActiveSupport::Concern
 
   included do

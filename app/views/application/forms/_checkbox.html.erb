@@ -11,7 +11,7 @@
     value = checkbox.keys[0]
     label = checkbox.values[0]
   end
-  checked = @selection_filter[field_name] && (@selection_filter[field_name].include?(value) || @selection_filter[field_name].include?(value.to_s) || (value == :not_set and @selection_filter[field_name].include?(nil)))
+  checked = @selection_filter[field_name] && (@selection_filter[field_name].include?(value) || @selection_filter[field_name].include?(value.to_s) || (value == Work::Search::NOT_SET_VALUE and @selection_filter[field_name].include?(nil)))
 %>
 <label>
   <input type="checkbox" name="filter[<%=field_name%>][]" value="<%=value%>"<%= " checked" if checked %><%= " data-auto-submit=\"true\"".html_safe if auto_submit  %>>

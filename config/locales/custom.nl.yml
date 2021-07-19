@@ -185,6 +185,12 @@ nl:
         abstract_or_figurative:
           abstract: Abstract
           figurative: Figuratief
+        location_raw:
+          not_set: Adres en/of gebouw(deel) onbekend
+        location_detail_raw:
+          not_set: Geen locatiespecificiatie
+        location_floor_raw:
+          not_set: Geen verdieping
         subset_id:
           not_set: Geen deelcollectie
         placeability_id:

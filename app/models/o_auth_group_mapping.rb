@@ -10,7 +10,7 @@ class OAuthGroupMapping < ApplicationRecord
   validates_inclusion_of :value_type, in: %w[role group], allow_blank: false
   validates_presence_of :issuer
   validates_presence_of :value
-  validates_inclusion_of :role, in: User::ROLES, allow_blank: true
+  validates_inclusion_of :role, in: User::ROLES.map(&:to_s), allow_blank: true
 
   belongs_to :collection, optional: true
 

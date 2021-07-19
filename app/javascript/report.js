@@ -34,30 +34,3 @@ $(document).on('change', '#report_filter input', function(event) {
     element.innerText = element.innerText.replace(/\d/g, "")
   })
 })
-
-
-$(document).on('change', '#report_filter input', function(event) {
-  const changeEvent = document.createEvent('HTMLEvents');
-  changeEvent.initEvent('change', true, false);
-
-  const target = event.target;
-  const parentKeyValue = JSON.parse(target.dataset.parent);
-  if (event.target.checked) {
-    for (const key in parentKeyValue) {
-      const value = parentKeyValue[key];
-      const input = document.querySelector("#report_filter input[name='"+key+"'][value='"+value+"']");
-      input.checked = true;
-      input.dispatchEvent(changeEvent);
-    }
-  } else {
-    const groupId = target.parentElement.parentElement.dataset.group
-    if (document.querySelectorAll("tr[data-group='"+groupId+"'] input:checked").length == 0) {
-      for (const key in parentKeyValue) {
-        const value = parentKeyValue[key];
-        const input = document.querySelector("#report_filter input[name='"+key+"'][value='"+value+"']");
-        input.checked = false;
-        input.dispatchEvent(changeEvent);
-      }
-    }
-  }
-})

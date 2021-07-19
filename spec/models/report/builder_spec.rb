@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe Report::Builder, type: :model do
   describe "aggregation_builder" do
-    it "should work while I'm refactoring" do
+    it "expected build result" do
       expected = {
         total: {value_count: {field: :id}},
         artists: {terms: {field: "report_val_sorted_artist_ids", size: 10_000}},
@@ -37,11 +37,8 @@ RSpec.describe Report::Builder, type: :model do
         location_raw: {terms: {field: "location_raw", size: 999}, aggs: {
           location_floor_raw: {terms: {field: "location_floor_raw", size: 999}, aggs: {
             location_detail_raw: {terms: {field: "location_detail_raw", size: 999}},
-            location_detail_raw_missing: {missing: {field: "location_detail_raw"}}
-          }},
-          location_floor_raw_missing: {missing: {field: "location_floor_raw"}, aggs: {location_detail_raw: {terms: {field: "location_detail_raw", size: 999}}, location_detail_raw_missing: {missing: {field: "location_detail_raw"}}}}
+          }}
         }},
-        location_raw_missing: {missing: {field: "location_raw"}, aggs: {location_floor_raw: {terms: {field: "location_floor_raw", size: 999}, aggs: {location_detail_raw: {terms: {field: "location_detail_raw", size: 999}}, location_detail_raw_missing: {missing: {field: "location_detail_raw"}}}}, location_floor_raw_missing: {missing: {field: "location_floor_raw"}, aggs: {location_detail_raw: {terms: {field: "location_detail_raw", size: 999}}, location_detail_raw_missing: {missing: {field: "location_detail_raw"}}}}}},
         market_value_range: {aggs: {market_value_max: {terms: {field: "market_value_max", size: 999}}}, terms: {field: :market_value_min, size: 999}},
         minimum_bid_missing: {missing: {field: "minimum_bid"}},
         purchase_price_in_eur_missing: {missing: {field: "purchase_price_in_eur"}},

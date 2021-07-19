@@ -23,7 +23,7 @@ module FastAggregatable
     end
     private def _fast_aggregate_column_values rv, attribute
       self.select(attribute).group(attribute).collect { |a| a.send(attribute) }.sort_by(&:to_s).each do |a|
-        value = (a || :not_set)
+        value = (a || Work::Search::NOT_SET_VALUE)
         if value.is_a? String
           if attribute == :grade_within_collection
             value = value[0]
@@ -39,7 +39,7 @@ module FastAggregatable
       # the attribute will have to be a valid column name
       ids = group(attribute_id).select(attribute_id).collect { |a| a.send(attribute_id) }
       if ids.include? nil
-        rv[attribute][:not_set] ||= {count: 999999, name: :not_set}
+        rv[attribute][Work::Search::NOT_SET_VALUE] ||= {count: 999999, name: Work::Search::NOT_SET_VALUE}
       end
       attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
         rv[attribute][a] ||= {count: 20000, name: a.name}
@@ -52,7 +52,7 @@ module FastAggregatable
       # the attribute will have to be a valid column name
       ids = left_outer_joins(attribute).select("#{attribute_id} AS id").distinct.collect(&:id)
       if ids.include? nil
-        rv[attribute][:not_set] ||= {count: 999999, name: :not_set}
+        rv[attribute][Work::Search::NOT_SET_VALUE] ||= {count: 999999, name: Work::Search::NOT_SET_VALUE}
       end
       attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
         rv[attribute][a] ||= {count: 999999, name: a.name}
