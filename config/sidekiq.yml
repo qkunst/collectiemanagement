@@ -5,7 +5,7 @@
 ---
 verbose: true
 pidfile: ./tmp/pids/sidekiq.pid
-concurrency:  5
+concurrency:  2
 timeout: 300
 default:
   max_retries: 5

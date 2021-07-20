@@ -60,7 +60,7 @@ module Searchable
     end
 
     def reindex_async!
-      all.each(&:reindex_async!)
+      all.each(&:reindex_async!); true
     end
   end
 end
