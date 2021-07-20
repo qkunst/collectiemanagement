@@ -60,7 +60,7 @@ RSpec.describe MessagesController, type: :controller do
       get :update, params: {id: m.id, message: {message: "kaas"}}
       expect(response).to have_http_status(:redirect)
       m.reload
-      expect(m.message).to eq(nil) # unchanged
+      expect(m.message).to eq("a message") # unchanged
     end
   end
 end
