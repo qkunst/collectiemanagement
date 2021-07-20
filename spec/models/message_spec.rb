@@ -5,16 +5,16 @@ require "rails_helper"
 RSpec.describe Message, type: :model do
   describe "callbacks" do
     it "should not mark initial message as actioned upon when not qkunst" do
-      m_o = Message.create(from_user: users(:user1))
+      m_o = Message.create(from_user: users(:user1), message: "abc", subject: "abc")
       expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
-      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:user1))
+      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:user1), message: "abc")
       m_o.reload
       expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
     end
     it "should not mark initial message as actioned upon when qkunst" do
-      m_o = Message.create(from_user: users(:user1))
+      m_o = Message.create(from_user: users(:user1), message: "abc", subject: "abc")
       expect(m_o.actioned_upon_by_qkunst_admin?).to eq(false)
-      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:advisor))
+      Message.create(in_reply_to_message_id: m_o.id, from_user: users(:advisor), message: "abc")
       m_o.reload
       expect(m_o.actioned_upon_by_qkunst_admin?).to eq(true)
     end
@@ -24,7 +24,7 @@ RSpec.describe Message, type: :model do
       it "should set on save" do
         u1 = users(:user1)
         u2 = users(:user2)
-        m = Message.new(from_user: u1, to_user: u2)
+        m = Message.new(from_user: u1, to_user: u2, message: "abc", subject: "abc")
         m.save
         expect(m.from_user_name).to eq(u1.name.to_s)
       end

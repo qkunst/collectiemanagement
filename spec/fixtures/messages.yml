@@ -2,6 +2,7 @@ conversation_starter:
   from_user: :facility_manager
   subject_object: collection1 (Collection)
   subject: Collectie 1
+  message: a mesage
 
 conversation_reply:
   from_user: :advisor
@@ -9,6 +10,7 @@ conversation_reply:
   in_reply_to_message: :conversation_starter
   subject: "Re: Collectie 1"
   conversation_start_message: :conversation_starter
+  message: a mesage
 
 conversation_reply_private:
   from_user: :admin
@@ -17,24 +19,29 @@ conversation_reply_private:
   subject: "Re: Collectie 1"
   qkunst_private: true
   conversation_start_message: :conversation_starter
+  message: a mesage
 
 conversation_starter_about_collection_with_works:
   from_user: :facility_manager
   subject_object: collection_with_works (Collection)
   subject: Collectie 1
+  message: a mesage
 
 conversation_starter_about_work:
   from_user: :facility_manager
   subject_object: work1 (Work)
   subject: Work 1
+  message: a mesage
 
 conversation_starter_collection3:
   from_user: :facility_manager_collection3
   subject_object: collection3 (Collection)
   subject: Collectie 3
+  message: a mesage
 
 old_message:
   from_user: :facility_manager
   subject_object: collection1 (Collection)
   subject: Collectie 1
   created_at: 2000-10-01T00:00:00
+  message: a mesage
