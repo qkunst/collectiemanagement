@@ -4,7 +4,7 @@ class SourceQkunstbeheer::SidekiqErrorLogger
   def call(worker, msg, queue)
     yield
   rescue => ex
-    SystemMailer.error_message(ex).deliver!
+    SystemMailer.sidekiq_error_message(ex, worker).deliver!
     raise ex
   end
 end
