@@ -3,9 +3,6 @@
 class Message < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  validates_presence_of :message
-  # validates_presence_of :subject, unless: :in_reply_to_message
-
   mount_uploader :attachment, BasicFileUploader
   mount_uploader :image, PictureUploader
 
