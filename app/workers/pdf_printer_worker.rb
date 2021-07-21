@@ -3,6 +3,9 @@
 class PdfPrinterWorker
   include Sidekiq::Worker
 
+  attr_reader :options
+  attr_reader :url
+
   sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
 
   def perform(url, options = {})
@@ -21,6 +24,9 @@ class PdfPrinterWorker
     else
       raise "Unsecure location (#{url})"
     end
+
+    @url = url
+    @options = options
 
     Grover.new(
       grover_resource,
