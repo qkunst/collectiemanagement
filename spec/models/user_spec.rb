@@ -268,6 +268,15 @@ RSpec.describe User, type: :model do
         expect(existing_user.collections).to include(collections(:collection1))
         expect(existing_user.collections).to include(collections(:collection3))
       end
+      it "it updates account, even when case doesn't match" do
+        email = users(:appraiser).email.upcase
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "micfrosoft/abc"))
+
+        expect(existing_user.facility_manager?).to be_falsey
+        expect(existing_user.appraiser?).to be_truthy
+        expect(existing_user.collections).to include(collections(:collection1))
+        expect(existing_user.collections).to include(collections(:collection3))
+      end
     end
   end
   describe "Scopes" do

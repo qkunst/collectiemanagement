@@ -200,7 +200,7 @@ class User < ApplicationRecord
       raise "Subject empty" if oauth_subject.blank?
       raise "Provider empty" if oauth_provider.blank?
 
-      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.find_by(email: email, oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0, 48])
+      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.where("users.email ILIKE ?", email).find_by(oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0, 48])
     end
 
     def from_omniauth_callback_data(data)
