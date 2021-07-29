@@ -37,8 +37,9 @@ Any relationships within multi-tiered applications found during the scoping phas
 
 *4.4* The current approved web application security assessment tools in use which will be used for testing are:
 
-* RSpec (automatic testing of access & Roles)
-* Brakeman (code inspection)
+* RSpec (automatic testing of access & Roles, automatically performed by TravisCI)
+* Brakeman (code inspection, automatically performed by Github)
+* Dependabot (scanning JavaScript & ruby dependencies, automatically performed by Github)
 * Nikto
 * Qualis SSL Lab
 

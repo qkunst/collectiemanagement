@@ -27,7 +27,7 @@ QKunst Collection Management has a relatively simple role-model. Roles discerned
 * Registrar - can add works (in detail), edit and view works, but has no access to valuations
 * Facility Manager - can update location, view works and view valuations
 * Read only - has a limited view of the works
-* Inactive worker (typically a read only user without access to any collection)
+* Inactive - a read only user without access to any collection, doesn't have access to anything at all
 
 A user can only have one base-role; the functionality of the roles has functionality in common.
 

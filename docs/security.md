@@ -1,6 +1,16 @@
 # Security
 
-Last review: 17 december 2020
+Last review: 21 july 2021
+
+This document describes the policies and measures
+
+## Web Application Security Policy
+
+A [Web Application Security Policy is in place](https://github.com/qkunst/collectiemanagement/blob/main/SECURITY.md). The purpose of this policy is to define web application security assessments within QKunst. Web application assessments are performed to identify potential or realized weaknesses as a result of inadvertent mis-configuration, weak authentication, insufficient error handling, sensitive information leakage, etc. Discovery and subsequent mitigation of these issues will limit the attack surface of QKunst services available both internally and externally as well as satisfy compliance with any relevant policies in place.
+
+## Automated security scans
+
+In our [Web Application Security Policy](https://github.com/qkunst/collectiemanagement/blob/main/SECURITY.md) tools used for automatic scanning are described.
 
 ## Connection
 
@@ -27,12 +37,13 @@ We strive for a A or higher score at [Qualys SSL Report: collectiemanagement.qku
 
 We use Let's Encrypt which offers short lived certificates.
 
-
 ## Passwords
 
 Passwords are never stored in plain text. For authentication purposes we hash passwords 10 times using the [bcrypt algorithm](https://en.wikipedia.org/wiki/Bcrypt).
 
 ## API
+
+The API is limited to read operations.
 
 ### API
 
