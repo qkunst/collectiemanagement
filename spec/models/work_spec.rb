@@ -575,29 +575,32 @@ RSpec.describe Work, type: :model do
       end
     end
     describe ".to_workbook" do
+      let(:collection) { collections(:collection_with_works) }
+
       it "should be callable and return a workbook" do
         expect(Work.to_workbook.class).to eq(Workbook::Book)
       end
       it "should be work even with complex fieldset" do
-        collection = collections(:collection4)
-
         expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
       end
       it "should work with tags" do
-        collection = collections(:collection_with_works)
         work = collection.works.first
         work.tag_list = "kaas"
         work.save
         expect(Work.to_workbook(collection.fields_to_expose(:default)).class).to eq(Workbook::Book)
       end
       it "should return basic types" do
-        collection = collections(:collection_with_works)
         work = collection.works.order(:stock_number).first
         work.save
         workbook = collection.works.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
         expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
+      end
+      it "should allow for sorting by location" do
+        workbook = collection.works.order(:location).to_workbook(collection.fields_to_expose(:default))
+        expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
       end
     end
