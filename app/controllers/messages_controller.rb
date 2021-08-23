@@ -80,7 +80,7 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       if @message.save
-        notice = "Uw bericht is verstuurd. Let op: In verband met vakanties reageren we niet voor 23 augustus. In geval van spoed graag contact opnemen via 06-41188552."
+        notice = "Uw bericht is verstuurd."
         notice += " Het bericht wordt spoedig verwerkt." unless @message.just_a_note || current_user.qkunst?
 
         redirect_to_obj = @message.subject_url unless /\/messages\//.match?(request.referrer)
