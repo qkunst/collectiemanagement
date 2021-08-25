@@ -361,7 +361,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rchardet (1.8.0)
-    redis (4.1.4)
+    redis (4.4.0)
     redis-actionpack (5.2.0)
       actionpack (>= 5, < 7)
       redis-rack (>= 2.1.0, < 3)
@@ -441,11 +441,10 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.2.2)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
+      redis (>= 4.2.0)
     sidekiq-scheduler (3.1.0)
       e2mmap
       redis (>= 3, < 5)
@@ -583,9 +582,9 @@ DEPENDENCIES
   redis-rails
   rspec-rails
   sass-rails
-  sidekiq (~> 5)
-  sidekiq-scheduler
-  sidekiq-unique-jobs
+  sidekiq (~> 6, >= 6.2.1)
+  sidekiq-scheduler (>= 3.1.0)
+  sidekiq-unique-jobs (>= 7.1.5)
   simple_form
   simplecov
   stackprof
