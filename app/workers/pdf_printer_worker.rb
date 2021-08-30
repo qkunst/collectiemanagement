@@ -16,7 +16,7 @@ class PdfPrinterWorker
     filename = "/tmp/#{SecureRandom.base58(32)}.pdf"
 
     # urls are recognized as urls, but local files are not; simple trick that works on unixy systems
-    resource = if /\A\/tmp\/[A-Za-z]*\//.match?(url)
+    resource = if /\A\/tmp\/[A-Za-z\d\.\/]*/.match?(url)
       "file://#{url}"
     elsif url.start_with? File.join(Rails.root, "public")
       "file://#{url}"
