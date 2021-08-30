@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const puppeteer = require('puppeteer');
+
+console.log(`Creating a PDF for ${process.argv[2]}`);
+
+const targetFilename = process.argv[3] || 'example.pdf'
+console.log(`Writing to: ${targetFilename}`);
+(async () => {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--font-render-hinting=none']
+  });
+  const browserVersion = await browser.version();
+  console.log(`Browser version: ${browserVersion}`);
+  const page = await browser.newPage();
+  await page.setDefaultTimeout(30*60*1000) // 30 min
+  await page.emulateMediaType('screen');
+  await page.goto(process.argv[2], {waitUntil: 'load'});
+  await page.pdf({ path: targetFilename, format: 'a4', printBackground: true });
+
+
+  await browser.close();
+})();

@@ -38,3 +38,4 @@ yarn-debug.log*
 spec/fixtures/image3.jpg
 .env
 bin/example.pdf
+example.pdf
