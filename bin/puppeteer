@@ -16,7 +16,7 @@ console.log(`Writing to: ${targetFilename}`);
   const page = await browser.newPage();
   await page.setDefaultTimeout(30*60*1000) // 30 min
   await page.emulateMediaType('screen');
-  await page.goto(process.argv[2], {waitUntil: 'load'});
+  await page.goto(process.argv[2], {waitUntil: 'networkidle0'});
   await page.pdf({ path: targetFilename, format: 'a4', printBackground: true });
 
 

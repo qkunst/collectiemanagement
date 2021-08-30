@@ -3,6 +3,11 @@
 require "rails_helper"
 
 RSpec.describe PdfPrinterWorker, type: :model do
+  it "cleans the resource" do
+    expect { PdfPrinterWorker.new.clean_resource("/tmp/CTyg9VGYtY3FM5fLon5wcTdkueGtN9t3.html") }.not_to raise_error
+
+  end
+
   it "works for /" do
     user = users(:admin)
 

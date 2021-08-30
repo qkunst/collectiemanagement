@@ -8,15 +8,9 @@ class PdfPrinterWorker
 
   sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
 
-  def perform(url, options = {})
-    inform_user_id = options[:inform_user_id] || options["inform_user_id"]
-    subject_object_id = options[:subject_object_id] || options["subject_object_id"]
-    subject_object_type = options[:subject_object_type] || options["subject_object_type"]
-
-    filename = "/tmp/#{SecureRandom.base58(32)}.pdf"
-
+  def clean_resource(url)
     # urls are recognized as urls, but local files are not; simple trick that works on unixy systems
-    resource = if /\A\/tmp\/[A-Za-z\d\.\/]*/.match?(url)
+    if /\A\/tmp\/[A-Za-z\d\.\/]*/.match?(url)
       "file://#{url}"
     elsif url.start_with? File.join(Rails.root, "public")
       "file://#{url}"
@@ -25,6 +19,17 @@ class PdfPrinterWorker
     else
       raise "Unsecure location (#{url})"
     end
+
+  end
+
+  def perform(url, options = {})
+    inform_user_id = options[:inform_user_id] || options["inform_user_id"]
+    subject_object_id = options[:subject_object_id] || options["subject_object_id"]
+    subject_object_type = options[:subject_object_type] || options["subject_object_type"]
+
+    filename = "/tmp/#{SecureRandom.base58(32)}.pdf"
+
+    resource = clean_resource(url)
 
     # setting for debugging purposes
     @url = url
