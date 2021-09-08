@@ -72,8 +72,10 @@ module Work::SizingRendering
         :m
       elsif size < 120
         :l
-      elsif size >= 120
+      elsif size < 1000
         :xl
+      elsif size >= 1000
+        :xxl
       end
     end
 
