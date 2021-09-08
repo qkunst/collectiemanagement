@@ -16,6 +16,7 @@ class Work < ApplicationRecord
   include Work::Caching
   include Work::Export
   include Work::ParameterRerendering
+  include Work::SizingRendering
   include Work::PreloadRelationsForDisplay
   include Work::Search
 

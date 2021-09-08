@@ -106,6 +106,19 @@ module WorksHelper
       sentence_items << "<span class=\"hide-for-screen\">Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}.</span>"
     end
 
+    if params[:surface_calc]
+      floor_surfaces = @works.map(&:floor_surface).compact
+      sentence_items << "</p><p>#{translate_works(floor_surfaces.count)} met een vloeroppervlak van in totaal #{floor_surfaces.sum}m². "
+
+      wall_surfaces = @works.map(&:wall_surface).compact
+      sentence_items << "#{translate_works(wall_surfaces.count)} met een muuroppervlak van in totaal #{wall_surfaces.sum}m². "
+
+      surface_less_works_count = @works.select(&:surfaceless?).count
+      if surface_less_works_count > 0
+        sentence_items << "#{translate_works(surface_less_works_count)} zonder oppervlak. "
+      end
+    end
+
     sanitize(sentence_items.join(""))
   end
 end
