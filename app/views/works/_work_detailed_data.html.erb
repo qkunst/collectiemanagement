@@ -50,6 +50,10 @@
     <%= define_unless_blank :work_size, {description: "Afm. beeld (cm)"} %>
     <%= define_unless_blank :frame_size, {description: "Afm. lijst (cm)"}  %>
     <% if @selection[:display] == :complete %>
+      <% if params[:surface_calc] %>
+        <%= define_unless_blank :floor_surface %>
+        <%= define_unless_blank :wall_surface %>
+      <% end %>
       <%= define_unless_blank :abstract_or_figurative_rendered %>
       <%= define_unless_blank :style %>
       <%= define_unless_blank :subset %>

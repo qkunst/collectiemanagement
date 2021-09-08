@@ -361,6 +361,7 @@ nl:
         entry_status: Invoerstatus
         entry_status_description: Invoerstatus opmerkingen
         figurative: Figuratief
+        floor_surface: Vloeroppervlak (m²)
         frame_damage_types:  Type schade lijst
         frame_depth: Diepte lijst (cm)
         frame_diameter: Diameter lijst (cm)
@@ -463,6 +464,7 @@ nl:
         significantly_updated_at: Bijgewerkt op
         user: Gebruiker
         valuation_on: Datum waardebepaling
+        wall_surface: Muuroppervlak (m²)
         width: Breedte beeld (cm)
         work_sets: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
