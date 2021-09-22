@@ -74,7 +74,11 @@
     <% if @selection[:display] == :complete %>
       <%= define_unless_blank :placeability  %>
       <%= define_unless_blank :permanently_fixed if work.permanently_fixed %>
+    <% end %>
+    <% if @selection[:display] == :complete || @selection[:display] == :detailed_discreet %>
       <%= define_unless_blank :grade_within_collection %>
+    <% end %>
+    <% if @selection[:display] == :complete %>
       <%= define_unless_blank :main_collection %>
     <% end %>
     <%= define_unless_blank :information_back, description: "Info. achterz." if can?(:read_information_back, work) %>
