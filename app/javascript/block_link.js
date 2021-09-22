@@ -17,7 +17,7 @@ document.addEventListener('mousedown', (e) => {
     return true; // ignore rest of method; unsupported element
   }
 
-  if ( target.matches("input") || target.matches("a")) {
+  if ( target.matches("input") || target.matches("a") || target.matches("label")) {
     // skip when action is triggered
     return null;
   }
