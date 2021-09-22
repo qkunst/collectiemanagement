@@ -23,8 +23,10 @@ module Works::Filtering
       if params[:filter] && !reset_filter?
         params[:filter].each do |field, values|
           if field == "reset"
-          elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "location", "location_raw", "location_floor_raw", "location_detail_raw", "main_collection", "tag_list"].include?(field)
+          elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| a == Work::Search::NOT_SET_VALUE ? nil : a } if params[:filter][field]
+          elsif ["location_raw", "location_floor_raw", "location_detail_raw"].include?(field)
+            @selection_filter[field] = params[:filter][field] if params[:filter][field]
           elsif Work.column_types[field.to_s] == :boolean
             @selection_filter[field] = parse_booleans(values)
           else

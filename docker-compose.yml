@@ -6,3 +6,5 @@ services:
     - "59200:9200"
     environment:
     - discovery.type=single-node
+    - xpack.security.enabled=true
+    - ELASTIC_PASSWORD=PleaseChangeMe
