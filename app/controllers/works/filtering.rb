@@ -16,7 +16,7 @@ module Works::Filtering
 
     def set_selection_filter
       @selection_filter = current_user.filter_params[:filter] || {}
-      if params[:filter] || params[:group] || params[:sort] || params[:display]
+      if params[:filter] || params[:group] || params[:sort] || params[:display] || params[:ids] || params[:work_ids_comma_separated]
         @selection_filter = {}
       end
 

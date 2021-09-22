@@ -6,9 +6,7 @@ RSpec.feature "Batch editor", type: :feature do
   include ActiveSupport::Testing::TimeHelpers
   include FeatureHelper
 
-  scenario "facility manager can scan works with batch editor" do
-    login "qkunst-test-facility_manager@murb.nl"
-
+  def open_collection_1_works
     click_on "Collecties"
     if page.body.match?("id=\"collections-list\"")
       within "#collections-list" do
@@ -16,6 +14,13 @@ RSpec.feature "Batch editor", type: :feature do
       end
     end
     click_on "Toon alle 5 werken"
+  end
+
+  scenario "facility manager can scan works with batch editor" do
+    login "qkunst-test-facility_manager@murb.nl"
+
+    open_collection_1_works
+
     click_on "Scan"
     fill_in "Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden", with: [works(:work1), works(:work2)].map(&:stock_number).join("\n")
 
@@ -147,6 +152,65 @@ RSpec.feature "Batch editor", type: :feature do
     end
   end
 
+  scenario "open selection and start batch edit after" do
+    user = users(:appraiser)
+    login user.email
+
+    visit "/collections/#{collections(:collection1).id}/report"
+    click_on("cluster1")
+
+    user.reload
+
+    visit "/collections/#{collections(:collection1).id}/report"
+    click_on("cluster2")
+
+    clusters(:cluster2).works.pluck(:id).each do |work_id|
+      check "selected_works_#{work_id}"
+    end
+
+    click_on "Locatie"
+
+    fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
+    click_on "2 werken bijwerken"
+
+    expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
+
+
+    save_and_open_page
+  end
+
+  scenario "open two selections and start batch edit after" do
+    user = users(:appraiser)
+    login user.email
+
+    visit "/collections/#{collections(:collection1).id}/report"
+    click_on("cluster1")
+
+    user.reload
+
+    cluster_1_filter_params = user.filter_params
+
+    visit "/collections/#{collections(:collection1).id}/report"
+    click_on("cluster2")
+
+    clusters(:cluster2).works.pluck(:id).each do |work_id|
+      check "selected_works_#{work_id}"
+    end
+
+    # simulate another page load visiting cluster 1
+    user.reload
+    user.filter_params = cluster_1_filter_params
+    user.save
+
+    click_on "Locatie"
+
+    fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
+    click_on "2 werken bijwerken"
+
+    expect(page).not_to have_content("De onderstaande 0 werken zijn bijgewerkt")
+    expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
+  end
+
   scenario "modify other attributes (happy flow)" do
     work_to_edit1 = works(:work1)
     work_to_edit2 = works(:work2)
@@ -190,13 +254,8 @@ RSpec.feature "Batch editor", type: :feature do
     scenario "move work to subcollection in using the cluster-batch editor" do
       login "qkunst-test-advisor@murb.nl"
 
-      click_on "Collecties"
-      if page.body.match?("id=\"collections-list\"")
-        within "#collections-list" do
-          click_on "Collection 1"
-        end
-      end
-      click_on "Toon alle 5 werken"
+      open_collection_1_works
+
       work_to_add_to_cluster = works(:work1)
 
       check "selected_works_#{work_to_add_to_cluster.id}"
