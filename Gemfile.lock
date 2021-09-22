@@ -19,7 +19,7 @@ GIT
 
 GIT
   remote: https://github.com/murb/workbook.git
-  revision: b4bc1f05970cb30983a4e4cddb2100cb9af04535
+  revision: 2559c02c8dc77c70dfb597491bab02b6da2cc54a
   branch: main
   specs:
     workbook (0.8.1)
@@ -110,7 +110,7 @@ GEM
       execjs (~> 2.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
-    bootsnap (1.8.1)
+    bootsnap (1.9.1)
       msgpack (~> 1.0)
     brpoplpush-redis_script (0.1.2)
       concurrent-ruby (~> 1.0, >= 1.0.5)
@@ -193,13 +193,13 @@ GEM
       faraday (~> 1)
       multi_json
     erubi (1.10.0)
-    et-orbi (1.2.4)
+    et-orbi (1.2.5)
       tzinfo
     exception_notification (4.4.3)
       actionmailer (>= 4.0, < 7)
       activesupport (>= 4.0, < 7)
     execjs (2.8.1)
-    faraday (1.7.1)
+    faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -225,7 +225,7 @@ GEM
       railties (>= 3.1.0)
       sass (>= 3.3.0)
       sprockets-es6 (>= 0.9.0)
-    fugit (1.5.1)
+    fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
     globalid (0.5.2)
@@ -259,7 +259,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
+    marcel (1.0.2)
     memory_profiler (1.0.0)
     method_source (1.0.0)
     mini_magick (4.11.0)
@@ -305,12 +305,12 @@ GEM
       request_store (~> 1.1)
     paper_trail-association_tracking (2.1.3)
       paper_trail (< 12.0)
-    parallel (1.20.1)
+    parallel (1.21.0)
     parser (3.0.2.0)
       ast (~> 2.4.1)
     pg (1.2.3)
     public_suffix (4.0.6)
-    puma (5.4.0)
+    puma (5.5.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.5.2)
@@ -446,7 +446,7 @@ GEM
       sidekiq (>= 3)
       thwait
       tilt (>= 1.4.0)
-    sidekiq-unique-jobs (7.1.5)
+    sidekiq-unique-jobs (7.1.6)
       brpoplpush-redis_script (> 0.1.1, <= 2.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.5)
       sidekiq (>= 5.0, < 7.0)
@@ -494,7 +494,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
-    unicode-display_width (2.0.0)
+    unicode-display_width (2.1.0)
     uniform_notifier (1.14.2)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -503,7 +503,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webpacker (5.4.2)
+    webpacker (5.4.3)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
