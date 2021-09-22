@@ -18,12 +18,12 @@ before_script:
 script:
   - bundle exec rails db:test:prepare
   - sleep 20 #making sure all services (notably elastic search) is up and running
-  - curl -X GET "localhost:59200"
+  - curl -u elastic:PleaseChangeMe -X GET "localhost:59200"
   - RAILS_ENV=test bundle exec rails qkunst:new_index_and_sync
   - sleep 2
   - bundle exec bundle audit update
   - bundle exec bundle audit check
-  - "curl -X PUT \"localhost:59200/_settings\" -H 'Content-Type: application/json' -d '{ \"index\" : { \"max_result_window\" : 5000000 } }'"
+  - "curl -u elastic:PleaseChangeMe -X PUT \"localhost:59200/_settings\" -H 'Content-Type: application/json' -d '{ \"index\" : { \"max_result_window\" : 5000000 } }'"
   - bundle exec rspec
 services:
   - docker
