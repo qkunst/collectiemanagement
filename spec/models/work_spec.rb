@@ -599,9 +599,10 @@ RSpec.describe Work, type: :model do
         expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
       end
       it "should allow for sorting by location" do
-        workbook = collection.works.order(:location).to_workbook(collection.fields_to_expose(:default))
+        works = collection.works.order(:location)
+        workbook = works.to_workbook(collection.fields_to_expose(:default))
         expect(workbook.class).to eq(Workbook::Book)
-        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq(works[0].artist_name_rendered)
       end
     end
     describe ".update" do
