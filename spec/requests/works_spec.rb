@@ -128,6 +128,7 @@ RSpec.describe "Works", type: :request do
         it "should be able to search" do
           # required for TravisCI
           collection.works_including_child_works.all.reindex!
+          sleep(1)
 
           sign_in user
 
