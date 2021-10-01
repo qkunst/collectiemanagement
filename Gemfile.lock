@@ -156,7 +156,7 @@ GEM
     carrierwave-imageoptimizer (1.6.0)
       carrierwave (>= 0.8, < 3.0)
       image_optimizer (~> 1.6)
-    caxlsx (3.1.0)
+    caxlsx (3.1.1)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -275,7 +275,7 @@ GEM
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.1.0)
     nio4r (2.5.8)
-    nokogiri (1.12.4)
+    nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     oauth2 (1.4.7)
@@ -460,7 +460,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.3)
-    spreadsheet (1.2.9)
+    spreadsheet (1.3.0)
       ruby-ole
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -536,20 +536,20 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rbenv
-  capybara
+  capybara (>= 3.35.3)
   carrierwave
   carrierwave-imageoptimizer
   daemons
   dalli
   database_cleaner
   devise!
-  dotenv-rails
+  dotenv-rails (>= 2.7.6)
   elasticsearch-model (~> 7)
   elasticsearch-rails (~> 7)
-  exception_notification
+  exception_notification (>= 4.4.3)
   flamegraph
   foreman
-  foundation-rails
+  foundation-rails (>= 6.6.2.0)
   highline
   jbuilder
   keyword_finder
@@ -560,35 +560,35 @@ DEPENDENCIES
   memory_profiler
   mini_magick
   nested_form
-  nokogiri
+  nokogiri (>= 1.12.5)
   omniauth
   omniauth-azure-activedirectory!
   omniauth-google-oauth2
-  omniauth-rails_csrf_protection
+  omniauth-rails_csrf_protection (>= 1.0.0)
   paper_trail (= 11.1.0)
   paper_trail-association_tracking
   pg
   puma
   rack-headers_filter
   rack-mini-profiler
-  rails (~> 6)
-  redis-rails
-  rspec-rails
-  sass-rails
+  rails (~> 6, >= 6.1.4.1)
+  redis-rails (>= 5.0.2)
+  rspec-rails (>= 5.0.2)
+  sass-rails (>= 6.0.0)
   sidekiq (~> 6, >= 6.2.1)
   sidekiq-scheduler (>= 3.1.0)
   sidekiq-unique-jobs (>= 7.1.5)
-  simple_form
+  simple_form (>= 5.1.0)
   simplecov
   stackprof
   standard
   strip_attributes
   turbolinks
   uglifier
-  web-console
-  webpacker
+  web-console (>= 4.1.0)
+  webpacker (>= 5.4.3)
   workbook!
-  zipline
+  zipline (>= 1.3.0)
 
 BUNDLED WITH
    2.1.4

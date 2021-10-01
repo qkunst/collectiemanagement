@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>6"
+gem "rails", "~> 6", ">= 6.1.4.1"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -11,7 +11,7 @@ gem "rails", "~>6"
 # gem "markdown-rails"
 gem "puma"
 # Use SCSS for stylesheets
-gem "sass-rails"
+gem "sass-rails", ">= 6.0.0"
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier"
 # Use CoffeeScript for .coffee assets and views
@@ -30,7 +30,7 @@ gem "bootsnap"
 gem "lockbox"
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem "capybara"
+  gem "capybara", ">= 3.35.3"
   gem "byebug", platform: :mri
   gem "foreman"
 end
@@ -50,7 +50,7 @@ gem "devise", git: "https://github.com/heartcombo/devise.git"
 gem "carrierwave"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
-gem "nokogiri"
+gem "nokogiri", ">= 1.12.5"
 gem "attribute_normalizer" # keeps the database clean
 ##
 ## SEARCH
@@ -58,7 +58,7 @@ gem "attribute_normalizer" # keeps the database clean
 
 gem "elasticsearch-model", "~> 7"
 gem "elasticsearch-rails", "~> 7"
-gem "rspec-rails", group: [:development, :test]
+gem "rspec-rails", ">= 5.0.2", group: [:development, :test]
 
 ##
 ## DEVELOPMENT
@@ -70,7 +70,7 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-rails"
   gem "highline"
-  gem "web-console"
+  gem "web-console", ">= 4.1.0"
   gem "listen"
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
@@ -81,14 +81,14 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.1.0"
 gem "kramdown"
 
 ##
 ## STYLING
 ##
 
-gem "foundation-rails"
+gem "foundation-rails", ">= 6.6.2.0"
 gem "autoprefixer-rails"
 
 ##
@@ -103,21 +103,21 @@ gem "paper_trail", "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
-gem "redis-rails" # jobs
+gem "redis-rails" , ">= 5.0.2" # jobs
 gem "dalli" # memcache
-gem "exception_notification"
-gem "zipline"
+gem "exception_notification", ">= 4.4.3"
+gem "zipline", ">= 1.3.0"
 gem "rack-headers_filter"
 gem "strip_attributes"
 gem "omniauth"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection"
+gem "omniauth-rails_csrf_protection", ">= 1.0.0"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
 gem "sidekiq", "~> 6", ">= 6.2.1"
 gem "sidekiq-scheduler", ">= 3.1.0"
 gem "sidekiq-unique-jobs", ">= 7.1.5"
 
-gem "webpacker"
+gem "webpacker", ">= 5.4.3"
 
 gem "rack-mini-profiler"
 gem "flamegraph"
@@ -130,4 +130,4 @@ group :test do
   gem "bullet"
 end
 gem "standard", group: [:development, :test]
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", ">= 2.7.6", groups: [:development, :test]
