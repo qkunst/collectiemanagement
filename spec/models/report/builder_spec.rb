@@ -36,7 +36,7 @@ RSpec.describe Report::Builder, type: :model do
         object_creation_year: {terms: {field: "object_creation_year", size: 999}}, object_creation_year_missing: {missing: {field: "object_creation_year"}}, purchase_year: {terms: {field: "purchase_year", size: 999}}, purchase_year_missing: {missing: {field: "purchase_year"}}, publish: {terms: {field: "publish", size: 999}}, publish_missing: {missing: {field: "publish"}}, image_rights: {terms: {field: "image_rights", size: 999}}, image_rights_missing: {missing: {field: "image_rights"}},
         location_raw: {terms: {field: "location_raw", size: 999}, aggs: {
           location_floor_raw: {terms: {field: "location_floor_raw", size: 999}, aggs: {
-            location_detail_raw: {terms: {field: "location_detail_raw", size: 999}},
+            location_detail_raw: {terms: {field: "location_detail_raw", size: 999}}
           }}
         }},
         market_value_range: {aggs: {market_value_max: {terms: {field: "market_value_max", size: 999}}}, terms: {field: :market_value_min, size: 999}},

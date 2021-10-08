@@ -74,6 +74,5 @@ RSpec.describe Work::SizingRendering do
   end
 
   describe "#surfaceless?" do
-
   end
 end

@@ -174,9 +174,6 @@ RSpec.feature "Batch editor", type: :feature do
     click_on "2 werken bijwerken"
 
     expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
-
-
-    save_and_open_page
   end
 
   scenario "open two selections and start batch edit after" do

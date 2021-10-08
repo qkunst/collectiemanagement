@@ -10,7 +10,7 @@ class PdfPrinterWorker
 
   def clean_resource(url)
     # urls are recognized as urls, but local files are not; simple trick that works on unixy systems
-    if /\A\/tmp\/[A-Za-z\d\.\/]*/.match?(url)
+    if /\A\/tmp\/[A-Za-z\d.\/]*/.match?(url)
       "file://#{url}"
     elsif url.start_with? File.join(Rails.root, "public")
       "file://#{url}"
@@ -19,7 +19,6 @@ class PdfPrinterWorker
     else
       raise "Unsecure location (#{url})"
     end
-
   end
 
   def perform(url, options = {})
@@ -40,7 +39,7 @@ class PdfPrinterWorker
       raise "Node not found. Required."
     end
 
-    Rails.logger.debug ("Start creating a pdf using puppeteer, command: #{command}")
+    Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command}")
     system(command, exception: true)
 
     if inform_user_id

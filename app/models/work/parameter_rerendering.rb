@@ -85,17 +85,17 @@ module Work::ParameterRerendering
 
     def location_floor_raw
       if location_floor && location_floor.to_s.strip != ""
-        [location_raw,location_floor.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+        [location_raw, location_floor.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
       else
-        [location_raw,Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+        [location_raw, Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
       end
     end
 
     def location_detail_raw
       if location_detail && location_detail.to_s.strip != ""
-        [location_floor_raw,location_detail.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+        [location_floor_raw, location_detail.strip].join(Work::Search::JOIN_STRING_NESTED_VALUES)
       else
-        [location_floor_raw,Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
+        [location_floor_raw, Work::Search::NOT_SET_VALUE].join(Work::Search::JOIN_STRING_NESTED_VALUES)
       end
     end
 

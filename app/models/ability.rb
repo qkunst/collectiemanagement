@@ -94,8 +94,7 @@ class Ability
     permitted_fields = [:alt_number_1, :alt_number_2, :alt_number_3, :object_creation_year, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2]
     permitted_fields += [:location_detail, :location, :location_floor, :work_status_id] if can?(:read_location, Work)
     permitted_fields += [:internal_comments] if can?(:read_internal_comments, Work)
-    permitted_fields += [
-    ]
+    permitted_fields += []
     if can?(:edit, Work)
       permitted_fields += [
         :inventoried, :refound, :new_found,

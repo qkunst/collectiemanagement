@@ -434,7 +434,7 @@ class Work < ApplicationRecord
   end
 
   def mark_significant_update_if_significant
-    self.significantly_updated! if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
+    significantly_updated! if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
   end
 
   class << self

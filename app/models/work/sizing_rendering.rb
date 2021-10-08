@@ -97,6 +97,5 @@ module Work::SizingRendering
     def work_size
       whd_to_s(width, height, depth, diameter)
     end
-
   end
 end
