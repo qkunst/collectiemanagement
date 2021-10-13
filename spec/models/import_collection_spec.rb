@@ -32,6 +32,15 @@ RSpec.describe ImportCollection, type: :model do
         expect(i.import_file_to_workbook_table.to_csv).to match("Qimp003, onbekend,Uniek,,D,\"earth, wind\"\nQimp004, Onbekend,Uniek2,,G")
       end
     end
+    describe "#columns_for_select" do
+      it "should not expose unsupported options" do
+        object_keys = ImportCollection.new.columns_for_select.keys
+        expect(object_keys).to include(:work)
+        expect(object_keys).not_to include(:work_sets)
+        expect(object_keys).not_to include(:library_items)
+        expect(object_keys.length).to eq(4)
+      end
+    end
     describe "#update" do
       it "should allow for updating import settings" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")))
@@ -114,6 +123,7 @@ RSpec.describe ImportCollection, type: :model do
         expect(read[4].inventoried).to eq(false)
         expect(read[5].inventoried).to eq(false)
       end
+
       it "should not import into a different collection when not a child" do
         i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_failing_collection.csv")))
         i.collection = collections(:collection1)

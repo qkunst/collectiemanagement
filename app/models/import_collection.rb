@@ -79,7 +79,7 @@ class ImportCollection < ApplicationRecord
     complex_association = false
     field_type = :string
 
-    if objekt == import_type_symbolized.to_s
+    if objekt == "work"
       association = find_import_association_by_name(fieldname.to_sym)
       property = fieldname
       if association
@@ -214,7 +214,7 @@ class ImportCollection < ApplicationRecord
 
     lookup_artists!(parameters)
 
-    new_obj = import_type.new(parameters)
+    new_obj = Work.new(parameters)
 
     Rails.logger.debug "  result: #{new_obj.inspect}"
 
@@ -241,7 +241,7 @@ class ImportCollection < ApplicationRecord
     end
 
     other_relations.merge({
-      import_type_symbolized => virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns
+      work: (virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns)
     })
   end
 
@@ -315,7 +315,7 @@ class ImportCollection < ApplicationRecord
 
   def import_associations
     # scoped_class = collection.send(a.name)
-    @import_associations ||= import_type.reflect_on_all_associations.collect { |a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
+    @import_associations ||= Work.reflect_on_all_associations.collect { |a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
   end
 
   def find_import_association_by_name(name)
@@ -328,13 +328,5 @@ class ImportCollection < ApplicationRecord
 
   def ignore_columns
     ["id", "created_at", "updated_at", "imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
-  end
-
-  def import_type
-    Work
-  end
-
-  def import_type_symbolized
-    import_type.to_s.downcase.to_sym
   end
 end
