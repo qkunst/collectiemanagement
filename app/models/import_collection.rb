@@ -44,6 +44,7 @@ class ImportCollection < ApplicationRecord
 
   def import_file_to_workbook_table
     return nil if import_file_snippet.nil? || import_file_snippet.empty?
+
     offset = internal_header_row_offset
     table = Workbook::Table.new
     workbook.sheet.table.each_with_index do |row, index|
@@ -55,15 +56,11 @@ class ImportCollection < ApplicationRecord
   end
 
   def read(table = import_file_snippet_to_workbook_table)
-    result = []
-
-    table.each do |row|
+    table.collect do |row|
       unless row.header?
-        result << process_table_data_row(row)
+        process_table_data_row(row)
       end
-    end
-    # Rails.logger.debug "  result: #{result.inspect}"
-    result
+    end.compact
   end
 
   def collapse_all_generated_artists
@@ -115,7 +112,7 @@ class ImportCollection < ApplicationRecord
     read(import_file_to_workbook_table).collect { |a| a.save }
     collapse_all_generated_artists
     # just to be sure
-    collection.works.reindex!
+    collection.works.reindex_async!
   end
 
   def find_keywords table_value, fields
@@ -236,12 +233,12 @@ class ImportCollection < ApplicationRecord
       if import_association.importable? && import_association.findable_by_name?
         virtual_columns << import_association.name
       elsif import_association.importable?
-        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names) - ignore_columns
+        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names) - ignore_columns_generic
       end
     end
 
     other_relations.merge({
-      work: (virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns)
+      work: (virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns_generic - ignore_columns_work)
     })
   end
 
@@ -326,7 +323,12 @@ class ImportCollection < ApplicationRecord
     column_names.select { |a| !a.match(/(.*)_id/) }
   end
 
-  def ignore_columns
-    ["id", "created_at", "updated_at", "imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
+  def ignore_columns_work
+    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value]
   end
+
+  def ignore_columns_generic
+    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache]
+  end
+
 end
