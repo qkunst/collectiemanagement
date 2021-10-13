@@ -124,6 +124,7 @@ class Work < ApplicationRecord
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
+  accepts_nested_attributes_for :library_items
 
   validates_with Validators::CollectionScopeValidator
 
