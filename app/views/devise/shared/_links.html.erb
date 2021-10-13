@@ -22,3 +22,5 @@
 <%= button_to "Log in met Google", omniauth_authorize_path(resource_name, :google_oauth2), class: [:secondary, :button] %><br />
 
 <%= button_to "Log in met Microsoft", omniauth_authorize_path(resource_name, :azureactivedirectory), class: [:secondary, :button] %><br />
+
+<%= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button] %><br />

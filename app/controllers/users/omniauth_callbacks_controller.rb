@@ -76,6 +76,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     create_user_with_callback_data(data, "Google")
   end
 
+  def central_login
+    puts "aaaaaaaaaa"
+    # puts omniauth_data
+
+    # raise
+  end
+
   def azureactivedirectory
     data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: omniauth_data["provider"])
     data.email = omniauth_data.info[:email]

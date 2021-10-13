@@ -10,7 +10,7 @@ class User < ApplicationRecord
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
-    :recoverable, :rememberable, :trackable, :validatable, :timeoutable, omniauth_providers: [:google_oauth2, :azureactivedirectory]
+    :recoverable, :rememberable, :trackable, :validatable, :timeoutable, omniauth_providers: [:google_oauth2, :azureactivedirectory, :central_login]
 
   store :collection_accessibility_serialization
   store :filter_params
