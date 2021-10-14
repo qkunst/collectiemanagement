@@ -40,7 +40,7 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   # end
 
   # Create different versions of your uploaded files:
-  version :big_thumb, if: :process_now? do
+  version :big_thumb do
     process resize_to_fit: [250, 250]
     process optimize: [{quality: 40}]
   end
