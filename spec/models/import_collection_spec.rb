@@ -40,6 +40,10 @@ RSpec.describe ImportCollection, type: :model do
         expect(object_keys).not_to include(:library_items)
         expect(object_keys.length).to eq(4)
       end
+
+      it "should include must have appraisal keys" do
+        p ImportCollection.new.columns_for_select[:appraisals]
+      end
     end
     describe "#update" do
       it "should allow for updating import settings" do

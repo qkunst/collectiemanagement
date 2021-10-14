@@ -294,6 +294,10 @@ class ImportCollection < ApplicationRecord
       if (field_type == :float) && (decimal_separator_with_fallback == ",") && corresponding_value
         corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
+      # hack against aggressive conversion to floats
+      if (field_type == :string && corresponding_value.start_with?(/TEXTVALUE\d/))
+        corresponding_value = corresponding_value.sub("TEXTVALUE","")
+      end
       if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
         new_value = corresponding_value
       elsif [:array, ActsAsTaggableOn::TagList, Array].include? field_type
@@ -324,7 +328,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def ignore_columns_work
-    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value]
+    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value appraised_on tags]
   end
 
   def ignore_columns_generic
