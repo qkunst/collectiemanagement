@@ -277,6 +277,10 @@ nl:
         replacement_value_range: Vervangingswaardecategorie (€)
         market_value: Marktwaarde (€)
         market_value_range: Marktwaardecategorie (€)
+        market_value_min: Min. marktwaardecategorie (€)
+        market_value_max: Max. Marktwaardecategorie (€)
+        replacement_value_min: Min. vervangingswaardecategorie (€)
+        replacement_value_max: Max. vervangingswaardecategorie (€)
         appraised_on: Gewaardeerd op
         appraisee: Het gewaardeerde
       attachment:
@@ -467,6 +471,7 @@ nl:
         wall_surface: Muuroppervlak (m²)
         width: Breedte beeld (cm)
         work_sets: Werkgroeperingen
+        work_set_types: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
         work_status: Status
         artist_0_artist_name: Vervaardiger 1 Artiestennaam

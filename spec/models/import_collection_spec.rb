@@ -36,9 +36,10 @@ RSpec.describe ImportCollection, type: :model do
       it "should not expose unsupported options" do
         object_keys = ImportCollection.new.columns_for_select.keys
         expect(object_keys).to include(:work)
+        expect(object_keys).to include(:artists)
         expect(object_keys).not_to include(:work_sets)
         expect(object_keys).not_to include(:library_items)
-        expect(object_keys.length).to eq(4)
+        expect(object_keys.length).to eq(3)
       end
 
       it "should include must have appraisal keys" do

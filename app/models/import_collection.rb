@@ -328,11 +328,11 @@ class ImportCollection < ApplicationRecord
   end
 
   def ignore_columns_work
-    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value appraised_on tags]
+    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value appraised_on tags geoname_summary work_set_types created_by_name]
   end
 
   def ignore_columns_generic
-    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data]
+    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data appraisee_type]
   end
 
 end
