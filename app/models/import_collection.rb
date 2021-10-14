@@ -295,7 +295,7 @@ class ImportCollection < ApplicationRecord
         corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
       # hack against aggressive conversion to floats
-      if (field_type == :string && corresponding_value.start_with?(/TEXTVALUE\d/))
+      if (field_type == :string && corresponding_value && corresponding_value.to_s.start_with?(/TEXTVALUE\d/))
         corresponding_value = corresponding_value.sub("TEXTVALUE","")
       end
       if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
@@ -332,7 +332,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def ignore_columns_generic
-    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache]
+    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data]
   end
 
 end
