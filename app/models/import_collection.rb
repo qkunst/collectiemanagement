@@ -44,6 +44,7 @@ class ImportCollection < ApplicationRecord
 
   def import_file_to_workbook_table
     return nil if import_file_snippet.nil? || import_file_snippet.empty?
+
     offset = internal_header_row_offset
     table = Workbook::Table.new
     workbook.sheet.table.each_with_index do |row, index|
@@ -55,15 +56,11 @@ class ImportCollection < ApplicationRecord
   end
 
   def read(table = import_file_snippet_to_workbook_table)
-    result = []
-
-    table.each do |row|
+    table.collect do |row|
       unless row.header?
-        result << process_table_data_row(row)
+        process_table_data_row(row)
       end
-    end
-    # Rails.logger.debug "  result: #{result.inspect}"
-    result
+    end.compact
   end
 
   def collapse_all_generated_artists
@@ -79,7 +76,7 @@ class ImportCollection < ApplicationRecord
     complex_association = false
     field_type = :string
 
-    if objekt == import_type_symbolized.to_s
+    if objekt == "work"
       association = find_import_association_by_name(fieldname.to_sym)
       property = fieldname
       if association
@@ -115,7 +112,7 @@ class ImportCollection < ApplicationRecord
     read(import_file_to_workbook_table).collect { |a| a.save }
     collapse_all_generated_artists
     # just to be sure
-    collection.works.reindex!
+    collection.works.reindex_async!
   end
 
   def find_keywords table_value, fields
@@ -214,7 +211,7 @@ class ImportCollection < ApplicationRecord
 
     lookup_artists!(parameters)
 
-    new_obj = import_type.new(parameters)
+    new_obj = Work.new(parameters)
 
     Rails.logger.debug "  result: #{new_obj.inspect}"
 
@@ -236,12 +233,12 @@ class ImportCollection < ApplicationRecord
       if import_association.importable? && import_association.findable_by_name?
         virtual_columns << import_association.name
       elsif import_association.importable?
-        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names) - ignore_columns
+        other_relations[import_association.name] = filter_columns_ending_on_id(import_association.klass.column_names) - ignore_columns_generic
       end
     end
 
     other_relations.merge({
-      import_type_symbolized => virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns
+      work: (virtual_columns + filter_columns_ending_on_id(Work.column_names) - ignore_columns_generic - ignore_columns_work)
     })
   end
 
@@ -297,6 +294,10 @@ class ImportCollection < ApplicationRecord
       if (field_type == :float) && (decimal_separator_with_fallback == ",") && corresponding_value
         corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
+      # hack against aggressive conversion to floats
+      if (field_type == :string && corresponding_value && corresponding_value.to_s.start_with?(/TEXTVALUE/))
+        corresponding_value = corresponding_value.sub("TEXTVALUE","")
+      end
       if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
         new_value = corresponding_value
       elsif [:array, ActsAsTaggableOn::TagList, Array].include? field_type
@@ -315,7 +316,7 @@ class ImportCollection < ApplicationRecord
 
   def import_associations
     # scoped_class = collection.send(a.name)
-    @import_associations ||= import_type.reflect_on_all_associations.collect { |a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
+    @import_associations ||= Work.reflect_on_all_associations.collect { |a| ImportCollection::ClassAssociation.new({relation: a.macro, name: a.name, class_name: a.class_name, collection: collection}) }
   end
 
   def find_import_association_by_name(name)
@@ -326,15 +327,12 @@ class ImportCollection < ApplicationRecord
     column_names.select { |a| !a.match(/(.*)_id/) }
   end
 
-  def ignore_columns
-    ["id", "created_at", "updated_at", "imported_at", "created_by_id", "lognotes", "external_inventory", "html_cache"]
+  def ignore_columns_work
+    %w[artist_name_for_sorting appraisal_notice replacement_value_max replacement_value_min market_value_max market_value_min collection_locality_artist_involvements_texts_cache tag_list_cache artist_name_rendered valuation_on market_value replacement_value appraised_on tags geoname_summary_id work_set_types created_by_name]
   end
 
-  def import_type
-    Work
+  def ignore_columns_generic
+    %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data appraisee_type]
   end
 
-  def import_type_symbolized
-    import_type.to_s.downcase.to_sym
-  end
 end
