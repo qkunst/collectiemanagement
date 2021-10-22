@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= "QKunst Collectiemanagement - #{@title}" %></title>
+
+    <%= stylesheet_link_tag    "application", media: 'all' %>
+    <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Poppins:400,700,300,600,500|Droid+Serif:400,700|Roboto+Slab:300&subset=latin,latin-ext&ver=1.0", media: "all" %>
+    <%#= javascript_include_tag "application" %>
+    <%= javascript_pack_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
+    <nav class="top-bar">
+      <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print responsive-toggle">
+        <button class="menu-icon dark" type="button" data-toggle></button>
+      </div>
+      <div class="top-bar-title">
+        <h1>
+          <%= link_to root_path do %>
+            <%= image_tag "logo3.svg", id: 'logo', alt: "QKunst Collectiemanagement"%>
+            <% end%>
+        </h1>
+      </div>
+      <div id="responsive-menu" class="hide-for-print">
+
+        <div class="top-bar-left">
+          <ul class="vertical-only-small menu">
+            <li><%= menu_link_to 'Collecties', collections_path if current_user %></li>
+            <% if @collection && @collection.id%>
+            <li class="submenu-container  hide-for-medium"><%= menu_link_to @collection.name, collection_path(@collection)%>
+              <ul class="menu vertical-only-small">
+                <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
+                <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
+                <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
+                <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
+                <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
+                <li><%= menu_link_to "Beheer", collection_manage_path(@collection) if can? :review, Collection %></li>
+              </ul>
+            </li>
+            <% end %>
+            <% if can? :read, Message %>
+              <li><%= menu_link_to 'Berichten', messages_path%></li>
+            <% end %>
+            <% unless offline? %>
+              <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
+              <li><%= menu_link_to 'Beheren', admin_path if can?(:manage, :all) %></li>
+              <li><%= menu_link_to 'Gebruikers', users_path if can?(:manage, User) %></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="vertical-only-small menu">
+            <% if user_signed_in? %>
+              <li><%= menu_link_to "Ingelogd als #{current_user.email}", edit_user_registration_path %> </li>
+
+            <li><%= link_to "Uitloggen", destroy_user_session_path, method: :delete, class:"alert" %> </li>
+            <% else %>
+            <li><%= link_to "Inloggen", new_user_session_path %> </li>
+
+            <% end%>
+            <% if current_user && current_user.qkunst? %>
+              <li id="online-statuses">
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-offline" title="onlinestatus: offline"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-offline-page-online" title="onlinestatus: offline"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-uncertain" title="onlinestatus: onduidelijk"></a>
+                <a href="/debug-offline?offline=offline" data-turbolinks="false" class="online-status" id="online-status-online" title="onlinestatus: online"></a>
+              </li>
+            <% end %>
+          </ul>
+
+        </div>
+      </div>
+
+    </nav>
+
+   <% if notice %><div data-closable class="callout primary"><%= notice %>   <button class="close-button" aria-label="Sluit melding" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button></div><% end %>
+   <% if alert || @alert %><div data-closable class="callout alert"><%= alert || @alert %>   <button class="close-button" aria-label="Sluit waarschuwing" type="button" data-close>
+    <span aria-hidden="true">&times;</span>
+  </button></div><% end %>
+      <div class="row">
+        <div class="large-12 columns">
+          <% if @collection and @collection.name %>
+            <%= render partial: 'collections/subnav'%>
+            <% if request.path.match(/\/manage\//) || @manage_controller %>
+              <%= render partial: 'collections/manage_subnav'%>
+            <% end %>
+          <% end %>
+          <%= yield %>
+
+         </div>
+       </div>
+     <footer class="">
+       <div class="row">
+          <%= yield(:footer)%>
+       </div>
+     </footer>
+     <div id="context-container" class="closed">
+     </div>
+     <% if debug? %>
+     <div class="debug-container">
+       <h3>Debug output</h3>
+<textarea id="debug-output">
+Start logging at <%= Time.now%> (server time)
+
+</textarea>
+     </div>
+     <% end %>
+  </body>
+</html>
