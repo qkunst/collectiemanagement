@@ -30,7 +30,11 @@ module CollectionReportHelper
     elsif group == :balance_category
       "Zonder toelichting"
     else
-      "Niets ingevuld"
+      begin
+        I18n.t :not_set, scope: "activerecord.values.work.#{group}", raise: true
+      rescue  I18n::MissingTranslationData
+        "Niets ingevuld"
+      end
     end
   end
 
@@ -77,6 +81,18 @@ module CollectionReportHelper
     end
   end
 
+  def filter_key(group)
+    if Work.belong_tos.include? group
+      "filter[#{group}_id][]"
+    elsif Work.has_and_belongs_to_manies.include? group
+      "filter[#{group}.id][]"
+    elsif Work.has_manies.include? group
+      "filter[#{group}.id][]"
+    else
+      "filter[#{group}][]"
+    end
+  end
+
   def link(group, selection)
     link_label = selection
 
@@ -85,40 +101,7 @@ module CollectionReportHelper
     @params.delete("filter[#{group}][]")
 
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
-      filter_key = if [:cluster, :work_status].include? group
-        "filter[#{group}_id][]"
-      elsif [:techniques, :artists, :themes].include? group
-        "filter[#{group}.id][]"
-      else
-        "filter[#{group}][]"
-      end
-
-      # TODO: this should be centralized
-      # :artists
-      # :condition_work
-      # :condition_frame
-      # :placeability
-      # :abstract_or_figurative
-      # :cluster
-      # :themes
-      # :tag_list
-      # :balance_category
-      # :missing_explainer
-      # :minimum_bid
-      # :selling_price
-      # :sources
-      # :purchase_year
-      # :purchase_price_in_eur
-      # :object_categories_split
-      # :techniques
-      # :permanently_fixed
-      # :object_format_code
-      # :object_creation_year
-      # :work_status
-      # :grade_within_collection
-      # :owner
-      # :image_rights
-      # :publish
+      filter_key = filter_key(group)
 
       @params[filter_key] = Work::Search::NOT_SET_VALUE
 

@@ -19,6 +19,7 @@ class Work < ApplicationRecord
   include Work::SizingRendering
   include Work::PreloadRelationsForDisplay
   include Work::Search
+  include Work::Reflecting
 
   store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6]
 
