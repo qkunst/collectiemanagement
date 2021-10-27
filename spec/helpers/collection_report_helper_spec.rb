@@ -19,10 +19,17 @@ RSpec.describe CollectionReportHelper, type: :helper do
     before do
       allow(helper).to receive(:show_filter_check_boxes).and_return(true)
     end
-    it "renders a checkbox" do
+    it "renders a checkbox for location" do
       filter_params = {"filter[location_raw][]" => "asdf", "filter[location_floor_raw][]" => "verd", "filter[location_detail_raw][]" => "loc"}
       expect(helper.filter_check_box(filter_params)).to eq("<input type=\"checkbox\" name=\"filter[location_detail_raw][]\" id=\"filter_location_detail_raw_\" value=\"loc\" data-parent=\"{&quot;filter[location_floor_raw][]&quot;:&quot;verd&quot;}\" />")
     end
+    it "renders a checkbox for an missing value" do
+      filter_params = {"filter[cluster_id][]" => Work::Search::NOT_SET_VALUE}
+      expect(helper.filter_check_box(filter_params)).to eq("<input type=\"checkbox\" name=\"filter[cluster_id][]\" id=\"filter_cluster_id_\" value=\"not_set\" data-parent=\"{}\" />")
+
+    end
+
+
   end
 
   describe "#render_report_column" do

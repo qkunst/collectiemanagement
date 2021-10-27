@@ -80,17 +80,53 @@ module CollectionReportHelper
   def link(group, selection)
     link_label = selection
 
+    @params.delete("filter[#{group}.id]")
+    @params.delete("filter[#{group}_id]")
+    @params.delete("filter[#{group}][]")
+
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
-      @params.delete("filter[#{group}.id]")
-      @params.delete("filter[#{group}_id]")
-      @params["filter[#{group}][]"] = Work::Search::NOT_SET_VALUE
+      filter_key = if [:cluster, :work_status].include? group
+        "filter[#{group}_id][]"
+      elsif [:techniques, :artists, :themes].include? group
+        "filter[#{group}.id][]"
+      else
+        "filter[#{group}][]"
+      end
+
+      # TODO: this should be centralized
+      # :artists
+      # :condition_work
+      # :condition_frame
+      # :placeability
+      # :abstract_or_figurative
+      # :cluster
+      # :themes
+      # :tag_list
+      # :balance_category
+      # :missing_explainer
+      # :minimum_bid
+      # :selling_price
+      # :sources
+      # :purchase_year
+      # :purchase_price_in_eur
+      # :object_categories_split
+      # :techniques
+      # :permanently_fixed
+      # :object_format_code
+      # :object_creation_year
+      # :work_status
+      # :grade_within_collection
+      # :owner
+      # :image_rights
+      # :publish
+
+      @params[filter_key] = Work::Search::NOT_SET_VALUE
 
       link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)_split$/, '\1')
       id_separator = "."
-      id_separator = "_" unless group.to_s.ends_with?("s") || group.to_s.ends_with?("split")
-      @params.delete("filter[#{group}][]")
+      id_separator = "_" unless (group.to_s.ends_with?("s") && group.to_s != "work_status") || group.to_s.ends_with?("split")
       @params["filter[#{group}#{id_separator}id]"] = selection.keys
 
       link_label = selection.values.to_sentence

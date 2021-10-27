@@ -119,7 +119,7 @@ module Work::Search
         if (key == "locality_geoname_id") || (key == "geoname_ids") || (key == "tag_list")
           values = values.compact
           if values.count == 0
-            new_bool[:bool] = {mustNot: {exists: {field: key}}}
+            new_bool[:bool] = {must_not: {exists: {field: key}}}
           else
             values.each do |value|
               new_bool[:bool][:should] << {term: {key => {value: value}}}
@@ -131,7 +131,7 @@ module Work::Search
             new_bool[:bool][:should] << if !value.nil?
               {term: {key => value}}
             elsif key.ends_with?(".id")
-              {mustNot: {exists: {field: key}}}
+              {bool: {must_not: {exists: {field: key}}}}
             else
               {bool: {must_not: {exists: {field: key}}}}
             end

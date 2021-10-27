@@ -14,11 +14,16 @@ module Works::Filtering
       @reset ||= parse_boolean(params.dig(:filter, :reset))
     end
 
-    def set_selection_filter
+    # sets filter starting with empty or a user's previous filter; but reset when params are present that modify the state
+    def initiate_filter
       @selection_filter = current_user.filter_params[:filter] || {}
       if params[:filter] || params[:group] || params[:sort] || params[:display] || params[:ids] || params[:work_ids_comma_separated]
         @selection_filter = {}
       end
+    end
+
+    def set_selection_filter
+      initiate_filter
 
       if params[:filter] && !reset_filter?
         params[:filter].each do |field, values|

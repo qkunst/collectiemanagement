@@ -298,16 +298,6 @@ class Collection < ApplicationRecord
     rv
   end
 
-  def report
-    return @report if @report
-    Report::Parser.key_model_relations = Collection::KEY_MODEL_RELATIONS.map { |k, v| [k, v.constantize] }.to_h
-    if elastic_aggragations
-      @report = Report::Parser.parse(elastic_aggragations)
-    else
-      false
-    end
-  end
-
   def search_works(search = "", filter = {}, options = {})
     Work.search_and_filter(self, search, filter, options)
   end
