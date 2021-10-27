@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'settings';
 
 .hint {
   margin-top: -1em;
@@ -31,7 +31,7 @@ fieldset {
   margin-bottom: 1em;
   border-bottom: 1px solid $light-grey;
   legend {
-    color: $qkunst-brown;
+    color: $header-color;
     font-size: 1.2em;
   }
 }
@@ -43,13 +43,13 @@ input.radio_buttons {
 
 .field_with_errors {
   .input .error {
-    color: $qkunst-orange;
+    color: $warning-color;
   }
 }
 
 fieldset.warning {
   border: 5px solid #f00;
-  border-color: $qkunst-orange;
+  border-color: $warning-color;
   padding: 1em;
 }
 

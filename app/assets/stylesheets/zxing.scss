@@ -18,12 +18,14 @@
   border: 5px solid $white;
   border-color: $white;
   transition: border-color 0.1s;
+  overflow: hidden;
+
   &.active {
-    border-color: $qkunst-brown;
+    border-color: $focus-color;
   }
   &.active.flash {
     transition: border-color 1s;
-    border-color: $qkunst-green;
+    border-color: $primary-color;
   }
   text-align: center;
   button {
