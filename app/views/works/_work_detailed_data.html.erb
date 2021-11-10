@@ -118,7 +118,7 @@
 
         <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
         <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
-        <%= define_unless_blank :balance_category %>
+        <%= define_unless_blank :balance_category unless work.appraised? %>
         <%= define_unless_blank :selling_price_minimum_bid_comments %>
         <% if can?(:read_valuation_reference, work.collection) %>
           <%= define_unless_blank :price_reference if @selection[:display] == :complete %>

@@ -77,6 +77,14 @@ RSpec.describe Work, type: :model do
         expect(works(:work_diptych_1)).not_to be_appraisable
       end
     end
+    describe "#appraised?" do
+      it "should return false by default" do
+        expect(Work.new).not_to be_appraised
+      end
+      it "should return true for an appraised work" do
+        expect(works(:work1)).to be_appraised
+      end
+    end
     describe "#artist_#\{index\}_methods" do
       it "should have a first artist" do
         w = works(:work1)

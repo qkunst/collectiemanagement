@@ -196,6 +196,10 @@ class Work < ApplicationRecord
     appraisable? ? replacement_value_range : appraisable_set.replacement_value_range
   end
 
+  def appraised?
+    market_value_complete || market_value_range_complete
+  end
+
   # This method is built to be fault tolerant and tries to make the best out of user given input.
   def purchased_on= date
     if date.is_a? String
