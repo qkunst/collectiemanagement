@@ -28,8 +28,10 @@ module Work::Export
           value.file ? value.file.filename : nil
         elsif [GeonameSummary].include? value.class
           value.label
-        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet, BalanceCategory].include? value.class
+        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet].include? value.class
           value.name
+        elsif [BalanceCategory].include? value.class
+          value.name unless self.appraised?
         elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
           artist_name_rendered_without_years_nor_locality_semicolon_separated
         elsif /ActiveRecord_Associations_CollectionProxy/.match?(value.class.to_s)

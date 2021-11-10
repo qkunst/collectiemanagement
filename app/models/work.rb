@@ -197,7 +197,7 @@ class Work < ApplicationRecord
   end
 
   def appraised?
-    market_value_complete || market_value_range_complete
+    market_value_complete || market_value_range_complete || market_value || replacement_value_range
   end
 
   # This method is built to be fault tolerant and tries to make the best out of user given input.
