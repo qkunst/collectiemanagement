@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'settings';
 // Place all the styles related to the appraisals controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -37,7 +37,7 @@ table {
     th {
       border-bottom: 1px solid #ccc;
       text-align: left;
-      color: $qkunst-brown;
+      color: $primary-color;
       padding-left: 0.25em;
       padding-bottom: 0.5em;
       padding-top: 0.5em;
@@ -113,11 +113,11 @@ table.non_cyclic_graph {
         opacity: 0.2;
       }
       &.completed {
-        background: $qkunst-grey;
+        background: $secondary-color;
         color: $white;
       }
       &.active {
-        background: $qkunst-brown;
+        background: $primary-color;
         color: $white;
         .button_to input[type=button], .button_to input[type=submit] {
           color: $white;

@@ -3,10 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 @import 'settings';
-@import 'variables';
 
 .stocknumber, .stocknumber a {
-  background: $qkunst-grey;
+  background: $label-background;
   color: #fff;
   font-size: 1rem;
   line-height: 1.2;
@@ -19,12 +18,12 @@
 }
 #stocknumber-nav {
   a {
-    color: $qkunst-grey;
+    color: $anchor-color;
     text-decoration: none;
     padding: 2px 2px 2px 3px;
     transition: color 0.2s;
     &:hover {
-      color: lighten($qkunst-grey, 20);
+      color: lighten($anchor-color, 20);
     }
   }
 }
@@ -73,8 +72,8 @@
   }
   .stocknumber {
     float: right;
-    background: $qkunst-grey;
-    color: #fff;
+    background: $label-color;
+    color: $white;
     font-size: 0.8em;
     line-height: 1.2;
     margin-top: 1px;
@@ -82,25 +81,25 @@
     width: auto;
   }
   &.external_inventory .stocknumber{
-    background: #fff;
-    border: 1px solid $qkunst-grey;
-    color: $qkunst-grey;
+    background: $white;
+    border: 1px solid $label-color;
+    color: $label-color;
   }
   h3 {
     font-size: 1rem;
-    color: $qkunst-brown;
+    color: $primary-color;
     line-height: 1;
     margin: 0.3em 0 0em 0;
   }
   h4 {
     font-size: 1rem;
-    color: $qkunst-grey;
+    color: $secondary-color;
     margin: 0;
   }
   p {
     font-size: 1em;
     display: block;
-    color: $qkunst-grey;
+    color: $secondary-color;
     margin:0;
     white-space: nowrap;
 
@@ -219,14 +218,14 @@ tr.show-only-sort-updated_at {
 
     th {
       font-weight: normal;
-      color: $qkunst-brown;
+      color: $primary-color;
       white-space: nowrap;
       overflow: hidden;
     }
   }
   a {
     font-weight: 300;
-    color: $qkunst-dark;
+    color: darken($anchor-color,20);
   }
 
 }

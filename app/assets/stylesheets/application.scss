@@ -25,7 +25,7 @@ $-zf-bp-value: null;
 //Qoranje: F69022
 //blauw: 232EFB
 .turbolinks-progress-bar {
-  background-color: lighten($qkunst-brown,20) !important;
+  background-color: lighten($primary-color,20) !important;
   height: 3px;
   width: 100%;
   position: absolute;
@@ -76,7 +76,7 @@ article {
     border-top: 1px solid #f0f0f0;
     background: #fafafa;
     padding: 0.5em;
-    color: $qkunst-grey;
+    color: $secondary-color;
     .button {
       margin-bottom: 0;
     }
@@ -88,7 +88,7 @@ header {
     float: right;
     clear: right;
     font-size: 0.875em;
-    color: $qkunst-grey;
+    color: $secondary-color;
     text-align: right;
   }
 
@@ -163,9 +163,9 @@ nav.top-bar {
     a {
       font-family: $navigation-font-family;
       font-weight: 300;
-      color: $qkunst-grey;
+      color: $secondary-color;
       &.active {
-        color: $qkunst-brown;
+        color: $primary-color;
       }
     }
   }
@@ -241,10 +241,10 @@ h3 {
   width: 102.6%;
   a {
     font-family: $navigation-font-family;
-    color: $qkunst-grey;
+    color: $secondary-color;
     font-weight: normal;
     &.active {
-      color: $qkunst-brown;
+      color: $primary-color;
     }
   }
 
@@ -342,14 +342,14 @@ button.inline {
       background: #f0f;
     }
     &#online-status-online {
-      background: $qkunst-green;
+      background: $success-color;
     }
     &#online-status-uncertain {
       background: #ccc;
       display: block;
     }
     &#online-status-offline {
-      background: #f00;
+      background: $alert-color;
     }
   }
 

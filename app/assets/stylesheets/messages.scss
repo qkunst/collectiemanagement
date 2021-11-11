@@ -1,7 +1,7 @@
 // Place all the styles related to the messages controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-@import 'variables';
+@import 'settings';
 
 table.conversations {
   width: 100%;
@@ -34,7 +34,7 @@ article.message {
     margin: 1em 0;
 
     header {
-      background: $qkunst_brown;
+      background: $primary-color;
       h6, h5, h4, h3 {
         color: $white;
       }
