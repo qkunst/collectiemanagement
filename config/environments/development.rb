@@ -29,7 +29,8 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  config.action_controller.asset_host = "http://localhost:3000"
+  # config.action_controller.asset_host = "http://localhost:3000"
+  config.hosts << "collectiemanagement.test"
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
