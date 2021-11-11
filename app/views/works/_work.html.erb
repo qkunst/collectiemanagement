@@ -25,7 +25,7 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
       <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" %>
     </label>
     <% end %>
-      <p class="stocknumber"><%= @for_print ? work.stock_number : link_to(work.stock_number, this_works_collection_work_url) %><% if work.external_inventory? %><span title="Dit werk is niet door QKunst geïnventariseerd">*</span><% end %></p>
+      <p class="stocknumber"><%= @for_print ? work.stock_number : link_to(work.stock_number, this_works_collection_work_url) %><% if work.external_inventory? %><span title="Dit werk is niet door #{I18n.t(organisation.name)} geïnventariseerd">*</span><% end %></p>
         <% if @selection[:display] == :compact%>
         <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
         <% else %>

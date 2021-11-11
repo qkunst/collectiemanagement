@@ -28,7 +28,7 @@
   <h2>Gebruikers in de wachtrij</h2>
 
   <% if @inactive_users.any? %>
-  <p>Onderstaande gebruikers hebben zich aangemeld voor de QKunst collectiebeheer applicatie, maar zijn nog niet actief omdat ze nog geen toegang hebben tot enige collectie. U kunt ze toegang geven tot (één van) uw collecties en een bijpassende rol selecteren.</p>
+  <p>Onderstaande gebruikers hebben zich aangemeld voor de <%=I18n.t("application.name")%> applicatie, maar zijn nog niet actief omdat ze nog geen toegang hebben tot enige collectie. U kunt ze toegang geven tot (één van) uw collecties en een bijpassende rol selecteren.</p>
   <ul>
     <% @inactive_users.each do |user| %>
       <li><% if can? :update, user %><%= link_to user.email, edit_collection_user_path(@collection, user) %><% end %></li>
@@ -36,6 +36,6 @@
   </ul>
   <% end %>
 
-  <p>Om gebruikers toegang te geven tot uw collectie, nodig ze uit om te registreren voor de QKunst collectiebeheer applicatie via de volgende url:</p>
+  <p>Om gebruikers toegang te geven tot uw collectie, nodig ze uit om te registreren voor de <%=I18n.t("application.name")%> applicatie via de volgende url:</p>
   <pre><%= new_user_registration_url %></pre>
 <% end %>

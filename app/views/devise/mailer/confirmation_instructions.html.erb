@@ -1,6 +1,6 @@
 <p>Beste <%= @email %>,</p>
 
-<p>U heeft zich aangemeld voor de QKunst Collectiemanagement webapplicatie. Indien u zichzelf heeft aangemeld kunt u uw account met onderstaande link bevestigen:</p>
+<p>U heeft zich aangemeld voor de <%=I18n.t("application.name")%> webapplicatie. Indien u zichzelf heeft aangemeld kunt u uw account met onderstaande link bevestigen:</p>
 
 <p><%= link_to 'Bevestig account', confirmation_url(@resource, confirmation_token: @token) %></p>
 

@@ -10,7 +10,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
     context email_to_role(email_address) do
       scenario "cannot edit anything" do
         visit root_path
-        expect(page).to have_content("QKunst Collectiemanagement")
+        expect(page).to have_content(I18n.t("application.name"))
         expect(page).to have_content("Welkom")
 
         login email_address

@@ -136,7 +136,7 @@ class WorksController < ApplicationController
     elsif can?(:edit, @work)
       render :edit
     else
-      redirect_to collection_work_path(@collection, @work), notice: "Het werk kon niet worden aangepast, neem contact op met QKunst om de wijziging te maken."
+      redirect_to collection_work_path(@collection, @work), notice: "Het werk kon niet worden aangepast, neem contact op met #{I18n.t("application.responsible_party")} om de wijziging te maken."
     end
   end
 
@@ -172,7 +172,7 @@ class WorksController < ApplicationController
   def destroy
     authorize! :destroy, @work
     @work.destroy
-    redirect_to collection_works_url(@collection), notice: "Het werk is definitief verwijderd uit de QKunst database"
+    redirect_to collection_works_url(@collection), notice: "Het werk is definitief verwijderd uit de #{I18n.t("application.name")} database"
   end
 
   private

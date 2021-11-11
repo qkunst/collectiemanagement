@@ -600,17 +600,24 @@ RSpec.describe Work, type: :model do
       it "should return basic types" do
         work = collection.works.order(:stock_number).first
         work.save
+
+        expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
+
         workbook = collection.works.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
+
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
-        expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
         expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
       end
       it "should allow for sorting by location" do
-        works = collection.works.order(:location)
+        works = collection.works.order_by(:location)
+
         workbook = works.to_workbook(collection.fields_to_expose(:default))
         expect(workbook.class).to eq(Workbook::Book)
-        expect(workbook.sheet.table[1][:vervaardigers].value).to eq(works[0].artist_name_rendered)
+
+        expect(workbook.sheet.table[1]["Adres en/of gebouw(deel)"].value).to eq("Adres")
+        expect(workbook.sheet.table[1]["Verdieping"].value).to eq("Floor 1")
+        expect(workbook.sheet.table[1]["Locatie specificatie"].value).to eq("Room 1")
       end
     end
     describe ".update" do

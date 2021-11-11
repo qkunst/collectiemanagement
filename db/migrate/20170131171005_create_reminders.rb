@@ -19,7 +19,7 @@ class CreateReminders < ActiveRecord::Migration[5.0]
     # Maar ook b.v. een Test herinnering (Iedere dag)
     Reminder.create(
       name: "Controle nodig",
-      text: "Het is een jaar geleden sinds QKunst heeft gekeken naar deze collectie.",
+      text: "Het is een jaar geleden sinds #{I18n.t("organisation.name")} heeft gekeken naar deze collectie.",
       stage: Stage.where(name: "Oplevering").first,
       repeat: true,
       interval_length: 1,
@@ -27,7 +27,7 @@ class CreateReminders < ActiveRecord::Migration[5.0]
     )
     Reminder.create(
       name: "Herziening waardering gewenst",
-      text: "Het is drie jaar geleden dat QKunst de waardering heeft verzorgd van de werken in deze collectie.",
+      text: "Het is drie jaar geleden dat #{I18n.t("organisation.name")} de waardering heeft verzorgd van de werken in deze collectie.",
       stage: Stage.where(name: "Waardering").first,
       repeat: true,
       interval_length: 3,

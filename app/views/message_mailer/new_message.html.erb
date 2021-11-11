@@ -1,4 +1,4 @@
-<p>Er is een nieuw bericht geplaatst binnen de QKunst collectie database:</p>
+<p>Er is een nieuw bericht geplaatst binnen <%=I18n.t("application.name")%>:</p>
 <%= render @message %>
 <% if @message.subject_object %>
   <% if @message_object.is_a? Work %>

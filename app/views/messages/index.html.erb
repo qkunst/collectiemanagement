@@ -1,10 +1,10 @@
 <div id="main">
 <h1>Conversaties</h1>
-<p class="hide-in-context">Stel een vraag of laat een opmerking achter. Gaat het om een specifiek werk of collectie, maak dan gebruik van de knop om een vraag te stellen of een opmerking te maken bij die collectie of dat werk. Alle berichten zijn in te zien door QKunst administratoren.</p>
+<p class="hide-in-context">Stel een vraag of laat een opmerking achter. Gaat het om een specifiek werk of collectie, maak dan gebruik van de knop om een vraag te stellen of een opmerking te maken bij die collectie of dat werk. Alle berichten zijn in te zien door <%=I18n.t("organisation.name")%> administratoren.</p>
 <% if @work %>
-  <p>Stel een vraag aan een QKunst medewerker over dit werk of plaats een opmerking.</p>
+  <p>Stel een vraag aan een <%=I18n.t("organisation.name")%> medewerker over dit werk of plaats een opmerking.</p>
 <% elsif @collection %>
-  <p>Stel een vraag aan een QKunst medewerker over deze collectie of plaats een opmerking.</p>
+  <p>Stel een vraag aan een <%=I18n.t("organisation.name")%> medewerker over deze collectie of plaats een opmerking.</p>
 <% end %>
 
 <div class="tabs">
@@ -55,7 +55,7 @@
         <td><%= link_to message.subject_rendered, message %>
           <ul class="labels right">
             <% if message.qkunst_private %>
-              <li class="label round qkunst_private qkunst">QKunst Intern</li>
+              <li class="label round qkunst_private qkunst"><%=I18n.t("organisation.name")%> Intern</li>
             <% end %>
             <% if message.just_a_note %>
               <li class="label round just_a_note secondary">Notitie</li>
@@ -110,7 +110,7 @@
         <td><%= link_to message.subject_rendered, message %>
           <ul class="labels right">
             <% if message.qkunst_private %>
-              <li class="label round qkunst_private qkunst">QKunst Intern</li>
+              <li class="label round qkunst_private qkunst"><%=I18n.t("organisation.name")%> Intern</li>
             <% end %>
             <% if message.just_a_note %>
               <li class="label round just_a_note secondary">Notitie</li>

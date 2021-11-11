@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
     unless devise_controller?
       authenticate_user!
       if current_user
-        redirect_options = offline? ? {} : {alert: "Alleen medewerkers van QKunst kunnen deze pagina bekijken"}
+        redirect_options = offline? ? {} : {alert: "Alleen medewerkers van #{I18n.t("organisation.name")} kunnen deze pagina bekijken"}
         redirect_to root_path, redirect_options unless current_user.qkunst?
       end
     end
@@ -111,7 +111,7 @@ class ApplicationController < ActionController::Base
   def authenticate_qkunst_user_if_no_collection!
     set_collection
     unless current_user.qkunst? || @collection
-      redirect_options = offline? ? {} : {alert: "U dient een QKunst medewerker te zijn"}
+      redirect_options = offline? ? {} : {alert: "U dient een #{I18n.t("organisation.name")} medewerker te zijn"}
       redirect_to root_path, redirect_options
     end
   end
@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
     unless devise_controller?
       authenticate_user!
       if current_user
-        redirect_options = offline? ? {} : {alert: "Alleen geactiveerde gebruikers kunnen deze pagina bekijken. Nog niet geactiveerd? Neem contact op met QKunst."}
+        redirect_options = offline? ? {} : {alert: "Alleen geactiveerde gebruikers kunnen deze pagina bekijken. Nog niet geactiveerd? Neem contact op met #{I18n.t("organisation.name")}."}
         redirect_to root_path, redirect_options unless current_user.activated?
       end
     end
