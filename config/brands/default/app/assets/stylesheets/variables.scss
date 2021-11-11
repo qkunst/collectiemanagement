@@ -1,0 +1,93 @@
+$primary-color: null;
+$secondary-color: null;
+$success-color: null;
+$warning-color: null;
+$alert-color: null;
+
+$white       : #FFFFFF;
+$ghost       : #FAFAFA;
+$snow        : #F9F9F9;
+$vapor       : #F6F6F6;
+$white-smoke : #F5F5F5;
+$silver      : #EFEFEF;
+$smoke       : #EEEEEE;
+$gainsboro   : #DDDDDD;
+$iron        : #CCCCCC;
+$base        : #AAAAAA;
+$aluminum    : #999999;
+$jumbo       : #888888;
+$monsoon     : #777777;
+$steel       : #666666;
+$charcoal    : #555555;
+$tuatara     : #444444;
+$oil         : #333333;
+$jet         : #222222;
+$black       : #000000;
+
+$qkunst-red:            rgba(#EA4630, 1);
+$qkunst-orange:         rgba(#EA8830, 1);
+$qkunst-brown:          rgba(#AF917D, 1);
+$qkunst-grey :          rgba(#676a6a, 1);
+$qkunst-dark :          rgba(#1A1A18, 1);
+$qkunst-blue:           rgba(#18186B, 1);
+$qkunst-green:          rgba(#99DF95, 1);
+$light-grey:            rgba(#ccc, 1);
+$lighter-grey:          rgba(#f0f0f0, 1);
+$background-light-grey: rgba(#fafafa, 1);
+
+
+$light-gray: #e6e6e6;
+$medium-gray: #bacaca;
+$gray: #aaaaaa;
+$dark-gray: #8a8a8a;
+$black: #0a0a0a;
+$white: #fff;
+
+$menu-height: 2.5rem;
+$navbar-height: $menu-height;
+
+$navigation-font-family: "Poppins", "Futura", sans-serif;
+$header-font-family: 'Poppins', 'Futura', 'Arial Black';
+
+
+
+
+
+
+
+
+
+
+
+$include-html-classes: true;
+$include-print-styles: true;
+
+// b. Grid
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+//$off-canvas-overlay-box-shadow: -4px -4px 4px rgba($black, .5);
+$topbar-bg-color: $white;
+$topbar-bg: $topbar-bg-color;
+$topbar-link-color: $oil;
+$topbar-link-color-hover: $oil;
+$topbar-link-color-active: $oil;
+$topbar-link-color-active-hover: $oil;
+$topbar-link-hover-lightness: +10%; // Darken by 10%
+$topbar-link-bg: $topbar-bg;
+$topbar-link-bg-hover: #ccc;
+$topbar-link-bg-color-hover: $topbar-bg;
+$topbar-link-bg-active: $topbar-bg;
+$topbar-link-bg-active-hover: scale-color($topbar-bg, $lightness: +14%);
+$topbar-dropdown-bg: $topbar-bg;
+$topbar-dropdown-link-color: $oil;
+$topbar-dropdown-label-bg: $topbar-bg;
+$topbar-menu-link-color: $oil;
+$topbar-menu-icon-color: $oil;
+$topbar-menu-link-color-toggled: $jumbo;
+$topbar-menu-icon-color-toggled: $jumbo;
+
+
+.label.qkunst {
+  background:  $qkunst-brown;
+}

@@ -2,3 +2,5 @@ files:
   - app/views/layouts/application.html.erb
   - config/locales/branding.nl.yml
   - app/assets/images/logo.svg
+  - app/assets/stylesheets/_settings.scss
+  - app/assets/stylesheets/variables.scss
