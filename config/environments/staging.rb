@@ -98,8 +98,8 @@ Rails.application.configure do
 
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
-      email_prefix: "[#{I18n.t(application.name)}-staging] ",
-      sender_address: %("#{I18n.t(application.name)} Exception" <execption_notification@murb>),
+      email_prefix: "[#{I18n.t("application.name")}-staging] ",
+      sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb>),
       exception_recipients: %w[qkunst@murb.nl]
     }
 end

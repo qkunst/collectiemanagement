@@ -75,7 +75,7 @@ namespace :deploy do
 
   before "assets:precompile", :brand! do
     on roles(:app), in: :groups, limit: 5, wait: 0 do
-      execute "cd #{release_path} && pwd && #{fetch(:rbenv_prefix)} bundle exec rails branding:pull default"
+      execute "cd #{release_path} && RAILS_ENV=#{fetch(:stage)} #{fetch(:rbenv_prefix)} bundle exec rails branding:pull default"
     end
   end
 
