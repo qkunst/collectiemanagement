@@ -42,9 +42,9 @@ set :linked_dirs, %w[log tmp public/uploads storage node_modules]
 
 # rbenv
 set :rbenv_type, :user
-set :rbenv_path, "/home/#{fetch(:remote_user)}/.rbenv"
+set :rbenv_path, "~/.rbenv"
 set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
-set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_prefix, "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
 
@@ -73,43 +73,101 @@ namespace :deploy do
   after :publishing, :restart
 
   before "assets:precompile", :brand! do
-    on roles(:app), in: :groups, limit: 5, wait: 0 do |role|
-      execute "cd #{release_path} && RAILS_ENV=#{fetch(:stage)} #{fetch(:rbenv_prefix)} bundle exec rails branding:pull default"
+    on roles(:app) do |role|
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :rails, "branding:pull #{host.properties.brand || "default"}"
+        end
+      end
     end
   end
 
 end
 
-
+Rake::Task["rbenv:validate"].clear_actions
 
 namespace :rbenv do
   desc "Install rbenv"
   task :install do
     on roles(:setup) do
       begin
-        execute "git clone https://github.com/rbenv/rbenv.git #{fetch(:rbenv_path)}"
+        execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
         puts "rbenv already installed, updating..."
-        execute "cd #{fetch(:rbenv_path)} && git pull"
+        execute "cd ~/.rbenv && git pull"
       end
       # execute "~/.rbenv/bin/rbenv init"
-      execute "mkdir -p #{fetch(:rbenv_path)}/plugins"
+      execute "mkdir -p ~/.rbenv/plugins"
       begin
-        execute "git clone https://github.com/rbenv/ruby-build.git #{fetch(:rbenv_path)}/plugins/ruby-build"
+        execute "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
       rescue SSHKit::Command::Failed
         puts "rbenv/ruby-build plugin already installed, updating..."
-        execute "cd #{fetch(:rbenv_path)}/plugins/ruby-build && git pull"
+        execute "cd ~/.rbenv/plugins/ruby-build && git pull"
       end
       rbenv_ruby = File.read(".ruby-version").strip
-      execute "#{fetch(:rbenv_path)}/bin/rbenv install -s #{fetch(:rbenv_ruby) || rbenv_ruby}"
-      execute "#{fetch(:rbenv_path)}/bin/rbenv global #{fetch(:rbenv_ruby) || rbenv_ruby}"
-      execute "#{fetch(:rbenv_path)}/bin/rbenv local #{fetch(:rbenv_ruby) || rbenv_ruby}"
-      # execute "#{fetch(:rbenv_path)}/bin/rbenv rehash"
+      execute "~/.rbenv/bin/rbenv install -s #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      execute "~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      execute "~/.rbenv/bin/rbenv local #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      # execute "~/.rbenv/bin/rbenv rehash"
       execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && ruby -v"
 
       execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && gem install bundler --no-document"
       if fetch(:rbenv_ruby).nil?
         puts "\nPlease uncomment the line `# set :rbenv_ruby, File.read('.ruby-version').strip` to enable capistrano rbenv"
+      end
+
+      execute :echo, "'export PATH=\"$HOME/.rbenv/bin:$PATH\"'", ">>", "~/.bashrc"
+      execute :echo, "'eval \"$(rbenv init -)\"'", ">>", "~/.bashrc"
+    end
+  end
+
+  task :validate do
+    on release_roles(fetch(:rbenv_roles)) do |host|
+      rbenv_ruby = fetch(:rbenv_ruby)
+      if rbenv_ruby.nil?
+        info 'rbenv: rbenv_ruby is not set; ruby version will be defined by the remote hosts via rbenv'
+      end
+
+      # don't check the rbenv_ruby_dir if :rbenv_ruby is not set (it will always fail)
+      unless rbenv_ruby.nil? || (test "[ -d #{fetch(:rbenv_ruby_dir)} ]")
+        warn "rbenv: #{rbenv_ruby} is not installed or not found in #{fetch(:rbenv_ruby_dir)} on #{host}"
+        # exit 1
+      end
+    end
+  end
+
+  desc "update ruby"
+  task :update do
+    on roles(:app), in: :sequence do
+      execute "git -C ~/.rbenv/plugins/ruby-build pull"
+      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
+      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
+      execute "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
+    end
+  end
+end
+
+namespace :nvm do
+  desc "Install node version manager"
+  task :install do
+    on roles(:setup) do
+      begin
+        execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash"
+      rescue SSHKit::Command::Failed
+        puts "nvm already installed."
+      end
+    end
+  end
+
+  desc "update node"
+  task :update do
+    on roles(:app) do
+      node_version = File.read(File.expand_path("../.nvmrc", __dir__)).strip
+      begin
+        execute "nvm install #{node_version}"
+        execute "nvm exec #{node_version} npm install -g yarn"
+      rescue SSHKit::Command::Failed
+        puts "nvm not installed."
       end
     end
   end
@@ -135,14 +193,5 @@ namespace :server do
     end
   end
 
-  desc "Install ruby"
-  task :install_ruby do
-    on roles(:app), in: :sequence do
-      execute :rbenv, " install #{fetch(:rbenv_ruby)} -k"
-      execute :rbenv, " global #{fetch(:rbenv_ruby)}"
-      execute :gem, " install bundler"
-      execute :echo, "'export PATH=\"$HOME/.rbenv/bin:$PATH\"'", ">>", "~/.bashrc"
-      execute :echo, "'eval \"$(rbenv init -)\"'", ">>", "~/.bashrc"
-    end
-  end
+
 end
