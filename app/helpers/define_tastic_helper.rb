@@ -34,9 +34,9 @@ module DefineTasticHelper
       val = val.name
     end
     if val.is_a? Date
-      val = I18n.l(val, {format: :short})
+      val = I18n.l(val, format: :short)
     elsif val.is_a?(DateTime) || val.is_a?(Time)
-      val = I18n.l(val, {format: :short})
+      val = I18n.l(val, format: :short)
     elsif val.is_a? TrueClass
       val = "Ja"
     elsif val.is_a? FalseClass

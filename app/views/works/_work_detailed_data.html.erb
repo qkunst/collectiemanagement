@@ -24,7 +24,7 @@
       <% if @selection[:display] == :detailed_with_location_history %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
         <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
-          <tr><td><%= I18n.l(h_work[:created_at], {format: :short})%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
+          <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
         <% end %>
       <% end %>
       </tbody>

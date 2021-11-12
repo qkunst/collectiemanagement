@@ -52,7 +52,6 @@ set :local_user, `whoami`.strip
 set :public_key, File.open("/Users/#{fetch(:local_user)}/.ssh/id_rsa.pub").read
 set :database_name, "qkunst-prod"
 set :database_user, "qkunst"
-set :application_production_domain_name, fetch(:application)
 
 set :email, "maarten@murb.nl"
 
@@ -74,7 +73,7 @@ namespace :deploy do
   after :publishing, :restart
 
   before "assets:precompile", :brand! do
-    on roles(:app), in: :groups, limit: 5, wait: 0 do
+    on roles(:app), in: :groups, limit: 5, wait: 0 do |role|
       execute "cd #{release_path} && RAILS_ENV=#{fetch(:stage)} #{fetch(:rbenv_prefix)} bundle exec rails branding:pull default"
     end
   end
@@ -145,52 +144,5 @@ namespace :server do
       execute :echo, "'export PATH=\"$HOME/.rbenv/bin:$PATH\"'", ">>", "~/.bashrc"
       execute :echo, "'eval \"$(rbenv init -)\"'", ">>", "~/.bashrc"
     end
-  end
-
-  desc "App specific instructions for nginx+passenger over http2"
-  task :server_config do
-    puts "# sudo vim /etc/nginx/sites-available/#{fetch(:application)}"
-    puts "server {
-  listen 80;
-  server_name #{fetch(:application)} www.#{fetch(:application)};
-  client_max_body_size 50M;
-
-  if ($http_host = www.#{fetch(:application)}) {
-      rewrite ^/(.*) http://#{fetch(:application)}/$1 permanent;
-  }
-
-  root #{fetch(:deploy_to)}/current/public;
-  passenger_ruby /home/#{fetch(:remote_user)}/.rbenv/shims/ruby;
-  passenger_app_env #{fetch(:stage)};
-  passenger_enabled on;
-}"
-    puts "\n\n# sudo ln -s /etc/nginx/sites-available/#{fetch(:application)} /etc/nginx/sites-enabled"
-    puts "\n\n# sudo service nginx restart"
-    puts "\n\n# sudo certbot certonly --webroot -w #{fetch(:deploy_to)}/current/public -d #{fetch(:application)} -d www.#{fetch(:application)}\n\n"
-    puts "server {
-  listen 443 ssl http2;
-  server_name #{fetch(:application)} www.#{fetch(:application)};
-  client_max_body_size 50M;
-  ssl on;
-  ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:RSA+3DES:!ADH:!AECDH:!MD5;
-  ssl_prefer_server_ciphers on;
-  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-  ssl_certificate /etc/letsencrypt/live/#{fetch(:application)}/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/#{fetch(:application)}/privkey.pem;
-
-  if ($http_host = www.#{fetch(:application)}) {
-      rewrite ^/(.*) https://#{fetch(:application)}/$1 permanent;
-  }
-
-  root #{fetch(:deploy_to)}/current/public;
-  passenger_ruby /home/#{fetch(:remote_user)}/.rbenv/shims/ruby;
-  passenger_app_env #{fetch(:stage)};
-  passenger_enabled on;
-}
-server {
-  listen 80;
-  server_name #{fetch(:application)} www.#{fetch(:application)};
-  rewrite ^/(.*) https://#{fetch(:application)}/$1 permanent;
-}"
   end
 end

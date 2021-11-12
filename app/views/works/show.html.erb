@@ -10,7 +10,7 @@
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav"><%= link_to "◀", [@collection, @work.previous] %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next] %></nav>
-    <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, {format: :short}%></p>
+    <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, format: :short%></p>
   </div>
   <div class="large-12 columns">
     <p>
