@@ -1,9 +1,12 @@
 <h1><%=I18n.t("application.name")%></h1>
-<p>Welkom in de <%=I18n.t("application.name")%> webapplicatie. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de bedrijfscollectie van uw organisatie.  </p>
+<p>Welkom in de <%=I18n.t("application.name")%> webapplicatie. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de collectie van uw organisatie.  </p>
 
 <% if @methods.include? :google %>
 <%= button_to "Log in met uw Google account", omniauth_authorize_path(:user, :google_oauth2), class: [:secondary, :button] %><br/>
 <% end %>
 <% if @methods.include? :microsoft %>
 <%= button_to "Log in met uw Microsoft account", omniauth_authorize_path(:user, :azureactivedirectory), class: [:secondary, :button] %><br />
+<% end %>
+<% if @methods.include? :central_login %>
+<%= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button] %><br />
 <% end %>
