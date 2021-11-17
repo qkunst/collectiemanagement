@@ -27,7 +27,7 @@ set :repo_url, "https://github.com/qkunst/collectiemanagement.git"
 
 # Default value for :linked_files is []
 # Default value for :linked_files is []
-set :linked_files, %w[config/secrets.yml config/database.yml]
+set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb]
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w[log tmp public/uploads storage node_modules]
@@ -178,7 +178,7 @@ end
 namespace :server do
   desc "Initialize"
   task :init do
-    on roles(:app), in: :sequence do
+    on roles(:app), in: :sequence do |app|
       execute "mkdir -p #{shared_path}/config"
 
       begin
@@ -191,6 +191,13 @@ namespace :server do
         execute "test -f #{shared_path}/config/database.yml && echo Database config already present"
       rescue SSHKit::Command::Failed
         execute "printf \"#{fetch(:stage)}:\\n  username: #{fetch(:database_user)}\\n  password: $PASSWORD\\n  adapter: postgresql\\n  encoding: unicode\\n  database: #{fetch(:database_name)}\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
+      end
+
+      begin
+        execute "mkdir -p #{shared_path}/config/initializers"
+        execute "test -f #{shared_path}/config/initializers/mailer.rb && echo Mailer config already present"
+      rescue SSHKit::Command::Failed
+        execute "printf \"Rails.application.config.action_mailer.delivery_method = :sendmail\\nRails.application.config.action_mailer.default_url_options = {host: '#{app.hostname}'}\\n\" > #{shared_path}/config/initializers/mailer.rb"
       end
     end
   end

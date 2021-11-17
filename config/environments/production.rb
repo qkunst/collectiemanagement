@@ -113,9 +113,6 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = {host: "collectiemanagement.qkunst.nl"}
-
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[#{I18n.t("application.name")}] ",
