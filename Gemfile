@@ -69,6 +69,7 @@ group :development do
   gem "capistrano-rbenv"
   gem "capistrano-bundler"
   gem "capistrano-rails"
+  gem 'capistrano-sidekiq' #, group: :development
   gem "highline"
   gem "web-console"
   gem "listen"

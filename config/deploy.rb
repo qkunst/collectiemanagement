@@ -53,6 +53,8 @@ set :public_key, File.open("/Users/#{fetch(:local_user)}/.ssh/id_rsa.pub").read
 set :database_name, "qkunst-prod"
 set :database_user, "qkunst"
 
+set :sidekiq_enable_lingering, false
+
 set :email, "maarten@murb.nl"
 
 namespace :deploy do

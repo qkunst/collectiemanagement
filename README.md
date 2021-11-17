@@ -82,8 +82,8 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * elasticsearch 7
 * passenger
 * redis
-* node >= 10.21 met yarn
-* Ruby 2.6.2 (geïnstalleerd via rbenv)
+* node >= 10.21 met yarn (geïnstalleerd met nvm)
+* Ruby 3.0.2 (geïnstalleerd via rbenv)
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
@@ -102,6 +102,12 @@ Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde v
 #### PDF generatie via Puppeteer
 
 Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chromium. Voor het sandboxed draaien van Chromium is het van belang de meegeleverde chrome-sandbox executable beschikbaar te maken; draai daarvoor middels `sudo ./bin/copy-chrome-sandbox-for-puppeteer` eenmalig.
+
+#### Database extensions
+
+`tablefunc` is nodig voor het navigeren door de boom van collecties:
+
+    enable_extension "tablefunc" #    CREATE EXTENSION IF NOT EXISTS tablefunc;
 
 ### Inrichting ontwikkelomgeving
 
