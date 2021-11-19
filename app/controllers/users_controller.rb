@@ -24,6 +24,8 @@ class UsersController < ApplicationController
       [:google]
     elsif params[:methods] == "microsoft"
       [:microsoft]
+    elsif params[:methods] == "central_login"
+      [:central_login]
     else
       [:google, :microsoft]
     end

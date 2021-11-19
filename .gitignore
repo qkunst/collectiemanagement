@@ -40,3 +40,4 @@ spec/fixtures/image3.jpg
 bin/example.pdf
 example.pdf
 prod-console
+/config/master.key

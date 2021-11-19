@@ -3,19 +3,18 @@ require 'omniauth-oauth2'
 module OmniAuth
   module Strategies
     class CentralLogin < OmniAuth::Strategies::OAuth2
+      # /.well-known/openid-configuration
       option :name, "central_login"
       option :client_options, site: ""
 
       option :redirect_url
 
-      uid { raw_info['id'].to_s }
+      uid { raw_info['uid'].to_s }
 
       info do
         {
           name: raw_info['name'],
-          username: raw_info['username'],
           email: raw_info['email'],
-          image: raw_info['avatar_url']
         }
       end
 
@@ -24,13 +23,13 @@ module OmniAuth
       end
 
       def raw_info
-        binding.irb
-        @raw_info ||= access_token.get('user').parsed
+        @raw_info ||= access_token.get('/oauth/userinfo').parsed
       end
 
       private
 
       def callback_url
+        Rails.logger.debug("requesting callback url")
         options.redirect_url || (full_host + script_name + callback_path)
       end
     end
@@ -38,3 +37,6 @@ module OmniAuth
 end
 
 OmniAuth.config.add_camelization 'central_login', 'CentralLogin'
+
+
+

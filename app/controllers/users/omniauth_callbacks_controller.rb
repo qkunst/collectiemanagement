@@ -77,7 +77,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def central_login
-    puts "aaaaaaaaaa"
+    # sample data
+    # {"provider"=>"central_login",
+    #  "uid"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295",
+    #  "info"=>{"name"=>"Maarten", "email"=>"home@murb.nl"},
+    #  "credentials"=>{"token"=>"8GEK4GrDHZ3kTY402KlYsYFGCtGE-QhswttML3rX-Zo", "expires_at"=>1637343002, "expires"=>true},
+    #  "extra"=>{"raw_info"=>{"sub"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295", "email"=>"home@murb.nl", "uid"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295", "name"=>"Maarten", "roles"=>["qkunst:registrator"], "groups"=>["Baliemedewerker"], "resources"=>["qkunst:collections:22"]}}}
+
     # puts omniauth_data
 
     # raise

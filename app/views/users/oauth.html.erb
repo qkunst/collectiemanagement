@@ -8,5 +8,5 @@
 <%= button_to "Log in met uw Microsoft account", omniauth_authorize_path(:user, :azureactivedirectory), class: [:secondary, :button] %><br />
 <% end %>
 <% if @methods.include? :central_login %>
-<%= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button] %><br />
+<%= button_to "Log in met Central Login", omniauth_authorize_path(:user, :central_login), class: [:secondary, :button] %><br />
 <% end %>

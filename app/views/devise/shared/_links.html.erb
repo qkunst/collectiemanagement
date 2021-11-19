@@ -18,9 +18,12 @@
   <%= link_to "Geen ontgrendelinstructies gekregen?", new_unlock_path(resource_name) %><br />
 <% end -%>
 
-
+<% if Rails.application.secrets.google_client_id %>
 <%= button_to "Log in met Google", omniauth_authorize_path(resource_name, :google_oauth2), class: [:secondary, :button] %><br />
-
+<% end%>
+<% if Rails.application.secrets.azure_client_id %>
 <%= button_to "Log in met Microsoft", omniauth_authorize_path(resource_name, :azureactivedirectory), class: [:secondary, :button] %><br />
-
-<%#= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button] %><br />
+<% end %>
+<% if Rails.application.secrets.central_login_id %>
+<%= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button] %><br />
+<% end %>
