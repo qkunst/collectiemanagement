@@ -14,7 +14,7 @@ class Collection::UsersController < ApplicationController
 
     @users = users.uniq
     @collections = @collection.expand_with_child_collections
-    @inactive_users = User.inactive.confirmed.to_a
+    @inactive_users = User.inactive.confirmed.recently_updated.to_a
   end
 
   def edit

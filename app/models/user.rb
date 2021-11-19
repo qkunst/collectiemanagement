@@ -31,6 +31,7 @@ class User < ApplicationRecord
   scope :receive_mails, -> { where(receive_mails: true) }
   scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil}) }
   scope :confirmed, -> { where.not(confirmed_at: nil) }
+  scope :recently_updated, -> { where("users.updated_at > ?", 1.month.ago)}
 
   before_save :serialize_collection_accessibility!
 

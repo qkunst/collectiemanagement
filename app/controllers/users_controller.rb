@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @registrator_users = current_user.accessible_users.registrator.order(:email).all
     other_users = current_user.accessible_users.other.confirmed.order(:email)
     @external_users = other_users.has_collections.to_a
-    @unregistered_users = other_users.all - @external_users
+    @unregistered_users = other_users.recently_updated.all - @external_users
   end
 
   def edit
