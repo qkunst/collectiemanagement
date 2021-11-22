@@ -77,16 +77,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def central_login
-    # sample data
-    # {"provider"=>"central_login",
-    #  "uid"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295",
-    #  "info"=>{"name"=>"Maarten", "email"=>"home@murb.nl"},
-    #  "credentials"=>{"token"=>"8GEK4GrDHZ3kTY402KlYsYFGCtGE-QhswttML3rX-Zo", "expires_at"=>1637343002, "expires"=>true},
-    #  "extra"=>{"raw_info"=>{"sub"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295", "email"=>"home@murb.nl", "uid"=>"bdd12ee4-4de1-481c-b244-aaf1b5e34295", "name"=>"Maarten", "roles"=>["qkunst:registrator"], "groups"=>["Baliemedewerker"], "resources"=>["qkunst:collections:22"]}}}
+    data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: omniauth_data["provider"])
+    data.email = omniauth_data.info[:email]
+    data.email_confirmed = omniauth_data.info[:email_verified]
+    data.name  = omniauth_data.info[:name]
+    data.qkunst = false
 
-    # puts omniauth_data
+    data.raw_open_id_token = omniauth_data&.extra&.raw_info
+    data.issuer = "#{omniauth_data["provider"]}/#{data.raw_open_id_token.issuer}"
 
-    # raise
+    data.groups = data.raw_open_id_token["groups"]
+    data.roles = data.raw_open_id_token["roles"]
+
+    create_user_with_callback_data(data, "Central Login")
   end
 
   def azureactivedirectory

@@ -15,6 +15,7 @@ module OmniAuth
         {
           name: raw_info['name'],
           email: raw_info['email'],
+          email_verified: raw_info['email_verified']
         }
       end
 
@@ -23,7 +24,15 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= access_token.get('/oauth/userinfo').parsed
+        return @raw_info if @raw_info
+
+        @raw_info = access_token.get('/oauth/userinfo').parsed
+
+        if @raw_info
+          @raw_info['issuer'] = access_token.get("/.well-known/webfinger?resource=#{@raw_info['email']}").parsed["links"].select{|a| a["rel"] == "http://openid.net/specs/connect/1.0/issuer"}[0]["href"]
+        end
+
+        @raw_info
       end
 
       private

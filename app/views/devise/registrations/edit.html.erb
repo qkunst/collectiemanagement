@@ -4,25 +4,32 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name, required: true, autofocus: true %>
-    <%= f.input :email, required: true, autofocus: true %>
+    <%= f.input :name, required: true, autofocus: true, disabled: resource.oauthable? %>
+    <%= f.input :email, required: true, autofocus: true, disabled: resource.oauthable?  %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Wacht op bevestiging van: <%= resource.unconfirmed_email %></p>
     <% end %>
     <%= f.input :receive_mails %>
-    <fieldset>
-      <legend>Nieuw wachtwoord</legend>
-      <p>Laat deze velden leeg wanneer u geen nieuw wachtwoord wilt.</p>
-    <%= f.input :password, autocomplete: "off", required: false %>
-    <%= f.input :password_confirmation, required: false %>
-    </fieldset>
-    <%= f.input :current_password, hint: "een wachtwoord is nodig voor het maken van de wijziging", required: true %>
-  </div>
+
+    <% unless resource.oauthable? %>
+      <fieldset>
+        <legend>Nieuw wachtwoord</legend>
+        <p>Laat deze velden leeg wanneer u geen nieuw wachtwoord wilt.</p>
+      <%= f.input :password, autocomplete: "off", required: false %>
+      <%= f.input :password_confirmation, required: false %>
+      </fieldset>
+      <%= f.input :current_password, hint: "een wachtwoord is nodig voor het maken van de wijziging", required: true %>
 
   <div class="form-actions">
     <%= f.button :submit, "Werk bij", class: :button %>
   </div>
+
+    <% else %>
+      <p>U maakt gebruik van een centrale inlogmodule, daar worden uw gegevens beheerd.</p>
+    <% end %>
+  </div>
+
 <% end %>
 
 <h3>Account opheffen</h3>
