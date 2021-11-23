@@ -4,7 +4,6 @@
 # lock '3.5.0'
 
 set :application, "collectiemanagement"
-set :remote_user, :qkunst
 
 set :repo_url, "https://github.com/qkunst/collectiemanagement.git"
 
@@ -47,11 +46,6 @@ set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
 set :rbenv_prefix, "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
-
-set :local_user, `whoami`.strip
-set :public_key, File.open("/Users/#{fetch(:local_user)}/.ssh/id_rsa.pub").read
-set :database_name, "qkunst-prod"
-set :database_user, "qkunst"
 
 set :sidekiq_enable_lingering, false
 
@@ -96,7 +90,12 @@ namespace :rbenv do
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
         puts "rbenv already installed, updating..."
+      end
+      begin
         execute "cd ~/.rbenv && git pull"
+      rescue SSHKit::Command::Failed
+        warn "rbenv:install rbenv could not be updated; not a git directory? remove existing .rbenv directory"
+        exit 1
       end
       # execute "~/.rbenv/bin/rbenv init"
       execute "mkdir -p ~/.rbenv/plugins"
@@ -131,9 +130,9 @@ namespace :rbenv do
       end
 
       # don't check the rbenv_ruby_dir if :rbenv_ruby is not set (it will always fail)
-      unless rbenv_ruby.nil? || (test "[ -d #{fetch(:rbenv_ruby_dir)} ]")
+      unless rbenv_ruby.nil? || (test "[ -d #{fetch(:rbenv_ruby_dir)} ]") || ARGV.include?("rbenv:install")
         warn "rbenv: #{rbenv_ruby} is not installed or not found in #{fetch(:rbenv_ruby_dir)} on #{host}"
-        # exit 1
+        exit 1
       end
     end
   end
@@ -156,7 +155,7 @@ namespace :nvm do
       begin
         execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash"
       rescue SSHKit::Command::Failed
-        puts "nvm already installed."
+        info "nvm already installed."
       end
     end
   end
@@ -169,7 +168,8 @@ namespace :nvm do
         execute "nvm install #{node_version}"
         execute "nvm exec #{node_version} npm install -g yarn"
       rescue SSHKit::Command::Failed
-        puts "nvm not installed."
+        warn "nvm not installed, run nvm:install first (requires setup role)"
+        exit 1
       end
     end
   end
@@ -190,7 +190,7 @@ namespace :server do
       begin
         execute "test -f #{shared_path}/config/database.yml && echo Database config already present"
       rescue SSHKit::Command::Failed
-        execute "printf \"#{fetch(:stage)}:\\n  username: #{fetch(:database_user)}\\n  password: $PASSWORD\\n  adapter: postgresql\\n  encoding: unicode\\n  database: #{fetch(:database_name)}\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
+        execute "printf \"#{fetch(:stage)}:\\n  username: $DATABASE_USER\\n  password: $PASSWORD\\n  adapter: postgresql\\n  encoding: unicode\\n  database: $DATABASE_NAME\\n  host: localhost\\n  pool: 5\\n  timeout: 5000\\n\" > #{shared_path}/config/database.yml"
       end
 
       begin
@@ -201,6 +201,4 @@ namespace :server do
       end
     end
   end
-
-
 end

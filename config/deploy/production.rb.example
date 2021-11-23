@@ -1,5 +1,4 @@
 set :stage, :production
-set :application, domain
 set :branch, 'main'
 
 # Simple Role Syntax
@@ -40,8 +39,6 @@ set :branch, 'main'
 # setting per server overrides global ssh_options
 
 # fetch(:default_env).merge!(rails_env: :testing)
-set :deploy_to, "/home/#{fetch(:remote_user)}/public/#{fetch(:application)}"
+set :deploy_to, "~/public/#{fetch(:application)}"
 
-role :app, ["#{fetch(:remote_user)}@#{fetch(:application)}"]
-role :web, ["#{fetch(:remote_user)}@#{fetch(:application)}"]
-role :db,  ["#{fetch(:remote_user)}@#{fetch(:application)}"]
+server servername, user: serveruser, roles: %w[app web db], brand: 'qkunst'
