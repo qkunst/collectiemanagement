@@ -6,8 +6,8 @@ class User < ApplicationRecord
   has_paper_trail
 
   ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
-  ADMIN_DOMAINS = ["qkunst.nl"]
-  ADMIN_OAUTH_PROVIDERS = ["google_oauth2"]
+  ADMIN_DOMAINS = ["qkunst.nl", "murb.nl"]
+  ADMIN_OAUTH_PROVIDERS = ["google_oauth2", "central_login"]
 
   devise :database_authenticatable, :registerable, :omniauthable, :confirmable,
     :recoverable, :rememberable, :trackable, :validatable, :timeoutable, omniauth_providers: [:google_oauth2, :azureactivedirectory, :central_login]

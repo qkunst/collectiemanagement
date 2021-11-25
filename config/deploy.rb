@@ -25,7 +25,6 @@ set :repo_url, "https://github.com/qkunst/collectiemanagement.git"
 # set :pty, true
 
 # Default value for :linked_files is []
-# Default value for :linked_files is []
 set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb]
 
 # Default value for linked_dirs is []
@@ -159,6 +158,7 @@ namespace :nvm do
       end
     end
   end
+  after :install, :update
 
   desc "update node"
   task :update do
