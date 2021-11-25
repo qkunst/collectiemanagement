@@ -134,3 +134,4 @@ gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
 
 gem "branding_repo"
+gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
