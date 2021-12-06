@@ -3,14 +3,17 @@
 require "bcrypt"
 
 class Api::V1::ApiController < ApplicationController
+  helper_method :current_api_user
+
   def api_authorize! action, subject
     Ability.new(current_api_user).authorize! action, subject
   end
 
   def current_api_user
+    return @user if @user
     if current_user
       @user = current_user
-    else
+    elsif request.headers["X-user-id"]
       @user = User.where(id: request.headers["X-user-id"].to_i).first
       return not_authorized if !@user || !@user.api_key
       data = "#{request.remote_ip}#{request.url}#{request.body.read}"
@@ -19,12 +22,34 @@ class Api::V1::ApiController < ApplicationController
       received_token = request.headers["X-hmac-token"].strip.to_s
       return not_authorized unless received_token == expected_token
       @user
+    elsif request.headers["Authorization"] && request.headers["Authorization"].starts_with?("Bearer ")
+      # only compatible with central login id token
+
+      id_token = request.headers["Authorization"].gsub(/\ABearer\s+/,"")
+      user_data = oauth_strategy.validate_id_token(id_token)
+
+      data = Users::OmniauthCallbackData.new(oauth_subject: user_data["uid"], oauth_provider: :central_login)
+      data.email = user_data["email"]
+      data.email_confirmed = user_data["email_verified"]
+      data.name  = user_data["name"]
+      data.qkunst = false
+
+      data.issuer = "central_login/#{user_data['iss']}"
+
+      data.resources = user_data["resources"]
+      data.roles = user_data["roles"]
+
+      @user = User.from_omniauth_callback_data(data)
+    else
+      return not_authorized
     end
   end
 
   def authenticate_activated_user!
     current_api_user
   end
+
+  private
 
   def not_authorized
     render json: {
@@ -35,4 +60,9 @@ class Api::V1::ApiController < ApplicationController
     }, status: 401
     false
   end
+
+  def oauth_strategy
+    @oauth_strategy ||= ::OmniAuth::Strategies::CentralLogin.new(:central_login, Rails.application.secrets.central_login_id, Rails.application.secrets.central_login_secret, client_options: {site: Rails.application.secrets.central_login_site})
+  end
+
 end

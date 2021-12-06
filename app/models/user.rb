@@ -227,8 +227,6 @@ class User < ApplicationRecord
 
         if OAuthGroupMapping.collection_mappings_exists_for?(data.issuer)
           user.collection_ids = OAuthGroupMapping.retrieve_collection_ids(data)
-
-          user.role = new_role
         end
 
         user.save

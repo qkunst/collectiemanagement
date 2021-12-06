@@ -86,7 +86,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     data.raw_open_id_token = omniauth_data&.extra&.raw_info
     data.issuer = "#{omniauth_data["provider"]}/#{data.raw_open_id_token.issuer}"
 
-    data.groups = data.raw_open_id_token["groups"]
+    data.resources = data.raw_open_id_token["resources"]
     data.roles = data.raw_open_id_token["roles"]
 
     create_user_with_callback_data(data, "Central Login")
