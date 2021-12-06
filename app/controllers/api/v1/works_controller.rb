@@ -11,8 +11,7 @@ class Api::V1::WorksController < Api::V1::ApiController
 
   def show
     @collection = @user.accessible_collections.find(params[:collection_id])
-    @work = @collection.works_including_child_works.find(params[:id])
-    # byebug
     api_authorize! :read_api, @collection
+    @work = @collection.works_including_child_works.find(params[:id])
   end
 end
