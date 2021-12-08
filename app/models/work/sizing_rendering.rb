@@ -9,6 +9,10 @@ module Work::SizingRendering
       whd_to_s(frame_width, frame_height, frame_depth, frame_diameter)
     end
 
+    def work_size
+      whd_to_s(width, height, depth, diameter)
+    end
+
     def frame_size_with_fallback
       frame_size || work_size
     end
@@ -79,13 +83,17 @@ module Work::SizingRendering
       end
     end
 
+    private
+
+    # The correct order is length (L), width (W), height (H). As in (L) × (W) × (H) to find volume in both Imperial and Metric Units.
+    # Verzoek QKunst: hoogte * breedte * diepte
     def whd_to_s width = nil, height = nil, depth = nil, diameter = nil
-      whd_values = [width, height, depth].collect { |a| dimension_to_s(a) }.compact
+      whd_values = [height, width, depth].collect { |a| dimension_to_s(a) }.compact
       rv = whd_values.join(" × ")
       if whd_values.count > 0
         legend = []
-        legend << "b" unless width.to_s == ""
         legend << "h" unless height.to_s == ""
+        legend << "b" unless width.to_s == ""
         legend << "d" unless depth.to_s == ""
         rv = "#{rv} (#{legend.join("×")})"
       end
@@ -94,8 +102,8 @@ module Work::SizingRendering
       rv
     end
 
-    def work_size
-      whd_to_s(width, height, depth, diameter)
+    def dimension_to_s value, nil_value = nil
+      value ? number_with_precision(value, precision: 5, significant: true, strip_insignificant_zeros: true) : nil_value
     end
   end
 end

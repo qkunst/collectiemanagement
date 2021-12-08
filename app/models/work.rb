@@ -258,10 +258,6 @@ class Work < ApplicationRecord
     purchase_price_currency ? purchase_price_currency.symbol : "€"
   end
 
-  def dimension_to_s value, nil_value = nil
-    value ? number_with_precision(value, precision: 5, significant: true, strip_insignificant_zeros: true) : nil_value
-  end
-
   def main_collection
     read_attribute(:main_collection) ? true : nil
   end

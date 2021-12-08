@@ -84,7 +84,7 @@ Rake::Task["rbenv:validate"].clear_actions
 namespace :rbenv do
   desc "Install rbenv"
   task :install do
-    on roles(:setup) do
+    on roles(:app) do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
