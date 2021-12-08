@@ -100,9 +100,10 @@ class Ability
 
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
-    permitted_fields = [:alt_number_1, :alt_number_2, :alt_number_3, :object_creation_year, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset]
+    permitted_fields = [:alt_number_1, :alt_number_2, :alt_number_3, :title, :object_creation_year, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered]
+    permitted_fields += [:artist_name_rendered_without_years_nor_locality]
     if can?(:read_location, Work)
-      permitted_fields += [:location_detail, :location, :location_floor, :work_status_id]
+      permitted_fields += [:location_detail, :location, :location_floor, :work_status_id, :work_status]
     end
     if can?(:read_internal_comments, Work)
       permitted_fields += [:internal_comments]

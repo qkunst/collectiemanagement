@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-database_fields = Work.column_names.collect{ |a| a.to_sym unless a.ends_with?("_id") }.compact & current_api_user.ability.viewable_work_fields
+database_fields = current_api_user.ability.viewable_work_fields - [:style, :medium, :subset, :condition_work, :condition_work_id, :condition_frame, :condition_frame_id, :work_status_id, :work_status, :artist_ids, :damage_type_ids, :frame_damage_type_ids]
 
 
 json.array!(@works) do |work|
@@ -21,7 +21,8 @@ json.array!(@works) do |work|
   json.condition_work { json.extract! work.condition_work, :name, :id } if work.condition_work && current_api_user.ability.viewable_work_fields.include?(:condition_work)
   json.condition_frame { json.extract! work.condition_frame, :name, :id } if work.condition_frame && current_api_user.ability.viewable_work_fields.include?(:condition_frame)
   json.subset { json.extract! work.subset, :name, :id } if work.subset && current_api_user.ability.viewable_work_fields.include?(:subset)
-  json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:subset)
+  json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:placeability)
+  json.work_status { json.extract! work.work_status, :name, :id } if work.work_status && current_api_user.ability.viewable_work_fields.include?(:work_status)
 
   json.artist_name_rendered work.artist_name_rendered
   json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
