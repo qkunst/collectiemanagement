@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-database_fields = current_api_user.ability.viewable_work_fields - [:style, :medium, :subset, :condition_work, :condition_work_id, :condition_frame, :condition_frame_id, :work_status_id, :work_status, :artist_ids, :damage_type_ids, :frame_damage_type_ids]
+database_fields = current_api_user.ability.viewable_work_fields.select{|a| [String, Symbol].include?(a.class)} - [:style, :medium, :subset, :condition_work, :condition_work_id, :condition_frame, :condition_frame_id, :work_status_id, :work_status, :artist_ids, :damage_type_ids, :frame_damage_type_ids]
 
 
 json.array!(@works) do |work|

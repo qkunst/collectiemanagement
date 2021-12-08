@@ -43,7 +43,7 @@ RSpec.describe ImportCollection, type: :model do
       end
 
       it "should include must have appraisal keys" do
-        p ImportCollection.new.columns_for_select[:appraisals]
+        expect(ImportCollection.new.columns_for_select[:appraisals].sort).to match(["appraised_on", "market_value", "replacement_value", "appraised_by", "reference", "market_value_min", "market_value_max", "replacement_value_min", "replacement_value_max", "notice"].sort)
       end
     end
     describe "#update" do
