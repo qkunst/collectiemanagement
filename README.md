@@ -74,7 +74,7 @@ Updates van de applicatie worden door de leverancier van de software uitgevoerd 
 
 ### Pakketten die aanwezig dienen te zijn
 
-Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst Collectiedatabase draait op moment van schrijven op een Debian Jessie server met voorgeïnstalleerd de volgende zaken:
+Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst Collectiedatabase draait op moment van schrijven op een Debian Buster server met voorgeïnstalleerd de volgende zaken:
 
 * postgresql
 * nginx
@@ -84,6 +84,7 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * redis
 * node >= 10.21 met yarn (geïnstalleerd met nvm)
 * Ruby 3.0.2 (geïnstalleerd via rbenv)
+* systemd
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
@@ -108,6 +109,12 @@ Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chr
 `tablefunc` is nodig voor het navigeren door de boom van collecties:
 
     enable_extension "tablefunc" #    CREATE EXTENSION IF NOT EXISTS tablefunc;
+
+#### Sidekiq in usermode
+
+Sidekiq is in een achtergrondproces dat taken asynchroon uitvoert. Het draait in dezelfde user environment als de gebruiker, hiervoor is het noodzakelijk dat de gebruiker achtergrond services mag starten
+
+    loginctl enable-linger qkunst && loginctl -
 
 ### Inrichting ontwikkelomgeving
 

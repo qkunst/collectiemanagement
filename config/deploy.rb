@@ -199,6 +199,18 @@ namespace :server do
       rescue SSHKit::Command::Failed
         execute "printf \"Rails.application.config.action_mailer.delivery_method = :sendmail\\nRails.application.config.action_mailer.default_url_options = {host: '#{app.hostname}'}\\n\" > #{shared_path}/config/initializers/mailer.rb"
       end
+
+      begin
+        execute "mkdir -p ~/.config/systemd/user/default.target.want"
+        execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
+      rescue SSHKit::Command::Failed
+        template = ERB.new(File.read("sidekiq.service.erb"))
+        host_tmp_dir = File.join(__dir__, "..", "tmp", app.hostname).to_s
+        `mkdir -p #{host_tmp_dir}`
+        File.write("#{host_tmp_dir}/sidekiq.service", template.result_with_hash(stage: fetch(:stage), homedir: "/home/#{app.user}"))
+        upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" #, "~/.config/systemd/user/default.target.want/"
+        execute "systemctl --user daemon-reload"
+      end
     end
   end
 end
