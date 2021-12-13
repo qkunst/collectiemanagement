@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :works, only: [:show]
       resources :collections, only: [:index] do
         resources :works, only: [:index, :show]
       end
