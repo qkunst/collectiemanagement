@@ -34,13 +34,15 @@ class PdfPrinterWorker
     @url = url
     @options = options
 
-    command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename].join(" ")
+    command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
     if !system("node --version")
       raise "Node not found. Required."
     end
 
-    Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command}")
-    system(command, exception: true)
+    Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command.join(' ')}")
+    system(File.join(Rails.root, "bin", "puppeteer"), resource, filename, exception: true)
+
+    sleep(10)
 
     if inform_user_id
       Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_type: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
