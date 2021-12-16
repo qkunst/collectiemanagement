@@ -325,6 +325,8 @@ nl:
         name: Naam
         hide: Verberg
         collection: Collectie
+        description: Beschrijving
+        creating_artist: Vervaardiger is de eigenaar (werk in consignatie)
       work:
         abstract: Abstract
         abstract_or_figurative: Abstract of figuratief

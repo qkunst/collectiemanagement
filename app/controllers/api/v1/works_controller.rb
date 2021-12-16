@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::WorksController < Api::V1::ApiController
+  include Works::Filtering
+
   before_action :authenticate_activated_user!
   before_action :set_collection
   helper_method :exposable_database_fields

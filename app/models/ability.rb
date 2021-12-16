@@ -100,7 +100,10 @@ class Ability
 
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
-    permitted_fields = [:alt_number_1, :alt_number_2, :alt_number_3, :title, :object_creation_year, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered]
+    permitted_fields = [:stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+        :height, :width, :depth, :diameter, :subset, :subset_id, :public_description, :abstract_or_figurative,  theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
+                            :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+                          ]]
     permitted_fields += [:artist_name_rendered_without_years_nor_locality]
     if can?(:read_location, Work)
       permitted_fields += [:location_detail, :location, :location_floor, :work_status_id, :work_status]
@@ -112,17 +115,14 @@ class Ability
     if can?(:edit, Work)
       permitted_fields += [
         :inventoried, :refound, :new_found,
-        :locality_geoname_id, :imported_at, :import_collection_id, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3,
-        :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
-        :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
-        :height, :width, :depth, :diameter,
-        :information_back, :other_comments, :subset, :subset_id, :public_description,
-        :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+        :locality_geoname_id, :imported_at, :import_collection_id,
+        :artist_unknown,
+        :signature_comments, :no_signature_present,
+        :information_back, :other_comments,
+        :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
-        :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
-                          theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
-                            :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
-                          ]
+        :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
+
       ]
     end
     if can?(:read_condition, Work)
@@ -143,8 +143,8 @@ class Ability
         :purchase_price, :purchased_on, :purchase_year
       ]
     end
-    if can?(:read_valuation, Work)
-      permitted_fields += [:selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id]
+    if can?(:read_valuation, Collection)
+      permitted_fields += [:selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,]
     end
     if can?(:read, Appraisal)
       permitted_fields += [
@@ -341,7 +341,7 @@ class Ability
   def initialize_facility_manager
     can [:read], Artist
     can [:read_api, :read, :read_report, :read_status, :read_valuation, :download_pdf, :download_photos, :batch_edit, :review_modified_works], Collection, id: accessible_collection_ids
-    can [:read_advanced_properties, :read, :read_condition, :read_information_back, :manage_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read_advanced_properties, :read, :read_condition, :read_information_back, :manage_location, :view_location_history, :show_details, :work_status], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
 
     can :create, Message
