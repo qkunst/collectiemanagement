@@ -8,6 +8,7 @@ WorkingDirectory=<%=homedir%>/public/collectiemanagement/current
 ExecStart=<%=homedir%>/.rbenv/bin/rbenv exec bundle exec sidekiq -e staging
 ExecReload=/bin/kill -TSTP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
+KillMode=mixed # hopefully fixes early exit of pdf generation step https://www.freedesktop.org/software/systemd/man/systemd.kill.html
 StandardOutput=append:<%=homedir%>/public/collectiemanagement/shared/log/sidekiq.log
 StandardError=append:<%=homedir%>/public/collectiemanagement/shared/log/sidekiq.error.log
 RestartSec=1
