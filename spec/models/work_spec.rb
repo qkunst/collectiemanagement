@@ -97,6 +97,22 @@ RSpec.describe Work, type: :model do
         expect(w.artist_4_first_name).to eq(nil)
       end
     end
+    describe "#balance_category" do
+      it "returns nil none is set, balance category when set, and nil when appraised, but set" do
+        w = Work.new(collection: collections(:collection1))
+        expect(w.appraised?).to be_falsey
+        expect(w.balance_category).to be_nil
+
+        w.balance_category = balance_categories(:one)
+        w.save
+
+        expect(w.balance_category).to eq(balance_categories(:one))
+
+        Appraisal.create(appraised_on: Time.now, market_value: 1200, user: users(:admin), appraisee: w)
+
+        expect(w.balance_category).to eq(nil)
+      end
+    end
     describe "#frame_type" do
       it "should be able to set a FrameType" do
         w = works(:work1)
@@ -556,13 +572,15 @@ RSpec.describe Work, type: :model do
         work = collection.works.order(:stock_number).first
         work.save
 
-        expect(work.artists.first.name).to eq("artist_1, firstname (1900 - 2000)")
+        artist_name = "artist_1, firstname (1900 - 2000)"
+
+        expect(work.artists.first.name).to eq(artist_name)
 
         workbook = collection.works.order(:stock_number).to_workbook(collection.fields_to_expose(:default))
 
         expect(workbook.class).to eq(Workbook::Book)
         expect(workbook.sheet.table[1][:inventarisnummer].value).to eq(work.stock_number)
-        expect(workbook.sheet.table[1][:vervaardigers].value).to eq("artist_1, firstname")
+        expect(workbook.sheet.table[1][:vervaardigers].value).to eq(artist_name)
       end
       it "should allow for sorting by location" do
         works = collection.works.order_by(:location)
