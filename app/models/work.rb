@@ -200,6 +200,10 @@ class Work < ApplicationRecord
     market_value_complete || market_value_range_complete || market_value || replacement_value_range
   end
 
+  def balance_category_id
+    appraised? ? nil : read_attribute(:balance_category_id)
+  end
+
   def balance_category
     return nil if appraised?
     super

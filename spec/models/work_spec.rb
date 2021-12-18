@@ -107,10 +107,12 @@ RSpec.describe Work, type: :model do
         w.save
 
         expect(w.balance_category).to eq(balance_categories(:one))
+        expect(w.balance_category_id).to eq(balance_categories(:one).id)
 
         Appraisal.create(appraised_on: Time.now, market_value: 1200, user: users(:admin), appraisee: w)
 
         expect(w.balance_category).to eq(nil)
+        expect(w.balance_category_id).to eq(nil)
       end
     end
     describe "#frame_type" do
