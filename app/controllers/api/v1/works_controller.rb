@@ -10,9 +10,21 @@ class Api::V1::WorksController < Api::V1::ApiController
 
   def index
     api_authorize! :read_api, @collection
-    @works = @collection.works_including_child_works
-    @works = @works.limit(params[:limit].to_i) if params[:limit]
-    @works = @works.all
+
+    set_selection_filter
+    @selection = {display: :compact}
+    set_search_text
+
+    if @search_text && (@search_text.length > 3)
+      @works = @collection.works_including_child_works.has_number(@search_text).to_a
+    end
+
+    if @works.blank?
+      set_works
+
+      @works = @works.limit(params[:limit].to_i) if params[:limit]
+      @works = @works.all
+    end
   end
 
   def show
