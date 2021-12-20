@@ -200,8 +200,26 @@ namespace :server do
         execute "printf \"Rails.application.config.action_mailer.delivery_method = :sendmail\\nRails.application.config.action_mailer.default_url_options = {host: '#{app.hostname}'}\\n\" > #{shared_path}/config/initializers/mailer.rb"
       end
 
+
+    end
+  end
+end
+
+after "server:init", "sidekiq:install"
+
+namespace :sidekiq do
+  desc "Sidekiq status info"
+  task :status do
+    on roles(:app), in: :sequence do |app|
+      execute "systemctl --user status sidekiq.service"
+    end
+  end
+
+  desc "Sidekiq install"
+  task :install do
+    on roles(:app), in: :sequence do |app|
       begin
-        execute "mkdir -p ~/.config/systemd/user/default.target.want"
+        execute "mkdir -p ~/.config/systemd/user"
         execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
       rescue SSHKit::Command::Failed
         template = ERB.new(File.read("sidekiq.service.erb"))
@@ -210,7 +228,11 @@ namespace :server do
         File.write("#{host_tmp_dir}/sidekiq.service", template.result_with_hash(stage: fetch(:stage), homedir: "/home/#{app.user}"))
         upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" #, "~/.config/systemd/user/default.target.want/"
         execute "systemctl --user daemon-reload"
+        execute "systemctl --user enable sidekiq"
       end
     end
   end
+
 end
+
+after "sidekiq:install", "sidekiq:start"

@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=simple
 WorkingDirectory=<%=homedir%>/public/collectiemanagement/current
-ExecStart=<%=homedir%>/.rbenv/bin/rbenv exec bundle exec sidekiq -e staging
+ExecStart=<%=homedir%>/.rbenv/bin/rbenv exec bundle exec sidekiq -e <%=stage%>
 ExecReload=/bin/kill -TSTP $MAINPID
 ExecStop=/bin/kill -TERM $MAINPID
 KillMode=mixed # hopefully fixes early exit of pdf generation step https://www.freedesktop.org/software/systemd/man/systemd.kill.html
