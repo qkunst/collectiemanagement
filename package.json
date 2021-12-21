@@ -20,6 +20,6 @@
     "what-input": ">=5.2.6"
   },
   "devDependencies": {
-    "webpack-dev-server": "version-3"
+    "webpack-dev-server": "^3.11.3"
   }
 }
