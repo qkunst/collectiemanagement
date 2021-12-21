@@ -36,15 +36,13 @@ class PdfPrinterWorker
 
     command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
 
-    if File.exists?("/usr/local/sbin/chrome-devel-sandbox")
-      command = ["CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox"] + command
-    end
+    env = File.exists?("/usr/local/sbin/chrome-devel-sandbox") ? {"CHROME_DEVEL_SANDBOX"=>"/usr/local/sbin/chrome-devel-sandbox"} ? {}
     if !system("node --version")
       raise "Node not found. Required."
     end
 
     Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command.join(' ')}")
-    system(*command, exception: true)
+    system(env, *command, exception: true)
 
     if inform_user_id
       Message.create(to_user_id: inform_user_id, subject_object_id: subject_object_id, subject_object_type: subject_object_type, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: PDF", subject: "PDF gereed")
