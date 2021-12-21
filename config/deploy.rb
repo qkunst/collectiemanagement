@@ -77,6 +77,17 @@ namespace :deploy do
     end
   end
 
+  # to make the pdf writer work it is essential that the asset host is properly configured to use absolute urls; not just paths
+  before "assets:precompile", :configure_asset_host do
+    on roles(:app) do |role|
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :echo, "\"Rails.application.config.action_controller.asset_host = \'https://#{role.hostname}\'\" > config/initializers/asset_hosts.rb"
+        end
+      end
+    end
+  end
+
 end
 
 Rake::Task["rbenv:validate"].clear_actions
