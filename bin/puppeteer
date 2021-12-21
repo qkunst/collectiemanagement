@@ -30,11 +30,25 @@ const toPdf = (async () => {
   await page.pdf({ path: targetFilename, format: 'a4', printBackground: true, margin: {left: "1cm", top: "1cm", right: "1cm", bottom: "1cm" }});
 
   await browser.close();
+  console.log("Done.")
 });
 
 // https://stackoverflow.com/questions/40574218/how-to-perform-an-async-operation-on-exit
-process.on('beforeExit', async() => {
-  await toPdf();
-  console.log('Done.');
-  process.exit(0);
-});
+
+async function exitHandler(evtOrExitCodeOrError) {
+  try {
+    await toPdf();
+  } catch (e) {
+    console.error('EXIT HANDLER ERROR', e);
+  }
+  console.log("Done.")
+
+  process.exit(isNaN(+evtOrExitCodeOrError) ? 1 : +evtOrExitCodeOrError);
+}
+
+[
+  'beforeExit', 'uncaughtException', 'unhandledRejection',
+  'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP',
+  'SIGABRT','SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV',
+  'SIGUSR2', 'SIGTERM',
+].forEach(evt => process.on(evt, exitHandler));
