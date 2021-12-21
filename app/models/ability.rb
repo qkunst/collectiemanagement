@@ -220,6 +220,7 @@ class Ability
     can :manage_collection, CustomReport
     can :manage, CustomReport
     can :manage, Message
+    can :manage, Owner
 
     can [:read, :copy], RkdArtist
 
@@ -245,6 +246,7 @@ class Ability
     can [:create, :update, :read], Appraisal
     can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
     can :manage, LibraryItem, collection_id: accessible_collection_ids
+    can :manage, Owner
 
     can :manage_collection, :all
     can :manage, Cluster, collection_id: accessible_collection_ids
@@ -277,6 +279,7 @@ class Ability
     can :review_collection, User
     can :read, Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids
+    can :read, Owner
 
     can :read, ImportCollection, collection_id: accessible_collection_ids
     can :read, Reminder, collection_id: accessible_collection_ids
@@ -318,6 +321,7 @@ class Ability
     can [:read_advanced_properties, :read, :read_condition, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can [:create, :index, :update], Attachment, collection_id: accessible_collection_ids
+    can :manage, Owner
 
     can :tag, Work
   end
@@ -343,6 +347,7 @@ class Ability
     can [:read_api, :read, :read_report, :read_status, :read_valuation, :download_pdf, :download_photos, :batch_edit, :review_modified_works], Collection, id: accessible_collection_ids
     can [:read_advanced_properties, :read, :read_condition, :read_information_back, :manage_location, :view_location_history, :show_details, :work_status], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
+    can :read, Owner
 
     can :create, Message
     can [:read, :show], Message, qkunst_private: [false, nil]

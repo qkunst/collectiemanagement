@@ -38,7 +38,7 @@ json.condition_frame { json.extract! work.condition_frame, :name, :id } if work.
 json.subset { json.extract! work.subset, :name, :id } if work.subset && current_api_user.ability.viewable_work_fields.include?(:subset)
 json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:placeability)
 json.work_status { json.extract! work.work_status, :name, :id } if work.work_status
-json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read_owner, Work)
+json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read, Owner)
 
 json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
