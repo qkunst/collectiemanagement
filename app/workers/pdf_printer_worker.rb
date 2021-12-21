@@ -35,6 +35,10 @@ class PdfPrinterWorker
     @options = options
 
     command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
+
+    if system("/usr/local/sbin/chrome-devel-sandbox")
+      command = ["CHROME_DEVEL_SANDBOX=/usr/local/sbin/chrome-devel-sandbox"] + command
+    end
     if !system("node --version")
       raise "Node not found. Required."
     end
