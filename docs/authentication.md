@@ -58,3 +58,29 @@ The QKunst application IDs are:
 * accept: 5ee084cf-0bea-48b2-83d9-09d5497096b0
 
 QKunst Collectionmanagement is not available in the Azure Directory.
+
+### Central Login
+
+[CentralLogin](https://gitlab.com/murb-org/central_login/) is an open source developed by [murb](https://murb.nl) that can be run on premise. To set up Central Login authentication it is required to provide QKunst with:
+
+* the url of the CentralLogin-instance
+* the id and secret of the registered application within CentralLogin
+* The resources and roles that have been defined within the groups. It is advised that resources map to collections and roles to roles.
+
+## Technical background
+
+The QKunst application manager will create OAuthGroupMappings
+
+    OAuthGroupMapping.create(
+      issuer: "#{issuername}/#{url_or_identifier}",
+      value_type: "role",
+      value: "qkunst:facility",
+      role: "facility_manager",
+    )
+
+    OAuthGroupMapping.create(
+      issuer: "#{issuername}/#{url_or_identifier}",
+      value_type: "resource", (or wids)
+      value: "qkunst:collections:collection_name",
+      collection_id: 9
+    )

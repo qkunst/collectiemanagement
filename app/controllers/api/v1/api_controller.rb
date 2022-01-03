@@ -43,6 +43,8 @@ class Api::V1::ApiController < ApplicationController
     else
       return not_authorized
     end
+  rescue JWT::ExpiredSignature
+    return not_authorized("JWT token is expired")
   end
 
   def authenticate_activated_user!
@@ -51,9 +53,9 @@ class Api::V1::ApiController < ApplicationController
 
   private
 
-  def not_authorized
+  def not_authorized additional_message=nil
     render json: {
-      message: "Not authorized",
+      message: ["Not authorized", additional_message].compact.join(" "),
       nuid: request.headers["X-user-id"].to_i,
       data: "#{request.remote_ip}#{request.url}#{request.body.read})",
       your_remote_ip: request.remote_ip
