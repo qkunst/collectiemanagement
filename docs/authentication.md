@@ -80,7 +80,7 @@ The QKunst application manager will create OAuthGroupMappings
 
     OAuthGroupMapping.create(
       issuer: "#{issuername}/#{url_or_identifier}",
-      value_type: "resource", (or wids)
+      value_type: "resource", # (or wids)
       value: "qkunst:collections:collection_name",
       collection_id: 9
     )
