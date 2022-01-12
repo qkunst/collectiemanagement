@@ -22,7 +22,7 @@ const toPdf = (async () => {
 
   const page = await browser.newPage();
   await page.setDefaultTimeout(30*60*1000) // 30 min
-  await page.emulateMediaType('screen');
+  await page.emulateMediaType('print');
   await page.goto(process.argv[2], {waitUntil: 'networkidle0'});
 
   await sleep(2000);
