@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_16_130102) do
+ActiveRecord::Schema.define(version: 2022_01_12_233742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 2021_12_16_130102) do
     t.boolean "root", default: false
     t.boolean "appraise_with_ranges", default: false
     t.boolean "qkunst_managed", default: true
+    t.boolean "show_availability_status"
   end
 
   create_table "collections_geoname_summaries", id: :serial, force: :cascade do |t|
@@ -188,6 +189,16 @@ ActiveRecord::Schema.define(version: 2021_12_16_130102) do
     t.datetime "updated_at", null: false
     t.integer "order"
     t.boolean "hide", default: false
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.text "address"
+    t.boolean "external"
+    t.string "url"
+    t.integer "collection_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "currencies", id: :serial, force: :cascade do |t|
@@ -572,6 +583,20 @@ ActiveRecord::Schema.define(version: 2021_12_16_130102) do
     t.index ["work_id"], name: "index_themes_works_on_work_id"
   end
 
+  create_table "time_spans", force: :cascade do |t|
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer "contact_id"
+    t.integer "subject_id"
+    t.string "subject_type"
+    t.string "status"
+    t.string "classification"
+    t.integer "collection_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "url"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -748,6 +773,8 @@ ActiveRecord::Schema.define(version: 2021_12_16_130102) do
     t.text "appraisal_notice"
     t.string "artist_name_for_sorting"
     t.datetime "significantly_updated_at"
+    t.datetime "removed_from_collection_at"
+    t.string "removed_from_collection_note"
     t.index ["collection_id"], name: "index_works_on_collection_id"
   end
 

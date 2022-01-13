@@ -159,6 +159,7 @@ nl:
       workset: Werkgroepering
       work_set: Werkgroepering
       library_item: Bibliotheek item
+      time_span: Tijdsspanne
     values:
       user:
         role:
@@ -181,7 +182,17 @@ nl:
         append: "Vul eventuele eerdere waarde aan"
         first_then_join_rest: "Vervang veld 1, rest in veld 2"
         first_then_join_rest_separated: "Vervang veld 1, rest in veld 2 (gescheiden)"
+      time_span:
+        status:
+          concept: Concept
+          reservation: Reservering
+          active: Actief
+          finished: Voltooid
       work:
+        availability_status:
+          sold: Verkocht
+          lend: Uitgeleend
+          available: Beschikbaar
         abstract_or_figurative:
           abstract: Abstract
           figurative: Figuratief
@@ -476,6 +487,7 @@ nl:
         work_set_types: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
         work_status: Status
+        availability_status: Beschikbaarheidsstatus
         artist_0_artist_name: Vervaardiger 1 Artiestennaam
         artist_0_first_name: Vervaardiger 1 Voornaam
         artist_0_prefix: Vervaardiger 1 Tussenvoegsel
@@ -548,6 +560,7 @@ nl:
         name: Naam
         order: Volgorde
         parent_collection: Maakt onderdeel uit van de collectie
+        show_availability_status: Toon beschikbaarheidsstatus
         sort_works_by: Sorteer werken op
         stages: Procesfases die gelden voor deze (en onderliggende) collectie
       custom_report_template:

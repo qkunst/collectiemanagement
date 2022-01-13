@@ -70,6 +70,7 @@ class Work < ApplicationRecord
   has_many :work_set_types, through: :work_sets
   has_many :appraisals, as: :appraisee
   has_many :messages, as: :subject_object
+  has_many :time_spans, as: :subject
 
   scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }
   scope :has_number, ->(number) { number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
@@ -96,6 +97,7 @@ class Work < ApplicationRecord
       order(:stock_number)
     end
   end
+  scope :not_removed_from_collection, -> { where(removed_from_collection_at: nil) }
   scope :published, -> { where(publish: true) }
   scope :by_group, ->(group, rough_ids) {
     ids = rough_ids.map { |a| a.to_s == Work::Search::NOT_SET_VALUE || a.nil? ? nil : a }
@@ -141,6 +143,7 @@ class Work < ApplicationRecord
   time_as_boolean :inventoried
   time_as_boolean :refound
   time_as_boolean :new_found
+  time_as_boolean :removed_from_collection
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
@@ -380,6 +383,28 @@ class Work < ApplicationRecord
 
   def available_themes
     collection.available_themes
+  end
+
+  def available?
+    !(current_active_time_span || removed_from_collection?)
+  end
+
+  def availability_status
+    if available?
+      :available
+    elsif current_active_time_span&.classification == "purchase"
+      :sold
+    elsif current_active_time_span&.classification == "rental_outgoing"
+      :lend
+    end
+  end
+
+  def current_active_time_span
+    time_spans.current.active.last
+  end
+
+  def removed_from_collection!
+    self.update(removed_from_collection_at: Time.now)
   end
 
   def add_lognoteline note

@@ -53,6 +53,13 @@ class Api::V1::ApiController < ApplicationController
 
   private
 
+  def unprocessable_entity
+    render json: {
+      message: "Unprocessable entity"
+    }, status: 422
+    false
+  end
+
   def not_authorized additional_message=nil
     render json: {
       message: ["Not authorized", additional_message].compact.join(" "),

@@ -2,7 +2,7 @@
   <div class="medium-12 columns">
   <%= definition_list_for work, {render_as: :table} do %>
     <%= define_unless_blank :object_creation_year, description: 'Datering' %>
-    <%= define_unless_blank :object_categories, {human_attributize_value: true} %>
+    <%= define_unless_blank :object_categories, {humanize_attribute_value: true} %>
     <%= define_unless_blank :techniques %>
     <%= define_unless_blank :medium, {classname: :complete_data} %>
     <%= define_unless_blank :frame_size_with_fallback%>

@@ -31,7 +31,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :works, only: [:show]
       resources :collections, only: [:index] do
-        resources :works, only: [:index, :show]
+        resources :works, only: [:index, :show] do
+          resources :work_events, only: [:create]
+        end
       end
     end
   end
@@ -78,6 +80,8 @@ Rails.application.routes.draw do
     get "manage" => "collections#manage"
     resources :users, module: :collection
     resources :library_items
+    resources :time_spans
+
     resources :work_sets do
       resources :appraisals
     end
@@ -129,6 +133,8 @@ Rails.application.routes.draw do
       resources :appraisals
       resources :messages
       resources :library_items
+      resources :time_spans
+
       get "edit_prices" => "works#edit_prices"
       get "location_history" => "works#location_history"
       get "edit_location" => "works#edit_location"

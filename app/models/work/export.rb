@@ -37,6 +37,8 @@ module Work::Export
         elsif /ActiveRecord_Associations_CollectionProxy/.match?(value.class.to_s)
           if value.first.is_a? PaperTrail::Version
             "Versie"
+          elsif value.first.is_a? TimeSpan
+            nil
           elsif value.first.is_a? ActsAsTaggableOn::Tagging
             value.collect { |a| a.tag.name }.join(";")
           else

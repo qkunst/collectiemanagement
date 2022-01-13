@@ -20,6 +20,7 @@
       <%= define_unless_blank :location_floor %>
       <%= define_unless_blank :location_detail %>
       <%= define_unless_blank :work_status %>
+      <%= define_unless_blank :availability_status, {humanize_attribute_value: true} %>
 
       <% if @selection[:display] == :detailed_with_location_history %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
@@ -38,7 +39,7 @@
     <%= define_unless_blank :alt_number_5 %>
     <%= define_unless_blank :alt_number_6 %>
     <%= define_unless_blank :object_creation_year, description: 'Datering' %>
-    <%= define_unless_blank :object_categories, {human_attributize_value: true} %>
+    <%= define_unless_blank :object_categories, {humanize_attribute_value: true} %>
     <%= define_unless_blank :techniques %>
     <% if @selection[:display] == :complete %>
       <%= define_unless_blank :medium %>

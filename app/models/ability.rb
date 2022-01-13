@@ -215,7 +215,6 @@ class Ability
 
     can :manage_collection, Cluster
     can :manage_collection, Collection
-    can :read_api, Collection
     can :filter_report, Collection
     can :manage_collection, CustomReport
     can :manage, CustomReport
@@ -227,7 +226,7 @@ class Ability
     can [:edit_visibility, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, LibraryItem
 
-    can [:read_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
+    can [:read_api, :create_work_events_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
     can [:read_advanced_properties, :read_api, :read_condition, :edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
@@ -256,9 +255,9 @@ class Ability
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
 
-    can [:read_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
+    can [:read_api, :create_work_events_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
-    can [:read_advanced_properties, :read_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read_advanced_properties, :read_api, :create_work_events_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
   end
 
@@ -316,7 +315,7 @@ class Ability
 
     can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
 
-    can [:read_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
+    can [:read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
     can [:read_advanced_properties, :read, :read_condition, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
@@ -336,7 +335,7 @@ class Ability
 
     can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
 
-    can [:read_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
+    can [:read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
     can [:read_advanced_properties, :read, :read_condition, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
@@ -344,7 +343,7 @@ class Ability
 
   def initialize_facility_manager
     can [:read], Artist
-    can [:read_api, :read, :read_report, :read_status, :read_valuation, :download_pdf, :download_photos, :batch_edit, :review_modified_works], Collection, id: accessible_collection_ids
+    can [:read_api, :create_work_events_api, :read, :read_report, :read_status, :read_valuation, :download_pdf, :download_photos, :batch_edit, :review_modified_works], Collection, id: accessible_collection_ids
     can [:read_advanced_properties, :read, :read_condition, :read_information_back, :manage_location, :view_location_history, :show_details, :work_status], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
     can :read, Owner

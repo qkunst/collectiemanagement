@@ -43,6 +43,8 @@ class Collection < ApplicationRecord
   has_many :collections_stages
   has_many :reminders
   has_many :library_items
+  has_many :time_spans
+  has_many :contacts
 
   has_cache_for_method :geoname_ids
   has_cache_for_method :collection_name_extended

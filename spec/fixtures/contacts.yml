@@ -1,0 +1,4 @@
+contact1:
+  collection: :collection1
+  external: true
+  url: "http://uitleen/contact/1"

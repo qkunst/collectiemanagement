@@ -1,0 +1,49 @@
+time_span1:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+
+time_span2:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+  starts_at: 1000-01-01T00:00
+
+time_span3:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+  ends_at: 4000-01-01T00:00
+
+time_span4:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+  starts_at: 1000-01-01T00:00
+  ends_at: 4000-01-01T00:00
+
+time_span_historic:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+  starts_at: 1000-01-01T00:00
+  ends_at: 1100-01-01T00:00
+
+time_span_future:
+  subject: work1 (Work)
+  collection: :collection1
+  contact: :contact1
+  status: concept
+  classification: rental_outgoing
+  starts_at: 4000-01-01T00:00
+  ends_at: 4100-01-01T00:00

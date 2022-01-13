@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Starts at:</strong>
+  <%= @time_span.starts_at %>
+</p>
+
+<p>
+  <strong>Ends at:</strong>
+  <%= @time_span.ends_at %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @time_span.status %>
+</p>
+
+<p>
+  <strong>Contact:</strong>
+  <%= @time_span.contact_id %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @time_span.subject_id %>
+</p>
+
+<p>
+  <strong>Subject type:</strong>
+  <%= @time_span.subject_type %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @time_span.status %>
+</p>
+
+<p>
+  <strong>Classification:</strong>
+  <%= @time_span.classification %>
+</p>
+
+<%= link_to 'Edit', edit_time_span_path(@time_span) %> |
+<%= link_to 'Back', time_spans_path %>

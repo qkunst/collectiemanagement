@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Tijdsspannes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Begin</th>
+      <th>Einde</th>
+      <th>Status</th>
+      <th>Contact</th>
+      <th>Onderwerp</th>
+      <th>Status</th>
+      <th>Soort</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @time_spans.each do |time_span| %>
+      <tr>
+        <td><%= time_span.starts_at %></td>
+        <td><%= time_span.ends_at %></td>
+        <td><%= time_span.status %></td>
+        <td><%= link_to(time_span.contact.name, time_span.contact.url) if time_span.contact %></td>
+        <td><%= time_span.subject %></td>
+        <td><%= time_span.classification %></td>
+        <td><%= link_to 'Edit', edit_collection_time_span_path(@collection, time_span) %></td>
+        <td><%= link_to 'Destroy', [@collection, @work, time_span], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Tijdsspanne toevoegen', @work ? new_collection_work_time_span_path(@collection, @work) : new_collection_time_span_path(@collection) %>

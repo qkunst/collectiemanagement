@@ -42,7 +42,7 @@ module DefineTasticHelper
     elsif val.is_a? FalseClass
       val = "Nee"
     end
-    if options[:human_attributize_value]
+    if options[:humanize_attribute_value]
       val = @define_tastic_object_klass.send(:human_attribute_name, val)
     end
     val
@@ -55,7 +55,7 @@ module DefineTasticHelper
       value = options[:override_value]
     else
       modifier_func = options[:modifier]
-      human_attribute_value = options[:human_attribute_value]
+      humanize_attribute_value = options[:humanize_attribute_value]
 
       value = if property.is_a? Symbol
         @define_tastic_object.public_send(property)
@@ -65,14 +65,14 @@ module DefineTasticHelper
 
       value = if value.is_a?(Range)
         [value.min, value.max].map { |value|
-          apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+          apply_modifier_to_value_and_humanize(modifier_func, value, humanize_attribute_value)
         }.join("-")
       elsif value.is_a?(Enumerable)
         value.to_a.compact.map { |value|
-          apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+          apply_modifier_to_value_and_humanize(modifier_func, value, humanize_attribute_value)
         }.to_sentence
       else
-        apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value).to_s
+        apply_modifier_to_value_and_humanize(modifier_func, value, humanize_attribute_value).to_s
       end
     end
     value.html_safe
@@ -85,10 +85,10 @@ module DefineTasticHelper
     value
   end
 
-  def apply_modifier_to_value_and_humanize(modifier_func, value, human_attribute_value)
+  def apply_modifier_to_value_and_humanize(modifier_func, value, humanize_attribute_value)
     humanize_value(
       apply_modifier_to_value(modifier_func, value),
-      {human_attribute_value: human_attribute_value}
+      {humanize_attribute_value: humanize_attribute_value}
     )
   end
 

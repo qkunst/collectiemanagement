@@ -99,8 +99,12 @@ RSpec.configure do |config|
     config.after(:each) { Bullet.end_request }
   end
 
+  Work.all.each(&:reindex!)
+
   config.before do
-    Work.all.each(&:update_artist_name_rendered!)
+    Work.all.each do |work|
+      work.update_artist_name_rendered!
+    end
     Collection.all.each { |c| c.cache_collection_name_extended!(true) }
   end
 end

@@ -97,6 +97,27 @@ RSpec.describe Work, type: :model do
         expect(w.artist_4_first_name).to eq(nil)
       end
     end
+    describe "#available?" do
+      it "is available by default" do
+        expect(Work.new.available?).to be_truthy
+        expect(works(:work1).available?).to be_truthy
+      end
+      it "is not available when sold" do
+        w = works(:work1)
+        w.removed_from_collection!
+        expect(w.available?).to be_falsey
+      end
+      it "is not available when it is actively rented" do
+        w = works(:work1)
+        w.time_spans.create(collection: w.collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing, starts_at: 1.day.ago)
+        expect(w.available?).to be_falsey
+      end
+      it "is not available when it is concept rented" do
+        w = works(:work1)
+        w.time_spans.create(collection: w.collection, contact: contacts(:contact1), status: :concept, classification: :rental_outgoing, starts_at: 1.day.ago)
+        expect(w.available?).to be_truthy
+      end
+    end
     describe "#balance_category" do
       it "returns nil none is set, balance category when set, and nil when appraised, but set" do
         w = Work.new(collection: collections(:collection1))
