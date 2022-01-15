@@ -45,7 +45,11 @@ json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_w
 json.frame_size work.frame_size
 json.work_size work.work_size
 json.object_format_code work.object_format_code
-json.current_active_timespan { json.extract! work.current_active_time_span, :starts_at, :ends_at, :classification} if work.current_active_time_span
+json.current_active_timespan do
+  if work.current_active_time_span
+    json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}
+  end
+end
 json.available work.available?
 
 json.url collection_work_url(work.collection, work)

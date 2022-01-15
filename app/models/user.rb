@@ -92,6 +92,14 @@ class User < ApplicationRecord
     User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
+  def accessible_time_spans
+    TimeSpan.where(collection: accessible_collections)
+  end
+
+  def accessible_contacts
+    Contact.where(collection: accessible_collections)
+  end
+
   def accessible_roles
     @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User) }
   end

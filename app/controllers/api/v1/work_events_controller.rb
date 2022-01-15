@@ -8,7 +8,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
   before_action :set_work
 
   def create
-    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status)
+    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_id)
     base_collection = @collection.base_collection
 
     contact = Contact.find_or_create_by(
@@ -17,16 +17,29 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
       url: work_event_params[:contact_uri]
     )
 
-    @time_span = TimeSpan.new(
-      subject: @work,
-      collection: base_collection,
-      contact: contact,
-      status: work_event_params[:status],
-      classification: work_event_params[:event_type],
-      starts_at: Time.now
-    )
+    @time_span = if work_event_params[:time_span_id]
+      time_span = @work.time_spans.find(work_event_params[:time_span_id])
+      raise "Non matching customer_uri for timespan #{time_span.contact_url} != #{work_event_params[:contact_uri]}" if (time_span.contact_url && (time_span.contact_url != work_event_params[:contact_uri]))
+      if work_event_params[:status] == "finished"
+        time_span.finish
+      else
+        time_span.status = status
+      end
+      time_span
+    else
+      TimeSpan.new(
+        subject: @work,
+        collection: base_collection,
+        contact: contact,
+        status: work_event_params[:status],
+        classification: work_event_params[:event_type],
+        starts_at: Time.now
+      )
+    end
 
-    if @time_span.save
+    save_result = @time_span.save
+
+    if save_result
       render @time_span
     else
       unprocessable_entity

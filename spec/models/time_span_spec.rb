@@ -39,6 +39,23 @@ RSpec.describe TimeSpan, type: :model do
       [:time_span_historic, :time_span_future].each do |span|
         it { expect(TimeSpan.current).not_to include time_spans(span) }
       end
+
+      it "should include expired, active time spans" do
+        expect(TimeSpan.current).to include time_spans(:time_span_expired)
+      end
+    end
+
+    describe ".expired" do
+      [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|
+        it { expect(TimeSpan.expired).not_to include time_spans(span) }
+      end
+      [:time_span_historic, :time_span_future].each do |span|
+        it { expect(TimeSpan.expired).not_to include time_spans(span) }
+      end
+
+      it "should include expired, active time spans" do
+        expect(TimeSpan.expired).to include time_spans(:time_span_expired)
+      end
     end
   end
 end

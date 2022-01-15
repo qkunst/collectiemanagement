@@ -395,7 +395,7 @@ class Work < ApplicationRecord
     elsif current_active_time_span&.classification == "purchase"
       :sold
     elsif current_active_time_span&.classification == "rental_outgoing"
-      :lend
+      :lent
     end
   end
 

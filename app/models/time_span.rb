@@ -29,13 +29,26 @@ class TimeSpan < ApplicationRecord
     (time_spans.starts_at IS NULL AND time_spans.ends_at IS NULL) OR
     (time_spans.starts_at <= :time    AND time_spans.ends_at >= :time) OR
     (time_spans.starts_at IS NULL AND time_spans.ends_at >= :time) OR
-    (time_spans.starts_at <= :time    AND time_spans.ends_at IS NULL)
+    (time_spans.starts_at <= :time    AND time_spans.ends_at IS NULL) OR
+    (time_spans.starts_at <= :time    AND time_spans.status = 'active')
+
     ", {time: Time.current})  }
+
+  scope :expired, ->{ current.where("time_spans.ends_at <= ?", Time.current) }
+
+  def contact_url
+    contact&.url
+  end
+
+  def finish
+    self.ends_at = Time.current
+    self.status = :finished
+  end
 
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") unless subject.available?
+    errors.add(:subject, "subject not available") if !subject.available? && status != "finished"
   end
 
   def remove_work_from_collection_when_purchase_active
