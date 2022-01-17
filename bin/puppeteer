@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const timeout = 30*60*1000; // 30 mins
 
 const puppeteer = require('puppeteer');
 
@@ -14,20 +15,20 @@ const sleep = (milliseconds) => {
 const toPdf = (async () => {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--font-render-hinting=medium']
+    args: ['--font-render-hinting=medium'],
+	  timeout: timeout
   });
 
   const browserVersion = await browser.version();
   console.log(`Browser version: ${browserVersion}`);
 
   const page = await browser.newPage();
-  await page.setDefaultTimeout(30*60*1000) // 30 min
+  await page.setDefaultNavigationTimeout(timeout)
+  await page.setDefaultTimeout(timeout)
   await page.emulateMediaType('print');
-  await page.goto(process.argv[2], {waitUntil: 'networkidle0'});
+  await page.goto(process.argv[2], {waitUntil: 'networkidle0', timeout: timeout});
 
-  await sleep(2000);
-
-  await page.pdf({ path: targetFilename, format: 'a4', printBackground: true, margin: {left: "1cm", top: "1cm", right: "1cm", bottom: "1cm" }});
+  await page.pdf({timeout: timeout, path: targetFilename, format: 'a4', printBackground: true, margin: {left: "1cm", top: "1cm", right: "1cm", bottom: "1cm" }});
 
   await browser.close();
   console.log("Done.")
