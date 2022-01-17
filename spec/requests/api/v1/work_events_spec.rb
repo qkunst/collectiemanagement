@@ -66,7 +66,7 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
       expect(work.availability_status).to eql(:lent)
 
       expect {
-        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: {contact_uri: contact.url, event_type: "rental_outgoing", status: "finished", time_span_id: time_span.id}}, format: :json)
+        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: {contact_uri: contact.url, event_type: "rental_outgoing", status: "finished", time_span_uuid: time_span.uuid}}, format: :json)
       }.to change(TimeSpan, :count).by(0)
 
       expect(response).to be_successful

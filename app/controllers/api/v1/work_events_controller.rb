@@ -8,7 +8,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
   before_action :set_work
 
   def create
-    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_id)
+    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_uuid)
     base_collection = @collection.base_collection
 
     contact = Contact.find_or_create_by(
@@ -17,8 +17,8 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
       url: work_event_params[:contact_uri]
     )
 
-    @time_span = if work_event_params[:time_span_id]
-      time_span = @work.time_spans.find(work_event_params[:time_span_id])
+    @time_span = if work_event_params[:time_span_uuid]
+      time_span = @work.time_spans.find_by!(uuid: work_event_params[:time_span_uuid])
       raise "Non matching customer_uri for timespan #{time_span.contact_url} != #{work_event_params[:contact_uri]}" if (time_span.contact_url && (time_span.contact_url != work_event_params[:contact_uri]))
       if work_event_params[:status] == "finished"
         time_span.finish

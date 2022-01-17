@@ -1,4 +1,5 @@
 json.status time_span.status
+json.uuid time_span.uuid
 json.contact_url time_span.contact&.url
 json.subject_id time_span.subject_id
 json.subject_type time_span.subject_type

@@ -1,4 +1,6 @@
 class TimeSpan < ApplicationRecord
+  include Uuid
+
   CLASSIFICATIONS = [:rental_outgoing, :rental_incoming, :transport, :exhibition, :purchase]
   SUBJECT_TYPES = ["Work"]
   STATUSSES = [:concept, :reservation, :active, :finished]
