@@ -5,23 +5,6 @@ require "rails_helper"
 RSpec.describe WorksController, type: :controller do
   include Devise::Test::ControllerHelpers
 
-  describe "GET /works" do
-    it "should be able to get an index" do
-      sign_in users(:admin)
-
-      c = collections(:collection1)
-      get :index, params: {collection_id: c.id}
-      expect(response).to be_successful
-    end
-    it "should be able to get an index als xlsx" do
-      sign_in users(:admin)
-
-      c = collections(:collection1)
-      get :index, params: {collection_id: c.id, format: :xlsx}
-      expect(response).to be_successful
-    end
-  end
-
   describe "PATCH/PUT #works" do
     it "shouldn't change anything by default" do
       work = works(:work1)

@@ -342,9 +342,9 @@ nl:
         appraised_on: Gewaardeerd op
         artists: Vervaardigers
         artist_name_rendered: Vervaardiger(s)
-        artist_name_for_sorting: Vervaardiger(s)
-        artist_name_rendered_without_years_nor_locality: Vervaardiger(s)
-        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s)
+        artist_name_for_sorting: Vervaardiger(s) (sort)
+        artist_name_rendered_without_years_nor_locality: Vervaardiger(s) (compact)
+        artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s) (sys)
         artist_unknown: Vervaardiger onbekend
         balance_category: Balanscategorie
         cluster: Cluster

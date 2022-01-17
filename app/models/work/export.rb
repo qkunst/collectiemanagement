@@ -88,7 +88,8 @@ module Work::Export
 
     def to_workbook(fields = [:id, :title_rendered], collection = nil)
       w = Workbook::Book.new([fields.collect { |a| Work.human_attribute_name_overridden(a, collection) }])
-      all.each do |work|
+
+      unscope(:order).order(:stock_number).all.each do |work|
         w.sheet.table << work.collect_values_for_fields(fields)
       end
       w
