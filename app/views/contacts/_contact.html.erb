@@ -1,0 +1,7 @@
+<div class="contact">
+<% if contact.external? %>
+<%= link_to "Extern contact", contact.url %>
+<% else %>
+<%= contact.name %>
+<% end %>
+</div>

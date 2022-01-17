@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :time_spans, only: [:index]
       resources :works, only: [:show]
-      resources :collections, only: [:index] do
+      resources :collections, only: [:index, :show] do
         resources :works, only: [:index, :show] do
           resources :work_events, only: [:create]
         end
