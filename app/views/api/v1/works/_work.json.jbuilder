@@ -40,6 +40,7 @@ json.subset { json.extract! work.subset, :name, :id } if work.subset && current_
 json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:placeability)
 json.work_status { json.extract! work.work_status, :name, :id } if work.work_status
 json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read, Owner)
+
 if current_api_user.ability.can?(:read, Appraisal)
   json.appraisals(work.appraisals) do |appraisal|
     json.partial! 'api/v1/appraisals/appraisal', locals: {appraisal: appraisal}
@@ -54,6 +55,7 @@ json.work_sets(work.work_sets) do |work_set|
   json.appraisal_notice work_set.appraisal_notice   if current_api_user.ability.can?(:read, Appraisal)
   json.comment work_set.comment
 end
+
 json.collection_branch_names work.collection_branch.select(:name).map(&:name)
 json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
