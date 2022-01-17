@@ -7,7 +7,9 @@ module Works::XlsxResponse
     include ActionController::Streaming
 
     def show_xlsx_response
-      if direct_download?
+      if !prepare_workbook
+        redirect_to collection_path(@collection), alert: "U heeft onvoldoende rechten om te kunnen downloaden"
+      elsif direct_download?
         send_data prepare_workbook.stream_xlsx, filename: "werken #{@collection.name}.xlsx"
       elsif Collection::DownloadWorker.perform_async(download_parameters[:collection_id], download_parameters[:requested_by_user_id], :xlsx, download_parameters[:audience], download_parameters[:fields_to_expose])
         redirect_to collection_works_path(@collection, @cleaned_params.merge(format: :html)), notice: "De download wordt voorbereid. U krijgt een bericht (vanuit de berichtenmodule) wanneer de download gereed is."
@@ -41,11 +43,9 @@ module Works::XlsxResponse
     end
 
     def prepare_workbook
-      if can?(:download_datadump, @collection)
+      @prepare_workbook ||= if can?(:download_datadump, @collection)
         @works = @works.audience(download_parameters[:audience]).preload_relations_for_display(:complete).distinct
         @works.to_workbook(download_parameters[:fields_to_expose], @collection)
-      else
-        redirect_to collection_path(@collection), alert: "U heeft onvoldoende rechten om te kunnen downloaden"
       end
     end
   end

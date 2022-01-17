@@ -63,19 +63,20 @@ RSpec.describe "Works", type: :request do
       end
     end
   end
+  describe "GET /collections/:id/works/:id/edit" do
+    it "admin should be able to access edit page" do
+      sign_in user
+      get edit_collection_work_path(works(:work1).collection, works(:work1))
+      expect(response).to have_http_status(200)
+    end
+  end
   describe "GET /collections/:id/works" do
     it "shouldn't be publicly accessible!" do
       get collection_works_path(collection)
       expect(response).to have_http_status(302)
     end
     context "admin" do
-      let(:user) { users(:admin) }
       it "should be accessible when logged in as admin" do
-        sign_in user
-        get edit_collection_work_path(works(:work1).collection, works(:work1))
-        expect(response).to have_http_status(200)
-      end
-      it "admin should be able to access edit page" do
         sign_in user
         collection = collections(:collection1)
         get collection_works_path(collection)
@@ -138,6 +139,14 @@ RSpec.describe "Works", type: :request do
       end
       describe "downloading" do
         describe "xlsx" do
+          context(:facility_manager) do
+            it "should not be able to get the file" do
+              collection = collections(:collection1)
+              sign_in users(:facility_manager)
+              get collection_works_path(collection, format: :xlsx)
+              expect(response).not_to have_http_status(200)
+            end
+          end
           context(:admin) do
             it "should be able to get the file" do
               collection = collections(:collection1)
