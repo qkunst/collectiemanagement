@@ -153,7 +153,7 @@ class ImportCollection < ApplicationRecord
         inventoried: work_data["inventoried"],
         refound: work_data["refound"],
         new_found: work_data["new_found"],
-        geoname_id: work_data["geoname_id"],
+        locality_geoname_id: work_data["geoname_id"],
         imported_at: Time.now,
         import_collection_id: self.id,
         artist_unknown: work_data["artist_unknown"],
@@ -206,12 +206,12 @@ class ImportCollection < ApplicationRecord
 
       cluster_data = work_data["cluster"]
       if cluster_data
-        work.cluster = Cluster.where(name: cluster_data["name"], collection: collection.base_collection.collection_including_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection)
+        work.cluster = Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection)
       end
 
       owner_data = work_data["owner"]
       if owner_data
-        work.cluster = Owner.where(name: owner_data["name"], collection: collection.base_collection.collection_including_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"])
+        work.owner = Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"])
       end
 
       purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]

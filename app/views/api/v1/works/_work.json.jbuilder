@@ -40,22 +40,18 @@ json.placeability { json.extract! work.placeability, :name, :id } if work.placea
 json.work_status { json.extract! work.work_status, :name, :id } if work.work_status
 json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read, Owner)
 if current_api_user.ability.can?(:read, Appraisal)
-  json.appraisals do
-    work.appraisals.map{|appraisal| json.partial! 'api/v1/appraisals/appraisal', locals: {appraisal: appraisal} }
+  json.appraisals(work.appraisals) do |appraisal|
+    json.partial! 'api/v1/appraisals/appraisal', locals: {appraisal: appraisal}
   end
   json.balance_category { json.extract! work.balance_category, :name, :id } if work.balance_category
 
 end
-if current_api_user.ability.can?(:read, WorkSet)
-  json.work_sets do
-    work.work_sets.map do |work_set|
-      json.work_set_type { |work_set_type| json.extract! work_set_type, :name, :count_as_one, :appraise_as_one}
-      json.identification_number work_set.identification_number
-      json.appraisal_notice work_set.appraisal_notice
-      json.comment work_set.comment
+json.work_sets(work.work_sets) do |work_set|
+  json.work_set_type { |work_set_type| json.extract! work_set_type, :name, :count_as_one, :appraise_as_one}
+  json.identification_number work_set.identification_number
 
-    end
-  end
+  json.appraisal_notice work_set.appraisal_notice   if current_api_user.ability.can?(:read, Appraisal)
+  json.comment work_set.comment
 end
 json.collection_branch_names work.collection_branch.select(:name).map(&:name)
 json.artist_name_rendered work.artist_name_rendered
