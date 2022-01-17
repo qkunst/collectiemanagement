@@ -206,12 +206,12 @@ class ImportCollection < ApplicationRecord
 
       cluster_data = work_data["cluster"]
       if cluster_data
-        work.cluster = Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection)
+        work.cluster = (Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection))
       end
 
       owner_data = work_data["owner"]
       if owner_data
-        work.owner = Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"])
+        work.owner = (Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"]))
       end
 
       purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]
@@ -250,11 +250,9 @@ class ImportCollection < ApplicationRecord
         work.work_status = WorkStatus.find_or_create_by(name: work_data["work_status"]["name"])
       end
 
-
-
       # HAS MANY
       work_data["appraisals"].each do |appraisal_data|
-        work.appraisals << Appraisal.create(appraisal_data)
+        work.appraisals << Appraisal.create(appraisal_data.merge({appraisee: work}))
       end
       work_data["techniques"].each do |technique|
         work.techniques << Technique.find_or_create_by(name: technique["name"])
@@ -264,24 +262,24 @@ class ImportCollection < ApplicationRecord
           Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"])
         else
           Artist.find_or_create_by(
-            artist_name: artist_name,
-            year_of_death: year_of_death,
-            year_of_birth: year_of_birth,
-            last_name: last_name,
-            prefix: prefix,
-            first_name: first_name
+            artist_name: artist_data["artist_name"],
+            year_of_death: artist_data["year_of_death"],
+            year_of_birth: artist_data["year_of_birth"],
+            last_name: artist_data["last_name"],
+            prefix: artist_data["prefix"],
+            first_name: artist_data["first_name"]
           )
         end
-        work.artists << artist
+        work.artists << artist if artist
       end
       work_data["themes"].each do |theme|
-        work.themes << Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection)
+        work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection))
       end
       work_data["damage_types"].each do |damage_type|
         work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
       end
       work_data["frame_damage_types"].each do |frame_damage_type|
-        work.frame_damage_type << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
+        work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
       end
       work_data["sources"].each do |source|
         work.sources << Source.find_or_create_by(name: source["name"])
