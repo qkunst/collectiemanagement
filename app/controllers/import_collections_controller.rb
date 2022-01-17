@@ -48,14 +48,14 @@ class ImportCollectionsController < ApplicationController
     @import_collection.collection = @collection
     authorize! :create, @import_collection
 
-    respond_to do |format|
-      if @import_collection.save
-        format.html { redirect_to edit_collection_import_collection_path(@collection, @import_collection), notice: "Het importbestand is aangemaakt" }
-        format.json { render :show, status: :created, location: @import_collection }
+    if @import_collection.save
+      if @import_collection.json?
+        redirect_to collection_import_collection_path(@collection, @import_collection), notice: "Het importbestand is aangemaakt"
       else
-        format.html { render :new }
-        format.json { render json: @import_collection.errors, status: :unprocessable_entity }
+        redirect_to edit_collection_import_collection_path(@collection, @import_collection), notice: "Het importbestand is aangemaakt"
       end
+    else
+      render :new
     end
   end
 

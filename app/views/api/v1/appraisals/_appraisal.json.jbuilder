@@ -1,0 +1,9 @@
+json.market_value appraisal.market_value
+json.replacement_value appraisal.replacement_value
+json.appraised_on appraisal.appraised_on
+json.market_value_max appraisal.market_value_max
+json.market_value_min appraisal.market_value_min
+json.replacement_value_min appraisal.replacement_value_min
+json.replacement_value_max appraisal.replacement_value_max
+json.appraised_by appraisal.appraised_by
+json.reference appraisal.reference
