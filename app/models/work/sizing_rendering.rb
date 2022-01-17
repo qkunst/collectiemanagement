@@ -17,25 +17,25 @@ module Work::SizingRendering
       frame_size || work_size
     end
 
-    def hpd_height
-      rv = frame_height? ? frame_height : height
-      rv if rv && (rv > 0)
+    def height_with_fallback
+      numeric_value_with_fallback(frame_height, height)
     end
+    alias_method :hpd_height, :height_with_fallback
 
-    def hpd_width
-      rv = frame_width? ? frame_width : width
-      rv if rv && (rv > 0)
+    def width_with_fallback
+      numeric_value_with_fallback(frame_width, width)
     end
+    alias_method :hpd_width, :width_with_fallback
 
-    def hpd_depth
-      rv = frame_depth? ? frame_depth : depth
-      rv if rv && (rv > 0)
+    def depth_with_fallback
+      numeric_value_with_fallback(frame_depth, depth)
     end
+    alias_method :hpd_depth, :depth_with_fallback
 
-    def hpd_diameter
-      rv = frame_diameter? ? frame_diameter : diameter
-      rv if rv && (rv > 0)
+    def diameter_with_fallback
+      numeric_value_with_fallback(frame_diameter, diameter)
     end
+    alias_method :hpd_diameter, :diameter_with_fallback
 
     def three_dimensional?
       !!(hpd_depth && hpd_depth > MAX_ACCEPTABLE_DEPTH_FOR_2D || hpd_diameter)
@@ -83,6 +83,22 @@ module Work::SizingRendering
       end
     end
 
+    def orientation
+      if height_with_fallback && width_with_fallback && width_with_fallback > 0
+        if ratio == 1
+          :square
+        elsif ration < 0.9
+          :landscape
+        elsif ratio > 1.1
+          :portrait
+        else
+          :roughly_square
+        end
+        height_with_fallback / width_with_fallback
+      end
+
+    end
+
     private
 
     # The correct order is length (L), width (W), height (H). As in (L) × (W) × (H) to find volume in both Imperial and Metric Units.
@@ -100,6 +116,11 @@ module Work::SizingRendering
       rv = [rv, "⌀ #{dimension_to_s(diameter)}"].compact.join("; ") if dimension_to_s(diameter)
       return nil if rv.empty?
       rv
+    end
+
+    def numeric_value_with_fallback primary, secondary
+      rv = primary ? primary : secondary
+      rv if rv && (rv > 0)
     end
 
     def dimension_to_s value, nil_value = nil

@@ -124,8 +124,8 @@ RSpec.describe Work::SizingRendering do
     end
   end
 
-  describe "#work_size" do
-    it "should return work size" do
+  describe "#frame_size" do
+    it "should return frame size" do
       w = works(:work2)
       w.height = 90
       w.width = 180
@@ -148,5 +148,18 @@ RSpec.describe Work::SizingRendering do
       expect(works(:work2).frame_size_with_fallback).to eq("90 × 180 (h×b)")
     end
   end
+
+  describe "#orientation" do
+    [[10,10]=>:square, [20,10]=>:portrait, [10,20]=>:landscape, [10,11]=>:almost_square].each do |k,v|
+      it "should return #{v} for #{k[0]} x #{k[1]}" do
+        w = works(:work2)
+        w.height = k[0]
+        w.width = k[1]
+        expect(w.orientation).to eq(v)
+      end
+    end
+  end
+
+
 
 end

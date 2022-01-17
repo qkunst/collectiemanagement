@@ -44,7 +44,12 @@ json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
 json.frame_size work.frame_size
 json.work_size work.work_size
+json.height_with_fallback work.height_with_fallback
+json.width_with_fallback work.width_with_fallback
+json.depth_with_fallback work.depth_with_fallback
+json.diameter_with_fallback work.diameter_with_fallback
 json.object_format_code work.object_format_code
+json.orientation work.orientation
 json.current_active_timespan do
   if work.current_active_time_span
     json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}
