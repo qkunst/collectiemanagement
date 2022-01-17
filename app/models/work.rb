@@ -392,7 +392,7 @@ class Work < ApplicationRecord
   def availability_status
     if available?
       :available
-    elsif current_active_time_span&.classification == "purchase"
+    elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
       :sold
     elsif current_active_time_span&.classification == "rental_outgoing"
       :lent
