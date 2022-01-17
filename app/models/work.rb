@@ -390,7 +390,7 @@ class Work < ApplicationRecord
   end
 
   def availability_status
-    if available?
+    @availability_status ||= if available?
       :available
     elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
       :sold
@@ -400,7 +400,7 @@ class Work < ApplicationRecord
   end
 
   def current_active_time_span
-    time_spans.current.active.last
+    @current_active_time_span ||= time_spans.current.active.last
   end
 
   def removed_from_collection!

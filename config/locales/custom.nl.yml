@@ -183,6 +183,12 @@ nl:
         first_then_join_rest: "Vervang veld 1, rest in veld 2"
         first_then_join_rest_separated: "Vervang veld 1, rest in veld 2 (gescheiden)"
       time_span:
+        classification:
+          rental_outgoing: Verhuurd
+          rental_incoming: Gehuurd
+          transport: Transport
+          exhibition: Tentoonstelling
+          purchase: Aankoop
         status:
           concept: Concept
           reservation: Reservering
@@ -191,7 +197,7 @@ nl:
       work:
         availability_status:
           sold: Verkocht
-          lend: Uitgeleend
+          lent: Uitgeleend
           available: Beschikbaar
         abstract_or_figurative:
           abstract: Abstract
