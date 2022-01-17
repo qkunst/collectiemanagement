@@ -400,7 +400,7 @@ class Work < ApplicationRecord
   end
 
   def current_active_time_span
-    @current_active_time_span ||= time_spans.current.active.last
+    @current_active_time_span ||= time_spans.select(&:current_and_active?).last
   end
 
   def removed_from_collection!

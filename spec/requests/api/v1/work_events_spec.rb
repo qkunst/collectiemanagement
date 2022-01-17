@@ -63,6 +63,8 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
 
       time_span = TimeSpan.create(starts_at: 1.year.ago, contact: contact, subject: work, status: :active, classification: :rental_outgoing, collection: work.collection)
 
+      work_id = work.id
+      work = Work.find(work_id)
       expect(work.availability_status).to eql(:lent)
 
       expect {
@@ -71,7 +73,8 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
 
       expect(response).to be_successful
 
-      work.reload
+      work_id = work.id
+      work = Work.find(work_id)
       expect(work.availability_status).to eql(:available)
     end
   end

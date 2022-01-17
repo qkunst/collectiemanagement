@@ -12,7 +12,7 @@ class Api::V1::WorksController < Api::V1::ApiController
     api_authorize! :read_api, @collection
 
     set_selection_filter
-    @selection = {display: :compact}
+    @selection = {display: :complete}
     set_search_text
 
     if @search_text && (@search_text.length > 3)

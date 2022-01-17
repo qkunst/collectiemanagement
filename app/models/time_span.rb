@@ -47,6 +47,25 @@ class TimeSpan < ApplicationRecord
     self.status = :finished
   end
 
+  def current?
+    current_time = Time.current
+    return (
+      (starts_at.nil?            && ends_at.nil?) or
+      (starts_at.nil?            && ends_at >= current_time) or
+      (ends_at.nil?              && starts_at <= current_time) or
+      (starts_at <= current_time && ends_at >= current_time) or
+      (starts_at <= current_time && status == 'active')
+    )
+  end
+
+  def active?
+    status.to_s == "active"
+  end
+
+  def current_and_active?
+    active? && current?
+  end
+
   private
 
   def subject_available?

@@ -31,6 +31,22 @@ RSpec.describe TimeSpan, type: :model do
     end
   end
 
+  describe "instance methods" do
+    describe "#current?" do
+      [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|
+        it { expect(time_spans(span).current?).to  be_truthy }
+      end
+      [:time_span_historic, :time_span_future].each do |span|
+        it { expect(time_spans(span).current?).not_to  be_truthy }
+      end
+
+      it "should include expired, active time spans" do
+        expect(time_spans(:time_span_expired).current?).to be_truthy
+      end
+    end
+
+  end
+
   describe "scopes" do
     describe ".current" do
       [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|

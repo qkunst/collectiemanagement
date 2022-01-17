@@ -85,16 +85,17 @@ module Work::SizingRendering
 
     def orientation
       if height_with_fallback && width_with_fallback && width_with_fallback > 0
+        ratio = height_with_fallback / width_with_fallback
+
         if ratio == 1
           :square
-        elsif ration < 0.9
+        elsif ratio < 0.9
           :landscape
         elsif ratio > 1.1
           :portrait
         else
           :roughly_square
         end
-        height_with_fallback / width_with_fallback
       end
 
     end

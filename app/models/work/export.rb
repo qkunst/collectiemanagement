@@ -21,6 +21,10 @@ module Work::Export
       end
     end
 
+    def collection_branch
+      collection.expand_with_parent_collections.not_root
+    end
+
     def collect_values_for_fields(fields)
       fields.collect do |field|
         value = send(field)
