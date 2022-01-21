@@ -9,9 +9,9 @@ class TimeSpan < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :contact, optional: true
 
-  validates_presence_of :classification, inclusion: CLASSIFICATIONS.map(&:to_s), presence: true
-  validates_presence_of :subject_type, inclusion: SUBJECT_TYPES, presence: true
-  validates_presence_of :status, inclusion: STATUSSES.map(&:to_s), presence: true
+  validates :classification, inclusion: CLASSIFICATIONS.map(&:to_s), presence: true
+  validates :subject_type, inclusion: SUBJECT_TYPES, presence: true
+  validates :status, inclusion: STATUSSES.map(&:to_s), presence: true
 
   validate :subject_available?
 

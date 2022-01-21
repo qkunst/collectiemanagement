@@ -15,6 +15,11 @@ RSpec.describe TimeSpan, type: :model do
         ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :rental_outgoing)
         expect(ts.valid?).to be_falsey
       end
+
+      it "is not valid when classification is false, but subject, collection and contact are set" do
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :false_classification)
+        expect(ts.valid?).to be_falsey
+      end
     end
   end
 
