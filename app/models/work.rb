@@ -6,7 +6,7 @@ class Work < ApplicationRecord
 
   INSIGNIFICANT_FIELDS = [:updated_at, :significantly_updated_at, :other_structured_data, :lognotes, :artist_name_rendered, :created_by_name, :tag_list_cache, :collection_locality_artist_involvements_texts_cache, :purchase_price_in_eur, :other_structured_data] # insignificant fields are not considered significant to trigger a significantly_updated_at + its changes are not shown in display of changes-overview
 
-  GRADES_WITHIN_COLLECTION = %w[A B C D E F G W]
+  GRADES_WITHIN_COLLECTION = %w[A B C D E F G S W]
 
   include ActionView::Helpers::NumberHelper
   include FastAggregatable
