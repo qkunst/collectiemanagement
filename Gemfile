@@ -117,7 +117,6 @@ gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azu
 gem "sidekiq", "~> 6", ">= 6.2.1"
 gem "sidekiq-scheduler", ">= 3.1.0"
 gem "sidekiq-unique-jobs", ">= 7.1.5"
-
 gem "webpacker"
 
 gem "rack-mini-profiler"
