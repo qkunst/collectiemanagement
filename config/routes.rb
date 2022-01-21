@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "sidekiq/web"
+
 Sidekiq::Web.set :sessions, false
 
 Rails.application.routes.draw do
