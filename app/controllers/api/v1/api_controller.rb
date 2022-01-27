@@ -26,15 +26,25 @@ class Api::V1::ApiController < ApplicationController
       # only compatible with central login id token
 
       id_token = request.headers["Authorization"].gsub(/\ABearer\s+/,"")
-      user_data = oauth_strategy.validate_id_token(id_token)
+      user_data = central_login_oauth_strategy.validate_id_token(id_token)
 
-      data = Users::OmniauthCallbackData.new(oauth_subject: user_data["uid"], oauth_provider: :central_login)
-      data.email = user_data["email"]
-      data.email_confirmed = user_data["email_verified"]
-      data.name  = user_data["name"]
+      data = Users::OmniauthCallbackData.new(oauth_subject: user_data["uid"] || user_data["sub"], oauth_provider: :central_login)
+
+      if user_data["sub"].starts_with?("app-")
+        issuer_hostname = user_data["iss"].split("//").last.gsub("/","")
+        data.email = "app-connection-#{user_data["sub"]}@#{issuer_hostname}"
+        data.email_confirmed = "app-connection-#{user_data["sub"]}@#{issuer_hostname}"
+        data.name  = user_data["name"] || "#{user_data["sub"].gsub("app-", "").gsub("_", " ")} @ #{issuer_hostname}"
+        data.app = true
+      else
+        data.email = user_data["email"]
+        data.email_confirmed = user_data["email_verified"]
+        data.name  = user_data["name"]
+        data.app = false
+      end
       data.qkunst = false
 
-      data.issuer = "central_login/#{user_data['iss']}"
+      data.issuer = "central_login/#{data.app ? "app/" : ""}#{user_data['iss']}"
 
       data.resources = user_data["resources"]
       data.roles = user_data["roles"]
@@ -70,8 +80,8 @@ class Api::V1::ApiController < ApplicationController
     false
   end
 
-  def oauth_strategy
-    @oauth_strategy ||= ::OmniAuth::Strategies::CentralLogin.new(:central_login, Rails.application.secrets.central_login_id, Rails.application.secrets.central_login_secret, client_options: {site: Rails.application.secrets.central_login_site})
+  def central_login_oauth_strategy
+    @central_login_oauth_strategy ||= ::OmniAuth::Strategies::CentralLogin.new(:central_login, Rails.application.secrets.central_login_id, Rails.application.secrets.central_login_secret, client_options: {site: Rails.application.secrets.central_login_site})
   end
 
 end

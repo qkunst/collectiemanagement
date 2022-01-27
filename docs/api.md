@@ -1,8 +1,30 @@
 # API
 
-A limited API is provided, allowing for reading of works.
+A limited API is provided, primarily for reading, although support has been added to create and update TimeSpans, objects that represent an event (e.g. rent of the work concerned)
+
+## Available actions
+
+    GET      /api/v1/time_spans(.:format)
+    GET      /api/v1/works/:id(.:format)
+    POST     /api/v1/collections/:collection_id/works/:work_id/work_events(.:format)
+    GET      /api/v1/collections/:collection_id/works(.:format)
+    GET      /api/v1/collections/:collection_id/works/:id(.:format)
+    GET      /api/v1/collections(.:format)
+    GET      /api/v1/collections/:id(.:format)
 
 ## Authentication
+
+### JSON Web Token (from OpenID provider CentralLogin)
+
+This is the prefferred way of authentication.
+
+Currently it is limited to users using [Central Login](https://murb.nl/blog?tags=CentralLogin). Central Login is a separate project that offers OAuth with OpenID authentication. Its tokens can be used to make calls to the API.
+
+Use the `Authorization` header with a Bearer token, e.g. `"Bearer #{id_token}"`
+
+Both simple client_credentials are allowed for app connections, but when possible actions are performed using user representing tokens. See the chapter on [authentication](authentication.md) how CentralLogin tokens can be used for single sign on authorization.
+
+Please do not confuse `access_tokens` (default tokens for OAuth) with `id_tokens` (OpenID style tokens that contain a JWT, which not only provides a token but also information that can be verified using PKI).
 
 ### Token based authentication
 

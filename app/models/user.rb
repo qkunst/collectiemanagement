@@ -26,7 +26,8 @@ class User < ApplicationRecord
   scope :appraiser, -> { where(appraiser: true).where(admin: [false, nil], advisor: [false, nil]) }
   scope :registrator, -> { where(qkunst: true).where(admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
   scope :qkunst, -> { where(qkunst: true) }
-  scope :other, -> { where(qkunst: [false, nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil]) }
+  scope :apps, -> { where(app: true) }
+  scope :other, -> { where(qkunst: [false, nil], admin: [false, nil], appraiser: [false, nil], advisor: [false, nil], app: [false, nil]) }
   scope :has_collections, -> { joins(:collections).uniq }
   scope :receive_mails, -> { where(receive_mails: true) }
   scope :inactive, -> { other.left_outer_joins(:collections).where(collections_users: {id: nil}) }
@@ -222,10 +223,10 @@ class User < ApplicationRecord
         user.email = data.email
         user.name = data.name
         user.qkunst = data.qkunst
-        user.facility_manager = data.facility_manager
         user.domain = data.domain
         user.confirmed_at ||= Time.now if data.email_confirmed?
         user.raw_open_id_token = data.raw_open_id_token
+        user.app = !!data.app
 
         if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
           user.reset_all_roles

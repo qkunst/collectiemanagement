@@ -153,6 +153,35 @@
         <% end %>
       </tbody>
     </table>
+
+    <% if @app_users.count > 0 %>
+    <h3>App-verbindingen</h3>
+    <p>Externe applicaties die automatisch gegevens mogen onttrekken uit deze applicatie voor de geselecteerde collecties. Ook applicaties hebben zich te houden aan de beperkingen van de rollen.</p>
+    <table class="users">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Rol</th>
+          <th>Collectie-toegang</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%@app_users.each do | user | %>
+          <tr>
+            <td><%=link_to user.name, edit_user_path(user)%></td>
+            <td><%= I18n.t(user.role, scope:[:activerecord, :values, :user, :role]) %>
+            <td>
+              <ul>
+                <%user.collections.each do |collection| %>
+                  <li><%= link_to collection.name, collection%></li>
+                <% end %>
+              </ul>
+            </td>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% end %>
   </div>
 
 
