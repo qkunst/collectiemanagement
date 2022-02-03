@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :time_spans, only: [:index]
+      resources :time_spans, only: [:index, :show]
       resources :works, only: [:show]
       resources :collections, only: [:index, :show] do
         resources :works, only: [:index, :show] do
