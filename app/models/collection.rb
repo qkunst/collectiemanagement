@@ -390,7 +390,7 @@ class Collection < ApplicationRecord
   private
 
   def cache_all_collection_name_extended!
-    UpdateCacheWorker.perform_async(self.class.name, :collection_name_extended)
+    UpdateCacheWorker.perform_async(self.class.name, "collection_name_extended")
   end
 
   class << Collection

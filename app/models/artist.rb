@@ -215,7 +215,7 @@ class Artist < ApplicationRecord
   private
 
   def update_artist_name_rendered_async
-    works.pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, :artist) }
+    works.pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, "artist") }
   end
 
   class << self

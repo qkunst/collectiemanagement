@@ -181,8 +181,6 @@ class ImportCollection < ApplicationRecord
         market_value_min: work_data["market_value_min"],
         replacement_value_min: work_data["replacement_value_min"],
         replacement_value_max: work_data["replacement_value_max"],
-        minimum_bid: work_data["minimum_bid"],
-        selling_price: work_data["selling_price"],
         valuation_on: work_data["valuation_on"],
         market_value: work_data["market_value"],
         replacement_value: work_data["replacement_value"],
