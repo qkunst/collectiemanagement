@@ -230,7 +230,7 @@ namespace :sidekiq do
   task :install do
     on roles(:app), in: :sequence do |app|
       begin
-        execute "rm ~/.config/systemd/user/sidekiq.service"
+        # execute "rm ~/.config/systemd/user/sidekiq.service"
         execute "mkdir -p ~/.config/systemd/user"
         execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
       rescue SSHKit::Command::Failed
