@@ -69,7 +69,7 @@ group :development do
   gem "capistrano-rbenv"
   gem "capistrano-bundler"
   gem "capistrano-rails"
-  gem 'capistrano-sidekiq' #, group: :development
+  gem 'capistrano-sidekiq' , '>= 2.0.0' #, group: :development
   gem "highline"
   gem "web-console"
   gem "listen"
@@ -114,9 +114,9 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
-gem "sidekiq", "~> 6", ">= 6.2.1"
+gem "sidekiq", "~> 6", ">= 6.4.0"
 gem "sidekiq-scheduler", ">= 3.1.0"
-gem "sidekiq-unique-jobs", ">= 7.1.5"
+gem "sidekiq-unique-jobs", ">= 7.1.12"
 gem "webpacker"
 
 gem "rack-mini-profiler"
