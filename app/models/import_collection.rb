@@ -155,7 +155,7 @@ class ImportCollection < ApplicationRecord
         new_found: work_data["new_found"],
         locality_geoname_id: work_data["geoname_id"],
         imported_at: Time.now,
-        import_collection_id: self.id,
+        import_collection_id: 1,
         artist_unknown: work_data["artist_unknown"],
         signature_comments: work_data["signature_comments"],
         no_signature_present: work_data["no_signature_present"],

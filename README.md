@@ -81,10 +81,12 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * imagemagick jpegoptim optipng
 * elasticsearch 7
 * passenger
+* systemd
 * redis
 * node >= 10.21 met yarn (geïnstalleerd met nvm)
 * Ruby 3.0.2 (geïnstalleerd via rbenv)
-* systemd
+
+Installeer met `sudo apt-get install jpegoptim optipng imagemagick nginx postgresql `
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
