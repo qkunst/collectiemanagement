@@ -116,7 +116,7 @@ Rails.application.configure do
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
       email_prefix: "[#{I18n.t("application.name")}] ",
-      sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb>),
+      sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb.nl>),
       exception_recipients: %w[qkunst@murb.nl]
     }
 
