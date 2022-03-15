@@ -53,6 +53,38 @@ Vele van de langere teksten in de applicatie kunnen worden opgemaakt middels [Ma
 
 	  [Link](http://example.com)
 
+## Browser support
+
+Er is een browser support grading systeem, geïnspireerd op [How to define a browser support level matrix](https://medium.com/planet4/how-to-define-a-browser-support-level-matrix-54624d3b5250)), voor browserondersteuning. We classificeren browsers met een A, B, C of D.
+
+| Klasse | Omschrijving |
+|-------|:------|
+| A | Beste gebruikerservaring; alle features werken en weergave is duidelijk. |
+| B | Alle features werken. Weergave niet altijd optimaal. |
+| C | Basis functionaliteit werkt (in ieder geval rollen buiten controle (b.v. niet-admin functies)), maar geavanceerdere functies zijn niet altijd beschikbaar. Performance mogelijk niet optimaal. |
+| D | Wordt niet ondersteund. |
+
+### Klasse A Browsers:
+
+* Google Chrome op Desktop (laatste en op één na laatste versie)
+* Microsoft Edge op Desktop (laatste en op één na laatste versie)
+* Mozilla Firefox op Desktop (laatste en op één na laatste versie)
+* Apple Safari op Desktop (laatste versie)
+
+### Klasse B Browsers:
+
+* Apple Safari op iOS (laatste versie)
+* Google Chrome op Android (laatste versie)
+* Mozilla Firefox op Android (laatste versie)
+
+### Klasse C Browsers:
+
+* Microsoft Edge Legacy op Desktop (laatste versie)
+
+### Klasse D Browsers:
+
+* Microsoft Internet Explorer 11 op Desktop (per juni 2022 zal Micrsoft ook geen onderhoud meer plegen aan deze browser, door Microsoft producten wordt deze browser ook al niet meer ondersteund)
+
 ## Installatie
 
 De meest actuele versie van deze handleiding zal altijd terug te vinden zijn in

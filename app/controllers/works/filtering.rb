@@ -63,6 +63,7 @@ module Works::Filtering
       @works_count = @works.count_as_whole_works
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.limit(params[:limit].to_i) if params[:limit]
+      @works = @works.from(params[:from].to_i) if params[:from]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
       @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]

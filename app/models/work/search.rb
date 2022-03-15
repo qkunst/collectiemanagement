@@ -71,7 +71,7 @@ module Work::Search
 
   class_methods do
     def search_and_filter(base_collection, search = "", filter = {}, options = {})
-      options = {force_elastic: false, return_records: true, limit: 50000}.merge(options)
+      options = {force_elastic: false, return_records: true, limit: 50000, from: 0}.merge(options)
       sort = options[:sort] || ["_score"]
 
       if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
@@ -80,6 +80,7 @@ module Work::Search
 
       query = {
         _source: [:id], # major speedup!
+        from: options[:from],
         size: options[:limit],
         query: {
           bool: {
