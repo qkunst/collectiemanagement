@@ -124,6 +124,7 @@ class Work < ApplicationRecord
       raise "unsupported parameter #{group}"
     end
   }
+  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime ... 1.year.from_now))}
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

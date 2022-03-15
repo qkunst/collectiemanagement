@@ -703,5 +703,16 @@ RSpec.describe Work, type: :model do
         end
       end
     end
+    describe ".significantly_updated_since" do
+      it "returns nothing when future" do
+        expect(Work.significantly_updated_since(1.day.from_now)).to eq([])
+      end
+      it "returns only matching work" do
+        w = works(:work1)
+        w.update_columns(significantly_updated_at: 2.day.from_now)
+
+        expect(Work.significantly_updated_since(1.day.from_now)).to eq([w])
+      end
+    end
   end
 end

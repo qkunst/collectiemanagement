@@ -15,6 +15,7 @@ class Api::V1::WorksController < Api::V1::ApiController
     @selection = {display: :complete}
     set_search_text
 
+    # if work matches a number exactly, don't continue to search
     if @search_text && (@search_text.length > 3)
       @works = @collection.works_including_child_works.has_number(@search_text).to_a
     end
@@ -22,7 +23,6 @@ class Api::V1::WorksController < Api::V1::ApiController
     if @works.blank?
       set_works
 
-      @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.all
     end
   end
