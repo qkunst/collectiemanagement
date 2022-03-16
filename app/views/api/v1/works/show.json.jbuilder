@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-work = @work
-
-json.partial! 'work', locals: {work: work}
+json.data do
+  json.partial! 'work', locals: {work: @work}
+end

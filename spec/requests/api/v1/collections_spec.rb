@@ -2,14 +2,14 @@
 
 require "rails_helper"
 
-RSpec.describe "Collections", type: :request do
+RSpec.describe Api::V1::CollectionsController, type: :request do
   let(:external_ip) {
     # do 'dumb' requst to get external ip
     get api_v1_collection_works_path(1)
     JSON.parse(response.body)["your_remote_ip"]
   }
 
-  describe "GET /collections" do
+  describe "GET /api/v1/collections" do
     it "shouldn't be publicly accessible!" do
       c = collections(:collection1)
       get api_v1_collection_works_path(1)
