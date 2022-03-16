@@ -145,6 +145,9 @@ class Work < ApplicationRecord
   time_as_boolean :refound
   time_as_boolean :new_found
   time_as_boolean :removed_from_collection
+  time_as_boolean :for_purchase
+  time_as_boolean :for_rent
+  time_as_boolean :highlight
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 

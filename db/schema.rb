@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_27_080928) do
+ActiveRecord::Schema.define(version: 2022_03_16_153319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -777,6 +777,9 @@ ActiveRecord::Schema.define(version: 2022_01_27_080928) do
     t.datetime "significantly_updated_at"
     t.datetime "removed_from_collection_at"
     t.string "removed_from_collection_note"
+    t.datetime "for_purchase_at"
+    t.datetime "for_rent_at"
+    t.string "highlight_at"
     t.index ["collection_id"], name: "index_works_on_collection_id"
   end
 

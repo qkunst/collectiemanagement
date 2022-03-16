@@ -384,6 +384,8 @@ nl:
         entry_status: Invoerstatus
         entry_status_description: Invoerstatus opmerkingen
         figurative: Figuratief
+        for_purchase: Voor verkoop
+        for_rent: Voor verhuur
         floor_surface: Vloeroppervlak (m²)
         frame_damage_types:  Type schade lijst
         frame_depth: Diepte lijst (cm)
@@ -395,6 +397,7 @@ nl:
         frame_width: Breedte lijst (cm)
         grade_within_collection: Niveau binnen collectie
         height: Hoogte beeld (cm)
+        highlight: Highlight
         hpd_comments: Opmerkingen
         hpd_condition: Fysieke staat
         hpd_contact: Contactpersoon

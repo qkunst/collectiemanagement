@@ -67,6 +67,12 @@ json.depth_with_fallback work.depth_with_fallback
 json.diameter_with_fallback work.diameter_with_fallback
 json.object_format_code work.object_format_code
 json.orientation work.orientation
+json.for_purchase work.for_purchase?
+json.for_rent work.for_rent?
+json.highlight work.highlight?
+json.created_at work.created_at
+json.import_collection_id work.import_collection_id
+json.availability_status work.availability_status
 json.current_active_timespan do
   if work.current_active_time_span
     json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}

@@ -13,9 +13,12 @@ RSpec.describe Api::V1::WorksController, type: :request do
   end
 
   context "facility_manager" do
+    before do
+      sign_in users(:facility_manager)
+    end
     describe "GET api/v1/works/" do
+
       it "returns ok" do
-        sign_in users(:facility_manager)
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
         expect(response).to be_ok
@@ -25,8 +28,6 @@ RSpec.describe Api::V1::WorksController, type: :request do
       it "returns meta" do
         total = 3
         limit = 2
-
-        sign_in users(:facility_manager)
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, limit: limit, from: 1)
 
@@ -40,7 +41,21 @@ RSpec.describe Api::V1::WorksController, type: :request do
       end
 
       it "returns all desired fields" do
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
 
+        keys = JSON.parse(response.body)["data"].flat_map{|a| a.keys}.uniq
+
+
+        %w[title_rendered artist_name_rendered object_categories
+        object_creation_year
+        height_with_fallback
+        width_with_fallback
+        depth_with_fallback
+        diameter_with_fallback
+        for_purchase for_rent selling_price highlight public_description created_at import_collection_id object_format_code themes availability_status
+      ].each do |key|
+          expect(keys).to include key
+        end
       end
     end
   end
