@@ -1,0 +1,21 @@
+<h1>OAuth auto-koppelingen</h1>
+<p>Overzicht van OAuth mappings; deze kunnen hier vooralsnog niet beheerd worden.</p>
+
+
+
+<table>
+  <thead>
+    <tr><th>Issuer</th><th>Value Type</th><th>Value</th><th>Collection ID</th><th>Role</th></tr>
+  </thead>
+  <tbody>
+    <% @o_auth_group_mappings.each do |mapping| %>
+      <tr>
+        <td><%= mapping.issuer %></td>
+        <td><%= mapping.value_type %></td>
+        <td><%= mapping.value %></td>
+        <td><%= mapping.collection_id %></td>
+        <td><%= mapping.role %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  </table>

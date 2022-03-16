@@ -160,7 +160,13 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   get "debug-offline" => "application#debug_offline"
+
   get "admin" => "application#admin"
+
+  namespace :admin do
+    resources :o_auth_group_mappings
+  end
+  # get "admin/oauth_group_mapping" =>
   get "sw" => "application#service_worker"
   get "privacy" => "application#privacy"
   get "data-policy" => "application#data_policy"
