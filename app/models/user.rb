@@ -223,7 +223,7 @@ class User < ApplicationRecord
         user.email = data.email
         user.name = data.name
         user.qkunst = data.qkunst
-        user.domain = data.domain
+        user.domain = data.domain || data.email.split("@")[1]
         user.confirmed_at ||= Time.now if data.email_confirmed?
         user.raw_open_id_token = data.raw_open_id_token
         user.app = !!data.app
