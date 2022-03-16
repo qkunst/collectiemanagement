@@ -42,9 +42,6 @@ class ApplicationController < ActionController::Base
     @offline = true
   end
 
-  def admin
-  end
-
   def style_guide
   end
 

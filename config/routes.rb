@@ -161,7 +161,7 @@ Rails.application.routes.draw do
 
   get "debug-offline" => "application#debug_offline"
 
-  get "admin" => "application#admin"
+  get "admin",  to: Admin::AdminController.action(:index)
 
   namespace :admin do
     resources :o_auth_group_mappings
