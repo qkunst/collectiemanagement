@@ -4,7 +4,27 @@
 
 <% if @import_collection.json?%>
   <p>Aangenomen wordt dat de bijgevoegde JSON file voldoet aan het CollectionManagement JSON-formaat.</p>
-  <%= button_to "Importeren", collection_import_collection_import_works_url(@collection, @import_collection), method: :patch, class: :button %>
+  <div class="row">
+    <div class="medium-6 columns">
+      <h3>Importeer het bestand</h3>
+      <%= button_to "Importeren", collection_import_collection_import_works_url(@collection, @import_collection), method: :patch, class: :button %>
+    </div>
+    <div class="medium-6 columns">
+      <h3>Aanpassen</h3>
+      <p>Werk het te importeren bestand bij</p>
+      <%= simple_form_for([@collection, @import_collection]) do |f| %>
+        <%= f.error_notification %>
+
+        <div class="form-inputs">
+          <%= f.input :file %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, class: [:button, :secondary] %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% else%>
     <h3>Kolommen in dit bestand</h3>
     <p>Zijn dit niet de kolommen in het bestand, stel dan de koprij in op een ander nummer. Momenteel is dit de <%= @import_collection.header_row ? "#{@import_collection.header_row.to_i}<sup>de</sup> regel".html_safe : "de eerste regel"%>.</p>

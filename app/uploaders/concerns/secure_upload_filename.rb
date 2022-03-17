@@ -13,7 +13,8 @@ module SecureUploadFilename
         if model && model.read_attribute(mounted_as).present?
           model.read_attribute(mounted_as)
         elsif original_filename.present?
-          "#{secure_token}.#{file.extension}"
+          extension = file.extension.present? ? file.extension : file.content_type.split("/").last
+          "#{secure_token}.#{extension}"
         end
       end
     end

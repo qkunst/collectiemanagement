@@ -64,14 +64,16 @@ class ImportCollectionsController < ApplicationController
   def update
     authorize! :update, @import_collection
 
-    import_settings = params.require(:import_settings).to_unsafe_h
-
     update_parameters = import_collection_params.to_h
-    update_parameters[:import_settings] = import_settings
+
+    if params[:import_settings]
+      import_settings = params.require(:import_settings).to_unsafe_h
+      update_parameters[:import_settings] = import_settings
+    end
 
     respond_to do |format|
       if @import_collection.update(update_parameters)
-        format.html { redirect_to collection_import_collection_preview_path(@collection, @import_collection), notice: "Import is bijgewerkt." }
+        format.html { redirect_to (@import_collection.json? ? collection_import_collection_path(@collection, @import_collection) : collection_import_collection_preview_path(@collection, @import_collection)), notice: "Import is bijgewerkt." }
         format.json { render :show, status: :ok, location: @import_collection }
       else
         format.html { render :edit }
@@ -86,7 +88,7 @@ class ImportCollectionsController < ApplicationController
     delete_works({redirect: false})
     begin
       @import_collection.write
-      redirect_to collection_works_path(@collection), notice: "De werken zijn geïmporeerd."
+      redirect_to collection_works_path(@collection), notice: @import_collection.json? ? "De werken worden op de achtergrond geïmporteerd." : "De werken zijn geïmporeerd."
     rescue ImportCollection::FailedImportError => error
       redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het importeren, verbeter de import file: #{error.message}..."
     end

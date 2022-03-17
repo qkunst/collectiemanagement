@@ -120,188 +120,193 @@ class ImportCollection < ApplicationRecord
     read(import_file_to_workbook_table).collect { |a| a.save }
   end
 
+  def write_json_work(work_data)
+
+    work = Work.new(
+      stock_number: work_data["stock_number"],
+      alt_number_1: work_data["alt_number_1"],
+      alt_number_2: work_data["alt_number_2"],
+      alt_number_3: work_data["alt_number_3"],
+      title: work_data["title"],
+      title_unknown: work_data["title_unknown"],
+      description: work_data["description"],
+      object_creation_year: work_data["object_creation_year"],
+      object_creation_year_unknown: work_data["object_creation_year_unknown"],
+      print: work_data["print"],
+      print_unknown: work_data["print_unknown"],
+      frame_height: work_data["frame_height"],
+      frame_width: work_data["frame_width"],
+      frame_depth: work_data["frame_depth"],
+      frame_diameter: work_data["frame_diameter"],
+      height: work_data["height"],
+      width: work_data["width"],
+      depth: work_data["depth"],
+      diameter: work_data["diameter"],
+      public_description: work_data["public_description"],
+      abstract_or_figurative: work_data["abstract_or_figurative"],
+      location_detail: work_data["location_detail"],
+      location: work_data["location"],
+      location_floor: work_data["location_floor"],
+      internal_comments: work_data["internal_comments"],
+      inventoried: work_data["inventoried"],
+      refound: work_data["refound"],
+      new_found: work_data["new_found"],
+      locality_geoname_id: work_data["geoname_id"],
+      imported_at: Time.now,
+      import_collection_id: 1,
+      artist_unknown: work_data["artist_unknown"],
+      signature_comments: work_data["signature_comments"],
+      no_signature_present: work_data["no_signature_present"],
+      information_back: work_data["information_back"],
+      other_comments: work_data["other_comments"],
+      grade_within_collection: work_data["grade_within_collection"],
+      entry_status: work_data["entry_status"],
+      entry_status_description: work_data["entry_status_description"],
+      medium_comments: work_data["medium_comments"],
+      main_collection: work_data["main_collection"],
+      image_rights: work_data["image_rights"],
+      publish: work_data["publish"],
+      permanently_fixed: work_data["permanently_fixed"],
+      condition_work_comments: work_data["condition_work_comments"],
+      condition_frame_comments: work_data["condition_frame_comments"],
+      source_comments: work_data["source_comments"],
+      purchase_price: work_data["purchase_price"],
+      purchased_on: work_data["purchased_on"],
+      purchase_year: work_data["purchase_year"],
+      selling_price: work_data["selling_price"],
+      minimum_bid: work_data["minimum_bid"],
+      market_value_max: work_data["market_value_max"],
+      market_value_min: work_data["market_value_min"],
+      replacement_value_min: work_data["replacement_value_min"],
+      replacement_value_max: work_data["replacement_value_max"],
+      valuation_on: work_data["valuation_on"],
+      market_value: work_data["market_value"],
+      replacement_value: work_data["replacement_value"],
+      for_purchase: work_data["for_purchase"],
+      for_rent: work_data["for_rent"],
+      highlight: work_data["highlight"],
+      created_at: work_data["created_at"],
+      import_collection_id: self.id,
+      # current_active_timespan: work_data["current_active_timespan"],
+      selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
+      # id: work_data["id"],
+      #collection_branch_names: work_data["collection_branch_names"],
+    )
+    work.collection = collection
+
+    # Photo's
+    oringal_photo_front = work_data["photo_front"]&.[]("original")
+    oringal_photo_back = work_data["photo_back"]&.[]("original")
+    oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("original")
+    oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("original")
+
+    work.photo_front = URI.open(oringal_photo_front) if oringal_photo_front
+    work.photo_back = URI.open(oringal_photo_back) if oringal_photo_back
+    work.photo_detail_1 = URI.open(oringal_photo_detail_1) if oringal_photo_detail_1
+    work.photo_detail_2 = URI.open(oringal_photo_detail_2) if oringal_photo_detail_2
+
+    cluster_data = work_data["cluster"]
+    if cluster_data
+      work.cluster = (Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection))
+    end
+
+    owner_data = work_data["owner"]
+    if owner_data
+      work.owner = (Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"]))
+    end
+
+    purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]
+    if purchase_price_currency
+      work.purchase_price_currency = Currency.find_or_create_by(iso_4217_code: purchase_price_currency).first
+    end
+
+    work_data["object_categories"].each do |object_category|
+      work.object_categories << ObjectCategory.find_or_create_by(name: object_category["name"])
+    end
+    if work_data["placeability"]
+      work.placeability << Placeability.find_or_create_by(name: work_data["placeability"]["name"])
+    end
+    if work_data["balance_category"]
+      work.balance_category = BalanceCategory.find_or_create_by(name: work_data["balance_category"]["name"])
+    end
+    if work_data["style"]
+      work.style = Style.find_or_create_by(name: work_data["style"]["name"])
+    end
+    if work_data["medium"]
+      work.medium = Medium.find_or_create_by(name: work_data["medium"]["name"])
+    end
+    if work_data["condition_work"]
+      work.condition_work = Condition.find_or_create_by(name: work_data["condition_work"]["name"])
+    end
+    if work_data["condition_frame"]
+      work.condition_frame = Condition.find_or_create_by(name: work_data["condition_frame"]["name"])
+    end
+    if work_data["frame_type"]
+      work.frame_type = FrameType.find_or_create_by(name: work_data["frame_type"]["name"])
+    end
+    if work_data["subset"]
+      work.subset = Subset.find_or_create_by(name: work_data["subset"]["name"])
+    end
+    if work_data["work_status"]
+      work.work_status = WorkStatus.find_or_create_by(name: work_data["work_status"]["name"])
+    end
+
+    # HAS MANY
+    work_data["appraisals"].each do |appraisal_data|
+      work.appraisals << Appraisal.create(appraisal_data.merge({appraisee: work}))
+    end
+    work_data["techniques"].each do |technique|
+      work.techniques << Technique.find_or_create_by(name: technique["name"])
+    end
+    work_data["artists"].each do |artist_data|
+      artist = if artist_data["rkd_artist_id"]
+        Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"])
+      else
+        Artist.find_or_create_by(
+          artist_name: artist_data["artist_name"],
+          year_of_death: artist_data["year_of_death"],
+          year_of_birth: artist_data["year_of_birth"],
+          last_name: artist_data["last_name"],
+          prefix: artist_data["prefix"],
+          first_name: artist_data["first_name"]
+        )
+      end
+      work.artists << artist if artist
+    end
+    work_data["themes"].each do |theme|
+      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection))
+    end
+    work_data["damage_types"].each do |damage_type|
+      work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
+    end
+    work_data["frame_damage_types"].each do |frame_damage_type|
+      work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
+    end
+    work_data["sources"].each do |source|
+      work.sources << Source.find_or_create_by(name: source["name"])
+    end
+    work_data["work_sets"].each do |work_set|
+      work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
+      work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
+    end
+
+    # TODO:
+    # has_and_belongs_to_many :attachments
+    # has_and_belongs_to_many :library_items
+    # has_many :messages, as: :subject_object
+    # has_many :time_spans, as: :subject
+    #
+
+    work.save
+  end
+
   def write_json
     Work.where(import_collection_id: self.id).destroy_all
     json = JSON.parse(file.read)
     json = json.is_a?(Array) ? json : json["data"]
     json.each do |work_data|
-      work = Work.new(
-        stock_number: work_data["stock_number"],
-        alt_number_1: work_data["alt_number_1"],
-        alt_number_2: work_data["alt_number_2"],
-        alt_number_3: work_data["alt_number_3"],
-        title: work_data["title"],
-        title_unknown: work_data["title_unknown"],
-        description: work_data["description"],
-        object_creation_year: work_data["object_creation_year"],
-        object_creation_year_unknown: work_data["object_creation_year_unknown"],
-        print: work_data["print"],
-        print_unknown: work_data["print_unknown"],
-        frame_height: work_data["frame_height"],
-        frame_width: work_data["frame_width"],
-        frame_depth: work_data["frame_depth"],
-        frame_diameter: work_data["frame_diameter"],
-        height: work_data["height"],
-        width: work_data["width"],
-        depth: work_data["depth"],
-        diameter: work_data["diameter"],
-        public_description: work_data["public_description"],
-        abstract_or_figurative: work_data["abstract_or_figurative"],
-        location_detail: work_data["location_detail"],
-        location: work_data["location"],
-        location_floor: work_data["location_floor"],
-        internal_comments: work_data["internal_comments"],
-        inventoried: work_data["inventoried"],
-        refound: work_data["refound"],
-        new_found: work_data["new_found"],
-        locality_geoname_id: work_data["geoname_id"],
-        imported_at: Time.now,
-        import_collection_id: 1,
-        artist_unknown: work_data["artist_unknown"],
-        signature_comments: work_data["signature_comments"],
-        no_signature_present: work_data["no_signature_present"],
-        information_back: work_data["information_back"],
-        other_comments: work_data["other_comments"],
-        grade_within_collection: work_data["grade_within_collection"],
-        entry_status: work_data["entry_status"],
-        entry_status_description: work_data["entry_status_description"],
-        medium_comments: work_data["medium_comments"],
-        main_collection: work_data["main_collection"],
-        image_rights: work_data["image_rights"],
-        publish: work_data["publish"],
-        permanently_fixed: work_data["permanently_fixed"],
-        condition_work_comments: work_data["condition_work_comments"],
-        condition_frame_comments: work_data["condition_frame_comments"],
-        source_comments: work_data["source_comments"],
-        purchase_price: work_data["purchase_price"],
-        purchased_on: work_data["purchased_on"],
-        purchase_year: work_data["purchase_year"],
-        selling_price: work_data["selling_price"],
-        minimum_bid: work_data["minimum_bid"],
-        market_value_max: work_data["market_value_max"],
-        market_value_min: work_data["market_value_min"],
-        replacement_value_min: work_data["replacement_value_min"],
-        replacement_value_max: work_data["replacement_value_max"],
-        valuation_on: work_data["valuation_on"],
-        market_value: work_data["market_value"],
-        replacement_value: work_data["replacement_value"],
-        for_purchase: work_data["for_purchase"],
-        for_rent: work_data["for_rent"],
-        highlight: work_data["highlight"],
-        created_at: work_data["created_at"],
-        current_active_timespan: work_data["current_active_timespan"],
-        selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
-        id: work_data["id"],
-        #collection_branch_names: work_data["collection_branch_names"],
-      )
-      work.collection = collection
-
-      # Photo's
-      oringal_photo_front = work_data["photo_front"]&.[]("original")
-      oringal_photo_back = work_data["photo_back"]&.[]("original")
-      oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("original")
-      oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("original")
-
-      work.photo_front = URI.open(oringal_photo_front) if oringal_photo_front
-      work.photo_back = URI.open(oringal_photo_back) if oringal_photo_back
-      work.photo_detail_1 = URI.open(oringal_photo_detail_1) if oringal_photo_detail_1
-      work.photo_detail_2 = URI.open(oringal_photo_detail_2) if oringal_photo_detail_2
-
-      cluster_data = work_data["cluster"]
-      if cluster_data
-        work.cluster = (Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection))
-      end
-
-      owner_data = work_data["owner"]
-      if owner_data
-        work.owner = (Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"]))
-      end
-
-      purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]
-      if purchase_price_currency
-        work.purchase_price_currency = Currency.find_or_create_by(iso_4217_code: purchase_price_currency).first
-      end
-
-      work_data["object_categories"].each do |object_category|
-        work.object_categories << ObjectCategory.find_or_create_by(name: object_category["name"])
-      end
-      if work_data["placeability"]
-        work.placeability << Placeability.find_or_create_by(name: work_data["placeability"]["name"])
-      end
-      if work_data["balance_category"]
-        work.balance_category = BalanceCategory.find_or_create_by(name: work_data["balance_category"]["name"])
-      end
-      if work_data["style"]
-        work.style = Style.find_or_create_by(name: work_data["style"]["name"])
-      end
-      if work_data["medium"]
-        work.medium = Medium.find_or_create_by(name: work_data["medium"]["name"])
-      end
-      if work_data["condition_work"]
-        work.condition_work = Condition.find_or_create_by(name: work_data["condition_work"]["name"])
-      end
-      if work_data["condition_frame"]
-        work.condition_frame = Condition.find_or_create_by(name: work_data["condition_frame"]["name"])
-      end
-      if work_data["frame_type"]
-        work.frame_type = FrameType.find_or_create_by(name: work_data["frame_type"]["name"])
-      end
-      if work_data["subset"]
-        work.subset = Subset.find_or_create_by(name: work_data["subset"]["name"])
-      end
-      if work_data["work_status"]
-        work.work_status = WorkStatus.find_or_create_by(name: work_data["work_status"]["name"])
-      end
-
-      # HAS MANY
-      work_data["appraisals"].each do |appraisal_data|
-        work.appraisals << Appraisal.create(appraisal_data.merge({appraisee: work}))
-      end
-      work_data["techniques"].each do |technique|
-        work.techniques << Technique.find_or_create_by(name: technique["name"])
-      end
-      work_data["artists"].each do |artist_data|
-        artist = if artist_data["rkd_artist_id"]
-          Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"])
-        else
-          Artist.find_or_create_by(
-            artist_name: artist_data["artist_name"],
-            year_of_death: artist_data["year_of_death"],
-            year_of_birth: artist_data["year_of_birth"],
-            last_name: artist_data["last_name"],
-            prefix: artist_data["prefix"],
-            first_name: artist_data["first_name"]
-          )
-        end
-        work.artists << artist if artist
-      end
-      work_data["themes"].each do |theme|
-        work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection))
-      end
-      work_data["damage_types"].each do |damage_type|
-        work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
-      end
-      work_data["frame_damage_types"].each do |frame_damage_type|
-        work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
-      end
-      work_data["sources"].each do |source|
-        work.sources << Source.find_or_create_by(name: source["name"])
-      end
-      work_data["work_sets"].each do |work_set|
-        work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
-        work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
-      end
-
-      # TODO:
-      # has_and_belongs_to_many :attachments
-      # has_and_belongs_to_many :library_items
-      # has_many :messages, as: :subject_object
-      # has_many :time_spans, as: :subject
-      #
-
-      work.save
+      ImportWriteWorkJson.perform_async(self.id, work_data)
     end
-    # raise
   end
 
   def write
