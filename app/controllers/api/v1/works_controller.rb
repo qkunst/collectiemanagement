@@ -24,6 +24,12 @@ class Api::V1::WorksController < Api::V1::ApiController
       set_works
 
       @works = @works.all
+
+      collection_ids = @works.map(&:collection_id).uniq
+      @collection_branches = {}
+      collection_ids.each do |id|
+        @collection_branches[id] = Collection.find(id).expand_with_parent_collections.not_root.select(:name).map(&:name)
+      end
     end
   end
 

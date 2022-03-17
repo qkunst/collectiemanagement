@@ -56,7 +56,8 @@ json.work_sets(work.work_sets) do |work_set|
   json.comment work_set.comment
 end
 
-json.collection_branch_names work.collection_branch.select(:name).map(&:name)
+json.collection_branch_names (@collection_branches ? @collection_branches[work.collection_id] : work.collection_branch.select(:name).map(&:name))
+
 json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
 json.frame_size work.frame_size
