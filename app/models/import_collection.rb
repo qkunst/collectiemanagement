@@ -122,7 +122,7 @@ class ImportCollection < ApplicationRecord
 
   def write_json
     Work.where(import_collection_id: self.id).destroy_all
-    json = JSON.parse(file.read)
+    json = JSON.parse(file.read)["data"]
     json.each do |work_data|
       work = Work.new(
         stock_number: work_data["stock_number"],
@@ -184,7 +184,11 @@ class ImportCollection < ApplicationRecord
         valuation_on: work_data["valuation_on"],
         market_value: work_data["market_value"],
         replacement_value: work_data["replacement_value"],
-
+        for_purchase: work_data["for_purchase"],
+        for_rent: work_data["for_rent"],
+        highlight: work_data["highlight"],
+        created_at: work_data["created_at"],
+        current_active_timespan: work_data["current_active_timespan"],
         selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
         id: work_data["id"],
         #collection_branch_names: work_data["collection_branch_names"],
