@@ -122,7 +122,8 @@ class ImportCollection < ApplicationRecord
 
   def write_json
     Work.where(import_collection_id: self.id).destroy_all
-    json = JSON.parse(file.read)["data"]
+    json = JSON.parse(file.read)
+    json = json.is_a?(Array) ? json : json["data"]
     json.each do |work_data|
       work = Work.new(
         stock_number: work_data["stock_number"],
