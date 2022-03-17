@@ -46,16 +46,16 @@ RSpec.describe ApplicationHelper, type: :helper do
 
   describe "#data_to_hidden_inputs" do
     it "renders key-value" do
-      expect(helper.data_to_hidden_inputs({fieldname: 1})).to eq('<input type="hidden" name="fieldname" id="fieldname" value="1" />')
+      expect(helper.data_to_hidden_inputs({fieldname: 1})).to eq('<input type="hidden" name="fieldname" id="fieldname" value="1" autocomplete="off" />')
     end
     it "renders array" do
-      expect(helper.data_to_hidden_inputs({fieldname: [1, 2]})).to eq(['<input type="hidden" name="fieldname[]" id="fieldname_" value="1" />', '<input type="hidden" name="fieldname[]" id="fieldname_" value="2" />'].join("\n"))
+      expect(helper.data_to_hidden_inputs({fieldname: [1, 2]})).to eq(['<input type="hidden" name="fieldname[]" id="fieldname_" value="1" autocomplete="off" />', '<input type="hidden" name="fieldname[]" id="fieldname_" value="2" autocomplete="off" />'].join("\n"))
     end
     it "renders nested structure" do
       expect(helper.data_to_hidden_inputs({fieldname: {nested: [1, 2], other: {nested: 3}}})).to eq([
-        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="1" />',
-        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="2" />',
-        '<input type="hidden" name="fieldname[other][nested]" id="fieldname_other_nested" value="3" />'
+        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="1" autocomplete="off" />',
+        '<input type="hidden" name="fieldname[nested][]" id="fieldname_nested_" value="2" autocomplete="off" />',
+        '<input type="hidden" name="fieldname[other][nested]" id="fieldname_other_nested" value="3" autocomplete="off" />'
       ].join("\n"))
     end
   end
