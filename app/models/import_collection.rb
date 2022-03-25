@@ -189,7 +189,8 @@ class ImportCollection < ApplicationRecord
       import_collection_id: self.id,
       # current_active_timespan: work_data["current_active_timespan"],
       selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
-      # id: work_data["id"],
+      id: work_data["id"],
+      tags: work_data["tags"]
       #collection_branch_names: work_data["collection_branch_names"],
     )
     work.collection = collection

@@ -89,6 +89,8 @@ Rails.application.configure do
     logger = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
+  else
+    logger = ::Logger.new("production.log", "daily", shift_period_suffix: "%d")
   end
 
   # Do not dump schema after migrations.
