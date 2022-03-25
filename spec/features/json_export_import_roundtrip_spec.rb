@@ -41,12 +41,16 @@ RSpec.feature "Manage Collection", type: :feature do
       source_collection.works_including_child_works.include? works(:work1)
       expect(works(:work1).artists.length).to be > 0
 
-      attributes_of_interest = %w[ title artists tag_list sources artists object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
+      attributes_of_interest = %w[ title artists tag_list sources artists object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name]
+      datetime_attributes_of_interest = %w[ created_at significantly_updated_at updated_at]
 
       work_pairs = collections(:collection1).works_including_child_works.pluck(:id).collect{|id| [Work.find(id), Work.find("99#{id}")]}
       work_pairs.each do |pair|
         attributes_of_interest.each do |attribute|
           expect(pair[1].send(attribute)).to eq(pair[0].send(attribute))
+        end
+        datetime_attributes_of_interest.each do |attribute|
+          expect(pair[1].send(attribute).to_s).to eq(pair[0].send(attribute).to_s)
         end
       end
     end

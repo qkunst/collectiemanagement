@@ -190,7 +190,11 @@ class ImportCollection < ApplicationRecord
       # current_active_timespan: work_data["current_active_timespan"],
       selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
       id: work_data["id"],
-      tag_list: work_data["tag_list"]
+      tag_list: work_data["tag_list"],
+      significantly_updated_at: work_data["significantly_updated_at"],
+      created_at: work_data["created_at"],
+      updated_at: work_data["updated_at"],
+
       #collection_branch_names: work_data["collection_branch_names"],
     )
     work.collection = collection
@@ -302,7 +306,13 @@ class ImportCollection < ApplicationRecord
     # has_many :time_spans, as: :subject
     #
 
-    unless work.save
+    if work.save
+      data = {}
+      data[:significantly_updated_at] = work_data["significantly_updated_at"]
+      data[:updated_at] = work_data["updated_at"]
+
+      work.update_columns(data)
+    else
       raise ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
   end

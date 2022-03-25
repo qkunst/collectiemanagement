@@ -53,6 +53,7 @@ work1:
     - :artist1
   other_structured_data:
     alt_number_4: "ALT4002123.1"
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
 
 work2:
   created_at: 2012-01-01T02:00:00.000
@@ -84,6 +85,8 @@ work2:
   artists:
     - :artist2
     - :artist_no_name
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
+
 work3:
   created_at: 2012-01-01T03:00:00.000
   title: Work3
@@ -100,6 +103,7 @@ work4:
     - :artist4
 work5:
   created_at: 2012-01-01T05:00:00.000
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
   title: Work5
   stock_number: Q005
   location: Adres
@@ -115,6 +119,8 @@ work5:
     - :artist_no_name
 work6:
   created_at: 2012-01-01T06:00:00.000
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
   title: Work6
   stock_number: Q006
   artists:
@@ -132,6 +138,7 @@ work7:
 
 work_with_multiple_artists:
   title: Work with multiple artists
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
   stock_number: Qwma
   artists:
     - :artist1
@@ -139,6 +146,7 @@ work_with_multiple_artists:
   collection: :collection1
 work_with_attachments:
   title: Work with attachment
+  significantly_updated_at: "2021-03-25 17:12:42 +0100"
   stock_number: QA01
   artists:
     - :artist4
