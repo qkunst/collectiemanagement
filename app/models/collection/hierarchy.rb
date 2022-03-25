@@ -21,9 +21,9 @@ module Collection::Hierarchy
     end
 
     def expand_with_child_collections
-      id ? Collection.where("id IN (SELECT CAST(branch_split AS INTEGER) FROM (select regexp_split_to_table(branch,'~') AS branch_split
+      id ? Collection.where("id IN (SELECT CAST(branch_split AS bigint) FROM (select regexp_split_to_table(branch,'~') AS branch_split
   from connectby('collections', 'id', 'parent_collection_id', '#{id}', 0, '~')
-  as (id int, pid int, lvl int, branch text)) AS branches)") : Collection.none
+  as (id bigint, pid bigint, lvl int, branch text)) AS branches)") : Collection.none
     end
 
     def child_collections_flattened
@@ -33,8 +33,8 @@ module Collection::Hierarchy
     def expand_with_parent_collections(order = nil)
       if persisted?
         ar_relation = Collection.unscope(:order).joins("INNER JOIN (
-          SELECT CAST(regexp_split_to_table(branch,'~') AS INTEGER) AS branch_split, branch, lvl, pid
-            FROM connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~') as (id int, pid int, lvl int, branch text)
+          SELECT CAST(regexp_split_to_table(branch,'~') AS bigint) AS branch_split, branch, lvl, pid
+            FROM connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~') as (id bigint, pid bigint, lvl int, branch text)
             WHERE id = #{id}
           ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split")
         if order
