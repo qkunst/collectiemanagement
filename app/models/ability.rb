@@ -103,7 +103,7 @@ class Ability
 
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
-    permitted_fields = [:updated_at, :created_at, :significantly_updated_at, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+    permitted_fields = [:updated_at, :created_at, :collection_id, :id, :significantly_updated_at, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
         :height, :width, :depth, :diameter, :subset, :subset_id, :public_description, :abstract_or_figurative,  theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
                             :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
                           ]]
@@ -123,7 +123,7 @@ class Ability
         :signature_comments, :no_signature_present,
         :information_back, :other_comments,
         :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
-        :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
+        :main_collection, :image_rights, :publish, :cluster_name, :cluster_id, :owner_id, :permanently_fixed,
         :placeability_id, :placeability, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
 
       ]
