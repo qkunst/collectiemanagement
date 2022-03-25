@@ -124,7 +124,7 @@ class Ability
         :information_back, :other_comments,
         :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
-        :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
+        :placeability_id, :placeability, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
 
       ]
     end

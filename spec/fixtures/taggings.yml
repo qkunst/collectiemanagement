@@ -1,0 +1,5 @@
+one:
+  taggable_type: Work
+  taggable: work1 (Work)
+  context: tags
+  tag_id: 1000001

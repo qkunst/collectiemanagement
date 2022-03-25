@@ -36,7 +36,7 @@ json.cluster { json.extract! work.cluster, :name, :id } if work.cluster && curre
 json.medium { json.extract! work.medium, :name, :id } if work.medium && current_api_user.ability.viewable_work_fields.include?(:medium)
 json.condition_work { json.extract! work.condition_work, :name, :id } if work.condition_work && current_api_user.ability.viewable_work_fields.include?(:condition_work)
 json.condition_frame { json.extract! work.condition_frame, :name, :id } if work.condition_frame && current_api_user.ability.viewable_work_fields.include?(:condition_frame)
-json.subset { json.extract! work.subset, :name, :id } if work.subset && current_api_user.ability.viewable_work_fields.include?(:subset)
+json.subset       { json.extract! work.subset, :name, :id }       if work.subset       && current_api_user.ability.viewable_work_fields.include?(:subset)
 json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:placeability)
 json.work_status { json.extract! work.work_status, :name, :id } if work.work_status
 json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read, Owner)
@@ -80,5 +80,6 @@ json.current_active_timespan do
   end
 end
 json.available work.available?
+json.tag_list work.tag_list
 
 json.url collection_work_url(work.collection, work)

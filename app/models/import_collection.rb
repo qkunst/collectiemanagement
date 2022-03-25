@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ImportCollection < ApplicationRecord
+  class ImportError < StandardError; end
   belongs_to :collection
   has_many :artists
   has_many :works
@@ -153,7 +154,6 @@ class ImportCollection < ApplicationRecord
       new_found: work_data["new_found"],
       locality_geoname_id: work_data["geoname_id"],
       imported_at: Time.now,
-      import_collection_id: 1,
       artist_unknown: work_data["artist_unknown"],
       signature_comments: work_data["signature_comments"],
       no_signature_present: work_data["no_signature_present"],
@@ -190,7 +190,7 @@ class ImportCollection < ApplicationRecord
       # current_active_timespan: work_data["current_active_timespan"],
       selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
       id: work_data["id"],
-      tags: work_data["tags"]
+      tag_list: work_data["tag_list"]
       #collection_branch_names: work_data["collection_branch_names"],
     )
     work.collection = collection
@@ -218,14 +218,14 @@ class ImportCollection < ApplicationRecord
 
     purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]
     if purchase_price_currency
-      work.purchase_price_currency = Currency.find_or_create_by(iso_4217_code: purchase_price_currency).first
+      work.purchase_price_currency = Currency.find_or_create_by(iso_4217_code: purchase_price_currency)
     end
 
     work_data["object_categories"].each do |object_category|
       work.object_categories << ObjectCategory.find_or_create_by(name: object_category["name"])
     end
     if work_data["placeability"]
-      work.placeability << Placeability.find_or_create_by(name: work_data["placeability"]["name"])
+      work.placeability = Placeability.find_or_create_by(name: work_data["placeability"]["name"])
     end
     if work_data["balance_category"]
       work.balance_category = BalanceCategory.find_or_create_by(name: work_data["balance_category"]["name"])
@@ -251,6 +251,9 @@ class ImportCollection < ApplicationRecord
     if work_data["work_status"]
       work.work_status = WorkStatus.find_or_create_by(name: work_data["work_status"]["name"])
     end
+    if work_data["cluster_name"]
+      work.cluster = Cluster.find_or_create_by(name: work_data["cluster_name"], collection_id: collection.base_collection.id)
+    end
 
     # HAS MANY
     work_data["appraisals"].each do |appraisal_data|
@@ -275,8 +278,9 @@ class ImportCollection < ApplicationRecord
       work.artists << artist if artist
     end
     work_data["themes"].each do |theme|
-      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection))
+      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection.id))
     end
+
     work_data["damage_types"].each do |damage_type|
       work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
     end
@@ -298,7 +302,9 @@ class ImportCollection < ApplicationRecord
     # has_many :time_spans, as: :subject
     #
 
-    work.save
+    unless work.save
+      raise ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
+    end
   end
 
   def write_json

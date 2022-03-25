@@ -249,6 +249,14 @@ class Work < ApplicationRecord
     end
   end
 
+  def cluster_name
+    cluster&.name
+  end
+
+  def owner_name
+    owner&.name
+  end
+
   def sync_purchase_year
     if purchased_on
       self.purchase_year = purchased_on.year

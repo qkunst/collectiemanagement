@@ -1,0 +1,4 @@
+tag_one:
+  id: 1000001
+  name: "Eerste tag fixture"
+  taggings_count: 1
