@@ -43,6 +43,10 @@ class ImportCollection < ApplicationRecord
     table
   end
 
+  def base_collection
+    @base_collection ||= collection.base_collection
+  end
+
   def import_file_to_workbook_table
     return nil if import_file_snippet.nil? || import_file_snippet.empty?
 
@@ -185,7 +189,6 @@ class ImportCollection < ApplicationRecord
       for_purchase: work_data["for_purchase"],
       for_rent: work_data["for_rent"],
       highlight: work_data["highlight"],
-      created_at: work_data["created_at"],
       import_collection_id: self.id,
       # current_active_timespan: work_data["current_active_timespan"],
       selling_price_minimum_bid_comments: work_data["selling_price_minimum_bid_comments"],
@@ -194,10 +197,14 @@ class ImportCollection < ApplicationRecord
       significantly_updated_at: work_data["significantly_updated_at"],
       created_at: work_data["created_at"],
       updated_at: work_data["updated_at"],
+      removed_from_collection_at: work_data["removed_from_collection_at"],
+      removed_from_collection_note: work_data["removed_from_collection_note"],
+
 
       #collection_branch_names: work_data["collection_branch_names"],
     )
     work.collection = collection
+
 
     # Photo's
     oringal_photo_front = work_data["photo_front"]&.[]("original")
@@ -212,12 +219,12 @@ class ImportCollection < ApplicationRecord
 
     cluster_data = work_data["cluster"]
     if cluster_data
-      work.cluster = (Cluster.where(name: cluster_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection))
+      work.cluster = (Cluster.where(name: cluster_data["name"], collection: base_collection.expand_with_child_collections).first || Cluster.create(name: cluster_data["name"], collection: collection.base_collection))
     end
 
     owner_data = work_data["owner"]
     if owner_data
-      work.owner = (Owner.where(name: owner_data["name"], collection: collection.base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"]))
+      work.owner = (Owner.where(name: owner_data["name"], collection: base_collection.expand_with_child_collections).first || Owner.create(name: owner_data["name"], collection: collection.base_collection, creating_artist: owner_data["creating_artist"]))
     end
 
     purchase_price_currency = work_data["purchase_price_currency_iso_4217_code"]
@@ -256,7 +263,7 @@ class ImportCollection < ApplicationRecord
       work.work_status = WorkStatus.find_or_create_by(name: work_data["work_status"]["name"])
     end
     if work_data["cluster_name"]
-      work.cluster = Cluster.find_or_create_by(name: work_data["cluster_name"], collection_id: collection.base_collection.id)
+      work.cluster = Cluster.find_or_create_by(name: work_data["cluster_name"], collection_id: base_collection.id)
     end
 
     # HAS MANY
@@ -282,7 +289,7 @@ class ImportCollection < ApplicationRecord
       work.artists << artist if artist
     end
     work_data["themes"].each do |theme|
-      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: collection.base_collection.id))
+      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: base_collection.id))
     end
 
     work_data["damage_types"].each do |damage_type|
@@ -297,6 +304,14 @@ class ImportCollection < ApplicationRecord
     work_data["work_sets"].each do |work_set|
       work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
       work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
+    end
+    work_data["time_spans"].each do |time_span|
+      contact = time_span["contact"]["external"] ?
+        Contact.find_or_create_by(url: time_span["contact"]["url"]) { |contact| contact.name=time_span["contact"]["name"], contact.address= time_span["contact"]["address"], contact.external = true } :
+        Contact.find_or_create_by(name: time_span["contact"]["name"], address: time_span["contact"]["address"], external: false, url: time_span["contact"]["url"], collection: base_collection)
+
+      time_span = TimeSpan.find_or_create_by(contact: contact, starts_at: time_span["starts_at"], ends_at: time_span["ends_at"], subject: work, url: time_span["url"], uuid: time_span["uuid"], status: time_span["status"], classification: time_span["classification"], collection: work.collection)
+      work.time_spans << time_span
     end
 
     # TODO:

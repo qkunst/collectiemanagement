@@ -74,9 +74,14 @@ json.highlight work.highlight?
 json.created_at work.created_at
 json.import_collection_id work.import_collection_id
 json.availability_status work.availability_status
-json.current_active_timespan do
-  if work.current_active_time_span
-    json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}
+if current_api_user.ability.can?(:read, TimeSpan)
+  json.time_spans(work.time_spans) do |time_span|
+    json.partial! 'api/v1/time_spans/time_span', locals: {time_span: time_span, work_context: true}
+  end
+  json.current_active_timespan do
+    if work.current_active_time_span
+      json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}
+    end
   end
 end
 json.available work.available?

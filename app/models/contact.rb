@@ -10,4 +10,8 @@ class Contact < ApplicationRecord
   def name
     read_attribute(:name) || (external? ? "External" : nil)
   end
+
+  def to_s
+    "#{name} (#{url})"
+  end
 end

@@ -66,10 +66,14 @@ class TimeSpan < ApplicationRecord
     active? && current?
   end
 
+  def to_s
+    "#{starts_at}-#{ends_at} #{status} #{subject.is_a?(Work) ? subject.stock_number : subject.to_s} #{contact}"
+  end
+
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") if !subject.available? && status != "finished"
+    errors.add(:subject, "subject not available") if subject && !subject.available? && status != "finished"
   end
 
   def remove_work_from_collection_when_purchase_active
