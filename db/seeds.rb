@@ -11,6 +11,11 @@
 first_names = ["Henk", "Jan", "Marie", "Janette"]
 last_names = ["Schepper", "Maker"]
 
+if Rails.env.gitlab? || Rails.env.test?
+  require 'sidekiq/testing'
+  Sidekiq::Testing.inline!
+end
+
 10.times do
   Artist.create(first_name: first_names.sample, last_name: last_names.sample)
 end
