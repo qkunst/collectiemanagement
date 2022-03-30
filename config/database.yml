@@ -26,7 +26,7 @@ test:
   timeout: 5000
 
 gitlab:
-  username: murb
+  username: qkunst
   adapter: postgresql
   encoding: unicode
   database: qkunst-test
