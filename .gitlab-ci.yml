@@ -53,13 +53,12 @@ cache:
 #     - bundle exec rails spec
 
 test:
-  services:
-    - postgresql
-    - elasticsearch
   before_script:
     - ruby -v  # Print out ruby version for debugging
     # Uncomment next line if your rails app needs a JS runtime:
-    # - apt-get update -q # && apt-get install wget -yqq
+    - apt-get update -q # && apt-get install wget -yqq
+    - apt-get install postgres elasticsearch
+    # - apt-get install elasticsearch
     - export HOME="/builds/murb-org/collectiemanagement"
     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     - bundle config set path 'vendor' # Install dependencies into ./vendor/ruby
