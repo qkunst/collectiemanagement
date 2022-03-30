@@ -74,10 +74,10 @@ test:
     - npm install yarn -g
     - yarn install
   script:
-    - bundle exec rails db:migrate
-    - bundle exec rails db:seed
-    - bundle exec rails webpacker:compile
-    - bundle exec rails spec
+    - RAILS_ENV=gitlab bundle exec rails db:migrate
+    - RAILS_ENV=gitlab bundle exec rails db:seed
+    - RAILS_ENV=gitlab bundle exec rails webpacker:compile
+    - RAILS_ENV=gitlab bundle exec rails spec
 
 bundleaudit:
   script:
