@@ -52,6 +52,28 @@ cache:
 #     - bundle exec rails webpacker:compile
 #     - bundle exec rails spec
 
+test:
+  services:
+    - postgresql
+    - elasticsearch
+  before_script:
+    - ruby -v  # Print out ruby version for debugging
+    # Uncomment next line if your rails app needs a JS runtime:
+    # - apt-get update -q # && apt-get install wget -yqq
+    - export HOME="/builds/murb-org/collectiemanagement"
+    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+    - bundle config set path 'vendor' # Install dependencies into ./vendor/ruby
+    - bundle install -j $(nproc)
+    - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
+    - nvm install
+    - npm install yarn -g
+    - yarn install
+  script:
+    - bundle exec rails db:migrate
+    - bundle exec rails db:seed
+    - bundle exec rails webpacker:compile
+    - bundle exec rails spec
+
 bundleaudit:
   script:
     - gem install bundler-audit
