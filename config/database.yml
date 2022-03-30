@@ -27,6 +27,7 @@ test:
 
 gitlab:
   username: qkunst
+  password: VerySecurePassword
   adapter: postgresql
   encoding: unicode
   database: qkunst-test
