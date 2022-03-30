@@ -77,7 +77,7 @@ test:
     - RAILS_ENV=gitlab bundle exec rails db:migrate
     - RAILS_ENV=gitlab bundle exec rails db:seed
     - RAILS_ENV=gitlab bundle exec rails webpacker:compile
-    - RAILS_ENV=gitlab bundle exec rails spec
+    - RAILS_ENV=gitlab bundle exec rspec
 
 bundleaudit:
   script:
