@@ -60,7 +60,7 @@ test:
     - apt-get install postgresql apt-transport-https -y
     - pg_ctlcluster 13 main start
     - pg_ctlcluster 13 main status
-    - runuser -l postgres -c 'psql -d qkunst-test -c \'CREATE USER qkunst WITH PASSWORD \\\'VerySecurePassword\\\';\''
+    - export SQL_COMMAND="CREATE USER qkunst WITH PASSWORD 'VerySecurePassword';" && runuser -l postgres -c "psql -c \"$SQL_COMMAND\""
     - runuser -l postgres -c 'createdb -O qkunst qkunst-test'
     - export HOME="/builds/murb-org/collectiemanagement"
     - wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
