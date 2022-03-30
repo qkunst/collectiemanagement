@@ -53,7 +53,7 @@ Rails.application.configure do
     hosts: [{
       host: "localhost",
       port: "59200",
-      user: "gitlab",
+      user: "elastic",
       password: "PleaseChangeMe"
     }]
   }

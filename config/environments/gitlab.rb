@@ -52,8 +52,8 @@ Rails.application.configure do
   config.elasticsearch = {
     hosts: [{
       host: "localhost",
-      port: "9200"
-      user: "elastic",
+      port: "9200",
+      user: "gitlab",
       password: "PleaseChangeMe"
     }]
   }
