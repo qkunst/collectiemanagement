@@ -31,6 +31,10 @@ class Api::V1::WorksController < Api::V1::ApiController
         @collection_branches[id] = Collection.find(id).expand_with_parent_collections.not_root.select(:name).map(&:name)
       end
     end
+
+    if params[:pluck]
+      render json: {data: @works.pluck(*(exposable_database_fields & params[:pluck].map(&:to_sym)))}
+    end
   end
 
   def show
