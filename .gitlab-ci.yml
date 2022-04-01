@@ -52,33 +52,33 @@ cache:
 #     - bundle exec rails webpacker:compile
 #     - bundle exec rails spec
 
-test:
-  before_script:
-    - ruby -v  # Print out ruby version for debugging
-    # Uncomment next line if your rails app needs a JS runtime:
-    - apt-get update -q # && apt-get install wget -yqq
-    - apt-get install postgresql apt-transport-https -y
-    - pg_ctlcluster 13 main start
-    - pg_ctlcluster 13 main status
-    - export SQL_COMMAND="CREATE USER qkunst WITH PASSWORD 'VerySecurePassword';" && runuser -l postgres -c "psql -c \"$SQL_COMMAND\""
-    - runuser -l postgres -c 'createdb -O qkunst qkunst-test'
-    - export HOME="/builds/murb-org/collectiemanagement"
-    - wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
-    - echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-8.x.list
-    - apt-get update && apt-get install elasticsearch -y
-    - /usr/share/elasticsearch/bin/elasticsearch-users useradd gitlab -p PleaseChangeMe -r admin
-    - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-    - bundle config set path 'vendor' # Install dependencies into ./vendor/ruby
-    - bundle install -j $(nproc)
-    - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-    - nvm install
-    - npm install yarn -g
-    - yarn install
-  script:
-    - RAILS_ENV=gitlab bundle exec rails db:migrate
-    - RAILS_ENV=gitlab bundle exec rails db:seed
-    - RAILS_ENV=gitlab bundle exec rails webpacker:compile
-    - RAILS_ENV=gitlab bundle exec rspec
+# test:
+#   before_script:
+#     - ruby -v  # Print out ruby version for debugging
+#     # Uncomment next line if your rails app needs a JS runtime:
+#     - apt-get update -q # && apt-get install wget -yqq
+#     - apt-get install postgresql apt-transport-https -y
+#     - pg_ctlcluster 13 main start
+#     - pg_ctlcluster 13 main status
+#     - export SQL_COMMAND="CREATE USER qkunst WITH PASSWORD 'VerySecurePassword';" && runuser -l postgres -c "psql -c \"$SQL_COMMAND\""
+#     - runuser -l postgres -c 'createdb -O qkunst qkunst-test'
+#     - export HOME="/builds/murb-org/collectiemanagement"
+#     - wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
+#     - echo "deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | tee /etc/apt/sources.list.d/elastic-8.x.list
+#     - apt-get update && apt-get install elasticsearch -y
+#     - /usr/share/elasticsearch/bin/elasticsearch-users useradd gitlab -p PleaseChangeMe -r admin
+#     - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+#     - bundle config set path 'vendor' # Install dependencies into ./vendor/ruby
+#     - bundle install -j $(nproc)
+#     - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
+#     - nvm install
+#     - npm install yarn -g
+#     - yarn install
+#   script:
+#     - RAILS_ENV=gitlab bundle exec rails db:migrate
+#     - RAILS_ENV=gitlab bundle exec rails db:seed
+#     - RAILS_ENV=gitlab bundle exec rails webpacker:compile
+#     - RAILS_ENV=gitlab bundle exec rspec
 
 bundleaudit:
   script:
