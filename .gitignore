@@ -41,3 +41,4 @@ bin/example.pdf
 example.pdf
 prod-console
 /config/master.key
+/public/packs-test -/
