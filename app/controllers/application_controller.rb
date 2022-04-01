@@ -143,7 +143,7 @@ class ApplicationController < ActionController::Base
 
   def check_rack_mini_profiler
     if current_user && current_user.email == "maarten@qkunst.nl"
-      Rack::MiniProfiler.authorize_request
+      # Rack::MiniProfiler.authorize_request
     end
   rescue Devise::MissingWarden
   end
