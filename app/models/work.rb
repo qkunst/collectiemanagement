@@ -492,6 +492,32 @@ class Work < ApplicationRecord
       rv
     end
 
+    def quick_destroy_all
+      ids = self.pluck(:id)
+
+      if ids.count > 0
+        ids_joined = ids.join(",")
+        ActiveRecord::Base.connection.execute("DELETE FROM artists_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM attachments_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM custom_reports_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM damage_types_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM frame_damage_types_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM library_items_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM object_categories_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM sources_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM techniques_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM themes_works WHERE work_id IN (#{ids_joined})")
+        ActiveRecord::Base.connection.execute("DELETE FROM work_sets_works WHERE work_id IN (#{ids_joined})")
+
+        Appraisal.where(appraisee_type: "Work", appraisee_id: ids).delete_all
+        CollectionAttribute.where(attributed_type: "Work", attributed_id: ids).delete_all
+        Tagging.where(taggable_type: "Work", taggable_id: ids).delete_all
+        TimeSpan.where(subject_type: "Work", subject_id: ids).delete_all
+
+        ::Work.where(id: ids).delete_all
+      end
+    end
+
     def human_attribute_name_for_alt_number_field(field_name, collection)
       custom_label_name = collection ? collection.send("label_override_work_#{field_name}_with_inheritance".to_sym) : nil
       custom_label_name || Work.human_attribute_name(field_name)

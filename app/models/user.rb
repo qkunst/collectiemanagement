@@ -230,7 +230,7 @@ class User < ApplicationRecord
 
         if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
           user.reset_all_roles
-          new_role = ([:read_only, :facility_manager, :compliance] & OAuthGroupMapping.retrieve_roles(data))[0]
+          new_role = (ROLES & OAuthGroupMapping.retrieve_roles(data))[0]
           user.role = new_role
         end
 

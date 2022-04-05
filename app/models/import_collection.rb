@@ -27,14 +27,6 @@ class ImportCollection < ApplicationRecord
     @base_collection ||= collection.base_collection
   end
 
-  def read(table = import_file_snippet_to_workbook_table)
-    table.collect do |row|
-      unless row.header?
-        process_table_data_row(row)
-      end
-    end.compact
-  end
-
   def collapse_all_generated_artists
     artists.collapse_by_name!
   end
@@ -52,6 +44,8 @@ class ImportCollection < ApplicationRecord
   end
 
   def write
+    remove_works_imported_with_this_importer
+
     if json?
       write_json
     else
@@ -89,6 +83,11 @@ class ImportCollection < ApplicationRecord
 
   def ignore_columns_generic
     %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data appraisee_type]
+  end
+
+  def remove_works_imported_with_this_importer
+    Work.where(import_collection_id: self.id).quick_destroy_all
+
   end
 
 end

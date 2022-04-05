@@ -74,6 +74,13 @@ module ImportCollection::Workbook
     {fieldname: fieldname, field_type: field_type, objekt: objekt, property: property, association: association, has_many_association: has_many_association, complex_association: complex_association}
   end
 
+  def read(table = import_file_snippet_to_workbook_table)
+    table.collect do |row|
+      unless row.header?
+        process_table_data_row(row)
+      end
+    end.compact
+  end
 
   def write_table
     read(import_file_to_workbook_table).collect { |a| a.save }
