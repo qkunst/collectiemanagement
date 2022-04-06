@@ -136,7 +136,7 @@ Rails.application.routes.draw do
       resources :messages
       resources :library_items
       resources :time_spans
-
+      get "old_data" => "works#show_old_data"
       get "edit_prices" => "works#edit_prices"
       get "location_history" => "works#location_history"
       get "edit_location" => "works#edit_location"

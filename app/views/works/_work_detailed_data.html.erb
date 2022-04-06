@@ -176,5 +176,6 @@
       <%= define_unless_blank :new_found_at %>
     <% end %>
   <% end %>
+  <%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, @work) if @work.old_data %>
   </div>
 </div>
