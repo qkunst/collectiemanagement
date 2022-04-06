@@ -3,9 +3,11 @@
 
 <dl>
   <dt>Periode:</dt>
-  <dd><%= I18n.l(@time_span.starts_at) if @time_span.starts_at %> - <%= I18n.l(@time_span.ends_at) if @time_span.ends_at %> (<%= I18n.t @time_span.status, scope: "activerecord.values.time_span.status" %>)</dd>
+  <dd><%= I18n.l(@time_span.starts_at.to_date, format: :short) if @time_span.starts_at %> - <%= I18n.l(@time_span.ends_at.to_date, format: :short) if @time_span.ends_at %> (<%= I18n.t @time_span.status, scope: "activerecord.values.time_span.status" %>)</dd>
+  <% if @time_span.contact%>
   <dt>Contact:</dt>
   <dd><%= render @time_span.contact%></dd>
+  <% end %>
   <dt>Betreft:</dt>
   <dd><%= link_to @time_span.subject.name, @time_span.subject%></dd>
 </dl>

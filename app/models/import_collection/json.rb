@@ -145,7 +145,7 @@ module ImportCollection::Json
     end
     (work_data["time_spans"] || []).each do |time_span|
       contact = time_span["contact"]["external"] ?
-        Contact.find_or_create_by(url: time_span["contact"]["url"]) { |contact| contact.name=time_span["contact"]["name"], contact.address= time_span["contact"]["address"], contact.external = true } :
+        Contact.find_or_create_by(url: time_span["contact"]["url"], collection: base_collection) { |contact| contact.name=time_span["contact"]["name"], contact.address= time_span["contact"]["address"], contact.external = true } :
         Contact.find_or_create_by(name: time_span["contact"]["name"], address: time_span["contact"]["address"], external: false, url: time_span["contact"]["url"], collection: base_collection)
 
       time_span = TimeSpan.find_or_create_by(contact: contact, starts_at: time_span["starts_at"], ends_at: time_span["ends_at"], subject: work, uuid: time_span["uuid"], status: time_span["status"], classification: time_span["classification"], collection: work.collection)
