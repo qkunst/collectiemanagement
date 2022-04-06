@@ -3,7 +3,7 @@ class Contact < ApplicationRecord
 
   validates_presence_of :name
   validates_presence_of :url, if: :external?
-  validates_uniqueness_of :url, if: :external?
+  validates_uniqueness_of :url, if: :external?, scope: :collection
 
   has_many :time_spans
 
