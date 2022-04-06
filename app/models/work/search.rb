@@ -39,7 +39,7 @@ module Work::Search
 
     def as_indexed_json(*)
       as_json(
-        except: [:other_structured_data],
+        except: [:other_structured_data, :old_data],
         include: {
           artists: {only: [:id, :name], methods: [:name]},
           balance_category: {only: [:id, :name]},

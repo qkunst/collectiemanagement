@@ -175,7 +175,10 @@
       <%= define_unless_blank :refound_at %>
       <%= define_unless_blank :new_found_at %>
     <% end %>
+    <% if @work&.old_data %>
+    <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, @work), data: { open_in_context: true}%></td></tr>
+    <% end %>
+
   <% end %>
-  <%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, @work) if @work.old_data %>
   </div>
 </div>
