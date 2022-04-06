@@ -22,6 +22,7 @@ class Work < ApplicationRecord
   include Work::Reflecting
 
   store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6]
+  store :old_data, coder: JSON
 
   has_paper_trail
 
@@ -48,6 +49,7 @@ class Work < ApplicationRecord
   belongs_to :condition_work, class_name: "Condition", optional: true
   belongs_to :created_by, class_name: "User", optional: true
   belongs_to :frame_type, optional: true
+  belongs_to :import_collection, optional: true
   belongs_to :medium, optional: true
   belongs_to :placeability, optional: true
   belongs_to :purchase_price_currency, class_name: "Currency", optional: true
@@ -415,8 +417,8 @@ class Work < ApplicationRecord
     @current_active_time_span ||= time_spans.select(&:current_and_active?).last
   end
 
-  def removed_from_collection!
-    self.update(removed_from_collection_at: Time.now)
+  def removed_from_collection!(time_stamp = Time.current)
+    self.update(removed_from_collection_at: time_stamp)
   end
 
   def add_lognoteline note
@@ -514,7 +516,7 @@ class Work < ApplicationRecord
         Tagging.where(taggable_type: "Work", taggable_id: ids).delete_all
         TimeSpan.where(subject_type: "Work", subject_id: ids).delete_all
 
-        ::Work.where(id: ids).delete_all
+        self.destroy_all
       end
     end
 

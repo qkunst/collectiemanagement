@@ -78,7 +78,7 @@ class TimeSpan < ApplicationRecord
 
   def remove_work_from_collection_when_purchase_active
     if status.to_s == "active" && classification.to_s == "purchase"
-      subject.removed_from_collection! if subject.is_a? Work
+      subject.removed_from_collection!(starts_at) if subject.is_a? Work
     end
   end
 end

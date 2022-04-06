@@ -165,6 +165,9 @@ module ImportCollection::Json
     else
       raise ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
+
+  rescue PG::UniqueViolation
+  rescue ActiveRecord::RecordNotUnique
   end
 
   def write_json
