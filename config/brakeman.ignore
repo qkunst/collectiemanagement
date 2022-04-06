@@ -1,6 +1,66 @@
 {
   "ignored_warnings": [
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "0bc2fee3a27be87072716b84397260538713fbc19c98a679eba81f4fb5307585",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 502,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM artists_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "1c7c9fadfa2ca0d7ded65be2c0b9c4215da50b2939e438be61bbe07f4d2ee095",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 510,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM techniques_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "226ec1e12b5cac07792b1ee763cbb4bc601e71d26cbe4b9853b1478997fe189e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 512,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM work_sets_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "286bdf780102de3daf1b0655f0311bfcfd73ebfe5668ffdec246529af8dbd1dc",
@@ -29,6 +89,46 @@
       },
       "user_input": "params[:selected_works]",
       "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "2d5875207098b70983a35c5b16ab43a2d7f827bd9f315281d13121ea6b3d2e2a",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 503,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM attachments_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "473da2e057c4d2f945df13cc0312348d97ef825d42685c505ac135440be24840",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 509,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM sources_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
       "note": ""
     },
     {
@@ -79,7 +179,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/users_controller.rb",
-      "line": 53,
+      "line": 56,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:role, :role_manager, :receive_mails, :name, :collection_ids => ([]))",
       "render_path": null,
@@ -140,6 +240,46 @@
         "method": "perform"
       },
       "user_input": "Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).write_to_xlsx(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.xlsx\"))",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "7c74f8c11f48dade078036938481453a24586740b4beb3279446adb03afbed12",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 506,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM frame_damage_types_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8d808eefc17d8d5f232d19650d8294d3925166cfde5ddae0b4830f6c1c9c75af",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 504,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM custom_reports_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
       "note": ""
     },
@@ -257,6 +397,26 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d535da478ad25f41721f0a1cf7068706e84a527188f894b2628f9ed98f1c90a1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 505,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM damage_types_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
       "fingerprint": "dde85b0bd7001ce45286136385e1ca994e197a0140028be017e6d9b25c83d3c2",
@@ -271,7 +431,7 @@
           "type": "controller",
           "class": "LibraryItemsController",
           "method": "show",
-          "line": 20,
+          "line": 19,
           "file": "app/controllers/library_items_controller.rb",
           "rendered": {
             "name": "library_items/show",
@@ -306,8 +466,68 @@
       "user_input": ":role",
       "confidence": "Medium",
       "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "eda0296c348c0991799f1a582e6c8f2febc529a67c5426d19ecac2bb721025b5",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 507,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM library_items_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "ef03daf8dd74f8643fb21ff4b3ee4fa71aecad6b57a9a3750ab0d5300352a3fb",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 511,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM themes_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f098ed38ce62cb0d745942ff9463fbbd0f5a519ce3e1bbcc3c952d9477f44813",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/work.rb",
+      "line": 508,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM object_categories_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Work",
+        "method": "quick_destroy_all"
+      },
+      "user_input": "self.pluck(:id).join(\",\")",
+      "confidence": "Medium",
+      "note": ""
     }
   ],
-  "updated": "2021-07-13 16:53:06 +0200",
-  "brakeman_version": "5.0.4"
+  "updated": "2022-04-07 00:15:48 +0200",
+  "brakeman_version": "5.2.0"
 }

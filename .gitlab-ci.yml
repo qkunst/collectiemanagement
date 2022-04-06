@@ -88,4 +88,4 @@ bundleaudit:
 brakeman:
   script:
     - gem install brakeman
-    - brakeman
+    - brakeman -i config/brakeman.ignore
