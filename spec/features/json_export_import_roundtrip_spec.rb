@@ -24,6 +24,9 @@ RSpec.feature "Manage Collection", type: :feature do
       appraisals(:appraisal_without_date).destroy
       file = download_json(source_collection)
 
+      json = JSON.parse(File.read(file))
+      json_artists = json["data"].find{|a| a["id"] == "99#{works(:work1).id}".to_i}["artists"]
+
       visit new_collection_import_collection_url(target_collection)
       # expect(page).to have_content "Aantal geïmporteerde werken"
 

@@ -516,7 +516,7 @@ class Work < ApplicationRecord
         Tagging.where(taggable_type: "Work", taggable_id: ids).delete_all
         TimeSpan.where(subject_type: "Work", subject_id: ids).delete_all
 
-        self.destroy_all
+        self.delete_all
       end
     end
 
