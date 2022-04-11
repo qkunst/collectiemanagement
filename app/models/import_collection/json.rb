@@ -171,7 +171,7 @@ module ImportCollection::Json
 
       work.update_columns(data)
     else
-      raise ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
+      raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
 
   rescue PG::UniqueViolation
