@@ -107,6 +107,7 @@ module ImportCollection::Workbook
 
 
   def process_table_data_row(row)
+
     parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     import_settings.each do |key, import_setting|
@@ -125,6 +126,7 @@ module ImportCollection::Workbook
       if fields.count > 0
         if split_strategy == :find_keywords
           table_values = find_keywords(table_values[1], fields)
+          raise ImportCollection::FailedImportError.new("Geen matchende waarde gevonden voor fields.to_sentence (moet er een splits-strategie actief zijn?)") if table_values.nil?
         end
 
         field_value_indexes = [table_values.count, fields.count].max
