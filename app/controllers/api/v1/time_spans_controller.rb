@@ -8,7 +8,7 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
   end
 
   def index
-    @time_spans = current_api_user.accessible_time_spans.current
+    @time_spans = current_api_user.accessible_time_spans
 
     if params[:contact_url]
       contact = current_api_user.accessible_contacts.find_by(url: params[:contact_url])
@@ -18,6 +18,8 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
     if params[:status]
       @time_spans = @time_spans.where(status: params[:status])
     end
+
+    @time_spans = @time_spans.order(starts_at: :desc).limit(params[:limit] || 16)
 
     @time_spans
   end
