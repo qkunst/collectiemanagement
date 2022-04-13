@@ -21,6 +21,10 @@
 
     var openInContextContainerFunction = function(urlToOpen) {
       if (contextContainer.data('url') != urlToOpen ) {
+        if (urlToOpen.startsWith("http") && !urlToOpen.match(document.location.host)) {
+          document.location = urlToOpen;
+          return true;
+        }
         $.ajax(urlToOpen).then(
           function(data){
             var focusArea = urlToOpen.match("#") ? urlToOpen.split("#")[1] : "main"
