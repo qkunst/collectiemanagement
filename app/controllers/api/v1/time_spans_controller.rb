@@ -4,7 +4,7 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
   before_action :authenticate_activated_user!
 
   def show
-    @time_span = current_api_user.accessible_time_spans.find_by(uuid: params[:id])
+    @time_span = current_api_user.accessible_time_spans.find_by!(uuid: params[:id])
   end
 
   def index
