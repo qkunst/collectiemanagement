@@ -121,16 +121,11 @@ module ImportCollection::Json
     end
     (work_data["artists"] || []).each do |artist_data|
       artist = if artist_data["rkd_artist_id"]
-        Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"])
+        Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"]) || Artist.find_or_create_by(artist_data)
+      elsif artist_data["id"]
+        Artist.find_by(id: artist_data["id"]) || Artist.find_or_create_by(artist_data)
       else
-        Artist.find_or_create_by(
-          artist_name: artist_data["artist_name"],
-          year_of_death: artist_data["year_of_death"],
-          year_of_birth: artist_data["year_of_birth"],
-          last_name: artist_data["last_name"],
-          prefix: artist_data["prefix"],
-          first_name: artist_data["first_name"]
-        )
+        Artist.find_or_create_by(artist_data)
       end
       work.artists << artist if artist
     end

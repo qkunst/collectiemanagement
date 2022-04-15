@@ -62,11 +62,9 @@ class ImportCollection < ApplicationRecord
     end
   end
 
-
   def remove_works_imported_with_this_importer
     Work.where(import_collection_id: self.id).quick_destroy_all
   end
-
 
   private
 
