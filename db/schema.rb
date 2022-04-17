@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_180656) do
     t.string "artist_name"
     t.bigint "replaced_by_artist_id"
     t.text "other_structured_data"
+    t.text "old_data"
   end
 
   create_table "artists_attachments", id: false, force: :cascade do |t|

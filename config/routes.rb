@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       get "combine_prepare" => "artists#combine_prepare"
       patch "combine" => "artists#combine"
       get "rkd_artists" => "artists#rkd_artists"
+
       resources :artist_involvements
       resources :attachments
       resources :library_items
@@ -150,6 +151,8 @@ Rails.application.routes.draw do
     get "combine_prepare" => "artists#combine_prepare"
     patch "combine" => "artists#combine"
     get "rkd_artists" => "artists#rkd_artists"
+    get "old_data" => "artists#show_old_data"
+
     resources :artist_involvements
   end
   post "/artists/clean" => "artists#clean"

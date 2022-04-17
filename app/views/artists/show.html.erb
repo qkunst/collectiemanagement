@@ -55,6 +55,9 @@
         <dd><%=ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) == :text ? simple_format(collection_attribute.value) : collection_attribute.value%></dd>
       <% end %>
     <% end %>
+    <% if @collection.nil? && @artist&.old_data&.present? %>
+    <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", artist_old_data_path(@artist), data: { open_in_context: true}%></td></tr>
+    <% end %>
 
     </dl>
 

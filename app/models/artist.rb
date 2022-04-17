@@ -40,6 +40,7 @@ class Artist < ApplicationRecord
   default_scope -> { where(replaced_by_artist_id: nil) }
 
   store :other_structured_data, accessors: [:kids_heden_kunstenaars_nummer]
+  store :old_data, coder: JSON
 
   def place_of_birth
     rv = read_attribute(:place_of_birth)
