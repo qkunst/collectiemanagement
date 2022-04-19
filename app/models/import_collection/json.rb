@@ -120,18 +120,34 @@ module ImportCollection::Json
       work.techniques << Technique.find_or_create_by(name: technique["name"])
     end
     (work_data["artists"] || []).each do |artist_data|
-      artist = if artist_data["rkd_artist_id"]
-        Artist.find_by(rkd_artist_id: artist_data["rkd_artist_id"])
+      cleaned_artist_data = {
+        "place_of_birth" => artist_data["place_of_birth"],
+        "place_of_death" => artist_data["place_of_death"],
+        "year_of_birth" => artist_data["year_of_birth"],
+        "year_of_death" => artist_data["year_of_death"],
+        "description" => artist_data["description"],
+        "first_name" => artist_data["first_name"],
+        "prefix" => artist_data["prefix"],
+        "last_name" => artist_data["last_name"],
+        "rkd_artist_id" => artist_data["rkd_artist_id"],
+        "place_of_death_geoname_id" => artist_data["place_of_death_geoname_id"],
+        "place_of_birth_geoname_id" => artist_data["place_of_birth_geoname_id"],
+        "date_of_birth" => artist_data["date_of_birth"],
+        "date_of_death" => artist_data["date_of_death"],
+        "artist_name" => artist_data["artist_name"],
+        "other_structured_data" => artist_data["other_structured_data"],
+        "old_data" => artist_data["old_data"],
+        "id" => artist_data["id"]
+      }
+
+      artist = if cleaned_artist_data["rkd_artist_id"]
+        Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"]) || Artist.find_or_create_by(cleaned_artist_data)
+      elsif cleaned_artist_data["id"]
+        Artist.find_by(id: cleaned_artist_data["id"]) || Artist.find_or_create_by(cleaned_artist_data)
       else
-        Artist.find_or_create_by(
-          artist_name: artist_data["artist_name"],
-          year_of_death: artist_data["year_of_death"],
-          year_of_birth: artist_data["year_of_birth"],
-          last_name: artist_data["last_name"],
-          prefix: artist_data["prefix"],
-          first_name: artist_data["first_name"]
-        )
+        Artist.find_or_create_by(cleaned_artist_data)
       end
+
       work.artists << artist if artist
     end
     (work_data["themes"] || []).each do |theme|

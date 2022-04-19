@@ -3,24 +3,30 @@
 <div class="medium-8 columns">
   <p>Welkom in de <%=I18n.t("application.name")%> webapplicatie. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de bedrijfscollectie van uw organisatie.  </p>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email, required: false, autofocus: true %>
-    <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-  </div>
+<% if !Rails.application.secrets.central_login_id %>
+  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div class="form-inputs">
+      <%= f.input :email, required: false, autofocus: true %>
+      <%= f.input :password, required: false %>
+      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Inloggen", class: 'button' %>
-  </div>
+    <div class="form-actions">
+      <%= f.button :submit, "Inloggen", class: 'button' %>
+    </div>
+  <% end %>
 <% end %>
+
 <%= render "devise/shared/links" %>
 </div>
+
 <div class="medium-4 columns">
+<% if !Rails.application.secrets.central_login_id %>
   <h4>Nog geen account?</h4>
   <p>Heeft u nog geen toegang tot <%=I18n.t("application.name")%>? U kunt alvast registreren. Een <%=I18n.t("organisation.name")%> administrator kan vervolgens uw account activeren.</p>
+
   <p><%= link_to 'Registreer', new_registration_path(:user), class: [:button, :expanded] %></p>
   <p>Bekijk ons <a href="https://qkunst.nl/privacy/" target="_blank">gegevensbeleid</a>.</p>
-
+<% end %>
 </div>
 </div>

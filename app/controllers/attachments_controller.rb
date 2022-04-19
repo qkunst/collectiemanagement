@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AttachmentsController < ApplicationController
+  include Attachments::ZipResponse
+
   before_action :authenticate_qkunst_user!
   before_action :set_subject
   before_action :set_collection
@@ -14,6 +16,11 @@ class AttachmentsController < ApplicationController
       attachment_scope.where(id: @subject.attachments).all
     else
       attachment_scope.where(collection: @collection.expand_with_child_collections).all
+    end
+
+    respond_to do |format|
+      format.html {}
+      format.zip { attachments_zip_response }
     end
   end
 

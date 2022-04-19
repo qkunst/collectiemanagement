@@ -1,4 +1,3 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Tijdsspannes</h1>
 
@@ -21,7 +20,7 @@
       <tr>
         <td><%= time_span.starts_at %></td>
         <td><%= time_span.ends_at %></td>
-        <td><%= time_span.status %></td>
+        <td><%= I18n.t(time_span.status, scope: "activerecord.values.time_span.status") %></td>
         <td><%= link_to(time_span.contact.name, time_span.contact.url) if time_span.contact %></td>
         <td><%= time_span.subject %></td>
         <td><%= time_span.classification %></td>

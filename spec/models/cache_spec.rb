@@ -31,6 +31,7 @@ RSpec.feature "Cache spec", type: :model do
         end
         a.year_of_birth = 1980
         a.save
+        a.reload
         expect(a.works.collect(&:updated_at).min).to be > 1.minute.ago
         w.reload
         expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie (1980)")

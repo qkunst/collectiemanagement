@@ -24,6 +24,9 @@ RSpec.feature "Manage Collection", type: :feature do
       appraisals(:appraisal_without_date).destroy
       file = download_json(source_collection)
 
+      json = JSON.parse(File.read(file))
+      json_artists = json["data"].find{|a| a["id"] == "99#{works(:work1).id}".to_i}["artists"]
+
       visit new_collection_import_collection_url(target_collection)
       # expect(page).to have_content "Aantal geïmporteerde werken"
 
@@ -41,11 +44,13 @@ RSpec.feature "Manage Collection", type: :feature do
       source_collection.works_including_child_works.include? works(:work1)
       expect(works(:work1).artists.length).to be > 0
 
-      attributes_of_interest = %w[ title artists tag_list sources artists object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
+      attributes_of_interest = %w[ title tag_list sources object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
       string_compare_attributes_of_interest = %w[ created_at significantly_updated_at updated_at  time_spans ]
 
       work_pairs = collections(:collection1).works_including_child_works.pluck(:id).collect{|id| [Work.find(id), Work.find("99#{id}")]}
       work_pairs.each do |pair|
+        expect(pair[1].artists.map(&:last_name)).to eq(pair[0].artists.map(&:last_name))
+        expect(pair[1].artists.map(&:first_name)).to eq(pair[0].artists.map(&:first_name))
         attributes_of_interest.each do |attribute|
           expect(pair[1].send(attribute)).to eq(pair[0].send(attribute))
         end

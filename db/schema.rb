@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_05_180656) do
+ActiveRecord::Schema.define(version: 2022_04_19_121312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 2022_04_05_180656) do
     t.string "artist_name"
     t.bigint "replaced_by_artist_id"
     t.text "other_structured_data"
+    t.text "old_data"
   end
 
   create_table "artists_attachments", id: false, force: :cascade do |t|
@@ -639,6 +640,15 @@ ActiveRecord::Schema.define(version: 2022_04_05_180656) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.bigint "foreign_key_id"
+    t.string "foreign_type"
+    t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
+  end
+
   create_table "versions", force: :cascade do |t|
     t.string "item_type", null: false
     t.bigint "item_id", null: false
@@ -647,7 +657,9 @@ ActiveRecord::Schema.define(version: 2022_04_05_180656) do
     t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
+    t.integer "transaction_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
   create_table "work_set_types", force: :cascade do |t|

@@ -181,6 +181,10 @@ class Collection < ApplicationRecord
     Work.where(collection: expand_with_child_collections)
   end
 
+  def attachments_including_child_attachments
+    Attachment.where(collection: expand_with_child_collections)
+  end
+
   def attachments_including_parent_attachments
     Attachment.where(collection: expand_with_parent_collections)
   end
