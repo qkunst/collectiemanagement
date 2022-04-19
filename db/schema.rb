@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_17_182058) do
+ActiveRecord::Schema.define(version: 2022_04_19_121312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -643,7 +643,7 @@ ActiveRecord::Schema.define(version: 2022_04_17_182058) do
   create_table "version_associations", force: :cascade do |t|
     t.integer "version_id"
     t.string "foreign_key_name", null: false
-    t.integer "foreign_key_id"
+    t.bigint "foreign_key_id"
     t.string "foreign_type"
     t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
     t.index ["version_id"], name: "index_version_associations_on_version_id"

@@ -117,8 +117,10 @@ RSpec.describe Artist, type: :model do
         a = Artist.create(first_name: "Antony", last_name: "Hopkins")
         w.artists = [a]
         w.save
+        a.reload
         expect(w.artist_name_rendered).to eq("Hopkins, Antony")
         a.first_name = "Charly"
+        expect(a.works).to include(w)
         a.save
         w.reload
         expect(w.artist_name_rendered).to eq("Hopkins, Charly")
