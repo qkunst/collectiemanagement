@@ -578,7 +578,7 @@ DEPENDENCIES
   memory_profiler
   mini_magick
   nested_form
-  nokogiri
+  nokogiri (>= 1.13.4)
   omniauth
   omniauth-azure-activedirectory!
   omniauth-central_login!
@@ -590,7 +590,7 @@ DEPENDENCIES
   puma
   rack-headers_filter
   rack-mini-profiler
-  rails (~> 6)
+  rails (~> 6, >= 6.1.5)
   redis-rails
   rspec-rails
   sass-rails
@@ -610,4 +610,4 @@ DEPENDENCIES
   zipline
 
 BUNDLED WITH
-   2.2.32
+   2.1.4

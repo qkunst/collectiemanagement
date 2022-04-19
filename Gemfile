@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>6"
+gem "rails", "~> 6", ">= 6.1.5"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -50,7 +50,7 @@ gem "devise" #, git: "https://github.com/heartcombo/devise.git"
 gem "carrierwave"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
-gem "nokogiri"
+gem "nokogiri", ">= 1.13.4"
 gem "attribute_normalizer" # keeps the database clean
 ##
 ## SEARCH
