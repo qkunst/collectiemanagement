@@ -17,6 +17,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
       sign_in users(:facility_manager)
     end
     describe "GET api/v1/works/" do
+      let(:total) { 3 }
 
       it "returns ok" do
 
@@ -26,7 +27,6 @@ RSpec.describe Api::V1::WorksController, type: :request do
       end
 
       it "returns meta" do
-        total = 3
         limit = 2
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, limit: limit, from: 1)
@@ -38,6 +38,17 @@ RSpec.describe Api::V1::WorksController, type: :request do
 
         expect(JSON.parse(response.body)["meta"]["total_count"]).to eq total
         expect(JSON.parse(response.body)["meta"]["count"]).to eq 0
+      end
+
+      it "modifies total_count when filter is present" do
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
+        expect(JSON.parse(response.body)["meta"]["total_count"]).to eq total
+
+        collections(:collection_with_works).works.update_all(significantly_updated_at: Time.now)
+        collections(:collection_with_works).works.first.update_columns(significantly_updated_at: 1.year.ago)
+
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, significantly_updated_since: 1.week.ago)
+        expect(JSON.parse(response.body)["meta"]["total_count"]).to eq (total - 1)
       end
 
       it "returns all desired fields" do

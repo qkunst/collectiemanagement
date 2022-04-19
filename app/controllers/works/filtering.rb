@@ -59,12 +59,13 @@ module Works::Filtering
       @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
       @works = @works.published if params[:published]
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
+      @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
+
       @inventoried_objects_count = @works.count
       @works_count = @works.count_as_whole_works
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.offset(params[:from].to_i) if params[:from]
-      @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
       @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
     end
