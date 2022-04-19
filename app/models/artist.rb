@@ -65,6 +65,10 @@ class Artist < ApplicationRecord
     end
   end
 
+  def base_file_name
+    search_name.downcase.gsub(/\s+/, "_").gsub(/[\#\%\&\{\}\\\<\>\*\?\/\$\!\'\"\:\@\+\`\|\=\,]/, "")
+  end
+
   def geoname_ids
     ids = [place_of_birth_geoname_id, place_of_death_geoname_id]
     artist_involvements.each do |involvement|

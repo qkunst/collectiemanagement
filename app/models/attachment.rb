@@ -34,4 +34,14 @@ class Attachment < ApplicationRecord
   def file_name
     name? ? name : read_attribute(:file)
   end
+
+  def extension
+    read_attribute(:file).split(".").last
+  end
+
+  def export_file_name
+    rv = file_name.downcase.gsub(/\s+/, "_").gsub(/[\#\%\&\{\}\\\<\>\*\?\/\$\!\'\"\:\@\+\`\|\=\,]/, "")
+    rv.end_with?(".#{extension}") ? rv : "#{rv}.#{extension}"
+  end
+
 end

@@ -23,7 +23,7 @@ RSpec.describe Attachment, type: :model do
         expect(Attachment.without_artists.without_works).not_to include(attachments(:work_attachment))
       end
     end
-    describe "for_role" do
+    describe ".for_role" do
       let(:admin_only_attachment) { works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection) }
       let(:all_roles_attachment) { works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection, visibility: [:compliance, :facility_manager, :appraiser, :qkunst]) }
 
@@ -51,7 +51,7 @@ RSpec.describe Attachment, type: :model do
         end
       end
     end
-    describe "for_me" do
+    describe ".for_me" do
       it "should always work for admin" do
         admin = users(:admin)
         a = works(:work1).attachments.create(file: File.open("Gemfile"), collection: works(:work1).collection)
@@ -81,5 +81,26 @@ RSpec.describe Attachment, type: :model do
         expect(Attachment.for_me(admin)).to include(b)
       end
     end
+  end
+
+  describe "Instance methods" do
+    describe "#export_file_name" do
+      it "works for a simple filename" do
+        a = Attachment.create(name: "Een mooie zonnige dag", collection: collections(:collection1), file: File.open("README.md"))
+        assert_equal(a.export_file_name, "een_mooie_zonnige_dag.md")
+      end
+
+      it "works for complex filenames" do
+        a = Attachment.create(name: "Een mooie zonnige dag", collection: collections(:collection1), file: File.open("README.md"))
+        {
+          "Een mooie zonnige dag/avond": "een_mooie_zonnige_dagavond.md",
+          "Nu: Iets Anders!": "nu_iets_anders.md"
+        }.each do |k,v|
+          a.update(name: k)
+          assert_equal(a.export_file_name, v)
+        end
+      end
+    end
+
   end
 end
