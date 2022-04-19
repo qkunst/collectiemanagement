@@ -11,11 +11,24 @@ module Attachments::ZipResponse
         zip_filename = "bijlagen #{@collection.name}.zip"
         headers["Content-Disposition"] = "attachment; filename=\"#{zip_filename}\""
 
-        filenames = []
+        file_names = {}
         files = []
+
 
         @attachments.each do |attachment|
           file_name = attachment.export_file_name
+
+          if file_names.keys.include? file_name
+            file_parts = file_name.split(".")
+            file_extension = file_parts.pop
+            file_base = file_parts.join(".")
+
+            file_names[file_name] += 1
+
+            file_name = "#{file_base} (#{file_names[file_name]}).#{file_extension}"
+          else
+            file_names[file_name] = 1
+          end
 
           files << [attachment.file.path, file_name]
 
