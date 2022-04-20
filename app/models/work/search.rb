@@ -106,7 +106,7 @@ module Work::Search
       query[:aggs] = options[:aggregations] if options[:aggregations]
 
       if options[:return_records]
-        Work.search(query).records
+        Work.where(id: Work.search(query).pluck("_id"))
       else
         Work.search(query)
       end
