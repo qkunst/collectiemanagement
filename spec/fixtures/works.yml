@@ -187,3 +187,18 @@ not_qkunst_managed_work:
   stock_number: NQKMCW01
   artists:
     - :artist1
+
+collection_with_availability_available_work:
+  title: Available
+  stock_number: QDT2b
+  artists:
+    - :artist4
+  collection: :collection_with_availability
+
+collection_with_availability_sold:
+  title: Sold work
+  stock_number: QDT2b
+  removed_from_collection_at: 2020-01-01T12:00
+  artists:
+    - :artist4
+  collection: :collection_with_availability

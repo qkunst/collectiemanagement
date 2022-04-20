@@ -79,5 +79,11 @@ class ReportController < ApplicationController
 
       @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
     end
+
+    if @collection&.show_availability_status?
+      @sections["Status"] ||= [[]]
+      @sections["Status"][0].prepend(:availability_status)
+    end
+
   end
 end

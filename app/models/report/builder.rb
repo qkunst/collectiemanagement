@@ -70,11 +70,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet_with_missing(key))
         end
 
-        [:market_value, :replacement_value].each do |key|
-          aggregation.merge!(basic_aggregation_snippet(key))
-        end
-
-        [:inventoried, :refound, :new_found].each do |key|
+        [:market_value, :replacement_value, :inventoried, :refound, :new_found, :availability_status].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key))
         end
 

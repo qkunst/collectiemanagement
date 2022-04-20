@@ -17,6 +17,7 @@ module Work::Search
         indexes :location_floor_raw, type: "keyword"
         indexes :location_detail_raw, type: "keyword"
         indexes :object_format_code, type: "keyword"
+        indexes :availability_status, type: "keyword"
         indexes :report_val_sorted_artist_ids, type: "keyword"
         indexes :report_val_sorted_object_category_ids, type: "keyword"
         indexes :report_val_sorted_technique_ids, type: "keyword"
@@ -38,7 +39,7 @@ module Work::Search
     index_name "works-#{Rails.env.test? ? "testa" : "a"}"
 
     def as_indexed_json(*)
-      as_json(
+      index_config = {
         except: [:other_structured_data, :old_data],
         include: {
           artists: {only: [:id, :name], methods: [:name]},
@@ -65,7 +66,12 @@ module Work::Search
           :location_raw, :location_floor_raw, :location_detail_raw,
           :object_format_code, :inventoried, :refound, :new_found
         ]
-      )
+      }
+
+      if collection&.show_availability_status?
+        index_config[:methods] << :availability_status
+      end
+      as_json(index_config)
     end
   end
 

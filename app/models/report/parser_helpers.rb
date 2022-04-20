@@ -2,6 +2,7 @@
 
 module Report
   module ParserHelpers
+    KEYWORDS = ["abstract_or_figurative", "object_format_code", "grade_within_collection", "location_raw", "location_floor_raw", "location_detail_raw", "tag_list", "availability_status"]
     IGNORE_KEYS = ["key", "doc_count", "total"]
     attr_accessor :base_report
 
@@ -54,7 +55,7 @@ module Report
     def parse_bucket_key aggregation_key, bucket_key
       bucket_key_parsed = bucket_key
 
-      unless ["abstract_or_figurative", "object_format_code", "grade_within_collection", "location_raw", "location_floor_raw", "location_detail_raw", "tag_list"].include?(aggregation_key)
+      unless KEYWORDS.include?(aggregation_key)
         bucket_key_parsed = bucket_key.to_s.split(",").map(&:to_i)
       end
       bucket_key_parsed

@@ -8,6 +8,7 @@ RSpec.describe Report::Builder, type: :model do
       expected = {
         total: {value_count: {field: :id}},
         artists: {terms: {field: "report_val_sorted_artist_ids", size: 10_000}},
+        availability_status: {terms: {field: "availability_status", size: 999}},
         object_categories: {terms: {field: "report_val_sorted_object_category_ids", size: 999}, aggs: {techniques: {terms: {field: "report_val_sorted_technique_ids", size: 999}}, techniques_missing: {missing: {field: "report_val_sorted_technique_ids"}}}},
         object_categories_split: {terms: {field: "report_val_sorted_object_category_ids", size: 999}, aggs: {techniques: {terms: {field: "techniques.id", size: 999}}, techniques_missing: {missing: {field: "techniques.id"}}}},
         subset: {terms: {field: "subset_id", size: 999}},

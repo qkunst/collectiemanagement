@@ -10,7 +10,7 @@ module CollectionReportHelper
   DEEPEST = 6
 
   def report
-    @report ||= @collection.report
+    @report
   end
 
   def render_report_column(sections)

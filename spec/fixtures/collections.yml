@@ -61,3 +61,9 @@ not_qkunst_managed_collection:
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Not a QKunst managed Collection\""
   qkunst_managed: false
+
+collection_with_availability:
+  name: Manage availability demo collection
+  parent_collection: :root_collection
+  collection_name_extended_cache: "\"Manage availability demo collection\""
+  show_availability_status: true
