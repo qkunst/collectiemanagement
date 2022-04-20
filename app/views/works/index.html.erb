@@ -11,7 +11,7 @@
         <p><%= describe_work_counts %>
           <br/>
           <% if @collection_works_count > @works_count %>
-            <span class="hide-for-print"><%= button_tag type: :submit, name: "filter[reset]", value: true, class: [:inline, :small] do %>Reset filters<% end %></span>
+            <span class="hide-for-print"><%= link_to "Reset filters", collection_works_path(@collection, params: {filter: {reset: true}}), class: [:inline, :small] %></span>
           <% end %>
           <% if qkunst_user? %><button type="button" class="select_all hide-for-print tertiary small button" id="global-select-button" data-work-count="<%=@inventoried_objects_count%>">Selecteer alles</button><% end %>
         </p>
@@ -100,10 +100,6 @@
 
     <%= filter_checkboxes_with_header("Thema", @aggregations[:themes], "themes.id") %>
 
-    <% [ "location_floor_raw", "location_raw", "publish", "image_rights" ].each do |column| %>
-      <%= filter_hidden column %>
-    <% end %>
-
     <% if current_user.can_filter_and_group?(:geoname_ids) %>
       <h5>Lokaliteit</h5>
       <%= select_tag "filter[geoname_ids][]", options_from_aggregation_for_select(@aggregations[:geoname_ids], @filter_localities), placeholder: "Type een lokaliteit...", multiple: true, class: 'select2'%>
@@ -114,15 +110,20 @@
         <option selected="selected" value="<%=tag%>"><%=tag%></option>
       <% end %>
     </select>
-    <div class="form-actions">
+    <div class="form-actions hide-for-print">
     <p>
       <%= button_tag type: :submit, class: :button do %>Filter<% end %>
       <% if @collection_works_count > @works_count %>
-        <%= button_tag type: :submit, name: "filter[reset]", value: true, class: :inline do %>Reset filters<% end %>
+        <span class="hide-for-print"><%= link_to "Reset filters", collection_works_path(@collection, params: {filter: {reset: true}}), class: [:inline, :small] %></span>
       <% end %>
     </p>
     </div>
     </div>
+
+    <div class="hidden inputs">
+      <%= data_to_hidden_inputs({filter: @selection_filter.select{|k,v| [k,v] unless %w[geoname_ids tag_list placeability_id grade_within_collection sources.id subset_id main_collection cluster_id object_categories.id ].include?(k)}}) %>
+    </div>
+
   </aside>
 <% end #formtag /works?q... %>
 

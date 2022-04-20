@@ -25,7 +25,10 @@ module Works::Filtering
     def set_selection_filter
       initiate_filter
 
-      if params[:filter] && !reset_filter?
+      if reset_filter?
+        current_user.reset_filters!
+        @selection_filter = {}
+      elsif params[:filter]
         params[:filter].each do |field, values|
           if field == "reset"
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status"].include?(field)
