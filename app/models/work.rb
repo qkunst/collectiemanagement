@@ -16,10 +16,11 @@ class Work < ApplicationRecord
   include Work::Caching
   include Work::Export
   include Work::ParameterRerendering
-  include Work::SizingRendering
   include Work::PreloadRelationsForDisplay
-  include Work::Search
   include Work::Reflecting
+  include Work::Search
+  include Work::SizingRendering
+  include Work::TimeSpans
 
   store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6]
   store :old_data, coder: JSON
@@ -399,24 +400,6 @@ class Work < ApplicationRecord
     collection.available_themes
   end
 
-  def available?
-    !(current_active_time_span || removed_from_collection?)
-  end
-
-  def availability_status
-    @availability_status ||= if available?
-      :available
-    elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
-      :sold
-    elsif current_active_time_span&.classification == "rental_outgoing"
-      :lent
-    end
-  end
-
-  def current_active_time_span
-    @current_active_time_span ||= time_spans.select(&:current_and_active?).last
-  end
-
   def removed_from_collection!(time_stamp = Time.current)
     self.update(removed_from_collection_at: time_stamp)
   end
@@ -535,7 +518,6 @@ class Work < ApplicationRecord
 
     # takes work sets into account where some are counted as one.
     def count_as_whole_works
-      # works_not_individually_counted = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).count
       not_counted_as_group_ids = left_outer_joins(:work_set_types).where({work_set_types: {count_as_one: [nil, false]}}).pluck(:id)
       unique_group_count = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).group("work_set_id").count.keys.count
       work_ids_in_unique_work_groups = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).pluck(:id)

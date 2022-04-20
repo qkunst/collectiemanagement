@@ -4,18 +4,6 @@ require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
   describe "callbacks" do
-    describe "artist_name" do
-      it "should keep a log of changed artists" do
-        w = works(:work1)
-        w.save # saving just to make the diff smaller
-        w.artists << artists(:artist2)
-        w.save
-        change_set = YAML.load(w.versions.last.object_changes) # standard:disable Security/YAMLLoad # object_changes is created by papertrail
-        artist_name_for_sorting_changes = change_set["artist_name_for_sorting"]
-        expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
-        expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
-      end
-    end
     describe "significantly_updated_at" do
       it "does not update when nothing changed" do
         w = works(:work1)
@@ -85,27 +73,7 @@ RSpec.describe Work, type: :model do
         expect(works(:work1)).to be_appraised
       end
     end
-    describe "#available?" do
-      it "is available by default" do
-        expect(Work.new.available?).to be_truthy
-        expect(works(:work1).available?).to be_truthy
-      end
-      it "is not available when sold" do
-        w = works(:work1)
-        w.removed_from_collection!
-        expect(w.available?).to be_falsey
-      end
-      it "is not available when it is actively rented" do
-        w = works(:work1)
-        w.time_spans.create(collection: w.collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing, starts_at: 1.day.ago)
-        expect(w.available?).to be_falsey
-      end
-      it "is not available when it is concept rented" do
-        w = works(:work1)
-        w.time_spans.create(collection: w.collection, contact: contacts(:contact1), status: :concept, classification: :rental_outgoing, starts_at: 1.day.ago)
-        expect(w.available?).to be_truthy
-      end
-    end
+
     describe "#balance_category" do
       it "returns nil none is set, balance category when set, and nil when appraised, but set" do
         w = Work.new(collection: collections(:collection1))
@@ -480,50 +448,6 @@ RSpec.describe Work, type: :model do
     end
   end
   describe "class methods" do
-    describe ".artist_name_rendered" do
-      it "should not fail on an empty name" do
-        w = Work.new
-        w.save
-        expect(w.artist_name_rendered).to eq(nil)
-      end
-      it "should summarize the artists nicely" do
-        w = works(:work1)
-        w.save
-        w.reload
-        expect(w.artist_name_rendered).to eq("artist_1, firstname (1900 - 2000)")
-      end
-      it "should respect include_years option" do
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered(include_years: false)).to eq("artist_1, firstname")
-      end
-    end
-    describe ".artist_name_rendered_without_years_nor_locality" do
-      it "should summarize the artist nicely" do
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality).to eq("artist_1, firstname")
-      end
-      it "should summarize the artists nicely" do
-        works(:work1).artists << artists(:artist2)
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_1, firstname")
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_2 achternaam, firstie")
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match(";")
-      end
-    end
-    describe ".artist_name_rendered_without_years_nor_locality_semicolon_separated" do
-      it "should summarize the artist nicely" do
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to eq("artist_1, firstname")
-      end
-      it "should summarize the artists nicely" do
-        works(:work1).artists << artists(:artist2)
-        works(:work1).save
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_1, firstname")
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match("artist_2 achternaam, firstie")
-        expect(works(:work1).artist_name_rendered_without_years_nor_locality_semicolon_separated).to match(";")
-      end
-    end
-
     describe ".count_as_whole_works" do
       it "should return all works uniquele" do
         work_count = Work.count
