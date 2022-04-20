@@ -98,7 +98,7 @@ class Collection < ApplicationRecord
   end
 
   def base_collection
-    if base
+    @base_collection ||= if base
       self
     else
       base_collections.last || self
