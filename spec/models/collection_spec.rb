@@ -228,6 +228,14 @@ RSpec.describe Collection, type: :model do
       end
     end
 
+    describe "#show_availability_status" do
+      {collection1: false, sub_collection_with_inherited_availability: true, collection_with_availability: true}.each do |k,v|
+        it "returns false for #{k}" do
+          expect(collections(k).show_availability_status).to eq(v)
+        end
+      end
+    end
+
     describe "#works_including_child_works" do
       it "should return all child works" do
         child_works = collections(:collection3).works_including_child_works

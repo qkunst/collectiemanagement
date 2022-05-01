@@ -67,3 +67,8 @@ collection_with_availability:
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Manage availability demo collection\""
   show_availability_status: true
+
+sub_collection_with_inherited_availability:
+  name: Manage availability sub demo collection
+  parent_collection: :collection_with_availability
+  collection_name_extended_cache: "\"Manage availability demo collection » Manage availability sub demo collection\""
