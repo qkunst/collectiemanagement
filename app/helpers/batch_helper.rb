@@ -17,6 +17,8 @@ class SimpleForm::FormBuilder
     model_name_prefix = model_name_prefix == "work_appraisals" ? "work_appraisals_attributes_0" : model_name_prefix
 
     options = options.deep_merge(input_html: {data: {strategy_input_id: "#{model_name_prefix}_#{object.class.strategy_attribute_for(param_name)}"}})
-    [send(input_type, name, options), batch_editable_strategy_select(param_name)].join("\n").html_safe
+
+    spacer_div = options[:as] == :boolean ? "<div></div>" : ""
+    [send(input_type, name, options), spacer_div, batch_editable_strategy_select(param_name)].join("\n").html_safe
   end
 end

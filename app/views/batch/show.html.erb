@@ -96,8 +96,16 @@
     <% end %>
 
     <% if can_edit_field? :selling_price %>
-      <%= f.batch_editable_input :minimum_bid %>
-      <%= f.batch_editable_input :selling_price %>
+      <fieldset>
+        <%= f.batch_editable_input :minimum_bid %>
+        <%= f.batch_editable_input :selling_price %>
+      </fieldset>
+    <% end %>
+
+    <% if can_edit_field?(:for_purchase) || can_edit_field?(:highlight) %>
+      <%= f.batch_editable_input :for_rent, as: :boolean %>
+      <%= f.batch_editable_input :for_purchase, as: :boolean %>
+      <%= f.batch_editable_input :highlight, as: :boolean %>
     <% end %>
   </div>
 

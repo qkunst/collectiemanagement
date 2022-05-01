@@ -12,6 +12,9 @@
       <%= button_tag "Beprijs", type: :submit, name: "expose_fields[]", value: :selling_price, class: :button %>
       <%= button_tag "Waardering", type: :submit, name: "expose_fields[]", value: :appraisals_attributes, class: :button %>
       <% end %>
+      <% if @collection.show_availability_status? %>
+      <%= button_tag "Beschikbaarheid", type: :submit, name: "expose_fields[]", value: :for_purchase, class: :button %>
+      <% end%>
       <%= button_tag "Overige velden", type: :submit, name: "expose_fields[]", value: nil, class: :button %>
       <%= button_tag "Maak rapportage", type: :submit, name: :batch_process_property, value: :create_report, class: :button %>
       <%= button_tag "Groepeer", type: :submit, name: :batch_process_property, value: :create_work_set, class: :button %>

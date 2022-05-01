@@ -134,6 +134,7 @@ class Collection < ApplicationRecord
   def show_availability_status
     read_attribute(:show_availability_status) || (self_and_parent_collections_flattened.where(show_availability_status: true).count > 0)
   end
+  alias_method :show_availability_status?, :show_availability_status
 
   def sort_works_by= value
     write_attribute(:sort_works_by, (Work::SORTING_FIELDS & [value.to_sym]).first)
