@@ -585,7 +585,7 @@ DEPENDENCIES
   puma
   rack-headers_filter
   rack-mini-profiler
-  rails (~> 6)
+  rails (~> 6, >= 6.1.5.1)
   redis-rails
   rspec-rails
   sass-rails
@@ -605,4 +605,4 @@ DEPENDENCIES
   zipline
 
 BUNDLED WITH
-   2.2.32
+   2.1.4
