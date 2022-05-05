@@ -161,8 +161,9 @@ nav.top-bar {
     a {
       font-family: $navigation-font-family;
       font-weight: 300;
-      color: $secondary-color;
+      color: $body-font-color;
       &.active {
+        font-weight: $activeMenuFontWeight;
         color: $primary-color;
       }
     }
@@ -321,7 +322,7 @@ button.inline {
 }
 
 .button, button {
-  font-family: 'Poppins', 'Futura', 'Arial Black';
+  font-family: $button-font-family;
   font-weight: 400;
 }
 

@@ -1,5 +1,6 @@
 files:
   - app/views/layouts/application.html.erb
+  - app/views/application/home.html.erb
   - config/locales/branding.en.yml
   - config/locales/branding.nl.yml
   - app/assets/images/logo.svg

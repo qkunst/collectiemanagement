@@ -46,14 +46,44 @@ $white: #fff;
 $menu-height: 2.5rem;
 $navbar-height: $menu-height;
 
-$navigation-font-family: "Poppins", "Futura", sans-serif;
-$header-font-family: 'Poppins', 'Futura', 'Arial Black';
+$fontFamily: "Helvetica Neue", Helvetica, sans-serif;
+$selectableColor: #555;
+$selectableColorHover: #000;
+$lineHeight: 1.5;
+$mainWidth: 80em;
+
+$white: #fff;
+$darkGreen: #006266;
+$red: #ff0000;
+$lightRed: #ff9999;
+$green: #009432;
+$lightGreen: #A3CB38;
+$lighterGreen: #C4E538;
+$offBlack: #111;
+$grey: #bbb;
+$lightGrey: #ddd;
+$lighterGrey: #eee;
+
+$borderRadius: 1em;
+
+$primaryColor: $darkGreen;
+$primaryHoverColor: $green;
+
+$borderColor: $lighterGrey;
 
 
 
+$navigation-font-family: $fontFamily;
+$header-font-family: $fontFamily;
 
 
 
+$activeMenuFontWeight: bold;
+
+// foundation like variables
+
+$table-row-head-font-color: $offBlack;
+$table-row-head-font-weight: bold;
 
 
 
@@ -75,7 +105,7 @@ $topbar-link-color-active: $oil;
 $topbar-link-color-active-hover: $oil;
 $topbar-link-hover-lightness: +10%; // Darken by 10%
 $topbar-link-bg: $topbar-bg;
-$topbar-link-bg-hover: #ccc;
+$topbar-link-bg-hover: #000;
 $topbar-link-bg-color-hover: $topbar-bg;
 $topbar-link-bg-active: $topbar-bg;
 $topbar-link-bg-active-hover: scale-color($topbar-bg, $lightness: +14%);

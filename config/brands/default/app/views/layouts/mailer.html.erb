@@ -1,0 +1,98 @@
+<html>
+  <style>
+  body {
+    font-family: "Roboto Slab", serif;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #676a6a;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Poppins", "Futura", "Arial Black";
+    font-style: normal;
+    font-weight: 700;
+    color: #AF917D;
+    text-rendering: optimizeLegibility;
+  }
+  a {
+    line-height: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: "Poppins", "Futura", sans-serif;
+    font-weight: 700;
+    color: #676a6a;
+  }
+  a:hover {
+    color: #9f7b63;
+    text-decoration: underline;
+  }
+  a.button {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #AF917D;
+    color: #fff;
+    font-family: 'Poppins', 'Futura', 'Arial Black';
+  }
+  a.button:hover {
+    background: #007095;
+    outline-width: 0;
+    background-color: #9e7961;
+    color: #fff;
+  }
+  .button.small {
+      font-size: 0.75rem;
+  }
+  h5 {
+    line-height: 1.4;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.125em;
+  }
+  article {
+    border: 1px solid #ccc;
+    margin: 0.5em 0 1em;
+    box-shadow: 0 0 8px rgba(77,77,77,0.2);
+    float: left;
+    width: 100%;
+  }
+  article header {
+    float: left;
+    width: 98%;
+    border-bottom: 1px solid #ccc;
+    padding: 1%;
+  }
+  article blockquote {
+    float: left;
+    width: 98%;
+    padding: 1%;
+    margin: 0;
+  }
+  article footer {
+    float: left;
+    width: 98%;
+    padding: 1%;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+    color: #7A7E80;
+    font-size: 0.875em;
+  }
+  .right {
+    float: right!important;
+  }
+
+  </style>
+  <body>
+    <%= yield %>
+    <p><br/><br/><small>Dit is een automatisch gegenereerd bericht door de <%= link_to "#{I18n.t("application.name")} webapplicatie", root_url %>. Wenst u geen e-mails te ontvangen dan kunt u dat <%= link_to 'aangeven bij uw voorkeuren', edit_user_registration_url %>.</small></p>
+  </body>
+</html>

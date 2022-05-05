@@ -37,7 +37,8 @@ table {
     th {
       border-bottom: 1px solid #ccc;
       text-align: left;
-      color: $primary-color;
+      color: $table-row-head-font-color;
+      font-weight: $table-row-head-font-weight;
       padding-left: 0.25em;
       padding-bottom: 0.5em;
       padding-top: 0.5em;
