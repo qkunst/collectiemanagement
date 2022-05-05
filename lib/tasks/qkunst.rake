@@ -7,7 +7,7 @@ namespace :qkunst do
     puts "Done!"
   end
 
-  desc "Bouw nieuwe index op en herindexeer alle werken (traag)"
+  desc "Bouw nieuwe index op en herindexeer alle werken async"
   task new_index: :environment do
     begin
       Work.__elasticsearch__.delete_index!

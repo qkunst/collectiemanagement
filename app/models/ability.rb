@@ -109,7 +109,7 @@ class Ability
                           ]]
     permitted_fields += [:artist_name_rendered_without_years_nor_locality]
     if can?(:read_location, Work)
-      permitted_fields += [:location_detail, :location, :location_floor, :work_status_id, :work_status, :time_spans]
+      permitted_fields += [:location_detail, :location, :location_floor, :work_status_id, :work_status, :removed_from_collection_at, :time_spans]
     end
     if can?(:read_internal_comments, Work)
       permitted_fields += [:internal_comments]
@@ -124,7 +124,7 @@ class Ability
         :information_back, :other_comments,
         :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :cluster_id, :owner_id, :permanently_fixed,
-        :removed_from_collection_at, :removed_from_collection_note,
+        :removed_from_collection_note,
         :placeability_id, :placeability, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
 
       ]
