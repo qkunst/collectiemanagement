@@ -66,6 +66,10 @@ class ImportCollection < ApplicationRecord
     Work.where(import_collection_id: self.id).quick_destroy_all
   end
 
+  def name
+    file.file&.filename || "Geen bestand geüpload"
+  end
+
   private
 
   def import_associations

@@ -32,7 +32,7 @@ module Work::Export
           value.file ? value.file.filename : nil
         elsif [GeonameSummary].include? value.class
           value.label
-        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet].include? value.class
+        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet,ImportCollection].include? value.class
           value.name
         elsif [BalanceCategory].include? value.class
           value.name unless self.appraised?

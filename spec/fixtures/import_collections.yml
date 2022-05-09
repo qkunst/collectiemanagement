@@ -1,2 +1,5 @@
 import_collection1:
   collection: collection1
+
+import_collection2:
+  collection: collection_with_works
