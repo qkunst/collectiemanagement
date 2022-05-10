@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: conditions
+#
+#  id         :bigint           not null, primary key
+#  hide       :boolean          default(FALSE)
+#  name       :string
+#  order      :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 class Condition < ApplicationRecord
   default_scope -> { order(:order) }
 

@@ -1,2 +1,13 @@
+# == Schema Information
+#
+# Table name: placeabilities
+#
+#  id         :bigint           not null, primary key
+#  hide       :boolean          default(FALSE)
+#  name       :string
+#  order      :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 one:
   name: A placeability

@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
-# rails g model cached_api query response:text
+# == Schema Information
+#
+# Table name: cached_apis
+#
+#  id         :bigint           not null, primary key
+#  query      :string
+#  response   :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 
 class CachedApi < ApplicationRecord
   before_save :pull_url!

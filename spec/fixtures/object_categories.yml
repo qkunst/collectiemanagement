@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: object_categories
+#
+#  id         :bigint           not null, primary key
+#  hide       :boolean          default(FALSE)
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 audiovisueel:
   name: Audiovisueel
 fotografie:

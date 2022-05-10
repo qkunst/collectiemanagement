@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: geoname_translations
+#
+#  id             :bigint           not null, primary key
+#  label          :string
+#  language       :string
+#  priority       :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  geoname_id     :bigint
+#  translation_id :bigint
+#
+# Indexes
+#
+#  index_geoname_translations_on_geoname_id  (geoname_id)
+#
 class GeonameTranslation < ApplicationRecord
   scope :locale, ->(language_code) { where(language: language_code) }
 

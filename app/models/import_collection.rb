@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: import_collections
+#
+#  id                  :bigint           not null, primary key
+#  file                :string
+#  import_file_snippet :text
+#  settings            :text
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  collection_id       :bigint
+#
 class ImportCollection < ApplicationRecord
   class ImportError < StandardError; end
 

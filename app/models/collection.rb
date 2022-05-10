@@ -1,5 +1,30 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: collections
+#
+#  id                               :bigint           not null, primary key
+#  appraise_with_ranges             :boolean          default(FALSE)
+#  base                             :boolean
+#  collection_name_extended_cache   :text
+#  description                      :text
+#  exposable_fields                 :text
+#  external_reference_code          :string
+#  geoname_ids_cache                :text
+#  internal_comments                :text
+#  label_override_work_alt_number_1 :string
+#  label_override_work_alt_number_2 :string
+#  label_override_work_alt_number_3 :string
+#  name                             :string
+#  qkunst_managed                   :boolean          default(TRUE)
+#  root                             :boolean          default(FALSE)
+#  show_availability_status         :boolean
+#  sort_works_by                    :string
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  parent_collection_id             :bigint           default(7)
+#
 class FakeSuperCollection
   def name
     "Algemeen"

@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: time_spans
+#
+#  id             :bigint           not null, primary key
+#  classification :string
+#  ends_at        :datetime
+#  starts_at      :datetime
+#  status         :string
+#  subject_type   :string
+#  uuid           :string
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  collection_id  :bigint
+#  contact_id     :bigint
+#  subject_id     :bigint
+#
 class TimeSpan < ApplicationRecord
   include Uuid
 

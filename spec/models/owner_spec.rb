@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: owners
+#
+#  id              :bigint           not null, primary key
+#  creating_artist :boolean          default(FALSE)
+#  description     :text
+#  hide            :boolean          default(FALSE)
+#  name            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  collection_id   :bigint
+#
 require "rails_helper"
 
 RSpec.describe Owner, type: :model do

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: stages
+#
+#  id                :bigint           not null, primary key
+#  name              :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  actual_stage_id   :bigint
+#  previous_stage_id :bigint
+#
 stage1:
   name: A
 stage2a:

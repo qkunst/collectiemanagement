@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: rkd_artists
+#
+#  id                      :bigint           not null, primary key
+#  api_response            :json
+#  api_response_source_url :string
+#  name                    :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  rkd_id                  :bigint
+#
+# Indexes
+#
+#  index_rkd_artists_on_rkd_id  (rkd_id)
+#
 class RkdArtist < ApplicationRecord
   def end_user_link
     "https://rkd.nl/nl/explore/artists/#{rkd_id}"

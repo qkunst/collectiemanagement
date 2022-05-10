@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: attachments
+#
+#  id            :bigint           not null, primary key
+#  file          :string
+#  name          :string
+#  visibility    :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :bigint
+#
 require "rails_helper"
 
 RSpec.describe Attachment, type: :model do

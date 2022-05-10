@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: custom_reports
+#
+#  id                        :bigint           not null, primary key
+#  html_cache                :string
+#  title                     :string
+#  variables                 :string
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  collection_id             :bigint
+#  custom_report_template_id :bigint
+#
 class CustomReport < ApplicationRecord
   belongs_to :collection
   belongs_to :custom_report_template

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id            :bigint           not null, primary key
+#  address       :text
+#  external      :boolean
+#  name          :string
+#  url           :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :bigint
+#
 class Contact < ApplicationRecord
   belongs_to :collection
 

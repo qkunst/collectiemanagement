@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: currencies
+#
+#  id            :bigint           not null, primary key
+#  exchange_rate :decimal(16, 8)
+#  hide          :boolean          default(FALSE)
+#  iso_4217_code :string
+#  name          :string
+#  symbol        :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
 class Currency < ApplicationRecord
   include NameId
   include Hidable

@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: collections_stages
+#
+#  id            :bigint           not null, primary key
+#  completed_at  :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :bigint
+#  stage_id      :bigint
+#
 class CollectionsStage < ApplicationRecord
   belongs_to :stage
   belongs_to :collection

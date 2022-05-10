@@ -1,8 +1,16 @@
-# t.string "issuer"
-# t.string "value_type"
-# t.string "value"
-# t.string "collection_id"
-# t.string "role"
+# == Schema Information
+#
+# Table name: o_auth_group_mappings
+#
+#  id            :bigint           not null, primary key
+#  issuer        :string
+#  role          :string
+#  value         :string
+#  value_type    :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :string
+#
 
 microsoft_abc_fm:
   issuer: microsoft/abc

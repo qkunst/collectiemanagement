@@ -1,5 +1,32 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: artists
+#
+#  id                        :bigint           not null, primary key
+#  artist_name               :string
+#  date_of_birth             :date
+#  date_of_death             :date
+#  description               :text
+#  first_name                :string
+#  geoname_ids_cache         :text
+#  last_name                 :string
+#  old_data                  :text
+#  other_structured_data     :text
+#  place_of_birth            :string
+#  place_of_death            :string
+#  prefix                    :string
+#  year_of_birth             :integer
+#  year_of_death             :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  import_collection_id      :bigint
+#  place_of_birth_geoname_id :bigint
+#  place_of_death_geoname_id :bigint
+#  replaced_by_artist_id     :bigint
+#  rkd_artist_id             :bigint
+#
 class Artist < ApplicationRecord
   include MethodCache
   include Artist::NameRenderer

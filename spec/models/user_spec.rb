@@ -1,5 +1,53 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: users
+#
+#  id                                     :bigint           not null, primary key
+#  admin                                  :boolean
+#  advisor                                :boolean
+#  api_key                                :string
+#  app                                    :boolean          default(FALSE)
+#  appraiser                              :boolean
+#  collection_accessibility_serialization :text
+#  compliance                             :boolean
+#  confirmation_sent_at                   :datetime
+#  confirmation_token                     :string
+#  confirmed_at                           :datetime
+#  current_sign_in_at                     :datetime
+#  current_sign_in_ip                     :string
+#  domain                                 :string
+#  email                                  :string           default(""), not null
+#  encrypted_password                     :string           default(""), not null
+#  facility_manager                       :boolean
+#  failed_attempts                        :integer          default(0), not null
+#  filter_params                          :text
+#  last_sign_in_at                        :datetime
+#  last_sign_in_ip                        :string
+#  locked_at                              :datetime
+#  name                                   :string
+#  oauth_provider                         :string
+#  oauth_subject                          :string
+#  qkunst                                 :boolean
+#  raw_open_id_token                      :text
+#  receive_mails                          :boolean          default(TRUE)
+#  remember_created_at                    :datetime
+#  reset_password_sent_at                 :datetime
+#  reset_password_token                   :string
+#  role_manager                           :boolean
+#  sign_in_count                          :integer          default(0), not null
+#  super_admin                            :boolean          default(FALSE)
+#  unconfirmed_email                      :string
+#  unlock_token                           :string
+#  created_at                             :datetime         not null
+#  updated_at                             :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
 require "rails_helper"
 
 RSpec.describe User, type: :model do

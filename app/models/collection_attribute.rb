@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: collection_attributes
+#
+#  id               :bigint           not null, primary key
+#  attributed_type  :string
+#  label            :string
+#  value_ciphertext :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  attributed_id    :string
+#  collection_id    :bigint
+#
 class CollectionAttribute < ApplicationRecord
   encrypts :value
   belongs_to :collection

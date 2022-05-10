@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: o_auth_group_mappings
+#
+#  id            :bigint           not null, primary key
+#  issuer        :string
+#  role          :string
+#  value         :string
+#  value_type    :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :string
+#
 require "rails_helper"
 
 RSpec.describe OAuthGroupMapping, type: :model do

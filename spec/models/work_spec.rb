@@ -1,5 +1,114 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: works
+#
+#  id                                                  :bigint           not null, primary key
+#  abstract_or_figurative                              :string
+#  alt_number_1                                        :string
+#  alt_number_2                                        :string
+#  alt_number_3                                        :string
+#  appraisal_notice                                    :text
+#  artist_name_for_sorting                             :string
+#  artist_name_rendered                                :string
+#  artist_unknown                                      :boolean
+#  collection_locality_artist_involvements_texts_cache :text
+#  condition_frame_comments                            :text
+#  condition_work_comments                             :text
+#  created_by_name                                     :string
+#  depth                                               :float
+#  description                                         :text
+#  diameter                                            :float
+#  entry_status                                        :string
+#  entry_status_description                            :text
+#  external_inventory                                  :boolean
+#  for_purchase_at                                     :datetime
+#  for_rent_at                                         :datetime
+#  frame_depth                                         :float
+#  frame_diameter                                      :float
+#  frame_height                                        :float
+#  frame_width                                         :float
+#  grade_within_collection                             :string
+#  height                                              :float
+#  highlight_at                                        :string
+#  image_rights                                        :boolean
+#  imported_at                                         :datetime
+#  information_back                                    :text
+#  internal_comments                                   :text
+#  inventoried_at                                      :datetime
+#  location                                            :string
+#  location_detail                                     :string
+#  location_floor                                      :string
+#  lognotes                                            :text
+#  main_collection                                     :boolean
+#  market_value                                        :decimal(16, 2)
+#  market_value_max                                    :decimal(16, 2)
+#  market_value_min                                    :decimal(16, 2)
+#  medium_comments                                     :text
+#  minimum_bid                                         :decimal(16, 2)
+#  new_found_at                                        :datetime
+#  no_signature_present                                :boolean
+#  object_creation_year                                :integer
+#  object_creation_year_unknown                        :boolean
+#  old_data                                            :text
+#  other_comments                                      :text
+#  other_structured_data                               :text
+#  permanently_fixed                                   :boolean
+#  photo_back                                          :string
+#  photo_detail_1                                      :string
+#  photo_detail_2                                      :string
+#  photo_front                                         :string
+#  price_reference                                     :text
+#  print                                               :string
+#  print_unknown                                       :boolean
+#  public_description                                  :text
+#  publish                                             :boolean
+#  purchase_price                                      :decimal(16, 2)
+#  purchase_price_in_eur                               :decimal(16, 2)
+#  purchase_year                                       :integer
+#  purchased_on                                        :date
+#  refound_at                                          :datetime
+#  removed_from_collection_at                          :datetime
+#  removed_from_collection_note                        :string
+#  replacement_value                                   :decimal(16, 2)
+#  replacement_value_max                               :decimal(16, 2)
+#  replacement_value_min                               :decimal(16, 2)
+#  selling_price                                       :decimal(16, 2)
+#  selling_price_minimum_bid_comments                  :text
+#  signature_comments                                  :text
+#  significantly_updated_at                            :datetime
+#  source_comments                                     :text
+#  stock_number                                        :string
+#  tag_list_cache                                      :text
+#  title                                               :string
+#  title_unknown                                       :boolean
+#  valuation_on                                        :date
+#  width                                               :float
+#  created_at                                          :datetime         not null
+#  updated_at                                          :datetime         not null
+#  balance_category_id                                 :bigint
+#  cluster_id                                          :bigint
+#  collection_id                                       :bigint
+#  condition_frame_id                                  :bigint
+#  condition_work_id                                   :bigint
+#  created_by_id                                       :bigint
+#  frame_type_id                                       :bigint
+#  import_collection_id                                :bigint
+#  locality_geoname_id                                 :bigint
+#  medium_id                                           :bigint
+#  owner_id                                            :bigint
+#  placeability_id                                     :bigint
+#  purchase_price_currency_id                          :bigint
+#  source_id                                           :bigint
+#  style_id                                            :bigint
+#  subset_id                                           :bigint
+#  work_status_id                                      :bigint
+#
+# Indexes
+#
+#  index_works_on_collection_id  (collection_id)
+#
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
