@@ -82,6 +82,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     data.email_confirmed = omniauth_data.info[:email_verified]
     data.name  = omniauth_data.info[:name]
     data.qkunst = false
+    data.oauth_expires_at = omniauth_data.credentials.expires_at
+    data.oauth_refresh_token = omniauth_data.credentials.refresh_token
+    data.oauth_access_token = omniauth_data.credentials.token
 
     data.raw_open_id_token = omniauth_data&.extra&.raw_info
     data.issuer = "#{omniauth_data["provider"]}/#{data.raw_open_id_token.issuer}"

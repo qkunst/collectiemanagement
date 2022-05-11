@@ -636,6 +636,10 @@ ActiveRecord::Schema.define(version: 2022_04_19_121312) do
     t.string "domain"
     t.text "raw_open_id_token"
     t.boolean "app", default: false
+    t.string "oauth_id_token"
+    t.string "oauth_refresh_token"
+    t.bigint "oauth_expires_at"
+    t.string "oauth_access_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

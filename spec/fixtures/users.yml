@@ -25,7 +25,11 @@
 #  last_sign_in_ip                        :string
 #  locked_at                              :datetime
 #  name                                   :string
+#  oauth_access_token                     :string
+#  oauth_expires_at                       :bigint
+#  oauth_id_token                         :string
 #  oauth_provider                         :string
+#  oauth_refresh_token                    :string
 #  oauth_subject                          :string
 #  qkunst                                 :boolean
 #  raw_open_id_token                      :text

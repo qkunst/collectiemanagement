@@ -27,7 +27,11 @@
 #  last_sign_in_ip                        :string
 #  locked_at                              :datetime
 #  name                                   :string
+#  oauth_access_token                     :string
+#  oauth_expires_at                       :bigint
+#  oauth_id_token                         :string
 #  oauth_provider                         :string
+#  oauth_refresh_token                    :string
 #  oauth_subject                          :string
 #  qkunst                                 :boolean
 #  raw_open_id_token                      :text
@@ -49,6 +53,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  include OAuthUser
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_paper_trail
@@ -189,10 +194,6 @@ class User < ApplicationRecord
     admin? && read_attribute(:super_admin)
   end
 
-  def oauthable?
-    !!(oauth_subject && oauth_provider)
-  end
-
   def generate_api_key!
     self.api_key = SecureRandom.hex(64)
   end
@@ -254,42 +255,6 @@ class User < ApplicationRecord
       find_by_email(a)
     end
 
-    def find_or_initialize_from_oauth_prisioned_data oauth_subject:, email:, oauth_provider:
-      raise "Subject empty" if oauth_subject.blank?
-      raise "Provider empty" if oauth_provider.blank?
 
-      User.find_by(oauth_subject: oauth_subject, oauth_provider: oauth_provider) || User.where("users.email ILIKE ?", email).find_by(oauth_subject: nil, oauth_provider: nil) || User.new(email: email, password: Devise.friendly_token[0, 48])
-    end
-
-    def from_omniauth_callback_data(data)
-      if !data.is_a?(Users::OmniauthCallbackData) || !data.valid?
-        raise ArgumentError.new("invalid omniauth data passed")
-      else
-        user = find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
-        user.oauth_provider = data.oauth_provider
-        user.oauth_subject = data.oauth_subject
-        user.email = data.email
-        user.name = data.name
-        user.qkunst = data.qkunst
-        user.domain = data.domain || data.email.split("@")[1]
-        user.confirmed_at ||= Time.now if data.email_confirmed?
-        user.raw_open_id_token = data.raw_open_id_token
-        user.app = !!data.app
-
-        if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
-          user.reset_all_roles
-          new_role = (ROLES & OAuthGroupMapping.retrieve_roles(data))[0]
-          user.role = new_role
-        end
-
-        if OAuthGroupMapping.collection_mappings_exists_for?(data.issuer)
-          user.collection_ids = OAuthGroupMapping.retrieve_collection_ids(data)
-        end
-
-        user.save
-
-        user
-      end
-    end
   end
 end
