@@ -62,7 +62,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet_with_missing(key, ".id"))
         end
 
-        [:damage_types, :frame_damage_types].each do |key|
+        [:damage_types, :frame_damage_types, :work_sets].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key, ".id"))
         end
 

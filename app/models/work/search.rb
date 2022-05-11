@@ -58,7 +58,8 @@ module Work::Search
           subset: {only: [:id, :name]},
           techniques: {only: [:id, :name]},
           themes: {only: [:id, :name]},
-          work_status: {only: [:id, :name]}
+          work_status: {only: [:id, :name]},
+          work_sets: {only: [:id, :name]}
         },
         methods: [
           :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,

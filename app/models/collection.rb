@@ -112,7 +112,8 @@ class Collection < ApplicationRecord
     "cluster" => "Cluster",
     "owner" => "Owner",
     "frame_type" => "FrameType",
-    "work_status" => "WorkStatus"
+    "work_status" => "WorkStatus",
+    "work_sets" => "WorkSet"
   }
 
   def find_state_of_stage(stage)

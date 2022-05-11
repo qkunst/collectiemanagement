@@ -48,6 +48,7 @@ RSpec.describe Report::Builder, type: :model do
         minimum_bid: {terms: {field: "minimum_bid", size: 999}},
         purchase_price_in_eur: {terms: {field: "purchase_price_in_eur", size: 999}},
         selling_price: {terms: {field: "selling_price", size: 999}},
+        work_sets: {terms: {field: "work_sets.id", size: 999}},
         work_status: {terms: {field: "work_status.id", size: 999}},
         work_status_missing: {missing: {field: "work_status.id"}}
       }
