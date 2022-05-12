@@ -131,6 +131,7 @@ group :test, :gitlab do
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
+gem "annotate", group: [:development]
 
 gem "branding_repo"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"

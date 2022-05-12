@@ -255,7 +255,7 @@ class Ability
     can :manage, Cluster, collection_id: accessible_collection_ids
     cannot :manage_collection, ImportCollection
 
-    can [:create, :update, :edit_visibility, :index], Attachment, collection_id: accessible_collection_ids
+    can :manage, Attachment, collection_id: accessible_collection_ids
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
     can :read, TimeSpan

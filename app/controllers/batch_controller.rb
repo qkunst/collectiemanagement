@@ -12,6 +12,8 @@ class BatchController < ApplicationController
       redirect_to new_collection_custom_report_path(works: @works.map(&:id))
     elsif params[:batch_process_property] == "create_work_set"
       redirect_to new_work_set_path(works: @works.map(&:id))
+    elsif params[:batch_process_property] == "create_time_span"
+      redirect_to new_collection_time_span_path(@collection, works: @works.map(&:id))
     else
       @selection = {display: :complete}
 

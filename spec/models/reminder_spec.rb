@@ -1,5 +1,20 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: reminders
+#
+#  id              :bigint           not null, primary key
+#  interval_length :integer
+#  interval_unit   :string
+#  name            :string
+#  repeat          :boolean
+#  text            :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  collection_id   :bigint
+#  stage_id        :bigint
+#
 require "rails_helper"
 
 RSpec.describe Reminder, type: :model do

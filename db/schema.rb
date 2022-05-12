@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_19_121312) do
+ActiveRecord::Schema.define(version: 2022_05_11_204652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -596,6 +596,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_121312) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "uuid"
+    t.bigint "time_span_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -636,6 +637,10 @@ ActiveRecord::Schema.define(version: 2022_04_19_121312) do
     t.string "domain"
     t.text "raw_open_id_token"
     t.boolean "app", default: false
+    t.string "oauth_id_token"
+    t.string "oauth_refresh_token"
+    t.bigint "oauth_expires_at"
+    t.string "oauth_access_token"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

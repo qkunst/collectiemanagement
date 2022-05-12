@@ -1,5 +1,6 @@
-<h1>Nieuwe tijdsspanne</h1>
+<h1>Start gebeurtenis</h1>
+<p>Markeer een werk, of een groep werken, als verhuurd, naar transporteur of als verkocht. Dit heeft, zodra het actief is, invloed op de beschikbaarheidsstatus van een werk.</p>
 
 <%= render 'form', time_span: @time_span %>
 
-<%= link_to 'Terug', @work ? collection_work_time_spans_path(@collection, @work) : collection_time_spans_path(@collection) %>
+<%= link_to 'Terug', @work ? collection_work_time_spans_path(@collection, @work) : collection_work_set_time_spans_path(@collection, @subject) %>

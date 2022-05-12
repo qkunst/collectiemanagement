@@ -1,6 +1,24 @@
 <h1>Groepeer werken</h1>
+<section class="row">
+  <div class="medium-6 column">
+  <h2>Toevoegen aan bestaande sectie</h2>
+    <%= form_tag(work_sets_url) do %>
+      <%= select("work_set", "id", WorkSet.for_collection(@collection || @works.first.collection.base_collection).all.collect { |p| [ p.name, p.id ] } )  %>
+      <%= hidden_field_tag "work_set[work_ids]", @works.pluck(:id).join(" ")  %>
+
+      <%= button_tag "Toevoegen", class: [:button, :primary]%>
+    <% end %>
+  </div>
+
+</section>
+<hr/>
 <% if @work_set.works.any? %>
-<%= render partial: "form"%>
+<section class="row">
+  <div class="medium-6 column">
+    <h2>Nieuwe groepering maken</h2>
+      <%= render partial: "form"%>
+  </div>
+</section>
 <hr/>
 <h3 id="works">Werken</h3>
 <p>De volgende werken zullen hiermee worden gegroepeerd. </p>

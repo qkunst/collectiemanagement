@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: custom_report_templates
+#
+#  id            :bigint           not null, primary key
+#  hide          :boolean
+#  text          :text
+#  title         :string
+#  work_fields   :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :bigint
+#
 class CustomReportTemplate < ApplicationRecord
   include Hidable
   include Template

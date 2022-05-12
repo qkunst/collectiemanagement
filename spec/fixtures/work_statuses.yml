@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: work_statuses
+#
+#  id         :bigint           not null, primary key
+#  hide       :boolean          default(FALSE)
+#  name       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 in_gebruik:
   name: In gebruik
 niet_in_gebruik:

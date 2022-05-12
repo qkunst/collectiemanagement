@@ -1,5 +1,18 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: batch_photo_uploads
+#
+#  id                 :bigint           not null, primary key
+#  finished_uploading :boolean          default(FALSE)
+#  images             :json
+#  settings           :text
+#  zip_file           :string
+#  created_at         :datetime
+#  updated_at         :datetime
+#  collection_id      :bigint
+#
 class BatchPhotoUpload < ApplicationRecord
   # store :images
   store :settings, accessors: [:column]

@@ -159,7 +159,7 @@ nl:
       workset: Werkgroepering
       work_set: Werkgroepering
       library_item: Bibliotheek item
-      time_span: Tijdsspanne
+      time_span: Gebeurtenis
     values:
       user:
         role:
@@ -184,8 +184,8 @@ nl:
         first_then_join_rest_separated: "Vervang veld 1, rest in veld 2 (gescheiden)"
       time_span:
         classification:
-          rental_outgoing: Verhuurd
-          rental_incoming: Gehuurd
+          rental_outgoing: Verhuur
+          rental_incoming: Huur ingaand
           transport: Transport
           exhibition: Tentoonstelling
           purchase: Aankoop
@@ -344,6 +344,10 @@ nl:
         collection: Collectie
         description: Beschrijving
         creating_artist: Vervaardiger is de eigenaar (werk in consignatie)
+      time_span:
+        starts_at: Vanaf
+        ends_at: Tot
+        classification: Soort
       work:
         abstract: Abstract
         abstract_or_figurative: Abstract of figuratief

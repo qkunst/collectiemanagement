@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: collection_attributes
+#
+#  id               :bigint           not null, primary key
+#  attributed_type  :string
+#  label            :string
+#  value_ciphertext :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  attributed_id    :string
+#  collection_id    :bigint
+#
 artist_1_collection_with_stages_attribute:
   collection: :collection_with_stages
   attributed: artist1 (Artist)

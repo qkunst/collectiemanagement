@@ -1,5 +1,29 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: messages
+#
+#  id                               :bigint           not null, primary key
+#  actioned_upon_by_qkunst_admin_at :datetime
+#  attachment                       :string
+#  from_user_name                   :string
+#  image                            :string
+#  just_a_note                      :boolean
+#  message                          :text
+#  qkunst_private                   :boolean
+#  subject                          :string
+#  subject_object_type              :string
+#  subject_url                      :text
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  conversation_start_message_id    :bigint
+#  from_user_id                     :bigint
+#  in_reply_to_message_id           :bigint
+#  reminder_id                      :bigint
+#  subject_object_id                :bigint
+#  to_user_id                       :bigint
+#
 require "rails_helper"
 
 RSpec.describe Message, type: :model do

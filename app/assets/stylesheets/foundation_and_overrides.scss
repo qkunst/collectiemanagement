@@ -65,3 +65,7 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
 }
+.button.xxsmall {
+  padding: 0.1em;
+  font-size: inherit;
+}

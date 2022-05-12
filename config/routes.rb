@@ -66,7 +66,9 @@ Rails.application.routes.draw do
   resources :themes
   resources :balance_categories
   resources :work_statuses
-  resources :work_sets
+  resources :work_sets do
+    resources :works, module: :work_sets, only: :destroy #, controller: "WorkSet::WorksController"
+  end
   resources :work_set_types
 
   resources :rkd_artists do
@@ -82,10 +84,11 @@ Rails.application.routes.draw do
     get "manage" => "collections#manage"
     resources :users, module: :collection
     resources :library_items
-    resources :time_spans
+    resources :time_spans, only: [:index, :show]
 
     resources :work_sets do
       resources :appraisals
+      resources :time_spans
     end
 
     resources :reminders, path: "manage/reminders"

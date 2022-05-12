@@ -18,12 +18,18 @@ class WorkSetsController < ApplicationController
   end
 
   def create
-    @work_set = WorkSet.new(work_set_params)
-    work_ids = @work_set.works.map(&:id)
-    @works = current_user.accessible_works.where(id: work_ids)
+    if append_to_work_set?
+      @work_set = WorkSet.find(params.dig(:work_set, :id))
+      ids_to_append = params.dig(:work_set, :work_ids).split(" ").map(&:to_i)
+      authorize! :update, @work_set
+      @work_set.work_ids = (@work_set.work_ids + ids_to_append).uniq
+    else
+      @work_set = WorkSet.new(work_set_params)
+      work_ids = @work_set.works.map(&:id)
+      @works = current_user.accessible_works.where(id: work_ids)
 
-    authorize! :create, @work_set
-
+      authorize! :create, @work_set
+    end
     if @work_set.save
       redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de\ verzameling"
     else
@@ -46,6 +52,10 @@ class WorkSetsController < ApplicationController
       @selection = {display: :complete}
     end
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")
+  end
+
+  def index
+
   end
 
   def edit
@@ -82,6 +92,10 @@ class WorkSetsController < ApplicationController
   end
 
   private
+
+  def append_to_work_set?
+    params.dig(:work_set, :id).present?
+  end
 
   def set_work_set
     @work_set = WorkSet.find(params[:id])

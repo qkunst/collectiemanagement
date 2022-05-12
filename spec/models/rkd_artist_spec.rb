@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: rkd_artists
+#
+#  id                      :bigint           not null, primary key
+#  api_response            :json
+#  api_response_source_url :string
+#  name                    :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  rkd_id                  :bigint
+#
+# Indexes
+#
+#  index_rkd_artists_on_rkd_id  (rkd_id)
+#
 require "rails_helper"
 
 RSpec.describe RkdArtist, type: :model do

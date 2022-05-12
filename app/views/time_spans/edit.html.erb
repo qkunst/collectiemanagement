@@ -1,6 +1,7 @@
-<h1>Editing Time Span</h1>
+<div id="main">
+<h1>Bewerk de gebeurtenis</h1>
+
 
 <%= render 'form', time_span: @time_span %>
 
-<%= link_to 'Show', @time_span %> |
-<%= link_to 'Back', time_spans_path %>
+<%= link_to 'Annuleer het maken van wijzigingen', [@time_span.collection, @time_span.subject, @time_span] %></div>

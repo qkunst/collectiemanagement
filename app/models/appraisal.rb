@@ -1,5 +1,30 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: appraisals
+#
+#  id                    :bigint           not null, primary key
+#  appraised_by          :string
+#  appraised_on          :date
+#  appraisee_type        :string           default("Work")
+#  market_value          :decimal(16, 2)
+#  market_value_max      :decimal(16, 2)
+#  market_value_min      :decimal(16, 2)
+#  notice                :text
+#  reference             :text
+#  replacement_value     :decimal(16, 2)
+#  replacement_value_max :decimal(16, 2)
+#  replacement_value_min :decimal(16, 2)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  appraisee_id          :bigint
+#  user_id               :bigint
+#
+# Indexes
+#
+#  index_appraisals_on_appraisee_id  (appraisee_id)
+#
 class Appraisal < ApplicationRecord
   MARKET_VALUE_CATEGORIES = [0..20, 20..50, 50..100, 100..200, 200..300, 300..500, 500..1_000, 1_000..2_500, 2_500..5_000, 5_000..7_500, 7_500..10_000, 10_000..15_000, 15_000..20_000, 20_000..50_000, 50_000..100_000, 100_000..200_000, 200_000..500_000, 500_000..1_000_000]
   REPLACEMENT_VALUE_CATEGORIES = [0..50, 50..100, 100..250, 250..500, 500..750, 750..1_000, 1_000..2_500, 2_500..5_000, 5_000..7_500, 7_500..10_000, 10_000..15_000, 15_000..20_000, 20_000..25_000, 25_000..30_000, 30_000..40_000, 40_000..50_000, 50_000..75_000, 75_000..100_000, 100_000..200_000, 200_000..300_000, 300_000..400_000, 400_000..500_000, 500_000..750_000, 750_000..1_000_000]

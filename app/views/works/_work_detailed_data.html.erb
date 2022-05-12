@@ -103,22 +103,30 @@
   <%= definition_list_for work, {render_as: :table} do %>
     <% if work.work_sets.any? %>
       <tr>
-        <% if can?(:read_valuation, work.collection) %>
+        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @selection[:display] != :detailed_discreet %>
         <th rowspan="2">
         <% else %>
         <th>
         <% end %>
           <%=Work.human_attribute_name(:work_sets)%>
         </th>
-        <td><%= sanitize work.work_sets.map{|ws| @for_print ? ws.name : link_to(ws.name, ws) }.to_sentence %></td>
+        <td><%= (work.work_sets.map do |ws|
+          if @for_print
+            sanitize(ws.name)
+          elsif @work_set == ws
+            [link_to(sanitize(ws.name), ws), button_to("Verwijder uit groep", work_set_work_path(ws,work), method: :delete, class: [:alert, :button, :xxsmall])].join(" ")
+          else
+            link_to(sanitize(ws.name), ws)
+          end
+        end.to_sentence).html_safe %></td>
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? and @selection[:display] != :detailed_discreet %>
+      <% if work.appraised_in_set? && @selection[:display] != :detailed_discreet %>
         <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
       <%= define_unless_blank :purchased_on_with_fallback %>
-      <% if work.purchase_price and @selection[:display] != :detailed_discreet %>
+      <% if work.purchase_price && @selection[:display] != :detailed_discreet %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
       <% if @selection[:display] != :detailed_discreet %>

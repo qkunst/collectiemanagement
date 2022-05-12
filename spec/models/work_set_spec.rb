@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: work_sets
+#
+#  id                    :bigint           not null, primary key
+#  appraisal_notice      :text
+#  comment               :text
+#  identification_number :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  work_set_type_id      :bigint
+#
 require "rails_helper"
 
 RSpec.describe WorkSet, type: :model do

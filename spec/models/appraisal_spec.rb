@@ -1,5 +1,30 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: appraisals
+#
+#  id                    :bigint           not null, primary key
+#  appraised_by          :string
+#  appraised_on          :date
+#  appraisee_type        :string           default("Work")
+#  market_value          :decimal(16, 2)
+#  market_value_max      :decimal(16, 2)
+#  market_value_min      :decimal(16, 2)
+#  notice                :text
+#  reference             :text
+#  replacement_value     :decimal(16, 2)
+#  replacement_value_max :decimal(16, 2)
+#  replacement_value_min :decimal(16, 2)
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  appraisee_id          :bigint
+#  user_id               :bigint
+#
+# Indexes
+#
+#  index_appraisals_on_appraisee_id  (appraisee_id)
+#
 require "rails_helper"
 
 RSpec.describe Appraisal, type: :model do

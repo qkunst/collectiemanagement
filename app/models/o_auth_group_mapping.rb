@@ -1,9 +1,16 @@
-# map oauth data to roles / collections
+# == Schema Information
 #
-# e.g.: OAuthGroupMapping.create(issuer: "central_login/http://localhost:4000/", value_type: "role", value: "qkunst:registrator", role: "facility_manager")
-# when data[:roles] include "qkunst:registrator"; the role 'qkunst' will be assigned
-# e.g.: OAuthGroupMapping.create(issuer: "central_login/http://localhost:4000/", value_type: "resource", value: "qkunst:collections:heden", collection: ::Collection.not_root.first)
-# when data[:resources] include "qkunst:collections:heden"; the first Collection will be connected
+# Table name: o_auth_group_mappings
+#
+#  id            :bigint           not null, primary key
+#  issuer        :string
+#  role          :string
+#  value         :string
+#  value_type    :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  collection_id :string
+#
 
 class OAuthGroupMapping < ApplicationRecord
   has_paper_trail

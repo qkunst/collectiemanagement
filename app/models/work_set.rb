@@ -1,22 +1,68 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: work_sets
+#
+#  id                    :bigint           not null, primary key
+#  appraisal_notice      :text
+#  comment               :text
+#  identification_number :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  work_set_type_id      :bigint
+#
 class WorkSet < ApplicationRecord
   has_and_belongs_to_many :works
 
   has_many :appraisals, as: :appraisee
+  has_many :time_spans, as: :subject
 
   belongs_to :work_set_type
 
   scope :accepts_appraisals, -> { joins(:work_set_type).where(work_set_types: {appraise_as_one: true}) }
   scope :count_as_one, -> { joins(:work_set_type).where(work_set_types: {count_as_one: true}) }
+  scope :for_collection, ->(collection) { joins(:works).where(works: {collection_id: collection.self_and_parent_collections_flattened}).distinct }
 
   alias_attribute :stock_number, :identification_number
 
   validate :works_are_not_appraisable_in_another_set, if: :work_set_type
   validate :works_are_not_countable_as_one_in_another_set, if: :work_set_type
 
+  after_save :reindex_works!
+
+  class << self
+    def names_hash
+      unless defined?(@@names_hash) && @@names_hash[to_s]
+        @@names_hash = {} unless defined?(@@names_hash)
+        @@names_hash[to_s] = {}
+        self.select("id,identification_number,work_set_type_id").each do |objekt|
+          @@names_hash[to_s][objekt.id] = objekt.name
+        end
+      end
+      @@names_hash[to_s]
+    end
+
+    def names ids
+      if ids.is_a? String
+        ids = [ids.to_i]
+      elsif ids.is_a? Integer
+        ids = [ids]
+      end
+      rv = {}
+      ids.each do |id|
+        rv[id] = names_hash[id] || "Naamloos"
+      end
+      rv
+    end
+  end
+
   def appraisable?
     work_set_type.appraise_as_one? && works.length > 0
+  end
+
+  def available?
+    !works.map(&:available?).include?(false)
   end
 
   def count_as_one?
@@ -110,5 +156,9 @@ class WorkSet < ApplicationRecord
         errors.add(:base, "#{work.name} wordt reeds uniek geteld vanuit een andere groepering.") if work.countable_set && work.appraisable_set != self
       end
     end
+  end
+
+  def reindex_works!
+    works.each{|work| ReindexWorkWorker.perform_async(work.id)}
   end
 end

@@ -47,6 +47,15 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       get collection_time_spans_url(collection)
       expect(response).to be_successful
     end
+
+    it "renders a not authorized response" do
+      sign_in users(:advisor)
+
+      TimeSpan.create! valid_attributes
+      get collection_time_spans_url(collection)
+      expect(response).to be_redirect
+
+    end
   end
 
   # describe "GET /show" do
