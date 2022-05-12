@@ -21,10 +21,8 @@ module OAuthUser
     end
 
     def refresh!(force: false)
-      raise("A refresh_token is not available") unless oauth_refresh_token
-      # puts (refresh_required? && !force)
-      # return self unless (refresh_required? && !force)
       return self if !refresh_required? && !force
+      raise("A refresh_token is not available") unless oauth_refresh_token
 
       params = {}
       params[:grant_type] = "refresh_token"
@@ -37,7 +35,7 @@ module OAuthUser
       validated_token = oauth_strategy.validate_id_token(id_token)
 
       if validated_token["sub"] == oauth_subject
-        update(oauth_access_token: new_token.token, oauth_refresh_token: new_token.refresh_token, oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
+        update(oauth_access_token: new_token.token, oauth_refresh_token: (new_token.refresh_token.present? ? new_token.refresh_token : self.refresh_token), oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
       end
 
       self
@@ -68,7 +66,7 @@ module OAuthUser
         user.raw_open_id_token = data.raw_open_id_token
         user.app = !!data.app
         user.oauth_expires_at = data.oauth_expires_at
-        user.oauth_refresh_token = data.oauth_refresh_token
+        user.oauth_refresh_token ||= data.oauth_refresh_token
         user.oauth_access_token = data.oauth_access_token
 
 

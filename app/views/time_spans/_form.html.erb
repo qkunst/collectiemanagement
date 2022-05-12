@@ -1,14 +1,12 @@
-<%= simple_form_for([@collection, @work, @time_span].compact) do |f| %>
+<%= simple_form_for([@collection, @subject, @time_span].compact) do |f| %>
   <%= f.error_notification %>
-
+  <%= f.object.errors.messages if f.object.errors.messages.any? %>
   <div class="form-inputs">
+    <%= f.input :classification, collection: TimeSpan::CLASSIFICATIONS.map{|a| [I18n.t(a, scope: "activerecord.values.time_span.classification" ), a]}, as: :radio_buttons %>
+    <%= f.input :contact, collection: @contacts, input_html:{ class: ["chosen-select"] }%>
     <%= f.input :starts_at, html5: true %>
     <%= f.input :ends_at, html5: true %>
-    <%= f.input :status, collection: TimeSpan::STATUSSES  %>
-    <%= f.input :contact, collection: @collection.base_collection.contacts %>
-    <%= f.input :subject_id %>
-    <%= f.input :subject_type, collection: TimeSpan::SUBJECT_TYPES %>
-    <%= f.input :classification, collection: TimeSpan::CLASSIFICATIONS %>
+    <%= f.input :status, collection: TimeSpan::STATUSSES.map{|a| [I18n.t(a, scope: "activerecord.values.time_span.status" ), a]}, include_blank: false, as: :radio_buttons  %>
   </div>
 
   <div class="form-actions">

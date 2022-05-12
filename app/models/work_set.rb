@@ -16,6 +16,7 @@ class WorkSet < ApplicationRecord
   has_and_belongs_to_many :works
 
   has_many :appraisals, as: :appraisee
+  has_many :time_spans, as: :subject
 
   belongs_to :work_set_type
 
@@ -35,7 +36,7 @@ class WorkSet < ApplicationRecord
       unless defined?(@@names_hash) && @@names_hash[to_s]
         @@names_hash = {} unless defined?(@@names_hash)
         @@names_hash[to_s] = {}
-        self.select("id,name,identification_number,work_set_type_id").each do |objekt|
+        self.select("id,identification_number,work_set_type_id").each do |objekt|
           @@names_hash[to_s][objekt.id] = objekt.name
         end
       end
@@ -58,6 +59,10 @@ class WorkSet < ApplicationRecord
 
   def appraisable?
     work_set_type.appraise_as_one? && works.length > 0
+  end
+
+  def available?
+    !works.map(&:available?).include?(false)
   end
 
   def count_as_one?

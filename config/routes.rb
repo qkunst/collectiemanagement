@@ -84,10 +84,11 @@ Rails.application.routes.draw do
     get "manage" => "collections#manage"
     resources :users, module: :collection
     resources :library_items
-    resources :time_spans
+    resources :time_spans, only: [:index, :show]
 
     resources :work_sets do
       resources :appraisals
+      resources :time_spans
     end
 
     resources :reminders, path: "manage/reminders"

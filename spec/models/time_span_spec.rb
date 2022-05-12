@@ -14,6 +14,7 @@
 #  collection_id  :bigint
 #  contact_id     :bigint
 #  subject_id     :bigint
+#  time_span_id   :bigint
 #
 require 'rails_helper'
 

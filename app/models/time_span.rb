@@ -14,17 +14,19 @@
 #  collection_id  :bigint
 #  contact_id     :bigint
 #  subject_id     :bigint
+#  time_span_id   :bigint
 #
 class TimeSpan < ApplicationRecord
   include Uuid
 
-  CLASSIFICATIONS = [:rental_outgoing, :rental_incoming, :transport, :exhibition, :purchase]
-  SUBJECT_TYPES = ["Work"]
+  CLASSIFICATIONS = [:rental_outgoing, :transport, :exhibition, :purchase] #:rental_incoming was part of this as well, but
+  SUBJECT_TYPES = ["Work", "WorkSet"]
   STATUSSES = [:concept, :reservation, :active, :finished]
 
   belongs_to :collection
   belongs_to :subject, polymorphic: true
   belongs_to :contact, optional: true
+  belongs_to :time_span, optional: true
 
   validates :classification, inclusion: CLASSIFICATIONS.map(&:to_s), presence: true
   validates :subject_type, inclusion: SUBJECT_TYPES, presence: true

@@ -19,6 +19,11 @@
     <% if (can? :edit, @work_set) %>
       <li><%= link_to 'Bewerk', edit_collection_work_set_path(@collection,@work_set), class: 'secondary small button right' %></li>
     <% end %>
+    <% if (can? :create, TimeSpan) && @collection.base_collection.show_availability_status && @work_set.time_spans.none? %>
+      <li><%= link_to "Start gebeurtenis", new_collection_work_set_time_span_path(@collection, @work_set), class: 'secondary small button right'%></li>
+    <% elsif (can? :create, TimeSpan) && @collection.base_collection.show_availability_status %>
+      <li><%= link_to "Gebeurtenissen", collection_work_set_time_spans_path(@collection, @work_set), class: 'secondary small button right'%></li>
+    <% end %>
     <% if can?(:create, Appraisal.new(appraisee: @work_set)) && @work_set.appraisable? %>
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>

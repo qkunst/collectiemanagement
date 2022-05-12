@@ -73,6 +73,12 @@
       <li><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
       <li><%= link_to 'Beprijs', collection_work_edit_prices_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
+    <% if (can? :create, TimeSpan) && @collection.base_collection.show_availability_status && @work.time_spans.none? %>
+      <li><%= link_to "Start gebeurtenis", new_collection_work_time_span_path(@collection, @work), class: 'secondary small button right'%></li>
+    <% elsif (can? :create, TimeSpan) && @collection.base_collection.show_availability_status %>
+      <li><%= link_to "Gebeurtenissen", collection_work_time_spans_path(@collection, @work), class: 'secondary small button right'%></li>
+    <% end %>
+
     <% if can? :tag, @work %>
       <li><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
