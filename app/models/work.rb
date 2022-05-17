@@ -148,6 +148,7 @@ class Work < ApplicationRecord
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
   before_save :mark_significant_update_if_significant
+  before_save :mark_as_removed_from_collection_according_to_work_status
   before_create :significantly_updated!
 
   after_save :touch_collection!
@@ -575,8 +576,14 @@ class Work < ApplicationRecord
     self.significantly_updated_at = Time.now
   end
 
+  private
+
   def mark_significant_update_if_significant
     significantly_updated! if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
+  end
+
+  def mark_as_removed_from_collection_according_to_work_status
+    self.removed_from_collection_at ||= Time.now if work_status&.set_work_as_removed_from_collection
   end
 
   class << self

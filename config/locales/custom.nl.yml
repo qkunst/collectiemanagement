@@ -669,6 +669,10 @@ nl:
         remember_me: 'Onthoud mij'
         city: 'Stad'
         company_name: 'Bedrijfsnaam'
+      work_status:
+        hide: Verberg
+        name: Naam
+        set_work_as_removed_from_collection: Markeer werk als verwijderd uit collectie
       import_collection:
         file: Importbestand
         header_row: Koprij

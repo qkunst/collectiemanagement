@@ -2,11 +2,12 @@
 #
 # Table name: work_statuses
 #
-#  id         :bigint           not null, primary key
-#  hide       :boolean          default(FALSE)
-#  name       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                                  :bigint           not null, primary key
+#  hide                                :boolean          default(FALSE)
+#  name                                :string
+#  set_work_as_removed_from_collection :boolean
+#  created_at                          :datetime         not null
+#  updated_at                          :datetime         not null
 #
 in_gebruik:
   name: In gebruik
@@ -15,3 +16,6 @@ niet_in_gebruik:
 verborgen:
   name: Verborgen
   hide: true
+afgestoten:
+  name: Afgestoten
+  set_work_as_removed_from_collection: true

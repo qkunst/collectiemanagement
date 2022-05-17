@@ -8,4 +8,8 @@ class WorkStatusesController < ApplicationController
   def controlled_class
     WorkStatus
   end
+
+  def white_listed_params
+    params.require(singularized_name.to_sym).permit(:name, :hide, :set_work_as_removed_from_collection)
+  end
 end
