@@ -510,7 +510,7 @@ class Work < ApplicationRecord
   end
 
   def removed_from_collection!(time_stamp = Time.current)
-    self.update(removed_from_collection_at: time_stamp)
+    self.update(removed_from_collection_at: time_stamp) unless removed_from_collection_at
   end
 
   def add_lognoteline note
