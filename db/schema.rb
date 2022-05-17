@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_17_075723) do
+ActiveRecord::Schema.define(version: 2022_05_17_211054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -798,6 +798,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_075723) do
     t.datetime "for_rent_at"
     t.string "highlight_at"
     t.text "old_data"
+    t.string "fin_balance_item_id"
     t.index ["collection_id"], name: "index_works_on_collection_id"
   end
 

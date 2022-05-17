@@ -388,6 +388,7 @@ nl:
         entry_status: Invoerstatus
         entry_status_description: Invoerstatus opmerkingen
         figurative: Figuratief
+        fin_balance_item_id: Balansitem
         for_purchase: Voor verkoop
         for_rent: Voor verhuur
         floor_surface: Vloeroppervlak (m²)

@@ -79,7 +79,7 @@ class Ability
     end
     if can?(:edit_purchase_information, Work)
       permitted_fields += [
-        :purchase_price, :purchased_on, :purchase_year
+        :purchase_price, :purchased_on, :purchase_year, :fin_balance_item_id
       ]
     end
     if can?(:edit_availability, Work)
@@ -144,11 +144,11 @@ class Ability
     end
     if can?(:edit_purchase_information, Work)
       permitted_fields += [
-        :purchase_price, :purchased_on, :purchase_year
+        :purchase_price, :purchased_on, :purchase_year,:fin_balance_item_id
       ]
     end
     if can?(:read_valuation, Collection)
-      permitted_fields += [:selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,]
+      permitted_fields += [:selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id]
     end
     if can?(:read, Appraisal)
       permitted_fields += [

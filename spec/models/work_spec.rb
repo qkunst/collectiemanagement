@@ -93,6 +93,7 @@
 #  condition_frame_id                                  :bigint
 #  condition_work_id                                   :bigint
 #  created_by_id                                       :bigint
+#  fin_balance_item_id                                 :string
 #  frame_type_id                                       :bigint
 #  import_collection_id                                :bigint
 #  locality_geoname_id                                 :bigint
