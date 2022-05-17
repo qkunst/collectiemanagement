@@ -1,7 +1,7 @@
 <h2>Werkstatussen</h2>
 <ul>
     <% @work_statuses.each do |item| %>
-      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%> <%=item.set_work_as_removed_from_collection? ? "(markeerd als verwijderd uit collectie)" : ""%></li>
+      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%> <%=item.set_work_as_removed_from_collection? ? "(beschouw als verwijderd uit collectie)" : ""%></li>
     <% end %>
 </ul>
 <%= link_to 'Nieuwe status', new_work_status_path, class: :button %>
