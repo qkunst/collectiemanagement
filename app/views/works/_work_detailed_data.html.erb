@@ -114,7 +114,7 @@
           if @for_print
             sanitize(ws.name)
           elsif @work_set == ws
-            [link_to(sanitize(ws.name), ws), button_to("Verwijder uit groep", work_set_work_path(ws,work), method: :delete, class: [:alert, :button, :xxsmall])].join(" ")
+            [link_to(sanitize(ws.name), work_set_path(ws.id)), button_to("Verwijder uit groep", work_set_work_path(ws.id,work.id), method: :delete, class: [:alert, :button, :xxsmall])].join(" ")
           else
             link_to(sanitize(ws.name), ws)
           end
