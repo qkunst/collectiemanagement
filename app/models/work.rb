@@ -393,7 +393,7 @@ class Work < ApplicationRecord
   end
 
   def purchase_price_symbol
-    purchase_price_currency ? purchase_price_currency.symbol : "€"
+    purchase_price_currency ? (purchase_price_currency.symbol || "")  : "€"
   end
 
   def main_collection

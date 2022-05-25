@@ -27,6 +27,20 @@ RSpec.describe "works/show", type: :view do
     expect(rendered).to match(/aul07alert\(1\)kviak/)
   end
 
+  it "renders display price" do
+    sign_in users(:admin)
+
+    @collection = collections(:collection1)
+    @selection = {display: :complete}
+    @custom_reports = []
+    @work = works(:work1)
+    @work.purchase_price_currency.symbol = nil
+
+    render
+
+    expect(rendered).to match("100")
+  end
+
   describe "display modes" do
     let(:display) { :complete }
     before(:each) do
