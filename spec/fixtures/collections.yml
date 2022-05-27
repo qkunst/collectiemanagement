@@ -18,6 +18,7 @@
 #  qkunst_managed                   :boolean          default(TRUE)
 #  root                             :boolean          default(FALSE)
 #  show_availability_status         :boolean
+#  show_library                     :boolean
 #  sort_works_by                    :string
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null

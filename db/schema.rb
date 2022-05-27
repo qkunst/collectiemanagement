@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_17_211054) do
+ActiveRecord::Schema.define(version: 2022_05_25_161234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_211054) do
     t.boolean "appraise_with_ranges", default: false
     t.boolean "qkunst_managed", default: true
     t.boolean "show_availability_status"
+    t.boolean "show_library"
   end
 
   create_table "collections_geoname_summaries", force: :cascade do |t|

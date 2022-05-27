@@ -94,7 +94,7 @@
       </li>
       <% end %>
     <% end %>
-    <% if can? :create, @work.library_items.new(collection: @collection) %>
+    <% if @collection.show_library? && can?(:create, @work.library_items.new(collection: @collection)) %>
       <% library_item_count = @work.library_items.count %>
       <li>
         <%= link_to collection_work_library_items_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
