@@ -13,7 +13,7 @@
   <% if can? :read, Artist %>
   <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) %></li>
   <% end %>
-  <% if can? :read, LibraryItem && @collection.show_library? %>
+  <% if can?(:read, LibraryItem) && @collection.show_library? %>
   <li><%= menu_link_to "Bibliotheek", collection_library_items_path(@collection) %></li>
   <% end %>
   <% if can? :review_collection, Cluster%>
