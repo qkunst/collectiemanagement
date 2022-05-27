@@ -319,7 +319,7 @@ nl:
         subject: Onderwerp
         message: Berichttekst
         just_a_note: Slechts een annotatie (geen reactie vereist)
-        qkunst_private: QKunst intern
+        qkunst_private: Interne communicatie
         image: Afbeelding (ter toelichting)
       reminder:
         name: Naam
