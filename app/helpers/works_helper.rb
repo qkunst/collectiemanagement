@@ -123,4 +123,10 @@ module WorksHelper
 
     sanitize(sentence_items.join(""))
   end
+
+  def uitleen_work_url work
+    collection_id = work.collection_id
+    work_id = work.is_a?(Work) ? work.id : work
+    File.join(Rails.application.secrets.uitleen_site, "collections", collection_id.to_s, "works", work_id.to_s)
+  end
 end

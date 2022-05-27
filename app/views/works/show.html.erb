@@ -102,6 +102,9 @@
         <% end %>
       </li>
     <% end %>
+    <% if Rails.application.secrets.uitleen_site %>
+      <li><%= link_to 'Bekijk in uitleen', uitleen_work_url(@work), class: 'secondary small button right' %></li>
+    <% end %>
   </ul>
 </nav>
 <div class="row">
