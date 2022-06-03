@@ -15,11 +15,11 @@
   <tbody>
     <% @time_spans.each do |time_span| %>
       <tr>
-        <td><%= time_span.starts_at %></td>
-        <td><%= time_span.ends_at %></td>
-        <td><%= I18n.t(time_span.status, scope: "activerecord.values.time_span.status") %></td>
-        <td><%= link_to(time_span.contact.name, time_span.contact.url) if time_span.contact %></td>
-        <td><%= link_to time_span.classification, [@collection, @subject, time_span] %></td>
+        <td><%= link_to I18n.l(time_span.starts_at, format: :long), [@collection, @subject, time_span] if time_span.starts_at%></td>
+        <td><%= link_to I18n.l(time_span.ends_at, format: :long), [@collection, @subject, time_span] if time_span.ends_at %></td>
+        <td><%= link_to I18n.t(time_span.status, scope: "activerecord.values.time_span.status"), [@collection, @subject, time_span] %></td>
+        <td><%= (time_span.contact.url ? link_to(time_span.contact.name, time_span.contact.url) : time_span.contact.name) if time_span.contact %></td>
+        <td><%= link_to I18n.t(time_span.classification, scope: [:activerecord, :values, :time_span, :classification]), [@collection, @subject, time_span] %></td>
       </tr>
     <% end %>
   </tbody>

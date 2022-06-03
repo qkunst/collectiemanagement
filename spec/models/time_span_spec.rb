@@ -72,6 +72,45 @@ RSpec.describe TimeSpan, type: :model do
       work.reload
       expect(work.removed_from_collection?).to be_truthy
     end
+
+    describe "#sync_time_spans_for_works_when_work_set" do
+      it "creates none when a work" do
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :purchase)
+        expect(ts.time_spans).to eq([])
+      end
+
+      it "creates time spans when for works in a work_set" do
+        work_set = work_sets(:random_other_collection)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :purchase)
+        expect(ts.time_spans.count).to eq(work_set.works.count)
+      end
+
+      it "results in underlying works to be no longer available" do
+        work_set = work_sets(:random_other_collection)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :purchase)
+        expect(work_set.works.first.availability_status).to eq(:sold)
+        expect(work_set.works.first.removed_from_collection?).to eq(true)
+      end
+
+      it "results in underlying works to become available when returned" do
+        work_set = work_sets(:random_other_collection)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        expect(ts.time_spans.count).to eq(work_set.works.count)
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:lent)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+        ts.finish
+        ts.save
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:available)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+      end
+    end
   end
 
   describe "instance methods" do
@@ -88,6 +127,15 @@ RSpec.describe TimeSpan, type: :model do
       end
     end
 
+    describe "#finished?" do
+      [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_future, :time_span_expired].each do |span|
+        it { expect(time_spans(span).finished?).to  be_falsey }
+      end
+      [:time_span_historic].each do |span|
+        it { expect(time_spans(span).finished?).not_to  be_falsey }
+        it { expect(time_spans(span).current_and_active?).to be_falsey}
+      end
+    end
   end
 
   describe "scopes" do

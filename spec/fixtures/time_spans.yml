@@ -52,7 +52,7 @@ time_span_historic:
   subject: work1 (Work)
   collection: :collection1
   contact: :contact1
-  status: concept
+  status: finished
   classification: rental_outgoing
   starts_at: 2000-01-01T00:00:00+00:00
   ends_at: 2001-01-01T00:00:00+00:00

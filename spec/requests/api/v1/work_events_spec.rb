@@ -75,6 +75,7 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
 
       work_id = work.id
       work = Work.find(work_id)
+
       expect(work.availability_status).to eql(:available)
     end
   end

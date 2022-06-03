@@ -28,6 +28,8 @@ class TimeSpan < ApplicationRecord
   belongs_to :contact, optional: true
   belongs_to :time_span, optional: true
 
+  has_many :time_spans
+
   validates :classification, inclusion: CLASSIFICATIONS.map(&:to_s), presence: true
   validates :subject_type, inclusion: SUBJECT_TYPES, presence: true
   validates :status, inclusion: STATUSSES.map(&:to_s), presence: true
@@ -35,6 +37,7 @@ class TimeSpan < ApplicationRecord
   validate :subject_available?
 
   after_save :remove_work_from_collection_when_purchase_active
+  after_save :sync_time_spans_for_works_when_work_set
 
   # status-scopes
   scope :concept, ->{ where(status: :concept) }
@@ -63,18 +66,40 @@ class TimeSpan < ApplicationRecord
 
   def finish
     self.ends_at = Time.current
-    self.status = :finished
+    write_attribute(:status, :finished)
   end
 
   def current?
     current_time = Time.current
     return (
       (starts_at.nil?            && ends_at.nil?) or
-      (starts_at.nil?            && ends_at >= current_time) or
+      (starts_at.nil?            && ends_at > current_time) or
       (ends_at.nil?              && starts_at <= current_time) or
-      (starts_at <= current_time && ends_at >= current_time) or
+      (starts_at <= current_time && ends_at > current_time) or
       (starts_at <= current_time && status == 'active')
     )
+  end
+
+  def status= new_status
+    if new_status.to_s == "finished"
+      finish
+    else
+      write_attribute(:status, new_status)
+    end
+  end
+
+  def contact= new_contact
+    new_contact_obj = if new_contact.is_a?(Contact)
+      new_contact
+    elsif new_contact.present? && new_contact.to_i.to_s == new_contact
+      Contact.find(new_contact)
+    elsif new_contact.start_with?("https://") || new_contact.start_with?("http://")
+      Contact.find_or_create_by(url: new_contact, collection: self.collection.base_collection, external: true)
+    end
+
+    if new_contact_obj
+      self.contact_id = new_contact_obj.id
+    end
   end
 
   def active?
@@ -85,6 +110,10 @@ class TimeSpan < ApplicationRecord
     active? && current?
   end
 
+  def finished?
+    status.to_s == "finished"
+  end
+
   def to_s
     "#{starts_at}-#{ends_at} #{status} #{subject.is_a?(Work) ? subject.stock_number : subject.to_s} #{contact}"
   end
@@ -92,12 +121,28 @@ class TimeSpan < ApplicationRecord
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") if subject && !subject.available? && status != "finished"
+    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished?
   end
 
   def remove_work_from_collection_when_purchase_active
     if status.to_s == "active" && classification.to_s == "purchase"
       subject.removed_from_collection!(starts_at || Time.current) if subject.is_a? Work
+    end
+  end
+
+  def sync_time_spans_for_works_when_work_set
+    if subject.is_a?(WorkSet)
+      subject.works.each do |work|
+        ts = TimeSpan.find_or_initialize_by(time_span_id: self.id, classification: classification, contact_id: contact_id, subject: work, starts_at: starts_at, collection: collection)
+
+        unless ts.finished?
+          ts.starts_at ||= starts_at
+          ts.status = status
+          ts.ends_at ||= ends_at
+        end
+
+        ts.save
+      end
     end
   end
 end
