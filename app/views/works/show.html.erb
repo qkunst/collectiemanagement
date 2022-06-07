@@ -9,7 +9,7 @@
     <h2><%= @work.title_rendered %></h2>
   </div>
   <div class="medium-2 columns">
-    <nav class="right" id="stocknumber-nav"><%= link_to "◀", [@collection, @work.previous] %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next] %></nav>
+    <nav class="right" id="stocknumber-nav" aria-label="Blader werken"><%= link_to "◀", [@collection, @work.previous], title: "Achteruit" %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next], title: "Vooruit" %></nav>
     <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, format: :short%></p>
   </div>
   <div class="large-12 columns">
@@ -64,7 +64,7 @@
 
   </div>
 </div>
-<nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="Werk acties">
   <ul class="menu right-aligned menu--only-buttons">
     <% if can? :edit, @work %>
       <li><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>
@@ -112,7 +112,6 @@
     <h3 class="left">Details</h3>
   </div>
   <div class="small-6 column">
-    <nav>
   </div>
 </div>
 <div class="row columns show-work">

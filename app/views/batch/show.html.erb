@@ -117,9 +117,9 @@
 <p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %>.</p>
 <% end%>
 
-    <nav class="sub-nav bottom-nav right-aligned">
+    <div class="sub-nav bottom-nav right-aligned">
   <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
       <%= f.submit (@works.any? ? "#{I18n.t("count.works", count: @work_ids.count) } bijwerken" : "Werken bijwerken"), class: [:button, :primary, :"right-aligned"] %>
-  </nav>
+  </div>
 
 <% end %>

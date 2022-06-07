@@ -2,7 +2,7 @@
 <div class="columns">
   <h2><%=@title%></h2>
   <% if qkunst_user? %>
-  <nav class="sub-nav bottom-nav hide-for-print" aria-label="work navigation">
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="Vervaardigersacties">
     <ul class="menu right-aligned menu--only-buttons">
       <li><%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %></li>
       <% if current_user.admin? and !@collection %>

@@ -11,7 +11,7 @@
       <% end %>
 <% end %>
 </div>
-<nav class="sub-nav bottom-nav hide-for-print" aria-label="work set navigation">
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="Groeperingsacties">
   <ul class="menu right-aligned menu--only-buttons">
     <% if (can? :edit, @work_set) %>
       <li><%= button_to 'Verwijder groep', [@collection,@work_set].compact, method: :delete, class: 'warning small button right', data: {confirm: "Weet u zeker dat u deze Werkgroepering wilt opheffen?"} %></li>

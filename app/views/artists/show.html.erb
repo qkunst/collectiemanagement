@@ -3,7 +3,7 @@
 <% if can?(:update, @artist)%>
   <%= kramdown(@artist.description) %>
 
-  <nav class="sub-nav bottom-nav hide-for-print" aria-label="artist navigation">
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="Vervaardigeracties">
     <ul class="menu right-aligned menu--only-buttons">
       <li><%= link_to 'Bewerk', (@collection ? edit_collection_artist_path(@collection, @artist) : edit_artist_path(@artist)), class: [:primary, :small, :button, :right] %></li>
       <% if can? :create, @artist.attachments.new(collection: @collection) %>

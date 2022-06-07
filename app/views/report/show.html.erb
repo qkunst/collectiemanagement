@@ -14,7 +14,7 @@
   <div class="tabs">
 
     <% if @sections.keys.count > 1 %>
-    <nav class="tab-head">
+    <nav class="tab-head" class="Rapportage navigatie">
     <ul>
       <% @sections.each do |head, contents| %>
         <li><a href="#<%=head.to_s.parameterize%>"><%= head %></a></li>

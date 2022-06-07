@@ -4,7 +4,7 @@
     <p><%= rkd_artist.substring%></p>
   </header>
   <% if can?(:update, Artist) and @artist %>
-  <nav class="actions">
+  <nav class="actions" aria-label="Vervaardigersacties">
       <% if @artist.rkd_artist == rkd_artist %>
         <%= button_to 'Ontkoppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
       <% else %>

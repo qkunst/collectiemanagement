@@ -1,6 +1,6 @@
 <div id="main">
 <h2>Bijlagen <%= (@subject || @collection).name %></h2>
-  <nav class="sub-nav bottom-nav hide-for-print" aria-label="artist navigation">
+  <nav class="sub-nav bottom-nav hide-for-print" aria-label="Bijlagenacties">
     <ul class="menu right-aligned menu--only-buttons">
       <li><% if @work %>
   <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @subject), class: 'primary button', data: { open_in_context: true} if can? :create, @subject.attachments.new(collection: @collection) %>

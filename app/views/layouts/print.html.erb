@@ -13,7 +13,7 @@
   </head>
 
   <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
-    <nav class="top-bar">
+    <nav class="top-bar" role="navigation" aria-label="Hoofdmenu">
       <div class="top-bar-title">
         <h1>
             <%= image_tag "logo.svg", id: 'logo', alt: I18n.t("application.name")%>

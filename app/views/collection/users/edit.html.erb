@@ -1,7 +1,7 @@
 <div class="row">
   <div class="columns">
     <h2>Bewerk <%=@user.email%> <small></small></h2>
-    <nav class="sub-nav bottom-nav hide-for-print" aria-label="collection actions">
+    <nav class="sub-nav bottom-nav hide-for-print" aria-label="Collectiegebruikersacties">
       <ul class="menu right-aligned menu--only-buttons">
         <%  if can?(:destroy, @user) %>
           <%= button_to('Verwijder gebruiker', collection_user_path(@collection, @user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: [:button, :alert]) %>

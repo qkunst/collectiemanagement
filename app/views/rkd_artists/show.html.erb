@@ -30,7 +30,7 @@
 
     </div>
   <% else %>
-  <nav class="actions">
+  <nav class="actions" aria-label="Vervaardigersacties">
     <ul class="menu">
       <li class="right"><%= link_to('Toon artist op RKD ➔',  @rkd_artist.end_user_link, class: [:small, :secondary, :button], target: "_blank") if @artist.rkd_artist == @rkd_artist %></li>
     </ul>

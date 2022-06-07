@@ -1,4 +1,4 @@
-<nav class="sub-nav hide-for-print" role="manage-collection">
+<nav class="sub-nav hide-for-print" aria-label="Beheer collectie navigatie">
 <ul class="menu simple">
   <li>Beheer <%=@collection.name%>:</li>
   <li><%= menu_link_to "Herinneringen", collection_reminders_path(@collection) if can? :manage, Reminder %></li>
