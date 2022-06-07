@@ -1,20 +1,20 @@
 
 <% collection ||= nil %>
-<% compact ||= false %>
 <% Stage.starts.each do |start| %>
   <% non_cyclic_graph_from_start = start.non_cyclic_graph_from_here(collection) %>
 <div class="stages_graph">
-  <table class="non_cyclic_graph<%=" compact" if compact%>">
+  <table class="non_cyclic_graph">
   <% branch_count = non_cyclic_graph_from_start.count %>
-  <% unless compact %>
+  <caption class="sr-only">
+      Projectfase
+    </caption>
   <thead>
     <tr>
       <% non_cyclic_graph_from_start[0].count.times do |a| %>
-        <th><%= a+1%></th>
+        <th>Fase <%= a+1%></th>
       <% end %>
     </tr>
   </thead>
-  <% end %>
   <tbody>
     <% non_cyclic_graph_from_start.each do |branch| %>
       <tr>

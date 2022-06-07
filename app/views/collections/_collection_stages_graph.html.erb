@@ -1,10 +1,10 @@
 <% if can? :read_status, @collection %>
     <% if @collection.collections_stages? %>
       <h3>Projectfase</h3>
-      <%= render :partial => 'stages/stages_graph', locals: {collection: @collection, compact: true} %>
+      <%= render :partial => 'stages/stages_graph', locals: {collection: @collection} %>
     <% elsif parent_collection = @collection.parent_collection_with_stages %>
       <h3>Projectfasering</h3>
       <p><em>Let op:</em> Deze fasering komt uit de bovenliggende collectie <%= link_to parent_collection.name, parent_collection %>.</p>
-      <%= render :partial => 'stages/stages_graph', locals: {collection: parent_collection, compact: true} %>
+      <%= render :partial => 'stages/stages_graph', locals: {collection: parent_collection} %>
     <% end %>
 <% end%>
