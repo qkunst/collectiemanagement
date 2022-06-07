@@ -19,7 +19,12 @@ show_or_hide_selected_works = ->
       selected_works_count += select_all_scope.querySelectorAll("input[type=checkbox]:checked").length
 
   if selected_works_count > 0
-    $("#selected-works-count").html(selected_works_count)
+    tekst = if selected_works_count == 1
+        "Batch acties beschikbaar voor één geselecteerd onderdeel"
+      else
+        "Batch acties beschikbaar voor #{selected_works_count} geselecteerde onderdelen"
+
+    $("#selected-works-count").html(tekst)
     $("#selected-works").show()
   else
     $("#selected-works").hide()
