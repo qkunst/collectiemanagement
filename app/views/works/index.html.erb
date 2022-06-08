@@ -83,7 +83,17 @@
     </div>
     <h4>Filteren</h4>
     <div id="responsive-filter">
+
+    <% if @collection.show_availability_status? %>
+      <%= filter_checkbox :availability_status, :available, name: "Beschikbaar" %>
+      <div class="hide">
+      <%= filter_checkbox :availability_status, :sold, name: "Verkocht" %>
+      <%= filter_checkbox :availability_status, :lent, name: "Verhuurd" %>
+      </div>
+    <% end%>
+
     <% unless current_user.read_only? %>
+
       <% if current_user.can_filter_and_group?(:object_categories) %>
         <%= filter_checkboxes_with_header("Categorie", @aggregations[:object_categories], "object_categories.id") %>
       <% end %>
@@ -121,7 +131,7 @@
     </div>
 
     <div class="hidden inputs">
-      <%= data_to_hidden_inputs({filter: @selection_filter.select{|k,v| [k,v] unless %w[geoname_ids tag_list placeability_id grade_within_collection sources.id subset_id main_collection cluster_id object_categories.id ].include?(k)}}) %>
+      <%= data_to_hidden_inputs({filter: @selection_filter.select{|k,v| [k,v] unless %w[geoname_ids tag_list placeability_id grade_within_collection sources.id subset_id main_collection cluster_id object_categories.id availability_status].include?(k)}}) %>
     </div>
 
   </aside>
