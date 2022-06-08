@@ -26,7 +26,7 @@ class PdfPrinterWorker
     subject_object_id = options[:subject_object_id] || options["subject_object_id"]
     subject_object_type = options[:subject_object_type] || options["subject_object_type"]
 
-    filename = "/tmp/#{SecureRandom.base58(32)}.pdf"
+    filename = Rails.root.join("tmp/#{SecureRandom.base58(32)}.pdf")
 
     resource = clean_resource(url)
 

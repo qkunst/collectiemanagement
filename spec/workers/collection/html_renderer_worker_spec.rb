@@ -144,7 +144,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     user = users(:admin)
 
     expect(SecureRandom).to receive(:base58).and_return("abc")
-    expect(PdfPrinterWorker).to receive(:perform_async).with("/tmp/abc.html", inform_user_id: user.id, subject_object_id: collection.id, subject_object_type: "Collection")
+    expect(PdfPrinterWorker).to receive(:perform_async).with(Rails.root.join("tmp/abc.html"), inform_user_id: user.id, subject_object_id: collection.id, subject_object_type: "Collection")
 
     Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {group: "techniques"}, {generate_pdf: true, send_message: true})
   end

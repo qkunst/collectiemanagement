@@ -67,7 +67,7 @@ class Collection::HtmlRendererWorker
       works_grouped: @works_grouped
     }
 
-    filename = "/tmp/#{SecureRandom.base58(32)}.html"
+    filename = Rails.root.join("tmp/#{SecureRandom.base58(32)}.html")
 
     File.write(filename, html)
 
