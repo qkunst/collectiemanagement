@@ -83,6 +83,7 @@ module ApplicationHelper
   def menu_link_to desc, path, options = {}
     test_path = path.include?("//") ? path.sub("//", "").split("/")[1..1000].join("/") : path
     active = (options[:only_exact_path_match] && request.path.to_s == test_path.to_s) || (!options[:only_exact_path_match] && request.path.to_s.starts_with?(test_path.to_s))
+    wrap = options[:wrap]
 
     class_name = active ? "active" : ""
     options = {}
@@ -90,7 +91,8 @@ module ApplicationHelper
     options["aria-current"] = "page" if active
 
     link = link_to desc.to_s, path, options
-    if options[:wrap]
+
+    if wrap
       sanitize "<li>#{link}</li>"
     else
       link
