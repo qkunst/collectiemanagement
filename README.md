@@ -140,7 +140,7 @@ Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chr
 
 Chromium kan (ook via yarn) niet worden geïnstalleerd als de volgende packages niet beschikbaar zijn op het host-systeem:
 
-`sudo apt-get install libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2`
+`sudo apt-get install libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libxshmfence1`
 
 #### Database extensions
 
