@@ -132,13 +132,15 @@ class WorkSet < ApplicationRecord
   def most_specific_shared_collection
     paths = works.map { |w| w.collection.expand_with_parent_collections.not_system.pluck(:id) }
     shortest_path = paths.min_by(&:length)
-    shortest_path_index = shortest_path.length - 1
-    while shortest_path_index >= 0
-      search_id = shortest_path[shortest_path_index]
-      paths_include_search_id = paths.map { |a| a.include?(search_id) }
-      all_paths_include_search_id = !paths_include_search_id.include?(false)
-      return Collection.find(search_id) if all_paths_include_search_id
-      shortest_path_index -= 1
+    if shortest_path
+      shortest_path_index = shortest_path.length - 1
+      while shortest_path_index >= 0
+        search_id = shortest_path[shortest_path_index]
+        paths_include_search_id = paths.map { |a| a.include?(search_id) }
+        all_paths_include_search_id = !paths_include_search_id.include?(false)
+        return Collection.find(search_id) if all_paths_include_search_id
+        shortest_path_index -= 1
+      end
     end
   end
 
