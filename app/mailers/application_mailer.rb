@@ -2,6 +2,6 @@
 
 class ApplicationMailer < ActionMailer::Base
   helper ApplicationHelper
-  default from: "collectiemanagement@qkunst.nl"
+  default from: Rails.application.secrets.from_address || "collectiemanagement@qkunst.nl"
   layout "mailer"
 end
