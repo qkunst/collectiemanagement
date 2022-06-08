@@ -3,7 +3,7 @@ class TimeSpansController < ApplicationController
   before_action :set_collection
   before_action :set_subject
   before_action :set_time_span, only: %w[ show edit update destroy ]
-  before_action :set_contacts, only: [:new, :edit]
+  before_action :set_contacts, only: [:new, :edit, :create, :update]
 
   # GET /time_spans or /time_spans.json
   def index
@@ -55,10 +55,10 @@ class TimeSpansController < ApplicationController
 
   # DELETE /time_spans/1 or /time_spans/1.json
   def destroy
-    @time_span.destroy
+    @time_span.end_time_span!
 
     respond_to do |format|
-      format.html { redirect_to time_spans_url, notice: "De gebeurtenis is verwijderd." }
+      format.html { redirect_to [@collection, @subject], notice: "De gebeurtenis is beëindigd." }
       format.json { head :no_content }
     end
   end

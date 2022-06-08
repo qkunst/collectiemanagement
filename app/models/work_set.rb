@@ -124,6 +124,10 @@ class WorkSet < ApplicationRecord
     end
   end
 
+  def current_active_time_span
+    @current_active_time_span ||= time_spans.select(&:current_and_active?).last
+  end
+
   def can_be_accessed_by_user?(user)
     !!(user.admin? || most_specific_shared_collection&.can_be_accessed_by_user?(user))
   end

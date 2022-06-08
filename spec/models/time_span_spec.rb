@@ -110,6 +110,43 @@ RSpec.describe TimeSpan, type: :model do
         expect(work_set.works.first.availability_status).to eq(:available)
         expect(work_set.works.first.removed_from_collection?).to eq(false)
       end
+
+      it "results in underlying works to become available when converted to concept" do
+        work_set = work_sets(:random_other_collection)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        expect(ts.time_spans.count).to eq(work_set.works.count)
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:lent)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+        ts.status = :concept
+        ts.save
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:available)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+      end
+
+      it "results in underlying works to become available when ended" do
+        work_set = work_sets(:random_other_collection)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        expect(ts.time_spans.count).to eq(work_set.works.count)
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:lent)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+        ts.end_time_span!
+
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:available)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
+      end
     end
   end
 

@@ -30,4 +30,8 @@ class Contact < ApplicationRecord
   def to_s
     "#{name} (#{url})"
   end
+
+  def to_select_value
+    external? ? Uitleen::Customer.new(uri: url) : id
+  end
 end

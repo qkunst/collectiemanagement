@@ -19,7 +19,7 @@ module Work::TimeSpans
     end
 
     def current_active_time_span
-      @current_active_time_span ||= time_spans.select(&:current_and_active?).last
+      @current_active_time_span ||= time_spans.select(&:current_and_active_or_reserved?).last
     end
 
     def last_active_time_span

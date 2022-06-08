@@ -11,6 +11,10 @@ class Uitleen::Customer
     uri
   end
 
+  def to_select_value
+    uri
+  end
+
   class << self
     def authorization_header(current_user: nil)
       if current_user

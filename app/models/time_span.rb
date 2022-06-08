@@ -69,6 +69,16 @@ class TimeSpan < ApplicationRecord
     write_attribute(:status, :finished)
   end
 
+  def end_time_span
+    self.ends_at = Time.current
+    finish if active?
+  end
+
+  def end_time_span!
+    end_time_span
+    save
+  end
+
   def current?
     current_time = Time.current
     return (
@@ -110,6 +120,18 @@ class TimeSpan < ApplicationRecord
     active? && current?
   end
 
+  def current_and_active_or_reserved?
+    (active? || reserved?) && current?
+  end
+
+  def concept?
+    status.to_s == "concept"
+  end
+
+  def reserved?
+    status.to_s == "reservation"
+  end
+
   def finished?
     status.to_s == "finished"
   end
@@ -121,7 +143,7 @@ class TimeSpan < ApplicationRecord
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished?
+    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished? && (subject.current_active_time_span&.id != self.id)
   end
 
   def remove_work_from_collection_when_purchase_active
