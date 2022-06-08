@@ -5,9 +5,7 @@
 <% if @inventoried_objects_count_in_search != @inventoried_objects_count %>
    <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine<% if Sidekiq::Workers.new.size > 0%>, maar wordt momenteel bijgewerkt<% end %>.</div>
 <% end%>
-<p>
-  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :tertiary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
-</p>
+
 
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>

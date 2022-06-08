@@ -1,4 +1,8 @@
 <h2>Beheer collectie specifieke opties</h2>
+
+<p>
+  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :tertiary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
+</p>
 <ul>
   <%= menu_link_to("Herinneringen", collection_reminders_path(@collection), {wrap: :li}) if can? :review_collection, Reminder %>
   <%= menu_link_to("Thema's", collection_themes_path(@collection), {wrap: :li}) if can? :review_collection, Theme %>
