@@ -17,7 +17,7 @@ class TimeSpansController < ApplicationController
 
   # GET /time_spans/new
   def new
-
+    redirect_back fallback_location: [@collection, @subject], allow_other_host: false, notice: "Niet (alles is) beschikbaar" unless @subject.available?
     @time_span = @collection.base_collection.time_spans.new(starts_at: Time.now, subject: @subject, status: :concept)
   end
 
@@ -27,7 +27,7 @@ class TimeSpansController < ApplicationController
 
   # POST /time_spans or /time_spans.json
   def create
-    @time_span = @collection.base_collection.time_spans.new(time_span_params)
+    @time_span = @collection.base_collection.time_spans.new({collection_id: @collection.base_collection.id}.merge(time_span_params))
     @time_span.subject = @subject
     respond_to do |format|
       if @time_span.save
