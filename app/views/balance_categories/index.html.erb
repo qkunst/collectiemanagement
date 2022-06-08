@@ -1,6 +1,6 @@
 <div class="row">
   <div class="large-9 medium-9 columns">
-    <h2>Balanscategorieën</h2>
+    <h1>Balanscategorieën</h1>
 <ul>
     <% @balance_categories.each do |item| %>
       <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>

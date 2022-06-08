@@ -1,10 +1,10 @@
 <div id="main">
-  <h2>
+  <h1>
   Bewerk waardering
   <%if admin_user? %>
   <small>(<%= link_to 'Verwijder', [@collection, @appraisee, @appraisal], method: :delete, data: { confirm: 'Weet je zeker dat je deze waardering wilt verwijderen?' }  %>)</small>
   <% end %>
-  </h2>
+  </h1>
 
 <%= render 'form', appraisal: @appraisal %>
 <% if @appraisee.is_a? Work %>

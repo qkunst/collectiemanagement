@@ -66,7 +66,7 @@ RSpec.describe "/collection/:collection_id/library_items", type: :request do
       sign_in(users(:compliance))
       get collection_work_library_item_url(collections(:collection1), works(:work1), library_items(:book1))
       expect(response).to be_successful
-      expect(response.body).to match("<h2>Boek: LibrayItemBoekTitel</h2>")
+      expect(response.body).to match("<h1>Boek: LibrayItemBoekTitel</h1>")
     end
   end
 

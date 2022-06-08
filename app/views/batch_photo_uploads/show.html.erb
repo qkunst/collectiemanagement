@@ -1,4 +1,4 @@
-<h2><%=@batch_photo_upload.short_name%> (<%= link_to 'Bewerk', edit_collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>)</h2>
+<h1><%=@batch_photo_upload.short_name%> (<%= link_to 'Bewerk', edit_collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>)</h1>
 <% unless params[:debug] %>
 <p>Hieronder ziet u hoe de foto's aan de reeds geïmporteerde werken in deze collectie zijn gekoppeld. Indien de koppeling er goed uit ziet <%= button_to 'kan deze definitief gemaakt worden', collection_batch_photo_upload_match_works_path(@collection,@batch_photo_upload), class: 'small button inline', method: :post%>, anders kunt u de <%= link_to 'koppel-instellingen bewerken', edit_collection_batch_photo_upload_path(@collection, @batch_photo_upload) %>. Weet u wat u doet, dan <%= link_to 'kunt u de debug-foto-import pagina', collection_batch_photo_upload_path(@collection,@batch_photo_upload, params: {debug: true})%> bekijken.</p>
 <div class="row">

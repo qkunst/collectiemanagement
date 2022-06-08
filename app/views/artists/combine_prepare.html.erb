@@ -1,9 +1,9 @@
-<h2>Combineer <%=@artist.name%> met...</h2>
+<h1>Combineer <%=@artist.name%> met...</h1>
 <p><strong>Belangrijk:</strong> Door de vervaardiger <%=@artist.name %> samen te voegen met de geselecteerde vervaardigers hieronder <em>verwijder*</em> je de hieronder geselecteerde vervaardigers (met alle eventuele opmerkingen etc.). De werken die aan die vervaardigers gekoppeld waren worden gekoppeld aan deze vervaardiger.</p>
 <div class="row">
   <%= simple_form_for @artist, url: artist_combine_path(@artist) do |f| %>
   <div class="large-12 medium-12 columns">
-    <h3>Andere vervaardigers</h3>
+    <h2>Andere vervaardigers</h2>
     <%= f.select :artists_with_same_name, Artist.exclude_artist(@artist).order_by_name.map { |r| [r.name, r.id] }, {}, {multiple: true, style: "height: 20em"} %>
     <p><small>Gebruik de shift-toets in combinatie met klikken om een reeks te selecteren of gebruik de ctrl- (Windows) of cmd- (Mac) toets om meerdere losse vervaardigers tegelijkertijd te selecteren.</small></p>
   </div>

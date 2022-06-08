@@ -12,6 +12,8 @@ class PdfPrinterWorker
     # urls are recognized as urls, but local files are not; simple trick that works on unixy systems
     if /\A\/tmp\/[A-Za-z\d.\/]*/.match?(url)
       "file://#{url}"
+    elsif /\A#{Rails.root}\/tmp\/[A-Za-z\d.\/]*/.match?(url)
+        "file://#{url}"
     elsif url.start_with? File.join(Rails.root, "public")
       "file://#{url}"
     elsif url.start_with? "https://collectiemanagement.qkunst.nl/"
@@ -26,7 +28,7 @@ class PdfPrinterWorker
     subject_object_id = options[:subject_object_id] || options["subject_object_id"]
     subject_object_type = options[:subject_object_type] || options["subject_object_type"]
 
-    filename = Rails.root.join("tmp/#{SecureRandom.base58(32)}.pdf")
+    filename = Rails.root.join("tmp/#{SecureRandom.base58(32)}.pdf").to_s
 
     resource = clean_resource(url)
 

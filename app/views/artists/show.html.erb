@@ -1,4 +1,4 @@
-<h2><%= @artist.name%></h2>
+<h1><%= @artist.name%></h1>
 
 <% if can?(:update, @artist)%>
   <%= kramdown(@artist.description) %>
