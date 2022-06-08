@@ -116,9 +116,9 @@ Zorg voor een server die in staat is om Rails applicaties te draaien. De QKunst 
 * systemd
 * redis
 * node >= 10.21 met yarn (geïnstalleerd met nvm)
-* Ruby 3.0.2 (geïnstalleerd via rbenv)
+* Ruby 3.0.4 (geïnstalleerd via rbenv)
 
-Installeer met `sudo apt-get install jpegoptim optipng imagemagick nginx postgresql `
+Installeer met `sudo apt-get install jpegoptim optipng imagemagick nginx postgresql`
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
@@ -136,7 +136,11 @@ Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde v
 
 #### PDF generatie via Puppeteer
 
-Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chromium. Voor het sandboxed draaien van Chromium is het van belang de meegeleverde chrome-sandbox executable beschikbaar te maken; draai daarvoor middels `sudo ./bin/copy-chrome-sandbox-for-puppeteer` eenmalig.
+Puppeteer wordt geïnstalleerd via yarn. Puppeteer is echter afhankelijk van Chromium, waarvan een binary ook via yarn wordt geïnstalleerd. Voor het sandboxed draaien van Chromium is het van belang de meegeleverde chrome-sandbox executable beschikbaar te maken; draai daarvoor middels `sudo ./bin/copy-chrome-sandbox-for-puppeteer` eenmalig.
+
+Chromium kan (ook via yarn) niet worden geïnstalleerd als de volgende packages niet beschikbaar zijn op het host-systeem:
+
+`sudo apt-get install libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2`
 
 #### Database extensions
 
