@@ -5,7 +5,7 @@
       <%= sanitize @collection.parent_collections_flattened.collect{|a| a.can_be_accessed_by_user(current_user) ? link_to(a.name,a) : a.name}.join(" &raquo; ")%>
     <% end %>
 
-    <h2><%= @collection.name %></h2>
+    <h1><%= @collection.name %></h1>
     <%= kramdown( @collection.description) %>
 
   </div>

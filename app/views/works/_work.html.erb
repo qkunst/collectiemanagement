@@ -8,11 +8,11 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
     <% if work.photo_front? %>
       <div class="image">
         <% if @for_print %>
-          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (@work.description || ""))  %>
+          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || ""))  %>
         <% else %>
           <noscript data-lazy="lazy-load">
             <%= link_to this_works_collection_work_url, class: :block do %>
-              <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (@work.description || ""))  %>
+              <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || ""))  %>
             <% end %>
           </noscript>
         <% end %>

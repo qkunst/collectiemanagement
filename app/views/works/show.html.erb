@@ -6,7 +6,7 @@
         <h3 class="subheader"><%= @work.artist_name_rendered%></h3>
       <% end %>
 
-    <h2><%= @work.title_rendered %></h2>
+    <h1><%= @work.title_rendered %></h1>
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav" aria-label="Blader werken"><%= link_to "◀", [@collection, @work.previous], title: "Achteruit" %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next], title: "Vooruit" %></nav>
@@ -28,7 +28,7 @@
 
 <% if @work.photos?%>
   <div class="imageviewer">
-    <%= image_tag(@work.photo_front? ? @work.photo_front_url(:screen) : '' , class: :show)  %>
+    <%= image_tag(@work.photo_front? ? @work.photo_front_url(:screen) : '' , class: :show, alt: (@work.description || ""))  %>
     <ul class="thumbs" >
       <% if can?(:edit_photos, Work) %>
       <li><%= link_to "Beheer foto's", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :secondary, :expanded, :right]%></li>
@@ -37,7 +37,7 @@
         <% if @work.send("photo_#{phototype}?".to_sym) %>
           <li title="<%= Work.human_attribute_name "photo_#{phototype}"%>">
             <%= link_to "#{@work.send("photo_#{phototype}".to_sym).screen.url}?#{@work.updated_at.to_i}" do %>
-              <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}") %>
+              <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}", alt: "Toon #{Work.human_attribute_name("photo_#{phototype}")}") %>
             <% end %>
             <% if can?(:edit_photos, Work) %>
               <%= button_to 'x', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"}%>
