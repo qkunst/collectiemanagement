@@ -90,7 +90,7 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   else
-    logger = ::Logger.new("staging.log", "daily", shift_period_suffix: "%d")
+    logger = ::Logger.new("log/staging.log", "daily", shift_period_suffix: "%d")
     config.logger = logger
   end
 
