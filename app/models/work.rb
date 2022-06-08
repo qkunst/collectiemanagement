@@ -458,9 +458,9 @@ class Work < ApplicationRecord
     location_versions = []
     uniq_location_versions = []
     versions.each_with_index do |version, index|
-      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name}
+      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name, location: nil, location_floor: nil, location_detail: nil}
       if version.object && (index > 0)
-        reified_object = version.reify
+        reified_object = Work.new(YAML.load(version.object).select{|k,v| [k,v] if ["location", "location_floor", "location_detail"].include?(k)} )
         location_versions[index - 1][:location] = reified_object.location
         location_versions[index - 1][:location_floor] = reified_object.location_floor
         location_versions[index - 1][:location_detail] = reified_object.location_detail
