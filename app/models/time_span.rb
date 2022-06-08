@@ -24,7 +24,7 @@ class TimeSpan < ApplicationRecord
   STATUSSES = [:concept, :reservation, :active, :finished]
 
   belongs_to :collection
-  belongs_to :subject, polymorphic: true
+  belongs_to :subject, polymorphic: true, touch: true
   belongs_to :contact, optional: true
   belongs_to :time_span, optional: true
 
