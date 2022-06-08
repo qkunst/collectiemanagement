@@ -14,6 +14,9 @@
   </head>
 
   <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
+    <div class="skiplink">
+          <a href="#content">Naar hoofdinhoud</a>
+    </div>
     <nav class="top-bar" role="navigation" aria-label="Hoofdmenu">
       <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print responsive-toggle">
         <button class="menu-icon dark" type="button" data-toggle></button>
@@ -21,7 +24,7 @@
       <div class="top-bar-title">
         <h1>
           <%= link_to root_path do %>
-            <%= image_tag "logo.svg", id: 'logo', alt: I18n.t("application.name")%>
+            <%= image_tag "logo.svg", id: 'logo', alt: "#{I18n.t("application.name")}, naar homepage"%>
             <% end%>
         </h1>
       </div>
@@ -84,7 +87,7 @@
     <span aria-hidden="true">&times;</span>
   </button></div><% end %>
       <div class="row">
-        <div class="large-12 columns">
+        <main class="large-12 columns" id="content">
           <% if @collection and @collection.name %>
             <%= render partial: 'collections/subnav'%>
             <% if request.path.match(/\/manage\//) || @manage_controller %>
@@ -93,7 +96,7 @@
           <% end %>
           <%= yield %>
 
-         </div>
+         </main>
        </div>
      <footer class="">
        <div class="row">

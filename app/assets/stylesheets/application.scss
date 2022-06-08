@@ -243,6 +243,7 @@ h3 {
     color: $secondary-color;
     font-weight: normal;
     &.active {
+      font-weight: $activeMenuFontWeight;
       color: $primary-color;
     }
   }
@@ -514,6 +515,27 @@ body.offline {
   white-space: nowrap;
   width: 1px;
 }
+
+
+  /**
+   * Deze CSS maakt de link onzichtbaar en brengt deze
+   * in beeld wanneer de paginabezoeker de eerste keer
+   * op de tab-knop klikt binnen de pagina
+   * **/
+  .skiplink a {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+  .skiplinks a:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+   }
 
 @media screen {
   .hide-for-screen {

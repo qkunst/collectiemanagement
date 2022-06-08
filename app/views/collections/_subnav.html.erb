@@ -2,7 +2,7 @@
 
 <ul class="menu simple left hide-for-small-only">
 
-  <li><strong><%= menu_link_to @collection.name, collection_path(@collection)%>:</strong></li>
+  <li><strong><%= menu_link_to @collection.name, collection_path(@collection), only_exact_path_match: true %>:</strong></li>
   <% unless can?(:review_collection_users, @collection) || can?(:review, @collection) %>
   <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
   <% end %>
