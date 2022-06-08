@@ -38,7 +38,10 @@ class PdfPrinterWorker
 
     command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
 
-    env = File.exists?("/usr/local/sbin/chrome-devel-sandbox") ? {"CHROME_DEVEL_SANDBOX"=>"/usr/local/sbin/chrome-devel-sandbox"} : {}
+    env = {}
+    env["CHROME_DEVEL_SANDBOX"] = "/usr/local/sbin/chrome-devel-sandbox" if File.exists?("/usr/local/sbin/chrome_sandbox")
+    env["CHROME_DEVEL_SANDBOX"] ||= "/usr/local/sbin/chrome_sandbox" if File.exists?("/usr/local/sbin/chrome_sandbox")
+
 
     if !system("node --version")
       raise "Node not found. Required."
