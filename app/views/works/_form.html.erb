@@ -70,7 +70,7 @@
       <legend>Vervaardiger(s)</legend>
       <%= f.association :artists, input_html: {class: 'chosen-select'}  %>
       <%= f.input :artist_unknown %>
-      <p><%= f.link_to_add "Voeg een nog niet eerder geregistreerde vervaardiger toe", :artists, :data => { :target => "#artists" } %></p>
+      <p><%= f.link_to_add "Voeg een nog niet eerder geregistreerde vervaardiger toe", :artists, :data => { :target => "#artists" }, class: [:button, :secondary] %></p>
       <div id="artists">
         <%= f.fields_for :artists  %>
       </div>

@@ -1,7 +1,7 @@
      <% unless f.object.id%>
-     <div class="artist subform">
+     <fieldset class="artist subform">
        <div class="row">
-       <div class="right large-12 columns" style="text-align: right">  <%= f.link_to_remove "Vervaardiger niet toevoegen" %>
+       <div class="right large-12 columns" style="text-align: right">  <%= f.link_to_remove "⨯ Vervaardiger niet toevoegen", class: [:button, :tertiary] %>
 </div>
         </div><div class="row">
           <div class="large-4 medium-4 columns">
@@ -25,6 +25,6 @@
             <%= f.input :year_of_death, as: :integer, required: false  %>
           </div>
         </div>
-      </div>
+      </fieldset>
 
       <% end %>
