@@ -19,6 +19,8 @@ RSpec.feature "View report", type: :feature do
       click_on("Rapportage")
     end
 
+    visit collection_manage_path(collections(:collection1))
+
     click_on("Ververs rapportage")
 
     expect(page).to have_content("Room 1")
@@ -55,6 +57,7 @@ RSpec.feature "View report", type: :feature do
       click_on("Rapportage")
     end
 
+    visit collection_manage_path(collections(:collection1))
     click_on("Ververs rapportage")
 
     theme = Theme.find_by_name("wind").id

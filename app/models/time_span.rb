@@ -143,7 +143,7 @@ class TimeSpan < ApplicationRecord
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished? && (subject.current_active_time_span&.id != self.id)
+    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished? && !(subject.current_active_time_span&.id && self.id && subject.current_active_time_span&.id == self.id)
   end
 
   def remove_work_from_collection_when_purchase_active
