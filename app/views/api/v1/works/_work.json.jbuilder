@@ -85,6 +85,6 @@ if current_api_user.ability.can?(:read, TimeSpan)
   end
 end
 json.available work.available?
-json.tag_list work.tag_list
+json.tag_list work.cached_tag_list
 
 json.url collection_work_url(work.collection, work)

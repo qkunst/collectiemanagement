@@ -23,7 +23,7 @@ module Work::TimeSpans
     end
 
     def last_active_time_span
-      time_spans.order(:created_at).last
+      time_spans.sort_by(&:created_at).last
     end
 
 
