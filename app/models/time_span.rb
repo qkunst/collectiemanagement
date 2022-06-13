@@ -33,6 +33,7 @@ class TimeSpan < ApplicationRecord
   validates :classification, inclusion: CLASSIFICATIONS.map(&:to_s), presence: true
   validates :subject_type, inclusion: SUBJECT_TYPES, presence: true
   validates :status, inclusion: STATUSSES.map(&:to_s), presence: true
+  validates :starts_at, presence: true
 
   validate :subject_available?
 

@@ -24,18 +24,18 @@ RSpec.describe TimeSpan, type: :model do
   describe ".new & validations" do
     context "concept" do
       it "is valid when subject, collection and contact are set" do
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :rental_outgoing)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
       end
 
       it "is not valid when work is no longer available, collection and contact are set" do
         work.removed_from_collection!
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :rental_outgoing)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
         expect(ts.valid?).to be_falsey
       end
 
       it "is not valid when classification is false, but subject, collection and contact are set" do
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :false_classification)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :false_classification)
         expect(ts.valid?).to be_falsey
       end
     end
@@ -63,38 +63,38 @@ RSpec.describe TimeSpan, type: :model do
 
   describe "Callbacks" do
     it "#remove_work_from_collection_when_purchase_active" do
-      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :purchase)
+      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_falsey
 
 
-      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :purchase)
+      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_truthy
     end
 
     describe "#sync_time_spans_for_works_when_work_set" do
       it "creates none when a work" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :purchase)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
         expect(ts.time_spans).to eq([])
       end
 
       it "creates time spans when for works in a work_set" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :concept, classification: :purchase)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
         expect(ts.time_spans.count).to eq(work_set.works.count)
       end
 
       it "results in underlying works to be no longer available" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :purchase)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
         expect(work_set.works.first.availability_status).to eq(:sold)
         expect(work_set.works.first.removed_from_collection?).to eq(true)
       end
 
       it "results in underlying works to become available when returned" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         expect(ts.time_spans.count).to eq(work_set.works.count)
 
         work_set.works.reload
@@ -113,7 +113,7 @@ RSpec.describe TimeSpan, type: :model do
 
       it "results in underlying works to become available when converted to concept" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         expect(ts.time_spans.count).to eq(work_set.works.count)
 
         work_set.works.reload
@@ -132,7 +132,7 @@ RSpec.describe TimeSpan, type: :model do
 
       it "results in underlying works to become available when ended" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         expect(ts.time_spans.count).to eq(work_set.works.count)
 
         work_set.works.reload

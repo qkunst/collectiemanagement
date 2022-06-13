@@ -22,6 +22,7 @@ time_span1:
   contact: :contact1
   status: concept
   classification: rental_outgoing
+  starts_at: 2000-01-01T00:00:00+00:00
 
 time_span2:
   subject: work1 (Work)

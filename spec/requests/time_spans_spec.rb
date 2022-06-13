@@ -26,6 +26,7 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       subject_type: "Work",
       collection_id: collection.id,
       status: "concept",
+      starts_at: Time.now,
       classification: "rental_outgoing"
     }
   }
