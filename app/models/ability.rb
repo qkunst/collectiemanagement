@@ -250,6 +250,7 @@ class Ability
     can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
     can :manage, LibraryItem, collection_id: accessible_collection_ids
     can :manage, Owner
+    can :manage, Contact
 
     can :manage_collection, :all
     can :manage, Cluster, collection_id: accessible_collection_ids
@@ -283,6 +284,7 @@ class Ability
     can :read, Appraisal
     can :read, CustomReport, collection_id: accessible_collection_ids
     can :read, Owner
+    can :read, Contact
 
     can :read, ImportCollection, collection_id: accessible_collection_ids
     can :read, Reminder, collection_id: accessible_collection_ids

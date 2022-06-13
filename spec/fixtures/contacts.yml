@@ -15,3 +15,13 @@ contact1:
   collection: :collection1
   external: true
   url: "http://uitleen/contact/1"
+
+contact_internal:
+  collection: :collection1
+  external: false
+  name: Someone Internal
+
+contact_internal_at_collection_with_works:
+  collection: :collection_with_works
+  external: false
+  name: Someone else internal

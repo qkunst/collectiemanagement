@@ -577,6 +577,10 @@ nl:
         show_availability_status: Toon beschikbaarheidsstatus
         sort_works_by: Sorteer werken op
         stages: Procesfases die gelden voor deze (en onderliggende) collectie
+      contact:
+        name: Naam
+        address: Adres
+        url: URL (voor contactdetails)
       custom_report_template:
         title: Titel
         text: Template text

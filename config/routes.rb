@@ -82,6 +82,8 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     get "manage" => "collections#manage"
+    resources :contacts
+
     resources :users, module: :collection
     resources :library_items
     resources :time_spans, only: [:index, :show]

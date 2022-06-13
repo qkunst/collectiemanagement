@@ -1,0 +1,10 @@
+<h1>Contact <%= @contact.name %></h1>
+
+<address><%= @contact.address %></address>
+<p>
+  <strong>Url:</strong>
+  <%= link_to @contact.url, @contact.url %>
+</p>
+
+<%= link_to 'Bewerk', edit_collection_contact_path(@collection, @contact) %> |
+<%= link_to 'Terug', collection_contacts_path(@collection) %>

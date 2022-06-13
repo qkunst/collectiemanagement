@@ -1,0 +1,23 @@
+<h1>Contacten</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Adres</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= link_to contact.name, [@collection, contact] %></td>
+        <td><%= contact.address %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Voeg contact toe', new_collection_contact_path(@collection) %>
