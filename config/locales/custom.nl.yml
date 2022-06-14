@@ -199,6 +199,7 @@ nl:
           sold: Verkocht
           lent: Uitgeleend
           available: Beschikbaar
+          reserved: Gereserveerd
         abstract_or_figurative:
           abstract: Abstract
           figurative: Figuratief

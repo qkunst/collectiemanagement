@@ -18,6 +18,7 @@ if contact
     json.address contact.address
     json.external contact.external
     json.url contact.url
+    json.remote_data contact.remote_data
   end
 end
 json.starts_at time_span.starts_at

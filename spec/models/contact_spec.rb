@@ -6,6 +6,7 @@
 #  address       :text
 #  external      :boolean
 #  name          :string
+#  remote_data   :text
 #  url           :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

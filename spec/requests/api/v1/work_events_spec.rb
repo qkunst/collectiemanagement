@@ -36,6 +36,20 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
       expect(work.availability_status).to eql(:lent)
     end
 
+
+    it "starts a reservation when signed in" do
+      sign_in users(:admin)
+
+      expect {
+        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
+      }.to change(TimeSpan, :count).by(1)
+
+      expect(response).to be_successful
+
+      work.reload
+      expect(work.availability_status).to eql(:reserved)
+    end
+
     it "cannot start a rental twice when signed in" do
       sign_in users(:admin)
 
@@ -53,6 +67,25 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
 
       expect(work.availability_status).to eql(:lent)
     end
+
+    it "can start a reservation after a rental when signed in" do
+      sign_in users(:admin)
+
+      expect {
+        start_rental_attributes_post_call
+      }.to change(TimeSpan, :count).by(1)
+
+      expect(response).to be_successful
+
+      expect {
+        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
+      }.to change(TimeSpan, :count).by(1)
+
+      expect(response).to be_successful
+
+      expect(work.availability_status).to eql(:lent)
+    end
+
 
     it "ends a rental when signed in" do
       sign_in users(:admin)

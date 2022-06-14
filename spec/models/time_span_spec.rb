@@ -4,7 +4,9 @@
 #
 #  id             :bigint           not null, primary key
 #  classification :string
+#  comments       :text
 #  ends_at        :datetime
+#  old_data       :text
 #  starts_at      :datetime
 #  status         :string
 #  subject_type   :string
@@ -37,6 +39,14 @@ RSpec.describe TimeSpan, type: :model do
       it "is not valid when classification is false, but subject, collection and contact are set" do
         ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :false_classification)
         expect(ts.valid?).to be_falsey
+      end
+
+      it "is valid when classification is reservation and work is in use" do
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
+        expect(ts.valid?).to be_truthy
+        work.reload
+        expect(work.availability_status).to eq(:lent)
       end
     end
     context "import failurs" do

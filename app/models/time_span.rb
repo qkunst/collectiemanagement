@@ -4,7 +4,9 @@
 #
 #  id             :bigint           not null, primary key
 #  classification :string
+#  comments       :text
 #  ends_at        :datetime
+#  old_data       :text
 #  starts_at      :datetime
 #  status         :string
 #  subject_type   :string
@@ -18,6 +20,9 @@
 #
 class TimeSpan < ApplicationRecord
   include Uuid
+
+  store :old_data, coder: JSON
+  has_paper_trail
 
   CLASSIFICATIONS = [:rental_outgoing, :transport, :exhibition, :purchase] #:rental_incoming was part of this as well, but
   SUBJECT_TYPES = ["Work", "WorkSet"]
@@ -35,7 +40,7 @@ class TimeSpan < ApplicationRecord
   validates :status, inclusion: STATUSSES.map(&:to_s), presence: true
   validates :starts_at, presence: true
 
-  validate :subject_available?
+  validate :validate_subject_available?
 
   after_save :remove_work_from_collection_when_purchase_active
   after_save :sync_time_spans_for_works_when_work_set
@@ -132,6 +137,7 @@ class TimeSpan < ApplicationRecord
   def reserved?
     status.to_s == "reservation"
   end
+  alias_method :reservation?, :reserved?
 
   def finished?
     status.to_s == "finished"
@@ -144,7 +150,15 @@ class TimeSpan < ApplicationRecord
   private
 
   def subject_available?
-    errors.add(:subject, "subject not available") if subject && !subject.available? && !finished? && !(subject.current_active_time_span&.id && self.id && subject.current_active_time_span&.id == self.id)
+    subject && subject.available?
+  end
+
+  def self_is_subject_current_active_time_span?
+    subject && (self.id && subject.current_active_time_span&.id == self.id)
+  end
+
+  def validate_subject_available?
+    errors.add(:subject, "subject not available") if !subject_available? && !finished? && !reservation? && !self_is_subject_current_active_time_span?
   end
 
   def remove_work_from_collection_when_purchase_active

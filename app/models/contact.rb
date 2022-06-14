@@ -6,6 +6,7 @@
 #  address       :text
 #  external      :boolean
 #  name          :string
+#  remote_data   :text
 #  url           :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -15,11 +16,12 @@ class Contact < ApplicationRecord
   belongs_to :collection
 
   validates_presence_of :name
-  validates_presence_of :url, if: :external?
-  validates_uniqueness_of :url, if: :external?, scope: :collection
+  validates_presence_of :url, if: :external_and_no_remote_data?
+  validates_uniqueness_of :url, if: :external_and_no_remote_data?, scope: :collection
 
   scope :internal, ->{ where(external: [nil, false]) }
   scope :external, ->{ where(external: true) }
+  scope :without_url, ->{ where(url: nil)}
 
   has_many :time_spans
 
@@ -31,7 +33,11 @@ class Contact < ApplicationRecord
     "#{name} (#{url})"
   end
 
+  def external_and_no_remote_data?
+    external? && remote_data.blank?
+  end
+
   def to_select_value
-    external? ? Uitleen::Customer.new(uri: url) : id
+    external_and_no_remote_data? ? Uitleen::Customer.new(uri: url) : self
   end
 end

@@ -167,12 +167,23 @@ module ImportCollection::Json
       work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
       work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
     end
-    (work_data["time_spans"] || []).each do |time_span|
-      contact = time_span["contact"]["external"] ?
-        Contact.find_or_create_by(url: time_span["contact"]["url"], collection: base_collection) { |contact| contact.name=time_span["contact"]["name"]; contact.address= time_span["contact"]["address"]; contact.external = true } :
-        Contact.find_or_create_by(name: time_span["contact"]["name"].to_s, address: time_span["contact"]["address"], external: false, url: time_span["contact"]["url"], collection: base_collection)
-
-      time_span = TimeSpan.find_or_create_by(contact: contact, starts_at: time_span["starts_at"], ends_at: time_span["ends_at"], subject: work, uuid: time_span["uuid"], status: time_span["status"], classification: time_span["classification"], collection: work.collection)
+    (work_data["time_spans"] || []).each do |time_span_data|
+      contact_data = time_span_data["contact"]
+      contact = if time_span_data["contact"]["external"] && time_span_data["contact"]["remote_data"]
+        Contact.find_or_initialize_by(remote_data: contact_data["remote_data"], collection: base_collection, external: true)
+      elsif time_span_data["contact"]["external"]
+        Contact.find_or_initialize_by(url: contact_data["url"], collection: base_collection, external: true)
+      else
+        Contact.find_or_initialize_by(name: contact_data["name"].to_s, address: contact_data["address"], external: false, url: contact_data["url"], collection: base_collection)
+      end
+      contact.name=contact_data["name"]
+      contact.address= contact_data["address"]
+      contact.collection = base_collection
+      contact.save
+      time_span = TimeSpan.find_or_initialize_by(contact: contact, starts_at: time_span_data["starts_at"], subject: work, uuid: time_span_data["uuid"], classification: time_span_data["classification"], collection: base_collection)
+      time_span.ends_at = time_span_data["ends_at"]
+      time_span.status = time_span_data["status"]
+      time_span.save
     end
 
     # TODO:

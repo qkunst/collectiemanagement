@@ -11,6 +11,8 @@ module Work::TimeSpans
     def availability_status
       @availability_status ||= if available?
         :available
+      elsif current_active_time_span&.status == "reservation"
+        :reserved
       elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
         :sold
       elsif current_active_time_span&.classification == "rental_outgoing"
@@ -19,7 +21,7 @@ module Work::TimeSpans
     end
 
     def current_active_time_span
-      @current_active_time_span ||= time_spans.select(&:current_and_active_or_reserved?).last
+      @current_active_time_span ||= (time_spans.select(&:current_and_active?).last || time_spans.select(&:current_and_active_or_reserved?).last)
     end
 
     def last_active_time_span

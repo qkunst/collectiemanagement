@@ -1,9 +1,9 @@
           <div id="main">
-            <h1><%= I18n.t @time_span.classification, scope: "activerecord.values.time_span.classification" %> werk</h1>
+            <h1><%= I18n.t @time_span.status, scope: "activerecord.values.time_span.status" %> <%= I18n.t(@time_span.classification, scope: "activerecord.values.time_span.classification").downcase %> werk</h1>
 
 <dl>
   <dt>Periode:</dt>
-  <dd><%= I18n.l(@time_span.starts_at.to_date, format: :short) if @time_span.starts_at %> - <%= I18n.l(@time_span.ends_at.to_date, format: :short) if @time_span.ends_at %> (<%= I18n.t @time_span.status, scope: "activerecord.values.time_span.status" %>)</dd>
+  <dd><%= I18n.l(@time_span.starts_at.to_date, format: :short) if @time_span.starts_at %> - <%= I18n.l(@time_span.ends_at.to_date, format: :short) if @time_span.ends_at %></dd>
   <% if @time_span.contact%>
   <dt>Contact:</dt>
   <dd><%= render @time_span.contact%></dd>
@@ -12,9 +12,8 @@
   <dd><%= link_to @time_span.subject.name, @time_span.subject%></dd>
 </dl>
 <%  unless @time_span.finished? %>
-<%= link_to "Bewerk", @time_span.subject.is_a?(Work) ? edit_collection_work_time_span_url(@time_span.collection, @time_span.subject, @time_span) :  edit_collection_work_set_time_span_url(@time_span.collection, @time_span.subject, @time_span), class: [:button] %>
-<%= button_to "Beëindig", [@time_span.collection, @time_span.subject, @time_span], method: :delete, data: {confirm: "Weet u zeker dat u deze gebeurtenis wilt beëindigen?"}, class: [:button, :secondary] %>
-
+  <%= link_to "Bewerk", @time_span.subject.is_a?(Work) ? edit_collection_work_time_span_url(@time_span.collection, @time_span.subject, @time_span) :  edit_collection_work_set_time_span_url(@time_span.collection, @time_span.subject, @time_span), class: [:button] %>
+  <%= button_to "Beëindig", [@time_span.collection, @time_span.subject, @time_span], method: :delete, data: {confirm: "Weet u zeker dat u deze gebeurtenis wilt beëindigen?"}, class: [:button, :secondary] %>
 <% end %>
 </div>
 

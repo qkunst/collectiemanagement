@@ -8,14 +8,22 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
   before_action :set_work
 
   def create
-    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_uuid)
+    work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_uuid, :comments, contact: [:name, :address, :external, :url, :remote_data])
     base_collection = @collection.base_collection
 
-    contact = Contact.find_or_create_by(
-      collection: base_collection,
-      external: true,
-      url: work_event_params[:contact_uri]
-    )
+    if work_event_params[:contact_uri]
+      contact = Contact.find_or_initialize_by(
+        collection: base_collection,
+        external: true,
+        url: work_event_params[:contact_uri]
+      )
+    else
+      contact = Contact.new(work_event_params[:contact])
+      contact.collection = base_collection
+      contact.external = true
+    end
+
+    contact.save
 
     @time_span = if work_event_params[:time_span_uuid]
       time_span = @work.time_spans.find_by!(uuid: work_event_params[:time_span_uuid])
@@ -33,12 +41,13 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
         contact: contact,
         status: work_event_params[:status],
         classification: work_event_params[:event_type],
-        starts_at: Time.now
+        starts_at: Time.now,
+        comments: work_event_params[:comments]
       )
     end
 
-    save_result = @time_span.save
 
+    save_result = @time_span.save
     if save_result
       render @time_span
     else

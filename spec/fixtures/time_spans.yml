@@ -4,7 +4,9 @@
 #
 #  id             :bigint           not null, primary key
 #  classification :string
+#  comments       :text
 #  ends_at        :datetime
+#  old_data       :text
 #  starts_at      :datetime
 #  status         :string
 #  subject_type   :string
@@ -38,6 +40,7 @@ time_span3:
   contact: :contact1
   status: concept
   classification: rental_outgoing
+  starts_at: 2000-01-01T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
 
 time_span4:

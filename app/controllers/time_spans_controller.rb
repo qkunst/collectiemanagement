@@ -17,7 +17,6 @@ class TimeSpansController < ApplicationController
 
   # GET /time_spans/new
   def new
-    redirect_back fallback_location: [@collection, @subject], allow_other_host: false, notice: "Niet (alles is) beschikbaar" unless @subject.available?
     @time_span = @collection.base_collection.time_spans.new(starts_at: Time.now, subject: @subject, status: :concept)
   end
 
@@ -80,7 +79,11 @@ class TimeSpansController < ApplicationController
     end
 
     def set_time_span
-      @time_span = @subject ? @subject.time_spans.find(params[:id] || params[:time_span_id]) : TimeSpan.find(params[:id] || params[:time_span_id])
+      @time_span = if @subject
+        @subject.time_spans.find_by_id(params[:id] || params[:time_span_id]) || @subject.time_spans.find_by_uuid(params[:id] || params[:time_span_id])
+      else
+        TimeSpan.find(params[:id] || params[:time_span_id])
+      end
     end
 
     def set_subject
@@ -90,6 +93,7 @@ class TimeSpansController < ApplicationController
 
     def set_contacts
       @contacts = @collection.base_collection.contacts.internal
+      @contacts += @collection.base_collection.contacts.external.without_url
       @contacts += Uitleen::Customer.all(current_user: current_user) if Uitleen.configured?
     end
 end
