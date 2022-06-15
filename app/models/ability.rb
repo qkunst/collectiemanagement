@@ -251,6 +251,7 @@ class Ability
     can :manage, LibraryItem, collection_id: accessible_collection_ids
     can :manage, Owner
     can :manage, Contact
+    can :filter_report, Collection
 
     can :manage_collection, :all
     can :manage, Cluster, collection_id: accessible_collection_ids

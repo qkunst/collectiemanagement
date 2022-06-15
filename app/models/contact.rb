@@ -40,4 +40,14 @@ class Contact < ApplicationRecord
   def to_select_value
     external_and_no_remote_data? ? Uitleen::Customer.new(uri: url) : self
   end
+
+  class << self
+    def update_localhost_urls
+      contact_count = Contact.where("url LIKE 'http://localhost:5001/customers/%'").count
+      Contact.where("url LIKE 'http://localhost:5001/customers/%'").each do |c|
+        c.update_columns(url: c.url.sub("http://localhost:5001/", Rails.application.secrets.uitleen_site))
+      end
+      puts "#{contact_count} contacts updated."
+    end
+  end
 end

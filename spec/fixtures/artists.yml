@@ -28,6 +28,7 @@
 artist1:
   first_name: firstname
   last_name: artist_1
+  description: Een hele goede vervaardiger
   year_of_birth: 1900
   year_of_death: 2000
   place_of_birth: YAC

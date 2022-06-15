@@ -136,17 +136,14 @@ module ImportCollection::Json
         "date_of_death" => artist_data["date_of_death"],
         "artist_name" => artist_data["artist_name"],
         "other_structured_data" => artist_data["other_structured_data"],
-        "old_data" => artist_data["old_data"],
-        "id" => artist_data["id"]
+        "old_data" => artist_data["old_data"]
       }
 
       artist = if cleaned_artist_data["rkd_artist_id"]
-        Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"]) || Artist.find_or_create_by(cleaned_artist_data)
-      elsif cleaned_artist_data["id"]
-        Artist.find_by(id: cleaned_artist_data["id"]) || Artist.find_or_create_by(cleaned_artist_data)
-      else
-        Artist.find_or_create_by(cleaned_artist_data)
-      end
+        Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
+      elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
+        Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
+      end || Artist.find_or_create_by(cleaned_artist_data)
 
       work.artists << artist if artist
     end
@@ -169,9 +166,9 @@ module ImportCollection::Json
     end
     (work_data["time_spans"] || []).each do |time_span_data|
       contact_data = time_span_data["contact"]
-      contact = if time_span_data["contact"]["external"] && time_span_data["contact"]["remote_data"]
+      contact = if contact_data["external"] && contact_data["remote_data"]
         Contact.find_or_initialize_by(remote_data: contact_data["remote_data"], collection: base_collection, external: true)
-      elsif time_span_data["contact"]["external"]
+      elsif contact_data["external"]
         Contact.find_or_initialize_by(url: contact_data["url"], collection: base_collection, external: true)
       else
         Contact.find_or_initialize_by(name: contact_data["name"].to_s, address: contact_data["address"], external: false, url: contact_data["url"], collection: base_collection)
@@ -197,8 +194,8 @@ module ImportCollection::Json
       data[:updated_at] = work_data["updated_at"] if work_data["updated_at"]
 
       work.update_columns(data)
-    else
-      raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
+    # else
+    #   raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
 
   rescue PG::UniqueViolation

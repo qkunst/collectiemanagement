@@ -51,6 +51,7 @@ RSpec.feature "Manage Collection", type: :feature do
       work_pairs.each do |pair|
         expect(pair[1].artists.map(&:last_name)).to eq(pair[0].artists.map(&:last_name))
         expect(pair[1].artists.map(&:first_name)).to eq(pair[0].artists.map(&:first_name))
+        expect(pair[1].artists.map(&:description)).to eq(pair[0].artists.map(&:description))
         attributes_of_interest.each do |attribute|
           expect(pair[1].send(attribute)).to eq(pair[0].send(attribute))
         end
