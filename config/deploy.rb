@@ -50,6 +50,8 @@ set :sidekiq_enable_lingering, false
 
 set :email, "maarten@murb.nl"
 
+set :migration_servers, -> { release_roles("db") }
+
 namespace :deploy do
   desc "Show logs"
   task :log do
