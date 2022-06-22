@@ -1,12 +1,12 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2021-01-15 16:46:55 +0100
+Date: 2022-06-22 16:05:28 +0200
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **93.81%** of the lines are covered by automated test. The code base consists of **10154** lines of code.
+In total **93.39%** of the lines are covered by automated test. The code base consists of **11947** lines of code.
 
 ## Abilities
 
@@ -47,6 +47,12 @@ This lists what a user can do per object-type.
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
 |*Markeer als voltooid*|✔|✔|✘|✘|✘|✘|
+|**Eigenaar**||
+|*Beheren*|✔|✔|✘|✔|✘|✘|
+|*Lezen*|✔|✔|✔|✔|✔|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✘|
+|*Tonen*|✔|✔|✔|✔|✔|✘|
+|*Overzicht tonen in collectie-context*|✔|✔|✔|✔|✘|✘|
 |**Bibliotheek item**||
 |*Beheren*|✔|✔|✘|✘|✘|✘|
 |*Lezen*|✔|✔|✔|✔|✔|✘|
@@ -62,10 +68,13 @@ This lists what a user can do per object-type.
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |*Toon gebruikers binnen de collectie*|✔|✔|✔|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
-|*API toegang (alleen lezen)*|✔|✔|✘|✘|✘|✘|
+|*Filteren van rapportages*|✔|✔|✘|✘|✘|✘|
+|*API toegang (alleen lezen)*|✔|✔|✔|✔|✔|✘|
+|*Toegang tot API aanmaken van gebeurtenissen*|✔|✔|✘|✔|✔|✘|
 |*Toegang tot de batch-editor*|✔|✔|✘|✔|✔|✘|
 |*Kan foto's downloaden*|✔|✔|✔|✘|✔|✘|
 |*Kan gegevens downloaden*|✔|✔|✔|✘|✘|✘|
+|*Kan PDF downloaden*|✔|✔|✔|✘|✔|✘|
 |*Kan publieke gegevens downloaden*|✔|✔|✔|✘|✘|✘|
 |*Kan waardering zien*|✔|✔|✔|✘|✘|✘|
 |*Rapportage lezen*|✔|✔|✔|✔|✔|✘|
@@ -75,7 +84,7 @@ This lists what a user can do per object-type.
 |*Waarderingsreferentie lezen*|✔|✔|✘|✔|✘|✘|
 |*Zoekmachine verversen*|✔|✔|✘|✔|✘|✘|
 |*Status bijwerken*|✔|✔|✘|✘|✘|✘|
-|*Toon gewijzigde werken*|✔|✔|✔|✘|✘|✘|
+|*Toon gewijzigde werken*|✔|✔|✔|✘|✔|✘|
 |*Verwijderen*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken & opslaan*|✔|✔|✘|✘|✘|✘|
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|
@@ -124,8 +133,28 @@ This lists what a user can do per object-type.
 |*Toon gebruikers binnen de collectie*|✔|✔|✘|✘|✘|✘|
 |*Bewerk collectie in collectie-context*|✔|✔|✘|✘|✘|✘|
 |*Beheren*|✔|✔|✘|✘|✘|✘|
+|**RKD Artist**||
+|*Lezen*|✔|✔|✔|✔|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✔|✘|✘|
+|*Kopieer*|✔|✔|✘|✔|✘|✘|
+|**Gebeurtenis**||
+|*Lezen*|✔|✔|✔|✔|✔|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✔|✘|
+|*Tonen*|✔|✔|✔|✔|✔|✘|
+|**Bijlage**||
+|*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
+|*Bijwerken*|✔|✔|✘|✔|✘|✘|
+|*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
+|*Tonen*|✔|✔|✔|✘|✘|✘|
+|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
+|*Aanmaken*|✔|✔|✘|✔|✘|✘|
 |**Werk**||
 |*API toegang (alleen lezen)*|✔|✔|✘|✘|✘|✘|
+|*Toon conditie*|✔|✔|✔|✔|✔|✘|
 |*Foto's bewerken*|✔|✔|✘|✔|✘|✘|
 |*Kan herkomst bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
 |*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✘|
@@ -144,21 +173,10 @@ This lists what a user can do per object-type.
 |*Tonen*|✔|✔|✔|✔|✔|✔|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
+|*Toegang tot API aanmaken van gebeurtenissen*|✔|✔|✘|✘|✘|✘|
+|*Bewerk beschikbaarheid*|✔|✔|✘|✘|✘|✘|
 |*Kan aankoopgegevens bewerken (& inzien)*|✔|✔|✘|✔|✘|✘|
-|**RKD Artist**||
-|*Lezen*|✔|✔|✔|✔|✘|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
-|*Tonen*|✔|✔|✔|✔|✘|✘|
-|*Kopieer*|✔|✔|✘|✔|✘|✘|
-|**Bijlage**||
-|*Pas zichtbaarheid aan*|✔|✔|✘|✘|✘|✘|
-|*Bijwerken*|✔|✔|✘|✔|✘|✘|
-|*Bewerken*|✔|✔|✘|✔|✘|✘|
-|*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
-|*Aanmaken*|✔|✔|✘|✔|✘|✘|
-|*Overzicht zien*|✔|✔|✔|✔|✘|✘|
-|*Lezen*|✔|✘|✔|✘|✘|✘|
-|*Tonen*|✔|✘|✔|✘|✘|✘|
+|*Toon status*|✔|✘|✘|✘|✔|✘|
 |**Vervaardigersbetrekking**||
 |*Aanmaken & opslaan*|✔|✔|✘|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✘|✘|
@@ -175,6 +193,11 @@ This lists what a user can do per object-type.
 |*Tonen*|✔|✔|✔|✔|✘|✘|
 |*Bijwerken*|✔|✔|✘|✔|✘|✘|
 |*Bewerken*|✔|✔|✘|✔|✘|✘|
+|**Contact**||
+|*Beheren*|✔|✔|✘|✘|✘|✘|
+|*Lezen*|✔|✔|✔|✘|✘|✘|
+|*Overzicht zien*|✔|✔|✔|✘|✘|✘|
+|*Tonen*|✔|✔|✔|✘|✘|✘|
 |**Import**||
 |*Lezen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht zien*|✔|✘|✔|✘|✘|✘|
@@ -186,8 +209,6 @@ This lists what a user can do per object-type.
 |*Tonen*|✔|✘|✔|✘|✘|✘|
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 |**Thema**||
-|*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
-|**Eigenaar**||
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|
 
 ### Write access
@@ -260,6 +281,7 @@ This is a list of fields a user can write to
 |*collection_id*|✔|✔|✘|✔|✘|✘|
 |*cluster_id*|✔|✔|✘|✔|✘|✘|
 |*owner_id*|✔|✔|✘|✔|✘|✘|
+|*permanently_fixed*|✔|✔|✘|✔|✘|✘|
 |*placeability_id*|✔|✔|✘|✔|✘|✘|
 |*artist_ids*|✔|✔|✘|✔|✘|✘|
 |*damage_type_ids*|✔|✔|✘|✔|✘|✘|
@@ -272,6 +294,11 @@ This is a list of fields a user can write to
 |*purchase_price*|✔|✔|✘|✔|✘|✘|
 |*purchased_on*|✔|✔|✘|✔|✘|✘|
 |*purchase_year*|✔|✔|✘|✔|✘|✘|
+|*fin_balance_item_id*|✔|✔|✘|✔|✘|✘|
+|*for_rent*|✔|✔|✘|✘|✘|✘|
+|*for_purchase*|✔|✔|✘|✘|✘|✘|
+|*highlight*|✔|✔|✘|✘|✘|✘|
+|*cluster*|✔|✔|✘|✘|✘|✘|
 |*selling_price*|✔|✔|✘|✔|✘|✘|
 |*minimum_bid*|✔|✔|✘|✔|✘|✘|
 |*selling_price_minimum_bid_comments*|✔|✔|✘|✔|✘|✘|
@@ -295,6 +322,7 @@ This is a list of fields a user can write to
 |*replacement_value_range*|✔|✔|✘|✔|✘|✘|
 |*appraised_by*|✔|✔|✘|✔|✘|✘|
 |*reference*|✔|✔|✘|✔|✘|✘|
+|*notice*|✔|✔|✘|✔|✘|✘|
 
 
 ## Features
@@ -319,25 +347,54 @@ Manage attachments
     add attachment, change name
   in context of work, as advisor
     add existing attachment
-    reattach attachment
+  in context of artist, as advisor
+    add new and couple existing attachment
 
 Appraise works
   as appraiser
     cannot appraise work outside scope
     can appraise work using ranges
+    cannot appraise a diptych at work level, but only at work set level
     can appraise work old style
+
+Filter from report
+  as an admin
+
+Manage Collection
+  as admin
+    should open imports overview
 
 Manage Collection
   as admin
     editing a collection
     creating a sub-collection
 
+Pagination of works
+  as QKunst  read only
+    can paginate
+  as QKunst  compliance
+    can paginate
+
+Signin in and out
+  should sign in a regular user using password login
+  should not allow password login as admin user
+  should allow oauth login as admin user
+  should allow oauth login as never oauthed admin user
+
 Batch editor
+  facility manager can scan works with batch editor
   move work to sub-collection in cluster
   appraise works
+  open selection and start batch edit after
+  open two selections and start batch edit after
   modify other attributes (happy flow)
   Specialized batch editors
     move work to subcollection in using the cluster-batch editor
+
+Werken groeperen
+  Advisor can group works
+  Advisor add a work to an existing group
+  Admin can remove a work from a group
 
 Edit photos
   as QKunst regular user with collection
@@ -348,7 +405,7 @@ Edit photos
     can edit photo's
   as QKunst  advisor
     can edit photo's
-  as QKunst  read only user
+  as QKunst  read only
     can not edit photo's
   as QKunst  compliance
     can not edit photo's
@@ -372,7 +429,7 @@ Navigate works
   facility
 
 Navigate works in a collection
-  as QKunst  read only user
+  as QKunst  read only
     cannot edit anything
   as QKunst  compliance
     cannot edit anything
@@ -396,6 +453,7 @@ Navigate works in a collection
     can edit location through location form
 
 User can send messages
+  can mark message as completed
   qkunst-test-facility_manager@murb.nl
     can send messages
   qkunst-admin-user@murb.nl
@@ -409,10 +467,11 @@ User can send messages
 
 View report
   as an admin
+  multi select
   as a facility manager (limited)
 
-Finished in 53.46 seconds (files took 3.11 seconds to load)
-51 examples, 0 failures
+Finished in 51.27 seconds (files took 1.93 seconds to load)
+68 examples, 0 failures
 
 
 ```
@@ -508,13 +567,13 @@ CustomReportsController
       creates a new CustomReport
       redirects to the created custom_report
     with invalid params
-      returns a success response (i.e. to display the 'new' template) (PENDING: Add a hash of attributes invalid for your model)
+      returns a success response (i.e. to display the 'new' template)
   PUT #update
     with valid params
-      updates the requested custom_report (PENDING: Add a hash of attributes valid for your model)
+      updates the requested custom_report
       redirects to the custom_report
     with invalid params
-      returns a success response (i.e. to display the 'edit' template) (PENDING: Add a hash of attributes invalid for your model)
+      returns a success response (i.e. to display the 'edit' template)
   DELETE #destroy
     destroys the requested custom_report
     redirects to the custom_reports list
@@ -589,10 +648,12 @@ UsersController
     allows for a advisor not to change a collection membership he/she is part of
     allows for an admin to change collection membership he/she is part of
 
+Works::Filtering
+  #set_selection_filter
+    returns empty hash when none
+    returns empty hash when none
+
 WorksController
-  GET /works
-    should be able to get an index
-    should be able to get an index als xlsx
   PATCH/PUT #works
     shouldn't change anything by default
     shouldn't be change title when role == facility
@@ -625,10 +686,23 @@ Appraise works
     cannot appraise a diptych at work level, but only at work set level
     can appraise work old style
 
+Filter from report
+  as an admin
+
+Manage Collection
+  as admin
+    should open imports overview
+
 Manage Collection
   as admin
     editing a collection
     creating a sub-collection
+
+Pagination of works
+  as QKunst  read only
+    can paginate
+  as QKunst  compliance
+    can paginate
 
 Signin in and out
   should sign in a regular user using password login
@@ -640,12 +714,16 @@ Batch editor
   facility manager can scan works with batch editor
   move work to sub-collection in cluster
   appraise works
+  open selection and start batch edit after
+  open two selections and start batch edit after
   modify other attributes (happy flow)
   Specialized batch editors
     move work to subcollection in using the cluster-batch editor
 
 Werken groeperen
   Advisor can group works
+  Advisor add a work to an existing group
+  Admin can remove a work from a group
 
 Edit photos
   as QKunst regular user with collection
@@ -704,6 +782,7 @@ Navigate works in a collection
     can edit location through location form
 
 User can send messages
+  can mark message as completed
   qkunst-test-facility_manager@murb.nl
     can send messages
   qkunst-admin-user@murb.nl
@@ -717,6 +796,7 @@ User can send messages
 
 View report
   as an admin
+  multi select
   as a facility manager (limited)
 
 ApplicationHelper
@@ -730,10 +810,19 @@ ApplicationHelper
   #kramdown
     understands bold
     doesn't parse tables
+    doesn't render javascript
+  #data_to_hidden_inputs
+    renders key-value
+    renders array
+    renders nested structure
 
 CollectionReportHelper
+  #filter_check_box
+    renders a checkbox for location
+    renders a checkbox for an missing value
   #render_report_column
     should render a empt report when no values are given
+    should render location tree
     should render a simple report (with missing)
     should render a report with numbers
     should render a report with a string/key
@@ -907,6 +996,9 @@ Appraisal
     #replacement_value_range
       should accept string
       should accept range
+  class
+    .new
+      creates an with a once failing import hash
   scopes
     .descending_appraisal_on
       should return the latest by date and then id
@@ -930,6 +1022,7 @@ Artist
     should destroy collection attributes when emptied
   #combine_artists_with_ids(artist_ids_to_combine_with)
     should work
+    should move the collection specific atributes over
   #import
     should import from another artist
     should not overwrite name when prefix is present
@@ -962,16 +1055,13 @@ Artist
       should colleapse only same creation date by default
 
 Attachment
-  Class methods
-    move_work_attaches_to_join_table
-      should migrate as intended
   Scopes
     .without_works
       should return attachments without works
     .without_artists
       should return attachments without works
       should only return attache less when combined with .without_works
-    for_role
+    .for_role
       should return all for advisor
       should return all for admin
       should filter compliance
@@ -979,10 +1069,14 @@ Attachment
       should filter appraiser
       should filter qkunst
       should show none for readonly
-    for_me
+    .for_me
       should always work for admin
       should always work for admin
       should always work correctly for readonly
+  Instance methods
+    #export_file_name
+      works for a simple filename
+      works for complex filenames
 
 BatchPhotoUpload
   instance methods
@@ -1043,7 +1137,7 @@ CollectionAttribute
       creates with an encrypted value
       defaults to base_collection
   scopes
-    .for_user
+    .for_user (currently not used)
       does not return parent collection's data if the user does not have access to that collection
       does return parent collection's data if the user has access to that collection
     .for_collection
@@ -1087,6 +1181,10 @@ Collection
     #sort_works_by
       should not accept noise
       should not valid value
+    #show_availability_status
+      returns false for collection1
+      returns false for sub_collection_with_inherited_availability
+      returns false for collection_with_availability
     #works_including_child_works
       should return all child works
       should return child collections' works
@@ -1163,6 +1261,12 @@ Condition
     .find_by_name
       should work
 
+Contact
+  #name
+    returns external contact if type is external
+    returns name when set, even if type is external
+    can save without an name when external
+
 Currency
   instance methods
     #update_conversions
@@ -1188,12 +1292,21 @@ GeonamesCountry
 
 ImportCollection
   instance methods
+    #write_json_work
+      creates a simple work
+      creates a new artist if id is given
+
+ImportCollection::Workbook
+  instance methods
     #internal_header_row_offset
       should work humanely
     #workbook
       should update import settings
     #import_file_to_workbook_table
       should return the table
+    #columns_for_select
+      should not expose unsupported options
+      should include must have appraisal keys
     #update
       should allow for updating import settings
     #read
@@ -1201,12 +1314,20 @@ ImportCollection
       should import into a different collection when sub
       should not import into a different collection when not a child
 
+ImportCollection
+  instance methods
+    #name
+      should return a name even when no file has been uploaded
+
 ImportCollection::Strategies::SplitStrategies
   class methods
     .split_space
       should work
 
 Message
+  callbacks
+    should not mark initial message as actioned upon when not qkunst
+    should not mark initial message as actioned upon when qkunst
   methods
     set_from_user_name!
       should set on save
@@ -1232,6 +1353,19 @@ Message
     .limit_age_to
       should limit to last year
       accepts overrrides
+
+OAuthGroupMapping
+  .for
+    returns nothing when data is empty
+    returns relevant when existing
+  .role_mappings_exists_for?
+    returns false when none
+    returns false when none
+  .collection_mappings_exists_for?
+    returns false when none
+    returns false when none
+  .create
+    creates with valid data
 
 Owner
   vaidations
@@ -1275,7 +1409,7 @@ Reminder
 
 Report::Builder
   aggregation_builder
-    should work while I'm refactoring
+    expected build result
 
 RkdArtist
   #to_artist_params
@@ -1303,6 +1437,60 @@ Stage
     .start
       should return the first stage
 
+TimeSpan
+  .new & validations
+    concept
+      is valid when subject, collection and contact are set
+      is not valid when work is no longer available, collection and contact are set
+      is not valid when classification is false, but subject, collection and contact are set
+      is valid when classification is reservation and work is in use
+    import failurs
+      should work for all examples
+  Callbacks
+    #remove_work_from_collection_when_purchase_active
+    #sync_time_spans_for_works_when_work_set
+      creates none when a work
+      creates time spans when for works in a work_set
+      results in underlying works to be no longer available
+      results in underlying works to become available when returned
+      results in underlying works to become available when converted to concept
+      results in underlying works to become available when ended
+  instance methods
+    #current?
+      is expected to be truthy
+      is expected to be truthy
+      is expected to be truthy
+      is expected to be truthy
+      is expected not to be truthy
+      is expected not to be truthy
+      should include expired, active time spans
+    #finished?
+      is expected to be falsey
+      is expected to be falsey
+      is expected to be falsey
+      is expected to be falsey
+      is expected to be falsey
+      is expected to be falsey
+      is expected not to be falsey
+      is expected to be falsey
+  scopes
+    .current
+      is expected to include #<TimeSpan id: 900254696, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id:...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 748788316, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id:...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 463907531, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 524174866, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2001-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      should include expired, active time spans
+    .expired
+      is expected not to include #<TimeSpan id: 900254696, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id:...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 748788316, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id:...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 463907531, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 524174866, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2001-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...t: "2022-06-22 15:51:25.034560000 +0200", uuid: nil, time_span_id: nil, comments: nil, old_data: {}>
+      should include expired, active time spans
+
 User
   methods
     #accessible_collections
@@ -1310,6 +1498,12 @@ User
       should return all collections when the user is a super admin
       should return all collections and sub(sub)collections the user has access to
       should restrict find
+    #accessible_artists
+      should return all artists for admin
+      should return a subset for users with a single collection
+    #accessible_works
+      should return all works for admin
+      should return a subset for users with a single collection
     #collection_ids
       should return ids of collections
     #collection_accessibility_log
@@ -1359,6 +1553,12 @@ User
       raises argument error when invalid data is passed
       creates a new user when given
       creates a new user when given and confirms when confirmed
+      auto subscribes a user to a role when configured as such
+      auto subscribes a user to a role and group when configured as such
+      auto overides a user's memberschip when configured as such
+      auto overides a user's memberschip when configured as such
+      leaves a user's memberschip as is when not configured as such
+      it updates account, even when case doesn't match
   Callbacks
     name change should result in name changes with work
       should change
@@ -1369,6 +1569,99 @@ Validators::CollectionScopeValidator
     works with theme in super collection
     works with theme in hidden super collection
     should fail on theme in other collection
+
+Work::Export
+  class methods
+    .possible_exposable_fields
+      should return possible_exposable_fields
+    .to_workbook
+      should be callable and return a workbook
+      should be work even with complex fieldset
+      should work with tags
+      should return basic types
+      should allow for sorting by location
+  Instance methods
+    #artist_#{index}_methods
+      should have a first artist
+      should return nil when no artist is found at index
+
+Work::ParameterRerendering
+  artist_name
+    should keep a log of changed artists
+  #artist_name_rendered
+    should not fail on an empty name
+    should summarize the artists nicely
+    should respect include_years option
+  #artist_name_rendered_without_years_nor_locality
+    should summarize the artist nicely
+    should summarize the artists nicely
+  #artist_name_rendered_without_years_nor_locality_semicolon_separated
+    should summarize the artist nicely
+    should summarize the artists nicely
+  #location_raw, #location_floor_raw, #location_detail_raw
+    returns not set when nil
+    returns values when set
+
+Work::Search
+  instance methods
+    #as_indexed_json
+      returns an empty hash when nothing is set
+      returns an empty hash when nothing is set
+      doesn't include availability_status if not active for collection
+      does include availability status when active
+
+Work::SizingRendering
+  #three_dimensional?
+    returns false for an empty work
+    returns false for a 2d work
+    returns false for a 2d work with a 9cm deep frame
+    returns false for a 3d work
+  #floor_bound?
+    returns false for an empty work
+    returns false for a 2d work
+    returns false for a 2d work with a 9cm deep frame
+    returns false for a 3d work
+  #wall_surface
+    returns false for an empty work
+    returns square meter for a 2d work
+    returns square meter for a 2d work
+    returns nil for a 3d work
+  #wall_surface
+    returns nil for an empty work
+    returns nil  for a 2d work
+    returns values for a 3d work
+  #object_format_code
+    should return proper format code
+  .whd_to_s
+    should render nil if all are nil
+    should render w x h x d if set
+    should round w x h x d
+    should add diameter if set
+    should add diameter if set
+  .frame_size
+    should use whd_to_s
+  #work_size
+    should return work size
+  #frame_size
+    should return frame size
+  #frame_size_with_fallback
+    should return frame size by default
+    should return work size if frame size is not present
+  #orientation
+    should return  for  x
+
+Work::TimeSpans
+  instance methods
+    #current_active_time_span
+      returns nil by default
+      returns active time span by default
+      returns reservation if none active
+      returns active time span by default even when reservation is later
+    #available?
+      is available by default
+      is not available when sold
+      is not available when it is actively rented
+      is available when it is concept rented
 
 WorkSet
   has and belongs to many works
@@ -1404,6 +1697,12 @@ WorkSetType
   add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/work_set_type_spec.rb (PENDING: Not yet implemented)
 
 Work
+  callbacks
+    significantly_updated_at
+      does not update when nothing changed
+      does update on create
+      does update on a title change
+      does update on a artist change
   instance methods
     #all_work_ids_in_collection
       sorts by default on inventory and id
@@ -1411,9 +1710,11 @@ Work
     #appraisable?
       should return true by default
       should return false on a work part of a diptych
-    #artist_#{index}_methods
-      should have a first artist
-      should return nil when no artist is found at index
+    #appraised?
+      should return false by default
+      should return true for an appraised work
+    #balance_category
+      returns nil none is set, balance category when set, and nil when appraised, but set
     #frame_type
       should be able to set a FrameType
     #stock_number_file_safe
@@ -1462,11 +1763,6 @@ Work
       should return last if no previous
     #object_creation_year
       should return nil if object_creation_year_unknown = true
-    #object_format_code
-      should return proper format code
-    #frame_size_with_fallback
-      should return frame size by default
-      should return work size if frame size is not present
     #restore_last_location_if_blank!
       shoudl restore last location when blenk
       should not 'restore' a location if location is set
@@ -1481,36 +1777,11 @@ Work
       reuses when full hash is given equal to earlier in same collection
       creates when full hash is given equal to earlier in other collection
   class methods
-    .artist_name_rendered
-      should not fail on an empty name
-      should summarize the artists nicely
-      should respect include_years option
-    .artist_name_rendered_without_years_nor_locality
-      should summarize the artist nicely
-      should summarize the artists nicely
-    .artist_name_rendered_without_years_nor_locality_semicolon_separated
-      should summarize the artist nicely
-      should summarize the artists nicely
     .count_as_whole_works
       should return all works uniquele
       should return all works uniquely even when in two work sets
-    .possible_exposable_fields
-      should return possible_exposable_fields
     .fast_aggregations
       should allow to be initialized
-    .whd_to_s
-      should render nil if all are nil
-      should render w x h x d if set
-      should round w x h x d
-      should add diameter if set
-      should add diameter if set
-    .frame_size
-      should use whd_to_s
-    .to_workbook
-      should be callable and return a workbook
-      should be work even with complex fieldset
-      should work with tags
-      should return basic types
     .update
       updates collection
       throws error when updating a work that doesn't validate
@@ -1518,6 +1789,19 @@ Work
       returns a hash
       should return  for {:inventoried=>:boolean, :title=>:string}
   Scopes
+    .by_group
+      has and belongs to many
+        returns works when id is passed in array
+        returns relationless works when :not_set is passed in array
+        returns relationless works and works with relations when both :not_set and and id is passed
+      belongs to
+        returns works when id is passed in array
+        returns relationless works when :not_set is passed in array
+        returns relationless works and works with relations when both :not_set and and id is passed
+      string to
+        returns works when id is passed in array
+        returns relationless works when :not_set is passed in array
+        returns relationless works and works with relations when both :not_set and and id is passed
     .has_number
       finds nothing when an unknown number is passed
       finds by alt number
@@ -1531,15 +1815,45 @@ Work
       location
         sorts -1 before BG
         sorts by location, floor, detail
+    .significantly_updated_since
+      returns nothing when future
+      returns only matching work
 
-Collections
-  GET /collections
+WorkStatus
+  #set_work_as_removed_from_collection's impact on work
+    doesn't result in a work being set as removed from collection if not set
+    does result in a work being set as removed from collection if set
+    doesn't update an already removed work if set
+
+Api::V1::CollectionsController
+  GET /api/v1/collections
     shouldn't be publicly accessible!
     an api user without advisor role should be access the collection
     an api user with advisor role should be access the collection
     an allowed user should be able to get a single work through the api
     even an allowed user shouldn't be able to mess with the url
     not allowed user should be not be able to get an index
+
+Api::V1::WorkEventsController
+  POST api/v1/work/:work_id/work_events
+    unauthorized when not signed in
+    starts a rental when signed in
+    starts a reservation when signed in
+    cannot start a rental twice when signed in
+    can start a reservation after a rental when signed in
+    ends a rental when signed in
+
+Api::V1::WorksController
+  anonymously
+    GET api/v1/works/
+      returns unauthorized
+  facility_manager
+    GET api/v1/works/
+      returns ok
+      returns meta
+      modifies total_count when filter is present
+      returns all desired fields
+      plucks
 
 Appraisals
   GET /collections/1/works/1/appraisals/new
@@ -1567,9 +1881,6 @@ Artists
     shouldn't be publicly accessible
     shouldn't be accessible by QKunst
     should be accessible by admin
-  GET collection/id/artists
-    shouldn't be publicly accessible
-    should be accessible by QKunst having access to collection
   GET /artists/:id/edit
     should be accessible for an admin
     /collection/:collection_id
@@ -1580,6 +1891,15 @@ Artists
     shouldn't be publicly accessible!
     should be accessible when logged in as admin
     should not be accessible when logged in as qkunst
+  Collection
+    GET collection/id/artists
+      shouldn't be publicly accessible
+      should be accessible by QKunst having access to collection
+    GET collection/:collection_id/artists/:id
+      shouldn't be publicly accessible
+      should be accessible by QKunst having access to collection
+      should not give access to artists not visible in collection
+      should not expose attachments outside original collection
 
 Attachments
   GET /attachments/new
@@ -1616,7 +1936,10 @@ Attachments
 
 BatchPhotoUploads
   GET /batch_photo_uploads
-    redirects! (now write some real specs)
+    redirects when no user is logged in
+  POST /batch_photo_uploads
+    redirects when no user is logged in
+    creates thumbs when upload is started
 
 WorkBatchs
   GET /collections/:id/batch/
@@ -1627,6 +1950,20 @@ WorkBatchs
       should not be accessible when logged in as an registrator user
       should not allow accesss to the batch editor for non qkunst user has access to
       should redirect to the root when accessing anohter collection
+    Selection of works
+      by ids
+        should work for get with selected_works array
+        should work for post with selected_works array
+      with filter
+        off
+        on
+          works
+      with search
+        off
+        on
+          works
+      by cluster group
+        should work for post with cluster ids
     Field-accessibility
       describe facility should only be able to edit location
       describe facility should only be able to edit location
@@ -1638,6 +1975,7 @@ WorkBatchs
         should stop when work cannot be appraised (diptych scenario)
     themes
       appends themes
+      allows for group selections
     tag_list
       should REPLACE
       should APPEND
@@ -1764,6 +2102,31 @@ Collections
     should be accessible when logged in as admin
     should not be accessible when logged in as an anonymous user
     should allow accesss to the single collection the user has access to
+
+/contacts
+  GET /index
+    renders a successful response
+  GET /show
+    renders a successful response
+  GET /new
+    renders a successful response
+  GET /edit
+    doesn't allow for an anonymous request
+    doesn't allow a user without acces to the collection to edit the contact
+    does allow an advisor with access to the collection to edit the the contact
+  POST /create
+    with valid parameters
+      creates a new Contact
+      redirects to the created contact
+    with invalid parameters
+      does not create a new Contact
+  PATCH /update
+    with valid parameters
+      updates the requested contact
+      redirects to the contact
+  DELETE /destroy
+    destroys the requested contact
+    redirects to the contacts list
 
 CustomReportTemplates
   GET /custom_report_templates
@@ -2001,6 +2364,12 @@ Stages
   GET /stages
     rejects
 
+/collection/:id/time_spans
+  GET /index
+    renders a successful response
+    renders a successful response
+    renders a not authorized response
+
 Works
   PATCH /collections/:collection_id/works/:id
     should render the edit form when changing location fails
@@ -2011,11 +2380,12 @@ Works
     denies access for appraiser
     denies access for compliance
     denies access for advisor
+  GET /collections/:id/works/:id/edit
+    admin should be able to access edit page
   GET /collections/:id/works
     shouldn't be publicly accessible!
     admin
       should be accessible when logged in as admin
-      admin should be able to access edit page
       should be able to get an index
       sorting and grouping
         should be able to get a grouped index
@@ -2024,21 +2394,32 @@ Works
         should be able to search
       downloading
         xlsx
-          should be able to get an zip file
+          facility_manager
+            should not be able to get the file
+          admin
+            should be able to get the file
         csv
-          should be able to get an zip file
-          should include alt_number_4
+          admin
+            should be able to get the file
+            should include alt_number_4
         zip
-          should be able to get an zip file
-          should be able to get an zip file with photos
-          should be able to get an zip file with only front photos
+          admin
+            should be able to get an zip file
+            should be able to get an zip file with photos
+            should be able to get an zip file with only front photos
+        pdf
+          anonymous
+            requires login
         xml
-          requires login
-          rejects facility
-          downloads for admin
-          doesn't include work twice
-          with public audience
-            respects audience public setting
+          anonymous
+            requires login
+          facility_manager
+            rejects facility
+          admin
+            downloads for admin
+            doesn't include work twice
+            with public audience
+              respects audience public setting
     filtering & searching
       tag filtering
         should return no works when tags do not exist
@@ -2061,7 +2442,7 @@ Works
     allows access for admin
     allows access for compliance
     allows access for advisor
-    denies access for facility_manager
+    allows access for facility_manager
     denies access for appraiser
 
 AppraisalsController
@@ -2074,6 +2455,17 @@ AppraisalsController
     routes to #destroy
 
 AttachmentsController
+  routing
+    routes to #index
+    routes to #new
+    routes to #show
+    routes to #edit
+    routes to #create
+    routes to #update via PUT
+    routes to #update via PATCH
+    routes to #destroy
+
+ContactsController
   routing
     routes to #index
     routes to #new
@@ -2184,7 +2576,7 @@ UnsecureTmpBasicPictureUploader
       returns a work with alt number 7201284 with when filename = 7201284.jpg
 
 artists/show
-  renders attributes in <p>
+  renders attributes
 
 collections/show
   Stages
@@ -2201,17 +2593,40 @@ frame_types/new
   renders new frame_type form
 
 frame_types/show
-  renders attributes in <p>
+  renders attributes
 
 works/edit_tags
   allows_to_edit_tags
 
 works/show
-  renders attributes in <p>
+  renders attributes
+  renders display price
   renders attachments
+  display modes
+    complete
+      renders correctly
+    detailed
+      renders correctly
+    detailed_discreet
+      renders correctly
 
-CollectionDownloadWorker
-  performs
+Collection::DownloadWorker
+  works for xlsx
+  works for csv
+
+Collection::HtmlRendererWorker
+  performs a basic renderer
+  performs a filtered render
+  doesn't export internal comments to facility manager
+  doesn't show complete data to read only user
+  does show basic data to read only
+  does not render any data when none
+  performs a grouped render
+  triggers generation of a pdf
+
+PdfPrinterWorker
+  cleans the resource
+  works for /
 
 Pending: (Failures listed here are expected and do not affect your suite's status)
 
@@ -2219,40 +2634,28 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Add a hash of attributes valid for your model
      # ./spec/controllers/custom_report_templates_controller_spec.rb:114
 
-  2) CustomReportsController POST #create with invalid params returns a success response (i.e. to display the 'new' template)
-     # Add a hash of attributes invalid for your model
-     # ./spec/controllers/custom_reports_controller_spec.rb:109
-
-  3) CustomReportsController PUT #update with valid params updates the requested custom_report
-     # Add a hash of attributes valid for your model
-     # ./spec/controllers/custom_reports_controller_spec.rb:122
-
-  4) CustomReportsController PUT #update with invalid params returns a success response (i.e. to display the 'edit' template)
-     # Add a hash of attributes invalid for your model
-     # ./spec/controllers/custom_reports_controller_spec.rb:139
-
-  5) CustomReportTemplate add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/custom_report_template_spec.rb
+  2) CustomReportTemplate add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/custom_report_template_spec.rb
      # Not yet implemented
-     # ./spec/models/custom_report_template_spec.rb:6
+     # ./spec/models/custom_report_template_spec.rb:19
 
-  6) Geoname add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geoname_spec.rb
+  3) Geoname add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geoname_spec.rb
      # Not yet implemented
-     # ./spec/models/geoname_spec.rb:6
+     # ./spec/models/geoname_spec.rb:33
 
-  7) GeonamesAdmindiv add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_admindiv_spec.rb
+  4) GeonamesAdmindiv add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_admindiv_spec.rb
      # Not yet implemented
-     # ./spec/models/geonames_admindiv_spec.rb:6
+     # ./spec/models/geonames_admindiv_spec.rb:23
 
-  8) GeonamesCountry add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_country_spec.rb
+  5) GeonamesCountry add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/geonames_country_spec.rb
      # Not yet implemented
-     # ./spec/models/geonames_country_spec.rb:6
+     # ./spec/models/geonames_country_spec.rb:33
 
-  9) WorkSetType add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/work_set_type_spec.rb
+  6) WorkSetType add some examples to (or delete) /Users/murb/Documents/Zakelijk/Projecten/QKunst/source-collectiemanagement/spec/models/work_set_type_spec.rb
      # Not yet implemented
-     # ./spec/models/work_set_type_spec.rb:4
+     # ./spec/models/work_set_type_spec.rb:18
 
-Finished in 1 minute 48.23 seconds (files took 4.55 seconds to load)
-1067 examples, 0 failures, 9 pending
+Finished in 2 minutes 56.2 seconds (files took 2.68 seconds to load)
+1280 examples, 0 failures, 6 pending
 
 
 ```

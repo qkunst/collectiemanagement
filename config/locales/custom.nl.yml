@@ -58,7 +58,7 @@ nl:
     read_extended_report: Uitgebreide rapportage lezen
     access_valuation: Kan waardering zien
     download_datadump: Kan gegevens downloaden
-    download_pdf: Kan pdf downloaden
+    download_pdf: Kan PDF downloaden
     download_public_datadump: Kan publieke gegevens downloaden
     download_photos: Kan foto's downloaden
     batch_edit: Toegang tot de batch-editor
@@ -70,6 +70,11 @@ nl:
     update_status: Status bijwerken
     read_without_collection: Tonen buiten collectie-context
     view_location_history: Toon locatiegeschiedenis
+    filter_report: Filteren van rapportages
+    create_work_events_api: Toegang tot API aanmaken van gebeurtenissen
+    edit_availability: Bewerk beschikbaarheid
+    read_condition: Toon conditie
+    work_status: Toon status
   routes:
     books: boeken
     new: nieuw
@@ -127,6 +132,7 @@ nl:
       balance_category: Balanscategorie
       cluster: Cluster
       collection: Collectie
+      contact: Contact
       condition: Conditie beeld
       customreport: Rapport
       custom_report: Rapport
@@ -160,6 +166,7 @@ nl:
       work_set: Werkgroepering
       library_item: Bibliotheek item
       time_span: Gebeurtenis
+      timespan: Gebeurtenis
     values:
       user:
         role:
