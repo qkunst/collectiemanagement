@@ -8,7 +8,7 @@ module Ability::Report
 
   class_methods do
     def report_field_abilities
-      approles = User::ROLES - [:qkunst]
+      approles = User::ROLES# - [:qkunst]
 
       all_fields = Ability.new(Ability::TestUser.new(:admin)).editable_work_fields_grouped
 
@@ -42,7 +42,7 @@ module Ability::Report
     end
 
     def report_abilities
-      approles = User::ROLES - [:qkunst]
+      approles = User::ROLES# - [:qkunst]
 
       ability_report = {header: [], data: {}}
 
