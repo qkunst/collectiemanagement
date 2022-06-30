@@ -43,6 +43,7 @@ RSpec.feature "Manage Collection", type: :feature do
       expect(works(:work1).tag_list).to eq(["Eerste tag fixture"])
       source_collection.works_including_child_works.include? works(:work1)
       expect(works(:work1).artists.length).to be > 0
+      expect(works(:work1).time_spans.length).to be > 0
 
       attributes_of_interest = %w[ title tag_list sources object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
       string_compare_attributes_of_interest = %w[ created_at significantly_updated_at updated_at  time_spans ]

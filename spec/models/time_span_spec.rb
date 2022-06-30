@@ -49,6 +49,13 @@ RSpec.describe TimeSpan, type: :model do
         expect(work.availability_status).to eq(:lent)
       end
     end
+    context "finished" do
+      it "doesn't override end time" do
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: 1.year.ago, ends_at: 1.month.ago, status: :finished, classification: :rental_outgoing)
+        ts.save
+        expect(ts.ends_at).to be < 1.day.ago
+      end
+    end
     context "import failurs" do
       it "should work for all examples" do
         data = [{"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/0343df8a-92ed-45bc-893e-bbd424a7015a", "name"=>""}, "starts_at"=>"1997-11-15", "ends_at"=>"2006-06-05", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/4bc1db3d-fc1d-470c-a16f-4a86628fc766", "name"=>""}, "starts_at"=>"2002-11-25", "ends_at"=>"2003-11-28", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/86679f73-bbc4-46aa-bc38-61d9fb2b2ac0", "name"=>""}, "starts_at"=>"2010-10-25", "ends_at"=>"2011-10-25", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/17336a8b-9a88-4c29-a7bc-48d89ecf5579", "name"=>""}, "starts_at"=>"2012-03-20", "ends_at"=>"2013-03-20", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/fb8f7555-d6ae-41f3-b814-3294dff96ce9", "name"=>""}, "starts_at"=>"2020-02-19", "ends_at"=>"2021-02-19", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/"}, "starts_at"=>"2021-08-25", "status"=>"active", "classification"=>"rental_outgoing"}]
