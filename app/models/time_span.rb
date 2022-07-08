@@ -154,7 +154,7 @@ class TimeSpan < ApplicationRecord
   end
 
   def self_is_subject_current_active_time_span?
-    subject && (self.id && subject.current_active_time_span&.id == self.id)
+    subject && (subject.current_active_time_span && subject.current_active_time_span.id == self.id)
   end
 
   def validate_subject_available?

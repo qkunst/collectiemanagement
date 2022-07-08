@@ -180,7 +180,8 @@ module ImportCollection::Json
       time_span = TimeSpan.find_or_initialize_by(contact: contact, starts_at: time_span_data["starts_at"], subject: work, uuid: time_span_data["uuid"], classification: time_span_data["classification"], collection: base_collection)
       time_span.ends_at = time_span_data["ends_at"] if time_span_data["ends_at"].present?
       time_span.status = time_span_data["status"]
-      time_span.save
+      work.time_spans << time_span
+      # time_span.save
     end
 
     # TODO:
@@ -194,8 +195,9 @@ module ImportCollection::Json
       data[:updated_at] = work_data["updated_at"] if work_data["updated_at"]
 
       work.update_columns(data)
-    # else
-    #   raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
+    else
+      binding.irb if Rails.env.test?
+      raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
 
   rescue PG::UniqueViolation
