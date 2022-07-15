@@ -1,6 +1,6 @@
 nl:
   application:
-    name: QKunst Collectiemanagement
-    responsible_party: QKunst
+    name: CollectionManagement
+    responsible_party: murb
   organisation:
-    name: QKunst
+    name: murb

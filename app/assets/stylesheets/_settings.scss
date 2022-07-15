@@ -52,16 +52,16 @@ $global-font-size: 100%;
 $global-width: rem-calc(1500);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: $qkunst-brown,
-  secondary: $qkunst-grey,
-  success: $qkunst-brown,
-  warning: $qkunst-orange,
-  alert: $qkunst-orange,
+  primary: $green,
+  secondary: $grey,
+  success: $green,
+  warning: $red,
+  alert: $red,
 );
 
 $body-background: $white;
-$body-font-color: $qkunst-grey;
-$body-font-family: 'Roboto Slab', serif;
+$body-font-color: $offBlack;
+$body-font-family: $fontFamily;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -104,11 +104,10 @@ $block-grid-max: 8;
 // 4. Base Typography
 // ------------------
 
-// $header-font-family: 'Poppins', 'Futura', 'Arial Black';
 $header-font-weight: 700;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
-$header-color: $qkunst-brown;
+$header-color: $offBlack;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
 $header-styles: (

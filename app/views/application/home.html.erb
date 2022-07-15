@@ -1,18 +1,13 @@
-<h1><%=I18n.t("application.name")%></h1>
+<h2><%=I18n.t("application.name")%></h2>
 
 <% if !current_user %>
 <div>
   <p>Welkom in de <%=I18n.t("application.name")%> webapplicatie.</p>
-  <p>QKunst stelt organisaties in staat om hun kunstcollectie digitaal te beheren. Hiervoor is door QKunst een collectiemanagementapplicatie ontwikkeld. Deze webapplicatie maakt het mogelijk om kunstcollecties inzichtelijk te maken door de gegevens van kunstwerken uit de betreffende collectie te registreren, verwerken en beheren.</p>
-  <p>Bent u benieuwd naar de mogelijkheden die digitaal beheer van uw kunstcollectie biedt neem gerust contact op met <a href="https://qkunst.nl">QKunst</a>, we vertellen u graag meer over deze dienst en over de collectiemanagementapplicatie.</p>
-  <p>Onze omgang met gegevens hebben we beschreven in ons <a href="https://qkunst.nl/privacy/" target="_blank">gegevensbeleid</a>.</p>
+  <p>Met deze applicatie kunt u uw kunstcollectie digitaal beheren. Deze webapplicatie maakt het mogelijk om kunstcollecties inzichtelijk te maken door de gegevens van kunstwerken uit de betreffende collectie te registreren, verwerken en beheren.</p>
+  <p>Wilt u ondersteuning bij uw digitaal beheer van uw kunstcollectie, neem gerust contact op met <a href="https://qkunst.nl">QKunst</a>, we vertellen u graag meer over deze dienst en over de collectiemanagementapplicatie.</p>
 </div>
 
 <p><%= link_to 'Inloggen', new_user_session_path, class: [:button]%></p>
-
-
-
-<p>U kunt QKunst volgen via <a href="https://nl-nl.facebook.com/qkunst">Facebook</a> en <a href="https://twitter.com/qkunst?lang=nl">Twitter</a></p>
 
 <% elsif current_user.admin? %>
 <p>Welkom in de <%=I18n.t("application.name")%> webapplicatie. U bent ingelogd als administrator.</p>
@@ -30,7 +25,6 @@
 <li>Gebruikersbeheer (beperkt)</li>
 
 </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.appraiser? %>
@@ -45,7 +39,6 @@
 <li>Waarderingen toevoegen</li>
 <li>Rapportages bekijken</li>
 </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.compliance? %>
@@ -53,7 +46,7 @@
 
 <p>Rechten compliance medewerker:</p>
 <ul>
-<li>Kunstwerken bekijken, filteren, tot in hetzelfde detail als een QKunst Kunstadviseur</li>
+<li>Kunstwerken bekijken, filteren, tot in hetzelfde detail als een kunstadviseur</li>
 <li>Collectie eigenschappen bekijken</li>
 <li>Toegangsrechten controleren van zij die toegang tot de collectie hebben</li>
 <li>Downloaden gegevens</li>
@@ -63,7 +56,6 @@
 <p>U kunt nadrukkelijk geen gegevens bewerken of toevoegen. Omdat schermen generiek zijn opgezet kan er op sommige plekken gesuggereerd worden dat het gaat om een 'beheer-paneel', echter zijn ook hier geen mutaties te maken in de database.</p>
 
 </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.qkunst? %>
@@ -77,7 +69,6 @@
 <li>Clusters maken</li>
 <li>Rapportages bekijken</li>
 </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 <% elsif current_user.facility_manager? %>
@@ -92,7 +83,6 @@
   <li>Eventuele overige documentatie over de collectie downloaden</li>
   <li>Overzicht van de werken uitprinten</li>
   </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 
 <p><br/><br/><br/><br/><br/><small>Aanvullende vervaardigersinformatie komt veelal uit de <a href="https://rkd.nl/nl/explore/artists">RKDartists&amp;-database</a>, welke beschikbaar is gesteld onder een <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a>.</small></p>
 
@@ -104,5 +94,6 @@
   <li>Collectie online bekijken</li>
 <li>Overzicht van de werken uitprinten</li>
 </ul>
-<p>Voor vragen of opmerkingen, neem contact op met QKunst via <a href="mailto:contact@qkunst.nl">contact@qkunst.nl</a>. </p>
 <% end %>
+
+<p><small><%=I18n.t("application.name")%> draait op <a href="https://qkunst.nl/collectiemanagement/">QKunst Collectiemanagement</a> (&copy; QKunst/murb 2014-heden), met de <a href="https://github.com/qkunst/collectiemanagement">broncode beschikbaar onder de AGPL licentie</a>.</small></p>
