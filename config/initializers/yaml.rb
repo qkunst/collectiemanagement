@@ -4,5 +4,6 @@ Rails.application.config.active_record.yaml_column_permitted_classes = [
   DateTime,
   Time,
   Date,
+  User,
   Hashie::Array
 ]
