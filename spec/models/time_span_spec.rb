@@ -163,6 +163,14 @@ RSpec.describe TimeSpan, type: :model do
 
         expect(work_set.works.first.availability_status).to eq(:available)
         expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+        work_set.works.reload
+
+        work_set.works.update_all(for_purchase_at: nil)
+        work_set.works.reload
+
+        expect(work_set.works.first.availability_status).to eq(:available_not_for_rent_or_purchase)
+        expect(work_set.works.first.removed_from_collection?).to eq(false)
       end
     end
   end

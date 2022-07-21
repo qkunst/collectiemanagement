@@ -207,6 +207,7 @@ nl:
           lent: Uitgeleend
           available: Beschikbaar
           reserved: Gereserveerd
+          available_not_for_rent_or_purchase: Aanwezig, niet voor verhuur of koop
         abstract_or_figurative:
           abstract: Abstract
           figurative: Figuratief

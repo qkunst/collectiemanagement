@@ -9,8 +9,10 @@ module Work::TimeSpans
     end
 
     def availability_status
-      @availability_status ||= if available?
+      @availability_status ||= if available? && (for_purchase || for_rent)
         :available
+      elsif available? && !(for_purchase || for_rent)
+        :available_not_for_rent_or_purchase
       elsif current_active_time_span&.status == "reservation"
         :reserved
       elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
