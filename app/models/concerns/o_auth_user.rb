@@ -43,7 +43,7 @@ module OAuthUser
   end
 
   class_methods do
-    def find_or_initialize_from_oauth_prisioned_data oauth_subject:, email:, oauth_provider:
+    def find_or_initialize_from_oauth_provided_data oauth_subject:, email:, oauth_provider:
       raise "Subject empty" if oauth_subject.blank?
       raise "Provider empty" if oauth_provider.blank?
 
@@ -54,8 +54,7 @@ module OAuthUser
       if !data.is_a?(Users::OmniauthCallbackData) || !data.valid?
         raise ArgumentError.new("invalid omniauth data passed")
       else
-        # raise data
-        user = find_or_initialize_from_oauth_prisioned_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
+        user = find_or_initialize_from_oauth_provided_data(oauth_subject: data.oauth_subject, oauth_provider: data.oauth_provider, email: data.email)
         user.oauth_provider = data.oauth_provider
         user.oauth_subject = data.oauth_subject
         user.email = data.email
