@@ -3,8 +3,9 @@
 module Uuid
   extend ActiveSupport::Concern
   included do
-    validates_presence_of :uuid
     before_validation :set_uuid
+    validates_presence_of :uuid
+    validates_uniqueness_of :uuid
 
     private
 
