@@ -13,7 +13,7 @@
 #  work_set_type_id      :bigint
 #
 class WorkSet < ApplicationRecord
-  has_and_belongs_to_many :works
+  has_and_belongs_to_many :works, touch: true
 
   has_many :appraisals, as: :appraisee
   has_many :time_spans, as: :subject
