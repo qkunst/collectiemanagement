@@ -2,7 +2,7 @@
 @selection ||= {display: :compact}
 this_works_collection_work_url = work.id && !@for_print ? collection_work_path(work.collection_id, work.id) : "#"
 %>
-<% cache(["works/_work", "2.0.3", work, @selection&.[](:display), @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
+<% cache_unless(@no_work_cache, ["works/_work", "2.0.3", work, @selection&.[](:display), @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@selection[:display]%>">
   <div class="image_wrapper">
     <% if work.photo_front? %>
