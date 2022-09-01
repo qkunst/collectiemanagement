@@ -71,6 +71,8 @@ json.orientation work.orientation
 json.for_purchase work.for_purchase?
 json.for_rent work.for_rent?
 json.highlight work.highlight?
+json.publish work.publish?
+json.image_rights work.image_rights?
 json.created_at work.created_at
 json.import_collection_id work.import_collection_id
 json.availability_status work.availability_status
