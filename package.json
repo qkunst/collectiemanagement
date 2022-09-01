@@ -19,7 +19,8 @@
     "turbolinks": ">=5.2.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "what-input": ">=5.2.6"
+    "what-input": ">=5.2.6",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "webpack-dev-server": "^3"
