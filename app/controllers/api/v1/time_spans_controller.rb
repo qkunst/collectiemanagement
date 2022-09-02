@@ -19,6 +19,14 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
       @time_spans = @time_spans.where(status: params[:status])
     end
 
+    if [true, "true", 1].include?(params[:current])
+      @time_spans = @time_spans.current
+    end
+
+    if params[:classification]
+      @time_spans = @time_spans.where(classification: params[:classification])
+    end
+
     @time_spans = @time_spans.order(starts_at: :desc).limit(params[:limit] || 16).select{|a| a.subject}
 
     @time_spans
