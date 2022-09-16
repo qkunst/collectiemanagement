@@ -38,9 +38,14 @@ module Work::Search
 
     index_name "works-#{Rails.env.test? ? "testa" : "a"}"
 
+    # for search
+    def has_photo_front
+      photo_front?
+    end
+
     def as_indexed_json(*)
       index_config = {
-        except: [:other_structured_data, :old_data],
+        except: [:other_structured_data, :old_data, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2],
         include: {
           artists: {only: [:id, :name], methods: [:name]},
           balance_category: {only: [:id, :name]},
@@ -65,7 +70,7 @@ module Work::Search
           :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,
           :report_val_sorted_artist_ids, :report_val_sorted_object_category_ids, :report_val_sorted_technique_ids, :report_val_sorted_theme_ids,
           :location_raw, :location_floor_raw, :location_detail_raw,
-          :object_format_code, :inventoried, :refound, :new_found
+          :object_format_code, :inventoried, :refound, :new_found, :has_photo_front
         ]
       }
 
@@ -157,7 +162,7 @@ module Work::Search
             default_field: "*",
             query: search,
             default_operator: :and,
-            fuzziness: 3
+            fuzziness: 2
           }
         }]
       else

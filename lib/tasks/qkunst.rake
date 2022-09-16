@@ -18,6 +18,13 @@ namespace :qkunst do
     ScheduleReindexWorkWorker.perform_async
   end
 
+  desc "Herindexeer alle werken async"
+  task reindex: :environment do
+    Work.__elasticsearch__.create_index!
+    ScheduleReindexWorkWorker.perform_async
+  end
+
+
   desc "Bouw nieuwe index op en herindexeer alle werken in sync (traag)"
   task new_index_and_sync: :environment do
     begin

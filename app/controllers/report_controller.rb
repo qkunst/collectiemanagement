@@ -68,7 +68,7 @@ class ReportController < ApplicationController
         "Beprijzing" => [],
         "Herkomst" => [[:sources], [:purchase_year]],
         "Object" => [[:object_categories_split], [:permanently_fixed, :object_format_code, :frame_type], [:object_creation_year]],
-        "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish]]
+        "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish, :has_photo_front]]
       })
     end
 

@@ -47,11 +47,12 @@ class WorksController < ApplicationController
 
     begin
       set_works
-    rescue Elasticsearch::Transport::Transport::Errors::BadRequest
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       @works = []
       @works_count = 0
       @inventoried_objects_count = 0
       @alert = "De zoekopdracht werd niet begrepen, pas de zoekopdracht aan."
+      logger.error("Elasticsearch::Transport::Transport::Errors::BadRequest: #{e.message}")
     rescue Faraday::ConnectionFailed
       @works = []
       @works_count = 0

@@ -35,7 +35,7 @@ module Works::Filtering
             @selection_filter[field] = params[:filter][field].collect { |a| a == Work::Search::NOT_SET_VALUE ? nil : a } if params[:filter][field]
           elsif ["location_raw", "location_floor_raw", "location_detail_raw"].include?(field)
             @selection_filter[field] = params[:filter][field] if params[:filter][field]
-          elsif Work.column_types[field.to_s] == :boolean
+          elsif Work.column_types[field.to_s] == :boolean || CollectionReportHelper::BOOLEANS.include?(field.to_sym)
             @selection_filter[field] = parse_booleans(values)
           else
             @selection_filter[field] = clean_ids(values)

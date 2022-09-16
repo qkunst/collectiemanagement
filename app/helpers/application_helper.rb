@@ -112,7 +112,7 @@ module ApplicationHelper
         end.join
 
         if value.is_a? Array
-          value.map { |a| hidden_field_tag "#{name}[]", a.blank? ? Work::Search::NOT_SET_VALUE : a }
+          value.map { |a| hidden_field_tag "#{name}[]", a.nil? ? Work::Search::NOT_SET_VALUE : a }
         else
           hidden_field_tag name.to_s, value
         end
