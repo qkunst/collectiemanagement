@@ -135,3 +135,4 @@ gem "annotate", group: [:development]
 
 gem "branding_repo"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
+gem "invisible_captcha"
