@@ -62,7 +62,7 @@ module OAuthUser
         user.qkunst = data.qkunst
         user.domain = data.domain || data.email.split("@")[1]
         user.confirmed_at ||= Time.now if data.email_confirmed?
-        user.raw_open_id_token = data.raw_open_id_token.to_hash
+        user.raw_open_id_token = data.raw_open_id_token&.to_hash
         user.app = !!data.app
         user.oauth_expires_at = data.oauth_expires_at
         user.oauth_refresh_token ||= data.oauth_refresh_token
