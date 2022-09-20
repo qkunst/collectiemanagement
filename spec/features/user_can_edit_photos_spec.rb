@@ -40,7 +40,7 @@ RSpec.feature "Edit photos", type: :feature do
 
         visit collection_work_edit_photos_path(works(:work1).collection, works(:work1))
         expect(page).not_to have_content("Beheer foto's van Q001 artist_1")
-        expect(page).to have_content("Alleen medewerkers van QKunst kunnen deze pagina bekijken")
+        expect(page).to have_content("Alleen medewerkers van #{I18n.t("organisation.name")} kunnen deze pagina bekijken")
       end
     end
   end

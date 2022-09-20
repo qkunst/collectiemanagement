@@ -50,7 +50,8 @@ RSpec.describe Report::Builder, type: :model do
         selling_price: {terms: {field: "selling_price", size: 999}},
         work_sets: {terms: {field: "work_sets.id", size: 999}},
         work_status: {terms: {field: "work_status.id", size: 999}},
-        work_status_missing: {missing: {field: "work_status.id"}}
+        work_status_missing: {missing: {field: "work_status.id"}},
+        has_photo_front: {:terms=>{:field=>"has_photo_front", :size=>999}},
       }
       expect(Report::Builder.aggregations).to eq(expected)
     end

@@ -28,7 +28,6 @@ class CurrenciesController < ApplicationController
   # POST /currencies.json
   def create
     @currency = Currency.new(currency_params)
-
     respond_to do |format|
       if @currency.save
         format.html { redirect_to @currency, notice: "Currency was successfully created." }

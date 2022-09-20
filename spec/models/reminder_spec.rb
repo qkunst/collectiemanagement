@@ -147,7 +147,7 @@ RSpec.describe Reminder, type: :model do
           qkunst_private: true,
           subject_object: c,
           reminder: r,
-          from_user_name: "QKunst Collectiemanagement Herinneringen"
+          from_user_name: "#{I18n.t("application.name")} Herinneringen"
         ).to_json)
       end
       it "should inform all admins" do

@@ -64,7 +64,7 @@ RSpec.describe "works/show", type: :view do
       let(:display) { :detailed }
 
       it "renders correctly" do
-        expect(rendered).to match("Interne opmerking bij werk 1")
+        expect(rendered).not_to match("Interne opmerking bij werk 1")
         expect(rendered).to match("Marktwaarde")
       end
     end

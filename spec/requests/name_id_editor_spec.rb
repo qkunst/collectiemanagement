@@ -5,7 +5,6 @@ require "rails_helper"
 RSpec.describe "Admin level management", type: :request do
   [
     "conditions",
-    "currencies",
     "damage_types",
     "frame_damage_types",
     "frame_types",

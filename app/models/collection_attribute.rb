@@ -14,7 +14,7 @@
 #  collection_id    :bigint
 #
 class CollectionAttribute < ApplicationRecord
-  encrypts :value
+  has_encrypted :value
   belongs_to :collection
   belongs_to :attributed, polymorphic: true
 

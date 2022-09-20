@@ -99,6 +99,19 @@ RSpec.configure do |config|
     config.after(:each) { Bullet.end_request }
   end
 
+  elastic_search_host_config = Rails.application.config.elasticsearch[:hosts][0]
+  elastic_search_host = elastic_search_host_config ? "#{elastic_search_host_config[:user]}:#{elastic_search_host_config[:password]}@#{elastic_search_host_config[:host]}:#{elastic_search_host_config[:port]}" : "elastic:PleaseChangeMe@localhost:59200"
+
+  `curl -X PUT "#{elastic_search_host}/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'`
+  `curl -X PUT "#{elastic_search_host}/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'`
+  begin
+    Work.__elasticsearch__.delete_index!
+  rescue Elasticsearch::Transport::Transport::Errors::NotFound
+    puts "Already deleted..."
+  end
+  Work.__elasticsearch__.create_index!
+
+
   Work.all.each(&:reindex!)
 
   config.before do
