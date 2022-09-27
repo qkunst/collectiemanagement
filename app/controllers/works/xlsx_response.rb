@@ -31,7 +31,7 @@ module Works::XlsxResponse
     private
 
     def direct_download?
-      @works.count < 500 || @collection_works_count > @works_count
+      @works.unscope(:order).count < 500 || @collection_works_count > @works_count
     end
 
     def download_parameters
