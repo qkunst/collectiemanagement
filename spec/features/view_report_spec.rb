@@ -97,4 +97,24 @@ RSpec.feature "View report", type: :feature do
     expect(page).to have_content("Floor 1")
     expect(page).to have_content("Adres")
   end
+
+  scenario "as a facility manager support (limited)" do
+    # required for TravisCI
+    collections(:collection1).works_including_child_works.all.reindex!
+
+    login users(:facility_manager_support)
+
+    visit collections_path
+
+    within "#responsive-menu" do
+      click_on("Rapportage")
+    end
+
+    expect(page).to have_content("cluster1")
+    expect(page).not_to have_content("Marktwaarde")
+
+    expect(page).to have_content("Room 1")
+    expect(page).to have_content("Floor 1")
+    expect(page).to have_content("Adres")
+  end
 end

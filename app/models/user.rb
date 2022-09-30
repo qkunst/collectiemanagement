@@ -21,6 +21,7 @@
 #  email                                  :string           default(""), not null
 #  encrypted_password                     :string           default(""), not null
 #  facility_manager                       :boolean
+#  facility_manager_support               :boolean
 #  failed_attempts                        :integer          default(0), not null
 #  filter_params                          :text
 #  last_sign_in_at                        :datetime
@@ -58,7 +59,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_paper_trail
 
-  ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
+  ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :facility_manager_support, :read_only]
   ADMIN_DOMAINS = ["qkunst.nl", "murb.nl", "heden.nl"]
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2", "central_login"]
 
@@ -110,6 +111,10 @@ class User < ApplicationRecord
 
   def admin_with_favorites?
     collections.count > 0
+  end
+
+  def viewable_work_fields
+    @viewable_work_fields ||= ability.viewable_work_fields
   end
 
   def accessible_collections

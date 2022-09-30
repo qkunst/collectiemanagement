@@ -177,6 +177,7 @@ nl:
           appraiser: Taxateur
           registrator: Registrator
           facility_manager: Facility Manager
+          facility_manager_support: Facility Manager Support
           read_only: Read-only
       import_collection:
         split_nothing: "Splits niets"

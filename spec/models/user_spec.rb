@@ -21,6 +21,7 @@
 #  email                                  :string           default(""), not null
 #  encrypted_password                     :string           default(""), not null
 #  facility_manager                       :boolean
+#  facility_manager_support               :boolean
 #  failed_attempts                        :integer          default(0), not null
 #  filter_params                          :text
 #  last_sign_in_at                        :datetime

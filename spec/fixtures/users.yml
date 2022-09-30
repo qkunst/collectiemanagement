@@ -19,6 +19,7 @@
 #  email                                  :string           default(""), not null
 #  encrypted_password                     :string           default(""), not null
 #  facility_manager                       :boolean
+#  facility_manager_support               :boolean
 #  failed_attempts                        :integer          default(0), not null
 #  filter_params                          :text
 #  last_sign_in_at                        :datetime
@@ -145,6 +146,13 @@ read_only_with_access_to_collection_with_stages:
 facility_manager:
   email: qkunst-test-facility_manager@murb.nl
   facility_manager: true
+  collections:
+    - :collection1
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
+facility_manager_support:
+  email: qkunst-test-facility_manager_support@murb.nl
+  facility_manager_support: true
   collections:
     - :collection1
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy

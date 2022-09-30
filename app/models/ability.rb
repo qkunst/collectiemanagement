@@ -85,7 +85,7 @@ class Ability
     if can?(:edit_availability, Work)
       permitted_fields += [:for_rent, :for_purchase, :highlight]
     end
-    if can?(:read, Cluster)
+    if can?(:edit, Cluster)
       permitted_fields += [
         :cluster, :cluster_id
       ]
@@ -103,7 +103,7 @@ class Ability
 
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
-    permitted_fields = [:updated_at, :created_at, :collection_id, :id, :significantly_updated_at, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
+    permitted_fields = [:collection_id, :id, :significantly_updated_at, :stock_number, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
         :height, :width, :depth, :diameter, :subset, :subset_id, :public_description, :abstract_or_figurative,  theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
                             :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description, :for_purchase_at, :for_rent_at, :highlight_at
                           ]]
@@ -115,19 +115,27 @@ class Ability
       permitted_fields += [:internal_comments]
     end
     permitted_fields += []
-    if can?(:edit, Work)
+    if can?(:edit, Work) || can?(:show_details, Work)
       permitted_fields += [
+        :alt_number_1, :alt_number_2, :alt_number_3, :alt_number_4, :alt_number_5, :alt_number_6,
+        :updated_at, :created_at,
         :inventoried, :refound, :new_found,
         :locality_geoname_id, :imported_at, :import_collection_id,
         :artist_unknown,
+        :cached_tag_list,
         :signature_comments, :no_signature_present,
-        :information_back, :other_comments,
+        :other_comments,
         :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :cluster_id, :owner_id, :permanently_fixed,
         :removed_from_collection_note,
         :placeability_id, :placeability, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
-
       ]
+    end
+    if can?(:read_cluster_report, Collection)
+      permitted_fields += [:cluster]
+    end
+    if can?(:read_information_back, Work)
+      permitted_fields += [:information_back]
     end
     if can?(:read_condition, Work)
       permitted_fields += [:damage_types, :damage_type_ids, :frame_damage_types, :frame_damage_type_ids, :condition_work, :condition_work_id, :condition_work_comments, :condition_frame, :condition_frame_id, :condition_frame_comments]
@@ -230,7 +238,7 @@ class Ability
     can [:edit_visibility, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, LibraryItem
 
-    can [:read_api, :create_work_events_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
+    can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
 
     can [:read_api, :read_condition, :edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
@@ -261,9 +269,9 @@ class Ability
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
     can :read, TimeSpan
-    can [:read_api, :create_work_events_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
+    can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
-    can [:edit_availability, :read_api, :create_work_events_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:edit_availability, :read_status, :read_api, :create_work_events_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can [:create, :update, :read, :complete], Message
   end
 
@@ -293,11 +301,11 @@ class Ability
     can :read, Attachment, collection_id: accessible_collection_ids
     can [:read, :create], Message
 
-    can [:read_api, :read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_pdf, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :review_modified_works], Collection, id: accessible_collection_ids
+    can [:read_cluster_report, :read_api, :read, :review, :review_collection, :review_collection_users, :access_valuation, :download_datadump, :download_pdf, :download_public_datadump, :download_photos, :read_report, :read_extended_report, :read_status, :read_valuation, :review_modified_works], Collection, id: accessible_collection_ids
 
     can :read, Attachment, collection_id: accessible_collection_ids
 
-    can [:read, :read_condition, :read_information_back, :read_location, :read_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :read_condition, :read_status, :read_information_back, :read_location, :read_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can :read, User
     can :read, TimeSpan
@@ -322,14 +330,13 @@ class Ability
 
     can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
 
-    can [:read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
+    can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :read_valuation, :read_valuation_reference, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :read_condition, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:tag, :read, :read_condition, :read_status, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can [:create, :index, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, Owner
     can :read, TimeSpan
-    can :tag, Work
   end
 
   def initialize_registrator
@@ -343,9 +350,9 @@ class Ability
 
     can [:read, :create, :update], LibraryItem, collection_id: accessible_collection_ids
 
-    can [:read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
+    can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :read, :read_report, :read_extended_report, :read_status, :refresh], Collection, id: accessible_collection_ids
 
-    can [:read, :read_condition, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :read_condition, :read_status, :edit_photos, :edit, :create, :manage_location, :read_information_back, :read_internal_comments, :edit_source_information, :write_internal_comments, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
   end
   alias_method :initialize_qkunst, :initialize_registrator
 
@@ -358,12 +365,18 @@ class Ability
 
     can :create, Message
     can :read, TimeSpan
-    can [:read, :show], Message, qkunst_private: [false, nil]
+    can [:read, :show, :read_status], Message, qkunst_private: [false, nil]
+  end
+
+  def initialize_facility_manager_support
+    can [:read], Artist
+    can [:read, :read_report, :read_cluster_report], Collection, id: accessible_collection_ids
+    can [:read, :read_location], Work, collection_id: accessible_collection_ids
   end
 
   def initialize_read_only
     can [:read], Artist
     can :read, Collection, id: accessible_collection_ids
-    can :read, Work, collection_id: accessible_collection_ids
+    can [:read], Work, collection_id: accessible_collection_ids
   end
 end

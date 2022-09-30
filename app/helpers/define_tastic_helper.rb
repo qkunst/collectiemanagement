@@ -23,6 +23,12 @@ module DefineTasticHelper
     end
   end
 
+  def sanctioned_define_unless_blank property, options = {}
+    if current_user.viewable_work_fields.include? property
+      define_unless_blank property, options
+    end
+  end
+
   def define_unless_blank property, options = {}
     description = options[:description] || @define_tastic_object_klass.human_attribute_name(property)
 
