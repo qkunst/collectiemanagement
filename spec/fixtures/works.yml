@@ -324,3 +324,10 @@ collection_with_availability_sold:
   artists:
     - :artist4
   collection: :collection_with_availability
+
+collection_with_availability_rent_work:
+  title: Rent
+  stock_number: QDT2c
+  artists:
+    - :artist4
+  collection: :collection_with_availability

@@ -78,3 +78,11 @@ time_span_future:
   classification: rental_outgoing
   starts_at: 2100-01-01T00:00:00+00:00
   ends_at: 2105-01-01T00:00:00+00:00
+
+time_span_active:
+  subject: collection_with_availability_rent_work (Work)
+  collection: :collection_with_availability
+  contact: :contact1
+  status: active
+  classification: rental_outgoing
+  starts_at: 2000-01-01T00:00:00+00:00
