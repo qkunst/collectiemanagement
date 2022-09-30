@@ -1,4 +1,6 @@
 version: "2"
 exclude_patterns:
   - "app/javascript/zxing/zxing_reader.js"
-  - "db/schema.rb"
+  - "db/schema.rb" # generated code
+  - "db/migrate/*" # migrations are hardly ever touched
+  - "spec/routing/*" # very simple low level tests with lot of repetation, but that is fine

@@ -22,12 +22,9 @@ nl:
         collection: 'Algemeen'
   save_and_edit_next: Na bewaren direct de volgende bewerken
   abilities:
-    edit: Bewerken
     manage: Beheren
-    read: Lezen
-    show: Tonen
-    index: Overzicht zien
-    create: Aanmaken & opslaan
+    read: Zien
+    create: Aanmaken
     complete: Markeer als voltooid
     update: Bijwerken
     edit_admin: Administrator rol toekennen
@@ -46,7 +43,6 @@ nl:
     edit_photos: Foto's bewerken
     edit_visibility: Pas zichtbaarheid aan
     copy: Kopieer
-    new: Aanmaken
     review: Toegang tot beheer
     read_status: Status inzien
     clean: Opschonen

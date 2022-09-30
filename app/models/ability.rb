@@ -334,7 +334,7 @@ class Ability
 
     can [:tag, :read, :read_condition, :read_status, :edit, :create, :read_information_back, :read_internal_comments, :write_internal_comments, :tag, :edit, :edit_purchase_information, :edit_source_information, :manage_location, :edit_photos, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
-    can [:create, :index, :update], Attachment, collection_id: accessible_collection_ids
+    can [:create, :read, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, Owner
     can :read, TimeSpan
   end
@@ -365,7 +365,7 @@ class Ability
 
     can :create, Message
     can :read, TimeSpan
-    can [:read, :show, :read_status], Message, qkunst_private: [false, nil]
+    can [:read, :read, :read_status], Message, qkunst_private: [false, nil]
   end
 
   def initialize_facility_manager_support

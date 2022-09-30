@@ -55,7 +55,12 @@ module Ability::Report
         ability.permissions[:can].each do |permission, things|
           things.each do |thing, _|
             permissions_per_thing[thing] ||= []
-            permissions_per_thing[thing] << permission unless permissions_per_thing[thing].include? permission
+            # alias_action :index, :show, :to => :read
+            # alias_action :new, :to => :create
+            # alias_action :edit, :to => :update
+            unless [:index, :show, :new, :edit].include? permission # ignore aliased actions
+              permissions_per_thing[thing] << permission unless permissions_per_thing[thing].include? permission
+            end
           end
         end
       end
