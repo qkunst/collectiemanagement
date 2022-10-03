@@ -33,7 +33,7 @@ class Api::V1::WorksController < Api::V1::ApiController
     end
 
     if params[:pluck]
-      render json: {data: @works.pluck(*(exposable_database_fields & params[:pluck].map(&:to_sym)))}
+      render json: {data: @works.pluck(*(params[:pluck].map(&:to_sym) & exposable_database_fields))}
     end
   rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
     render json: {error: "De zoekmachine kon de zoekvraag niet verwerken, pas deze aan", status: 400}, status: 400
