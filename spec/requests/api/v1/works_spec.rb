@@ -77,6 +77,11 @@ RSpec.describe Api::V1::WorksController, type: :request do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:id, :stock_number])
 
         expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_works).works_including_child_works.pluck(:id, :stock_number).sort)
+
+        # includes :artist_name_for_sorting; used in uitleen
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:id, :artist_name_for_sorting])
+
+        expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_works).works_including_child_works.pluck(:id, :artist_name_for_sorting).sort)
       end
 
     end
