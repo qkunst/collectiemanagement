@@ -177,9 +177,8 @@ RSpec.describe Ability, type: :model do
         report = Ability.report_abilities
         expect(report[:header][0][:ability]).to be_a(Ability)
         expect(report[:header][0][:user]).to be_a(Ability::TestUser)
-
         expect(report.dig(:data, "Alles", "Beheren")).to eq([true, false, false, false, false, false, false, false])
-        expect(report.dig(:data, "Werk", "Bewerken")).to eq([true, true, false, true, true, false, false, false])
+        expect(report.dig(:data, "Werk", "Bewerk locatie")).to eq([true, true, false, true, true, true, false, false])
       end
     end
   end

@@ -24,7 +24,7 @@ module DefineTasticHelper
   end
 
   def sanctioned_define_unless_blank property, options = {}
-    if current_user.viewable_work_fields.include? property
+    if current_user.admin? || current_user.viewable_work_fields.include?(property)
       define_unless_blank property, options
     end
   end
