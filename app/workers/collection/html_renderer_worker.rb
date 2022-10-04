@@ -4,7 +4,7 @@ class Collection::HtmlRendererWorker
   include Sidekiq::Worker
   include Works::Filtering # Controller concern
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
+  sidekiq_options retry: true, backtrace: true, queue: :qkunst_quick
 
   class FakeWarden
     def initialize(user)

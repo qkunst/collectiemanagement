@@ -6,7 +6,7 @@ class PdfPrinterWorker
   attr_reader :options
   attr_reader :url
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
+  sidekiq_options retry: true, backtrace: true, queue: :qkunst_quick
 
   def clean_resource(url)
     # urls are recognized as urls, but local files are not; simple trick that works on unixy systems

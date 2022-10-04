@@ -11,7 +11,7 @@
 class UpdateCacheWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_often
+  sidekiq_options retry: true, backtrace: true, queue: :qkunst_quick
 
   def perform(class_name, field_name, id = nil)
     konstant = class_name.constantize

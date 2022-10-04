@@ -3,7 +3,7 @@
 class RinseAndCleanWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
+  sidekiq_options retry: true, backtrace: true, queue: :qkunst_background
 
   def perform
     Cluster.remove_all_without_works

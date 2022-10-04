@@ -3,7 +3,7 @@
 class Collection::DownloadWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
+  sidekiq_options retry: true, backtrace: true, queue: :qkunst_quick
 
   def perform(collection_id, requested_by_user_id, format = :xlsx, audience = :default, fields_to_expose = [:id, :title_rendered])
     format = format.to_sym

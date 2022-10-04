@@ -5,7 +5,7 @@ class ImportWriteWorkJson
 
   class ImportError < StandardError; end
 
-  sidekiq_options retry: false, backtrace: true, queue: :qkunst_often
+  sidekiq_options retry: false, backtrace: true, queue: :qkunst_quick
 
   def perform(import_id, work_data)
     import_collection = ImportCollection.find(import_id)

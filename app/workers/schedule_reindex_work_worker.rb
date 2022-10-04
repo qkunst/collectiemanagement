@@ -7,7 +7,7 @@ class ScheduleReindexWorkWorker
 
   def perform
     Work.select(:id).all.each do |work|
-      ReindexWorkWorker.perform_async(work.id)
+      ReindexWorkWorker.set(queue: :qkunst_background).perform_async(work.id)
     end
   end
 end
