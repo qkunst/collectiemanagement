@@ -1,5 +1,5 @@
 # when finished development, this may become static
-json.extract! work, :title_rendered, :id, :artist_name_rendered, :collection_id
+json.extract! work, :title_rendered, :id, :artist_name_rendered, :collection_id, :stock_number
 
 json.photo_front do |photo|
   json.thumb "#{request.base_url}#{work.photo_front.thumb.url}" if work.photo_front?

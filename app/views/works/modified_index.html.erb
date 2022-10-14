@@ -3,7 +3,7 @@
 <fieldset class="row">
   <div class="small-6 columns">
     <%= f.input :only_location_changes, label: "Alleen locatiewijzigingen", as: :boolean%>
-    <%= f.input :only_non_qkunst, label: "Alleen niet-qkunst wijzigingen", as: :boolean%>
+    <%= f.input :only_non_qkunst, label: "Alleen externe wijzigingen", as: :boolean%>
   </div>
   <div class="small-6 columns">
     <%= f.input :from_date, label: "Wijzigingen van", as: :date, html5: true, input_html: {pattern: "\d{4}-\d{2}-\d{2}"}%>

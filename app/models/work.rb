@@ -265,8 +265,6 @@ class Work < ApplicationRecord
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
-  alias_attribute :name, :title
-
   def photos?
     photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
   end
@@ -328,6 +326,10 @@ class Work < ApplicationRecord
   def balance_category
     return nil if appraised?
     super
+  end
+
+  def name
+    "#{artist_name_rendered} - #{title_rendered}"
   end
 
   # This method is built to be fault tolerant and tries to make the best out of user given input.
