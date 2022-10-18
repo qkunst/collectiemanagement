@@ -133,6 +133,6 @@ gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
 gem "annotate", group: [:development]
 
-gem "branding_repo"
+gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
 gem "invisible_captcha"

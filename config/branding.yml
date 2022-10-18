@@ -6,3 +6,23 @@ files:
   - app/assets/images/logo.svg
   - app/assets/stylesheets/_settings.scss
   - app/assets/stylesheets/variables.scss
+  - public/favicon.ico
+  - public/Icon.png
+  - public/iOS App Icon Template.png
+  - public/icon_16pt.png
+  - public/icon_20pt.png
+  - public/icon_20pt@2x.png
+  - public/icon_20pt@3x.png
+  - public/icon_29pt.png
+  - public/icon_29pt@2x.png
+  - public/icon_29pt@3x.png
+  - public/icon_32pt.png
+  - public/icon_40pt.png
+  - public/icon_40pt@2x.png
+  - public/icon_40pt@3x.png
+  - public/icon_60pt@2x.png
+  - public/icon_60pt@3x.png
+  - public/icon_76pt.png
+  - public/icon_76pt@2x.png
+  - public/icon_83.5@2x.png
+  - public/icons.sketch
