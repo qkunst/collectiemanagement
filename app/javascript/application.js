@@ -4,7 +4,6 @@ window.jQuery = $;
 
 const UJS = require("rails-ujs");
 const Turbolinks = require("turbolinks");
-const Stickyfill = require("stickyfilljs");
 
 Turbolinks.start();
 UJS.start();
@@ -40,15 +39,6 @@ window.FormStore = FormStore;
 
 var collectieBeheerInit = function() {
   FormStore.init();
-  // stickyfill
-  setTimeout(function(){
-    var stickyElements = document.getElementsByClassName('sub-nav');
-    for (var i = stickyElements.length - 1; i >= 0; i--) {
-      Stickyfill.add(stickyElements[i]);
-    }
-  },30)
-
-
 
   function formatRepo (result) {
     if (result.loading || !result.name) return result.text;
@@ -228,8 +218,6 @@ if (window.isSecureContext) {
 } else {
   console.log('Not in secure context')
 }
-// f = FormStore.Form.parseForm(document.forms[0])
-// f.submitForm()
 
 $(document).ready(function(){
   collectieBeheerInit()
@@ -237,14 +225,5 @@ $(document).ready(function(){
 
 $(document).on("turbolinks:load", function(){
   collectieBeheerInit()
-})
-
-$(document).on("turbolinks:request-start", function() {
-  var stickyElements = document.getElementsByClassName('sub-nav');
-  for (var i = stickyElements.length - 1; i >= 0; i--) {
-    Stickyfill.remove(stickyElements[i]);
-  }
-  // Stickyfill.kill();
-
 })
 

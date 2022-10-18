@@ -15,7 +15,6 @@
     "puppeteer": ">=10.1.0",
     "rails-ujs": ">=5.2.4-1",
     "select2": ">=4.0.12",
-    "stickyfilljs": ">=2.1.0",
     "turbolinks": ">=5.2.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
