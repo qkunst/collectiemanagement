@@ -245,8 +245,10 @@ class Work < ApplicationRecord
       raise "unsupported parameter #{group}"
     end
   }
-  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime...1.year.from_now)) }
+
   scope :availability_status, ->(classification, status=:active) { joins(:time_spans).where(time_spans: {status: status , classification: classification}) }
+  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime ... 1.year.from_now)) }
+  scope :time_filter_status_sold, ->(start_date, end_date) { joins(:time_spans).where(TimeSpan.period((start_date...end_date)).sold ) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals

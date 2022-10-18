@@ -54,18 +54,16 @@ class TimeSpan < ApplicationRecord
   # classification-scopes
   scope :rental_outgoing, -> { where(classification: :rental_outgoing) }
 
-  # time-scopes
-  scope :current, -> {
-                    where("
-    (time_spans.starts_at IS NULL AND time_spans.ends_at IS NULL) OR
-    (time_spans.starts_at <= :time    AND time_spans.ends_at >= :time) OR
-    (time_spans.starts_at IS NULL AND time_spans.ends_at >= :time) OR
-    (time_spans.starts_at <= :time    AND time_spans.ends_at IS NULL) OR
-    (time_spans.starts_at <= :time    AND time_spans.status = 'active')
-    ", {time: Time.current})
-                  }
 
   scope :expired, -> { current.where("time_spans.ends_at <= ?", Time.current) }
+  scope :period, ->(period) { where("
+    (time_spans.starts_at <= :start AND time_spans.ends_at >= :start) OR
+    (time_spans.starts_at <= :start AND time_spans.ends_at IS NULL) OR
+    (time_spans.starts_at > :start AND time_spans.starts_at < :end) OR
+    (time_spans.starts_at <= :start AND time_spans.status = 'active')
+    ", {start: period.first, end: period.end})}
+  scope :current, ->{ period(Time.now...Time.now) }
+  scope :sold, ->{ where(status: [:active, :finished]).where(classification: :purchase)}
 
   def contact_url
     contact&.url

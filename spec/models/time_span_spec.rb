@@ -220,16 +220,43 @@ RSpec.describe TimeSpan, type: :model do
   end
 
   describe "scopes" do
-    describe ".current" do
+    describe ".current / .period" do
       [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
         it { expect(TimeSpan.current).to include time_spans(span) }
+        it { expect(TimeSpan.period((Time.current...Time.current))).to include time_spans(span) }
       end
       [:time_span_historic, :time_span_future].each do |span|
         it { expect(TimeSpan.current).not_to include time_spans(span) }
+        it { expect(TimeSpan.period((Time.current...Time.current))).not_to include time_spans(span) }
       end
 
       it "should include expired, active time spans" do
         expect(TimeSpan.current).to include time_spans(:time_span_expired)
+        expect(TimeSpan.period((Time.current...Time.current))).to include time_spans(:time_span_expired)
+      end
+
+      it "should include all when period is extreme" do
+        expect(TimeSpan.period(Date.new(1990,1,1)...Date.new(2300,1,1)).ids.sort).to eq TimeSpan.all.ids.sort
+      end
+
+      it "should include only future and when period is extreme future" do
+        period = Time.now...Date.new(2300,1,1)
+        [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_future].each do |span|
+          expect(TimeSpan.period(period)).to include time_spans(span)
+        end
+        [:time_span_historic].each do |span|
+          expect(TimeSpan.period(period)).not_to include time_spans(span)
+        end
+      end
+
+      it "should include only past and current when period is extreme history till now" do
+        period = Date.new(1990,1,1)...Time.now
+        [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_historic].each do |span|
+          expect(TimeSpan.period(period)).to include time_spans(span)
+        end
+        [:time_span_future].each do |span|
+          expect(TimeSpan.period(period)).not_to include time_spans(span)
+        end
       end
     end
 
