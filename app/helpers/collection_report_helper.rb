@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module CollectionReportHelper
-  BOOLEANS = [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :has_photo_front]
+  BOOLEANS = [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :has_photo_front, :for_purchase, :for_rent ]
   PRICE_COLUMNS = [:replacement_value, :replacement_value_min, :purchase_price_in_eur, :replacement_value_max, :market_value, :market_value_min, :market_value_max, :minimum_bid, :selling_price]
   DATE_OR_TIME_COLUMNS = [:object_creation_year, :purchase_year, :refound, :inventoried, :new_found]
   HAS_JOIN_STRING_NESTED_VALUES = [:location_raw, :location_floor_raw, :location_detail_raw]

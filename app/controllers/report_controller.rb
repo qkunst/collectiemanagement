@@ -83,6 +83,7 @@ class ReportController < ApplicationController
       @sections["Vervangingswaardering"] += [[:replacement_value_range], [:replacement_value], [:replacement_value_min_ignore_super]]
 
       @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
+      @sections["Beprijzing"] << [:for_purchase, :for_rent] if @collection&.show_availability_status?
     end
 
     if @collection&.show_availability_status?

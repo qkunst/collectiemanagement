@@ -228,6 +228,12 @@ nl:
           not_set: Onbekende herkomst
         themes:
           not_set: Geen thema
+        for_purchase:
+          "0": Niet te koop
+          "1": Te koop
+        for_rent:
+          "0": Niet te huur
+          "1": Te huur
         grade_within_collection:
           a: A
           b: B
