@@ -22,6 +22,24 @@ class Uitleen::Customer
       end
     end
 
+    def find(id, current_user:)
+      current_user.refresh!(force: false)
+
+      if id.start_with?("http")
+        id = id.split("/").last
+      end
+
+      response = Faraday.new(URI.join(Uitleen.site, "api/v1/customers/#{id}.json").to_s, headers: authorization_header(current_user: current_user)).get
+
+      if response.status == 200
+        json = JSON.parse(response.body)["data"]
+
+        [json].flatten.map { |c| Uitleen::Customer.new(c) }.first
+      else
+        nil
+      end
+    end
+
     def all(current_user:, recursive: false)
       response = Faraday.new(URI.join(Uitleen.site, "api/v1/customers").to_s, headers: authorization_header(current_user: current_user)).get
 

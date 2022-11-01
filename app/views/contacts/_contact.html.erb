@@ -1,6 +1,6 @@
 <div class="contact">
 <% if contact.external? && contact.url%>
-<%= link_to "Extern contact", contact.url %>
+<%= link_to "Extern contact", contact.url %> (<%= Uitleen.configured? ? Uitleen::Customer.find(contact.url, current_user: current_user)&.name : nil%>)
 <% else %>
 <%= contact.name %>
 <% end %>

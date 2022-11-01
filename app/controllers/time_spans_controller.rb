@@ -95,5 +95,6 @@ class TimeSpansController < ApplicationController
       @contacts = @collection.base_collection.contacts.internal
       @contacts += @collection.base_collection.contacts.external.without_url
       @contacts += Uitleen::Customer.all(current_user: current_user) if Uitleen.configured?
+      @contacts = @contacts.sort_by(&:name)
     end
 end
