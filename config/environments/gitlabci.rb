@@ -49,14 +49,7 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
 
-  config.elasticsearch = {
-    hosts: [{
-      host: "localhost",
-      port: "9200",
-      user: "gitlab",
-      password: "PleaseChangeMe"
-    }]
-  }
+  config.elastic_search_host = 'http://elasticsearch:9200'
 
   config.log_level = :fatal
 
