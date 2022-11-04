@@ -71,7 +71,7 @@ test:
     - bundle install --path=cache/bundler --without production --jobs $(nproc) "${FLAGS[@]}"
     - bundle exec rails db:create RAILS_ENV=gitlabci
     - bundle exec rails db:migrate RAILS_ENV=gitlabci
-    - RAILS_ENV=gitlabci bundle exec rails elastic:rebuild_all
+    - bundle exec rails qkunst:new_index_and_sync RAILS_ENV=gitlabci
     - npm install -g yarn
   services:
     - name: "docker.elastic.co/elasticsearch/elasticsearch:7.13.2"
