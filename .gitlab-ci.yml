@@ -7,6 +7,12 @@
 # https://hub.docker.com/r/library/ruby/tags/
 image: ruby:3.0
 
+variables:
+# Configure postgres service (https://hub.docker.com/_/postgres/)
+ POSTGRES_DB: qkunst-test
+ POSTGRES_USER: username
+ POSTGRES_PASSWORD: verysecretindeed
+
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
@@ -51,6 +57,42 @@ cache:
 #     - bundle exec rails db:seed
 #     - bundle exec rails webpacker:compile
 #     - bundle exec rails spec
+
+
+test:
+  only:
+    - master
+  before_script:
+    - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+    - apt-get update -qq && apt-get install -y -qq nodejs
+    - ruby -v
+    - which ruby
+    - gem install bundler
+    - bundle install --path=cache/bundler --without production --jobs $(nproc) "${FLAGS[@]}"
+    - bundle exec rails db:setup RAILS_ENV=gitlabci
+    - bundle exec rails db:migrate RAILS_ENV=gitlabci
+    - RAILS_ENV=gitlabci bundle exec rails elastic:rebuild_all
+    - npm install -g yarn
+  services:
+    - name: "docker.elastic.co/elasticsearch/elasticsearch:7.13.2"
+      alias: "elasticsearch"
+      command: [ "bin/elasticsearch", "-Expack.security.enabled=false", "-Ediscovery.type=single-node" ]
+    - redis:alpine
+    - postgres:11
+  cache:
+    <<: *default-cache
+  script:
+    - node --version
+    - yarn install --frozen-lockfile --cache-folder .yarn-cache
+    - bundle exec rails assets:precompile
+    - RAILS_ENV=gitlabci bundle exec rspec 2>/dev/null || true
+    - RAILS_ENV=gitlabci bundle exec rspec
+  artifacts:
+    expire_in: 7d
+    paths:
+      - public/assets
+      - log/
+
 
 # test:
 #   before_script:
