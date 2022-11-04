@@ -105,8 +105,10 @@ RSpec.describe Api::V1::WorksController, type: :request do
       get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id])
       expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_availability).works_including_child_works.pluck(:id).sort)
 
-      get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
-      expect(JSON.parse(response.body)["data"].sort).to eq([works(:collection_with_availability_rent_work).id])
+      if Rails.env.test?
+        get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
+        expect(JSON.parse(response.body)["data"].sort).to eq([works(:collection_with_availability_rent_work).id])
+      end
     end
 
   end

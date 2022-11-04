@@ -153,59 +153,64 @@ RSpec.feature "Batch editor", type: :feature do
   end
 
   scenario "open selection and start batch edit after" do
-    user = users(:appraiser)
-    login user.email
+    if Rails.env.test?
+      user = users(:appraiser)
+      login user.email
 
-    visit "/collections/#{collections(:collection1).id}/report"
-    click_on("cluster1")
+      visit "/collections/#{collections(:collection1).id}/report"
+      click_on("cluster1")
 
-    user.reload
+      user.reload
 
-    visit "/collections/#{collections(:collection1).id}/report"
-    click_on("cluster2")
+      visit "/collections/#{collections(:collection1).id}/report"
+      click_on("cluster2")
 
-    clusters(:cluster2).works.pluck(:id).each do |work_id|
-      check "selected_works_#{work_id}"
+      clusters(:cluster2).works.pluck(:id).each do |work_id|
+        check "selected_works_#{work_id}"
+      end
+
+      click_on "Locatie"
+
+      fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
+      click_on "2 werken bijwerken"
+
+      expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
     end
-
-    click_on "Locatie"
-
-    fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
-    click_on "2 werken bijwerken"
-
-    expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
   end
 
   scenario "open two selections and start batch edit after" do
-    user = users(:appraiser)
-    login user.email
+    if Rails.env.test?
 
-    visit "/collections/#{collections(:collection1).id}/report"
-    click_on("cluster1")
+      user = users(:appraiser)
+      login user.email
 
-    user.reload
+      visit "/collections/#{collections(:collection1).id}/report"
+      click_on("cluster1")
 
-    cluster_1_filter_params = user.filter_params
+      user.reload
 
-    visit "/collections/#{collections(:collection1).id}/report"
-    click_on("cluster2")
+      cluster_1_filter_params = user.filter_params
 
-    clusters(:cluster2).works.pluck(:id).each do |work_id|
-      check "selected_works_#{work_id}"
+      visit "/collections/#{collections(:collection1).id}/report"
+      click_on("cluster2")
+
+      clusters(:cluster2).works.pluck(:id).each do |work_id|
+        check "selected_works_#{work_id}"
+      end
+
+      # simulate another page load visiting cluster 1
+      user.reload
+      user.filter_params = cluster_1_filter_params
+      user.save
+
+      click_on "Locatie"
+
+      fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
+      click_on "2 werken bijwerken"
+
+      expect(page).not_to have_content("De onderstaande 0 werken zijn bijgewerkt")
+      expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
     end
-
-    # simulate another page load visiting cluster 1
-    user.reload
-    user.filter_params = cluster_1_filter_params
-    user.save
-
-    click_on "Locatie"
-
-    fill_in_with_strategy(:location, "no filter adjustment worked already", :REPLACE)
-    click_on "2 werken bijwerken"
-
-    expect(page).not_to have_content("De onderstaande 0 werken zijn bijgewerkt")
-    expect(page).to have_content("De onderstaande 2 werken zijn bijgewerkt")
   end
 
   scenario "modify other attributes (happy flow)" do
