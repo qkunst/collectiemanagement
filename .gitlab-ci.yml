@@ -54,8 +54,8 @@ test:
   script:
     - node --version
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
-    - RAILS_ENV=gitlabci bundle exec rails assets:precompile
-    - RAILS_ENV=gitlabci bundle exec rspec
+    - bundle exec rails assets:precompile RAILS_ENV=gitlabci
+    - bundle exec rspec RAILS_ENV=gitlabci
   artifacts:
     expire_in: 7d
     paths:
