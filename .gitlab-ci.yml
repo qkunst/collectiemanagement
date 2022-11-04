@@ -69,7 +69,7 @@ test:
     - which ruby
     - gem install bundler
     - bundle install --path=cache/bundler --without production --jobs $(nproc) "${FLAGS[@]}"
-    - bundle exec rails db:setup RAILS_ENV=gitlabci
+    - bundle exec rails db:create RAILS_ENV=gitlabci
     - bundle exec rails db:migrate RAILS_ENV=gitlabci
     - RAILS_ENV=gitlabci bundle exec rails elastic:rebuild_all
     - npm install -g yarn
