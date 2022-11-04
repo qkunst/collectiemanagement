@@ -28,7 +28,7 @@ gem "jbuilder"
 gem "cancancan"
 gem "bootsnap"
 gem "lockbox"
-group :development, :test do
+group :development, :test, :gitlabci do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "capybara"
   gem "byebug", platform: :mri
