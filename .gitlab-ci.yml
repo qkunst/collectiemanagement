@@ -9,10 +9,10 @@ image: ruby:3.0
 
 variables:
 # Configure postgres service (https://hub.docker.com/_/postgres/)
- POSTGRES_DB: gitlabci
- POSTGRES_USER: gitlabci
- POSTGRES_PASSWORD: gitlabci
-
+  POSTGRES_DB: gitlabci
+  POSTGRES_USER: gitlabci
+  POSTGRES_PASSWORD: gitlabci
+  RAILS_ENV: gitlabci
 # Pick zero or more services to be used on all builds.
 # Only needed when using a docker container to run your tests in.
 # Check out: http://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-a-service
@@ -54,7 +54,7 @@ test:
   script:
     - node --version
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
-    - bundle exec rails assets:precompile
+    - RAILS_ENV=gitlabci bundle exec rails assets:precompile
     - RAILS_ENV=gitlabci bundle exec rspec
   artifacts:
     expire_in: 7d
