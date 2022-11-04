@@ -64,7 +64,7 @@ class BatchController < ApplicationController
     @work_ids += filtered_works.where(id: work_ids).pluck(:id)
     @work_ids = @work_ids.uniq
 
-    @works = filtered_works.where(id: @work_ids)
+    @works = filtered_works.includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(id: @work_ids)
     @work_count = @work_ids.count
   end
 

@@ -38,8 +38,8 @@ RSpec.describe WorkSet, type: :model do
       work_in_appraisable_set = work_sets(:work_diptych).works.first
       ws = WorkSet.new(works: [work_in_appraisable_set, works(:work1)], work_set_type: work_set_types(:meerluik))
       expect(ws.valid?).to eq(false)
-      expect(ws.errors[:base]).to include "Work Diptych Left wordt reeds gewaardeerd vanuit een andere groepering."
-      expect(ws.errors[:base]).to include "Work Diptych Left wordt reeds uniek geteld vanuit een andere groepering."
+      expect(ws.errors[:base]).to include "artist_4 achternaam - Work Diptych Left wordt reeds geteld vanuit een groepering die het als 1 werk telt."
+      expect(ws.errors[:base]).to include "artist_4 achternaam - Work Diptych Left wordt reeds gewaardeerd vanuit een andere groepering."
     end
     it "can have works exist in a multiple sets that are not all appraisable" do
       work_in_appraisable_set = work_sets(:work_diptych).works.first

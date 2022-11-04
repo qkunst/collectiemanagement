@@ -159,7 +159,7 @@ class WorkSet < ApplicationRecord
   def works_are_not_countable_as_one_in_another_set
     if count_as_one?
       works.each do |work|
-        errors.add(:base, "#{work.name} wordt reeds uniek geteld vanuit een andere groepering.") if work.countable_set && work.appraisable_set != self
+        errors.add(:base, "#{work.name} wordt reeds geteld vanuit een groepering die het als 1 werk telt.") if work.countable_set && work.appraisable_set != self
       end
     end
   end

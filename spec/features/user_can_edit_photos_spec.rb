@@ -22,7 +22,7 @@ RSpec.feature "Edit photos", type: :feature do
         click_on "Werk bewaren"
         click_on "Beheer foto's"
 
-        expect(page).to have_content("Beheer foto's van Q001 Work1")
+        expect(page).to have_content("Beheer foto's van Q001 artist_1, firstname (1900 - 2000) - Work1")
         click_on "Werk bewaren"
       end
     end
