@@ -63,7 +63,7 @@ test:
   only:
     - main
   before_script:
-    - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+    - curl -sL https://deb.nodesource.com/setup_16.x | bash -
     - apt-get update -qq && apt-get install -y -qq nodejs
     - ruby -v
     - which ruby
