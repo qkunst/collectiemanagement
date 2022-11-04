@@ -40,7 +40,7 @@ test:
     - ruby -v
     - which ruby
     - gem install bundler
-    - bundle install --path=cache/bundler --without production --jobs $(nproc) "${FLAGS[@]}"
+    - bundle install --path=vendor/ruby --without production --jobs $(nproc) "${FLAGS[@]}"
     - bundle exec rails db:create RAILS_ENV=gitlabci
     - bundle exec rails db:migrate RAILS_ENV=gitlabci
     - bundle exec rails qkunst:new_index_and_sync RAILS_ENV=gitlabci

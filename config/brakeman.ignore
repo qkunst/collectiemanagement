@@ -7,7 +7,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 602,
+      "line": 604,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM artists_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -18,6 +18,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -27,7 +30,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 610,
+      "line": 612,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM techniques_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -38,6 +41,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -47,7 +53,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 612,
+      "line": 614,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM work_sets_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -58,37 +64,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
-      "note": ""
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "286bdf780102de3daf1b0655f0311bfcfd73ebfe5668ffdec246529af8dbd1dc",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/batch/show.html.erb",
-      "line": 115,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "BatchController",
-          "method": "show",
-          "line": 12,
-          "file": "app/controllers/batch_controller.rb",
-          "rendered": {
-            "name": "batch/show",
-            "file": "app/views/batch/show.html.erb"
-          }
-        }
+      "cwe_id": [
+        89
       ],
-      "location": {
-        "type": "template",
-        "template": "batch/show"
-      },
-      "user_input": "params[:selected_works]",
-      "confidence": "Weak",
       "note": ""
     },
     {
@@ -98,7 +76,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 603,
+      "line": 605,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM attachments_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -109,6 +87,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -118,7 +99,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 609,
+      "line": 611,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM sources_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -129,6 +110,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -170,6 +154,9 @@
       },
       "user_input": "current_user.accessible_collections.find(params[:collection_id])",
       "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
       "note": "n"
     },
     {
@@ -190,6 +177,9 @@
       },
       "user_input": ":role",
       "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
       "note": "solved with requiring an admin user here explicitly"
     },
     {
@@ -221,6 +211,9 @@
       },
       "user_input": "params[:id]",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -241,6 +234,9 @@
       },
       "user_input": "Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).write_to_xlsx(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.xlsx\"))",
       "confidence": "Medium",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -250,7 +246,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 606,
+      "line": 608,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM frame_damage_types_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -261,6 +257,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -270,7 +269,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped model attribute",
       "file": "app/views/works/_work_detailed_data.html.erb",
-      "line": 113,
+      "line": 124,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "current_user.accessible_works.find((params[:work_id] or params[:id])).work_sets.map do\n if @for_print then\n  sanitize(ws.name)\nelse\n  if (@work_set == ws) then\n    \"#{link_to(sanitize(ws.name), work_set_path(ws.id))} #{button_to(\"Verwijder uit groep\", work_set_work_path(ws.id, current_user.accessible_works.find((params[:work_id] or params[:id])).id), :method => :delete, :class => ([:alert, :button, :xxsmall]))}\"\n  else\n    link_to(sanitize(ws.name), ws)\n  end\nend\n end.to_sentence",
       "render_path": [
@@ -278,7 +277,7 @@
           "type": "controller",
           "class": "WorksController",
           "method": "show",
-          "line": 91,
+          "line": 92,
           "file": "app/controllers/works_controller.rb",
           "rendered": {
             "name": "works/show",
@@ -288,7 +287,7 @@
         {
           "type": "template",
           "name": "works/show",
-          "line": 116,
+          "line": 118,
           "file": "app/views/works/show.html.erb",
           "rendered": {
             "name": "works/_work_detailed_data",
@@ -302,6 +301,9 @@
       },
       "user_input": "current_user.accessible_works.find((params[:work_id] or params[:id]))",
       "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
       "note": "All parameters are sanitized and/or limited to integer values"
     },
     {
@@ -311,7 +313,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 604,
+      "line": 606,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM custom_reports_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -322,6 +324,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -353,6 +358,9 @@
       },
       "user_input": "Message.new(message_params).subject_url",
       "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
       "note": "this is a url_for attribute at model level because of reasons"
     },
     {
@@ -384,6 +392,9 @@
       },
       "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
       "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
       "note": "end user link is a database value; safe"
     },
     {
@@ -415,6 +426,9 @@
       },
       "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
       "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
       "note": "end user link is a database value; safe"
     },
     {
@@ -435,6 +449,9 @@
       },
       "user_input": "Collection.find(collection_id).works_including_child_works.audience(audience.to_sym).preload_relations_for_display(:complete).to_workbook(fields_to_expose.map(&:to_sym), Collection.find(collection_id)).sheet.table.write_to_csv(Rails.root.join(\"tmp\", \"#{SecureRandom.uuid}.csv\"))",
       "confidence": "Medium",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -444,7 +461,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 605,
+      "line": 607,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM damage_types_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -455,6 +472,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -486,6 +506,9 @@
       },
       "user_input": "params[:id]",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     },
     {
@@ -506,6 +529,9 @@
       },
       "user_input": ":role",
       "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
       "note": ""
     },
     {
@@ -515,7 +541,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 607,
+      "line": 609,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM library_items_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -526,6 +552,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -535,7 +564,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 611,
+      "line": 613,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM themes_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -546,6 +575,9 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
       "note": ""
     },
     {
@@ -555,7 +587,7 @@
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/work.rb",
-      "line": 608,
+      "line": 610,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ActiveRecord::Base.connection.execute(\"DELETE FROM object_categories_works WHERE work_id IN (#{self.pluck(:id).join(\",\")})\")",
       "render_path": null,
@@ -566,9 +598,46 @@
       },
       "user_input": "self.pluck(:id).join(\",\")",
       "confidence": "Medium",
+      "cwe_id": [
+        89
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "f0a59a5ef3eb468368713baac9b59934800aa8fd31a44ba8867e1b2d7f5fed00",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/batch/show.html.erb",
+      "line": 116,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BatchController",
+          "method": "show",
+          "line": 12,
+          "file": "app/controllers/batch_controller.rb",
+          "rendered": {
+            "name": "batch/show",
+            "file": "app/views/batch/show.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "batch/show"
+      },
+      "user_input": "params[:selected_works]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": ""
     }
   ],
-  "updated": "2022-05-17 23:25:05 +0200",
-  "brakeman_version": "5.2.0"
+  "updated": "2022-11-04 22:24:24 +0100",
+  "brakeman_version": "5.3.1"
 }
