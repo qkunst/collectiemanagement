@@ -25,12 +25,12 @@ test:
   pool: 5
   timeout: 5000
 
-gitlab:
-  username: qkunst
-  password: VerySecurePassword
+gitlabci:
+  username: gitlabci
+  password: gitlabci
   adapter: postgresql
   encoding: unicode
-  database: qkunst-test
+  database: gitlabci
   host: localhost
   pool: 5
   timeout: 5000
