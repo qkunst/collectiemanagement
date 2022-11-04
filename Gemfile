@@ -124,7 +124,7 @@ gem "flamegraph"
 gem "stackprof"
 gem "memory_profiler"
 
-group :test, :gitlab do
+group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
