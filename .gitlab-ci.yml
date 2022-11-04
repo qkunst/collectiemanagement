@@ -31,34 +31,6 @@ cache:
     - .nvm
     - node_modules
 
-# This is a basic example for a gem or script which doesn't use
-# services such as redis or postgres
-# before_script:
-#   - ruby -v  # Print out ruby version for debugging
-#   # Uncomment next line if your rails app needs a JS runtime:
-#   # - apt-get update -q # && apt-get install wget -yqq
-#   - export HOME="/builds/murb-org/collectiemanagement"
-#   - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-#   - bundle config set path 'vendor' # Install dependencies into ./vendor/ruby
-#   - bundle install -j $(nproc)
-#   - export NVM_DIR="$HOME/.nvm" && . "$NVM_DIR/nvm.sh" --no-use
-#   - nvm install
-#   - npm install yarn -g
-#   - yarn install
-
-# Optional - Delete if not using `rubocop`
-# rubocop:
-#   script:
-    # - rubocop
-
-# test:
-#   script:
-#     - bundle exec rails db:migrate
-#     - bundle exec rails db:seed
-#     - bundle exec rails webpacker:compile
-#     - bundle exec rails spec
-
-
 test:
   only:
     - main
@@ -83,8 +55,7 @@ test:
     - node --version
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - bundle exec rails assets:precompile
-    - RAILS_ENV=gitlabci bundle exec rspec 2>/dev/null || true
-    - RAILS_ENV=gitlabci bundle exec rspec
+    # - RAILS_ENV=gitlabci bundle exec rspec
   artifacts:
     expire_in: 7d
     paths:
