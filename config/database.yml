@@ -31,6 +31,6 @@ gitlabci:
   adapter: postgresql
   encoding: unicode
   database: gitlabci
-  host: localhost
+  host: postgres
   pool: 5
   timeout: 5000
