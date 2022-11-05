@@ -155,7 +155,7 @@ class Work < ApplicationRecord
   after_save :touch_collection!
 
   belongs_to :cluster, optional: true
-  belongs_to :collection
+  belongs_to :collection, class_name: "Collection"
   belongs_to :owner, optional: true
   belongs_to :condition_frame, class_name: "Condition", optional: true
   belongs_to :condition_work, class_name: "Condition", optional: true

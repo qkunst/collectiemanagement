@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>6"
+gem "rails", "~>7"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -100,7 +100,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
-gem "paper_trail", "11.1.0"
+gem "paper_trail" #, "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"

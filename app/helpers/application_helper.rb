@@ -50,7 +50,7 @@ module ApplicationHelper
     end
   end
 
-  def works_modified_forms_path
+  def works_modified_forms_path options={}
     collection_works_modified_path(@collection)
   end
 

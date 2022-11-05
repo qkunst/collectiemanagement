@@ -26,26 +26,29 @@
 #  updated_at                       :datetime         not null
 #  parent_collection_id             :bigint           default(7)
 #
-class FakeSuperCollection
-  def name
-    "Algemeen"
-  end
 
-  def themes
-    Theme.general
-  end
 
-  def not_hidden_themes
-    themes.not_hidden
-  end
-end
-
-class CollectionBaseError < StandardError
-end
 
 class Collection < ApplicationRecord
   include MethodCache
   include Collection::Hierarchy
+
+  class CollectionBaseError < StandardError
+  end
+
+  class FakeSuperCollection
+    def name
+      "Algemeen"
+    end
+
+    def themes
+      Theme.general
+    end
+
+    def not_hidden_themes
+      themes.not_hidden
+    end
+  end
 
   belongs_to :parent_collection, class_name: "Collection", optional: true
 
