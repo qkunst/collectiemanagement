@@ -5,20 +5,20 @@
     <p><span id="selected-works-count">x</span>:</p>
     <nav class="button-row" aria-label="Batch acties">
       <ul class="menu">
-      <li><%= button_tag "Collectie", type: :submit, name: "expose_fields[]", value: :collection_id, class: :button %></li>
-      <li><%= button_tag "Locatie", type: :submit, name: "expose_fields[]", value: :location, class: :button %></li>
-      <li><%= button_tag "Cluster", type: :submit, name: "expose_fields[]", value: :cluster_name, class: :button %></li>
-      <li><%= button_tag "Tags", type: :submit, name: "expose_fields[]", value: :tag_list, class: :button %></li>
+      <li><%= button_tag "Collectie", type: :submit, name: "expose_fields[]", value: :collection_id, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Locatie", type: :submit, name: "expose_fields[]", value: :location, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Cluster", type: :submit, name: "expose_fields[]", value: :cluster_name, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Tags", type: :submit, name: "expose_fields[]", value: :tag_list, class: :button, data: { turbo: false } %></li>
       <% if can? :create, Appraisal%>
-      <li><%= button_tag "Beprijs", type: :submit, name: "expose_fields[]", value: :selling_price, class: :button %></li>
-      <li><%= button_tag "Waardering", type: :submit, name: "expose_fields[]", value: :appraisals_attributes, class: :button %></li>
+      <li><%= button_tag "Beprijs", type: :submit, name: "expose_fields[]", value: :selling_price, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Waardering", type: :submit, name: "expose_fields[]", value: :appraisals_attributes, class: :button, data: { turbo: false } %></li>
       <% end %>
       <% if @collection.show_availability_status? %>
-      <li><%= button_tag "Beschikbaarheid", type: :submit, name: "expose_fields[]", value: :for_purchase, class: :button %></li>
+      <li><%= button_tag "Beschikbaarheid", type: :submit, name: "expose_fields[]", value: :for_purchase, class: :button, data: { turbo: false } %></li>
       <% end%>
-      <li><%= button_tag "Overige velden", type: :submit, name: "expose_fields[]", value: nil, class: :button %></li>
-      <li><%= button_tag "Maak rapportage", type: :submit, name: :batch_process_property, value: :create_report, class: :button %></li>
-      <li><%= button_tag "Groepeer", type: :submit, name: :batch_process_property, value: :create_work_set, class: :button %></li>
+      <li><%= button_tag "Overige velden", type: :submit, name: "expose_fields[]", value: nil, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Maak rapportage", type: :submit, name: :batch_process_property, value: :create_report, class: :button, data: { turbo: false } %></li>
+      <li><%= button_tag "Groepeer", type: :submit, name: :batch_process_property, value: :create_work_set, class: :button, data: { turbo: false } %></li>
       </ul>
     </nav>
     </div>
