@@ -82,7 +82,7 @@ window.addEventListener "load", (event)->
   $("form#new_work input#work_location_floor").val(docCookies.getItem("lastLocationFloor"))
 
 
-document.addEventListener "turbolinks:load", (event)->
+document.addEventListener "turbo:load", (event)->
   $("form#new_work input#work_location").val(docCookies.getItem("lastLocation"))
   $("form#new_work input#work_location_floor").val(docCookies.getItem("lastLocationFloor"))
   show_or_hide_selected_works()

@@ -58,7 +58,7 @@ window.addEventListener("load", function() {
   return lazy_load_images();
 });
 
-document.addEventListener("turbolinks:load", function() {
+document.addEventListener("turbo:load", function() {
   return lazy_load_images();
 });
 

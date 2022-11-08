@@ -248,6 +248,10 @@ class User < ApplicationRecord
     end
   end
 
+  def central_login_provided_auth?
+    oauth_provider == "central_login"
+  end
+
   private
 
   def serialize_collection_accessibility!

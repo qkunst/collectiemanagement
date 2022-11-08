@@ -3,9 +3,8 @@ window.$ = $;
 window.jQuery = $;
 
 const UJS = require("rails-ujs");
-const Turbolinks = require("turbolinks");
+import Turbo from "@hotwired/turbo"
 
-Turbolinks.start();
 UJS.start();
 
 import Foundation from 'foundation-sites';
@@ -19,7 +18,6 @@ require('select2');
 import('context_container');
 import('cookie');
 import('debug');
-import('dom_diffing_turbolinks');
 import('filter-list');
 import('forms');
 import('lazy_load_images');
@@ -178,7 +176,7 @@ $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=tru
   if (form[0].method=='get') {
     var action = form.attr("action");
     var url = action+(action.indexOf('?') == -1 ? '?' : '&')+form.serialize();
-    Turbolinks.visit(url);
+    window.Turbo.visit(url);
     return false;
   } else if (form[0].method == 'post') {
     // ignore for now
@@ -223,7 +221,7 @@ $(document).ready(function(){
   collectieBeheerInit()
 })
 
-$(document).on("turbolinks:load", function(){
+$(document).on("turbo:load", function(){
   collectieBeheerInit()
 })
 

@@ -6,7 +6,7 @@ reportInit = function() {
 };
 reportInit();
 
-$(document).on('turbolinks:load', reportInit);
+$(document).on('turbo:load', reportInit);
 
 $(document).on('click', '#locaties tr.span-6 td[colspan], #locaties tr.span-4 td[colspan]', function(event_super_row_click) {
   var $super_row;

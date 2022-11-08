@@ -1,4 +1,4 @@
-<%= simple_nested_form_for([@collection,@work], data: {offline: :offline}) do |f| %>
+<%= simple_nested_form_for([@collection,@work], data: {offline: (defined?(offline) ? offline : false), turbo: false}) do |f| %>
   <%= f.error_notification %>
   <% if @work.errors.count > 0 %>
   <ul>
