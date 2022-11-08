@@ -6,11 +6,15 @@
 
 Rails.application.configure do
   config.content_security_policy do |policy|
-    policy.default_src :self
+    if Rails.env.development?
+      policy.default_src :self, "http://localhost:3035", "ws://localhost:3035" # bin/webpacker-dev-server reloading
+    else
+      policy.default_src :self
+    end
     policy.font_src    :self
     policy.img_src     :self
     policy.object_src  :none
-    policy.script_src  :self
+    policy.script_src  :self, "'unsafe-eval'", "'eval'", "'wasm-unsafe-eval'"
     policy.style_src   :self
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"

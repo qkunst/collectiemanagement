@@ -147,15 +147,6 @@ var collectieBeheerInit = function() {
   $(".tabs section").hide();
   $(".tabs section").first().show();
   $(".tabs ul li a").first().addClass("selected");
-  $(".tabs ul li a").on('click touch', function(e) {
-    $(".tabs ul li a").removeClass("selected");
-    $(".tabs section").hide();
-
-    var anchor = $(e.target).attr("href");
-    $(e.target).addClass("selected");
-    $(".tabs section"+anchor).show();
-    return false;
-  });
 
   let windowWidthInEM = window.innerWidth / parseFloat(
     getComputedStyle(
@@ -170,6 +161,17 @@ var collectieBeheerInit = function() {
 }
 
 window.collectieBeheerInit = collectieBeheerInit;
+
+$(document).on('click touch', ".tabs ul li a", function(e) {
+  $(".tabs ul li a").removeClass("selected");
+  $(".tabs section").hide();
+
+  var anchor = $(e.target).attr("href");
+  $(e.target).addClass("selected");
+  $(".tabs section"+anchor).show();
+  return false;
+});
+
 
 $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function(event) {
   var form = $(event.target).parents("form[data-auto-submit=true]");
