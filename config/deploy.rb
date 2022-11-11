@@ -45,6 +45,9 @@ set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
 set :rbenv_prefix, "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
+set :node_version, File.read(File.expand_path("../.nvmrc", __dir__)).strip
+set :nvm_node, File.read(File.expand_path("../.nvmrc", __dir__)).strip
+set :nvm_map_bins, %w{node npm yarn rake}
 
 set :sidekiq_enable_lingering, false
 
@@ -83,6 +86,7 @@ namespace :deploy do
   before "assets:precompile", :configure_asset_host do
     on roles(:app) do |role|
       within release_path do
+        execute :nvm, "use #{fetch(:node_version)}"
         with rails_env: fetch(:rails_env) do
           execute :echo, "\"Rails.application.config.action_controller.asset_host = \'https://#{role.hostname}\'\" > config/initializers/asset_hosts.rb"
         end
@@ -180,6 +184,7 @@ namespace :nvm do
       begin
         execute "nvm install #{node_version}"
         execute "nvm exec #{node_version} npm install -g yarn"
+        execute "nvm use #{node_version}"
       rescue SSHKit::Command::Failed
         warn "nvm not installed, run nvm:install first (requires setup role)"
         exit 1
