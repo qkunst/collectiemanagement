@@ -23,10 +23,7 @@ var ZXing = (function() {
       var ENVIRONMENT_IS_WORKER = false;
       var ENVIRONMENT_IS_NODE = false;
       var ENVIRONMENT_IS_SHELL = false;
-      ENVIRONMENT_IS_WEB = typeof window === "object";
-      ENVIRONMENT_IS_WORKER = typeof importScripts === "function";
-      ENVIRONMENT_IS_NODE = typeof process === "object" && typeof process.versions === "object" && typeof process.versions.node === "string";
-      ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
+      ENVIRONMENT_IS_WEB = true //typeof window === "object";
       var scriptDirectory = "";
 
       function locateFile(path) {
@@ -38,120 +35,52 @@ var ZXing = (function() {
       var read_, readAsync, readBinary, setWindowTitle;
       var nodeFS;
       var nodePath;
-      if (ENVIRONMENT_IS_NODE) {
+      if (ENVIRONMENT_IS_WORKER) {
+        scriptDirectory = self.location.href
+      } else if (document.currentScript) {
+        scriptDirectory = document.currentScript.src
+      }
+      if (_scriptDir) {
+        scriptDirectory = _scriptDir
+      }
+      if (scriptDirectory.indexOf("blob:") !== 0) {
+        scriptDirectory = scriptDirectory.substr(0, scriptDirectory.lastIndexOf("/") + 1)
+      } else {
+        scriptDirectory = ""
+      } {
+        read_ = function shell_read(url) {
+          var xhr = new XMLHttpRequest;
+          xhr.open("GET", url, false);
+          xhr.send(null);
+          return xhr.responseText
+        };
         if (ENVIRONMENT_IS_WORKER) {
-          scriptDirectory = require("path").dirname(scriptDirectory) + "/"
-        } else {
-          scriptDirectory = __dirname + "/"
-        }
-        read_ = function shell_read(filename, binary) {
-          if (!nodeFS) nodeFS = require("fs");
-          if (!nodePath) nodePath = require("path");
-          filename = nodePath["normalize"](filename);
-          return nodeFS["readFileSync"](filename, binary ? null : "utf8")
-        };
-        readBinary = function readBinary(filename) {
-          var ret = read_(filename, true);
-          if (!ret.buffer) {
-            ret = new Uint8Array(ret)
-          }
-          assert(ret.buffer);
-          return ret
-        };
-        if (process["argv"].length > 1) {
-          thisProgram = process["argv"][1].replace(/\\/g, "/")
-        }
-        arguments_ = process["argv"].slice(2);
-        process["on"]("uncaughtException", function(ex) {
-          if (!(ex instanceof ExitStatus)) {
-            throw ex
-          }
-        });
-        process["on"]("unhandledRejection", abort);
-        quit_ = function(status) {
-          process["exit"](status)
-        };
-        Module["inspect"] = function() {
-          return "[Emscripten Module object]"
-        }
-      } else if (ENVIRONMENT_IS_SHELL) {
-        if (typeof read != "undefined") {
-          read_ = function shell_read(f) {
-            return read(f)
-          }
-        }
-        readBinary = function readBinary(f) {
-          var data;
-          if (typeof readbuffer === "function") {
-            return new Uint8Array(readbuffer(f))
-          }
-          data = read(f, "binary");
-          assert(typeof data === "object");
-          return data
-        };
-        if (typeof scriptArgs != "undefined") {
-          arguments_ = scriptArgs
-        } else if (typeof arguments != "undefined") {
-          arguments_ = arguments
-        }
-        if (typeof quit === "function") {
-          quit_ = function(status) {
-            quit(status)
-          }
-        }
-        if (typeof print !== "undefined") {
-          if (typeof console === "undefined") console = {};
-          console.log = print;
-          console.warn = console.error = typeof printErr !== "undefined" ? printErr : print
-        }
-      } else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
-        if (ENVIRONMENT_IS_WORKER) {
-          scriptDirectory = self.location.href
-        } else if (document.currentScript) {
-          scriptDirectory = document.currentScript.src
-        }
-        if (_scriptDir) {
-          scriptDirectory = _scriptDir
-        }
-        if (scriptDirectory.indexOf("blob:") !== 0) {
-          scriptDirectory = scriptDirectory.substr(0, scriptDirectory.lastIndexOf("/") + 1)
-        } else {
-          scriptDirectory = ""
-        } {
-          read_ = function shell_read(url) {
+          readBinary = function readBinary(url) {
             var xhr = new XMLHttpRequest;
             xhr.open("GET", url, false);
-            xhr.send(null);
-            return xhr.responseText
-          };
-          if (ENVIRONMENT_IS_WORKER) {
-            readBinary = function readBinary(url) {
-              var xhr = new XMLHttpRequest;
-              xhr.open("GET", url, false);
-              xhr.responseType = "arraybuffer";
-              xhr.send(null);
-              return new Uint8Array(xhr.response)
-            }
-          }
-          readAsync = function readAsync(url, onload, onerror) {
-            var xhr = new XMLHttpRequest;
-            xhr.open("GET", url, true);
             xhr.responseType = "arraybuffer";
-            xhr.onload = function xhr_onload() {
-              if (xhr.status == 200 || xhr.status == 0 && xhr.response) {
-                onload(xhr.response);
-                return
-              }
-              onerror()
-            };
-            xhr.onerror = onerror;
-            xhr.send(null)
+            xhr.send(null);
+            return new Uint8Array(xhr.response)
           }
         }
-        setWindowTitle = function(title) {
-          document.title = title
+        readAsync = function readAsync(url, onload, onerror) {
+          var xhr = new XMLHttpRequest;
+          xhr.open("GET", url, true);
+          xhr.responseType = "arraybuffer";
+          xhr.onload = function xhr_onload() {
+            if (xhr.status == 200 || xhr.status == 0 && xhr.response) {
+              onload(xhr.response);
+              return
+            }
+            onerror()
+          };
+          xhr.onerror = onerror;
+          xhr.send(null)
         }
-      } else {}
+      }
+      setWindowTitle = function(title) {
+        document.title = title
+      }
       var out = Module["print"] || console.log.bind(console);
       var err = Module["printErr"] || console.warn.bind(console);
       for (key in moduleOverrides) {

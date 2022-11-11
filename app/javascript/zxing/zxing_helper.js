@@ -8,7 +8,7 @@
 var ZXing;
 
 if (typeof require !== "undefined") {
-  ZXing = require('zxing/zxing_reader');
+  ZXing = require('./zxing_reader');
 }
 
 function uint8ArrayToBase64(bytes) {

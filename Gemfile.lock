@@ -270,6 +270,8 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsbundling-rails (1.0.3)
+      railties (>= 6.0.0)
     json (2.6.2)
     jwt (2.2.3)
     keyword_finder (0.3.1)
@@ -358,8 +360,6 @@ GEM
     rack-mini-profiler (3.0.0)
       rack (>= 1.2.0)
     rack-protection (3.0.2)
-      rack
-    rack-proxy (0.7.4)
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
@@ -474,7 +474,6 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    semantic_range (3.0.0)
     sidekiq (6.5.8)
       connection_pool (>= 2.2.5, < 3)
       rack (~> 2.0)
@@ -541,11 +540,6 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webpacker (5.4.3)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -595,6 +589,7 @@ DEPENDENCIES
   highline
   invisible_captcha
   jbuilder
+  jsbundling-rails (~> 1.0)
   keyword_finder
   kramdown
   letter_opener
@@ -629,7 +624,6 @@ DEPENDENCIES
   strip_attributes
   uglifier
   web-console
-  webpacker
   workbook!
   zipline
 

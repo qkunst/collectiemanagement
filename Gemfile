@@ -115,7 +115,7 @@ gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azu
 gem "sidekiq", "~> 6", ">= 6.2.1"
 gem "sidekiq-scheduler", ">= 3.1.0"
 gem "sidekiq-unique-jobs", ">= 7.1.5"
-gem "webpacker"
+# gem "webpacker"
 
 gem "rack-mini-profiler"
 gem "flamegraph"
@@ -134,3 +134,4 @@ gem "annotate", group: [:development]
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
 gem "invisible_captcha"
+gem "jsbundling-rails", "~> 1.0"

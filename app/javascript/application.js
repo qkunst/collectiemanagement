@@ -3,35 +3,35 @@ window.$ = $;
 window.jQuery = $;
 
 const UJS = require("rails-ujs");
-import Turbo from "@hotwired/turbo"
+import * as Turbo from "@hotwired/turbo"
 
 UJS.start();
 
-import Foundation from 'foundation-sites';
+// import Foundation from 'foundation-sites';
 //import "controllers"
-require('prototypes');
+require('./prototypes');
 
 require('jquery_nested_form');
 require('chosen-js');
-require('select2');
+require('select2')(this, $);
 
-import('context_container');
-import('cookie');
-import('debug');
-import('filter-list');
-import('forms');
-import('lazy_load_images');
-import('batch');
-import('report');
-import('table_filterable');
-import('table_sortable');
-import('works');
-import('offline_collections')
-import('block_link');
-require('toggle');
-import('zxing/zxing_helper')
+import('./context_container');
+import('./cookie');
+import('./debug');
+import('./filter-list');
+import('./forms');
+import('./lazy_load_images');
+import('./batch');
+import('./report');
+import('./table_filterable');
+import('./table_sortable');
+import('./works');
+import('./offline_collections')
+import('./block_link');
+require('./toggle');
+import('./zxing/zxing_helper')
 
-const FormStore = require('formstore.js').default;
+const FormStore = require('./formstore.js').default;
 window.FormStore = FormStore;
 
 
@@ -156,8 +156,6 @@ var collectieBeheerInit = function() {
   if (windowWidthInEM < 40.0) {
     $("#responsive-menu").hide();
   }
-
-  $(document).foundation();
 }
 
 window.collectieBeheerInit = collectieBeheerInit;
