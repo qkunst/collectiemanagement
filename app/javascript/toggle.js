@@ -7,6 +7,7 @@ AltFoundation = (function() {
   AltFoundation.Toggle = class Toggle {
     static handleToggle(targetElement) {
       var toggleClass, togglee, toggleeId;
+
       toggleeId = targetElement.dataset.qtoggle;
       if (toggleeId) {
         togglee = document.getElementById(toggleeId);

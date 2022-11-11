@@ -17,14 +17,14 @@
     </div>
     <nav class="top-bar" role="navigation" aria-label="Hoofdmenu">
       <div data-responsive-toggle="responsive-menu" class="hide-for-medium hide-for-print responsive-toggle">
-        <button class="menu-icon dark" type="button" data-toggle></button>
+        <button class="menu-icon dark" type="button" data-qtoggle="responsive-menu" data-qtoggle-class="show"></button>
       </div>
       <div class="top-bar-title">
           <%= link_to root_path do %>
             <%= image_tag "logo.svg", id: 'logo', alt: "#{I18n.t("application.name")}, naar homepage"%>
             <% end%>
       </div>
-      <div id="responsive-menu" class="hide-for-print">
+      <div id="responsive-menu" class="hide-for-print default-hide">
 
         <div class="top-bar-left">
           <ul class="vertical-only-small menu">
