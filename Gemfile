@@ -13,7 +13,7 @@ gem "puma"
 # Use SCSS for stylesheets
 gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
-gem "uglifier"
+# gem "uglifier"
 # Use CoffeeScript for .coffee assets and views
 # gem "coffee-rails" # , '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -68,7 +68,6 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-rails"
   gem 'capistrano-sidekiq' #, group: :development
-  gem 'capistrano-nvm', require: false
   gem "highline"
   gem "web-console"
   gem "listen"

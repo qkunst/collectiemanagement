@@ -142,8 +142,6 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (2.1.0)
       capistrano (~> 3.1)
-    capistrano-nvm (0.0.7)
-      capistrano (~> 3.1)
     capistrano-rails (1.6.2)
       capistrano (~> 3.1)
       capistrano-bundler (>= 1.1, < 3)
@@ -530,8 +528,6 @@ GEM
     timeout (0.3.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unicode-display_width (2.3.0)
     uniform_notifier (1.16.0)
     version_gem (1.1.1)
@@ -571,7 +567,6 @@ DEPENDENCIES
   cancancan
   capistrano
   capistrano-bundler
-  capistrano-nvm
   capistrano-rails
   capistrano-rbenv
   capistrano-sidekiq
@@ -625,7 +620,6 @@ DEPENDENCIES
   stackprof
   standard
   strip_attributes
-  uglifier
   web-console
   workbook!
   zipline

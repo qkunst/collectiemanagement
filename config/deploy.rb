@@ -5,7 +5,7 @@
 
 set :application, "collectiemanagement"
 
-set :repo_url, "https://github.com/qkunst/collectiemanagement.git"
+set :repo_url, "https://gitlab.com/murb-org/collectiemanagement.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -41,11 +41,11 @@ set :linked_dirs, %w[log tmp public/uploads storage node_modules]
 # rbenv
 set :rbenv_type, :user
 set :rbenv_path, "~/.rbenv"
+set :node_version, File.read(File.expand_path("../.nvmrc", __dir__)).strip
 set :rbenv_ruby, File.read(File.expand_path("../.ruby-version", __dir__)).strip
-set :rbenv_prefix, "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec"
+set :rbenv_prefix, "NVM_DIR=~/.nvm RBENV_ROOT=~/.rbenv NODE_VERSION=#{fetch(:node_version)} RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.nvm/nvm-exec ~/.rbenv/bin/rbenv exec"
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
-set :node_version, File.read(File.expand_path("../.nvmrc", __dir__)).strip
 set :nvm_node, File.read(File.expand_path("../.nvmrc", __dir__)).strip
 set :nvm_map_bins, %w{node npm yarn rake}
 
@@ -86,7 +86,6 @@ namespace :deploy do
   before "assets:precompile", :configure_asset_host do
     on roles(:app) do |role|
       within release_path do
-        execute :nvm, "use #{fetch(:node_version)}"
         with rails_env: fetch(:rails_env) do
           execute :echo, "\"Rails.application.config.action_controller.asset_host = \'https://#{role.hostname}\'\" > config/initializers/asset_hosts.rb"
         end
@@ -157,9 +156,9 @@ namespace :rbenv do
   task :update do
     on roles(:app), in: :sequence do
       execute "git -C ~/.rbenv/plugins/ruby-build pull"
-      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
-      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
-      execute "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
+      execute " RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
+      execute " RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
+      execute " RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
     end
   end
 end
