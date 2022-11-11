@@ -153,9 +153,6 @@ var collectieBeheerInit = function() {
       document.querySelector('body')
     )['font-size']
   )
-  if (windowWidthInEM < 40.0) {
-    $("#responsive-menu").hide();
-  }
 }
 
 window.collectieBeheerInit = collectieBeheerInit;

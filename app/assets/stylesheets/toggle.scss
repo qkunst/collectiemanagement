@@ -1,6 +1,5 @@
-.default-hide {
-  display: none;
+.hide-for-small-only {
   &.show {
-    display: block;
+    display: block!important;
   }
 }
