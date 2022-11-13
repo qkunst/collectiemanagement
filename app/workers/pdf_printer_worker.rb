@@ -36,7 +36,11 @@ class PdfPrinterWorker
     @url = url
     @options = options
 
-    command = [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
+    nvm_exec_location = "#{Dir::home}/.nvm/nvm-exec"
+
+    command = []
+    command += [nvm_exec_location] if File.exists?(nvm_exec_location)
+    command += [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
 
     env = {}
     env["CHROME_DEVEL_SANDBOX"] = "/usr/local/sbin/chrome-devel-sandbox" if File.exists?("/usr/local/sbin/chrome-devel-sandbox")
