@@ -9,11 +9,10 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
 
   def create
     work_event_params = params.require("work_event").permit(:contact_uri, :event_type, :status, :time_span_uuid, :comments, contact: [:name, :address, :external, :url, :remote_data])
-    base_collection = @collection.base_collection
 
     if work_event_params[:contact_uri]
       contact = Contact.find_or_initialize_by(
-        collection: base_collection,
+        collection: @work.collection,
         external: true,
         url: work_event_params[:contact_uri]
       )
@@ -37,7 +36,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
     else
       TimeSpan.new(
         subject: @work,
-        collection: base_collection,
+        collection: @work.collection,
         contact: contact,
         status: work_event_params[:status],
         classification: work_event_params[:event_type],
