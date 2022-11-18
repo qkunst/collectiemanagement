@@ -18,7 +18,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
       )
     else
       contact = Contact.new(work_event_params[:contact])
-      contact.collection = base_collection
+      contact.collection = @work.collection
       contact.external = true
     end
 
