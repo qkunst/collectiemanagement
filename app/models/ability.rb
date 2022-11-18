@@ -58,7 +58,7 @@ class Ability
         :artist_unknown, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id,
         :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
         :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
-        :information_back, :other_comments, :subset_id, :public_description,
+        :information_back, :other_comments, :subset_id, :public_description, :highlight_priority,
         :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
         :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
@@ -83,7 +83,7 @@ class Ability
       ]
     end
     if can?(:edit_availability, Work)
-      permitted_fields += [:for_rent, :for_purchase, :highlight]
+      permitted_fields += [:for_rent, :for_purchase]
     end
     if can?(:edit, Cluster)
       permitted_fields += [

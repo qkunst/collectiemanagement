@@ -29,7 +29,7 @@
 #  frame_width                                         :float
 #  grade_within_collection                             :string
 #  height                                              :float
-#  highlight_at                                        :string
+#  highlight_priority                                  :integer
 #  image_rights                                        :boolean
 #  imported_at                                         :datetime
 #  information_back                                    :text
@@ -198,6 +198,7 @@ work2:
     - :artist2
     - :artist_no_name
   significantly_updated_at: "2021-03-25 17:12:42 +0100"
+  highlight_priority: 4
 
 work3:
   created_at: 2012-01-01T03:00:00.000

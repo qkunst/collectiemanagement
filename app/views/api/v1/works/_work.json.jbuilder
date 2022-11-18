@@ -70,7 +70,10 @@ json.object_format_code work.object_format_code
 json.orientation work.orientation
 json.for_purchase work.for_purchase?
 json.for_rent work.for_rent?
-json.highlight work.highlight?
+if work.highlight?
+json.highlight true
+json.highlight_priority work.highlight_priority
+end
 json.publish work.publish?
 json.image_rights work.image_rights?
 json.created_at work.created_at

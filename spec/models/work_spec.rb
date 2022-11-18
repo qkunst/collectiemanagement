@@ -31,7 +31,7 @@
 #  frame_width                                         :float
 #  grade_within_collection                             :string
 #  height                                              :float
-#  highlight_at                                        :string
+#  highlight_priority                                  :integer
 #  image_rights                                        :boolean
 #  imported_at                                         :datetime
 #  information_back                                    :text
@@ -358,6 +358,31 @@ RSpec.describe Work, type: :model do
         w.save
         w.reload
         expect(w.cluster_name).to eq("cluster new")
+      end
+    end
+    describe "#highlight, #highlight_priority" do
+      it "defaults to false" do
+        expect(works(:work1).highlight).to be_falsey
+        expect(works(:work1).highlight?).to be_falsey
+        expect(works(:work1).highlight_priority).to eq(nil)
+      end
+
+      it "returns true when > 0" do
+        w = works(:work1)
+        w.highlight_priority = 1
+
+        expect(w.highlight).to be_truthy
+        expect(w.highlight?).to be_truthy
+        expect(w.highlight_priority).to eq(1)
+      end
+
+      it "returns nil for prio 0" do
+        w = works(:work1)
+
+        w.highlight_priority = 0
+        expect(w.highlight_priority).to eq(nil)
+        expect(works(:work1).highlight).to be_falsey
+        expect(works(:work1).highlight?).to be_falsey
       end
     end
 

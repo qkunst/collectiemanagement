@@ -31,7 +31,7 @@
 #  frame_width                                         :float
 #  grade_within_collection                             :string
 #  height                                              :float
-#  highlight_at                                        :string
+#  highlight_priority                                  :integer
 #  image_rights                                        :boolean
 #  imported_at                                         :datetime
 #  information_back                                    :text
@@ -261,7 +261,6 @@ class Work < ApplicationRecord
   time_as_boolean :removed_from_collection
   time_as_boolean :for_purchase
   time_as_boolean :for_rent
-  time_as_boolean :highlight
 
   attr_localized :frame_height, :frame_width, :frame_depth, :frame_diameter, :height, :width, :depth, :diameter
 
@@ -364,6 +363,25 @@ class Work < ApplicationRecord
       end
     end
   end
+
+  def highlight_priority
+    rv = read_attribute(:highlight_priority)
+    rv if rv&.>(0)
+  end
+
+  def highlight
+    !!highlight_priority if highlight_priority
+  end
+
+  def highlight= new_value
+    if ["true", "1"].include?(new_value.to_s)
+      self.highlight_priority ||= 1
+    else
+      self.highlight_priority = 0
+    end
+  end
+
+  alias_method :highlight?, :highlight
 
   def cluster_name
     cluster&.name

@@ -147,11 +147,6 @@
         <% end %>
       </fieldset>
     <% end %>
-    <% if can?(:edit_availability, @work) and @collection.show_availability_status? %>
-      <%= f.input :for_rent, as: :boolean %>
-      <%= f.input :for_purchase, as: :boolean %>
-      <%= f.input :highlight, as: :boolean %>
-    <% end %>
     <fieldset>
       <legend>Overig</legend>
       <%= f.input :other_comments  %>
@@ -170,11 +165,20 @@
       <%= f.input(:main_collection)  %>
     </fieldset>
     <fieldset>
+      <legend>Publicatie</legend>
       <%= f.input :public_description %>
+      <%= f.input :highlight_priority %>
+
       <div class="row">
       <div class="medium-6 columns"><%= f.input :publish, collection: {"Ja"=>true, "Nee"=>false, "Onbekend"=>""}, as: :radio_buttons %></div>
       <div class="medium-6 columns"><%= f.input :image_rights, collection: {"Ja"=>true, "Nee"=>false, "Onbekend"=>""}, as: :radio_buttons %></div>
       </div>
+      <% if can?(:edit_availability, @work) and @collection.show_availability_status? %>
+        <%= f.input :for_rent, as: :boolean %>
+        <%= f.input :for_purchase, as: :boolean %>
+      <% end %>
+    </fieldset>
+    <fieldset>
       <%= f.input :internal_comments %>
       <!-- make sure manually fixed works aren't removed on rollback-->
       <%= f.input :imported_at, input_html: { value: ""}, as: :hidden %>
