@@ -56,7 +56,9 @@ class WorkSetsController < ApplicationController
   end
 
   def index
+    authorize! :show, WorkSet
 
+    @work_sets = @collection.work_sets.order(:work_set_type_id, :identification_number).all
   end
 
   def edit

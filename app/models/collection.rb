@@ -127,6 +127,10 @@ class Collection < ApplicationRecord
     nil
   end
 
+  def work_sets
+    WorkSet.for_collection(self)
+  end
+
   def base_collection
     @base_collection ||= if base
       self

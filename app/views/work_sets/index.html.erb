@@ -1,0 +1,13 @@
+<h1>Werkgroeperingen</h1>
+<p>Werkgroeperingen worden gemaakt middels de batch-editor.</p>
+<table class="sortable">
+  <thead>
+<tr>    <th>Type</th><th>Naam / Code</th></tr>
+  </thead>
+  <tbody>
+<% @work_sets.each do |work_set| %>
+<tr>
+  <td><%= link_to work_set.work_set_type.name, collection_work_set_path(@collection, work_set)%></td>
+  <td><%= link_to work_set.identification_number, collection_work_set_path(@collection, work_set)%></td>
+</tr>
+<% end%>
