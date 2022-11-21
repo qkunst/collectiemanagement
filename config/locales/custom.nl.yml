@@ -419,6 +419,7 @@ nl:
         has_photo_front: Foto voorzijde
         height: Hoogte beeld (cm)
         highlight: Highlight
+        highlight_priority: Highlight-prioriteit
         hpd_comments: Opmerkingen
         hpd_condition: Fysieke staat
         hpd_contact: Contactpersoon

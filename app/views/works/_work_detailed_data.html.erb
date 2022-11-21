@@ -31,8 +31,8 @@
   <% if can?(:read_status, work)%>
     <%= definition_list_for work, {render_as: :table} do %>
       <%= define_unless_blank :work_status %>
+      <%= define_unless_blank :highlight %>
       <% if @collection.base_collection.show_availability_status %>
-        <%= define_unless_blank :highlight %>
         <%= define_unless_blank :for_purchase %>
         <%= define_unless_blank :for_rent %>
         <% if work.availability_status %>
