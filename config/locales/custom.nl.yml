@@ -484,6 +484,7 @@ nl:
         purchase_year: Aankoopjaar
         refound: Teruggevonden
         refound_at: Teruggevonden op
+        removed_from_collection: Verwijderd uit collectie
         replacement_value: Vervangingswaarde (€)
         replacement_value_min: Vervangingswaarde (min)
         replacement_value_max: Vervangingswaarde (max)

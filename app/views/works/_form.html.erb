@@ -176,6 +176,9 @@
       <% if can?(:edit_availability, @work) and @collection.show_availability_status? %>
         <%= f.input :for_rent, as: :boolean %>
         <%= f.input :for_purchase, as: :boolean %>
+        <% if @work.removed_from_collection? %>
+          <%= f.input :removed_from_collection, as: :boolean %>
+        <% end %>
       <% end %>
     </fieldset>
     <fieldset>

@@ -83,7 +83,7 @@ class Ability
       ]
     end
     if can?(:edit_availability, Work)
-      permitted_fields += [:for_rent, :for_purchase]
+      permitted_fields += [:for_rent, :for_purchase, :removed_from_collection]
     end
     if can?(:edit, Cluster)
       permitted_fields += [
