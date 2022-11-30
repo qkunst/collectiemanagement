@@ -49,7 +49,7 @@ if current_api_user.ability.can?(:read, Appraisal)
 
 end
 json.work_sets(work.work_sets) do |work_set|
-  json.work_set_type { |work_set_type| json.extract! work_set_type, :name, :count_as_one, :appraise_as_one}
+  json.work_set_type { json.extract! work_set.work_set_type, :name, :count_as_one, :appraise_as_one}
   json.identification_number work_set.identification_number
 
   json.appraisal_notice work_set.appraisal_notice   if current_api_user.ability.can?(:read, Appraisal)

@@ -26,6 +26,14 @@ RSpec.describe Api::V1::WorksController, type: :request do
         response.body
       end
 
+
+      it "doesn't return works outside own collections" do
+        expect {
+          get api_v1_collection_works_path(collections(:collection3), format: :json)
+        }.to raise_error ActiveRecord::RecordNotFound
+      end
+
+
       it "returns meta" do
         limit = 2
 
@@ -110,6 +118,14 @@ RSpec.describe Api::V1::WorksController, type: :request do
         expect(JSON.parse(response.body)["data"].sort).to eq([works(:collection_with_availability_rent_work).id])
       end
     end
+
+
+    it "returns a work set with work set type" do
+      get api_v1_collection_works_path(collections(:collection3), format: :json)
+      work_with_work_sets = JSON.parse(response.body)["data"].find{|a| a["work_sets"] != []}
+      expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).to eq("Mogelijk zelfde vervaardiger")
+    end
+
 
   end
 
