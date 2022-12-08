@@ -79,6 +79,14 @@ json.image_rights work.image_rights?
 json.created_at work.created_at
 json.import_collection_id work.import_collection_id
 json.availability_status work.availability_status
+if current_api_user.ability.can?(:read, Appraisal)
+  json.market_value work.market_value
+  json.market_value_range "#{work.market_value_min}-#{work.market_value_max}"
+  json.replacement_value work.replacement_value
+  json.replacement_value_range "#{work.replacement_value_min}-#{work.replacement_value_max}"
+
+end
+
 if current_api_user.ability.can?(:read, TimeSpan)
   json.time_spans(work.time_spans) do |time_span|
     json.partial! 'api/v1/time_spans/time_span', locals: {time_span: time_span, work_context: true}
