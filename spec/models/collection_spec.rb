@@ -31,11 +31,22 @@ require "rails_helper"
 RSpec.describe Collection, type: :model do
   describe "callbacks" do
     describe "after save" do
-      it "touches child works" do
+      it "doesn't touch child works if nothing has changed" do
         collection = collections(:collection_with_works)
         w = collection.works.first
         w_originally_updated_at = w.updated_at
         sleep(0.001)
+        collection.save
+        w.reload
+        expect(w.updated_at).to eq(w_originally_updated_at)
+      end
+
+      it "touches child works when name has changed" do
+        collection = collections(:collection_with_works)
+        w = collection.works.first
+        w_originally_updated_at = w.updated_at
+        sleep(0.001)
+        collection.name = "test"
         collection.save
         w.reload
         expect(w.updated_at).to be > w_originally_updated_at

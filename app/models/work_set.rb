@@ -85,6 +85,22 @@ class WorkSet < ApplicationRecord
     appraisals.last&.market_value
   end
 
+  def replacement_value_min
+    appraisals.last&.replacement_value_min
+  end
+
+  def market_value_min
+    appraisals.last&.market_value_min
+  end
+
+  def replacement_value_max
+    appraisals.last&.replacement_value_max
+  end
+
+  def market_value_max
+    appraisals.last&.market_value_max
+  end
+
   def market_value_range
     appraisals.last&.market_value_range
   end

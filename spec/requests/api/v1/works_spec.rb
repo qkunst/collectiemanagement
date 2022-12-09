@@ -123,7 +123,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
     it "returns a work set with work set type" do
       get api_v1_collection_works_path(collections(:collection3), format: :json)
       work_with_work_sets = JSON.parse(response.body)["data"].find{|a| a["work_sets"] != []}
-      expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).to eq("Mogelijk zelfde vervaardiger")
+      expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).not_to be_nil
     end
 
 
