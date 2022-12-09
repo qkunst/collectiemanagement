@@ -3,7 +3,7 @@
 class Batch::WorkForm < Work
   BATCH_FIELDS = %w[purchase_price purchased_on purchase_year source_comments other_comments selling_price minimum_bid location location_floor location_detail cluster_id cluster_name subset_id technique_ids source_ids collection_id placeability_id theme_ids grade_within_collection tag_list work_status_id balance_category_id for_rent for_purchase highlight publish].sort_by(&:length).reverse.map(&:to_sym)
   UNAPPENDABLE_FIELDS = BATCH_FIELDS.select { |field_name| field_name.to_s.ends_with?("_id") || [:grade_within_collection, :for_rent, :for_purchase, :highlight].include?(field_name) }
-  REMOVABLE_FIELDS = %w[tag_list].map(&:to_sym)
+  REMOVABLE_FIELDS = %w[tag_list theme_ids technique_ids].map(&:to_sym)
 
   before_validation :validate_appraisal
 
