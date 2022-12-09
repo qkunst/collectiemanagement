@@ -242,9 +242,9 @@ class Collection < ApplicationRecord
 
   def touch_works_including_child_works!
     if previous_changes.key? "geoname_ids_cache"
-      works_including_child_works.each { |a| a.save }
-    else
-      works_including_child_works.each { |a| a.touch }
+      works_including_child_works.each { |a| a.save } # TODO: Turn into a worker
+    elsif previous_changes.key?("name") || previous_changes.key?("parent_collection_id")
+      works_including_child_works.touch_all
     end
   end
 

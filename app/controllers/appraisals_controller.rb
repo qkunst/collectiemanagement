@@ -7,8 +7,22 @@ class AppraisalsController < ApplicationController
 
   # GET /appraisals/new
   def new
-    @appraisal = Appraisal.new(appraised_by: current_user.name, appraised_on: Time.now.to_date, appraisee: @appraisee)
     @latest_appraisal = @appraisee.appraisals.descending_appraisal_on.first
+    @appraisal = Appraisal.new(
+      market_value: @appraisee.market_value ,
+      replacement_value: @appraisee.replacement_value,
+      market_value_min: @appraisee.market_value_min,
+      market_value_max: @appraisee.market_value_max,
+      replacement_value_min: @appraisee.replacement_value_min,
+      replacement_value_max: @appraisee.replacement_value_max,
+
+      reference: @latest_appraisal&.reference,
+      notice: @latest_appraisal&.notice,
+
+      appraised_by: current_user.name,
+      appraised_on: Time.now.to_date,
+      appraisee: @appraisee
+    )
   end
 
   # GET /appraisals/1/edit
