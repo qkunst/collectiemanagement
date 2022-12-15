@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7"
+gem "rails", "~> 7", ">= 7.0.4"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -135,4 +135,4 @@ gem "annotate", group: [:development]
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
 gem "invisible_captcha"
-gem "jsbundling-rails", "~> 1.0"
+gem "jsbundling-rails", "~> 1.0", ">= 1.0.3"
