@@ -153,6 +153,7 @@ class Work < ApplicationRecord
   before_create :significantly_updated!
 
   after_save :touch_collection!
+  attr_accessor :skip_touch_collection
 
   belongs_to :cluster, optional: true
   belongs_to :collection, class_name: "Collection"
@@ -580,7 +581,7 @@ class Work < ApplicationRecord
   end
 
   def touch_collection!
-    collection&.touch
+    collection&.touch unless skip_touch_collection == true
   end
 
   def public_tag_list

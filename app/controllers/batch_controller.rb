@@ -29,6 +29,7 @@ class BatchController < ApplicationController
       Work.transaction do
         @works.map { |work| @form.update_work!(work) }
       end
+      @collection&.touch # touching collection is skipped explicitly in work update for performance reasons
       redirect_to_collection_works_return_url
     else
       render :show

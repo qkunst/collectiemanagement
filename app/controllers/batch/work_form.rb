@@ -25,6 +25,7 @@ class Batch::WorkForm < Work
   end
 
   def update_work!(work)
+    work.skip_touch_collection = true
     work.update!(object_update_parameters(work))
     unless appraisal.empty_params?
       Appraisal.create!(appraisal.appraisal_params.merge(appraisee: work))
