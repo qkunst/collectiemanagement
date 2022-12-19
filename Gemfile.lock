@@ -601,6 +601,7 @@ DEPENDENCIES
   letter_opener
   listen
   lockbox
+  mail (>= 2.7.0)
   memory_profiler
   mini_magick
   nested_form
