@@ -290,11 +290,8 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0)
+    mail (2.7.1)
       mini_mime (>= 0.1.1)
-      net-imap
-      net-pop
-      net-smtp
     marcel (1.0.2)
     matrix (0.4.2)
     memory_profiler (1.0.1)
@@ -601,7 +598,7 @@ DEPENDENCIES
   letter_opener
   listen
   lockbox
-  mail (>= 2.7.0)
+  mail (~> 2.7.0)
   memory_profiler
   mini_magick
   nested_form

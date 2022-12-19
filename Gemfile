@@ -102,7 +102,7 @@ gem "nested_form"
 gem "paper_trail" #, "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
-gem "mail", ">= 2.7.0"
+gem "mail", "~> 2.7.0"
 gem "daemons"
 gem "redis-rails" # jobs
 gem "dalli" # memcache
