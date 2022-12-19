@@ -120,6 +120,7 @@ class Ability
         :alt_number_1, :alt_number_2, :alt_number_3, :alt_number_4, :alt_number_5, :alt_number_6,
         :updated_at, :created_at,
         :inventoried, :refound, :new_found,
+        :inventoried_at, :refound_at, :new_found_at,
         :locality_geoname_id, :imported_at, :import_collection_id,
         :artist_unknown,
         :cached_tag_list,
