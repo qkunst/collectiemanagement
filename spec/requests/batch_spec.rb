@@ -91,7 +91,7 @@ RSpec.describe "WorkBatchs", type: :request do
         describe "on" do
           let(:works) { collection.works_including_child_works.joins(:themes).where(themes: theme).where(market_value: 50) }
 
-          it "works" do
+          it "works", requires_elasticsearch: true do
             expect(works.count).to be == 1
 
             post collection_batch_path(collection, params: {selected_work_groups: {themes: [theme.id]}, filter: {market_value: [50]}})
@@ -103,7 +103,7 @@ RSpec.describe "WorkBatchs", type: :request do
         end
       end
 
-      describe "with search" do
+      describe "with search", requires_elasticsearch: true do
         let(:q) { "\"Bijzondere tekst\"" }
         let(:works) { collection.works_including_child_works }
 

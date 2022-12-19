@@ -105,7 +105,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
     before do
       sign_in users(:admin)
     end
-    it "allows for filtering on currently rent" do
+    it "allows for filtering on currently rent", requires_elasticsearch: true do
       get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
 
       expect(JSON.parse(response.body)["data"].sort).to eq([])

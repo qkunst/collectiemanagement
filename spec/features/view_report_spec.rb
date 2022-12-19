@@ -2,7 +2,7 @@
 
 require_relative "feature_helper"
 
-RSpec.feature "View report", type: :feature do
+RSpec.feature "View report", type: :feature, requires_elasticsearch: true do
   include FeatureHelper
 
   scenario "as an admin" do

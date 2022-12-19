@@ -23,7 +23,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("<h3>Houtskool</h3>")
   end
 
-  it "performs a filtered render" do
+  it "performs a filtered render", requires_elasticsearch: true do
     collection = collections(:collection_with_works)
     user = users(:admin)
 
@@ -45,7 +45,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).to match("Interne opmerking bij werk 1")
   end
 
-  it "doesn't export internal comments to facility manager" do
+  it "doesn't export internal comments to facility manager", requires_elasticsearch: true do
     collection = collections(:collection_with_works)
     user = users(:facility_manager)
 
@@ -67,7 +67,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("Interne opmerking bij werk 1")
   end
 
-  it "doesn't show complete data to read only user" do
+  it "doesn't show complete data to read only user", requires_elasticsearch: true do
     collection = collections(:collection_with_works)
     user = users(:read_only)
 
@@ -89,7 +89,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("Interne opmerking bij werk 1")
   end
 
-  it "does show basic data to read only" do
+  it "does show basic data to read only", requires_elasticsearch: true do
     collection = collections(:collection_with_works)
     user = users(:read_only)
 
@@ -111,7 +111,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("Interne opmerking bij werk 1")
   end
 
-  it "does not render any data when none" do
+  it "does not render any data when none", requires_elasticsearch: true do
     collection = collections(:collection_with_works)
     user = nil
 

@@ -152,7 +152,7 @@ RSpec.feature "Batch editor", type: :feature do
     end
   end
 
-  scenario "open selection and start batch edit after" do
+  scenario "open selection and start batch edit after", requires_elasticsearch: true do
     if Rails.env.test?
       user = users(:appraiser)
       login user.email
@@ -178,7 +178,7 @@ RSpec.feature "Batch editor", type: :feature do
     end
   end
 
-  scenario "open two selections and start batch edit after" do
+  scenario "open two selections and start batch edit after", requires_elasticsearch: true do
     if Rails.env.test?
 
       user = users(:appraiser)

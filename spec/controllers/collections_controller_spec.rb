@@ -55,7 +55,7 @@ RSpec.describe CollectionsController, type: :controller do
         }.to change(Collection, :count).by(-1)
       end
 
-      it "doesn't destroy the requested Collection with admin login if it has works" do
+      it "doesn't destroy the requested Collection with admin login if it has works", requires_elasticsearch: true do
         collection = Collection.create! valid_attributes
         collection.works.create(title: "a")
         user = users(:admin)
@@ -65,7 +65,20 @@ RSpec.describe CollectionsController, type: :controller do
         }.to change(Collection, :count).by(-1)
       end
 
-      it "does destroy the requested Collection with admin login if it has works and a parent collection" do
+      # better spec:
+      # it "does destroy the requested Collection with admin login if it has works", requires_elasticsearch: true do
+      #   collection = Collection.create! valid_attributes
+      #   w = collection.works.create(title: "a")
+      #   user = users(:admin)
+      #   sign_in user
+      #   expect {
+      #     delete :destroy, params: {id: collection.to_param}, session: valid_session
+      #   }.to change { Collection, :count }.by(-1).and
+      #        change { Work, :count }.by(-1)
+      #
+      # end
+
+      it "does destroy the requested Collection with admin login if it has works and a parent collection", requires_elasticsearch: true do
         collection = Collection.create! valid_attributes
         subcollection = collection.collections.create! valid_attributes
         subcollection.works.create(title: "a")

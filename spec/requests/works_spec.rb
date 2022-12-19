@@ -40,7 +40,7 @@ RSpec.describe "Works", type: :request do
   end
   describe "DELETE /collections/:colletion_id/work_id" do
     [:admin].each do |user_key|
-      it "allows access for #{user_key}" do
+      it "allows access for #{user_key}", requires_elasticsearch: true do
         user = users(user_key)
         work = collection.works.first
 
@@ -95,7 +95,7 @@ RSpec.describe "Works", type: :request do
           expect(response).to have_http_status(200)
           expect(response.body).to match("<h3>wind</h3>")
         end
-        it "should be able to sort" do
+        it "should be able to sort", requires_elasticsearch: true do
           sign_in user
 
           get collection_works_path(collection)
@@ -109,7 +109,7 @@ RSpec.describe "Works", type: :request do
           expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
           expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
-        it "should be able to filter and sort" do
+        it "should be able to filter and sort", requires_elasticsearch: true do
           # required for TravisCI
           collections(:collection1).works_including_child_works.all.reindex!
 
@@ -126,7 +126,7 @@ RSpec.describe "Works", type: :request do
           expect(response_body.index("Work1</a></h4>") < response_body.index("Work5</a></h4>")).to eq(true)
           expect(response_body.index("Work5</a></h4>") < response_body.index("Work2</a></h4>")).to eq(true)
         end
-        it "should be able to search" do
+        it "should be able to search", requires_elasticsearch: true do
           # required for TravisCI
           collection.works_including_child_works.all.reindex!
           sleep(1)
@@ -325,7 +325,7 @@ RSpec.describe "Works", type: :request do
 
           expect(response.body).to match(/Deze collectie bevat \d* werken\. Er worden vanwege een filter geen werken getoond./)
         end
-        it "should use AND for tags" do
+        it "should use AND for tags", requires_elasticsearch: true do
           w1, w2, w3 = collection.works_including_child_works[0..2]
           w1.tag_list = ["tagtest1"]
           w1.save

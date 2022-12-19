@@ -5,7 +5,7 @@ require_relative "feature_helper"
 RSpec.feature "Filter from report", type: :feature do
   include FeatureHelper
 
-  scenario "as an admin" do
+  scenario "as an admin", requires_elasticsearch: true do
     inital_works_count = 2
 
     login "qkunst-admin-user@murb.nl"

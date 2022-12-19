@@ -108,11 +108,20 @@ RSpec.configure do |config|
     Work.__elasticsearch__.delete_index!
   rescue Elasticsearch::Transport::Transport::Errors::NotFound
     puts "Already deleted..."
+  rescue Faraday::ConnectionFailed
+    puts "--------------------------"
+    puts "ELASTIC SEARCH NOT RUNNING"
+    puts "--------------------------"
+    puts "tests annotated with `requires_elasticsearch: true` will be ignored"
+
+    config.filter_run_excluding requires_elasticsearch: true
   end
-  Work.__elasticsearch__.create_index!
+  begin
+    Work.__elasticsearch__.create_index!
+    Work.all.each(&:reindex!)
+  rescue Faraday::ConnectionFailed
+  end
 
-
-  Work.all.each(&:reindex!)
 
   config.before do
     Work.all.each do |work|
