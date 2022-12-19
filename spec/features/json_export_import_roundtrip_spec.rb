@@ -46,7 +46,7 @@ RSpec.feature "Manage Collection", type: :feature do
       expect(works(:work1).time_spans.length).to be > 0
 
       attributes_of_interest = %w[ title tag_list sources object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
-      string_compare_attributes_of_interest = %w[ created_at significantly_updated_at updated_at  time_spans ]
+      string_compare_attributes_of_interest = %w[ created_at significantly_updated_at inventoried_at updated_at  time_spans ]
 
       work_pairs = collections(:collection1).works_including_child_works.pluck(:id).collect{|id| [Work.find(id), Work.find("99#{id}")]}
       work_pairs.each do |pair|
