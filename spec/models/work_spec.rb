@@ -142,6 +142,8 @@ RSpec.describe Work, type: :model do
           w.artists << artists(:artist2)
           w.save
         }.to change(w, :significantly_updated_at)
+
+        expect(w.versions.last.object_changes).to match(/artist_name_for_sorting/)
       end
     end
   end
