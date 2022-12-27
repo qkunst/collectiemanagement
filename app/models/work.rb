@@ -134,7 +134,7 @@ class Work < ApplicationRecord
   include Work::SizingRendering
   include Work::TimeSpans
 
-  store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6]
+  store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6], coder: JSON
   store :old_data, coder: JSON
 
   has_paper_trail
