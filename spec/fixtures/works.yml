@@ -162,8 +162,7 @@ work1:
     - :gebouwgebonden
   artists:
     - :artist1
-  other_structured_data:
-    alt_number_4: "ALT4002123.1"
+  other_structured_data: '{"alt_number_4": "ALT4002123.1"}'
   significantly_updated_at: "2021-03-25 17:12:42 +0100"
 
 work2:
