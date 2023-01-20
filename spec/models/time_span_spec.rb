@@ -18,7 +18,7 @@
 #  subject_id     :bigint
 #  time_span_id   :bigint
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe TimeSpan, type: :model do
   let(:work) { works(:work1) }
@@ -58,11 +58,11 @@ RSpec.describe TimeSpan, type: :model do
     end
     context "import failurs" do
       it "should work for all examples" do
-        data = [{"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/0343df8a-92ed-45bc-893e-bbd424a7015a", "name"=>""}, "starts_at"=>"1997-11-15", "ends_at"=>"2006-06-05", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/4bc1db3d-fc1d-470c-a16f-4a86628fc766", "name"=>""}, "starts_at"=>"2002-11-25", "ends_at"=>"2003-11-28", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/86679f73-bbc4-46aa-bc38-61d9fb2b2ac0", "name"=>""}, "starts_at"=>"2010-10-25", "ends_at"=>"2011-10-25", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/17336a8b-9a88-4c29-a7bc-48d89ecf5579", "name"=>""}, "starts_at"=>"2012-03-20", "ends_at"=>"2013-03-20", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/fb8f7555-d6ae-41f3-b814-3294dff96ce9", "name"=>""}, "starts_at"=>"2020-02-19", "ends_at"=>"2021-02-19", "status"=>"finished", "classification"=>"rental_outgoing"}, {"contact"=>{"external"=>true, "url"=>"http://localhost:5001/customers/"}, "starts_at"=>"2021-08-25", "status"=>"active", "classification"=>"rental_outgoing"}]
+        data = [{"contact" => {"external" => true, "url" => "http://localhost:5001/customers/0343df8a-92ed-45bc-893e-bbd424a7015a", "name" => ""}, "starts_at" => "1997-11-15", "ends_at" => "2006-06-05", "status" => "finished", "classification" => "rental_outgoing"}, {"contact" => {"external" => true, "url" => "http://localhost:5001/customers/4bc1db3d-fc1d-470c-a16f-4a86628fc766", "name" => ""}, "starts_at" => "2002-11-25", "ends_at" => "2003-11-28", "status" => "finished", "classification" => "rental_outgoing"}, {"contact" => {"external" => true, "url" => "http://localhost:5001/customers/86679f73-bbc4-46aa-bc38-61d9fb2b2ac0", "name" => ""}, "starts_at" => "2010-10-25", "ends_at" => "2011-10-25", "status" => "finished", "classification" => "rental_outgoing"}, {"contact" => {"external" => true, "url" => "http://localhost:5001/customers/17336a8b-9a88-4c29-a7bc-48d89ecf5579", "name" => ""}, "starts_at" => "2012-03-20", "ends_at" => "2013-03-20", "status" => "finished", "classification" => "rental_outgoing"}, {"contact" => {"external" => true, "url" => "http://localhost:5001/customers/fb8f7555-d6ae-41f3-b814-3294dff96ce9", "name" => ""}, "starts_at" => "2020-02-19", "ends_at" => "2021-02-19", "status" => "finished", "classification" => "rental_outgoing"}, {"contact" => {"external" => true, "url" => "http://localhost:5001/customers/"}, "starts_at" => "2021-08-25", "status" => "active", "classification" => "rental_outgoing"}]
         work = works(:work7)
         data.each do |time_span|
           contact = time_span["contact"]["external"] ?
-            Contact.find_or_create_by(url: time_span["contact"]["url"]) { |contact| contact.name=time_span["contact"]["name"], contact.address= time_span["contact"]["address"], contact.external = true } :
+            Contact.find_or_create_by(url: time_span["contact"]["url"]) { |contact| contact.name = time_span["contact"]["name"], contact.address = time_span["contact"]["address"], contact.external = true } :
             Contact.find_or_create_by(name: time_span["contact"]["name"], address: time_span["contact"]["address"], external: false, url: time_span["contact"]["url"], collection: base_collection)
 
           time_span = TimeSpan.find_or_create_by(contact: contact, starts_at: time_span["starts_at"], ends_at: time_span["ends_at"], subject: work, uuid: time_span["uuid"], status: time_span["status"], classification: time_span["classification"], collection: work.collection)
@@ -83,7 +83,6 @@ RSpec.describe TimeSpan, type: :model do
       ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_falsey
-
 
       ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
       work.reload
@@ -177,11 +176,11 @@ RSpec.describe TimeSpan, type: :model do
 
   describe "instance methods" do
     describe "#current?" do
-      [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|
-        it { expect(time_spans(span).current?).to  be_truthy }
+      [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
+        it { expect(time_spans(span).current?).to be_truthy }
       end
       [:time_span_historic, :time_span_future].each do |span|
-        it { expect(time_spans(span).current?).not_to  be_truthy }
+        it { expect(time_spans(span).current?).not_to be_truthy }
       end
 
       it "should include expired, active time spans" do
@@ -190,19 +189,19 @@ RSpec.describe TimeSpan, type: :model do
     end
 
     describe "#finished?" do
-      [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_future, :time_span_expired].each do |span|
-        it { expect(time_spans(span).finished?).to  be_falsey }
+      [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_future, :time_span_expired].each do |span|
+        it { expect(time_spans(span).finished?).to be_falsey }
       end
       [:time_span_historic].each do |span|
-        it { expect(time_spans(span).finished?).not_to  be_falsey }
-        it { expect(time_spans(span).current_and_active?).to be_falsey}
+        it { expect(time_spans(span).finished?).not_to be_falsey }
+        it { expect(time_spans(span).current_and_active?).to be_falsey }
       end
     end
   end
 
   describe "scopes" do
     describe ".current" do
-      [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|
+      [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
         it { expect(TimeSpan.current).to include time_spans(span) }
       end
       [:time_span_historic, :time_span_future].each do |span|
@@ -215,7 +214,7 @@ RSpec.describe TimeSpan, type: :model do
     end
 
     describe ".expired" do
-      [:time_span1,:time_span2,:time_span3,:time_span4].each do |span|
+      [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
         it { expect(TimeSpan.expired).not_to include time_spans(span) }
       end
       [:time_span_historic, :time_span_future].each do |span|

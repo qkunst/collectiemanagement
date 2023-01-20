@@ -55,7 +55,7 @@ RSpec.describe Work::Export do
   end
 
   describe "Instance methods" do
-    describe "#artist_#\{index\}_methods" do
+    describe "#artist_#\{index}_methods" do
       it "should have a first artist" do
         w = works(:work1)
         expect(w.artist_0_last_name).to eq("artist_1")

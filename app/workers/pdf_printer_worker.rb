@@ -13,7 +13,7 @@ class PdfPrinterWorker
     if /\A\/tmp\/[A-Za-z\d.\/]*/.match?(url)
       "file://#{url}"
     elsif /\A#{Rails.root}\/tmp\/[A-Za-z\d.\/]*/.match?(url)
-        "file://#{url}"
+      "file://#{url}"
     elsif url.start_with? File.join(Rails.root, "public")
       "file://#{url}"
     elsif url.start_with? "https://collectiemanagement.qkunst.nl/"
@@ -36,22 +36,21 @@ class PdfPrinterWorker
     @url = url
     @options = options
 
-    nvm_exec_location = "#{Dir::home}/.nvm/nvm-exec"
+    nvm_exec_location = "#{Dir.home}/.nvm/nvm-exec"
 
     command = []
-    command += [nvm_exec_location] if File.exists?(nvm_exec_location)
+    command += [nvm_exec_location] if File.exist?(nvm_exec_location)
     command += [File.join(Rails.root, "bin", "puppeteer"), resource, filename]
 
     env = {}
-    env["CHROME_DEVEL_SANDBOX"] = "/usr/local/sbin/chrome-devel-sandbox" if File.exists?("/usr/local/sbin/chrome-devel-sandbox")
-    env["CHROME_DEVEL_SANDBOX"] ||= "/usr/local/sbin/chrome_sandbox" if File.exists?("/usr/local/sbin/chrome_sandbox")
-
+    env["CHROME_DEVEL_SANDBOX"] = "/usr/local/sbin/chrome-devel-sandbox" if File.exist?("/usr/local/sbin/chrome-devel-sandbox")
+    env["CHROME_DEVEL_SANDBOX"] ||= "/usr/local/sbin/chrome_sandbox" if File.exist?("/usr/local/sbin/chrome_sandbox")
 
     if !system("node --version")
       raise "Node not found. Required."
     end
 
-    Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command.join(' ')}")
+    Rails.logger.debug("Start creating a pdf using puppeteer, command: #{command.join(" ")}")
     system(env, *command, exception: true)
 
     if inform_user_id

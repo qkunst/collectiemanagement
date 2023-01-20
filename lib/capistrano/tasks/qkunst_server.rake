@@ -5,28 +5,28 @@ set :rbenv_ruby, nil
 
 PASSWORD_HANDLER = SSHKit::MappingInteractionHandler.new(lambda { |data|
   case data
-    when "(current) UNIX password: ", "(huidig) UNIX-wachtwoord:"
-      "#{QA.sudo_pass}\n"
-    when "sudo: no tty present and no askpass program specified\n"
-      "\n"
-    when "sudo: geen terminal aanwezig en geen wachtwoordvraag(askpass)-programma opgegeven\n"
-      "\n"
-    when "geen terminal aanwezig en geen wachtwoordvraag(askpass)-programma opgegeven"
-      "\n"
-    when ": "
-      ""
-    when "\n"
-      ""
-    when /(\[sudo\]\s)(([Pp]assword)|([Ww]achtwoord)).*:/
-      "#{QA.sudo_pass}\n"
-    when /root(.*)'s password:/
-      "#{QA.root_pass}\n"
-    when "sudo"
-      "\n"
-    when " [J/n] "
-      "J\n"
-    else
-      ""
+  when "(current) UNIX password: ", "(huidig) UNIX-wachtwoord:"
+    "#{QA.sudo_pass}\n"
+  when "sudo: no tty present and no askpass program specified\n"
+    "\n"
+  when "sudo: geen terminal aanwezig en geen wachtwoordvraag(askpass)-programma opgegeven\n"
+    "\n"
+  when "geen terminal aanwezig en geen wachtwoordvraag(askpass)-programma opgegeven"
+    "\n"
+  when ": "
+    ""
+  when "\n"
+    ""
+  when /(\[sudo\]\s)(([Pp]assword)|([Ww]achtwoord)).*:/
+    "#{QA.sudo_pass}\n"
+  when /root(.*)'s password:/
+    "#{QA.root_pass}\n"
+  when "sudo"
+    "\n"
+  when " [J/n] "
+    "J\n"
+  else
+    ""
     # raise "Unexpected stderr #{stderr}"
   end
 })

@@ -97,7 +97,6 @@ module Work::SizingRendering
           :roughly_square
         end
       end
-
     end
 
     private
@@ -120,7 +119,7 @@ module Work::SizingRendering
     end
 
     def numeric_value_with_fallback primary, secondary
-      rv = primary ? primary : secondary
+      rv = primary || secondary
       rv if rv && (rv > 0)
     end
 

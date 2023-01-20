@@ -36,7 +36,6 @@ module ImportCollection::Workbook
     table
   end
 
-
   def analyze_field_properties(field)
     objekt, fieldname = field.split(".")
 
@@ -105,9 +104,7 @@ module ImportCollection::Workbook
     end
   end
 
-
   def process_table_data_row(row)
-
     parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     import_settings.each do |key, import_setting|
@@ -195,7 +192,6 @@ module ImportCollection::Workbook
     })
   end
 
-
   def lookup_artists! parameters
     artist = parameters["artists_attributes"] ? Artist.find_by(parameters["artists_attributes"][7382983741]) : nil
     if artist
@@ -264,8 +260,8 @@ module ImportCollection::Workbook
         corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
       # hack against aggressive conversion to floats
-      if (field_type == :string && corresponding_value && corresponding_value.to_s.start_with?(/TEXTVALUE/))
-        corresponding_value = corresponding_value.sub("TEXTVALUE","")
+      if field_type == :string && corresponding_value && corresponding_value.to_s.start_with?(/TEXTVALUE/)
+        corresponding_value = corresponding_value.sub("TEXTVALUE", "")
       end
       if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
         new_value = corresponding_value
@@ -282,5 +278,4 @@ module ImportCollection::Workbook
 
     new_value
   end
-
 end

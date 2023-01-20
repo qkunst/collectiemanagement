@@ -81,7 +81,7 @@ RSpec.describe Appraisal, type: :model do
   describe "class" do
     describe ".new" do
       it "creates an with a once failing import hash" do
-        data = {"market_value"=>nil, "replacement_value"=>"250.0", "appraised_on"=>"2018-11-20", "market_value_max"=>nil, "market_value_min"=>nil, "replacement_value_min"=>nil, "replacement_value_max"=>nil, "appraised_by"=>nil, "reference"=>nil, "appraisee"=>works(:work1)}
+        data = {"market_value" => nil, "replacement_value" => "250.0", "appraised_on" => "2018-11-20", "market_value_max" => nil, "market_value_min" => nil, "replacement_value_min" => nil, "replacement_value_max" => nil, "appraised_by" => nil, "reference" => nil, "appraisee" => works(:work1)}
         appraisal = Appraisal.create(data)
         expect(appraisal).to be_persisted
       end

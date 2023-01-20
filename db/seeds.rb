@@ -12,7 +12,7 @@ first_names = ["Henk", "Jan", "Marie", "Janette"]
 last_names = ["Schepper", "Maker"]
 
 if Rails.env.gitlab? || Rails.env.test?
-  require 'sidekiq/testing'
+  require "sidekiq/testing"
   Sidekiq::Testing.inline!
 end
 

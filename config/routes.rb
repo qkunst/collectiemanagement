@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   resources :balance_categories
   resources :work_statuses
   resources :work_sets do
-    resources :works, module: :work_sets, only: :destroy #, controller: "WorkSet::WorksController"
+    resources :works, module: :work_sets, only: :destroy # , controller: "WorkSet::WorksController"
   end
   resources :work_set_types
 
@@ -169,7 +169,7 @@ Rails.application.routes.draw do
 
   get "debug-offline" => "application#debug_offline"
 
-  get "admin",  to: Admin::AdminController.action(:index)
+  get "admin", to: Admin::AdminController.action(:index)
 
   namespace :admin do
     resources :o_auth_group_mappings

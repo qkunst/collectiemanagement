@@ -15,7 +15,6 @@ RSpec.feature "Manage Collection", type: :feature do
   context "as admin" do
     before(:each) do
       login "qkunst-admin-user@murb.nl"
-
     end
 
     it "should open imports overview" do
@@ -25,7 +24,7 @@ RSpec.feature "Manage Collection", type: :feature do
       file = download_json(source_collection)
 
       json = JSON.parse(File.read(file))
-      json_artists = json["data"].find{|a| a["id"] == "99#{works(:work1).id}".to_i}["artists"]
+      json_artists = json["data"].find { |a| a["id"] == "99#{works(:work1).id}".to_i }["artists"]
 
       visit new_collection_import_collection_url(target_collection)
       # expect(page).to have_content "Aantal geïmporteerde werken"
@@ -36,8 +35,8 @@ RSpec.feature "Manage Collection", type: :feature do
         click_on "Importeren"
       end
       expect(page).to have_content "De werken worden op de achtergrond geïmporteerd."
-      expect((source_collection).works_including_child_works.count).to eq(5)
-      expect((target_collection).works_including_child_works.count).to eq(5)
+      expect(source_collection.works_including_child_works.count).to eq(5)
+      expect(target_collection.works_including_child_works.count).to eq(5)
 
       # content check
       expect(works(:work1).tag_list).to eq(["Eerste tag fixture"])
@@ -46,10 +45,10 @@ RSpec.feature "Manage Collection", type: :feature do
       expect(works(:work1).time_spans.length).to be > 0
       expect(works(:work1).alt_number_4).to eq("ALT4002123.1")
 
-      attributes_of_interest = %w[ alt_number_1 alt_number_4 title tag_list sources object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name ]
-      string_compare_attributes_of_interest = %w[ created_at significantly_updated_at inventoried_at updated_at  time_spans ]
+      attributes_of_interest = %w[alt_number_1 alt_number_4 title tag_list sources object_categories techniques damage_types frame_damage_types themes purchase_price_currency style cluster_name medium condition_work condition_frame subset placeability work_status owner_name]
+      string_compare_attributes_of_interest = %w[created_at significantly_updated_at inventoried_at updated_at time_spans]
 
-      work_pairs = collections(:collection1).works_including_child_works.pluck(:id).collect{|id| [Work.find(id), Work.find("99#{id}")]}
+      work_pairs = collections(:collection1).works_including_child_works.pluck(:id).collect { |id| [Work.find(id), Work.find("99#{id}")] }
       work_pairs.each do |pair|
         expect(pair[1].artists.map(&:last_name)).to eq(pair[0].artists.map(&:last_name))
         expect(pair[1].artists.map(&:first_name)).to eq(pair[0].artists.map(&:first_name))

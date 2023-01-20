@@ -25,7 +25,7 @@ class CreateGeonamesCountries < ActiveRecord::Migration[4.2]
 
       t.timestamps null: false
     end
-    File.open("data/countryInfo.txt").read.split("\n").collect { |a| a.split("\t") }.each do |a|
+    File.read("data/countryInfo.txt").split("\n").collect { |a| a.split("\t") }.each do |a|
       GeonamesCountry.create(
         iso: a[0],
         iso3: a[1],

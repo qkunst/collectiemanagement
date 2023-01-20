@@ -26,10 +26,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
     it "renders a checkbox for an missing value" do
       filter_params = {"filter[cluster_id][]" => Work::Search::NOT_SET_VALUE}
       expect(helper.filter_check_box(filter_params)).to eq("<input type=\"checkbox\" name=\"filter[cluster_id][]\" id=\"filter_cluster_id_\" value=\"not_set\" data-parent=\"{}\" />")
-
     end
-
-
   end
 
   describe "#render_report_column" do

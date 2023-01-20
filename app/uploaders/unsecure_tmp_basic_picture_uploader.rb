@@ -74,7 +74,7 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
         work_ids[key] = value
       end
     end
-    return_work = work_ids.keys.count == 1 ? Work.where(id: work_ids.values).first : nil
+    return_work = (work_ids.keys.count == 1) ? Work.where(id: work_ids.values).first : nil
     if return_work.nil? && (work_ids.keys.count > 1)
       work_ids = work_ids.sort { |a, b| a[0].length <=> b[0].length }
       longest_match = work_ids[-1]

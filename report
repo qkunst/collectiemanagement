@@ -44,9 +44,7 @@ def create_report_md
   @abilities_report = generate_abilities_report
   @field_abilities_report = generate_field_abilities_report
 
-  File.open "report.md", "w" do |f|
-    f.write(ERB.new(File.read("report_template.md.erb")).result(binding))
-  end
+  File.write("report.md", ERB.new(File.read("report_template.md.erb")).result(binding))
 end
 
 puts "Generating management report"

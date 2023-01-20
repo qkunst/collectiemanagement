@@ -70,7 +70,7 @@ module ImportCollection::Json
       work.purchase_price_currency = Currency.find_or_create_by(iso_4217_code: purchase_price_currency)
     end
 
-    (work_data["object_categories"] || []).each do |object_category|
+    work_data["object_categories"]&.each do |object_category|
       work.object_categories << ObjectCategory.find_or_create_by(name: object_category["name"])
     end
     if work_data["placeability"]
@@ -113,13 +113,13 @@ module ImportCollection::Json
     end
 
     # HAS MANY
-    (work_data["appraisals"] || []).each do |appraisal_data|
+    work_data["appraisals"]&.each do |appraisal_data|
       work.appraisals << Appraisal.create(appraisal_data.merge({appraisee: work}))
     end
-    (work_data["techniques"] || []).each do |technique|
+    work_data["techniques"]&.each do |technique|
       work.techniques << Technique.find_or_create_by(name: technique["name"])
     end
-    (work_data["artists"] || []).each do |artist_data|
+    work_data["artists"]&.each do |artist_data|
       cleaned_artist_data = {
         "place_of_birth" => artist_data["place_of_birth"],
         "place_of_death" => artist_data["place_of_death"],
@@ -140,31 +140,33 @@ module ImportCollection::Json
       }
 
       artist = if cleaned_artist_data["rkd_artist_id"]
-                 Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
-               elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
-                 Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
-      end || Artist.find_or_create_by(cleaned_artist_data)
+        Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
+      elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
+        Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
+      else
+        Artist.find_or_create_by(cleaned_artist_data)
+      end
 
       work.artists << artist if artist
     end
-    (work_data["themes"] || []).each do |theme|
+    work_data["themes"]&.each do |theme|
       work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: base_collection.id))
     end
 
-    (work_data["damage_types"] || []).each do |damage_type|
+    work_data["damage_types"]&.each do |damage_type|
       work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
     end
-    (work_data["frame_damage_types"] || []).each do |frame_damage_type|
+    work_data["frame_damage_types"]&.each do |frame_damage_type|
       work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
     end
-    (work_data["sources"] || []).each do |source|
+    work_data["sources"]&.each do |source|
       work.sources << Source.find_or_create_by(name: source["name"])
     end
-    (work_data["work_sets"] || []).each do |work_set|
+    work_data["work_sets"]&.each do |work_set|
       work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
       work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
     end
-    (work_data["time_spans"] || []).each do |time_span_data|
+    work_data["time_spans"]&.each do |time_span_data|
       contact_data = time_span_data["contact"]
       contact = if contact_data["external"] && contact_data["remote_data"]
         Contact.find_or_initialize_by(remote_data: contact_data["remote_data"], collection: base_collection, external: true)
@@ -200,7 +202,9 @@ module ImportCollection::Json
       raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
   rescue PG::UniqueViolation
+    # ignore
   rescue ActiveRecord::RecordNotUnique
+    # ignore
   end
 
   def write_json

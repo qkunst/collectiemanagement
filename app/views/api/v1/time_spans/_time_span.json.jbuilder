@@ -8,7 +8,7 @@ json.subject_type time_span.subject_type
 unless defined?(work_context) && work_context
   json.subject do
     if time_span.subject_type == "Work"
-      json.partial! 'api/v1/works/work_limited', locals: {work: time_span.subject}
+      json.partial! "api/v1/works/work_limited", locals: {work: time_span.subject}
     end
   end
 end

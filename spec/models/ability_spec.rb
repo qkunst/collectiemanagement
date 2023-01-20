@@ -146,13 +146,13 @@ RSpec.describe Ability, type: :model do
         it "can update anonymous users for a collection" do
           expect(user.can?(:update, users(:user_with_no_rights))).to eq(true)
         end
-        it "#{k1 == :admin ? "can" : "cannot"} update an admin user" do
+        it "#{(k1 == :admin) ? "can" : "cannot"} update an admin user" do
           expect(user.can?(:update, users(:admin))).to eq(k1 == :admin)
         end
-        it "#{k1 == :admin ? "can" : "cannot"} update self" do
+        it "#{(k1 == :admin) ? "can" : "cannot"} update self" do
           expect(user.can?(:update, users(k1))).to eq(k1 == :admin)
         end
-        it "#{k1 == :admin ? "can" : "cannot"} update an user from another collection" do
+        it "#{(k1 == :admin) ? "can" : "cannot"} update an user from another collection" do
           expect(user.can?(:update, users(:read_only_with_access_to_collection_with_stages))).to eq(k1 == :admin)
         end
         it "can update an user from current collection" do

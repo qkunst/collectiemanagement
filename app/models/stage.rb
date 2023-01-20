@@ -38,7 +38,7 @@ class Stage < ApplicationRecord
   end
 
   def completed_at
-    collection_stage ? collection_stage.completed_at : nil
+    collection_stage&.completed_at
   end
 
   def active?
@@ -46,7 +46,7 @@ class Stage < ApplicationRecord
   end
 
   def non_cyclic_graph_from_here(collection = nil)
-    collection_stage = collection ? collection.find_state_of_stage(self) : nil
+    collection_stage = collection&.find_state_of_stage(self)
     enabled! if collection_stage || !collection
     self.collection_stage = collection_stage
     graph = [[self]]
@@ -56,7 +56,7 @@ class Stage < ApplicationRecord
       stages = next_stages
       next_stages = []
       stages.each do |stage|
-        collection_stage = collection ? collection.find_state_of_stage(stage) : nil
+        collection_stage = collection&.find_state_of_stage(stage)
         stage.enabled! if collection_stage || !collection
         stage.collection_stage = collection_stage
         branch_index = stages.index(stage)

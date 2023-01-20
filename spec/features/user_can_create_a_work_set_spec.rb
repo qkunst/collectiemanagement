@@ -68,7 +68,6 @@ RSpec.feature "Werken groeperen", type: :feature do
     click_on "Toevoegen"
     expect(page.body).to match(work_to_edit1.stock_number)
     expect(page.body).to match(work_to_edit2.stock_number)
-
   end
 
   scenario "Admin can remove a work from a group" do

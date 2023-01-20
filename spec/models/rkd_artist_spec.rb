@@ -22,7 +22,7 @@ RSpec.describe RkdArtist, type: :model do
   describe "#to_artist_params" do
     it "extracts correctly artist params rkd_api_response1" do
       rkd_id = 123123
-      rkd_artist = RkdArtist.create(rkd_id: rkd_id, api_response_source_url: "https://api.rkd.nl/api/record/artists/#{rkd_id}?format=json", api_response: JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")).read))
+      rkd_artist = RkdArtist.create(rkd_id: rkd_id, api_response_source_url: "https://api.rkd.nl/api/record/artists/#{rkd_id}?format=json", api_response: JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json"))))
       expected = {
         date_of_birth: nil,
         date_of_death: nil,
@@ -40,7 +40,7 @@ RSpec.describe RkdArtist, type: :model do
     end
     it "extracts correctly artist params rkd_api_response2" do
       rkd_id = 123123
-      rkd_artist = RkdArtist.create(rkd_id: rkd_id, api_response_source_url: "https://api.rkd.nl/api/record/artists/#{rkd_id}?format=json", api_response: JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response2.json")).read))
+      rkd_artist = RkdArtist.create(rkd_id: rkd_id, api_response_source_url: "https://api.rkd.nl/api/record/artists/#{rkd_id}?format=json", api_response: JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response2.json"))))
       expected = {
         date_of_birth: Date.new(1903, 10, 4),
         date_of_death: Date.new(1975, 1, 15),

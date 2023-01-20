@@ -12,7 +12,6 @@ class AddExchangeRateToCurrencies < ActiveRecord::Migration[5.2]
       c = Currency.find_or_create_by(iso_4217_code: code)
       c.save
       Currency.where(iso_4217_code: code).update_all(exchange_rate: rate)
-
     end
   end
 end

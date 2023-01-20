@@ -59,12 +59,12 @@ class Reminder < ApplicationRecord
       dates
     elsif reference_date && collection
       date = (reference_date + additional_time(1)).to_date
-      date >= Time.now.to_date ? [date] : []
+      (date >= Time.now.to_date) ? [date] : []
     end
   end
 
   def additional_time(multiplier = 1)
-    interval_length = self.interval_length.to_i < 1 ? 1 : self.interval_length
+    interval_length = (self.interval_length.to_i < 1) ? 1 : self.interval_length
     (interval_length * multiplier).send(interval_unit)
   end
 

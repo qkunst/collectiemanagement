@@ -14,7 +14,6 @@ class WorksFilteringTestClass
   def params
     @params || {}
   end
-
 end
 
 RSpec.describe Works::Filtering, type: :model do
@@ -25,9 +24,8 @@ RSpec.describe Works::Filtering, type: :model do
     end
 
     it "returns empty hash when none" do
-      subject.params = {filter: {"cluster"=>["not_set"], "cluster_id"=>[1,2]}} # filter[cluster][]=not_set&filter[cluster_id][]=1&filter[cluster_id][]=2
-      expect(subject.send(:set_selection_filter)).to eq({"cluster"=>[nil], "cluster_id"=>[1, 2]})
+      subject.params = {filter: {"cluster" => ["not_set"], "cluster_id" => [1, 2]}} # filter[cluster][]=not_set&filter[cluster_id][]=1&filter[cluster_id][]=2
+      expect(subject.send(:set_selection_filter)).to eq({"cluster" => [nil], "cluster_id" => [1, 2]})
     end
   end
-
 end

@@ -122,7 +122,6 @@ RSpec.configure do |config|
   rescue Faraday::ConnectionFailed
   end
 
-
   config.before do
     Work.all.each do |work|
       work.update_artist_name_rendered!

@@ -107,12 +107,11 @@ RSpec.describe Attachment, type: :model do
         {
           "Een mooie zonnige dag/avond": "een_mooie_zonnige_dagavond.md",
           "Nu: Iets Anders!": "nu_iets_anders.md"
-        }.each do |k,v|
+        }.each do |k, v|
           a.update(name: k)
           assert_equal(a.export_file_name, v)
         end
       end
     end
-
   end
 end

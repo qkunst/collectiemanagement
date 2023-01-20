@@ -6,7 +6,7 @@ module Work::ParameterRerendering
   included do
     def abstract_or_figurative_rendered
       if abstract_or_figurative?
-        abstract_or_figurative == "abstract" ? "Abstract" : "Figuratief"
+        (abstract_or_figurative == "abstract") ? "Abstract" : "Figuratief"
       end
     end
 

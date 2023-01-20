@@ -33,8 +33,6 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
 
       json_response = JSON.parse(response.body)
       expect(json_response["data"].count).to eql(1)
-
     end
-    #
   end
 end

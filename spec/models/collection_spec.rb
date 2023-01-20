@@ -266,7 +266,7 @@ RSpec.describe Collection, type: :model do
     end
 
     describe "#show_availability_status" do
-      {collection1: false, sub_collection_with_inherited_availability: true, collection_with_availability: true}.each do |k,v|
+      {collection1: false, sub_collection_with_inherited_availability: true, collection_with_availability: true}.each do |k, v|
         it "returns false for #{k}" do
           expect(collections(k).show_availability_status).to eq(v)
         end

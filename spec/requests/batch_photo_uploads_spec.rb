@@ -27,9 +27,6 @@ RSpec.describe "BatchPhotoUploads", type: :request do
       expect {
         post collection_batch_photo_uploads_path(c, {batch_photo_upload: {images: [file]}})
       }.to change(BatchPhotoUpload, :count).by(1)
-
     end
   end
-
-
 end

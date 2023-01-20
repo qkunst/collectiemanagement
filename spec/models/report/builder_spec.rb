@@ -29,8 +29,8 @@ RSpec.describe Report::Builder, type: :model do
         sources: {terms: {field: "sources.id", size: 999}}, sources_missing: {missing: {field: "sources.id"}},
         tag_list: {terms: {field: "tag_list", size: 999}}, tag_list_missing: {missing: {field: "tag_list"}},
         placeability: {terms: {field: "placeability.id", size: 999}}, placeability_missing: {missing: {field: "placeability.id"}}, themes: {terms: {field: "themes.id", size: 999}}, themes_missing: {missing: {field: "themes.id"}},
-        for_purchase: {:terms=>{:field=>"for_purchase", :size=>999}},
-        for_rent: {:terms=>{:field=>"for_rent", :size=>999}},
+        for_purchase: {terms: {field: "for_purchase", size: 999}},
+        for_rent: {terms: {field: "for_rent", size: 999}},
         damage_types: {terms: {field: "damage_types.id", size: 999}},
         frame_damage_types: {terms: {field: "frame_damage_types.id", size: 999}},
         abstract_or_figurative: {terms: {field: "abstract_or_figurative", size: 999}},
@@ -55,7 +55,7 @@ RSpec.describe Report::Builder, type: :model do
         work_sets: {terms: {field: "work_sets.id", size: 999}},
         work_status: {terms: {field: "work_status.id", size: 999}},
         work_status_missing: {missing: {field: "work_status.id"}},
-        has_photo_front: {:terms=>{:field=>"has_photo_front", :size=>999}},
+        has_photo_front: {terms: {field: "has_photo_front", size: 999}}
       }
       expect(Report::Builder.aggregations).to eq(expected)
     end

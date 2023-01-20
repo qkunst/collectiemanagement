@@ -150,7 +150,7 @@ RSpec.describe Work::SizingRendering do
   end
 
   describe "#orientation" do
-    [[10,10]=>:square, [20,10]=>:portrait, [10,20]=>:landscape, [10,11]=>:almost_square].each do |k,v|
+    [[10, 10] => :square, [20, 10] => :portrait, [10, 20] => :landscape, [10, 11] => :almost_square].each do |k, v|
       it "should return #{v} for #{k[0]} x #{k[1]}" do
         w = works(:work2)
         w.height = k[0]
@@ -159,7 +159,4 @@ RSpec.describe Work::SizingRendering do
       end
     end
   end
-
-
-
 end

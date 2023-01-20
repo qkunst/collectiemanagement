@@ -3,5 +3,4 @@
 require "rails_helper"
 
 RSpec.describe "ImportCollections", type: :request do
-
 end

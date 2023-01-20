@@ -29,13 +29,13 @@ module Work::Export
       fields.collect do |field|
         value = send(field)
         if value.instance_of?(PictureUploader)
-          value.file ? value.file.filename : nil
+          value.file&.filename
         elsif [GeonameSummary].include? value.class
           value.label
-        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet,ImportCollection].include? value.class
+        elsif [Collection, ::Collection, User, Currency, Source, Style, Medium, Condition, Subset, Placeability, Cluster, FrameType, Owner, WorkStatus, WorkSet, ImportCollection].include? value.class
           value.name
         elsif [BalanceCategory].include? value.class
-          value.name unless self.appraised?
+          value.name unless appraised?
         elsif value.to_s === "Artist::ActiveRecord_Associations_CollectionProxy"
           artist_name_rendered_without_years_nor_locality_semicolon_separated
         elsif /ActiveRecord_Associations_CollectionProxy/.match?(value.class.to_s)
@@ -81,8 +81,8 @@ module Work::Export
 
       # sort_according_to_form
       #
-      formstring = File.open("app/views/works/_form.html.erb").read
-      formstring += File.open("app/views/appraisals/_form.html.erb").read
+      formstring = File.read("app/views/works/_form.html.erb")
+      formstring += File.read("app/views/appraisals/_form.html.erb")
       fields.sort! do |a, b|
         a1 = formstring.index(":#{a}") || 9999999
         b1 = formstring.index(":#{b}") || 9999999

@@ -12,16 +12,16 @@
 #  updated_at    :datetime         not null
 #  collection_id :bigint
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Contact, type: :model do
   describe "#name" do
     it "returns external contact if type is external" do
-      expect(Contact.new(external:true).name).to eq("External")
+      expect(Contact.new(external: true).name).to eq("External")
     end
 
     it "returns name when set, even if type is external" do
-      expect(Contact.new(external:true, name: "Real name").name).to eq("Real name")
+      expect(Contact.new(external: true, name: "Real name").name).to eq("Real name")
     end
 
     it "can save without an name when external" do

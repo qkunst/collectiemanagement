@@ -97,7 +97,7 @@ class Message < ApplicationRecord
   end
 
   def subject_rendered
-    subject.nil? || subject.empty? ? "[Geen onderwerp]" : subject
+    (subject.nil? || subject.empty?) ? "[Geen onderwerp]" : subject
   end
 
   def url_options

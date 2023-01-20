@@ -20,19 +20,16 @@ RSpec.describe Api::V1::WorksController, type: :request do
       let(:total) { 3 }
 
       it "returns ok" do
-
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
         expect(response).to be_ok
         response.body
       end
-
 
       it "doesn't return works outside own collections" do
         expect {
           get api_v1_collection_works_path(collections(:collection3), format: :json)
         }.to raise_error ActiveRecord::RecordNotFound
       end
-
 
       it "returns meta" do
         limit = 2
@@ -56,23 +53,21 @@ RSpec.describe Api::V1::WorksController, type: :request do
         collections(:collection_with_works).works.first.update_columns(significantly_updated_at: 1.year.ago)
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, significantly_updated_since: 1.week.ago)
-        expect(JSON.parse(response.body)["meta"]["total_count"]).to eq (total - 1)
+        expect(JSON.parse(response.body)["meta"]["total_count"]).to eq(total - 1)
       end
 
       it "returns all desired fields" do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
 
-        keys = JSON.parse(response.body)["data"].flat_map{|a| a.keys}.uniq
-
+        keys = JSON.parse(response.body)["data"].flat_map { |a| a.keys }.uniq
 
         %w[title_rendered artist_name_rendered object_categories
-        object_creation_year
-        height_with_fallback
-        width_with_fallback
-        depth_with_fallback
-        diameter_with_fallback
-        for_purchase for_rent selling_price highlight public_description created_at import_collection_id object_format_code themes availability_status
-      ].each do |key|
+          object_creation_year
+          height_with_fallback
+          width_with_fallback
+          depth_with_fallback
+          diameter_with_fallback
+          for_purchase for_rent selling_price highlight public_description created_at import_collection_id object_format_code themes availability_status].each do |key|
           expect(keys).to include key
         end
       end
@@ -91,13 +86,11 @@ RSpec.describe Api::V1::WorksController, type: :request do
 
         expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_works).works_including_child_works.pluck(:id, :artist_name_for_sorting).sort)
 
-
         # includes :artist_name_for_sorting; used in uitleen
-        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:artist_name_for_sorting,:id])
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:artist_name_for_sorting, :id])
 
-        expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_works).works_including_child_works.pluck(:artist_name_for_sorting,:id).sort)
+        expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_works).works_including_child_works.pluck(:artist_name_for_sorting, :id).sort)
       end
-
     end
   end
 
@@ -119,14 +112,10 @@ RSpec.describe Api::V1::WorksController, type: :request do
       end
     end
 
-
     it "returns a work set with work set type" do
       get api_v1_collection_works_path(collections(:collection3), format: :json)
-      work_with_work_sets = JSON.parse(response.body)["data"].find{|a| a["work_sets"] != []}
+      work_with_work_sets = JSON.parse(response.body)["data"].find { |a| a["work_sets"] != [] }
       expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).not_to be_nil
     end
-
-
   end
-
 end

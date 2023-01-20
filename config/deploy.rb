@@ -47,7 +47,7 @@ set :rbenv_prefix, "NVM_DIR=~/.nvm RBENV_ROOT=~/.rbenv NODE_VERSION=#{fetch(:nod
 set :rbenv_map_bins, %w[rake gem bundle ruby rails]
 set :rbenv_roles, :all
 set :nvm_node, File.read(File.expand_path("../.nvmrc", __dir__)).strip
-set :nvm_map_bins, %w{node npm yarn rake}
+set :nvm_map_bins, %w[node npm yarn rake]
 
 set :sidekiq_enable_lingering, false
 
@@ -87,12 +87,11 @@ namespace :deploy do
     on roles(:app) do |role|
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :echo, "\"Rails.application.config.action_controller.asset_host = \'https://#{role.hostname}\'\" > config/initializers/asset_hosts.rb"
+          execute :echo, "\"Rails.application.config.action_controller.asset_host = 'https://#{role.hostname}'\" > config/initializers/asset_hosts.rb"
         end
       end
     end
   end
-
 end
 
 Rake::Task["rbenv:validate"].clear_actions
@@ -141,7 +140,7 @@ namespace :rbenv do
     on release_roles(fetch(:rbenv_roles)) do |host|
       rbenv_ruby = fetch(:rbenv_ruby)
       if rbenv_ruby.nil?
-        info 'rbenv: rbenv_ruby is not set; ruby version will be defined by the remote hosts via rbenv'
+        info "rbenv: rbenv_ruby is not set; ruby version will be defined by the remote hosts via rbenv"
       end
 
       # don't check the rbenv_ruby_dir if :rbenv_ruby is not set (it will always fail)
@@ -167,11 +166,9 @@ namespace :nvm do
   desc "Install node version manager"
   task :install do
     on roles(:setup) do
-      begin
-        execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash"
-      rescue SSHKit::Command::Failed
-        info "nvm already installed."
-      end
+      execute "curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash"
+    rescue SSHKit::Command::Failed
+      info "nvm already installed."
     end
   end
   after :install, :update
@@ -216,8 +213,6 @@ namespace :server do
       rescue SSHKit::Command::Failed
         execute "printf \"Rails.application.config.action_mailer.delivery_method = :sendmail\\nRails.application.config.action_mailer.default_url_options = {host: '#{app.hostname}'}\\n\" > #{shared_path}/config/initializers/mailer.rb"
       end
-
-
     end
   end
 end
@@ -235,22 +230,19 @@ namespace :sidekiq do
   desc "Sidekiq install"
   task :install do
     on roles(:app), in: :sequence do |app|
-      begin
-        # execute "rm ~/.config/systemd/user/sidekiq.service"
-        execute "mkdir -p ~/.config/systemd/user"
-        execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
-      rescue SSHKit::Command::Failed
-        template = ERB.new(File.read("sidekiq.service.erb"))
-        host_tmp_dir = File.join(__dir__, "..", "tmp", app.hostname).to_s
-        `mkdir -p #{host_tmp_dir}`
-        File.write("#{host_tmp_dir}/sidekiq.service", template.result_with_hash(stage: fetch(:stage), homedir: "/home/#{app.user}"))
-        upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" #, "~/.config/systemd/user/default.target.want/"
-        execute "systemctl --user daemon-reload"
-        execute "systemctl --user enable sidekiq"
-      end
+      # execute "rm ~/.config/systemd/user/sidekiq.service"
+      execute "mkdir -p ~/.config/systemd/user"
+      execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
+    rescue SSHKit::Command::Failed
+      template = ERB.new(File.read("sidekiq.service.erb"))
+      host_tmp_dir = File.join(__dir__, "..", "tmp", app.hostname).to_s
+      `mkdir -p #{host_tmp_dir}`
+      File.write("#{host_tmp_dir}/sidekiq.service", template.result_with_hash(stage: fetch(:stage), homedir: "/home/#{app.user}"))
+      upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" # , "~/.config/systemd/user/default.target.want/"
+      execute "systemctl --user daemon-reload"
+      execute "systemctl --user enable sidekiq"
     end
   end
-
 end
 
 after "sidekiq:install", "sidekiq:start"

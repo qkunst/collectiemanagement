@@ -39,7 +39,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         expect {
           click_on "Bericht versturen"
-        }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 1 : 2)
+        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@murb.nl") ? 1 : 2)
 
         message = Message.find_by_subject(subject)
         expect(message.actioned_upon_by_qkunst_admin?).to eq(false)
@@ -65,7 +65,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         expect {
           click_on "Bericht versturen"
-        }.to change(ActionMailer::Base.deliveries, :count).by(email_address == "qkunst-admin-user@murb.nl" ? 1 : 2)
+        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@murb.nl") ? 1 : 2)
 
         message.reload
         expect(message.actioned_upon_by_qkunst_admin?).to eq(true)

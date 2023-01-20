@@ -54,6 +54,6 @@ RSpec.feature "Filter from report", type: :feature do
     url = page.current_url
     expect(url).to match "display=compact"
     expect(url).to match "q=Bijzondere"
-    expect(url).to match /filter\[inventoried\]\[\]=true/
+    expect(url).to match(/filter\[inventoried\]\[\]=true/)
   end
 end

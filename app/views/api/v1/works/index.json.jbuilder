@@ -6,6 +6,6 @@ json.meta do
 end
 json.data do
   json.array!(@works) do |work|
-    json.partial! 'work', locals: {work: work}
+    json.partial! "work", locals: {work: work}
   end
 end

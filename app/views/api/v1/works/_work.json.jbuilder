@@ -36,27 +36,27 @@ json.cluster { json.extract! work.cluster, :name, :id } if work.cluster && curre
 json.medium { json.extract! work.medium, :name, :id } if work.medium && current_api_user.ability.viewable_work_fields.include?(:medium)
 json.condition_work { json.extract! work.condition_work, :name, :id } if work.condition_work && current_api_user.ability.viewable_work_fields.include?(:condition_work)
 json.condition_frame { json.extract! work.condition_frame, :name, :id } if work.condition_frame && current_api_user.ability.viewable_work_fields.include?(:condition_frame)
-json.subset       { json.extract! work.subset, :name, :id }       if work.subset       && current_api_user.ability.viewable_work_fields.include?(:subset)
+json.subset { json.extract! work.subset, :name, :id } if work.subset && current_api_user.ability.viewable_work_fields.include?(:subset)
 json.placeability { json.extract! work.placeability, :name, :id } if work.placeability && current_api_user.ability.viewable_work_fields.include?(:placeability)
 json.work_status { json.extract! work.work_status, :name, :id } if work.work_status
 json.owner { json.extract! work.owner, :name, :id, :creating_artist } if work.owner && current_api_user.ability.can?(:read, Owner)
 
 if current_api_user.ability.can?(:read, Appraisal)
   json.appraisals(work.appraisals) do |appraisal|
-    json.partial! 'api/v1/appraisals/appraisal', locals: {appraisal: appraisal}
+    json.partial! "api/v1/appraisals/appraisal", locals: {appraisal: appraisal}
   end
   json.balance_category { json.extract! work.balance_category, :name, :id } if work.balance_category
 
 end
 json.work_sets(work.work_sets) do |work_set|
-  json.work_set_type { json.extract! work_set.work_set_type, :name, :count_as_one, :appraise_as_one}
+  json.work_set_type { json.extract! work_set.work_set_type, :name, :count_as_one, :appraise_as_one }
   json.identification_number work_set.identification_number
 
-  json.appraisal_notice work_set.appraisal_notice   if current_api_user.ability.can?(:read, Appraisal)
+  json.appraisal_notice work_set.appraisal_notice if current_api_user.ability.can?(:read, Appraisal)
   json.comment work_set.comment
 end
 
-json.collection_branch_names (@collection_branches ? @collection_branches[work.collection_id] : work.collection_branch.select(:name).map(&:name))
+json.collection_branch_names(@collection_branches ? @collection_branches[work.collection_id] : work.collection_branch.select(:name).map(&:name))
 
 json.artist_name_rendered work.artist_name_rendered
 json.artist_name_rendered_without_years_nor_locality work.artist_name_rendered_without_years_nor_locality
@@ -71,8 +71,8 @@ json.orientation work.orientation
 json.for_purchase work.for_purchase?
 json.for_rent work.for_rent?
 if work.highlight?
-json.highlight true
-json.highlight_priority work.highlight_priority
+  json.highlight true
+  json.highlight_priority work.highlight_priority
 end
 json.publish work.publish?
 json.image_rights work.image_rights?
@@ -89,11 +89,11 @@ end
 
 if current_api_user.ability.can?(:read, TimeSpan)
   json.time_spans(work.time_spans) do |time_span|
-    json.partial! 'api/v1/time_spans/time_span', locals: {time_span: time_span, work_context: true}
+    json.partial! "api/v1/time_spans/time_span", locals: {time_span: time_span, work_context: true}
   end
   json.current_active_timespan do
     if work.current_active_time_span
-      json.partial! 'api/v1/time_spans/time_span', locals: {time_span: work.current_active_time_span, work_context: true}
+      json.partial! "api/v1/time_spans/time_span", locals: {time_span: work.current_active_time_span, work_context: true}
     end
   end
 end

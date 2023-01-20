@@ -9,7 +9,6 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
     {contact_uri: "http://customers/123", event_type: "rental_outgoing", status: "active"}
   }
 
-
   describe "POST api/v1/work/:work_id/work_events" do
     let(:work) { works(:work5) }
     let(:start_rental_attributes_post_call) {
@@ -35,7 +34,6 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
       work.reload
       expect(work.availability_status).to eql(:lent)
     end
-
 
     it "starts a reservation when signed in" do
       sign_in users(:admin)
@@ -85,7 +83,6 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
 
       expect(work.availability_status).to eql(:lent)
     end
-
 
     it "ends a rental when signed in" do
       sign_in users(:admin)

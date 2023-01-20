@@ -33,7 +33,7 @@ RSpec.feature "Navigate works", type: :feature do
   end
   scenario "registrator" do
     ra = rkd_artists(:rkd_artist2)
-    ra.api_response = JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")).read)
+    ra.api_response = JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")))
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
@@ -72,7 +72,7 @@ RSpec.feature "Navigate works", type: :feature do
   end
   scenario "appraiser" do
     ra = rkd_artists(:rkd_artist2)
-    ra.api_response = JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")).read)
+    ra.api_response = JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")))
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
@@ -118,7 +118,7 @@ RSpec.feature "Navigate works", type: :feature do
   end
   scenario "advisor" do
     ra = rkd_artists(:rkd_artist2)
-    ra.api_response = JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")).read)
+    ra.api_response = JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")))
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 
@@ -164,7 +164,7 @@ RSpec.feature "Navigate works", type: :feature do
   end
   scenario "compliance" do
     ra = rkd_artists(:rkd_artist2)
-    ra.api_response = JSON.parse(File.open(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")).read)
+    ra.api_response = JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_response1.json")))
     ra.save
     allow(RkdArtist).to receive(:search_rkd) { [ra] }
 

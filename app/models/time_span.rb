@@ -24,7 +24,7 @@ class TimeSpan < ApplicationRecord
   store :old_data, coder: JSON
   has_paper_trail
 
-  CLASSIFICATIONS = [:rental_outgoing, :transport, :exhibition, :purchase] #:rental_incoming was part of this as well, but
+  CLASSIFICATIONS = [:rental_outgoing, :transport, :exhibition, :purchase] # :rental_incoming was part of this as well, but
   SUBJECT_TYPES = ["Work", "WorkSet"]
   STATUSSES = [:concept, :reservation, :active, :finished]
 
@@ -46,25 +46,26 @@ class TimeSpan < ApplicationRecord
   after_save :sync_time_spans_for_works_when_work_set
 
   # status-scopes
-  scope :concept, ->{ where(status: :concept) }
-  scope :reservation, ->{ where(status: :reservation) }
-  scope :active, ->{ where(status: :active) }
-  scope :finished, ->{ where(status: :finished) }
+  scope :concept, -> { where(status: :concept) }
+  scope :reservation, -> { where(status: :reservation) }
+  scope :active, -> { where(status: :active) }
+  scope :finished, -> { where(status: :finished) }
 
   # classification-scopes
-  scope :rental_outgoing, ->{ where(classification: :rental_outgoing) }
+  scope :rental_outgoing, -> { where(classification: :rental_outgoing) }
 
   # time-scopes
-  scope :current, ->{ where("
+  scope :current, -> {
+                    where("
     (time_spans.starts_at IS NULL AND time_spans.ends_at IS NULL) OR
     (time_spans.starts_at <= :time    AND time_spans.ends_at >= :time) OR
     (time_spans.starts_at IS NULL AND time_spans.ends_at >= :time) OR
     (time_spans.starts_at <= :time    AND time_spans.ends_at IS NULL) OR
     (time_spans.starts_at <= :time    AND time_spans.status = 'active')
+    ", {time: Time.current})
+                  }
 
-    ", {time: Time.current})  }
-
-  scope :expired, ->{ current.where("time_spans.ends_at <= ?", Time.current) }
+  scope :expired, -> { current.where("time_spans.ends_at <= ?", Time.current) }
 
   def contact_url
     contact&.url
@@ -87,12 +88,12 @@ class TimeSpan < ApplicationRecord
 
   def current?
     current_time = Time.current
-    return (
-      (starts_at.nil?            && ends_at.nil?) or
-      (starts_at.nil?            && ends_at > current_time) or
-      (ends_at.nil?              && starts_at <= current_time) or
+    (
+      (starts_at.nil? && ends_at.nil?) or
+      (starts_at.nil? && ends_at > current_time) or
+      (ends_at.nil? && starts_at <= current_time) or
       (starts_at <= current_time && ends_at > current_time) or
-      (starts_at <= current_time && status == 'active')
+      (starts_at <= current_time && status == "active")
     )
   end
 
@@ -109,8 +110,8 @@ class TimeSpan < ApplicationRecord
       new_contact
     elsif new_contact.present? && new_contact.to_i.to_s == new_contact
       Contact.find(new_contact)
-    elsif new_contact.start_with?("https://") || new_contact.start_with?("http://")
-      Contact.find_or_create_by(url: new_contact, collection: self.collection.base_collection, external: true)
+    elsif new_contact.start_with?("https://", "http://")
+      Contact.find_or_create_by(url: new_contact, collection: collection.base_collection, external: true)
     end
 
     if new_contact_obj
@@ -150,11 +151,11 @@ class TimeSpan < ApplicationRecord
   private
 
   def subject_available?
-    subject && subject.available?
+    subject&.available?
   end
 
   def self_is_subject_current_active_time_span?
-    subject && (subject.current_active_time_span && subject.current_active_time_span.id == self.id)
+    subject && (subject.current_active_time_span && subject.current_active_time_span.id == id)
   end
 
   def validate_subject_available?
@@ -170,7 +171,7 @@ class TimeSpan < ApplicationRecord
   def sync_time_spans_for_works_when_work_set
     if subject.is_a?(WorkSet)
       subject.works.each do |work|
-        ts = TimeSpan.find_or_initialize_by(time_span_id: self.id, classification: classification, contact_id: contact_id, subject: work, starts_at: starts_at, collection: collection)
+        ts = TimeSpan.find_or_initialize_by(time_span_id: id, classification: classification, contact_id: contact_id, subject: work, starts_at: starts_at, collection: collection)
 
         unless ts.finished?
           ts.starts_at ||= starts_at

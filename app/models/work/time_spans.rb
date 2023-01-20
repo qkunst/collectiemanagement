@@ -23,13 +23,11 @@ module Work::TimeSpans
     end
 
     def current_active_time_span
-      @current_active_time_span ||= (time_spans.select(&:current_and_active?).last || time_spans.select(&:current_and_active_or_reserved?).last)
+      @current_active_time_span ||= (time_spans.reverse.find(&:current_and_active?) || time_spans.reverse.find(&:current_and_active_or_reserved?))
     end
 
     def last_active_time_span
-      time_spans.sort_by(&:created_at).last
+      time_spans.max_by(&:created_at)
     end
-
-
   end
 end

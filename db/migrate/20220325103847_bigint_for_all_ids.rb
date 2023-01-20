@@ -1,6 +1,5 @@
 class BigintForAllIds < ActiveRecord::Migration[6.1]
   def change
-
     change_column :works, "id", :bigint
     change_column :works, "collection_id", :bigint
     change_column :works, "medium_id", :bigint
@@ -83,49 +82,48 @@ class BigintForAllIds < ActiveRecord::Migration[6.1]
 
     {
       appraisals: %w[user_id appraisee_id],
-      artist_involvements: %w[involvement_id artist_id place_geoname_id ],
-      artists: %w[import_collection_id rkd_artist_id place_of_death_geoname_id place_of_birth_geoname_id replaced_by_artist_id ],
+      artist_involvements: %w[involvement_id artist_id place_geoname_id],
+      artists: %w[import_collection_id rkd_artist_id place_of_death_geoname_id place_of_birth_geoname_id replaced_by_artist_id],
       artists_works: %w[artist_id work_id],
       attachments: [:collection_id],
-      batch_photo_uploads: %w[ collection_id ],
-      clusters: %w[ collection_id ],
-      collection_attributes: %w[ collection_id ],
-      collections: %w[ parent_collection_id ],
-      collections_geoname_summaries: %w[ collection_id geoname_id ],
-      collections_stages: %w[ collection_id stage_id ],
-      collections_users: %w[ user_id collection_id ],
-      contacts: %w[ collection_id ],
-      custom_report_templates: %w[ collection_id ],
-      custom_reports: %w[ custom_report_template_id collection_id ],
-      damage_types_works: %w[ damage_type_id work_id ],
-      frame_damage_types_works: %w[ work_id frame_damage_type_id ],
-      geoname_summaries: %w[ geoname_id ],
-      geoname_translations: %w[ translation_id geoname_id ],
-      geonames: %w[ geonameid ],
-      geonames_admindivs: %w[ geonameid ],
-      geonames_countries: %w[ geoname_id ],
-      import_collections: %w[ collection_id],
-      involvements: %w[ place_geoname_id  ],
-      library_items: %w[ collection_id ],
-      messages: %w[ from_user_id to_user_id in_reply_to_message_id conversation_start_message_id subject_object_id reminder_id ],
-      object_categories_works: %w[ object_category_id work_id ],
-      owners: %w[ collection_id ],
-      reminders: %w[ stage_id collection_id ],
-      rkd_artists: %w[ rkd_id ],
-      sources_works: %w[ work_id source_id ],
-      stages: %w[ actual_stage_id previous_stage_id ],
-      taggings: %w[ tag_id taggable_id tagger_id ],
-      techniques_works: %w[ technique_id work_id ],
-      themes: %w[ collection_id ],
-      themes_works: %w[ theme_id work_id ],
-      time_spans: %w[ contact_id subject_id collection_id ],
-      versions: %w[ item_id ],
-      work_sets: %w[ work_set_type_id ]
+      batch_photo_uploads: %w[collection_id],
+      clusters: %w[collection_id],
+      collection_attributes: %w[collection_id],
+      collections: %w[parent_collection_id],
+      collections_geoname_summaries: %w[collection_id geoname_id],
+      collections_stages: %w[collection_id stage_id],
+      collections_users: %w[user_id collection_id],
+      contacts: %w[collection_id],
+      custom_report_templates: %w[collection_id],
+      custom_reports: %w[custom_report_template_id collection_id],
+      damage_types_works: %w[damage_type_id work_id],
+      frame_damage_types_works: %w[work_id frame_damage_type_id],
+      geoname_summaries: %w[geoname_id],
+      geoname_translations: %w[translation_id geoname_id],
+      geonames: %w[geonameid],
+      geonames_admindivs: %w[geonameid],
+      geonames_countries: %w[geoname_id],
+      import_collections: %w[collection_id],
+      involvements: %w[place_geoname_id],
+      library_items: %w[collection_id],
+      messages: %w[from_user_id to_user_id in_reply_to_message_id conversation_start_message_id subject_object_id reminder_id],
+      object_categories_works: %w[object_category_id work_id],
+      owners: %w[collection_id],
+      reminders: %w[stage_id collection_id],
+      rkd_artists: %w[rkd_id],
+      sources_works: %w[work_id source_id],
+      stages: %w[actual_stage_id previous_stage_id],
+      taggings: %w[tag_id taggable_id tagger_id],
+      techniques_works: %w[technique_id work_id],
+      themes: %w[collection_id],
+      themes_works: %w[theme_id work_id],
+      time_spans: %w[contact_id subject_id collection_id],
+      versions: %w[item_id],
+      work_sets: %w[work_set_type_id]
     }.each do |table, fields|
       fields.each do |field|
         change_column table, field, :bigint
       end
     end
   end
-
 end

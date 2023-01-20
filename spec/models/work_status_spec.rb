@@ -31,7 +31,7 @@ RSpec.describe WorkStatus, type: :model do
 
     it "doesn't update an already removed work if set" do
       w = works(:work1)
-      date = DateTime.new(2000,1,1)
+      date = DateTime.new(2000, 1, 1)
       w.update(removed_from_collection_at: date)
 
       w.work_status = work_statuses(:afgestoten)

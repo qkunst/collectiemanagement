@@ -217,7 +217,7 @@ class Work < ApplicationRecord
   scope :not_removed_from_collection, -> { where(removed_from_collection_at: nil) }
   scope :published, -> { where(publish: true) }
   scope :by_group, ->(group, rough_ids) {
-    ids = rough_ids.map { |a| a.to_s == Work::Search::NOT_SET_VALUE || a.nil? ? nil : a }
+    ids = rough_ids.map { |a| (a.to_s == Work::Search::NOT_SET_VALUE || a.nil?) ? nil : a }
     case group.to_sym
     when :cluster
       where(cluster_id: ids)
@@ -241,7 +241,7 @@ class Work < ApplicationRecord
       raise "unsupported parameter #{group}"
     end
   }
-  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime ... 1.year.from_now))}
+  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime...1.year.from_now)) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -416,7 +416,7 @@ class Work < ApplicationRecord
   end
 
   def purchase_price_symbol
-    purchase_price_currency ? (purchase_price_currency.symbol || "")  : "€"
+    purchase_price_currency ? (purchase_price_currency.symbol || "") : "€"
   end
 
   def main_collection
@@ -431,7 +431,7 @@ class Work < ApplicationRecord
     return @all_work_ids_in_collection if @all_work_ids_in_collection
     order = [collection.sort_works_by, collection.parent_collection.try(:sort_works_by), :stock_number, :id]
 
-    relative_collection = !order[0] && order[1] ? collection.parent_collection : collection
+    relative_collection = (!order[0] && order[1]) ? collection.parent_collection : collection
 
     @all_work_ids_in_collection ||= relative_collection.works_including_child_works.select(:id).order(order.compact).collect { |a| a.id }
   end
@@ -442,12 +442,12 @@ class Work < ApplicationRecord
 
   def next
     next_work_id = all_work_ids_in_collection[work_index_in_collection + 1]
-    next_work_id ? Work.find(next_work_id) : Work.find(all_work_ids_in_collection.first)
+    Work.find(next_work_id || all_work_ids_in_collection.first)
   end
 
   def previous
     prev_work_id = all_work_ids_in_collection[work_index_in_collection - 1]
-    prev_work_id ? Work.find(prev_work_id) : Work.find(all_work_ids_in_collection.last)
+    Work.find(prev_work_id || all_work_ids_in_collection.last)
   end
 
   def set_empty_values_to_nil
@@ -483,7 +483,7 @@ class Work < ApplicationRecord
     versions.each_with_index do |version, index|
       location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name, location: nil, location_floor: nil, location_detail: nil}
       if version.object && (index > 0)
-        reified_object = Work.new(YAML.load(version.object).select{|k,v| [k,v] if ["location", "location_floor", "location_detail"].include?(k)} )
+        reified_object = Work.new(YAML.safe_load(version.object).select { |k, v| [k, v] if ["location", "location_floor", "location_detail"].include?(k) })
         location_versions[index - 1][:location] = reified_object.location
         location_versions[index - 1][:location_floor] = reified_object.location_floor
         location_versions[index - 1][:location_detail] = reified_object.location_detail
@@ -535,7 +535,7 @@ class Work < ApplicationRecord
   end
 
   def removed_from_collection!(time_stamp = Time.current)
-    self.update(removed_from_collection_at: time_stamp) unless removed_from_collection_at
+    update(removed_from_collection_at: time_stamp) unless removed_from_collection_at
   end
 
   def add_lognoteline note
@@ -618,7 +618,7 @@ class Work < ApplicationRecord
     end
 
     def quick_destroy_all
-      ids = self.pluck(:id)
+      ids = pluck(:id)
 
       if ids.count > 0
         ids_joined = ids.join(",")
@@ -639,12 +639,12 @@ class Work < ApplicationRecord
         Tagging.where(taggable_type: "Work", taggable_id: ids).delete_all
         TimeSpan.where(subject_type: "Work", subject_id: ids).delete_all
 
-        self.delete_all
+        delete_all
       end
     end
 
     def human_attribute_name_for_alt_number_field(field_name, collection)
-      custom_label_name = collection ? collection.send("label_override_work_#{field_name}_with_inheritance".to_sym) : nil
+      custom_label_name = collection&.send("label_override_work_#{field_name}_with_inheritance".to_sym)
       custom_label_name || Work.human_attribute_name(field_name)
     end
 

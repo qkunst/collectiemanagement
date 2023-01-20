@@ -141,7 +141,7 @@ class WorkSet < ApplicationRecord
   end
 
   def current_active_time_span
-    @current_active_time_span ||= time_spans.select(&:current_and_active?).last
+    @current_active_time_span ||= time_spans.reverse.find(&:current_and_active?)
   end
 
   def can_be_accessed_by_user?(user)
@@ -181,6 +181,6 @@ class WorkSet < ApplicationRecord
   end
 
   def reindex_works!
-    works.each{|work| ReindexWorkWorker.perform_async(work.id)}
+    works.each { |work| ReindexWorkWorker.perform_async(work.id) }
   end
 end

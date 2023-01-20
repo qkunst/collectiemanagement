@@ -21,7 +21,5 @@ RSpec.describe Work::Search, type: :model do
         expect(works(:collection_with_availability_available_work).as_indexed_json.keys).to include("availability_status")
       end
     end
-
-
   end
 end
