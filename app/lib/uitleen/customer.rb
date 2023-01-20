@@ -35,8 +35,6 @@ class Uitleen::Customer
         json = JSON.parse(response.body)["data"]
 
         [json].flatten.map { |c| Uitleen::Customer.new(c) }.first
-      else
-        nil
       end
     end
 
@@ -59,5 +57,4 @@ class Uitleen::Customer
       end
     end
   end
-
 end

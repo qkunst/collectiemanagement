@@ -9,7 +9,7 @@ class AppraisalsController < ApplicationController
   def new
     @latest_appraisal = @appraisee.appraisals.descending_appraisal_on.first
     @appraisal = Appraisal.new(
-      market_value: @appraisee.market_value ,
+      market_value: @appraisee.market_value,
       replacement_value: @appraisee.replacement_value,
       market_value_min: @appraisee.market_value_min,
       market_value_max: @appraisee.market_value_max,

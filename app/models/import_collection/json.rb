@@ -1,10 +1,10 @@
 module ImportCollection::Json
   def write_json_work(work_data)
-    as_is_fields = %w[stock_number alt_number_1 alt_number_2 alt_number_3 alt_number_4 alt_number_5 alt_number_6 title title_unknown description object_creation_year object_creation_year_unknown print print_unknown frame_height frame_width frame_depth frame_diameter height width depth diameter public_description abstract_or_figurative location_detail location location_floor internal_comments inventoried refound new_found inventoried_at refound_at new_found_at geoname_id  artist_unknown signature_comments no_signature_present information_back other_comments grade_within_collection entry_status entry_status_description medium_comments main_collection image_rights publish permanently_fixed condition_work_comments condition_frame_comments source_comments purchase_price purchased_on purchase_year selling_price minimum_bid market_value_max market_value_min replacement_value_min replacement_value_max valuation_on market_value replacement_value for_purchase for_rent highlight for_purchase_at for_rent_at highlight_at work_data selling_price_minimum_bid_comments id tag_list significantly_updated_at created_at removed_from_collection_at removed_from_collection_note]
+    as_is_fields = %w[stock_number alt_number_1 alt_number_2 alt_number_3 alt_number_4 alt_number_5 alt_number_6 title title_unknown description object_creation_year object_creation_year_unknown print print_unknown frame_height frame_width frame_depth frame_diameter height width depth diameter public_description abstract_or_figurative location_detail location location_floor internal_comments inventoried refound new_found inventoried_at refound_at new_found_at geoname_id artist_unknown signature_comments no_signature_present information_back other_comments grade_within_collection entry_status entry_status_description medium_comments main_collection image_rights publish permanently_fixed condition_work_comments condition_frame_comments source_comments purchase_price purchased_on purchase_year selling_price minimum_bid market_value_max market_value_min replacement_value_min replacement_value_max valuation_on market_value replacement_value for_purchase for_rent highlight for_purchase_at for_rent_at highlight_at work_data selling_price_minimum_bid_comments id tag_list significantly_updated_at created_at removed_from_collection_at removed_from_collection_note]
 
-    work = Work.new(work_data.select{|k,v| as_is_fields.include? k})
+    work = Work.new(work_data.select { |k, v| as_is_fields.include? k })
     work.collection = collection
-    work.import_collection_id = self.id
+    work.import_collection_id = id
 
     # Photo's
     begin
@@ -140,9 +140,9 @@ module ImportCollection::Json
       }
 
       artist = if cleaned_artist_data["rkd_artist_id"]
-        Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
-      elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
-        Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
+                 Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
+               elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
+                 Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
       end || Artist.find_or_create_by(cleaned_artist_data)
 
       work.artists << artist if artist
@@ -173,8 +173,8 @@ module ImportCollection::Json
       else
         Contact.find_or_initialize_by(name: contact_data["name"].to_s, address: contact_data["address"], external: false, url: contact_data["url"], collection: base_collection)
       end
-      contact.name=contact_data["name"]
-      contact.address= contact_data["address"]
+      contact.name = contact_data["name"]
+      contact.address = contact_data["address"]
       contact.collection = base_collection
       contact.save
       time_span = TimeSpan.find_or_initialize_by(contact: contact, starts_at: time_span_data["starts_at"], subject: work, uuid: time_span_data["uuid"], classification: time_span_data["classification"], collection: base_collection)
@@ -199,7 +199,6 @@ module ImportCollection::Json
       binding.irb if Rails.env.test?
       raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
     end
-
   rescue PG::UniqueViolation
   rescue ActiveRecord::RecordNotUnique
   end
@@ -208,8 +207,7 @@ module ImportCollection::Json
     json = JSON.parse(file.read)
     json = json.is_a?(Array) ? json : json["data"]
     json.each do |work_data|
-      ImportWriteWorkJson.perform_async(self.id, work_data)
+      ImportWriteWorkJson.perform_async(id, work_data)
     end
   end
-
 end

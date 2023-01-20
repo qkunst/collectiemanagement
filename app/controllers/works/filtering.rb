@@ -32,7 +32,7 @@ module Works::Filtering
         params[:filter].each do |field, values|
           if field == "reset"
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status"].include?(field)
-            @selection_filter[field] = params[:filter][field].collect { |a| a == Work::Search::NOT_SET_VALUE ? nil : a } if params[:filter][field]
+            @selection_filter[field] = params[:filter][field].collect { |a| (a == Work::Search::NOT_SET_VALUE) ? nil : a } if params[:filter][field]
           elsif ["location_raw", "location_floor_raw", "location_detail_raw"].include?(field)
             @selection_filter[field] = params[:filter][field] if params[:filter][field]
           elsif Work.column_types[field.to_s] == :boolean || CollectionReportHelper::BOOLEANS.include?(field.to_sym)
@@ -83,7 +83,7 @@ module Works::Filtering
           works_grouped[group] << work
         end
       end
-      @max_index ||= @works_count < DEFAULT_WORK_COUNT ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
+      @max_index ||= (@works_count < DEFAULT_WORK_COUNT) ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
       @works_grouped = {}
       works_grouped.keys.compact.sort.each do |key|
         @works_grouped[key] = works_grouped[key].uniq
@@ -181,7 +181,7 @@ module Works::Filtering
 
     def clean_ids noise
       if noise
-        noise.collect { |a| a == Work::Search::NOT_SET_VALUE ? nil : a.to_i }
+        noise.collect { |a| (a == Work::Search::NOT_SET_VALUE) ? nil : a.to_i }
       else
         []
       end

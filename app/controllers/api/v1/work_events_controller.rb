@@ -26,7 +26,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
 
     @time_span = if work_event_params[:time_span_uuid]
       time_span = @work.time_spans.find_by!(uuid: work_event_params[:time_span_uuid])
-      raise "Non matching customer_uri for timespan #{time_span.contact_url} != #{work_event_params[:contact_uri]}" if (time_span.contact_url && (time_span.contact_url != work_event_params[:contact_uri]))
+      raise "Non matching customer_uri for timespan #{time_span.contact_url} != #{work_event_params[:contact_uri]}" if time_span.contact_url && (time_span.contact_url != work_event_params[:contact_uri])
       if work_event_params[:status] == "finished"
         time_span.finish
       else
@@ -44,7 +44,6 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
         comments: work_event_params[:comments]
       )
     end
-
 
     save_result = @time_span.save
     if save_result

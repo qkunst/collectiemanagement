@@ -19,7 +19,7 @@ class Attachment < ApplicationRecord
 
   validates_presence_of :file
 
-  scope :for_roles, ->(roles) { roles.include?(:admin) || roles.include?(:advisor) ? where("1 = 1") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
+  scope :for_roles, ->(roles) { (roles.include?(:admin) || roles.include?(:advisor)) ? where("1 = 1") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
   scope :for_me, ->(user) { for_roles(user.roles).where(collection_id: user.accessible_collection_ids) }
   scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil}) }
@@ -52,8 +52,7 @@ class Attachment < ApplicationRecord
   end
 
   def export_file_name
-    rv = file_name.downcase.gsub(/\s+/, "_").gsub(/[\#\%\&\{\}\\\<\>\*\?\/\$\!\'\"\:\@\+\`\|\=\,]/, "")
+    rv = file_name.downcase.gsub(/\s+/, "_").gsub(/[\#%&{}\\<>*?\/$!'":@+`|=,]/, "")
     rv.end_with?(".#{extension}") ? rv : "#{rv}.#{extension}"
   end
-
 end

@@ -31,7 +31,7 @@ class WorkSetsController < ApplicationController
       authorize! :create, @work_set
     end
     if @work_set.save
-      redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de\ verzameling"
+      redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de verzameling"
     else
       render :new
     end

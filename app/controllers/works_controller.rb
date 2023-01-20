@@ -175,8 +175,8 @@ class WorksController < ApplicationController
     @work.destroy
     redirect_to collection_works_url(@collection), notice: "Het werk is definitief verwijderd uit de #{I18n.t("application.name")} database"
   end
-  def show_old_data
 
+  def show_old_data
   end
 
   private

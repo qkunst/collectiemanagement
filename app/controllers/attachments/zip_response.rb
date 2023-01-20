@@ -14,11 +14,10 @@ module Attachments::ZipResponse
         file_names = {}
         files = []
 
-
         @attachments.each do |attachment|
           file_name = attachment.export_file_name
 
-          if file_names.keys.include? file_name
+          if file_names.key?(file_name)
             file_parts = file_name.split(".")
             file_extension = file_parts.pop
             file_base = file_parts.join(".")
@@ -39,7 +38,6 @@ module Attachments::ZipResponse
           attachment.works.each do |work|
             files << [attachment.file.path, "works/#{work.base_file_name}/#{file_name}"]
           end
-
         end
 
         zip_tricks_stream do |zip|

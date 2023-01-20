@@ -38,7 +38,7 @@ class ArtistsController < ApplicationController
     Artist.collapse_by_name!({only_when_created_at_date_is_equal: true})
     artist_count_after = Artist.count
 
-    redirect_to artists_path, notice: (artist_count_after < artist_count_before ? "De vervaardigersdatabase is opgeschoond (van #{artist_count_before} vervaardigers naar #{artist_count_after} vervaardigers)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
+    redirect_to artists_path, notice: ((artist_count_after < artist_count_before) ? "De vervaardigersdatabase is opgeschoond (van #{artist_count_before} vervaardigers naar #{artist_count_after} vervaardigers)!" : "Schoner kunnen we het niet maken. Verder opschonen zal helaas handmatig moeten gebeuren")
   end
 
   # GET /artists/1

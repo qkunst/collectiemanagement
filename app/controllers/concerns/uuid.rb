@@ -13,5 +13,4 @@ module Uuid
       self.uuid ||= SecureRandom.uuid
     end
   end
-
 end

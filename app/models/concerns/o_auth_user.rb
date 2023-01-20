@@ -35,7 +35,7 @@ module OAuthUser
       validated_token = oauth_strategy.validate_id_token(id_token)
 
       if validated_token["sub"] == oauth_subject
-        update(oauth_access_token: new_token.token, oauth_refresh_token: (new_token.refresh_token.present? ? new_token.refresh_token : self.refresh_token), oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
+        update(oauth_access_token: new_token.token, oauth_refresh_token: (new_token.refresh_token.present? ? new_token.refresh_token : refresh_token), oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
       end
 
       self
@@ -68,7 +68,6 @@ module OAuthUser
         user.oauth_refresh_token ||= data.oauth_refresh_token
         user.oauth_access_token = data.oauth_access_token
 
-
         if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
           user.reset_all_roles
           new_role = (User::ROLES & OAuthGroupMapping.retrieve_roles(data))[0]
@@ -87,5 +86,4 @@ module OAuthUser
       end
     end
   end
-
 end

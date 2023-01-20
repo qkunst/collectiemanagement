@@ -3,6 +3,7 @@ class Uitleen
     def site
       Rails.application.secrets.uitleen_site
     end
+
     def configured?
       site.present?
     end

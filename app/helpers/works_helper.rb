@@ -94,7 +94,7 @@ module WorksHelper
 
     if filtered
       sentence_items << ". Er"
-      sentence_items << (@works_count == 1 || report ? " wordt " : " worden ")
+      sentence_items << ((@works_count == 1 || report) ? " wordt " : " worden ")
       sentence_items << "vanwege een filter "
       sentence_items << (report ? "gerapporteerd over #{translate_works(@works_count)}" : "#{translate_works(@works_count)} getoond")
     end

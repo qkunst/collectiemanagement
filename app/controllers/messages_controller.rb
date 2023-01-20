@@ -67,7 +67,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.from_user = current_user
     @message.subject_object = subject_object
-    collection_or_work_url = [@collection, @work].compact.count > 0 ? url_for([@collection, @work].compact) : nil
+    collection_or_work_url = ([@collection, @work].compact.count > 0) ? url_for([@collection, @work].compact) : nil
     referrer = collection_or_work_url || params[:referrer] || request.referrer
     @message.subject_url = referrer unless /\/messages\//.match?(request.referrer)
 

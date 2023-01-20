@@ -93,7 +93,7 @@ class Artist < ApplicationRecord
   end
 
   def base_file_name
-    search_name.downcase.gsub(/\s+/, "_").gsub(/[\#\%\&\{\}\\\<\>\*\?\/\$\!\'\"\:\@\+\`\|\=\,]/, "")
+    search_name.downcase.gsub(/\s+/, "_").gsub(/[\#%&{}\\<>*?\/$!'":@+`|=,]/, "")
   end
 
   def geoname_ids
@@ -129,7 +129,7 @@ class Artist < ApplicationRecord
 
   def prefix
     rv = read_attribute(:prefix)
-    rv.nil? || rv.empty? ? nil : rv
+    (rv.nil? || rv.empty?) ? nil : rv
   end
 
   def retrieve_rkd_artists!

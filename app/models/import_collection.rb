@@ -31,7 +31,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def import_setting_for field
-    settings = import_settings && import_settings[field.to_s] ? import_settings[field.to_s] : {}
+    settings = (import_settings && import_settings[field.to_s]) ? import_settings[field.to_s] : {}
     {"fields" => [], "split_strategy" => "split_nothing", "assign_strategy" => "append"}.merge(settings)
   end
 
@@ -44,7 +44,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def json?
-    file.content_type == "application/json" || import_file_snippet == nil && file&.file&.file&.ends_with?(".json")
+    file.content_type == "application/json" || import_file_snippet.nil? && file&.file&.file&.ends_with?(".json")
   end
 
   def set_import_file_snippet!(f = file)
@@ -75,7 +75,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def remove_works_imported_with_this_importer
-    Work.where(import_collection_id: self.id).quick_destroy_all
+    Work.where(import_collection_id: id).quick_destroy_all
   end
 
   def name
@@ -104,5 +104,4 @@ class ImportCollection < ApplicationRecord
   def ignore_columns_generic
     %w[id created_at updated_at imported_at created_by_id lognotes external_inventory html_cache other_structured_data appraisee_type]
   end
-
 end

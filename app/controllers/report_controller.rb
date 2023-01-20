@@ -90,6 +90,5 @@ class ReportController < ApplicationController
       @sections["Status"] ||= [[]]
       @sections["Status"][0].prepend(:availability_status)
     end
-
   end
 end

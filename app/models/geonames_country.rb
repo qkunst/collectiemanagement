@@ -81,7 +81,7 @@ class GeonamesCountry < ApplicationRecord
       delete_all
       puts "Importing countries..."
       transaction do
-        File.open("data/countryInfo.txt").read.split("\n").collect { |a| a.split("\t") }.each do |a|
+        File.read("data/countryInfo.txt").split("\n").collect { |a| a.split("\t") }.each do |a|
           GeonamesCountry.create(
             iso: a[0],
             iso3: a[1],

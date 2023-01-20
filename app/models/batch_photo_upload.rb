@@ -51,7 +51,7 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def image_names
-    "#{images[0..9].collect(&:filename).to_sentence}#{images.count > 10 ? "..." : ""}"
+    "#{images[0..9].collect(&:filename).to_sentence}#{(images.count > 10) ? "..." : ""}"
   end
 
   def image_directory

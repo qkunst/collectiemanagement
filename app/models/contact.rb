@@ -19,9 +19,9 @@ class Contact < ApplicationRecord
   validates_presence_of :url, if: :external_and_no_remote_data?
   validates_uniqueness_of :url, if: :external_and_no_remote_data?, scope: :collection
 
-  scope :internal, ->{ where(external: [nil, false]) }
-  scope :external, ->{ where(external: true) }
-  scope :without_url, ->{ where(url: nil)}
+  scope :internal, -> { where(external: [nil, false]) }
+  scope :external, -> { where(external: true) }
+  scope :without_url, -> { where(url: nil) }
 
   has_many :time_spans
 

@@ -2,7 +2,7 @@ class TimeSpansController < ApplicationController
   authorize_resource
   before_action :set_collection
   before_action :set_subject
-  before_action :set_time_span, only: %w[ show edit update destroy ]
+  before_action :set_time_span, only: %w[show edit update destroy]
   before_action :set_contacts, only: [:new, :edit, :create, :update]
 
   # GET /time_spans or /time_spans.json
@@ -12,7 +12,6 @@ class TimeSpansController < ApplicationController
 
   # GET /time_spans/1 or /time_spans/1.json
   def show
-
   end
 
   # GET /time_spans/new
@@ -63,38 +62,39 @@ class TimeSpansController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
 
-    # Only allow a list of trusted parameters through.
-    def time_span_params
-      params.require(:time_span).permit(:starts_at, :ends_at, :status, :contact_id, :status, :classification, :contact)
-    end
+  # Use callbacks to share common setup or constraints between actions.
 
-    def set_work
-      @work = current_user.accessible_works.find_by_id(params[:work_id]) if params[:work_id]
-    end
+  # Only allow a list of trusted parameters through.
+  def time_span_params
+    params.require(:time_span).permit(:starts_at, :ends_at, :status, :contact_id, :status, :classification, :contact)
+  end
 
-    def set_work_set
-      @work_set = WorkSet.find(params[:work_set_id]) if params[:work_set_id]
-    end
+  def set_work
+    @work = current_user.accessible_works.find_by_id(params[:work_id]) if params[:work_id]
+  end
 
-    def set_time_span
-      @time_span = if @subject
-        @subject.time_spans.find_by_id(params[:id] || params[:time_span_id]) || @subject.time_spans.find_by_uuid(params[:id] || params[:time_span_id])
-      else
-        TimeSpan.find(params[:id] || params[:time_span_id])
-      end
-    end
+  def set_work_set
+    @work_set = WorkSet.find(params[:work_set_id]) if params[:work_set_id]
+  end
 
-    def set_subject
-      @subject = set_work || set_work_set
-      authorize!(:manage, TimeSpan) if @subject.nil?
+  def set_time_span
+    @time_span = if @subject
+      @subject.time_spans.find_by_id(params[:id] || params[:time_span_id]) || @subject.time_spans.find_by_uuid(params[:id] || params[:time_span_id])
+    else
+      TimeSpan.find(params[:id] || params[:time_span_id])
     end
+  end
 
-    def set_contacts
-      @contacts = @collection.base_collection.contacts.internal
-      @contacts += @collection.base_collection.contacts.external.without_url
-      @contacts += Uitleen::Customer.all(current_user: current_user) if Uitleen.configured? && current_user.central_login_provided_auth?
-      @contacts = @contacts.sort_by(&:name)
-    end
+  def set_subject
+    @subject = set_work || set_work_set
+    authorize!(:manage, TimeSpan) if @subject.nil?
+  end
+
+  def set_contacts
+    @contacts = @collection.base_collection.contacts.internal
+    @contacts += @collection.base_collection.contacts.external.without_url
+    @contacts += Uitleen::Customer.all(current_user: current_user) if Uitleen.configured? && current_user.central_login_provided_auth?
+    @contacts = @contacts.sort_by(&:name)
+  end
 end

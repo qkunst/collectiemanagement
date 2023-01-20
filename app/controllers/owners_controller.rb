@@ -16,5 +16,4 @@ class OwnersController < ApplicationController
   def white_listed_params
     params.require(singularized_name.to_sym).permit(:name, :description, :creating_artist, :hide, :collection_id)
   end
-
 end

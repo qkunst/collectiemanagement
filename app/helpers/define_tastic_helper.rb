@@ -124,7 +124,7 @@ module DefineTasticHelper
 
     if args[0].is_a? Hash
       if args[0][:render_as]
-        @define_tastic_render_as = args[0][:render_as] == :table ? :table : :dl
+        @define_tastic_render_as = (args[0][:render_as] == :table) ? :table : :dl
       end
       if args[0][:key_width]
         @define_tastic_key_width = args[0][:key_width]

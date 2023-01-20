@@ -27,8 +27,6 @@
 #  parent_collection_id             :bigint           default(7)
 #
 
-
-
 class Collection < ApplicationRecord
   include MethodCache
   include Collection::Hierarchy

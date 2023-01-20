@@ -11,7 +11,7 @@ class WorkSets::WorksController < ApplicationController
       ReindexWorkWorker.perform_async(@work.id)
       redirect_to work_set_path(@work_set), notice: "Het werk #{@work.title} is verwijderd uit deze groepering."
     else
-      redirect_to  work_set_path(@work_set), alert: "Het werk #{@work.title} kon niet worden verwijderd uit deze groepering, probeer het opnieuw."
+      redirect_to work_set_path(@work_set), alert: "Het werk #{@work.title} kon niet worden verwijderd uit deze groepering, probeer het opnieuw."
     end
   end
 
@@ -27,7 +27,6 @@ class WorkSets::WorksController < ApplicationController
   end
 
   def set_work
-    @work = @works.find{|a| a.id == params[:id].to_i}
+    @work = @works.find { |a| a.id == params[:id].to_i }
   end
-
 end

@@ -50,7 +50,7 @@ module ApplicationHelper
     end
   end
 
-  def works_modified_forms_path options={}
+  def works_modified_forms_path options = {}
     collection_works_modified_path(@collection)
   end
 
@@ -108,7 +108,7 @@ module ApplicationHelper
         index = 0
         name = (hierarchy + [key]).map do |a|
           index += 1
-          index == 1 ? a : "[#{a}]"
+          (index == 1) ? a : "[#{a}]"
         end.join
 
         if value.is_a? Array

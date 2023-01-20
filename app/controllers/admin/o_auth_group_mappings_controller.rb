@@ -1,6 +1,5 @@
 module Admin
   class OAuthGroupMappingsController < ApplicationController
-
     def index
       authorize! :read, OAuthGroupMapping
 

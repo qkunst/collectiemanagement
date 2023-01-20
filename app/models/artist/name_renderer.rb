@@ -11,13 +11,13 @@ module Artist::NameRenderer
       if artist_name.present?
         namepart = artist_name
       end
-      birth = options[:include_locality] && place_of_birth ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
-      death = options[:include_locality] && place_of_death ? [place_of_death, year_of_death].join(", ") : year_of_death
+      birth = (options[:include_locality] && place_of_birth) ? [place_of_birth, year_of_birth].join(", ") : year_of_birth
+      death = (options[:include_locality] && place_of_death) ? [place_of_death, year_of_death].join(", ") : year_of_death
       birthpart = [birth, death].compact.join(" - ")
       birthpart = "(#{birthpart})" if birthpart != ""
       birthpart = "" if (options[:include_years] == false) && (options[:include_locality] == false)
       rname = [namepart, birthpart].delete_if(&:blank?).join(" ")
-      (rname == "") && options[:render_error] ? "-geen naam opgevoerd (#{id})-" : rname
+      ((rname == "") && options[:render_error]) ? "-geen naam opgevoerd (#{id})-" : rname
     end
 
     def to_json_for_simple_artist return_pre_json = false

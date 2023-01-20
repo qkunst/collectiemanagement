@@ -1,6 +1,6 @@
 class ContactsController < ApplicationController
   before_action :set_collection
-  before_action :set_contact, only: %i[ show edit update destroy ]
+  before_action :set_contact, only: %i[show edit update destroy]
 
   # GET /contacts or /contacts.json
   def index
@@ -23,7 +23,6 @@ class ContactsController < ApplicationController
   # GET /contacts/1/edit
   def edit
     authorize! :update, @contact
-
   end
 
   # POST /contacts or /contacts.json
@@ -58,13 +57,14 @@ class ContactsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_contact
-      @contact = @collection.contacts.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def contact_params
-      params.require(:contact).permit(:address, :name, :url)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_contact
+    @contact = @collection.contacts.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def contact_params
+    params.require(:contact).permit(:address, :name, :url)
+  end
 end

@@ -71,7 +71,7 @@ class GeonamesAdmindiv < ApplicationRecord
   end
 
   def parents_description
-    admin_type == 1 ? country_localized_name : [country_localized_name, parent_localized_name].compact.join(" > ")
+    (admin_type == 1) ? country_localized_name : [country_localized_name, parent_localized_name].compact.join(" > ")
   end
 
   def parent
@@ -102,11 +102,11 @@ class GeonamesAdmindiv < ApplicationRecord
       delete_all
       puts "Importing admin1 areas..."
       transaction do
-        File.open("data/admin1CodesASCII.txt").read.split("\n").collect { |a| a.split("\t") }.each { |a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 1) }
+        File.read("data/admin1CodesASCII.txt").split("\n").collect { |a| a.split("\t") }.each { |a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 1) }
       end
       puts "Importing admin2 areas..."
       transaction do
-        File.open("data/admin2Codes.txt").read.split("\n").collect { |a| a.split("\t") }.each { |a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 2) }
+        File.read("data/admin2Codes.txt").split("\n").collect { |a| a.split("\t") }.each { |a| GeonamesAdmindiv.create(admin_code: a[0], name: a[1], asciiname: a[2], geonameid: a[3], admin_type: 2) }
       end
       find_or_create_corresponding_geoname_summary
     end
