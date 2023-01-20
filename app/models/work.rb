@@ -621,18 +621,11 @@ class Work < ApplicationRecord
       ids = pluck(:id)
 
       if ids.count > 0
-        ids_joined = ids.join(",")
-        ActiveRecord::Base.connection.execute("DELETE FROM artists_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM attachments_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM custom_reports_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM damage_types_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM frame_damage_types_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM library_items_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM object_categories_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM sources_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM techniques_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM themes_works WHERE work_id IN (#{ids_joined})")
-        ActiveRecord::Base.connection.execute("DELETE FROM work_sets_works WHERE work_id IN (#{ids_joined})")
+        ids_joined = ids.map(&:to_i)
+
+        %w[artists_works attachments_works custom_reports_works damage_types_works frame_damage_types_works library_items_works object_categories_works sources_works techniques_works themes_works work_sets_works].each do |table|
+           ActiveRecord::Base.connection.execute("DELETE FROM #{table} WHERE #{sanitize_sql_array(["work_id IN (?)", ids_joined])}")
+        end
 
         Appraisal.where(appraisee_type: "Work", appraisee_id: ids).delete_all
         CollectionAttribute.where(attributed_type: "Work", attributed_id: ids).delete_all
