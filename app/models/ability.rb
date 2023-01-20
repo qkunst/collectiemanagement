@@ -244,7 +244,7 @@ class Ability
 
     can [:read_api, :read_condition, :edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
     can :manage, Message
-    can :read, TimeSpan
+    can :manage, TimeSpan
     can [:destroy, :edit_admin, :manage], User
     can [:read_without_collection, :manage], WorkSet
   end
@@ -270,7 +270,7 @@ class Ability
     can :manage, Attachment, collection_id: accessible_collection_ids
 
     can :create, Collection, parent_collection_id: accessible_collection_ids
-    can :read, TimeSpan
+    can :manage, TimeSpan
     can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
     can [:edit_availability, :read_status, :read_api, :create_work_events_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
@@ -338,7 +338,7 @@ class Ability
 
     can [:create, :read, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, Owner
-    can :read, TimeSpan
+    can :manage, TimeSpan
   end
 
   def initialize_registrator
@@ -346,7 +346,7 @@ class Ability
     can [:create, :update], ArtistInvolvement
     can [:read, :copy], RkdArtist
     can [:create, :read, :update], WorkSet
-    can :read, TimeSpan
+    can :manage, TimeSpan
     can [:read, :create, :update], Attachment, collection_id: accessible_collection_ids
     can :filter_report, Collection
 
@@ -366,7 +366,7 @@ class Ability
     can :read, Owner
 
     can :create, Message
-    can :read, TimeSpan
+    can :manage, TimeSpan
     can [:read, :read, :read_status], Message, qkunst_private: [false, nil]
   end
 
