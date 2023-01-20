@@ -161,7 +161,7 @@ module Work::Search
             default_field: "*",
             query: search,
             default_operator: :and,
-            fuzziness: 2
+            fuzziness: 1
           }
         }]
       else
