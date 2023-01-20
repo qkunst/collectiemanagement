@@ -8,6 +8,7 @@ class ReportController < ApplicationController
   def show
     authorize! :read_report, @collection
     current_user.reset_filters!
+    set_time_filter
     set_selection_filter
     set_no_child_works
 

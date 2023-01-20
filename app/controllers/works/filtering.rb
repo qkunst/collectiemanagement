@@ -17,9 +17,14 @@ module Works::Filtering
     # sets filter starting with empty or a user's previous filter; but reset when params are present that modify the state
     def initiate_filter
       @selection_filter = current_user&.filter_params&.[](:filter) || {}
-      if params[:filter] || params[:group] || params[:sort] || params[:display] || params[:ids] || params[:work_ids_comma_separated]
+      if params[:filter] || params[:group] || params[:sort] || params[:display] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter]
         @selection_filter = {}
       end
+    end
+
+    def set_time_filter
+      time_filter_params = params[:time_filter]&.permit(:start, :end, :enabled, :name)
+      @time_filter = TimeFilter.new(time_filter_params)
     end
 
     def set_selection_filter

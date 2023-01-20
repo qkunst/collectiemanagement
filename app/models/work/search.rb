@@ -83,7 +83,7 @@ module Work::Search
 
   class_methods do
     def search_and_filter(base_collection, search = "", filter = {}, options = {})
-      options = {force_elastic: false, return_records: true, limit: 50000, from: 0}.merge(options)
+      options = {force_elastic: false, return_records: true, limit: 50_000, from: 0}.merge(options)
       sort = options[:sort] || ["_score"]
 
       if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
@@ -98,7 +98,7 @@ module Work::Search
           bool: {
             must: [
               terms: {
-                "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.map(&:id)
+                "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.pluck(&:id)
               }
             ]
           }
@@ -112,9 +112,9 @@ module Work::Search
       query[:aggs] = options[:aggregations] if options[:aggregations]
 
       if options[:return_records]
-        Work.where(id: Work.search(query).pluck("_id"))
+        self.where(id: Work.search(query).pluck("_id"))
       else
-        Work.search(query)
+        self.search(query)
       end
     end
 

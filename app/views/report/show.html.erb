@@ -10,27 +10,20 @@
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
   <div class="callout secondary row">
-    <div class="medium-12 columns">
-      <label>
-      <%= check_box_tag "time_filter[enabled]" %>
-      Filter op tijd
-      </label>
-    </div>
-    <div class="medium-4 columns">
-      <label>Veld/waarde
-      <%= select_tag "time_filter[time_filter_name]", options_from_collection_for_select({status: "Status"}, :first, :last)%>
-      </label>
-    </div>
-    <div class="medium-4 columns">
-      <label>Start
-      <%= date_field_tag 'time_filter[start]' %>
-      </label>
-    </div>
-    <div class="medium-4 columns">
-      <label>Einde
-      <%= date_field_tag 'time_filter[end]' %>
-      </label>
-    </div>
+    <%= simple_fields_for @time_filter do |time_filter_form| %>
+      <div class="medium-12 columns">
+        <%= time_filter_form.input :enabled, as: :boolean %>
+      </div>
+      <div class="medium-4 columns">
+        <%= time_filter_form.input :name, collection: Work::TIME_FILTER_SCOPES %>
+      </div>
+      <div class="medium-4 columns">
+        <%= time_filter_form.input :start, as: :date, html5: true %>
+      </div>
+      <div class="medium-4 columns">
+        <%= time_filter_form.input :end, as: :date, html5: true %>
+      </div>
+    <% end %>
   </div>
   <div class="tabs">
 

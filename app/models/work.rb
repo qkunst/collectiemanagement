@@ -117,6 +117,7 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
+  TIME_FILTER_SCOPES = [:time_filter_status_sold]
 
   INSIGNIFICANT_FIELDS = [:updated_at, :significantly_updated_at, :other_structured_data, :lognotes, :artist_name_rendered, :created_by_name, :tag_list_cache, :collection_locality_artist_involvements_texts_cache, :purchase_price_in_eur, :other_structured_data] # insignificant fields are not considered significant to trigger a significantly_updated_at + its changes are not shown in display of changes-overview
 
