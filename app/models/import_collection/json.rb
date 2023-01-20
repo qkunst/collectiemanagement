@@ -143,9 +143,8 @@ module ImportCollection::Json
         Artist.find_by(rkd_artist_id: cleaned_artist_data["rkd_artist_id"])
       elsif artist_data["year_of_birth"] && artist_data["first_name"] && artist_data["last_name"]
         Artist.find_by(year_of_birth: artist_data["year_of_birth"], first_name: artist_data["first_name"], last_name: artist_data["last_name"])
-      else
-        Artist.find_or_create_by(cleaned_artist_data)
       end
+      artist ||= Artist.find_or_create_by(cleaned_artist_data)
 
       work.artists << artist if artist
     end

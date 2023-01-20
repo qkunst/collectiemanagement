@@ -483,7 +483,7 @@ class Work < ApplicationRecord
     versions.each_with_index do |version, index|
       location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name, location: nil, location_floor: nil, location_detail: nil}
       if version.object && (index > 0)
-        reified_object = Work.new(YAML.safe_load(version.object).select { |k, v| [k, v] if ["location", "location_floor", "location_detail"].include?(k) })
+        reified_object = Work.new(YAML.safe_load(version.object, permitted_classes: ::ActiveRecord.yaml_column_permitted_classes, aliases: true).select { |k, v| [k, v] if ["location", "location_floor", "location_detail"].include?(k) })
         location_versions[index - 1][:location] = reified_object.location
         location_versions[index - 1][:location_floor] = reified_object.location_floor
         location_versions[index - 1][:location_detail] = reified_object.location_detail
