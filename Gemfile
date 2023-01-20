@@ -42,7 +42,7 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" #, git: "https://github.com/heartcombo/devise.git"
+gem "devise" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
@@ -67,7 +67,7 @@ group :development do
   gem "capistrano-rbenv"
   gem "capistrano-bundler"
   gem "capistrano-rails"
-  gem 'capistrano-sidekiq' #, group: :development
+  gem "capistrano-sidekiq" # , group: :development
   gem "highline"
   gem "web-console"
   gem "listen"
@@ -99,7 +99,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
-gem "paper_trail" #, "11.1.0"
+gem "paper_trail" # , "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "mail", "~> 2.7.0"
