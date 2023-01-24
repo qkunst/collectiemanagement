@@ -13,7 +13,7 @@ queues:
   - [qkunst_quick, 7]
   - [qkunst_default, 5]
   - [qkunst_background, 3]
-schedule:
+scheduler:
   schedule_reindex_worker:
     cron: "22 5 * * *"
     class: ScheduleReindexWorkWorker
