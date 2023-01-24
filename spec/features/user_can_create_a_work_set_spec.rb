@@ -25,7 +25,7 @@ RSpec.feature "Werken groeperen", type: :feature do
     click_on "Groepeer"
 
     select "Meerluik"
-    fill_in "Identificatienummer", with: "123"
+    fill_in "Identificatiecode", with: "123"
     click_on "Werkgroepering toevoegen"
 
     expect(page.body).to match(work_to_edit1.stock_number)
@@ -52,7 +52,7 @@ RSpec.feature "Werken groeperen", type: :feature do
     click_on "Groepeer"
 
     select "Meerluik"
-    fill_in "Identificatienummer", with: "123"
+    fill_in "Identificatiecode", with: "123"
     click_on "Werkgroepering toevoegen"
 
     expect(page.body).to match(work_to_edit1.stock_number)

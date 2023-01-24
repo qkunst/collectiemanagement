@@ -40,7 +40,7 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       get collection_time_spans_url(collection)
       expect(response).to be_redirect
     end
-    it "renders a successful response" do
+    it "renders a successful response form" do
       sign_in users(:admin)
 
       TimeSpan.create! valid_attributes
@@ -48,8 +48,17 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       expect(response).to be_successful
     end
 
-    it "renders a not authorized response" do
+    it "renders an authorized response for advisor" do
       sign_in users(:advisor)
+
+      TimeSpan.create! valid_attributes
+      get collection_time_spans_url(collection)
+      expect(response).to be_successful
+    end
+
+
+    it "renders an unauthorized response for registrator" do
+      sign_in users(:qkunst)
 
       TimeSpan.create! valid_attributes
       get collection_time_spans_url(collection)

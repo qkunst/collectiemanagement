@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_27_152111) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_20_160049) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -369,6 +369,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_27_152111) do
     t.string "equivalent_fips_code"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "ids_hashes", force: :cascade do |t|
+    t.string "hashed", null: false
+    t.text "ids_compressed", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hashed"], name: "index_ids_hashes_on_hashed", unique: true
   end
 
   create_table "import_collections", force: :cascade do |t|

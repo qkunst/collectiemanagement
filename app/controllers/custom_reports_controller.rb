@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class CustomReportsController < ApplicationController
+  include Works::WorkIds
+
   before_action :set_collection
   before_action :set_custom_report, only: [:show, :edit, :update, :destroy]
 
@@ -21,10 +23,8 @@ class CustomReportsController < ApplicationController
   def new
     authorize! :new, CustomReport
     @custom_report = @collection.custom_reports.new
-    if params[:works]
-      work_ids = params[:works].map { |w| w.to_i }
-      @custom_report.works = @collection.works_including_child_works.where(id: work_ids)
-    end
+    @works = set_works_by_work_ids_or_work_ids_hash
+    @custom_report.works = @collection.works_including_child_works.where(id: @works)
   end
 
   # GET /custom_reports/1/edit

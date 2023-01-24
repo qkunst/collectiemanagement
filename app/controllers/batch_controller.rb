@@ -2,6 +2,7 @@
 
 class BatchController < ApplicationController
   include Works::Filtering
+  include Works::WorkIds
 
   before_action :set_collection
   before_action :set_works_by_numbers
@@ -9,11 +10,9 @@ class BatchController < ApplicationController
 
   def show
     if params[:batch_process_property] == "create_report"
-      redirect_to new_collection_custom_report_path(works: @works.map(&:id))
+      redirect_to new_collection_custom_report_path(work_ids_hash: works_to_work_ids_hash)
     elsif params[:batch_process_property] == "create_work_set"
-      redirect_to new_work_set_path(works: @works.map(&:id))
-    elsif params[:batch_process_property] == "create_time_span"
-      redirect_to new_collection_time_span_path(@collection, works: @works.map(&:id))
+      redirect_to new_work_set_path(work_ids_hash: works_to_work_ids_hash)
     else
       @selection = {display: :complete}
 

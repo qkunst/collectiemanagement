@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class WorkSetsController < ApplicationController
+  include Works::WorkIds
+
   before_action :set_collection
   before_action :set_work_set, only: [:show, :edit, :destroy, :update]
 
@@ -8,8 +10,12 @@ class WorkSetsController < ApplicationController
     @work_set = WorkSet.new
     authorize! :new, @work_set
 
-    if params[:works]
-      work_ids = params[:works].map { |w| w.to_i }
+    if params[:works] || params[:work_ids]
+      work_ids = (params[:works] || params[:work_ids]).map { |w| w.to_i }
+      @works = current_user.accessible_works.where(id: work_ids)
+      @work_set.works = @works
+    elsif params[:work_ids_hash]
+      work_ids = IdsHash.find_by_hashed(params[:work_ids_hash]).ids
       @works = current_user.accessible_works.where(id: work_ids)
       @work_set.works = @works
     else

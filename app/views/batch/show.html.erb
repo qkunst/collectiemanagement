@@ -115,7 +115,7 @@
 <p>De volgende werken zullen hiermee worden aangepast. </p>
 <%= render @works.limit(24) %>
 <% if @work_count > 24%>
-<p>Dit zijn niet alle werken. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %>.</p>
+<p>Dit zijn niet alle werken, het zijn in totaal <%= I18n.t("count.works", count: @work_count) %>. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %></p>
 <% end%>
 
     <div class="sub-nav bottom-nav right-aligned">

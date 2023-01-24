@@ -572,7 +572,8 @@ nl:
         appraise_as_one: Waardeer als één
       work_set:
         work_set_type: Type groepering
-        identification_number: Identificatienummer
+        identification_number: Identificatiecode
+        comment: Opmerking
       category:
         name: Naam
         order: Volgorde
