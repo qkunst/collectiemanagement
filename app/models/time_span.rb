@@ -71,6 +71,19 @@ class TimeSpan < ApplicationRecord
     contact&.url
   end
 
+  def rental_outgoing?
+    classification&.to_sym == :rental_outgoing
+  end
+
+  def purchase?
+    classification&.to_sym == :purchase
+  end
+
+  def purchase_or_rental_outgoing?
+    purchase? || rental_outgoing?
+  end
+  alias_method :at_customer?, :purchase_or_rental_outgoing?
+
   def finish
     self.ends_at ||= Time.current
     write_attribute(:status, :finished)
@@ -158,12 +171,27 @@ class TimeSpan < ApplicationRecord
     subject && (subject.current_active_time_span && subject.current_active_time_span.id == id)
   end
 
+  def subject_is_at_customer?
+    subject_time_span = subject&.current_active_time_span
+    subject_time_span.active? && subject_time_span.at_customer?
+  end
+
+  def to_be_at_customer?
+    at_customer?
+  end
+
   def validate_subject_available?
-    errors.add(:subject, "subject not available") if !subject_available? && !finished? && !reservation? && !self_is_subject_current_active_time_span?
+    if subject_available? || reservation? || finished? || self_is_subject_current_active_time_span?
+      # is ok
+    elsif active? && to_be_at_customer? && !subject_is_at_customer?
+      # also ok
+    else
+      errors.add(:subject, "subject not available") if !subject_available? && !finished? && !reservation? && !self_is_subject_current_active_time_span?
+    end
   end
 
   def remove_work_from_collection_when_purchase_active
-    if status.to_s == "active" && classification.to_s == "purchase"
+    if active? && purchase?
       subject.removed_from_collection!(starts_at || Time.current) if subject.is_a? Work
     end
   end

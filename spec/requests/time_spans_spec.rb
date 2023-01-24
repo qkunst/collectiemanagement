@@ -31,7 +31,14 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      subject_id: works(:work1).id,
+      subject_type: "Work",
+      collection_id: collection.id,
+      status: "invalid",
+      starts_at: Time.now,
+      classification: "rental_outgoing"
+    }
   }
 
   describe "GET /index" do
@@ -90,33 +97,52 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
   #   end
   # end
   #
-  # describe "POST /create" do
-  #   context "with valid parameters" do
-  #     it "creates a new TimeSpan" do
-  #       expect {
-  #         post time_spans_url, params: { time_span: valid_attributes }
-  #       }.to change(TimeSpan, :count).by(1)
-  #     end
-  #
-  #     it "redirects to the created time_span" do
-  #       post time_spans_url, params: { time_span: valid_attributes }
-  #       expect(response).to redirect_to(time_span_url(TimeSpan.last))
-  #     end
-  #   end
-  #
-  #   context "with invalid parameters" do
-  #     it "does not create a new TimeSpan" do
-  #       expect {
-  #         post time_spans_url, params: { time_span: invalid_attributes }
-  #       }.to change(TimeSpan, :count).by(0)
-  #     end
-  #
-  #     it "renders a successful response (i.e. to display the 'new' template)" do
-  #       post time_spans_url, params: { time_span: invalid_attributes }
-  #       expect(response).to be_successful
-  #     end
-  #   end
-  # end
+  describe "POST /create" do
+    context "as admin" do
+      before do
+        sign_in users(:admin)
+      end
+
+      context "with valid parameters and a workset" do
+        let(:work_set) { work_sets(:work_set_collection1) }
+        let(:valid_attributes) {
+          {
+            status: "active",
+            starts_at: Time.now,
+            classification: "rental_outgoing"
+          }
+        }
+
+
+        it "creates a new TimeSpan" do
+          expect {
+            post collection_work_set_time_spans_url(collection, work_set), params: { time_span: valid_attributes }
+          }.to change(TimeSpan, :count).by(1+work_set.works.count)
+        end
+
+        it "redirects to the created time_span" do
+          post collection_work_set_time_spans_url(collection, work_set), params: { time_span: valid_attributes }
+          expect(response).to redirect_to(collection_work_set_url(collection, work_set))
+        end
+      end
+
+      context "with invalid parameters" do
+        let(:work_set) { work_sets(:work_set_collection1) }
+
+        it "does not create a new TimeSpan" do
+          expect {
+            post collection_work_set_time_spans_url(collection, work_set), params: { time_span: invalid_attributes }
+          }.to change(TimeSpan, :count).by(0)
+        end
+
+        it "renders a successful response (i.e. to display the 'new' template)" do
+          post collection_work_set_time_spans_url(collection, work_set), params: { time_span: invalid_attributes }
+          expect(response.body).to match("Verbeter de volgende problemen")
+          expect(response.status).to eq(422)
+        end
+      end
+    end
+  end
   #
   # describe "PATCH /update" do
   #   context "with valid parameters" do

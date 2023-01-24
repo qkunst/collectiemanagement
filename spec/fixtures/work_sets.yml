@@ -10,6 +10,12 @@
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint
 #
+work_set_collection1:
+  work_set_type: :group
+  works:
+    - :work7
+    - :work1
+
 work_diptych:
   work_set_type: :meerluik
   works:

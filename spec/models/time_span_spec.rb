@@ -43,10 +43,30 @@ RSpec.describe TimeSpan, type: :model do
 
       it "is valid when classification is reservation and work is in use" do
         ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        work.reload
         ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
+        fully_reloaded_work = Work.find(work.id)
+        expect(fully_reloaded_work.availability_status).to eq(:lent)
+      end
+
+      it "is valid when work was reserved but will now be lent" do
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
         work.reload
-        expect(work.availability_status).to eq(:lent)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        expect(ts.valid?).to be_truthy
+        fully_reloaded_work = Work.find(work.id)
+        expect(fully_reloaded_work.availability_status).to eq(:lent)
+      end
+
+      it "is is not valid when work was lent but will now be lent" do
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        work.reload
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        expect(ts.valid?).to be_falsey
+        fully_reloaded_work = Work.find(work.id)
+        expect(fully_reloaded_work.availability_status).to eq(:lent)
+        expect(fully_reloaded_work.current_active_time_span.contact).to eq(contacts(:contact_internal))
       end
     end
     context "finished" do

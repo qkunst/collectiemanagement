@@ -19,3 +19,8 @@ possible_same_artist:
   name: "Mogelijk zelfde vervaardiger"
   count_as_one: false
   appraise_as_one: false
+
+group:
+  name: "Other group"
+  count_as_one: false
+  appraise_as_one: false
