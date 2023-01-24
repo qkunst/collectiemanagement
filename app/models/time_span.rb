@@ -173,7 +173,8 @@ class TimeSpan < ApplicationRecord
 
   def subject_is_at_customer?
     subject_time_span = subject&.current_active_time_span
-    subject_time_span.active? && subject_time_span.at_customer?
+
+    subject_time_span && subject_time_span.active? && subject_time_span.at_customer?
   end
 
   def to_be_at_customer?
