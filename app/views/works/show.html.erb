@@ -40,7 +40,7 @@
               <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}", alt: "Toon #{Work.human_attribute_name("photo_#{phototype}")}") %>
             <% end %>
             <% if can?(:edit_photos, Work) %>
-              <%= button_to 'x', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"}%>
+              <%= button_to '⨯', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"}%>
             <% end %>
           </li>
         <% end %>

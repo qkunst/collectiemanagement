@@ -55,9 +55,6 @@ class WorkSetsController < ApplicationController
     @no_work_cache = true
     @works = current_user.accessible_works.where(id: @work_set.work_ids).order(:stock_number)
 
-    if @works.count < 50
-      @selection = {display: :complete}
-    end
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")
   end
 
