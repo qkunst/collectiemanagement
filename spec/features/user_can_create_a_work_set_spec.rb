@@ -75,8 +75,8 @@ RSpec.feature "Werken groeperen", type: :feature do
 
     visit collection_work_set_path(work_sets(:random_other_collection).works.first.collection, work_sets(:random_other_collection))
 
-    within(".panel.work.complete:first-of-type") do
-      click_on "Verwijder uit groep"
+    within(".panel.work:first-of-type") do
+      click_on "⨯"
     end
     expect(page.body).to match(/Het werk Work[6|7] is verwijderd uit deze groepering./)
   end

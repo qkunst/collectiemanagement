@@ -67,6 +67,7 @@ RSpec.feature "Appraise works", type: :feature do
       fill_in "Vervangingswaarde (€)", with: 567
 
       click_on "Waardering toevoegen"
+      click_on "QDT2a"
       expect(page).to have_content "Waardering voor gehele Meerluik"
       expect(page).to have_content "€234"
       expect(page).to have_content "€567"
