@@ -144,6 +144,22 @@ class TimeSpan < ApplicationRecord
     (active? || reserved?) && current?
   end
 
+  def humanize_starts_at_ends_at
+    [starts_at,ends_at].compact.map{|d| I18n.l(d.to_date, format: :short)}
+  end
+
+  def humanize_status
+    I18n.t(status, scope: "activerecord.values.time_span.status")
+  end
+
+  def humanize_classification
+    I18n.t(classification, scope: "activerecord.values.time_span.classification")
+  end
+
+  def humanize_subject
+    (subject.is_a?(Work) ? subject.stock_number : subject.name)
+  end
+
   def concept?
     status.to_s == "concept"
   end
@@ -155,6 +171,16 @@ class TimeSpan < ApplicationRecord
 
   def finished?
     status.to_s == "finished"
+  end
+
+  def name
+    [
+      humanize_status.upcase,
+      humanize_classification,
+      humanize_starts_at_ends_at,
+      humanize_subject,
+      contact&.name
+    ].compact.join(" ")
   end
 
   def to_s

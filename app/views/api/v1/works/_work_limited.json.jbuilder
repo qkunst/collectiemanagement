@@ -7,6 +7,6 @@ json.photo_front do |photo|
   json.screen "#{request.base_url}#{work.photo_front.screen.url}" if work.photo_front?
 end
 
-json.available work.available?
+# json.available work.available? # work_limited.json is only included in time_spans for now; so perhaps not needed; relatively expensive call
 
-json.url collection_work_url(work.collection, work)
+json.url collection_work_url(work.collection_id, work.id)

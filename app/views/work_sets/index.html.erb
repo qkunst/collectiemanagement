@@ -1,13 +1,31 @@
-<h1>Werkgroeperingen</h1>
-<p>Werkgroeperingen worden gemaakt middels de batch-editor.</p>
-<table class="sortable">
-  <thead>
-<tr>    <th>Type</th><th>Naam / Code</th></tr>
-  </thead>
-  <tbody>
-<% @work_sets.each do |work_set| %>
-<tr>
-  <td><%= link_to work_set.work_set_type.name, collection_work_set_path(@collection, work_set)%></td>
-  <td><%= link_to work_set.identification_number, collection_work_set_path(@collection, work_set)%></td>
-</tr>
-<% end%>
+<div class="row">
+  <div class="large-9 medium-9 columns">
+    <h1>Werkgroeperingen</h1>
+    <p>Werkgroeperingen worden gemaakt middels de batch-editor.</p>
+    <table class="sortable">
+      <thead>
+        <tr>    <th>Type</th><th>Naam / Code</th></tr>
+      </thead>
+      <tbody>
+        <% @work_sets.each do |work_set| %>
+        <tr>
+          <td><%= link_to work_set.work_set_type.name, collection_work_set_path(@collection, work_set)%></td>
+          <td><%= link_to work_set.identification_number, collection_work_set_path(@collection, work_set)%></td>
+        </tr>
+        <% end%>
+      </tbody>
+    </table>
+  </div>
+
+  <aside class="large-3 medium-3 columns">
+    <%= link_to 'Nieuwe werkgroepering maken', new_collection_work_set_path(@collection), class: :button if can? :create, @collection.clusters.new %>
+  </aside>
+</div>
+
+
+
+
+
+
+
+

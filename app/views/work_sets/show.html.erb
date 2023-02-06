@@ -1,16 +1,6 @@
 <h1><%= @title  %></h1>
 <%= kramdown @work_set.comment %>
-<div class="image_wrapper centered">
-<% @works.each do |work|%>
-      <% if work.photo_front? %>
-      <div class="image">
-        <noscript data-lazy="lazy-load">
-          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async')  %>
-        </noscript>
-      </div>
-      <% end %>
-<% end %>
-</div>
+
 <nav class="sub-nav bottom-nav hide-for-print" aria-label="Groeperingsacties">
   <ul class="menu right-aligned menu--only-buttons">
     <% if (can? :edit, @work_set) %>
@@ -26,6 +16,10 @@
     <% end %>
     <% if can?(:create, Appraisal.new(appraisee: @work_set)) && @work_set.appraisable? %>
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
+    <% end %>
+    <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "secondary small right"%></li>
+    <% if @work_set&.current_active_time_span %>
+      <li><%= link_to [@work_set.current_active_time_span.humanize_classification, @work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span]%></li>
     <% end %>
 </ul>
 </nav>

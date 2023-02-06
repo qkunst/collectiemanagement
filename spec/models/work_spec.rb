@@ -108,7 +108,11 @@
 #
 # Indexes
 #
+#  index_works_on_alt_number_1   (alt_number_1)
+#  index_works_on_alt_number_2   (alt_number_2)
+#  index_works_on_alt_number_3   (alt_number_3)
 #  index_works_on_collection_id  (collection_id)
+#  index_works_on_stock_number   (stock_number)
 #
 require_relative "../rails_helper"
 

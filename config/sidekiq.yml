@@ -14,9 +14,10 @@ queues:
   - [qkunst_default, 5]
   - [qkunst_background, 3]
 scheduler:
-  schedule_reindex_worker:
-    cron: "22 5 * * *"
-    class: ScheduleReindexWorkWorker
-  schedule_rinse_and_clean:
-    cron: "23 5 * * *"
-    class: RinseAndCleanWorker
+  schedule:
+    schedule_reindex_worker:
+      cron: "22 5 * * *"
+      class: ScheduleReindexWorkWorker
+    schedule_rinse_and_clean:
+      cron: "23 5 * * *"
+      class: RinseAndCleanWorker

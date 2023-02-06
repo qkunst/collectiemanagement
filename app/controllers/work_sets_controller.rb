@@ -18,8 +18,6 @@ class WorkSetsController < ApplicationController
       work_ids = IdsHash.find_by_hashed(params[:work_ids_hash]).ids
       @works = current_user.accessible_works.where(id: work_ids)
       @work_set.works = @works
-    else
-      redirect_back fallback_location: (@collection || root_path), notice: "Er konden geen werken geselecteerd worden."
     end
   end
 
