@@ -183,7 +183,7 @@ class WorksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_work
-    @work = current_user.accessible_works.find(params[:work_id] || params[:id])
+    @work = current_user.accessible_works.find((params[:work_id] || params[:id]).to_i)
     redirect_to collection_work_path(@work.collection, @work) unless request.path.to_s.starts_with?(collection_work_path(@work.collection, @work))
   end
 
