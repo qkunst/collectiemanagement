@@ -9,7 +9,7 @@ class WorksFilteringTestClass
     User.first
   end
 
-  attr_accessor :params
+  attr_writer :params
 
   def params
     @params || {}

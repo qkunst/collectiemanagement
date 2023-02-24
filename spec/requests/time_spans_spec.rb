@@ -63,7 +63,6 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       expect(response).to be_successful
     end
 
-
     it "renders an unauthorized response for registrator" do
       sign_in users(:qkunst)
 
@@ -113,15 +112,14 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
           }
         }
 
-
         it "creates a new TimeSpan" do
           expect {
-            post collection_work_set_time_spans_url(collection, work_set), params: { time_span: valid_attributes }
-          }.to change(TimeSpan, :count).by(1+work_set.works.count)
+            post collection_work_set_time_spans_url(collection, work_set), params: {time_span: valid_attributes}
+          }.to change(TimeSpan, :count).by(1 + work_set.works.count)
         end
 
         it "redirects to the created time_span" do
-          post collection_work_set_time_spans_url(collection, work_set), params: { time_span: valid_attributes }
+          post collection_work_set_time_spans_url(collection, work_set), params: {time_span: valid_attributes}
           expect(response).to redirect_to(collection_work_set_url(collection, work_set))
         end
       end
@@ -131,12 +129,12 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
 
         it "does not create a new TimeSpan" do
           expect {
-            post collection_work_set_time_spans_url(collection, work_set), params: { time_span: invalid_attributes }
+            post collection_work_set_time_spans_url(collection, work_set), params: {time_span: invalid_attributes}
           }.to change(TimeSpan, :count).by(0)
         end
 
         it "renders a successful response (i.e. to display the 'new' template)" do
-          post collection_work_set_time_spans_url(collection, work_set), params: { time_span: invalid_attributes }
+          post collection_work_set_time_spans_url(collection, work_set), params: {time_span: invalid_attributes}
           expect(response.body).to match("Verbeter de volgende problemen")
           expect(response.status).to eq(422)
         end

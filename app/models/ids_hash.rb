@@ -16,7 +16,6 @@ class IdsHash < ApplicationRecord
   after_initialize :store_hash
   validates_presence_of :hashed, :ids_compressed
 
-
   class << self
     def init(*args)
       ids = args.flatten
@@ -25,11 +24,11 @@ class IdsHash < ApplicationRecord
       compressed_string = Zlib::Deflate.deflate(string)
       base_64_compressed_string = Base64.encode64(compressed_string)
 
-      self.new(ids_compressed: base_64_compressed_string.strip)
+      new(ids_compressed: base_64_compressed_string.strip)
     end
 
     def store(*args)
-      rv = self.init(args)
+      rv = init(args)
       existing = IdsHash.find_by_hashed(rv.hashed)
 
       if existing && (existing.ids_compressed == rv.ids_compressed)
@@ -46,14 +45,14 @@ class IdsHash < ApplicationRecord
       ids.slice_before { |e|
         prev, prev2 = e, prev
         prev2 + 1 != e
-      }.map{|b,*,c| c ? (b..c) : b }
+      }.map { |b, *, c| c ? (b..c) : b }
     end
   end
 
   def ids
     Zlib::Inflate.inflate(Base64.decode64(ids_compressed)).split(",").map do |part|
       split_parts = part.split("..").map(&:to_i)
-      split_parts.length == 2 ? Range.new(*split_parts) : split_parts.first
+      (split_parts.length == 2) ? Range.new(*split_parts) : split_parts.first
     end
   end
 
@@ -64,5 +63,4 @@ class IdsHash < ApplicationRecord
     digest << ids_compressed
     self.hashed = digest.to_s
   end
-
 end

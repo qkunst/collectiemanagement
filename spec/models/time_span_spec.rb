@@ -42,7 +42,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "is valid when classification is reservation and work is in use" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         work.reload
         ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
@@ -51,7 +51,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "is valid when work was reserved but will now be lent" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
         work.reload
         ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
@@ -60,7 +60,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "is is not valid when work was lent but will now be lent" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         work.reload
         ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
         expect(ts.valid?).to be_falsey
@@ -100,11 +100,11 @@ RSpec.describe TimeSpan, type: :model do
 
   describe "Callbacks" do
     it "#remove_work_from_collection_when_purchase_active" do
-      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
+      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_falsey
 
-      ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
+      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_truthy
     end
@@ -123,7 +123,7 @@ RSpec.describe TimeSpan, type: :model do
 
       it "results in underlying works to be no longer available" do
         work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
+        TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
         expect(work_set.works.first.availability_status).to eq(:sold)
         expect(work_set.works.first.removed_from_collection?).to eq(true)
       end
@@ -236,12 +236,12 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include all when period is extreme" do
-        expect(TimeSpan.period(Date.new(1990,1,1)...Date.new(2300,1,1)).ids.sort).to eq TimeSpan.all.ids.sort
+        expect(TimeSpan.period(Date.new(1990, 1, 1)...Date.new(2300, 1, 1)).ids.sort).to eq TimeSpan.all.ids.sort
       end
 
       it "should include only future and when period is extreme future" do
-        period = Time.now...Date.new(2300,1,1)
-        [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_future].each do |span|
+        period = Time.now...Date.new(2300, 1, 1)
+        [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_future].each do |span|
           expect(TimeSpan.period(period)).to include time_spans(span)
         end
         [:time_span_historic].each do |span|
@@ -250,8 +250,8 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include only past and current when period is extreme history till now" do
-        period = Date.new(1990,1,1)...Time.now
-        [:time_span1,:time_span2,:time_span3,:time_span4, :time_span_historic].each do |span|
+        period = Date.new(1990, 1, 1)...Time.now
+        [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_historic].each do |span|
           expect(TimeSpan.period(period)).to include time_spans(span)
         end
         [:time_span_future].each do |span|

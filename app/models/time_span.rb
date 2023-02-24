@@ -54,16 +54,17 @@ class TimeSpan < ApplicationRecord
   # classification-scopes
   scope :rental_outgoing, -> { where(classification: :rental_outgoing) }
 
-
   scope :expired, -> { current.where("time_spans.ends_at <= ?", Time.current) }
-  scope :period, ->(period) { where("
+  scope :period, ->(period) {
+                   where("
     (time_spans.starts_at <= :start AND time_spans.ends_at >= :start) OR
     (time_spans.starts_at <= :start AND time_spans.ends_at IS NULL) OR
     (time_spans.starts_at > :start AND time_spans.starts_at < :end) OR
     (time_spans.starts_at <= :start AND time_spans.status = 'active')
-    ", {start: period.first, end: period.end})}
-  scope :current, ->{ period(Time.now...Time.now) }
-  scope :sold, ->{ where(status: [:active, :finished]).where(classification: :purchase)}
+    ", {start: period.first, end: period.end})
+                 }
+  scope :current, -> { period(Time.now...Time.now) }
+  scope :sold, -> { where(status: [:active, :finished]).where(classification: :purchase) }
 
   def contact_url
     contact&.url
@@ -143,7 +144,7 @@ class TimeSpan < ApplicationRecord
   end
 
   def humanize_starts_at_ends_at
-    [starts_at,ends_at].compact.map{|d| I18n.l(d.to_date, format: :short)}
+    [starts_at, ends_at].compact.map { |d| I18n.l(d.to_date, format: :short) }
   end
 
   def humanize_status
@@ -198,7 +199,7 @@ class TimeSpan < ApplicationRecord
   def subject_is_at_customer?
     subject_time_span = subject&.current_active_time_span
 
-    subject_time_span && subject_time_span.active? && subject_time_span.at_customer?
+    subject_time_span&.active? && subject_time_span&.at_customer?
   end
 
   def to_be_at_customer?
@@ -210,8 +211,8 @@ class TimeSpan < ApplicationRecord
       # is ok
     elsif active? && to_be_at_customer? && !subject_is_at_customer?
       # also ok
-    else
-      errors.add(:subject, "subject not available") if !subject_available? && !finished? && !reservation? && !self_is_subject_current_active_time_span?
+    elsif !subject_available? && !finished? && !reservation? && !self_is_subject_current_active_time_span?
+      errors.add(:subject, "subject not available")
     end
   end
 

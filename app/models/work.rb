@@ -247,9 +247,9 @@ class Work < ApplicationRecord
     end
   }
 
-  scope :availability_status, ->(classification, status=:active) { joins(:time_spans).where(time_spans: {status: status , classification: classification}) }
-  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime ... 1.year.from_now)) }
-  scope :time_filter_status_sold, ->(start_date, end_date) { joins(:time_spans).where(TimeSpan.period((start_date...end_date)).sold ) }
+  scope :availability_status, ->(classification, status = :active) { joins(:time_spans).where(time_spans: {status: status, classification: classification}) }
+  scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime...1.year.from_now)) }
+  scope :time_filter_status_sold, ->(start_date, end_date) { joins(:time_spans).where(TimeSpan.period((start_date...end_date)).sold) }
 
   accepts_nested_attributes_for :artists
   accepts_nested_attributes_for :appraisals
@@ -632,7 +632,7 @@ class Work < ApplicationRecord
         ids_joined = ids.map(&:to_i)
 
         %w[artists_works attachments_works custom_reports_works damage_types_works frame_damage_types_works library_items_works object_categories_works sources_works techniques_works themes_works work_sets_works].each do |table|
-           ActiveRecord::Base.connection.execute("DELETE FROM #{table} WHERE #{sanitize_sql_array(["work_id IN (?)", ids_joined])}")
+          ActiveRecord::Base.connection.execute("DELETE FROM #{table} WHERE #{sanitize_sql_array(["work_id IN (?)", ids_joined])}")
         end
 
         Appraisal.where(appraisee_type: "Work", appraisee_id: ids).delete_all

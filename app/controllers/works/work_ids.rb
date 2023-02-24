@@ -7,6 +7,7 @@ module Works::WorkIds
     def works_to_work_ids_hash
       IdsHash.store(@works.map(&:id)).hashed
     end
+
     def set_works_by_work_ids_or_work_ids_hash
       if params[:works] || params[:work_ids]
         work_ids = (params[:works] || params[:work_ids]).map { |w| w.to_i }

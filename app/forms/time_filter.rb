@@ -1,7 +1,8 @@
 class TimeFilter
   include ActiveModel::Model
 
-  attr_accessor :enabled, :name, :start, :end
+  attr_accessor :enabled, :name
+  attr_reader :start, :end
 
   def start= value
     @start = value.to_date

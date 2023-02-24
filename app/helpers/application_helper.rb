@@ -85,7 +85,6 @@ module ApplicationHelper
     active = (options[:only_exact_path_match] && request.path.to_s == test_path.to_s) || (!options[:only_exact_path_match] && request.path.to_s.starts_with?(test_path.to_s))
     wrap = options[:wrap]
 
-    class_name = active ? "active" : ""
     options = {}
     options[:class] = "active" if active
     options["aria-current"] = "page" if active

@@ -91,6 +91,11 @@ test:
 #     - RAILS_ENV=gitlab bundle exec rails webpacker:compile
 #     - RAILS_ENV=gitlab bundle exec rspec
 
+standard:
+  script:
+    - gem install standard
+    - standardrb
+
 bundleaudit:
   script:
     - gem install bundler-audit
