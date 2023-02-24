@@ -98,7 +98,7 @@ module Work::Search
           bool: {
             must: [
               terms: {
-                "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.pluck(&:id)
+                "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.pluck(:id)
               }
             ]
           }
