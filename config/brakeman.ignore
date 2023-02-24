@@ -169,6 +169,29 @@
       "note": ""
     },
     {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "85660b89dac0ba5cb2e56a2ae8c32f7a07f05c5c202007ca4e2a829e1b576499",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/artists_controller.rb",
+      "line": 74,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).artists.find((params[:artist_id] or params[:id])) or begin\n  Artist.find((params[:artist_id] or params[:id]))\nrescue ActiveRecord::RecordNotFound\n  artist = Artist.unscoped.find((params[:artist_id] or params[:id]))\n  redirect_to(Artist.unscoped.find((params[:artist_id] or params[:id])), :notice => \"Gekoppelde vervaardiger\")\nend), :notice => (\"De vervaardigers zijn samengevoegd, er zijn #{((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).artists.find((params[:artist_id] or params[:id])) or begin\n  Artist.find((params[:artist_id] or params[:id]))\nrescue ActiveRecord::RecordNotFound\n  artist = Artist.unscoped.find((params[:artist_id] or params[:id]))\n  redirect_to(Artist.unscoped.find((params[:artist_id] or params[:id])), :notice => \"Gekoppelde vervaardiger\")\nend).combine_artists_with_ids(params.require(:artist).permit(:artists_with_same_name => ([]))[:artists_with_same_name].delete_if(&:blank?))} werken opnieuw gekoppeld.\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ArtistsController",
+        "method": "combine"
+      },
+      "user_input": "params[:artist_id]",
+      "confidence": "High",
+      "cwe_id": [
+        601
+      ],
+      "note": "Save redirect to a database entry; complicated lookup is fallback"
+    },
+    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
       "fingerprint": "a262490bf8ca5862e835df75a7a7a5804ddf36a231c301179922b2e1f589ae2d",
@@ -385,6 +408,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-02-24 11:57:42 +0100",
-  "brakeman_version": "5.3.1"
+  "updated": "2023-02-24 13:41:40 +0100",
+  "brakeman_version": "5.4.1"
 }

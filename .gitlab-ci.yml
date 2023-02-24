@@ -53,7 +53,18 @@ test:
     - node --version
     - yarn install --frozen-lockfile --cache-folder .yarn-cache
     - bundle exec rails assets:precompile RAILS_ENV=gitlabci
-    - RAILS_ENV=gitlabci bundle exec rspec
+    - RAILS_ENV=gitlabci bundle exec rspec --format RspecJunitFormatter --out rspec.xml
+  coverage: /\(\d+.\d+\%\) covered/
+  artifacts:
+    when: always
+    paths:
+      - rspec.xml
+      - coverage/coverage.xml
+    reports:
+      junit: rspec.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/coverage.xml
   artifacts:
     expire_in: 7d
     paths:
@@ -74,3 +85,4 @@ brakeman:
   script:
     - gem install brakeman
     - brakeman -i config/brakeman.ignore
+

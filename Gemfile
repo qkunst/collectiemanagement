@@ -31,6 +31,9 @@ group :development, :test, :gitlabci do
   gem "capybara"
   gem "byebug", platform: :mri
   gem "foreman"
+  gem "rspec-rails"
+  gem "rspec_junit_formatter"
+  gem "simplecov-cobertura"
 end
 
 ##############################
@@ -56,7 +59,6 @@ gem "attribute_normalizer" # keeps the database clean
 
 gem "elasticsearch-model", "~> 7"
 gem "elasticsearch-rails", "~> 7"
-gem "rspec-rails", group: [:development, :test]
 
 ##
 ## DEVELOPMENT

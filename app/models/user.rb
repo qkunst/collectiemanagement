@@ -255,7 +255,7 @@ class User < ApplicationRecord
   private
 
   def serialize_collection_accessibility!
-    to_store = collections.each_with_object({}) { |c, h| h[c.id] = c.name; }
+    to_store = collections.each_with_object({}) { |c, h| h[c.id] = c.name }
     self.collection_accessibility_serialization = to_store
   end
 
