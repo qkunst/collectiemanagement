@@ -82,13 +82,11 @@ module Work::Search
   end
 
   class_methods do
-    def search_and_filter(base_collection, search = "", filter = {}, options = {})
+    def build_search_and_filter_query(search = "", filter = {}, options = {})
       options = {force_elastic: false, return_records: true, limit: 50_000, from: 0}.merge(options)
+      base_collection = filter.delete(:collection)
+      id_filter = Array(filter.delete(:id))
       sort = options[:sort] || ["_score"]
-
-      if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
-        return options[:no_child_works] ? base_collection.works.limit(options[:limit]) : base_collection.works_including_child_works.limit(options[:limit])
-      end
 
       query = {
         _source: [:id], # major speedup!
@@ -96,23 +94,40 @@ module Work::Search
         size: options[:limit],
         query: {
           bool: {
-            must: [
-              terms: {
-                "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.pluck(:id)
-              }
-            ]
+            must: []
           }
         },
         sort: sort
       }
 
+      if base_collection
+        query[:query][:bool][:must] << {terms: {
+          "collection_id" => options[:no_child_works] ? [base_collection.id] : base_collection.expand_with_child_collections.pluck(:id)
+        }}
+      end
+
+      if id_filter.any?
+        query[:query][:bool][:must] << {terms: {id: id_filter}}
+      end
+
       query[:query][:bool][:must] += search_to_elasticsearch_filter(search)
       query[:query][:bool][:must] += filter_to_elasticsearch_filter(filter)
 
       query[:aggs] = options[:aggregations] if options[:aggregations]
+      query
+    end
+
+    def search_and_filter(search = "", filter = {}, options = {})
+      if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter)) && base_collection
+        return options[:no_child_works] ? base_collection.works.limit(options[:limit]) : base_collection.works_including_child_works.limit(options[:limit])
+      elsif search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
+        return Work.limit(options[:limit])
+      end
+
+      query = build_search_and_filter_query(search, filter, options)
 
       if options[:return_records]
-        where(id: Work.search(query).pluck("_id"))
+        where(id: self.search(query).pluck("_id"))
       else
         self.search(query)
       end

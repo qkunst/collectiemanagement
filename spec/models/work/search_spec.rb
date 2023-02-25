@@ -22,4 +22,16 @@ RSpec.describe Work::Search, type: :model do
       end
     end
   end
+
+  describe "class methods" do
+    describe ".build_search_and_filter_query" do
+      it "returns a hash" do
+        expect(Work.build_search_and_filter_query).to be_a(Hash)
+      end
+
+      it "filters for ids" do
+        expect(Work.build_search_and_filter_query("", {id: [1, 2, 3, 4]})[:query][:bool][:must][0]).to eq({terms: {id: [1, 2, 3, 4]}})
+      end
+    end
+  end
 end

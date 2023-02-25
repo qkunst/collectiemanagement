@@ -342,7 +342,7 @@ class Collection < ApplicationRecord
   end
 
   def search_works(search = "", filter = {}, options = {})
-    Work.search_and_filter(self, search, filter, options)
+    Work.search_and_filter(search, filter.merge({collection: self}), options)
   end
 
   def can_be_accessed_by_user user
