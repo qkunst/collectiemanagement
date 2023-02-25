@@ -6,54 +6,7 @@ module ImportCollection::Json
     work.collection = collection
     work.import_collection_id = id
 
-    # Photo's
-    begin
-      oringal_photo_front = work_data["photo_front"]&.[]("original")
-      work.photo_front = URI.parse(oringal_photo_front).open if oringal_photo_front
-    rescue TypeError
-      begin
-        oringal_photo_front = work_data["photo_front"]&.[]("screen")
-        work.photo_front = URI.parse(oringal_photo_front).open if oringal_photo_front
-      rescue TypeError
-        puts "Image oringal_photo_front failed... ignoring."
-      end
-    end
-
-    begin
-      oringal_photo_back = work_data["photo_back"]&.[]("original")
-      work.photo_back = URI.parse(oringal_photo_back).open if oringal_photo_back
-    rescue TypeError
-      begin
-        oringal_photo_back = work_data["photo_back"]&.[]("screen")
-        work.photo_back = URI.parse(oringal_photo_back).open if oringal_photo_back
-      rescue TypeError
-        puts "Image oringal_photo_back failed... ignoring."
-      end
-    end
-
-    begin
-      oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("original")
-      work.photo_detail_1 = URI.parse(oringal_photo_detail_1).open if oringal_photo_detail_1
-    rescue TypeError
-      begin
-        oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("screen")
-        work.photo_detail_1 = URI.parse(oringal_photo_detail_1).open if oringal_photo_detail_1
-      rescue TypeError
-        puts "Image oringal_photo_detail_1 failed... ignoring."
-      end
-    end
-
-    begin
-      oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("original")
-      work.photo_detail_2 = URI.parse(oringal_photo_detail_2).open if oringal_photo_detail_2
-    rescue TypeError
-      begin
-        oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("screen")
-        work.photo_detail_2 = URI.parse(oringal_photo_detail_2).open if oringal_photo_detail_2
-      rescue TypeError
-        puts "Image oringal_photo_detail_2 failed... ignoring."
-      end
-    end
+    import_photos(work, work_data)
 
     cluster_data = work_data["cluster"]
     if cluster_data
@@ -119,6 +72,56 @@ module ImportCollection::Json
     work_data["techniques"]&.each do |technique|
       work.techniques << Technique.find_or_create_by(name: technique["name"])
     end
+    work_data["themes"]&.each do |theme|
+      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: base_collection.id))
+    end
+
+    work_data["damage_types"]&.each do |damage_type|
+      work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
+    end
+    work_data["frame_damage_types"]&.each do |frame_damage_type|
+      work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
+    end
+    work_data["sources"]&.each do |source|
+      work.sources << Source.find_or_create_by(name: source["name"])
+    end
+    work_data["work_sets"]&.each do |work_set|
+      work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
+      work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
+    end
+
+    import_artists work, work_data
+    import_timespans work, work_data
+
+    # TODO:
+    # has_and_belongs_to_many :attachments
+    # has_and_belongs_to_many :library_items
+    # has_many :messages, as: :subject_object
+
+    if work.save
+      data = {}
+      data[:significantly_updated_at] = work_data["significantly_updated_at"]
+      data[:updated_at] = work_data["updated_at"] if work_data["updated_at"]
+
+      work.update_columns(data)
+    else
+      raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
+    end
+  rescue PG::UniqueViolation
+    # ignore
+  rescue ActiveRecord::RecordNotUnique
+    # ignore
+  end
+
+  def write_json
+    json = JSON.parse(file.read)
+    json = json.is_a?(Array) ? json : json["data"]
+    json.each do |work_data|
+      ImportWriteWorkJson.perform_async(id, work_data)
+    end
+  end
+
+  def import_artists work, work_data
     work_data["artists"]&.each do |artist_data|
       cleaned_artist_data = {
         "place_of_birth" => artist_data["place_of_birth"],
@@ -148,23 +151,59 @@ module ImportCollection::Json
 
       work.artists << artist if artist
     end
-    work_data["themes"]&.each do |theme|
-      work.themes << (Theme.find_by(name: theme["name"], collection_id: nil) || Theme.find_or_create_by(name: theme["name"], collection_id: base_collection.id))
+  end
+
+  def import_photos work, work_data
+    begin
+      oringal_photo_front = work_data["photo_front"]&.[]("original")
+      work.photo_front = URI.parse(oringal_photo_front).open if oringal_photo_front
+    rescue TypeError
+      begin
+        oringal_photo_front = work_data["photo_front"]&.[]("screen")
+        work.photo_front = URI.parse(oringal_photo_front).open if oringal_photo_front
+      rescue TypeError
+        puts "Image oringal_photo_front failed... ignoring."
+      end
     end
 
-    work_data["damage_types"]&.each do |damage_type|
-      work.damage_types << DamageType.find_or_create_by(name: damage_type["name"])
+    begin
+      oringal_photo_back = work_data["photo_back"]&.[]("original")
+      work.photo_back = URI.parse(oringal_photo_back).open if oringal_photo_back
+    rescue TypeError
+      begin
+        oringal_photo_back = work_data["photo_back"]&.[]("screen")
+        work.photo_back = URI.parse(oringal_photo_back).open if oringal_photo_back
+      rescue TypeError
+        puts "Image oringal_photo_back failed... ignoring."
+      end
     end
-    work_data["frame_damage_types"]&.each do |frame_damage_type|
-      work.frame_damage_types << FrameDamageType.find_or_create_by(name: frame_damage_type["name"])
+
+    begin
+      oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("original")
+      work.photo_detail_1 = URI.parse(oringal_photo_detail_1).open if oringal_photo_detail_1
+    rescue TypeError
+      begin
+        oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("screen")
+        work.photo_detail_1 = URI.parse(oringal_photo_detail_1).open if oringal_photo_detail_1
+      rescue TypeError
+        puts "Image oringal_photo_detail_1 failed... ignoring."
+      end
     end
-    work_data["sources"]&.each do |source|
-      work.sources << Source.find_or_create_by(name: source["name"])
+
+    begin
+      oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("original")
+      work.photo_detail_2 = URI.parse(oringal_photo_detail_2).open if oringal_photo_detail_2
+    rescue TypeError
+      begin
+        oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("screen")
+        work.photo_detail_2 = URI.parse(oringal_photo_detail_2).open if oringal_photo_detail_2
+      rescue TypeError
+        puts "Image oringal_photo_detail_2 failed... ignoring."
+      end
     end
-    work_data["work_sets"]&.each do |work_set|
-      work_set_type = WorkSetType.find_or_create_by(name: work_set["work_set_type"]["name"], count_as_one: work_set["work_set_type"]["count_as_one"], appraise_as_one: work_set["work_set_type"]["appraise_as_one"])
-      work.work_sets << WorkSet.find_or_create_by(work_set_type: work_set_type, identification_number: work_set["identification_number"], appraisal_notice: work_set["appraisal_notice"], comment: work_set["comment"])
-    end
+  end
+
+  def import_timespans work, work_data
     work_data["time_spans"]&.each do |time_span_data|
       contact_data = time_span_data["contact"]
       contact = if contact_data["external"] && contact_data["remote_data"]
@@ -183,33 +222,6 @@ module ImportCollection::Json
       time_span.status = time_span_data["status"]
       work.time_spans << time_span
       # time_span.save
-    end
-
-    # TODO:
-    # has_and_belongs_to_many :attachments
-    # has_and_belongs_to_many :library_items
-    # has_many :messages, as: :subject_object
-
-    if work.save
-      data = {}
-      data[:significantly_updated_at] = work_data["significantly_updated_at"]
-      data[:updated_at] = work_data["updated_at"] if work_data["updated_at"]
-
-      work.update_columns(data)
-    else
-      raise ::ImportCollection::ImportError.new("Import of work with id #{work_data["id"]} failed; #{work.errors.messages.map(&:to_s).to_sentence}")
-    end
-  rescue PG::UniqueViolation
-    # ignore
-  rescue ActiveRecord::RecordNotUnique
-    # ignore
-  end
-
-  def write_json
-    json = JSON.parse(file.read)
-    json = json.is_a?(Array) ? json : json["data"]
-    json.each do |work_data|
-      ImportWriteWorkJson.perform_async(id, work_data)
     end
   end
 end

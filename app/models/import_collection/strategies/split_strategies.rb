@@ -8,7 +8,7 @@ module ImportCollection::Strategies
       end
 
       def split_space field
-        field.to_s.split(/[\s\n]/).collect { |a| (a.strip == "") ? nil : a.strip }.compact
+        field.to_s.split(/\s/).collect { |a| (a.strip == "") ? nil : a.strip }.compact
       end
 
       def split_comma field
