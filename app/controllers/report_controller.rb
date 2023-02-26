@@ -36,7 +36,12 @@ class ReportController < ApplicationController
   def prepare_report
     Report::Parser.key_model_relations = Collection::KEY_MODEL_RELATIONS.map { |k, v| [k, v.constantize] }.to_h
 
-    elastic_works = @collection.search_works("", @selection_filter, {force_elastic: true, return_records: false, no_child_works: @no_child_works, aggregations: Report::Builder.aggregations})
+    filter = @selection_filter
+    filter = filter.merge(id: @time_filter.work_ids) if @time_filter.enabled?
+
+    options = {force_elastic: true, return_records: false, no_child_works: @no_child_works, aggregations: Report::Builder.aggregations}
+
+    elastic_works = @collection.search_works("", filter, options)
     elastic_aggregations = elastic_works.aggregations
 
     @report = Report::Parser.parse(elastic_aggregations)

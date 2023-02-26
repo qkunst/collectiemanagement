@@ -23,7 +23,8 @@ module Works::Filtering
     end
 
     def set_time_filter
-      time_filter_params = params[:time_filter]&.permit(:start, :end, :enabled, :name)
+      time_filter_params = params[:time_filter]&.permit(:start, :end, :enabled, :name) || {}
+      time_filter_params[:base_scope] = @collection.works_including_child_works
       @time_filter = TimeFilter.new(time_filter_params)
     end
 
@@ -64,7 +65,11 @@ module Works::Filtering
     end
 
     def set_works
-      @works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: @no_child_works})
+      filter = @selection_filter
+      filter = filter.merge(id: @time_filter.work_ids) if @time_filter&.enabled?
+      options = {force_elastic: false, return_records: true, no_child_works: @no_child_works}
+
+      @works = @collection.search_works(@search_text, filter, options)
       @works = @works.published if params[:published]
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]

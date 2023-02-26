@@ -85,7 +85,7 @@ module Work::Search
     def build_search_and_filter_query(search = "", filter = {}, options = {})
       options = {force_elastic: false, return_records: true, limit: 50_000, from: 0}.merge(options)
       base_collection = filter.delete(:collection)
-      id_filter = Array(filter.delete(:id))
+      id_filter = Array(filter.delete(:id)) if filter[:id]
       sort = options[:sort] || ["_score"]
 
       query = {
@@ -106,7 +106,7 @@ module Work::Search
         }}
       end
 
-      if id_filter.any?
+      if id_filter.is_a?(Array)
         query[:query][:bool][:must] << {terms: {id: id_filter}}
       end
 

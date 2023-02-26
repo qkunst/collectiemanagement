@@ -779,5 +779,20 @@ RSpec.describe Work, type: :model do
         expect(Work.significantly_updated_since(1.day.from_now)).to eq([w])
       end
     end
+    describe ".created_at_between" do
+      it "works" do
+        expect(Work.created_at_between(Date.new(2012,1,1), Date.new(2013,1,1)).count).to eq(7)
+        expect(Work.created_at_between(Date.new(2012,1,1), Date.new(2013,1,1)).pluck(:id)).to include(works(:work1).id)
+        expect(Work.created_at_between(Date.new(2012,1,1), Date.new(2013,1,1)).pluck(:id)).not_to include(works(:collection_with_availability_rent_work).id)
+      end
+    end
+    describe ".time_filter_status_sold" do
+      xit "works" do
+        works = Work.time_filter_status_sold(1.year.ago, Time.now)
+        raise
+        p Work.time_filter_status_sold(1.year.ago, Time.now).to_sql
+        p works
+      end
+    end
   end
 end
