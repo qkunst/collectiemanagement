@@ -117,7 +117,7 @@
 require_relative "../uploaders/picture_uploader"
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
-  TIME_FILTER_SCOPES = [:time_filter_status_sold, :created_at_between]
+  TIME_FILTER_SCOPES = [:time_filter_status_sold, :created_at_between, :outgoing_rental_between]
 
   INSIGNIFICANT_FIELDS = [:updated_at, :significantly_updated_at, :other_structured_data, :lognotes, :artist_name_rendered, :created_by_name, :tag_list_cache, :collection_locality_artist_involvements_texts_cache, :purchase_price_in_eur, :other_structured_data] # insignificant fields are not considered significant to trigger a significantly_updated_at + its changes are not shown in display of changes-overview
 
@@ -249,7 +249,8 @@ class Work < ApplicationRecord
 
   scope :availability_status, ->(classification, status = :active) { joins(:time_spans).where(time_spans: {status: status, classification: classification}) }
   scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime...1.year.from_now)) }
-  scope :time_filter_status_sold, ->(start_date, end_date) { joins(:time_spans).where(TimeSpan.period((start_date...end_date)).sold) }
+  scope :sold_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.sold_within_period((start_date...end_date))).distinct }
+  scope :outgoing_rental_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.outgoing_rental_within_period((start_date...end_date))).distinct }
   scope :created_at_between, ->(start_date, end_date) { where(created_at: (start_date...end_date)) }
 
   accepts_nested_attributes_for :artists

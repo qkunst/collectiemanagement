@@ -71,26 +71,11 @@ nl:
     edit_availability: Bewerk beschikbaarheid
     read_condition: Toon conditie
     work_status: Toon status
-  routes:
-    books: boeken
-    new: nieuw
-    edit: bewerken
-    authors: auteurs
-    ingredients: ingredienten
-    cuisines: keukens
-    recipe_types: recept_types
-    recipes: recepten
-    users: gebruikers
-    courses: gangen
-    ratings: beoordelingen
-    password: wachtwoord
-    sign_in: inloggen
-    unlock: ontgrendel
-    sign_out: uitloggen
-    articles: artikelen
-    register: registreren
-    index_complete: index_compleet
-    edit_password: bewerk_wachtwoord
+  filters:
+    time:
+      time_filter_status_sold: Verkocht op
+      created_at_between: Toegevoegd op
+      outgoing_rental_between: Uitgeleend
   errors:
     messages:
       extension_white_list_error: Dit bestand heeft een onbekende extentie
@@ -116,6 +101,13 @@ nl:
   activecontroller:
     actions:
       new: "Nieuw"
+  activemodel:
+    attributes:
+      time_filter:
+        enabled: Filter op tijd
+        name: Attribuut
+        start: Startdatum
+        end: Einddatum
   activerecord:
     models:
       all: Alles

@@ -58,8 +58,8 @@ time_span_historic:
   contact: :contact1
   status: finished
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
-  ends_at: 2001-01-01T00:00:00+00:00
+  starts_at: 1950-01-01T00:00:00+00:00
+  ends_at: 1982-01-01T00:00:00+00:00
 
 time_span_expired:
   subject: work2 (Work)
@@ -67,8 +67,8 @@ time_span_expired:
   contact: :contact1
   status: active
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
-  ends_at: 2001-01-01T00:00:00+00:00
+  starts_at: 2020-01-01T00:00:00+00:00
+  ends_at: 2021-01-01T00:00:00+00:00
 
 time_span_future:
   subject: work1 (Work)
@@ -85,7 +85,7 @@ time_span_active:
   contact: :contact1
   status: active
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
+  starts_at: 2010-01-01T00:00:00+00:00
 
 time_span_contact_2:
   subject: work1 (Work)
@@ -95,3 +95,11 @@ time_span_contact_2:
   classification: rental_outgoing
   starts_at: 2000-01-01T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
+
+time_span_collection_with_availability_sold_with_time_span:
+  subject: collection_with_availability_sold_with_time_span (Work)
+  collection: :collection_with_availability
+  contact: :contact1
+  status: active
+  classification: purchase
+  starts_at: 2021-01-01T12:00

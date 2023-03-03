@@ -787,11 +787,54 @@ RSpec.describe Work, type: :model do
       end
     end
     describe ".time_filter_status_sold" do
-      xit "works" do
+      let(:work) { works(:collection_with_availability_sold_with_time_span) }
+
+      it "doesn't find a work when time period doesn't match any" do
         works = Work.time_filter_status_sold(1.year.ago, Time.now)
-        raise
-        p Work.time_filter_status_sold(1.year.ago, Time.now).to_sql
-        p works
+        expect(works).to eq([])
+      end
+
+      it "does find a work if it is before a certain end date" do
+        works = Work.time_filter_status_sold(nil, Time.now)
+        expect(works).to eq([work])
+      end
+
+      it "does find a work matching a very short period around the selling date" do
+        works = Work.time_filter_status_sold(DateTime.new(2020,12,31), DateTime.new(2021,1,2,0))
+        expect(works).to eq([work])
+      end
+
+      it "does not find a work matching a very short period just before the selling date" do
+        works = Work.time_filter_status_sold(DateTime.new(2020,12,31), DateTime.new(2021,1,1,0))
+        expect(works).to eq([])
+      end
+    end
+    describe ".outgoing_rental_between" do
+      let(:relevant_timespans) {
+        {
+          historic: time_spans(:time_span_historic),
+          expired: time_spans(:time_span_expired),
+          active: time_spans(:time_span_active)
+        }
+      }
+      it "expect period to include current and past lendings if < Time.now" do
+        works = Work.outgoing_rental_between(nil, Time.now)
+        expect(works).to include(relevant_timespans[:historic].subject)
+        expect(works).to include(relevant_timespans[:expired].subject)
+        expect(works).to include(relevant_timespans[:active].subject)
+      end
+      it "expect period to include only active and expired lendings if 1.day.ago < Time.now" do
+        works = Work.outgoing_rental_between(1.day.ago, Time.now)
+        expect(works).not_to include(relevant_timespans[:historic].subject)
+        expect(works).to include(relevant_timespans[:expired].subject)
+        expect(works).to include(relevant_timespans[:active].subject)
+      end
+
+      it "expect period to include only historic lendings if < active" do
+        works = Work.outgoing_rental_between(nil, Date.new(2005,1,1))
+        expect(works).to include(relevant_timespans[:historic].subject)
+        expect(works).not_to include(relevant_timespans[:expired].subject)
+        expect(works).not_to include(relevant_timespans[:active].subject)
       end
     end
   end

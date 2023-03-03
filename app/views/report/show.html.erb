@@ -9,22 +9,27 @@
 
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
+
+  <% if ["home@murb.nl", "maarten@qkunst.nl"].include? current_user.email %>
   <div class="callout secondary row">
     <%= simple_fields_for @time_filter do |time_filter_form| %>
       <div class="medium-12 columns">
-        <%= time_filter_form.input :enabled, as: :boolean %>
+        <%= time_filter_form.input :enabled, as: :boolean, input_html: {data: {qtoggle: :report_filter_fields, "qtoggle-class": "show"}} %>
       </div>
-      <div class="medium-4 columns">
-        <%= time_filter_form.input :name, collection: Work::TIME_FILTER_SCOPES %>
-      </div>
-      <div class="medium-4 columns">
-        <%= time_filter_form.input :start, as: :date, html5: true %>
-      </div>
-      <div class="medium-4 columns">
-        <%= time_filter_form.input :end, as: :date, html5: true %>
+      <div id="report_filter_fields" class="<%=@time_filter.enabled? ? 'show' : ''%>">
+        <div class="medium-4 columns">
+          <%= time_filter_form.input :name, collection: Work::TIME_FILTER_SCOPES.map{|a| [I18n.t(a, scope: "filters.time"), a]} %>
+        </div>
+        <div class="medium-4 columns">
+          <%= time_filter_form.input :start, as: :date, html5: true %>
+        </div>
+        <div class="medium-4 columns">
+          <%= time_filter_form.input :end, as: :date, html5: true %>
+        </div>
       </div>
     <% end %>
   </div>
+  <% end %>
   <div class="tabs">
 
     <% if @sections.keys.count > 1 %>

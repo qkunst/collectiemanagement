@@ -22,6 +22,7 @@ class WorksController < ApplicationController
 
   def index
     @selection = {}
+    set_time_filter
     set_selection_filter
     set_selection_group
     set_selection_sort

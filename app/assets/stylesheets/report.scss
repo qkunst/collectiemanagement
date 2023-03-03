@@ -28,3 +28,10 @@ table {
     }
   }
 }
+
+#report_filter_fields {
+  display: none;
+}
+#report_filter_fields.show {
+  display: block;
+}

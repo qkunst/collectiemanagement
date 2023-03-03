@@ -6,13 +6,18 @@ AltFoundation = (function() {
 
   AltFoundation.Toggle = class Toggle {
     static handleToggle(targetElement) {
-      var toggleClass, togglee, toggleeId;
+      var toggleClass, togglee, toggleeId, bool;
 
       toggleeId = targetElement.dataset.qtoggle;
       if (toggleeId) {
         togglee = document.getElementById(toggleeId);
         toggleClass = targetElement.dataset.qtoggleClass;
-        if (AltFoundation.Toggle.isShown(togglee, toggleClass)) {
+        if (targetElement.type == "checkbox") {
+          bool = targetElement.checked
+        } else {
+          bool = AltFoundation.Toggle.isShown(togglee, toggleClass)
+        }
+        if (bool) {
           return AltFoundation.Toggle.hide(togglee, toggleClass);
         } else {
           return AltFoundation.Toggle.show(togglee, toggleClass);
@@ -32,6 +37,13 @@ AltFoundation = (function() {
       return false;
     }
 
+    static inputChangeEventHandler(e) {
+      AltFoundation.Toggle.handleToggle(e.target);
+
+      //input changes should propagate as they are meaningful
+      //note type == button should probably be redirected to keyPressHandler again :o
+    }
+
     static isShown(elem, toggleClass) {
       return !elem.classList.contains(toggleClass); //or togglee.style.
     }
@@ -42,7 +54,9 @@ AltFoundation = (function() {
       } else {
         document.addDelegatedEventListener("click", "button[data-qtoggle]", AltFoundation.Toggle.clickHandler);
       }
-      return document.addDelegatedEventListener("keypress", "button[data-qtoggle]", AltFoundation.Toggle.keyPressEventHandler);
+      document.addDelegatedEventListener("keypress", "button[data-qtoggle]", AltFoundation.Toggle.keyPressEventHandler);
+      document.addDelegatedEventListener("change", "input[data-qtoggle]", AltFoundation.Toggle.inputChangeEventHandler);
+      return true;
     }
 
     static hide(elem, toggleClass) {

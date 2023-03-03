@@ -21,6 +21,15 @@ class TimeFilter
   end
   alias_method :enabled?, :enabled
 
+  def to_parameters
+    {
+      name: name,
+      enabled: enabled,
+      start: start,
+      end: self.end
+    }
+  end
+
   def work_ids
     if enabled?
       base_scope.send(name, self.start, self.end).pluck(:id)

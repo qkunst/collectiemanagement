@@ -13,9 +13,10 @@ class ReportController < ApplicationController
     set_no_child_works
 
     unsafe_filter_params = params[:filter]&.to_unsafe_h || {}
+    unsafe_time_filter_params = params[:time_filter]&.to_unsafe_h || {}
 
     if params[:filter_on] == "works"
-      redirect_to collection_works_path({filter: unsafe_filter_params})
+      redirect_to collection_works_path({filter: unsafe_filter_params, time_filter: unsafe_time_filter_params})
     elsif params[:filter_on] == "works_unlimited"
       redirect_to collection_works_path({filter: unsafe_filter_params, max_index: 9999999})
     end

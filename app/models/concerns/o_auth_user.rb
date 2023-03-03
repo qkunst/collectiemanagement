@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module OAuthUser
+  class Error < StandardError
+  end
+
   extend ActiveSupport::Concern
 
   included do
@@ -22,7 +25,7 @@ module OAuthUser
 
     def refresh!(force: false)
       return self if !refresh_required? && !force
-      raise("A refresh_token is not available") unless oauth_refresh_token
+      raise Error.new("A refresh_token is not available") unless oauth_refresh_token
 
       params = {}
       params[:grant_type] = "refresh_token"

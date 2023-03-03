@@ -236,7 +236,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include all when period is extreme" do
-        expect(TimeSpan.period(Date.new(1990, 1, 1)...Date.new(2300, 1, 1)).ids.sort).to eq TimeSpan.all.ids.sort
+        expect(TimeSpan.period(Date.new(1900, 1, 1)...Date.new(2300, 1, 1)).ids.sort).to eq TimeSpan.all.ids.sort
       end
 
       it "should include only future and when period is extreme future" do
@@ -250,7 +250,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include only past and current when period is extreme history till now" do
-        period = Date.new(1990, 1, 1)...Time.now
+        period = Date.new(1900, 1, 1)...Time.now
         [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_historic].each do |span|
           expect(TimeSpan.period(period)).to include time_spans(span)
         end

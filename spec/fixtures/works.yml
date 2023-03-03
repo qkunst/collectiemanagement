@@ -321,6 +321,14 @@ collection_with_availability_available_work:
     - :artist4
   collection: :collection_with_availability
 
+collection_with_availability_sold_with_time_span:
+  title: Sold work with timespan
+  stock_number: QDT2b
+  removed_from_collection_at: 2021-01-01T12:00
+  artists:
+    - :artist4
+  collection: :collection_with_availability
+
 collection_with_availability_sold:
   title: Sold work
   stock_number: QDT2b
