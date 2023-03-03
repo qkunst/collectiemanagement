@@ -786,26 +786,26 @@ RSpec.describe Work, type: :model do
         expect(Work.created_at_between(Date.new(2012, 1, 1), Date.new(2013, 1, 1)).pluck(:id)).not_to include(works(:collection_with_availability_rent_work).id)
       end
     end
-    describe ".time_filter_status_sold" do
+    describe ".sold_between" do
       let(:work) { works(:collection_with_availability_sold_with_time_span) }
 
       it "doesn't find a work when time period doesn't match any" do
-        works = Work.time_filter_status_sold(1.year.ago, Time.now)
+        works = Work.sold_between(1.year.ago, Time.now)
         expect(works).to eq([])
       end
 
       it "does find a work if it is before a certain end date" do
-        works = Work.time_filter_status_sold(nil, Time.now)
+        works = Work.sold_between(nil, Time.now)
         expect(works).to eq([work])
       end
 
       it "does find a work matching a very short period around the selling date" do
-        works = Work.time_filter_status_sold(DateTime.new(2020, 12, 31), DateTime.new(2021, 1, 2, 0))
+        works = Work.sold_between(DateTime.new(2020, 12, 31), DateTime.new(2021, 1, 2, 0))
         expect(works).to eq([work])
       end
 
       it "does not find a work matching a very short period just before the selling date" do
-        works = Work.time_filter_status_sold(DateTime.new(2020, 12, 31), DateTime.new(2021, 1, 1, 0))
+        works = Work.sold_between(DateTime.new(2020, 12, 31), DateTime.new(2021, 1, 1, 0))
         expect(works).to eq([])
       end
     end

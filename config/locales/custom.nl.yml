@@ -73,7 +73,7 @@ nl:
     work_status: Toon status
   filters:
     time:
-      time_filter_status_sold: Verkocht op
+      sold_between: Verkocht op
       created_at_between: Toegevoegd op
       outgoing_rental_between: Uitgeleend
   errors:
