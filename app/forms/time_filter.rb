@@ -32,7 +32,7 @@ class TimeFilter
 
   def work_ids
     if enabled?
-      base_scope.send(name, self.start, self.end).pluck(:id)
+      base_scope.send(name, start, self.end).pluck(:id)
     end
   end
 end

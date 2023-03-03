@@ -50,7 +50,7 @@ class TimeSpan < ApplicationRecord
   scope :reservation, -> { where(status: :reservation) }
   scope :active, -> { where(status: :active) }
   scope :finished, -> { where(status: :finished) }
-  scope :active_or_finished, -> {where(status: [:active, :finished])}
+  scope :active_or_finished, -> { where(status: [:active, :finished]) }
 
   # classification-scopes
   scope :rental_outgoing, -> { where(classification: :rental_outgoing) }
@@ -67,7 +67,7 @@ class TimeSpan < ApplicationRecord
   scope :current, -> { period(Time.now...Time.now) }
   scope :sold, -> { where(status: [:active, :finished]).where(classification: :purchase) }
   scope :sold_within_period, ->(period) { sold.where(starts_at: period) }
-  scope :outgoing_rental_within_period, ->(period) { period(period).rental_outgoing.active_or_finished}
+  scope :outgoing_rental_within_period, ->(period) { period(period).rental_outgoing.active_or_finished }
 
   def contact_url
     contact&.url
