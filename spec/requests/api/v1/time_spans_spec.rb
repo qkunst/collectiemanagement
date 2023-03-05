@@ -51,8 +51,6 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
         expect(json_response["data"].count).to eql(1)
         expect(json_response["data"][0]["subject_type"]).to eq("WorkSet")
       end
-
     end
-
   end
 end

@@ -4,6 +4,7 @@
 <%= simple_form_for([@collection,@work]) do |f| %>
 <%= f.input :minimum_bid %>
 <%= f.input :selling_price %>
+<%= f.input :publish_selling_price %>
 <%= f.input :selling_price_minimum_bid_comments %>
 <%= f.submit class: :button%>
 <% end %>

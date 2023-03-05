@@ -92,7 +92,7 @@ class Ability
     end
     if can?(:create, Appraisal)
       permitted_fields += [
-        :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,
+        :selling_price, :publish_selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,
         appraisals_attributes: [
           :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference, :notice
         ]
@@ -158,7 +158,7 @@ class Ability
       ]
     end
     if can?(:read_valuation, Collection)
-      permitted_fields += [:selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id]
+      permitted_fields += [:publish_selling_price, :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id]
     end
     if can?(:read, Appraisal)
       permitted_fields += [

@@ -46,7 +46,7 @@ class TimeSpan < ApplicationRecord
   after_save :sync_time_spans_for_works_when_work_set
 
   # status-scopes
-  scope :status, ->(status) { where(status: status)}
+  scope :status, ->(status) { where(status: status) }
   scope :concept, -> { status(:concept) }
   scope :reservation, -> { status(:reservation) }
   scope :active, -> { status(:active) }
@@ -54,7 +54,7 @@ class TimeSpan < ApplicationRecord
   scope :active_or_finished, -> { status([:active, :finished]) }
 
   # classification-scopes
-  scope :classification, ->(classification) { where(classification: classification)}
+  scope :classification, ->(classification) { where(classification: classification) }
   scope :rental_outgoing, -> { classification(:rental_outgoing) }
 
   scope :subject_type, ->(subject_type) do
@@ -130,7 +130,7 @@ class TimeSpan < ApplicationRecord
   # next TimeSpan
   # @return TimeSpan
   def next_time_span
-    time_spans = self.subject.time_spans.order(:starts_at).to_a
+    time_spans = subject.time_spans.order(:starts_at).to_a
     next_index = time_spans.index(self) + 1
     time_spans[next_index]
   end

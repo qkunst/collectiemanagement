@@ -148,7 +148,7 @@
         <%= define_unless_blank :appraisal_notice %>
 
         <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
-        <%= define_unless_blank :selling_price, modifier: :number_to_currency %>
+        <tr><th><%=Work.human_attribute_name(:selling_price)%></th><td><%=number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
         <%= define_unless_blank :balance_category %>
         <%= define_unless_blank :selling_price_minimum_bid_comments %>
         <% if can?(:read_valuation_reference, work.collection) %>

@@ -468,6 +468,7 @@ nl:
         print_unknown: Oplage onbekend
         public_description: Toelichting bij kunstwerk
         publish: Publiceer
+        publish_selling_price: Publiceer verkoopprijs
         purchased_on: Aankoopdatum
         purchased_on_with_fallback: Aankoopjaar/datum
         purchase_price: Aankoopprijs
