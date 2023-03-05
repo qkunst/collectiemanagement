@@ -10,7 +10,7 @@
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
 
-  <% if ["home@murb.nl", "maarten@qkunst.nl"].include? current_user.email %>
+  <% if can?(:time_filter, @collection) && @collection.show_availability_status? %>
   <div class="callout secondary row">
     <%= simple_fields_for @time_filter do |time_filter_form| %>
       <div class="medium-12 columns">
