@@ -46,14 +46,24 @@ class TimeSpan < ApplicationRecord
   after_save :sync_time_spans_for_works_when_work_set
 
   # status-scopes
-  scope :concept, -> { where(status: :concept) }
-  scope :reservation, -> { where(status: :reservation) }
-  scope :active, -> { where(status: :active) }
-  scope :finished, -> { where(status: :finished) }
-  scope :active_or_finished, -> { where(status: [:active, :finished]) }
+  scope :status, ->(status) { where(status: status)}
+  scope :concept, -> { status(:concept) }
+  scope :reservation, -> { status(:reservation) }
+  scope :active, -> { status(:active) }
+  scope :finished, -> { status(:finished) }
+  scope :active_or_finished, -> { status([:active, :finished]) }
 
   # classification-scopes
-  scope :rental_outgoing, -> { where(classification: :rental_outgoing) }
+  scope :classification, ->(classification) { where(classification: classification)}
+  scope :rental_outgoing, -> { classification(:rental_outgoing) }
+
+  scope :subject_type, ->(subject_type) do
+    if SUBJECT_TYPES.include?(subject_type)
+      where(subject_type: subject_type)
+    else
+      raise("unsupported subject type")
+    end
+  end
 
   scope :expired, -> { current.where("time_spans.ends_at <= ?", Time.current) }
   scope :period, ->(period) {
@@ -99,6 +109,30 @@ class TimeSpan < ApplicationRecord
   def end_time_span!
     end_time_span
     save
+  end
+
+  # try to finish historic imported TimeSpans
+  def refinish
+    if ends_at.nil?
+      self.ends_at = next_time_span&.starts_at
+    end
+    if ends_at.nil? && starts_at < 5.years.ago
+      self.ends_at = starts_at
+      self.comments = "Finished old time span; assuming error"
+    end
+  end
+
+  def refinish!
+    refinish
+    save
+  end
+
+  # next TimeSpan
+  # @return TimeSpan
+  def next_time_span
+    time_spans = self.subject.time_spans.order(:starts_at).to_a
+    next_index = time_spans.index(self) + 1
+    time_spans[next_index]
   end
 
   def current?

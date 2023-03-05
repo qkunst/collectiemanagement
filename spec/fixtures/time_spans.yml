@@ -24,7 +24,7 @@ time_span1:
   contact: :contact1
   status: concept
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
+  starts_at: 2000-01-02T00:00:00+00:00
 
 time_span2:
   subject: work1 (Work)
@@ -32,7 +32,7 @@ time_span2:
   contact: :contact1
   status: concept
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
+  starts_at: 2000-01-03T00:00:00+00:00
 
 time_span3:
   subject: work1 (Work)
@@ -40,7 +40,7 @@ time_span3:
   contact: :contact1
   status: concept
   classification: rental_outgoing
-  starts_at: 2000-01-01T00:00:00+00:00
+  starts_at: 2000-01-04T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
 
 time_span4:
@@ -103,3 +103,10 @@ time_span_collection_with_availability_sold_with_time_span:
   status: active
   classification: purchase
   starts_at: 2021-01-01T12:00
+
+work_set_time_span:
+  subject: work_set_collection1 (WorkSet)
+  collection: :collection1
+  status: :concept
+  classification: purchase
+  starts_at: 1998-04-02T12:00

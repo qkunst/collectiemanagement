@@ -217,6 +217,17 @@ RSpec.describe TimeSpan, type: :model do
         it { expect(time_spans(span).current_and_active?).to be_falsey }
       end
     end
+
+    describe "#next_time_span" do
+      it "returns the next one for the same subject" do
+        expect(time_spans(:time_span1).next_time_span).to eq(time_spans(:time_span2))
+        expect(time_spans(:time_span2).next_time_span).to eq(time_spans(:time_span3))
+      end
+
+      it "returns nil when no next time span exist" do
+        expect(time_spans(:time_span_future).next_time_span).to be_nil
+      end
+    end
   end
 
   describe "scopes" do
@@ -257,6 +268,16 @@ RSpec.describe TimeSpan, type: :model do
         [:time_span_future].each do |span|
           expect(TimeSpan.period(period)).not_to include time_spans(span)
         end
+      end
+    end
+
+    describe ".active" do
+      [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
+        it { expect(TimeSpan.active).not_to include time_spans(span) }
+      end
+
+      %i[time_span_expired time_span_active time_span_collection_with_availability_sold_with_time_span].each do |span|
+        it { expect(TimeSpan.active).to include time_spans(span) }
       end
     end
 

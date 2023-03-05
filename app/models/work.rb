@@ -249,8 +249,8 @@ class Work < ApplicationRecord
 
   scope :availability_status, ->(classification, status = :active) { joins(:time_spans).where(time_spans: {status: status, classification: classification}) }
   scope :significantly_updated_since, ->(datetime) { where(significantly_updated_at: (datetime...1.year.from_now)) }
-  scope :sold_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.sold_within_period((start_date...end_date))).distinct }
-  scope :outgoing_rental_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.outgoing_rental_within_period((start_date...end_date))).distinct }
+  scope :sold_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.subject_type("Work").sold_within_period((start_date...end_date))).distinct }
+  scope :outgoing_rental_between, ->(start_date, end_date) { joins(:time_spans).where(time_spans: TimeSpan.subject_type("Work").outgoing_rental_within_period((start_date...end_date))).distinct }
   scope :created_at_between, ->(start_date, end_date) { where(created_at: (start_date...end_date)) }
 
   accepts_nested_attributes_for :artists
