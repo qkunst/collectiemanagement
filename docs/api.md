@@ -28,26 +28,47 @@ Please do not confuse `access_tokens` (default tokens for OAuth) with `id_tokens
 
 ### Token based authentication
 
-Er is een zeer beperkte API beschikbaar om informatie te lezen uit het systeem. Hiervoor dient een gebruiker een API key toegewezen te krijgen via de console (`rails c`). Om te authentiseren dient er bij iedere request een token-header meegestuurd worden, het geen een met `bcrypt` geencodeerde string is van het externe ip adres, de url en de api key.
-
-    data = "#{self.externalip}#{url}#{method}#{request_body}"
-    user_id # known user id; send as header HTTP_API_USER_ID
-    api_key # shared key
-
-    digest = OpenSSL::Digest.new('sha512')
-    hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data) # send as HTTP_HMAC_TOKEN
+Er is een zeer beperkte API beschikbaar om informatie te lezen uit het systeem. Hiervoor dient een gebruiker een API key toegewezen te krijgen via de console (`rails c`). Om te authentiseren dient er bij iedere request een token-header meegestuurd worden, het geen een met `HMAC` geencodeerde string is van het externe ip adres, de url en de api key.
 
 Om een volledige ruby request te doen:
 
-    data = "#{external_ip}#{url}"
+    data = "#{external_ip}#{url}#{request_body}"
     digest = OpenSSL::Digest.new('sha512')
     hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data)
 
     uri = URI(url)
     req = Net::HTTP::Get.new(uri)
-    req['api_user_id'] = user_id
-    req['hmac_token'] = hmac_token
-    res = Net::HTTP.start(uri.hostname, uri.port) {|http| http.request(req) }
-    response_data = JSON.parse(res.body)
+    req['X-user-id'] = user_id
+    req['X-hmac-token'] = hmac_token
+    options = {use_ssl: true}
+    res = Net::HTTP.start(uri.hostname, uri.port, options) {|http|
+      http.request(req)
+    }
+    JSON.parse(res.body)
 
 Als je via de browser ingelogd bent kun je ook op die manier toegang krijgen.
+
+Een meer curly request:
+
+    #!/usr/bin/env ruby
+    require 'openssl'
+    require 'json'
+
+    api_key = ENV['API_KEY']
+    external_ip = ENV['EXTERNAL_IP']
+    user_id = ENV['USER_ID']
+    url = ENV['URL']
+
+    data = "#{external_ip}#{url}"
+    puts "data: #{data}"
+    digest = OpenSSL::Digest.new('sha512')
+    hmac_token = OpenSSL::HMAC.hexdigest(digest, api_key, data)
+
+    command = "curl -H 'X-hmac-token: #{hmac_token}' -H 'X-user-id: #{user_id}' #{url}"
+
+    puts "CURL COMMAND: #{command}"
+
+    response = JSON.parse(`#{command}`)
+
+    puts "Succesful" if response["data"].count > 1
+
