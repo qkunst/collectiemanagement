@@ -23,7 +23,14 @@ module Works::Filtering
     end
 
     def set_time_filter
-      time_filter_params = params[:time_filter]&.permit(:start, :end, :enabled, :name) || {}
+      time_filter_params = {}
+      if params[:time_filter]
+        time_filter_params[:start] = params[:time_filter][:start]
+        time_filter_params[:end] = params[:time_filter][:end]
+        time_filter_params[:enabled] = params[:time_filter][:enabled]
+        time_filter_params[:name] = params[:time_filter][:name]
+      end
+      time_filter_params = time_filter_params.select { |_, v| v.present? }
       time_filter_params[:base_scope] = @collection.works_including_child_works
       @time_filter = TimeFilter.new(time_filter_params)
     end

@@ -41,6 +41,7 @@ class Collection::HtmlRendererWorker
     set_selected_localities
     set_no_child_works
     set_search_text
+    set_time_filter
 
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
 
