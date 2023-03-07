@@ -18,4 +18,8 @@ puts "CURL COMMAND: #{command}"
 
 response = JSON.parse(`#{command}`)
 
-puts "Succesful" if response["data"].count > 1
+begin
+  puts "Succesful" if response["data"].count > 1
+rescue
+  p response
+end
