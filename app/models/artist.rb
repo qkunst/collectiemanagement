@@ -199,6 +199,9 @@ class Artist < ApplicationRecord
       end
       artist.update_columns(replaced_by_artist_id: id)
     end
+
+    update_artist_name_rendered_async
+
     count
   end
 
@@ -247,7 +250,7 @@ class Artist < ApplicationRecord
   private
 
   def update_artist_name_rendered_async
-    works.pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, "artist") }
+    Work.joins(:artists_works).where(artists_works: {artist_id: id}).pluck(:id).collect { |a| UpdateWorkCachesWorker.perform_async(a, "artist") }
   end
 
   class << self

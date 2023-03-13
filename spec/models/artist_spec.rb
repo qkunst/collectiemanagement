@@ -57,6 +57,7 @@ RSpec.describe Artist, type: :model do
       wa = c.works.create(title: "by a")
       wa.artists << a
       b = Artist.create(first_name: "b")
+
       ids << b.id
 
       wb = c.works.create(title: "by a")
@@ -67,6 +68,12 @@ RSpec.describe Artist, type: :model do
       expect(a.combine_artists_with_ids(ids)).to eq(2)
       expect(Artist.where(id: ids).count).to eq(0)
       expect(a.works.count).to eq(3)
+
+      assert_equal 3, UpdateWorkCachesWorker.jobs.size
+
+      Sidekiq::Worker.drain_all
+
+      expect(wb.reload.artist_name_rendered).to eq("a")
     end
     it "should move the collection specific atributes over" do
       artist1 = artists(:artist2)

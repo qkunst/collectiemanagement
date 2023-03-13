@@ -35,7 +35,7 @@ RSpec.describe Api::V1::CollectionsController, type: :request do
       c.users << api_user
       get url, headers: {"X-user-id" => api_user.id, "X-hmac-token" => hmac_token}
 
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(200)
     end
     it "an api user with advisor role should be access the collection" do
       # actual attempt

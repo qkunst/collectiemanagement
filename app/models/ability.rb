@@ -377,7 +377,7 @@ class Ability
 
   def initialize_read_only
     can [:read], Artist
-    can :read, :read_api, Collection, id: accessible_collection_ids
+    can [:read, :read_api], Collection, id: accessible_collection_ids
     can [:read], Work, collection_id: accessible_collection_ids
   end
 end

@@ -10,6 +10,8 @@ RSpec.feature "Navigate works", type: :feature do
 
     login "qkunst-test-read_only@murb.nl"
 
+    User.find_by_email("qkunst-test-read_only@murb.nl")
+
     click_on "Collecties"
     expect(page).not_to have_content("Bewerk")
     within "#responsive-menu" do
