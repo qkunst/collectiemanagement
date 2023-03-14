@@ -32,6 +32,12 @@ GIT
     omniauth-central_login (0.1.2)
       omniauth-oauth2 (~> 1.7)
 
+GIT
+  remote: https://gitlab.com/murb/pupprb.git
+  revision: bb45de6dfa428464d328953f06f0f450a6b4c34e
+  specs:
+    pupprb (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -356,7 +362,6 @@ GEM
     public_suffix (5.0.1)
     puma (6.1.1)
       nio4r (~> 2.0)
-    pupprb (0.1.0)
     raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.6.4)
@@ -617,7 +622,7 @@ DEPENDENCIES
   paper_trail-association_tracking
   pg
   puma
-  pupprb
+  pupprb!
   rack-headers_filter
   rack-mini-profiler
   rails (~> 7)
