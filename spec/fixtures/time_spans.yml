@@ -25,6 +25,7 @@ time_span1:
   status: concept
   classification: rental_outgoing
   starts_at: 2000-01-02T00:00:00+00:00
+  uuid: time_span1
 
 time_span2:
   subject: work1 (Work)
@@ -33,6 +34,7 @@ time_span2:
   status: concept
   classification: rental_outgoing
   starts_at: 2000-01-03T00:00:00+00:00
+  uuid: time_span2
 
 time_span3:
   subject: work1 (Work)
@@ -42,6 +44,7 @@ time_span3:
   classification: rental_outgoing
   starts_at: 2000-01-04T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
+  uuid: time_span3
 
 time_span4:
   subject: work1 (Work)
@@ -51,6 +54,7 @@ time_span4:
   classification: rental_outgoing
   starts_at: 2000-01-01T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
+  uuid: time_span4
 
 time_span_historic:
   subject: work1 (Work)
@@ -60,6 +64,7 @@ time_span_historic:
   classification: rental_outgoing
   starts_at: 1950-01-01T00:00:00+00:00
   ends_at: 1982-01-01T00:00:00+00:00
+  uuid: time_span_historic
 
 time_span_expired:
   subject: work2 (Work)
@@ -69,6 +74,7 @@ time_span_expired:
   classification: rental_outgoing
   starts_at: 2020-01-01T00:00:00+00:00
   ends_at: 2021-01-01T00:00:00+00:00
+  uuid: time_span_expired
 
 time_span_future:
   subject: work1 (Work)
@@ -78,6 +84,7 @@ time_span_future:
   classification: rental_outgoing
   starts_at: 2100-01-01T00:00:00+00:00
   ends_at: 2105-01-01T00:00:00+00:00
+  uuid: time_span_future
 
 time_span_active:
   subject: collection_with_availability_rent_work (Work)
@@ -86,15 +93,17 @@ time_span_active:
   status: active
   classification: rental_outgoing
   starts_at: 2010-01-01T00:00:00+00:00
+  uuid: time_span_active
 
 time_span_contact_2:
   subject: work1 (Work)
-  collection: :collection1
+  collection: :collection_with_works_child
   contact: :contact2
   status: concept
   classification: rental_outgoing
   starts_at: 2000-01-01T00:00:00+00:00
   ends_at: 2400-01-01T00:00:00+00:00
+  uuid: time_span_contact_2
 
 time_span_collection_with_availability_sold_with_time_span:
   subject: collection_with_availability_sold_with_time_span (Work)
@@ -103,6 +112,7 @@ time_span_collection_with_availability_sold_with_time_span:
   status: active
   classification: purchase
   starts_at: 2021-01-01T12:00
+  uuid: time_span_collection_with_availability_sold_with_time_span
 
 work_set_time_span:
   subject: work_set_collection1 (WorkSet)
@@ -110,3 +120,4 @@ work_set_time_span:
   status: :concept
   classification: purchase
   starts_at: 1998-04-02T12:00
+  uuid: time_span_time_span

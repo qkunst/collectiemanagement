@@ -151,8 +151,12 @@ class User < ApplicationRecord
     User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
+  def accessible_collections_including_parents
+    accessible_collections + collections.flat_map(&:expand_with_parent_collections)
+  end
+
   def accessible_time_spans
-    TimeSpan.where(collection: accessible_collections)
+    TimeSpan.where(collection: accessible_collections_including_parents)
   end
 
   def accessible_contacts

@@ -102,6 +102,31 @@ RSpec.describe User, type: :model do
         expect(u.accessible_works.pluck(:id).sort).to eq(collections(:collection1).works_including_child_works.pluck(:id).sort)
       end
     end
+    describe "#accessible_time_spans" do
+      it "should return all timespans for admin" do
+        u = users(:admin)
+        expect(u.accessible_time_spans.pluck(:id).sort).to eq(TimeSpan.all.pluck(:id).sort)
+      end
+      it "should not return all timespans for admin" do
+        u = users(:collection_with_works_child_user)
+        # root > collection1 > collection_with_works > collection_with_works_child
+        expect(u.accessible_time_spans.pluck(:id).sort).not_to eq(TimeSpan.all.pluck(:id).sort)
+      end
+      it "should return all timespans for subcollections" do
+        u = users(:collection_with_works_child_user)
+        expect(u.collections).to eq([collections(:collection_with_works_child)])
+        %w[time_span_contact_2].each do |ts|
+          expect(u.accessible_time_spans.pluck(:id)).to include(time_spans(ts).id)
+        end
+      end
+      it "should return timespans from parent collections of collection_with_works_child" do
+        u = users(:collection_with_works_child_user)
+        expect(u.collections).to eq([collections(:collection_with_works_child)])
+        %w[time_span_future time_span_expired].each do |ts|
+          expect(u.accessible_time_spans.pluck(:id)).to include(time_spans(ts).id)
+        end
+      end
+    end
     describe "#collection_ids" do
       it "should return ids of collections" do
         expect(users(:qkunst_with_collection).collection_ids.sort).to eq(users(:qkunst_with_collection).collections.map(&:id).sort)

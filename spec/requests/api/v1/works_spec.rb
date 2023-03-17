@@ -12,6 +12,25 @@ RSpec.describe Api::V1::WorksController, type: :request do
     end
   end
 
+  context "advisor" do
+    before do
+      sign_in users(:advisor)
+    end
+
+    describe "GET api/v1/works/:id" do
+      let(:time_span) { time_spans(:time_span3) }
+      let(:work) { time_span.subject }
+      let(:collection) { work.collection }
+
+      it "includes time_spans" do
+        get api_v1_collection_work_path(collection, work, format: :json)
+        expect(response).to be_ok
+        response_data = JSON.parse(response.body)["data"]
+        expect(response_data["time_spans"].map { |a| a["uuid"] }).to include(time_span.uuid)
+      end
+    end
+  end
+
   context "facility_manager" do
     before do
       sign_in users(:facility_manager)
@@ -22,7 +41,6 @@ RSpec.describe Api::V1::WorksController, type: :request do
       it "returns ok" do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
         expect(response).to be_ok
-        response.body
       end
 
       it "doesn't return works outside own collections" do
