@@ -65,11 +65,11 @@ RSpec.describe Artist, type: :model do
       wb = c.works.create(title: "by a")
       wb.artists << b
 
-      expect(a.combine_artists_with_ids(ids)).to eq(2)
-      expect(Artist.where(id: ids).count).to eq(0)
-      expect(a.works.count).to eq(3)
-
-      assert_equal 3, UpdateWorkCachesWorker.jobs.size
+      expect do
+        expect(a.combine_artists_with_ids(ids)).to eq(2)
+        expect(Artist.where(id: ids).count).to eq(0)
+        expect(a.works.count).to eq(3)
+      end.to change(UpdateWorkCachesWorker.jobs, :size).by(3)
 
       Sidekiq::Worker.drain_all
 

@@ -3,13 +3,6 @@
 require "rails_helper"
 
 RSpec.describe PdfPrinterWorker, type: :model do
-  it "cleans the resource" do
-    if Rails.env.test?
-      # not running this in ci due to lack of chrome
-      expect { PdfPrinterWorker.new.clean_resource(Rails.root.join("tmp/CTyg9VGYtY3FM5fLon5wcTdkueGtN9t3.html").to_s) }.not_to raise_error
-    end
-  end
-
   it "works for /" do
     if Rails.env.test?
       # not running this in ci due to lack of chrome

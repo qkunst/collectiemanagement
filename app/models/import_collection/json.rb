@@ -217,7 +217,7 @@ module ImportCollection::Json
       contact.address = contact_data["address"]
       contact.collection = base_collection
       contact.save
-      time_span = TimeSpan.find_or_initialize_by(contact: contact, starts_at: time_span_data["starts_at"], subject: work, uuid: time_span_data["uuid"], classification: time_span_data["classification"], collection: base_collection)
+      time_span = TimeSpan.find_or_initialize_by(contact: contact, starts_at: time_span_data["starts_at"], subject: work, classification: time_span_data["classification"], collection: base_collection)
       time_span.ends_at = time_span_data["ends_at"] if time_span_data["ends_at"].present?
       time_span.status = time_span_data["status"]
       work.time_spans << time_span
