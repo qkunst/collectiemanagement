@@ -26,7 +26,9 @@
   background-color: lighten($primary-color,20) !important;
   height: 3px;
   width: 100%;
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   opacity: 100;
   animation-name: blink-animation;
   animation-iteration-count: infinite;
