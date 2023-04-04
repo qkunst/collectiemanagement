@@ -8,6 +8,7 @@
 #  appraisal_notice      :text
 #  comment               :text
 #  identification_number :string
+#  uuid                  :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint

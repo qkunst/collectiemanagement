@@ -8,11 +8,14 @@
 #  appraisal_notice      :text
 #  comment               :text
 #  identification_number :string
+#  uuid                  :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint
 #
 class WorkSet < ApplicationRecord
+  include Uuid
+
   has_and_belongs_to_many :works, touch: true
 
   has_many :appraisals, as: :appraisee

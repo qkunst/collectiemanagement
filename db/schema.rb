@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_05_171821) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_101726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -608,6 +608,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_171821) do
     t.bigint "time_span_id"
     t.text "comments"
     t.text "old_data"
+    t.index ["uuid"], name: "index_time_spans_on_uuid"
   end
 
   create_table "users", force: :cascade do |t|
@@ -695,6 +696,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_05_171821) do
     t.datetime "updated_at", null: false
     t.text "appraisal_notice"
     t.text "comment"
+    t.string "uuid"
   end
 
   create_table "work_sets_works", id: false, force: :cascade do |t|

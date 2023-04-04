@@ -18,6 +18,10 @@
 #  subject_id     :bigint
 #  time_span_id   :bigint
 #
+# Indexes
+#
+#  index_time_spans_on_uuid  (uuid)
+#
 time_span1:
   subject: work1 (Work)
   collection: :collection1

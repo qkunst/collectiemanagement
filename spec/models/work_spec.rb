@@ -64,6 +64,7 @@
 #  print_unknown                                       :boolean
 #  public_description                                  :text
 #  publish                                             :boolean
+#  publish_selling_price                               :boolean          default(TRUE)
 #  purchase_price                                      :decimal(16, 2)
 #  purchase_price_in_eur                               :decimal(16, 2)
 #  purchase_year                                       :integer
