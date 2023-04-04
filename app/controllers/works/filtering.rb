@@ -44,6 +44,9 @@ module Works::Filtering
       elsif params[:filter]
         params[:filter].each do |field, values|
           if field == "reset"
+          elsif field == "work_sets.uuid"
+            @selection_filter["work_sets.id"] ||= []
+            @selection_filter["work_sets.id"] += WorkSet.where(uuid: values).pluck(:id)
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| (a == Work::Search::NOT_SET_VALUE) ? nil : a } if params[:filter][field]
           elsif ["location_raw", "location_floor_raw", "location_detail_raw"].include?(field)

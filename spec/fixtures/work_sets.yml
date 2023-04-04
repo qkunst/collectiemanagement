@@ -12,18 +12,21 @@
 #  work_set_type_id      :bigint
 #
 work_set_collection1:
+  uuid: 1c8988cc-b08f-4996-a0e7-cc64cb5a6096
   work_set_type: :group
   works:
     - :work7
     - :work1
 
 work_diptych:
+  uuid: 2c8988cc-b08f-4996-a0e7-cc64cb5a6096
   work_set_type: :meerluik
   works:
     - :work_diptych_1
     - :work_diptych_2
 
 random_other_collection:
+  uuid: 3c8988cc-b08f-4996-a0e7-cc64cb5a6096
   work_set_type: :possible_same_artist
   works:
     - :work6
