@@ -17,10 +17,11 @@
     <% if can?(:create, Appraisal.new(appraisee: @work_set)) && @work_set.appraisable? %>
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
-    <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "secondary small right"%></li>
-    <% if @work_set&.current_active_time_span %>
-      <li><%= link_to [@work_set.current_active_time_span.humanize_classification, @work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span]%></li>
-    <% end %>
+    <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
 </ul>
 </nav>
+<p><% if @work_set&.current_active_time_span %>
+      Er is een gebeurtenis actief: <%= link_to [@work_set.current_active_time_span.humanize_classification, @work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span] %>
+    <% end %></p>
+
 <%= render @works %>
