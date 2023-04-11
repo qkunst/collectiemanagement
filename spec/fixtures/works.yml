@@ -322,6 +322,20 @@ collection_with_availability_available_work:
     - :artist4
   collection: :collection_with_availability
 
+collection_with_availability_another_available_work:
+  title: Available
+  stock_number: QDT3c
+  artists:
+    - :artist4
+  collection: :collection_with_availability
+
+collection_with_availability_available_work_not_in_set:
+  title: Available
+  stock_number: QDT2e
+  artists:
+    - :artist4
+  collection: :collection_with_availability
+
 collection_with_availability_sold_with_time_span:
   title: Sold work with timespan
   stock_number: QDT2b

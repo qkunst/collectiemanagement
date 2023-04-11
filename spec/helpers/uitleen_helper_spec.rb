@@ -5,6 +5,11 @@ require "rails_helper"
 RSpec.describe UitleenHelper, type: :helper do
   describe "#uitleen_work_url" do
     let(:work) { works(:work1) }
+
+    before do
+      Rails.application.secrets.uitleen_site = nil
+    end
+
     it "return nil by default" do
       expect(uitleen_work_url(work)).to eq(nil)
     end
@@ -25,6 +30,10 @@ RSpec.describe UitleenHelper, type: :helper do
     let(:work_set) { work_sets(:work_set_collection1) }
     let(:params) { {invoiceable_item_collection: work_set} }
 
+    before do
+      Rails.application.secrets.uitleen_site = nil
+    end
+
     it "returns nil by default" do
       expect(uitleen_new_draft_invoice_url).to eq(nil)
       expect(uitleen_new_draft_invoice_url(params)).to eq(nil)
@@ -36,7 +45,7 @@ RSpec.describe UitleenHelper, type: :helper do
       end
 
       it "returns a new url with no params" do
-        expect(uitleen_new_draft_invoice_url).to eq("http://uitleen.localhost/draft_invoices/new")
+        expect(uitleen_new_draft_invoice_url).to eq("http://uitleen.localhost/draft_invoices/new?")
       end
 
       it "returns a new url with params when given" do

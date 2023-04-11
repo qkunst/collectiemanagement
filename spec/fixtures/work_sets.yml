@@ -19,15 +19,22 @@ work_set_collection1:
     - :work1
 
 work_diptych:
-  uuid: 2c8988cc-b08f-4996-a0e7-cc64cb5a6096
+  uuid: 2c8988cc-b08f-4996-a2e7-cc64cb5a6096
   work_set_type: :meerluik
   works:
     - :work_diptych_1
     - :work_diptych_2
 
 random_other_collection:
-  uuid: 3c8988cc-b08f-4996-a0e7-cc64cb5a6096
+  uuid: 3c8988cc-b08f-4396-a0e7-cc64cb5a6096
   work_set_type: :possible_same_artist
   works:
     - :work6
     - :work7
+
+available_works:
+  uuid: 3c8988cc-b09f-4996-a0e7-cc64cb5a6096
+  work_set_type: :group
+  works:
+    - :collection_with_availability_available_work
+    - :collection_with_availability_another_available_work
