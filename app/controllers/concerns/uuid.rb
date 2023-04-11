@@ -7,6 +7,8 @@ module Uuid
     validates_presence_of :uuid
     validates_uniqueness_of :uuid
 
+    alias_attribute :external_id, :uuid
+
     private
 
     def set_uuid

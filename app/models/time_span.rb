@@ -223,8 +223,20 @@ class TimeSpan < ApplicationRecord
     ].compact.join(" ")
   end
 
+  def works
+    if subject.is_a?(WorkSet)
+      subject.works
+    elsif subject.is_a?(Work)
+      [subject]
+    end
+  end
+
   def to_s
     "#{starts_at}-#{ends_at} #{status} #{subject.is_a?(Work) ? subject.stock_number : subject.to_s} #{contact}"
+  end
+
+  def similar_child_time_spans
+    TimeSpan.where(classification: classification, contact_id: contact_id, collection: collection, time_span_id: id)
   end
 
   private
@@ -266,12 +278,12 @@ class TimeSpan < ApplicationRecord
   def sync_time_spans_for_works_when_work_set
     if subject.is_a?(WorkSet)
       subject.works.each do |work|
-        ts = TimeSpan.find_or_initialize_by(time_span_id: id, classification: classification, contact_id: contact_id, subject: work, starts_at: starts_at, collection: collection)
+        ts = similar_child_time_spans.find_or_initialize_by(subject: work)
 
         unless ts.finished?
-          ts.starts_at ||= starts_at
+          ts.starts_at ||= Time.current
           ts.status = status
-          ts.ends_at ||= ends_at
+          ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
         end
 
         ts.save

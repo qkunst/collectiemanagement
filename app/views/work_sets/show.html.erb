@@ -18,10 +18,16 @@
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
     <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
+    <li><%= link_to "Toon in rapportage", collection_report_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
+    <li><%= link_to "Factureer werkset", uitleen_new_draft_invoice_url(invoiceable_item_collection: @work_set), class: "tertiary small button right", data: { confirm: "U wordt doorgestuurd naar de uitleen applicatie. Werken met een actieve gebeurtenis voor de organisatie worden automatisch toegevoegd aan de factuur."}%></li>
 </ul>
 </nav>
-<p><% if @work_set&.current_active_time_span %>
-      Er is een gebeurtenis actief: <%= link_to [@work_set.current_active_time_span.humanize_classification, @work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span] %>
-    <% end %></p>
-
+ <% if @current_active_time_span %>
+<div class="callout secondary">
+  <p>
+    Er is een gebeurtenis actief: <%= link_to [@work_set.current_active_time_span.humanize_classification, @work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span] %>. Werken toegevoegd aan deze groep worden automatisch gekoppeld aan deze gebeurtenis.
+  </p>
+  <p>De active gebeurtenis is gekoppeld aan de <%= @current_active_time_span.collection.name %>-collectie<% if @works_outside_current_collection.count > 0 %>, er zijn <%=link_to I18n.t("count.works", count: @works_outside_current_collection.count), collection_works_path(collection_id: @collection.self_and_parent_collections_flattened.first, ids: @works_outside_current_collection.join(",")) %> niet beschikbaar binnen deze collectie<% end %>.
+</div>
+<% end %>
 <%= render @works %>

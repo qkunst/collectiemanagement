@@ -32,6 +32,8 @@ class WorkSet < ApplicationRecord
   validate :works_are_not_appraisable_in_another_set, if: :work_set_type
   validate :works_are_not_countable_as_one_in_another_set, if: :work_set_type
 
+  before_validation :add_works_to_active_time_span
+
   after_save :reindex_works!
 
   class << self
@@ -185,5 +187,9 @@ class WorkSet < ApplicationRecord
 
   def reindex_works!
     works.each { |work| ReindexWorkWorker.perform_async(work.id) }
+  end
+
+  def add_works_to_active_time_span
+    current_active_time_span&.save
   end
 end

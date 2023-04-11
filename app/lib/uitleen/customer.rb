@@ -36,6 +36,8 @@ class Uitleen::Customer
 
         [json].flatten.map { |c| Uitleen::Customer.new(c) }.first
       end
+    rescue Faraday::ConnectionFailed
+      nil
     end
 
     def all(current_user:, recursive: false)
@@ -55,6 +57,8 @@ class Uitleen::Customer
       if e.message.match?("JWT::ExpiredSignature")
         current_user.refresh!(force: true)
       end
+    rescue Faraday::ConnectionFailed
+      []
     end
   end
 end

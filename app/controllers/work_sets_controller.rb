@@ -52,6 +52,9 @@ class WorkSetsController < ApplicationController
 
     @no_work_cache = true
     @works = current_user.accessible_works.where(id: @work_set.work_ids).order(:stock_number)
+    @current_active_time_span = @work_set&.current_active_time_span
+
+    @works_outside_current_collection = @works.where.not(collection_id: @current_active_time_span.collection.expand_with_child_collections).pluck(:id)
 
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")
   end

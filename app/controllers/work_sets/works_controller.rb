@@ -7,9 +7,24 @@ class WorkSets::WorksController < ApplicationController
 
   def destroy
     @work_set.work_ids = @work_set.work_ids - [@work.id]
+    work_set_time_span = @work_set.current_active_time_span
+
     if @work_set.save
       ReindexWorkWorker.perform_async(@work.id)
-      redirect_to work_set_path(@work_set), notice: "Het werk #{@work.title} is verwijderd uit deze groepering."
+
+      if @work.current_active_time_span && @work.current_active_time_span.time_span == work_set_time_span
+        @work.current_active_time_span.time_span = nil
+
+        if @work.current_active_time_span.finished? && @work.current_active_time_span.save
+          redirect_to work_set_path(@work_set), notice: "Het werk #{@work.title} is verwijderd uit deze groepering."
+        elsif @work.current_active_time_span.save
+          redirect_to collection_work_path(@work.collection, @work), alert: "Het werk #{@work.title} is verwijderd uit de groepering #{@work_set.name}. Let op: de actieve gebeurtenis is niet beëindigd."
+        else
+          redirect_to collection_work_path(@work.collection, @work), alert: "Het werk kon niet worden losgekoppeld van de actieve gebeurtenis. Doe dit handmatig."
+        end
+      else
+        redirect_to work_set_path(@work_set), notice: "Het werk #{@work.title} is verwijderd uit deze groepering."
+      end
     else
       redirect_to work_set_path(@work_set), alert: "Het werk #{@work.title} kon niet worden verwijderd uit deze groepering, probeer het opnieuw."
     end

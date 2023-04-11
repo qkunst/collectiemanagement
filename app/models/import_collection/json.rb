@@ -91,7 +91,7 @@ module ImportCollection::Json
     end
 
     import_artists work, work_data
-    import_timespans work, work_data
+    import_time_spans work, work_data
 
     # TODO:
     # has_and_belongs_to_many :attachments
@@ -203,7 +203,7 @@ module ImportCollection::Json
     end
   end
 
-  def import_timespans work, work_data
+  def import_time_spans work, work_data
     work_data["time_spans"]&.each do |time_span_data|
       contact_data = time_span_data["contact"]
       contact = if contact_data["external"] && contact_data["remote_data"]
