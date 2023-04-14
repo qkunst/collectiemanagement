@@ -13,6 +13,7 @@
 #  artist_name_for_sorting                             :string
 #  artist_name_rendered                                :string
 #  artist_unknown                                      :boolean
+#  checked_at                                          :datetime
 #  collection_locality_artist_involvements_texts_cache :text
 #  condition_frame_comments                            :text
 #  condition_work_comments                             :text
@@ -272,6 +273,7 @@ class Work < ApplicationRecord
   time_as_boolean :inventoried
   time_as_boolean :refound
   time_as_boolean :new_found
+  time_as_boolean :checked
   time_as_boolean :removed_from_collection
   time_as_boolean :for_purchase
   time_as_boolean :for_rent

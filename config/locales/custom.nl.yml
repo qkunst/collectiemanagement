@@ -375,6 +375,8 @@ nl:
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s) (sys)
         artist_unknown: Vervaardiger onbekend
         balance_category: Balanscategorie
+        checked: Gecontroleerd
+        checked_at: Gecontroleerd op
         cluster: Cluster
         cluster_name: Clusternaam
         collection: Collectie

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_04_101726) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_14_105945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -814,6 +814,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_101726) do
     t.string "fin_balance_item_id"
     t.integer "highlight_priority"
     t.boolean "publish_selling_price", default: true
+    t.datetime "checked_at"
     t.index ["alt_number_1"], name: "index_works_on_alt_number_1"
     t.index ["alt_number_2"], name: "index_works_on_alt_number_2"
     t.index ["alt_number_3"], name: "index_works_on_alt_number_3"
