@@ -141,6 +141,12 @@ RSpec.describe Work, type: :model do
           w.update(title: "abca")
         }.to change(w, :significantly_updated_at)
       end
+      it "does update on a publish" do
+        w = works(:work1)
+        expect {
+          w.update(publish: !w.publish)
+        }.to change(w, :significantly_updated_at)
+      end
       it "does update on a artist change" do
         w = works(:work1)
         expect {
