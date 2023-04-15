@@ -58,7 +58,12 @@ RSpec.describe CollectionAttribute, type: :model do
         attributes = CollectionAttribute.for_collection(collections(:collection_with_stages)).all
 
         expect(attributes.map(&:collection)).to include(collections(:collection_with_stages))
-        expect(attributes.map(&:collection)).not_to include(collections(:collection_with_stages_child))
+        expect(attributes.map(&:collection)).to include(collections(:collection_with_stages_child))
+
+        attributes = CollectionAttribute.for_collection(collections(:collection_with_stages_child)).all
+
+        expect(attributes.map(&:collection)).not_to include(collections(:collection_with_stages))
+        expect(attributes.map(&:collection)).to include(collections(:collection_with_stages_child))
       end
     end
   end

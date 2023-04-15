@@ -21,7 +21,7 @@ class CollectionAttribute < ApplicationRecord
   validates_uniqueness_of :label, scope: [:collection_id, :attributed_id, :attributed_type]
   validates_presence_of :label, :value, :collection, :attributed
 
-  scope :for_collection, ->(collections) { where(collection: collections) }
+  scope :for_collection, ->(collections) { where(collection: collections.is_a?(Collection) ? collections.expand_with_child_collections : collections) }
   scope :for_user, ->(user) { for_collection(user.accessible_collections) }
 
   def collection= collection
