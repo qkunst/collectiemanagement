@@ -78,7 +78,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
 
         json_data_response = JSON.parse(response.body)["data"]
-        
+
         keys = json_data_response.flat_map { |a| a.keys }.uniq
 
         %w[title_rendered artist_name_rendered object_categories
@@ -90,9 +90,9 @@ RSpec.describe Api::V1::WorksController, type: :request do
           for_purchase for_rent selling_price highlight public_description created_at import_collection_id object_format_code themes availability_status].each do |key|
           expect(keys).to include key
         end
-        
-        expect(json_data_response.select{|w| w["stock_number"] == "Q001"}[0]["artists"][0]["description_in_collection_context"]).to match "Private note about artist_1, firstname (1900 - 2000) in Collection with works child (sub of Collection 1 » colection with works)"
-        expect(json_data_response.select{|w| w["stock_number"] == "Q002"}[0]["artists"][0]["description_in_collection_context"]).to be_nil
+
+        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["description_in_collection_context"]).to match "Private note about artist_1, firstname (1900 - 2000) in Collection with works child (sub of Collection 1 » colection with works)"
+        expect(json_data_response.find { |w| w["stock_number"] == "Q002" }["artists"][0]["description_in_collection_context"]).to be_nil
       end
 
       it "plucks" do
