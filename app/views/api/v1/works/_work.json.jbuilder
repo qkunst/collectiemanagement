@@ -24,7 +24,15 @@ json.photo_detail_2 do |photo|
 end
 
 json.sources(work.sources) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:sources)
-json.artists(work.artists) { |attribute| json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death, :rkd_artist_id, :artist_name, :place_of_birth, :place_of_death, :description } if current_api_user.ability.viewable_work_fields.include?(:artists)
+
+if current_api_user.ability.viewable_work_fields.include?(:artists)
+  json.artists(work.artists) do |attribute| 
+	  json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death, :rkd_artist_id, :artist_name, :place_of_birth, :place_of_death, :description 
+    description_in_collection_context = attribute.collection_attributes.description.for_collection(@collection).map(&:value).join("\n\n")
+    json.description_in_collection_context description_in_collection_context if description_in_collection_context.present?
+  end  
+end
+	
 json.object_categories(work.object_categories) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:object_categories)
 json.techniques(work.techniques) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:techniques)
 json.damage_types(work.damage_types) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:damage_types)

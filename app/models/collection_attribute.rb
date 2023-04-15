@@ -23,6 +23,7 @@ class CollectionAttribute < ApplicationRecord
 
   scope :for_collection, ->(collections) { where(collection: collections.is_a?(Collection) ? collections.expand_with_child_collections : collections) }
   scope :for_user, ->(user) { for_collection(user.accessible_collections) }
+  scope :description, -> { where(label: ["Beschrijving", "description", "beschrijving"])}
 
   def collection= collection
     self.collection_id = collection.base_collection.id
