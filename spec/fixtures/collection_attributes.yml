@@ -20,24 +20,24 @@ artist_1_collection_with_stages_attribute:
 artist_1_collection_with_stages_child_attribute:
   collection: :collection_with_stages_child
   attributed: artist1 (Artist)
-  label: description
+  label: beschrijving
   value_ciphertext: "rqrzu+Pm1T9NaMhon1KrkW/i1dtJm3zczVMRRrywqCv1nWA9oU2MMk+GaMOZew0KZAJUQDrmAw4JGUy7/Gx8wCA4ZkPvsRP2IKQWhKnY9IP383GV21IVQCemong+WXQLkVG8fBrUai+i4AbMsw04fA="
 
 artist_1_collection_with_works_child_attribute:
   collection: :collection_with_works_child
   attributed: artist1 (Artist)
-  label: description
+  label: Beschrijving
   value_ciphertext: "iBWvNSpuvYrcBteZzratbxMv0fl1Tab2u0G//Yg0p33V4L2KCaJw7Z2jIbqLP4//FSILZp271QU4s+oY5JI1Ea1vy2uEhYxr7WjgAAGCIwEnA7GqhjIMRW5HFyVlEm/mVJjJEX2HvbKHfze+1FAaXM56SbH2oMZT1aNbVV1DycDmyPSsX7q/t53eM0LsWKNntYDcRJxzNjw6J7laag=="
 
 artist_1_collection1_attribute:
   collection: :collection1
   attributed: artist1 (Artist)
-  label: description
+  label: Ander veld
   value_ciphertext: "zNr5AYW0Ku1VE6IAUUdkwc7Vx8m6m4XfCSCContA6NZeDxcsjgtvoIeCauP48rjueJunpMuFM3jEg4wfc4IQQR4BWAQP/EEATQ0osw8RVYw37L8i0FVDpb4dBbwqeDlu"
 
 artist_1_sub_boring_collection_attribute:
   collection: :sub_boring_collection
   attributed: artist1 (Artist)
-  label: description
+  label: Nog een ander veld
   value_ciphertext: "0VFYHsHstWGFJ5Qa+xerVMpODKDUsJallW5myBNdaW0D6WrIHsVZWRF3LV/Z/Khyz9zwPIm2rZJv0E2s0C3cnimCPh4lSdAM+Fi2LkSoI5lGCy4fMXpA8RTiHEIs4dVOvSfgq4MmJynbc7NqE0TRDQ=="
 
