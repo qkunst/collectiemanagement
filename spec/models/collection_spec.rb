@@ -251,6 +251,35 @@ RSpec.describe Collection, type: :model do
         expect(collections(:collection_with_works).base_collection).to eq(collections(:collection_with_works))
       end
     end
+    describe "#search_works" do
+      it "should return works for this collection" do
+        expect(collections(:collection1).search_works.pluck(:id)).to include(works(:work1).id)
+      end
+      it "should not return works outside this collection when skipping elastic search" do
+        works(:work_diptych_1).reindex!
+
+        sleep(1)
+
+        expect(Work).not_to receive(:search)
+
+        expect(collections(:collection3).search_works("", {}, {return_records: true}).pluck(:id)).to include(works(:work_diptych_1).id)
+        expect(collections(:collection1).search_works("", {}, {return_records: true}).pluck(:id)).not_to include(works(:work_diptych_1).id)
+      end
+      it "uses elastic search when searching for text" do
+        expect(Work).to receive(:search)
+
+        collections(:collection3).search_works("Diptych", {}, {return_records: false})
+      end
+
+      it "should not return works outside this collection when involving elastic search" do
+        works(:work_diptych_1).reindex!
+
+        sleep(1)
+
+        expect(collections(:collection3).search_works("Diptych", {}, {return_records: true}).pluck(:id)).to include(works(:work_diptych_1).id)
+        expect(collections(:collection1).search_works("Diptych", {}, {return_records: true}).pluck(:id)).not_to include(works(:work_diptych_1).id)
+      end
+    end
 
     describe "#sort_works_by" do
       it "should not accept noise" do

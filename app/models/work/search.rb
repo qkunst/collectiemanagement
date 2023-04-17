@@ -119,14 +119,12 @@ module Work::Search
 
     def search_and_filter(search = "", filter = {}, options = {})
       collection = filter.delete(:collection)
-      collection ||= base_collection
 
       if search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter)) && collection
         return options[:no_child_works] ? collection.works.limit(options[:limit]) : collection.works_including_child_works.limit(options[:limit])
-      elsif search.blank? && !options[:force_elastic] && (filter.blank? || non_filter?(filter))
-        return Work.limit(options[:limit])
       end
 
+      filter[:collection] = collection
       query = build_search_and_filter_query(search, filter, options)
 
       if options[:return_records]
