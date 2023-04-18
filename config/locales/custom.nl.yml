@@ -268,7 +268,10 @@ nl:
           "1": Nieuw aangetroffen
         inventoried:
           "0": "-"
-          "1": Onlangs geïnventariseerd
+          "1": Geïnventariseerd
+        checked:
+          "0": "-"
+          "1": Gecontroleerd
     attributes:
       stage:
         name: Naam

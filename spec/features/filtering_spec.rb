@@ -21,7 +21,7 @@ RSpec.feature "Filter from report", type: :feature do
       click_on("Rapportage")
     end
 
-    click_on("Onlangs geïnventariseerd")
+    click_on("Geïnventariseerd")
 
     expect(page).to have_content("Er worden vanwege een filter #{I18n.translate "count.works", count: inital_works_count} getoond.")
 

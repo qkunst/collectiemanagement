@@ -21,6 +21,7 @@ RSpec.describe Report::Builder, type: :model do
         refound: {terms: {field: "refound", size: 999}},
         inventoried: {terms: {field: "inventoried", size: 999}},
         new_found: {terms: {field: "new_found", size: 999}},
+        checked: {terms: {field: "checked", size: 999}},
         style: {terms: {field: "style_id", size: 999}},
         frame_type: {terms: {field: "frame_type_id", size: 999}},
         condition_work: {terms: {field: "condition_work.id", size: 999}},

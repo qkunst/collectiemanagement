@@ -77,7 +77,7 @@ module Work::Caching
   end
   class_methods do
     def update_artist_name_rendered!
-      all.each do |w|
+      find_each(batch_size: 400) do |w|
         w.update_artist_name_rendered!
         w.save if w.changes != {}
       end

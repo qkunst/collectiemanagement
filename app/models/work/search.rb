@@ -70,7 +70,7 @@ module Work::Search
           :tag_list, :geoname_ids, :title_rendered, :artist_name_rendered,
           :report_val_sorted_artist_ids, :report_val_sorted_object_category_ids, :report_val_sorted_technique_ids, :report_val_sorted_theme_ids,
           :location_raw, :location_floor_raw, :location_detail_raw, :for_rent, :for_purchase,
-          :object_format_code, :inventoried, :refound, :new_found, :has_photo_front
+          :object_format_code, :inventoried, :refound, :new_found, :checked, :has_photo_front
         ]
       }
 

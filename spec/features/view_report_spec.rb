@@ -37,7 +37,7 @@ RSpec.feature "View report", type: :feature, requires_elasticsearch: true do
       click_on("Rapportage")
     end
 
-    click_on "Onlangs geïnventariseerd"
+    click_on "Geïnventariseerd"
 
     expect(page).to have_content("Deze collectie bevat 5 werken. Er worden vanwege een filter 2 werken getoond.")
     expect(page).to have_content("Q001")

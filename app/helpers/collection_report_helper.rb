@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CollectionReportHelper
-  BOOLEANS = [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :has_photo_front, :for_purchase, :for_rent]
+  BOOLEANS = [:image_rights, :publish, :abstract_or_figurative, :grade_within_collection, :has_photo_front, :for_purchase, :for_rent, :refound, :inventoried, :new_found, :checked]
   PRICE_COLUMNS = [:replacement_value, :replacement_value_min, :purchase_price_in_eur, :replacement_value_max, :market_value, :market_value_min, :market_value_max, :minimum_bid, :selling_price]
-  DATE_OR_TIME_COLUMNS = [:object_creation_year, :purchase_year, :refound, :inventoried, :new_found]
+  DATE_OR_TIME_COLUMNS = [:object_creation_year, :purchase_year]
   HAS_JOIN_STRING_NESTED_VALUES = [:location_raw, :location_floor_raw, :location_detail_raw]
   RANGE_GROUP = [:market_value_range, :replacement_value_range]
 
@@ -159,7 +159,7 @@ module CollectionReportHelper
   end
 
   def sort_contents_by_group(contents, group)
-    if DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group)
+    if DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group) || BOOLEANS.include?(group)
       contents.sort { |a, b| b[0][0].to_i <=> a[0][0].to_i }
     elsif [:grade_within_collection].include? group
       contents.sort { |a, b| a[0].to_s <=> b[0].to_s }

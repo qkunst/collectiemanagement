@@ -75,7 +75,7 @@ class ReportController < ApplicationController
         "Beprijzing" => [],
         "Herkomst" => [[:sources], [:purchase_year]],
         "Object" => [[:object_categories_split], [:permanently_fixed, :object_format_code, :frame_type], [:object_creation_year]],
-        "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found], [:image_rights, :publish, :has_photo_front]]
+        "Status" => [[:work_status, :grade_within_collection], [:owner], [:inventoried, :refound, :new_found, :checked], [:image_rights, :publish, :has_photo_front]]
       })
     elsif can?(:read_cluster_report, @collection)
       @sections.deep_merge!({
