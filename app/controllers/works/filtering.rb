@@ -68,7 +68,7 @@ module Works::Filtering
       @selection[thing] = list[0]
       if params[thing] && list.include?(params[thing].to_sym)
         @selection[thing] = params[thing].to_sym
-      elsif current_user.filter_params[thing]
+      elsif current_user && current_user.filter_params[thing]
         @selection[thing] = current_user.filter_params[thing].to_sym
       end
       @selection[thing]
