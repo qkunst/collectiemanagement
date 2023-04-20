@@ -215,6 +215,10 @@ class Work < ApplicationRecord
       order(significantly_updated_at: :desc)
     when :significantly_updated_at_asc
       order(significantly_updated_at: :asc)
+    when :id
+      order(id: :asc)
+    when :"-id"
+      order(id: :desc)
     when :artist_name, :artist_name_rendered
       order(Arel.sql("works.artist_name_for_sorting ASC, works.created_at ASC"))
     when :stock_number

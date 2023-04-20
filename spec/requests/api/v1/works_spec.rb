@@ -74,6 +74,16 @@ RSpec.describe Api::V1::WorksController, type: :request do
         expect(JSON.parse(response.body)["meta"]["total_count"]).to eq(total - 1)
       end
 
+      it "allows for sorting on id" do
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, sort: :id)
+        ids = JSON.parse(response.body)["data"].map { |d| d["id"] }
+
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, sort: :"-id")
+        ids_desc = JSON.parse(response.body)["data"].map { |d| d["id"] }
+
+        expect(ids).to eq(ids_desc.reverse)
+      end
+
       it "returns all desired fields" do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
 

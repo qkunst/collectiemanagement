@@ -10,8 +10,10 @@ class Api::V1::WorksController < Api::V1::ApiController
   def index
     api_authorize! :read_api, @collection
 
-    set_selection_filter
     @selection = {display: :complete}
+
+    set_selection_filter
+    set_selection_sort
     set_search_text
 
     # if work matches a number exactly, don't continue to search

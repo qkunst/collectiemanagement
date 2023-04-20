@@ -131,7 +131,7 @@ module Works::Filtering
     end
 
     def set_selection_sort
-      set_selection :sort, [:stock_number, :artist_name, :location, :created_at, :created_at_asc, :significantly_updated_at, :significantly_updated_at_asc]
+      set_selection :sort, [:stock_number, :artist_name, :location, :created_at, :created_at_asc, :significantly_updated_at, :significantly_updated_at_asc, :id, :"-id"]
     end
 
     def set_selection_display
