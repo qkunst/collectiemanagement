@@ -125,7 +125,7 @@ RSpec.configure do |config|
   rescue Faraday::ConnectionFailed
   end
 
-  if Rails.env.gitlab_ci?
+  if Rails.env.gitlabci?
     config.filter_run_excluding skip_ci: true
   end
 
