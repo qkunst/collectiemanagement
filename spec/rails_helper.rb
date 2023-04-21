@@ -58,6 +58,6 @@ end
 
 if ENV["RSPEC_FORMATTER"] === "html"
   def p obj
-    puts obj.inspect.gsub("<", "&lt;").gsub(">", "&gt;").to_s
+    puts obj.inspect.gsub("<", "&lt;").gsub(">", "&gt;")
   end
 end
