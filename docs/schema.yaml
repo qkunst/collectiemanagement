@@ -1,0 +1,2864 @@
+---
+openapi: 3.0.3
+info:
+  title: source-collectiemanagement
+  version: 1.0.0
+servers: []
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiUserId:
+      type: apiKey
+      in: header
+      name: X-user-id
+    ApiHmacToken:
+      type: apiKey
+      in: header
+      name: X-hmac-token
+security:
+  - BearerAuth:
+      - read
+      - write
+  - ApiUserId:
+      - read
+    ApiHmacToken:
+      - read
+paths:
+  "/api/v1/collections/{collection_id}/works":
+    get:
+      summary: index
+      tags:
+      - Api::V1::Work
+      parameters:
+      - name: collection_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 957954875
+      - name: filter[availability_status]
+        in: query
+        schema:
+          type: object
+          properties:
+            availability_status:
+              type: array
+              items:
+                type: string
+          required:
+          - availability_status
+        example:
+          availability_status:
+          - lent
+      - name: from
+        in: query
+        schema:
+          type: integer
+        example: 3
+      - name: id_gt
+        in: query
+        schema:
+          type: integer
+        example: 122980300
+      - name: limit
+        in: query
+        schema:
+          type: integer
+        example: 2
+      - name: meaningless
+        in: query
+        schema:
+          nullable: true
+      - name: pluck
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - id
+      - name: significantly_updated_since
+        in: query
+        schema:
+          type: string
+        example: '2023-04-14 11:48:26 +0200'
+      - name: sort
+        in: query
+        schema:
+          type: string
+        example: "-id"
+      responses:
+        '200':
+          description: returns a work set with work set type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                      total_count:
+                        type: integer
+                    required:
+                    - count
+                    - total_count
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        collection_id:
+                          type: integer
+                        id:
+                          type: integer
+                        significantly_updated_at:
+                          type: string
+                        stock_number:
+                          type: string
+                        title:
+                          type: string
+                        title_unknown:
+                          nullable: true
+                        description:
+                          nullable: true
+                          type: string
+                        object_creation_year:
+                          nullable: true
+                        object_creation_year_unknown:
+                          nullable: true
+                        medium_id:
+                          type: integer
+                          nullable: true
+                        frame_type_id:
+                          type: integer
+                          nullable: true
+                        object_categories:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        techniques:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        artists:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                              first_name:
+                                type: string
+                              prefix:
+                                nullable: true
+                              last_name:
+                                type: string
+                              year_of_birth:
+                                type: integer
+                                nullable: true
+                              year_of_death:
+                                type: integer
+                                nullable: true
+                              rkd_artist_id:
+                                nullable: true
+                              artist_name:
+                                nullable: true
+                              place_of_birth:
+                                type: string
+                                nullable: true
+                              place_of_death:
+                                nullable: true
+                              description:
+                                type: string
+                                nullable: true
+                              description_in_collection_context:
+                                type: string
+                            required:
+                            - name
+                            - id
+                            - first_name
+                            - prefix
+                            - last_name
+                            - year_of_birth
+                            - year_of_death
+                            - rkd_artist_id
+                            - artist_name
+                            - place_of_birth
+                            - place_of_death
+                            - description
+                        themes:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        title_rendered:
+                          type: string
+                        frame_type:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            hide:
+                              nullable: true
+                            created_at:
+                              type: string
+                            updated_at:
+                              type: string
+                          required:
+                          - id
+                          - name
+                          - hide
+                          - created_at
+                          - updated_at
+                          nullable: true
+                        abstract_or_figurative_rendered:
+                          type: string
+                          nullable: true
+                        collection_name_extended:
+                          type: string
+                        locality_geoname_name:
+                          type: string
+                          nullable: true
+                        print_rendered:
+                          nullable: true
+                        condition_work_rendered:
+                          type: string
+                          nullable: true
+                        condition_frame_rendered:
+                          type: string
+                          nullable: true
+                        print:
+                          nullable: true
+                        print_unknown:
+                          nullable: true
+                        frame_height:
+                          type: number
+                          format: float
+                          nullable: true
+                        frame_width:
+                          type: number
+                          format: float
+                          nullable: true
+                        frame_depth:
+                          nullable: true
+                        frame_diameter:
+                          nullable: true
+                        height:
+                          nullable: true
+                        width:
+                          nullable: true
+                        depth:
+                          nullable: true
+                        diameter:
+                          nullable: true
+                        subset_id:
+                          type: integer
+                          nullable: true
+                        public_description:
+                          nullable: true
+                        abstract_or_figurative:
+                          type: string
+                          nullable: true
+                        artist_name_rendered_without_years_nor_locality:
+                          type: string
+                        artist_name_for_sorting:
+                          type: string
+                        purchase_price_currency_iso_4217_code:
+                          type: string
+                          nullable: true
+                        style:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        medium:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        subset:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        work_status:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        work_sets:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              work_set_type:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  count_as_one:
+                                    type: boolean
+                                  appraise_as_one:
+                                    type: boolean
+                                required:
+                                - name
+                                - count_as_one
+                                - appraise_as_one
+                              identification_number:
+                                nullable: true
+                              comment:
+                                nullable: true
+                              appraisal_notice:
+                                nullable: true
+                            required:
+                            - work_set_type
+                            - identification_number
+                            - comment
+                        collection_branch_names:
+                          type: array
+                          items:
+                            type: string
+                        artist_name_rendered:
+                          type: string
+                        frame_size:
+                          type: string
+                          nullable: true
+                        work_size:
+                          nullable: true
+                        height_with_fallback:
+                          type: number
+                          format: float
+                          nullable: true
+                        width_with_fallback:
+                          type: number
+                          format: float
+                          nullable: true
+                        depth_with_fallback:
+                          nullable: true
+                        diameter_with_fallback:
+                          nullable: true
+                        object_format_code:
+                          type: string
+                          nullable: true
+                        orientation:
+                          type: string
+                          nullable: true
+                        for_purchase:
+                          type: boolean
+                        for_rent:
+                          type: boolean
+                        publish:
+                          type: boolean
+                        image_rights:
+                          type: boolean
+                        created_at:
+                          type: string
+                        import_collection_id:
+                          nullable: true
+                          type: integer
+                        availability_status:
+                          type: string
+                        available:
+                          type: boolean
+                        tag_list:
+                          nullable: true
+                        url:
+                          type: string
+                        location_detail:
+                          type: string
+                          nullable: true
+                        location:
+                          type: string
+                          nullable: true
+                        location_floor:
+                          type: string
+                          nullable: true
+                        removed_from_collection_at:
+                          nullable: true
+                        time_spans:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              status:
+                                type: string
+                              uuid:
+                                type: string
+                              contact_url:
+                                type: string
+                              subject_id:
+                                type: integer
+                              subject_type:
+                                type: string
+                              contact:
+                                type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  address:
+                                    nullable: true
+                                  external:
+                                    type: boolean
+                                  url:
+                                    type: string
+                                  remote_data:
+                                    nullable: true
+                                required:
+                                - name
+                                - address
+                                - external
+                                - url
+                                - remote_data
+                              starts_at:
+                                type: string
+                              ends_at:
+                                nullable: true
+                                type: string
+                              classification:
+                                type: string
+                            required:
+                            - status
+                            - uuid
+                            - contact_url
+                            - subject_id
+                            - subject_type
+                            - contact
+                            - starts_at
+                            - ends_at
+                            - classification
+                        internal_comments:
+                          type: string
+                          nullable: true
+                        alt_number_1:
+                          type: string
+                          nullable: true
+                        alt_number_2:
+                          type: string
+                          nullable: true
+                        alt_number_3:
+                          type: string
+                          nullable: true
+                        alt_number_4:
+                          type: string
+                          nullable: true
+                        alt_number_5:
+                          nullable: true
+                        alt_number_6:
+                          nullable: true
+                        updated_at:
+                          type: string
+                        inventoried:
+                          type: boolean
+                        refound:
+                          type: boolean
+                        new_found:
+                          type: boolean
+                        inventoried_at:
+                          type: string
+                          nullable: true
+                        refound_at:
+                          nullable: true
+                        new_found_at:
+                          nullable: true
+                        locality_geoname_id:
+                          type: integer
+                          nullable: true
+                        imported_at:
+                          nullable: true
+                        artist_unknown:
+                          nullable: true
+                        cached_tag_list:
+                          nullable: true
+                        signature_comments:
+                          nullable: true
+                        no_signature_present:
+                          nullable: true
+                        other_comments:
+                          nullable: true
+                        grade_within_collection:
+                          type: string
+                          nullable: true
+                        entry_status:
+                          nullable: true
+                        entry_status_description:
+                          nullable: true
+                        medium_comments:
+                          nullable: true
+                        main_collection:
+                          nullable: true
+                        cluster_name:
+                          type: string
+                          nullable: true
+                        cluster_id:
+                          type: integer
+                          nullable: true
+                        owner_id:
+                          type: integer
+                          nullable: true
+                        permanently_fixed:
+                          nullable: true
+                        removed_from_collection_note:
+                          nullable: true
+                        signature_rendered:
+                          nullable: true
+                        placeability_id:
+                          type: integer
+                          nullable: true
+                        information_back:
+                          nullable: true
+                        damage_types:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        frame_damage_types:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        condition_work_comments:
+                          nullable: true
+                        condition_frame_comments:
+                          nullable: true
+                        source_comments:
+                          nullable: true
+                        sources:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              id:
+                                type: integer
+                            required:
+                            - name
+                            - id
+                        purchase_price:
+                          type: string
+                          nullable: true
+                        purchased_on:
+                          nullable: true
+                        purchase_year:
+                          nullable: true
+                        fin_balance_item_id:
+                          nullable: true
+                        publish_selling_price:
+                          type: boolean
+                        selling_price:
+                          nullable: true
+                        minimum_bid:
+                          nullable: true
+                        purchase_price_currency_id:
+                          type: integer
+                          nullable: true
+                        selling_price_minimum_bid_comments:
+                          nullable: true
+                        balance_category_id:
+                          nullable: true
+                        cluster:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        condition_work:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        condition_frame:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        placeability:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                        owner:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                            creating_artist:
+                              type: boolean
+                          required:
+                          - name
+                          - id
+                          - creating_artist
+                        appraisals:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              market_value:
+                                type: string
+                              replacement_value:
+                                type: string
+                              appraised_on:
+                                type: string
+                              market_value_max:
+                                nullable: true
+                              market_value_min:
+                                nullable: true
+                              replacement_value_min:
+                                nullable: true
+                              replacement_value_max:
+                                nullable: true
+                              appraised_by:
+                                type: string
+                              reference:
+                                type: string
+                            required:
+                            - market_value
+                            - replacement_value
+                            - appraised_on
+                            - market_value_max
+                            - market_value_min
+                            - replacement_value_min
+                            - replacement_value_max
+                            - appraised_by
+                            - reference
+                        market_value:
+                          type: string
+                          nullable: true
+                        market_value_range:
+                          type: string
+                        replacement_value:
+                          type: string
+                          nullable: true
+                        replacement_value_range:
+                          type: string
+                        highlight:
+                          type: boolean
+                        highlight_priority:
+                          type: integer
+                        current_active_time_span:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                            uuid:
+                              type: string
+                            contact_url:
+                              type: string
+                            subject_id:
+                              type: integer
+                            subject_type:
+                              type: string
+                            contact:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                address:
+                                  nullable: true
+                                external:
+                                  type: boolean
+                                url:
+                                  type: string
+                                remote_data:
+                                  nullable: true
+                              required:
+                              - name
+                              - address
+                              - external
+                              - url
+                              - remote_data
+                            starts_at:
+                              type: string
+                            ends_at:
+                              type: string
+                            classification:
+                              type: string
+                          required:
+                          - status
+                          - uuid
+                          - contact_url
+                          - subject_id
+                          - subject_type
+                          - contact
+                          - starts_at
+                          - ends_at
+                          - classification
+                      required:
+                      - collection_id
+                      - id
+                      - significantly_updated_at
+                      - stock_number
+                      - title
+                      - title_unknown
+                      - description
+                      - object_creation_year
+                      - object_creation_year_unknown
+                      - medium_id
+                      - frame_type_id
+                      - object_categories
+                      - techniques
+                      - artists
+                      - themes
+                      - title_rendered
+                      - frame_type
+                      - abstract_or_figurative_rendered
+                      - collection_name_extended
+                      - locality_geoname_name
+                      - print_rendered
+                      - condition_work_rendered
+                      - condition_frame_rendered
+                      - print
+                      - print_unknown
+                      - frame_height
+                      - frame_width
+                      - frame_depth
+                      - frame_diameter
+                      - height
+                      - width
+                      - depth
+                      - diameter
+                      - subset_id
+                      - public_description
+                      - abstract_or_figurative
+                      - artist_name_rendered_without_years_nor_locality
+                      - created_at
+                      - import_collection_id
+                      - image_rights
+                      - publish
+                      - artist_name_for_sorting
+                      - purchase_price_currency_iso_4217_code
+                      - work_sets
+                      - collection_branch_names
+                      - artist_name_rendered
+                      - frame_size
+                      - work_size
+                      - height_with_fallback
+                      - width_with_fallback
+                      - depth_with_fallback
+                      - diameter_with_fallback
+                      - object_format_code
+                      - orientation
+                      - for_purchase
+                      - for_rent
+                      - availability_status
+                      - available
+                      - tag_list
+                      - url
+                      items:
+                        type: string
+                required:
+                - data
+              example:
+                meta:
+                  count: 4
+                  total_count: 3
+                data:
+                - collection_id: 637112960
+                  id: 810792799
+                  significantly_updated_at: '2021-03-25T17:12:42.000+01:00'
+                  stock_number: Q006
+                  title: Work6
+                  title_unknown:
+                  description:
+                  object_creation_year:
+                  object_creation_year_unknown:
+                  medium_id:
+                  frame_type_id:
+                  object_categories: []
+                  techniques: []
+                  artists:
+                  - name: artist_1, firstname (1900 - 2000)
+                    id: 805413029
+                    first_name: firstname
+                    prefix:
+                    last_name: artist_1
+                    year_of_birth: 1900
+                    year_of_death: 2000
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth: YAC
+                    place_of_death:
+                    description: Een hele goede vervaardiger
+                  - name: "-geen naam opgevoerd (221049473)-"
+                    id: 221049473
+                    first_name:
+                    prefix:
+                    last_name:
+                    year_of_birth:
+                    year_of_death:
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth:
+                    place_of_death:
+                    description:
+                  themes: []
+                  title_rendered: Work6
+                  frame_type:
+                  abstract_or_figurative_rendered:
+                  collection_name_extended: Collection 3
+                  locality_geoname_name:
+                  print_rendered:
+                  condition_work_rendered:
+                  condition_frame_rendered:
+                  print:
+                  print_unknown:
+                  frame_height:
+                  frame_width:
+                  frame_depth:
+                  frame_diameter:
+                  height:
+                  width:
+                  depth:
+                  diameter:
+                  subset_id:
+                  public_description:
+                  abstract_or_figurative:
+                  artist_name_rendered_without_years_nor_locality: artist_1, firstname
+                  location_detail:
+                  location:
+                  location_floor:
+                  removed_from_collection_at:
+                  time_spans: []
+                  internal_comments:
+                  alt_number_1:
+                  alt_number_2:
+                  alt_number_3:
+                  alt_number_4:
+                  alt_number_5:
+                  alt_number_6:
+                  updated_at: '2023-04-21T11:48:27.273+02:00'
+                  created_at: '2012-01-01T07:00:00.000+01:00'
+                  inventoried: false
+                  refound: false
+                  new_found: false
+                  inventoried_at:
+                  refound_at:
+                  new_found_at:
+                  locality_geoname_id:
+                  imported_at:
+                  import_collection_id:
+                  artist_unknown:
+                  cached_tag_list:
+                  signature_comments:
+                  no_signature_present:
+                  other_comments:
+                  grade_within_collection:
+                  entry_status:
+                  entry_status_description:
+                  medium_comments:
+                  main_collection:
+                  image_rights: false
+                  publish: false
+                  cluster_name:
+                  cluster_id:
+                  owner_id:
+                  permanently_fixed:
+                  removed_from_collection_note:
+                  signature_rendered:
+                  placeability_id:
+                  information_back:
+                  damage_types: []
+                  frame_damage_types: []
+                  condition_work_comments:
+                  condition_frame_comments:
+                  source_comments:
+                  sources: []
+                  purchase_price:
+                  purchased_on:
+                  purchase_year:
+                  fin_balance_item_id:
+                  publish_selling_price: true
+                  selling_price:
+                  minimum_bid:
+                  purchase_price_currency_id:
+                  selling_price_minimum_bid_comments:
+                  balance_category_id:
+                  artist_name_for_sorting: artist_1, firstname
+                  purchase_price_currency_iso_4217_code:
+                  appraisals: []
+                  work_sets:
+                  - work_set_type:
+                      name: Mogelijk zelfde vervaardiger
+                      count_as_one: false
+                      appraise_as_one: false
+                    identification_number:
+                    appraisal_notice:
+                    comment:
+                  collection_branch_names:
+                  - Collection 3
+                  artist_name_rendered: artist_1, firstname (1900 - 2000)
+                  frame_size:
+                  work_size:
+                  height_with_fallback:
+                  width_with_fallback:
+                  depth_with_fallback:
+                  diameter_with_fallback:
+                  object_format_code:
+                  orientation:
+                  for_purchase: true
+                  for_rent: false
+                  availability_status: available
+                  market_value:
+                  market_value_range: "-"
+                  replacement_value:
+                  replacement_value_range: "-"
+                  available: true
+                  tag_list:
+                  url: http://www.example.com/collections/637112960/works/810792799
+                - collection_id: 637112960
+                  id: 436914245
+                  significantly_updated_at: '2021-03-25T17:12:42.000+01:00'
+                  stock_number: QA01
+                  title: Work with attachment
+                  title_unknown:
+                  description:
+                  object_creation_year:
+                  object_creation_year_unknown:
+                  medium_id:
+                  frame_type_id:
+                  object_categories: []
+                  techniques: []
+                  artists:
+                  - name: artist_4 achternaam
+                    id: 7033903
+                    first_name:
+                    prefix:
+                    last_name: artist_4 achternaam
+                    year_of_birth:
+                    year_of_death:
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth:
+                    place_of_death:
+                    description:
+                  themes: []
+                  title_rendered: Work with attachment
+                  frame_type:
+                  abstract_or_figurative_rendered:
+                  collection_name_extended: Collection 3
+                  locality_geoname_name:
+                  print_rendered:
+                  condition_work_rendered:
+                  condition_frame_rendered:
+                  print:
+                  print_unknown:
+                  frame_height:
+                  frame_width:
+                  frame_depth:
+                  frame_diameter:
+                  height:
+                  width:
+                  depth:
+                  diameter:
+                  subset_id:
+                  public_description:
+                  abstract_or_figurative:
+                  artist_name_rendered_without_years_nor_locality: artist_4 achternaam
+                  location_detail:
+                  location:
+                  location_floor:
+                  removed_from_collection_at:
+                  time_spans: []
+                  internal_comments:
+                  alt_number_1:
+                  alt_number_2:
+                  alt_number_3:
+                  alt_number_4:
+                  alt_number_5:
+                  alt_number_6:
+                  updated_at: '2023-04-21T11:48:27.276+02:00'
+                  created_at: '2023-04-21T11:48:23.836+02:00'
+                  inventoried: false
+                  refound: false
+                  new_found: false
+                  inventoried_at:
+                  refound_at:
+                  new_found_at:
+                  locality_geoname_id:
+                  imported_at:
+                  import_collection_id:
+                  artist_unknown:
+                  cached_tag_list:
+                  signature_comments:
+                  no_signature_present:
+                  other_comments:
+                  grade_within_collection:
+                  entry_status:
+                  entry_status_description:
+                  medium_comments:
+                  main_collection:
+                  image_rights: false
+                  publish: false
+                  cluster_name:
+                  cluster_id:
+                  owner_id:
+                  permanently_fixed:
+                  removed_from_collection_note:
+                  signature_rendered:
+                  placeability_id:
+                  information_back:
+                  damage_types: []
+                  frame_damage_types: []
+                  condition_work_comments:
+                  condition_frame_comments:
+                  source_comments:
+                  sources: []
+                  purchase_price:
+                  purchased_on:
+                  purchase_year:
+                  fin_balance_item_id:
+                  publish_selling_price: true
+                  selling_price:
+                  minimum_bid:
+                  purchase_price_currency_id:
+                  selling_price_minimum_bid_comments:
+                  balance_category_id:
+                  artist_name_for_sorting: artist_4 achternaam
+                  purchase_price_currency_iso_4217_code:
+                  appraisals: []
+                  work_sets: []
+                  collection_branch_names:
+                  - Collection 3
+                  artist_name_rendered: artist_4 achternaam
+                  frame_size:
+                  work_size:
+                  height_with_fallback:
+                  width_with_fallback:
+                  depth_with_fallback:
+                  diameter_with_fallback:
+                  object_format_code:
+                  orientation:
+                  for_purchase: true
+                  for_rent: false
+                  availability_status: available
+                  market_value:
+                  market_value_range: "-"
+                  replacement_value:
+                  replacement_value_range: "-"
+                  available: true
+                  tag_list:
+                  url: http://www.example.com/collections/637112960/works/436914245
+                - collection_id: 637112960
+                  id: 26823000
+                  significantly_updated_at:
+                  stock_number: QDT2a
+                  title: Work Diptych Left
+                  title_unknown:
+                  description:
+                  object_creation_year:
+                  object_creation_year_unknown:
+                  medium_id:
+                  frame_type_id:
+                  object_categories: []
+                  techniques: []
+                  artists:
+                  - name: artist_4 achternaam
+                    id: 7033903
+                    first_name:
+                    prefix:
+                    last_name: artist_4 achternaam
+                    year_of_birth:
+                    year_of_death:
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth:
+                    place_of_death:
+                    description:
+                  themes: []
+                  title_rendered: Work Diptych Left
+                  frame_type:
+                  abstract_or_figurative_rendered:
+                  collection_name_extended: Collection 3
+                  locality_geoname_name:
+                  print_rendered:
+                  condition_work_rendered:
+                  condition_frame_rendered:
+                  print:
+                  print_unknown:
+                  frame_height:
+                  frame_width:
+                  frame_depth:
+                  frame_diameter:
+                  height:
+                  width:
+                  depth:
+                  diameter:
+                  subset_id:
+                  public_description:
+                  abstract_or_figurative:
+                  artist_name_rendered_without_years_nor_locality: artist_4 achternaam
+                  location_detail:
+                  location:
+                  location_floor:
+                  removed_from_collection_at:
+                  time_spans: []
+                  internal_comments:
+                  alt_number_1:
+                  alt_number_2:
+                  alt_number_3:
+                  alt_number_4:
+                  alt_number_5:
+                  alt_number_6:
+                  updated_at: '2023-04-21T11:48:27.281+02:00'
+                  created_at: '2023-04-21T11:48:23.836+02:00'
+                  inventoried: false
+                  refound: false
+                  new_found: false
+                  inventoried_at:
+                  refound_at:
+                  new_found_at:
+                  locality_geoname_id:
+                  imported_at:
+                  import_collection_id:
+                  artist_unknown:
+                  cached_tag_list:
+                  signature_comments:
+                  no_signature_present:
+                  other_comments:
+                  grade_within_collection:
+                  entry_status:
+                  entry_status_description:
+                  medium_comments:
+                  main_collection:
+                  image_rights: false
+                  publish: false
+                  cluster_name:
+                  cluster_id:
+                  owner_id:
+                  permanently_fixed:
+                  removed_from_collection_note:
+                  signature_rendered:
+                  placeability_id:
+                  information_back:
+                  damage_types: []
+                  frame_damage_types: []
+                  condition_work_comments:
+                  condition_frame_comments:
+                  source_comments:
+                  sources: []
+                  purchase_price:
+                  purchased_on:
+                  purchase_year:
+                  fin_balance_item_id:
+                  publish_selling_price: true
+                  selling_price:
+                  minimum_bid:
+                  purchase_price_currency_id:
+                  selling_price_minimum_bid_comments:
+                  balance_category_id:
+                  artist_name_for_sorting: artist_4 achternaam
+                  purchase_price_currency_iso_4217_code:
+                  appraisals: []
+                  work_sets:
+                  - work_set_type:
+                      name: Meerluik
+                      count_as_one: true
+                      appraise_as_one: true
+                    identification_number:
+                    appraisal_notice:
+                    comment:
+                  collection_branch_names:
+                  - Collection 3
+                  artist_name_rendered: artist_4 achternaam
+                  frame_size:
+                  work_size:
+                  height_with_fallback:
+                  width_with_fallback:
+                  depth_with_fallback:
+                  diameter_with_fallback:
+                  object_format_code:
+                  orientation:
+                  for_purchase: false
+                  for_rent: false
+                  availability_status: available_not_for_rent_or_purchase
+                  market_value:
+                  market_value_range: "-"
+                  replacement_value:
+                  replacement_value_range: "-"
+                  available: true
+                  tag_list:
+                  url: http://www.example.com/collections/637112960/works/26823000
+                - collection_id: 637112960
+                  id: 412096752
+                  significantly_updated_at:
+                  stock_number: QDT2b
+                  title: Work Diptych Right
+                  title_unknown:
+                  description:
+                  object_creation_year:
+                  object_creation_year_unknown:
+                  medium_id:
+                  frame_type_id:
+                  object_categories: []
+                  techniques: []
+                  artists:
+                  - name: artist_4 achternaam
+                    id: 7033903
+                    first_name:
+                    prefix:
+                    last_name: artist_4 achternaam
+                    year_of_birth:
+                    year_of_death:
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth:
+                    place_of_death:
+                    description:
+                  themes: []
+                  title_rendered: Work Diptych Right
+                  frame_type:
+                  abstract_or_figurative_rendered:
+                  collection_name_extended: Collection 3
+                  locality_geoname_name:
+                  print_rendered:
+                  condition_work_rendered:
+                  condition_frame_rendered:
+                  print:
+                  print_unknown:
+                  frame_height:
+                  frame_width:
+                  frame_depth:
+                  frame_diameter:
+                  height:
+                  width:
+                  depth:
+                  diameter:
+                  subset_id:
+                  public_description:
+                  abstract_or_figurative:
+                  artist_name_rendered_without_years_nor_locality: artist_4 achternaam
+                  location_detail:
+                  location:
+                  location_floor:
+                  removed_from_collection_at:
+                  time_spans: []
+                  internal_comments:
+                  alt_number_1:
+                  alt_number_2:
+                  alt_number_3:
+                  alt_number_4:
+                  alt_number_5:
+                  alt_number_6:
+                  updated_at: '2023-04-21T11:48:27.282+02:00'
+                  created_at: '2023-04-21T11:48:23.836+02:00'
+                  inventoried: false
+                  refound: false
+                  new_found: false
+                  inventoried_at:
+                  refound_at:
+                  new_found_at:
+                  locality_geoname_id:
+                  imported_at:
+                  import_collection_id:
+                  artist_unknown:
+                  cached_tag_list:
+                  signature_comments:
+                  no_signature_present:
+                  other_comments:
+                  grade_within_collection:
+                  entry_status:
+                  entry_status_description:
+                  medium_comments:
+                  main_collection:
+                  image_rights: false
+                  publish: false
+                  cluster_name:
+                  cluster_id:
+                  owner_id:
+                  permanently_fixed:
+                  removed_from_collection_note:
+                  signature_rendered:
+                  placeability_id:
+                  information_back:
+                  damage_types: []
+                  frame_damage_types: []
+                  condition_work_comments:
+                  condition_frame_comments:
+                  source_comments:
+                  sources: []
+                  purchase_price:
+                  purchased_on:
+                  purchase_year:
+                  fin_balance_item_id:
+                  publish_selling_price: true
+                  selling_price:
+                  minimum_bid:
+                  purchase_price_currency_id:
+                  selling_price_minimum_bid_comments:
+                  balance_category_id:
+                  artist_name_for_sorting: artist_4 achternaam
+                  purchase_price_currency_iso_4217_code:
+                  appraisals: []
+                  work_sets:
+                  - work_set_type:
+                      name: Meerluik
+                      count_as_one: true
+                      appraise_as_one: true
+                    identification_number:
+                    appraisal_notice:
+                    comment:
+                  collection_branch_names:
+                  - Collection 3
+                  artist_name_rendered: artist_4 achternaam
+                  frame_size:
+                  work_size:
+                  height_with_fallback:
+                  width_with_fallback:
+                  depth_with_fallback:
+                  diameter_with_fallback:
+                  object_format_code:
+                  orientation:
+                  for_purchase: false
+                  for_rent: false
+                  availability_status: available_not_for_rent_or_purchase
+                  market_value:
+                  market_value_range: "-"
+                  replacement_value:
+                  replacement_value_range: "-"
+                  available: true
+                  tag_list:
+                  url: http://www.example.com/collections/637112960/works/412096752
+        '401':
+          description: returns unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  nuid:
+                    type: integer
+                  data:
+                    type: string
+                  your_remote_ip:
+                    type: string
+                required:
+                - message
+                - nuid
+                - data
+                - your_remote_ip
+              example:
+                message: Not authorized
+                nuid: 0
+                data: 127.0.0.1http://www.example.com/api/v1/collections/957954875/works
+                your_remote_ip: 127.0.0.1
+  "/api/v1/collections/{collection_id}/works/{id}":
+    get:
+      summary: show
+      tags:
+      - Api::V1::Work
+      parameters:
+      - name: collection_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 957954875
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 775365376
+      responses:
+        '200':
+          description: includes time_spans
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      collection_id:
+                        type: integer
+                      id:
+                        type: integer
+                      significantly_updated_at:
+                        type: string
+                      stock_number:
+                        type: string
+                      title:
+                        type: string
+                      title_unknown:
+                        nullable: true
+                      description:
+                        nullable: true
+                      object_creation_year:
+                        nullable: true
+                      object_creation_year_unknown:
+                        nullable: true
+                      medium_id:
+                        nullable: true
+                        type: integer
+                      frame_type_id:
+                        nullable: true
+                        type: integer
+                      object_categories:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      techniques:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      artists:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                            first_name:
+                              nullable: true
+                              type: string
+                            prefix:
+                              nullable: true
+                            last_name:
+                              nullable: true
+                              type: string
+                            year_of_birth:
+                              nullable: true
+                              type: integer
+                            year_of_death:
+                              nullable: true
+                              type: integer
+                            rkd_artist_id:
+                              nullable: true
+                            artist_name:
+                              nullable: true
+                            place_of_birth:
+                              nullable: true
+                              type: string
+                            place_of_death:
+                              nullable: true
+                            description:
+                              nullable: true
+                              type: string
+                            description_in_collection_context:
+                              type: string
+                          required:
+                          - name
+                          - id
+                          - first_name
+                          - prefix
+                          - last_name
+                          - year_of_birth
+                          - year_of_death
+                          - rkd_artist_id
+                          - artist_name
+                          - place_of_birth
+                          - place_of_death
+                          - description
+                      themes:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      title_rendered:
+                        type: string
+                      frame_type:
+                        nullable: true
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                          hide:
+                            nullable: true
+                          created_at:
+                            type: string
+                          updated_at:
+                            type: string
+                        required:
+                        - id
+                        - name
+                        - hide
+                        - created_at
+                        - updated_at
+                      abstract_or_figurative_rendered:
+                        nullable: true
+                        type: string
+                      collection_name_extended:
+                        type: string
+                      locality_geoname_name:
+                        type: string
+                      print_rendered:
+                        nullable: true
+                      condition_work_rendered:
+                        nullable: true
+                        type: string
+                      condition_frame_rendered:
+                        nullable: true
+                        type: string
+                      print:
+                        nullable: true
+                      print_unknown:
+                        nullable: true
+                      frame_height:
+                        nullable: true
+                        type: number
+                        format: float
+                      frame_width:
+                        nullable: true
+                        type: number
+                        format: float
+                      frame_depth:
+                        nullable: true
+                      frame_diameter:
+                        nullable: true
+                      height:
+                        nullable: true
+                      width:
+                        nullable: true
+                      depth:
+                        nullable: true
+                      diameter:
+                        nullable: true
+                      subset_id:
+                        type: integer
+                      public_description:
+                        nullable: true
+                      abstract_or_figurative:
+                        nullable: true
+                        type: string
+                      artist_name_rendered_without_years_nor_locality:
+                        type: string
+                      location_detail:
+                        type: string
+                      location:
+                        type: string
+                      location_floor:
+                        type: string
+                      removed_from_collection_at:
+                        nullable: true
+                      time_spans:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            status:
+                              type: string
+                            uuid:
+                              type: string
+                            contact_url:
+                              type: string
+                            subject_id:
+                              type: integer
+                            subject_type:
+                              type: string
+                            contact:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                address:
+                                  nullable: true
+                                external:
+                                  type: boolean
+                                url:
+                                  type: string
+                                remote_data:
+                                  nullable: true
+                              required:
+                              - name
+                              - address
+                              - external
+                              - url
+                              - remote_data
+                            starts_at:
+                              type: string
+                            ends_at:
+                              nullable: true
+                            classification:
+                              type: string
+                          required:
+                          - status
+                          - uuid
+                          - contact_url
+                          - subject_id
+                          - subject_type
+                          - contact
+                          - starts_at
+                          - ends_at
+                          - classification
+                      internal_comments:
+                        nullable: true
+                        type: string
+                      alt_number_1:
+                        nullable: true
+                        type: string
+                      alt_number_2:
+                        nullable: true
+                        type: string
+                      alt_number_3:
+                        nullable: true
+                        type: string
+                      alt_number_4:
+                        nullable: true
+                        type: string
+                      alt_number_5:
+                        nullable: true
+                      alt_number_6:
+                        nullable: true
+                      updated_at:
+                        type: string
+                      created_at:
+                        type: string
+                      inventoried:
+                        type: boolean
+                      refound:
+                        type: boolean
+                      new_found:
+                        type: boolean
+                      inventoried_at:
+                        nullable: true
+                        type: string
+                      refound_at:
+                        nullable: true
+                      new_found_at:
+                        nullable: true
+                      locality_geoname_id:
+                        type: integer
+                      imported_at:
+                        nullable: true
+                      import_collection_id:
+                        type: integer
+                        nullable: true
+                      artist_unknown:
+                        nullable: true
+                      cached_tag_list:
+                        nullable: true
+                      signature_comments:
+                        nullable: true
+                      no_signature_present:
+                        nullable: true
+                      other_comments:
+                        nullable: true
+                      grade_within_collection:
+                        type: string
+                      entry_status:
+                        nullable: true
+                      entry_status_description:
+                        nullable: true
+                      medium_comments:
+                        nullable: true
+                      main_collection:
+                        nullable: true
+                      image_rights:
+                        type: boolean
+                      publish:
+                        type: boolean
+                      cluster_name:
+                        type: string
+                      cluster_id:
+                        type: integer
+                      owner_id:
+                        nullable: true
+                        type: integer
+                      permanently_fixed:
+                        nullable: true
+                      removed_from_collection_note:
+                        nullable: true
+                      signature_rendered:
+                        nullable: true
+                      placeability_id:
+                        nullable: true
+                        type: integer
+                      information_back:
+                        nullable: true
+                      damage_types:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      frame_damage_types:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      condition_work_comments:
+                        nullable: true
+                      condition_frame_comments:
+                        nullable: true
+                      source_comments:
+                        nullable: true
+                      sources:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            id:
+                              type: integer
+                          required:
+                          - name
+                          - id
+                      purchase_price:
+                        nullable: true
+                        type: string
+                      purchased_on:
+                        nullable: true
+                      purchase_year:
+                        nullable: true
+                      fin_balance_item_id:
+                        nullable: true
+                      publish_selling_price:
+                        type: boolean
+                      selling_price:
+                        nullable: true
+                      minimum_bid:
+                        nullable: true
+                      purchase_price_currency_id:
+                        nullable: true
+                        type: integer
+                      selling_price_minimum_bid_comments:
+                        nullable: true
+                      balance_category_id:
+                        nullable: true
+                      artist_name_for_sorting:
+                        type: string
+                      purchase_price_currency_iso_4217_code:
+                        nullable: true
+                        type: string
+                      cluster:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      subset:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      appraisals:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            market_value:
+                              type: string
+                            replacement_value:
+                              type: string
+                            appraised_on:
+                              type: string
+                            market_value_max:
+                              nullable: true
+                            market_value_min:
+                              nullable: true
+                            replacement_value_min:
+                              nullable: true
+                            replacement_value_max:
+                              nullable: true
+                            appraised_by:
+                              type: string
+                            reference:
+                              type: string
+                          required:
+                          - market_value
+                          - replacement_value
+                          - appraised_on
+                          - market_value_max
+                          - market_value_min
+                          - replacement_value_min
+                          - replacement_value_max
+                          - appraised_by
+                          - reference
+                      work_sets:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            work_set_type:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                count_as_one:
+                                  type: boolean
+                                appraise_as_one:
+                                  type: boolean
+                              required:
+                              - name
+                              - count_as_one
+                              - appraise_as_one
+                            identification_number:
+                              nullable: true
+                            appraisal_notice:
+                              nullable: true
+                            comment:
+                              nullable: true
+                          required:
+                          - work_set_type
+                          - identification_number
+                          - appraisal_notice
+                          - comment
+                      collection_branch_names:
+                        type: array
+                        items:
+                          type: string
+                      artist_name_rendered:
+                        type: string
+                      frame_size:
+                        nullable: true
+                        type: string
+                      work_size:
+                        nullable: true
+                      height_with_fallback:
+                        nullable: true
+                        type: number
+                        format: float
+                      width_with_fallback:
+                        nullable: true
+                        type: number
+                        format: float
+                      depth_with_fallback:
+                        nullable: true
+                      diameter_with_fallback:
+                        nullable: true
+                      object_format_code:
+                        nullable: true
+                        type: string
+                      orientation:
+                        nullable: true
+                        type: string
+                      for_purchase:
+                        type: boolean
+                      for_rent:
+                        type: boolean
+                      availability_status:
+                        type: string
+                      market_value:
+                        nullable: true
+                        type: string
+                      market_value_range:
+                        type: string
+                      replacement_value:
+                        nullable: true
+                        type: string
+                      replacement_value_range:
+                        type: string
+                      available:
+                        type: boolean
+                      tag_list:
+                        nullable: true
+                      url:
+                        type: string
+                      style:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      medium:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      condition_work:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      condition_frame:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      placeability:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      work_status:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                        required:
+                        - name
+                        - id
+                      owner:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          id:
+                            type: integer
+                          creating_artist:
+                            type: boolean
+                        required:
+                        - name
+                        - id
+                        - creating_artist
+                    required:
+                    - collection_id
+                    - id
+                    - significantly_updated_at
+                    - stock_number
+                    - title
+                    - title_unknown
+                    - description
+                    - object_creation_year
+                    - object_creation_year_unknown
+                    - medium_id
+                    - frame_type_id
+                    - object_categories
+                    - techniques
+                    - artists
+                    - themes
+                    - title_rendered
+                    - frame_type
+                    - abstract_or_figurative_rendered
+                    - collection_name_extended
+                    - locality_geoname_name
+                    - print_rendered
+                    - condition_work_rendered
+                    - condition_frame_rendered
+                    - print
+                    - print_unknown
+                    - frame_height
+                    - frame_width
+                    - frame_depth
+                    - frame_diameter
+                    - height
+                    - width
+                    - depth
+                    - diameter
+                    - subset_id
+                    - public_description
+                    - abstract_or_figurative
+                    - artist_name_rendered_without_years_nor_locality
+                    - location_detail
+                    - location
+                    - location_floor
+                    - removed_from_collection_at
+                    - time_spans
+                    - internal_comments
+                    - alt_number_1
+                    - alt_number_2
+                    - alt_number_3
+                    - alt_number_4
+                    - alt_number_5
+                    - alt_number_6
+                    - updated_at
+                    - created_at
+                    - inventoried
+                    - refound
+                    - new_found
+                    - inventoried_at
+                    - refound_at
+                    - new_found_at
+                    - locality_geoname_id
+                    - imported_at
+                    - import_collection_id
+                    - artist_unknown
+                    - cached_tag_list
+                    - signature_comments
+                    - no_signature_present
+                    - other_comments
+                    - grade_within_collection
+                    - entry_status
+                    - entry_status_description
+                    - medium_comments
+                    - main_collection
+                    - image_rights
+                    - publish
+                    - cluster_name
+                    - cluster_id
+                    - owner_id
+                    - permanently_fixed
+                    - removed_from_collection_note
+                    - signature_rendered
+                    - placeability_id
+                    - information_back
+                    - damage_types
+                    - frame_damage_types
+                    - condition_work_comments
+                    - condition_frame_comments
+                    - source_comments
+                    - sources
+                    - purchase_price
+                    - purchased_on
+                    - purchase_year
+                    - fin_balance_item_id
+                    - publish_selling_price
+                    - selling_price
+                    - minimum_bid
+                    - purchase_price_currency_id
+                    - selling_price_minimum_bid_comments
+                    - balance_category_id
+                    - artist_name_for_sorting
+                    - purchase_price_currency_iso_4217_code
+                    - cluster
+                    - subset
+                    - appraisals
+                    - work_sets
+                    - collection_branch_names
+                    - artist_name_rendered
+                    - frame_size
+                    - work_size
+                    - height_with_fallback
+                    - width_with_fallback
+                    - depth_with_fallback
+                    - diameter_with_fallback
+                    - object_format_code
+                    - orientation
+                    - for_purchase
+                    - for_rent
+                    - availability_status
+                    - market_value
+                    - market_value_range
+                    - replacement_value
+                    - replacement_value_range
+                    - available
+                    - tag_list
+                    - url
+                required:
+                - data
+              example:
+                data:
+                  collection_id: 957954875
+                  id: 775365376
+                  significantly_updated_at: '2021-03-25T17:12:42.000+01:00'
+                  stock_number: Q001
+                  title: Work1
+                  title_unknown:
+                  description:
+                  object_creation_year:
+                  object_creation_year_unknown:
+                  medium_id: 336211296
+                  frame_type_id: 980190962
+                  object_categories:
+                  - name: Gebouwgebonden
+                    id: 332001689
+                  - name: Audiovisueel
+                    id: 907211571
+                  techniques:
+                  - name: Acrylverf
+                    id: 33360069
+                  - name: Houtskool
+                    id: 287639879
+                  artists:
+                  - name: artist_1, firstname (1900 - 2000)
+                    id: 805413029
+                    first_name: firstname
+                    prefix:
+                    last_name: artist_1
+                    year_of_birth: 1900
+                    year_of_death: 2000
+                    rkd_artist_id:
+                    artist_name:
+                    place_of_birth: YAC
+                    place_of_death:
+                    description: Een hele goede vervaardiger
+                    description_in_collection_context: Private note about artist_1,
+                      firstname (1900 - 2000) in Collection with works child (sub
+                      of Collection 1 » colection with works)
+                  themes:
+                  - name: earth
+                    id: 187004641
+                  - name: wind
+                    id: 554390782
+                  title_rendered: Work1
+                  frame_type:
+                    id: 980190962
+                    name: Frame type
+                    hide:
+                    created_at: '2023-04-21T11:48:23.792+02:00'
+                    updated_at: '2023-04-21T11:48:23.792+02:00'
+                  abstract_or_figurative_rendered: Abstract
+                  collection_name_extended: Collection 1 » Collection with works (sub
+                    of Collection 1)
+                  locality_geoname_name: Geoname Summary 1 (Land)
+                  print_rendered:
+                  condition_work_rendered: goed (++); A Gebroken, B Gebroken
+                  condition_frame_rendered: goed (++); A damange type
+                  print:
+                  print_unknown:
+                  frame_height: 50.0
+                  frame_width: 100.0
+                  frame_depth:
+                  frame_diameter:
+                  height:
+                  width:
+                  depth:
+                  diameter:
+                  subset_id: 462276921
+                  public_description:
+                  abstract_or_figurative: abstract
+                  artist_name_rendered_without_years_nor_locality: artist_1, firstname
+                  location_detail: Room 1
+                  location: Adres
+                  location_floor: Floor 1
+                  removed_from_collection_at:
+                  time_spans:
+                  - status: concept
+                    uuid: time_span1
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '2000-01-02T01:00:00.000+01:00'
+                    ends_at:
+                    classification: rental_outgoing
+                  - status: concept
+                    uuid: time_span2
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '2000-01-03T01:00:00.000+01:00'
+                    ends_at:
+                    classification: rental_outgoing
+                  - status: concept
+                    uuid: time_span3
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '2000-01-04T01:00:00.000+01:00'
+                    ends_at: '2400-01-01T01:00:00.000+01:00'
+                    classification: rental_outgoing
+                  - status: concept
+                    uuid: time_span4
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '2000-01-01T01:00:00.000+01:00'
+                    ends_at: '2400-01-01T01:00:00.000+01:00'
+                    classification: rental_outgoing
+                  - status: finished
+                    uuid: time_span_historic
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '1950-01-01T01:00:00.000+01:00'
+                    ends_at: '1982-01-01T01:00:00.000+01:00'
+                    classification: rental_outgoing
+                  - status: concept
+                    uuid: time_span_future
+                    contact_url: http://uitleen/contact/1
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/1
+                      remote_data:
+                    starts_at: '2100-01-01T01:00:00.000+01:00'
+                    ends_at: '2105-01-01T01:00:00.000+01:00'
+                    classification: rental_outgoing
+                  - status: concept
+                    uuid: time_span_contact_2
+                    contact_url: http://uitleen/contact/2
+                    subject_id: 775365376
+                    subject_type: Work
+                    contact:
+                      name: External
+                      address:
+                      external: true
+                      url: http://uitleen/contact/2
+                      remote_data:
+                    starts_at: '2000-01-01T01:00:00.000+01:00'
+                    ends_at: '2400-01-01T01:00:00.000+01:00'
+                    classification: rental_outgoing
+                  internal_comments: Interne opmerking bij werk 1
+                  alt_number_1: '7201284'
+                  alt_number_2: '002123'
+                  alt_number_3: '0002.123'
+                  alt_number_4: ALT4002123.1
+                  alt_number_5:
+                  alt_number_6:
+                  updated_at: '2023-04-21T11:48:26.866+02:00'
+                  created_at: '2012-01-01T02:00:00.000+01:00'
+                  inventoried: true
+                  refound: false
+                  new_found: false
+                  inventoried_at: '2012-01-02T01:00:00.000+01:00'
+                  refound_at:
+                  new_found_at:
+                  locality_geoname_id: 123
+                  imported_at:
+                  import_collection_id:
+                  artist_unknown:
+                  cached_tag_list:
+                  signature_comments:
+                  no_signature_present:
+                  other_comments:
+                  grade_within_collection: A
+                  entry_status:
+                  entry_status_description:
+                  medium_comments:
+                  main_collection:
+                  image_rights: false
+                  publish: true
+                  cluster_name: cluster1
+                  cluster_id: 878411140
+                  owner_id: 446739017
+                  permanently_fixed:
+                  removed_from_collection_note:
+                  signature_rendered:
+                  placeability_id: 980190962
+                  information_back:
+                  damage_types:
+                  - name: A Gebroken
+                    id: 683130438
+                  - name: B Gebroken
+                    id: 834596858
+                  frame_damage_types:
+                  - name: A damange type
+                    id: 980190962
+                  condition_work_comments:
+                  condition_frame_comments:
+                  source_comments:
+                  sources:
+                  - name: BKR
+                    id: 202400802
+                  purchase_price: '100.0'
+                  purchased_on:
+                  purchase_year:
+                  fin_balance_item_id:
+                  publish_selling_price: true
+                  selling_price:
+                  minimum_bid:
+                  purchase_price_currency_id: 664203114
+                  selling_price_minimum_bid_comments:
+                  balance_category_id:
+                  artist_name_for_sorting: artist_1, firstname
+                  purchase_price_currency_iso_4217_code: NLG
+                  cluster:
+                    name: cluster1
+                    id: 878411140
+                  subset:
+                    name: Contemporary
+                    id: 462276921
+                  appraisals:
+                  - market_value: '1000.0'
+                    replacement_value: '2000.0'
+                    appraised_on: '2000-01-01'
+                    market_value_max:
+                    market_value_min:
+                    replacement_value_min:
+                    replacement_value_max:
+                    appraised_by: test
+                    reference: Reference
+                  - market_value: '2000.0'
+                    replacement_value: '2000.0'
+                    appraised_on: '2001-01-02'
+                    market_value_max:
+                    market_value_min:
+                    replacement_value_min:
+                    replacement_value_max:
+                    appraised_by: test
+                    reference: Reference
+                  - market_value: '3000.0'
+                    replacement_value: '2000.0'
+                    appraised_on: '2001-01-03'
+                    market_value_max:
+                    market_value_min:
+                    replacement_value_min:
+                    replacement_value_max:
+                    appraised_by: test
+                    reference: Reference
+                  - market_value: '4000.0'
+                    replacement_value: '2000.0'
+                    appraised_on: '2001-01-04'
+                    market_value_max:
+                    market_value_min:
+                    replacement_value_min:
+                    replacement_value_max:
+                    appraised_by: test
+                    reference: Reference
+                  - market_value:
+                    replacement_value:
+                    appraised_on: '1999-01-04'
+                    market_value_max: '500.0'
+                    market_value_min: '250.0'
+                    replacement_value_min: '500.0'
+                    replacement_value_max: '1000.0'
+                    appraised_by: test
+                    reference: Reference
+                  - market_value:
+                    replacement_value:
+                    appraised_on: '1999-01-03'
+                    market_value_max: '1000.0'
+                    market_value_min: '572.0'
+                    replacement_value_min: '1000.0'
+                    replacement_value_max: '572.0'
+                    appraised_by: test
+                    reference: Reference
+                  - market_value: '1000.0'
+                    replacement_value: '2000.0'
+                    appraised_on:
+                    market_value_max:
+                    market_value_min:
+                    replacement_value_min:
+                    replacement_value_max:
+                    appraised_by: test
+                    reference: Reference
+                  work_sets:
+                  - work_set_type:
+                      name: Other group
+                      count_as_one: false
+                      appraise_as_one: false
+                    identification_number:
+                    appraisal_notice:
+                    comment:
+                  collection_branch_names:
+                  - Collection 1
+                  - Collection with works (sub of Collection 1)
+                  artist_name_rendered: artist_1, firstname (1900 - 2000)
+                  frame_size: 50 × 100 (h×b)
+                  work_size:
+                  height_with_fallback: 50.0
+                  width_with_fallback: 100.0
+                  depth_with_fallback:
+                  diameter_with_fallback:
+                  object_format_code: l
+                  orientation: landscape
+                  for_purchase: true
+                  for_rent: false
+                  availability_status: available
+                  market_value: '50.0'
+                  market_value_range: "-"
+                  replacement_value: '500.0'
+                  replacement_value_range: "-"
+                  available: true
+                  tag_list:
+                  url: http://www.example.com/collections/957954875/works/775365376
+                  style:
+                    name: a style
+                    id: 980190962
+                  medium:
+                    name: Papier
+                    id: 336211296
+                  condition_work:
+                    name: goed (++)
+                    id: 376153626
+                  condition_frame:
+                    name: goed (++)
+                    id: 376153626
+                  placeability:
+                    name: A placeability
+                    id: 980190962
+                  work_status:
+                    name: In gebruik
+                    id: 508993200
+                  owner:
+                    name: Owner1
+                    id: 446739017
+                    creating_artist: false
+  "/api/v1/collections/{collection_id}/works/{work_id}/work_events":
+    post:
+      summary: create
+      tags:
+      - Api::V1::WorkEvent
+      parameters:
+      - name: collection_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 957954875
+      - name: work_event
+        in: query
+        schema:
+          type: object
+          properties:
+            contact_uri:
+              type: string
+            event_type:
+              type: string
+            status:
+              type: string
+            time_span_uuid:
+              type: string
+          required:
+          - contact_uri
+          - event_type
+          - status
+          - time_span_uuid
+        example:
+          contact_uri: http://uitleen/contact/1
+          event_type: rental_outgoing
+          status: finished
+          time_span_uuid: c33da0e0-98e3-4fce-b268-7a2938bcb0b9
+      - name: work_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        example: 693823207
+      responses:
+        '200':
+          description: ends a rental when signed in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  uuid:
+                    type: string
+                  contact_url:
+                    type: string
+                  subject_id:
+                    type: integer
+                  subject_type:
+                    type: string
+                  subject:
+                    type: object
+                    properties:
+                      title_rendered:
+                        type: string
+                      id:
+                        type: integer
+                      artist_name_rendered:
+                        type: string
+                      collection_id:
+                        type: integer
+                      stock_number:
+                        type: string
+                      selling_price:
+                        nullable: true
+                      url:
+                        type: string
+                    required:
+                    - title_rendered
+                    - id
+                    - artist_name_rendered
+                    - collection_id
+                    - stock_number
+                    - selling_price
+                    - url
+                  contact:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      address:
+                        nullable: true
+                      external:
+                        type: boolean
+                      url:
+                        type: string
+                      remote_data:
+                        nullable: true
+                    required:
+                    - name
+                    - address
+                    - external
+                    - url
+                    - remote_data
+                  starts_at:
+                    type: string
+                  ends_at:
+                    nullable: true
+                    type: string
+                  classification:
+                    type: string
+                required:
+                - status
+                - uuid
+                - contact_url
+                - subject_id
+                - subject_type
+                - subject
+                - contact
+                - starts_at
+                - ends_at
+                - classification
+              example:
+                status: finished
+                uuid: c33da0e0-98e3-4fce-b268-7a2938bcb0b9
+                contact_url: http://uitleen/contact/1
+                subject_id: 693823207
+                subject_type: Work
+                subject:
+                  title_rendered: Work5
+                  id: 693823207
+                  artist_name_rendered: artist_2 achternaam, firstie
+                  collection_id: 957954875
+                  stock_number: Q005
+                  selling_price:
+                  url: http://www.example.com/collections/957954875/works/693823207
+                contact:
+                  name: External
+                  address:
+                  external: true
+                  url: http://uitleen/contact/1
+                  remote_data:
+                starts_at: '2022-04-21T11:48:28.249+02:00'
+                ends_at: '2023-04-21T11:48:28.286+02:00'
+                classification: rental_outgoing
+        '401':
+          description: unauthorized when not signed in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  nuid:
+                    type: integer
+                  data:
+                    type: string
+                  your_remote_ip:
+                    type: string
+                required:
+                - message
+                - nuid
+                - data
+                - your_remote_ip
+              example:
+                message: Not authorized
+                nuid: 0
+                data: 127.0.0.1http://www.example.com/api/v1/collections/957954875/works/693823207/work_events.json?work_event%5Bcontact_uri%5D=http%3A%2F%2Fcustomers%2F123&work_event%5Bevent_type%5D=rental_outgoing&work_event%5Bstatus%5D=active
+                your_remote_ip: 127.0.0.1
+        '422':
+          description: cannot start a rental twice when signed in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                required:
+                - message
+              example:
+                message: Unprocessable entity
+  "/api/v1/time_spans":
+    get:
+      summary: index
+      tags:
+      - Api::V1::TimeSpan
+      responses:
+        '401':
+          description: returns unauthorized when not logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  nuid:
+                    type: integer
+                  data:
+                    type: string
+                  your_remote_ip:
+                    type: string
+                required:
+                - message
+                - nuid
+                - data
+                - your_remote_ip
+              example:
+                message: Not authorized
+                nuid: 0
+                data: 127.0.0.1http://www.example.com/api/v1/time_spans.json
+                your_remote_ip: 127.0.0.1
+        '200':
+          description: allows for filtering on subject typed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                        uuid:
+                          type: string
+                        contact_url:
+                          type: string
+                          nullable: true
+                        subject_id:
+                          type: integer
+                        subject_type:
+                          type: string
+                        subject:
+                          type: object
+                          properties:
+                            title_rendered:
+                              type: string
+                            id:
+                              type: integer
+                            artist_name_rendered:
+                              type: string
+                            collection_id:
+                              type: integer
+                            stock_number:
+                              type: string
+                            selling_price:
+                              nullable: true
+                            url:
+                              type: string
+                          required:
+                          - title_rendered
+                          - id
+                          - artist_name_rendered
+                          - collection_id
+                          - stock_number
+                          - selling_price
+                          - url
+                        contact:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            address:
+                              nullable: true
+                            external:
+                              type: boolean
+                            url:
+                              type: string
+                            remote_data:
+                              nullable: true
+                          required:
+                          - name
+                          - address
+                          - external
+                          - url
+                          - remote_data
+                        starts_at:
+                          type: string
+                        ends_at:
+                          type: string
+                          nullable: true
+                        classification:
+                          type: string
+                      required:
+                      - status
+                      - uuid
+                      - contact_url
+                      - subject_id
+                      - subject_type
+                      - starts_at
+                      - ends_at
+                      - classification
+                required:
+                - data
+              example:
+                data:
+                - status: concept
+                  uuid: time_span_time_span
+                  contact_url:
+                  subject_id: 246266134
+                  subject_type: WorkSet
+                  starts_at: '1998-04-02T14:00:00.000+02:00'
+                  ends_at:
+                  classification: purchase
+      parameters:
+      - name: contact_url
+        in: query
+        schema:
+          type: string
+        example: http://uitleen/contact/2
+      - name: subject_type
+        in: query
+        schema:
+          type: string
+        example: WorkSet
