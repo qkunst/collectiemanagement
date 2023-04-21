@@ -2,6 +2,10 @@
 
 require "rails_helper"
 
+def pluck_work_ids(response)
+  JSON.parse(response.body)["data"].map { |d| d["id"] }
+end
+
 RSpec.describe Api::V1::WorksController, type: :request do
   context "anonymously" do
     describe "GET api/v1/works/" do
@@ -76,12 +80,28 @@ RSpec.describe Api::V1::WorksController, type: :request do
 
       it "allows for sorting on id" do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, sort: :id)
-        ids = JSON.parse(response.body)["data"].map { |d| d["id"] }
+        ids = pluck_work_ids(response)
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, sort: :"-id")
-        ids_desc = JSON.parse(response.body)["data"].map { |d| d["id"] }
+        ids_desc = pluck_work_ids(response)
 
         expect(ids).to eq(ids_desc.reverse)
+      end
+
+      it "allows for pagination based on id" do
+        ids = collections(:collection1).works_including_child_works.order(:id).pluck(:id)
+        expect(ids.size).to be >= 5
+
+        get api_v1_collection_works_path(collections(:collection1), format: :json, limit: 2, id_gt: 0)
+        expect(pluck_work_ids(response)).to eq(ids[0..1])
+
+        get api_v1_collection_works_path(collections(:collection1), format: :json, limit: 2, id_gt: ids[2])
+
+        expect(pluck_work_ids(response)).to eq(ids[3..4])
+
+        get api_v1_collection_works_path(collections(:collection1), format: :json, limit: 6, id_gt: ids[1])
+
+        expect(pluck_work_ids(response)).to eq(ids[2..7])
       end
 
       it "returns all desired fields" do

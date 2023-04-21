@@ -89,8 +89,11 @@ module Works::Filtering
       @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.offset(params[:from].to_i) if params[:from]
+      @works = @works.where(id: ((params[:id_gt].to_i + 1)...)).except(:order).order_by(:id) if params[:id_gt]
 
-      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort]
+      sort_explicitly = params[:id_gt].nil? || params[:sort] # the default sorting by stock_number will always be applied.
+
+      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort] && sort_explicitly
     end
 
     def set_works_grouped
