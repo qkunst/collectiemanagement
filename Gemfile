@@ -79,8 +79,6 @@ group :development do
   # gem 'spring-watcher-listen' #, '~> 2.0.0'
 end
 
-gem "rspec-openapi", group: :test
-
 ##
 ## INTERACTIVITY
 ##
@@ -132,6 +130,7 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
+  gem "rspec-openapi"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
