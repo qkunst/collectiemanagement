@@ -51,6 +51,8 @@ RSpec.describe Artist, type: :model do
   end
   describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work" do
+      Sidekiq::Worker.drain_all
+
       ids = []
       c = collections(:collection1)
       a = Artist.create(first_name: "a")

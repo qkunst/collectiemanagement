@@ -125,6 +125,10 @@ RSpec.configure do |config|
   rescue Faraday::ConnectionFailed
   end
 
+  if Rails.env.gitlab_ci?
+    config.filter_run_excluding skip_ci: true
+  end
+
   config.before do
     Work.all.each do |work|
       work.update_artist_name_rendered!
