@@ -149,7 +149,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_105945) do
     t.datetime "updated_at", precision: nil, null: false
     t.text "exposable_fields"
     t.text "description"
-    t.bigint "parent_collection_id", default: 7
+    t.bigint "parent_collection_id", default: 1
     t.string "label_override_work_alt_number_1"
     t.string "label_override_work_alt_number_2"
     t.string "label_override_work_alt_number_3"

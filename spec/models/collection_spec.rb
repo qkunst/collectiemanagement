@@ -271,7 +271,7 @@ RSpec.describe Collection, type: :model do
         collections(:collection3).search_works("Diptych", {}, {return_records: false})
       end
 
-      it "should not return works outside this collection when involving elastic search" do
+      it "should not return works outside this collection when involving elastic search", requires_elasticsearch: true do
         works(:work_diptych_1).reindex!
 
         sleep(1)
