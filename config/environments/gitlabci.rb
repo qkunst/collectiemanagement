@@ -65,3 +65,6 @@ Rails.application.configure do
 end
 
 OmniAuth.config.test_mode = true
+
+require "sidekiq/testing"
+Sidekiq::Testing.fake!
