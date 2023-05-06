@@ -52,6 +52,20 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
           expect(json_response["data"][0]["subject_type"]).to eq("WorkSet")
         end
       end
+
+      describe "ends_at_lt" do
+        it "allows for filtering on end date" do
+          get api_v1_time_spans_path(params: {ends_at_lt: "2021-02-01"}, format: :json)
+          json_response = JSON.parse(response.body)
+          expect(json_response["data"].count).to eql(TimeSpan.where("ends_at < ?", Date.new(2021, 2, 1)).count)
+        end
+
+        it "returns more when filtering on future end date" do
+          get api_v1_time_spans_path(params: {ends_at_lt: "2605-01-01"}, format: :json)
+          json_response = JSON.parse(response.body)
+          expect(json_response["data"].count).to eql(TimeSpan.where("ends_at < ?", Date.new(2605, 1, 1)).count)
+        end
+      end
     end
 
     context "advisor" do
