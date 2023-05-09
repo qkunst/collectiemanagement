@@ -150,6 +150,7 @@ Rails.application.routes.draw do
     end
 
     get "report" => "report#show"
+    get "stats" => "stats#show"
   end
   resources :artists do
     get "combine_prepare" => "artists#combine_prepare"

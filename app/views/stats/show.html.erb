@@ -1,0 +1,40 @@
+<h1>Een collectieprofiel in getallen en grafieken</h1>
+<p>Deze pagina toont een aantal statistieken over de collectie.</p>
+<div class="row">
+  <div class="columns large-6 large-centered">
+<h2>Algemeen</h2>
+<p class="large">Deze collectie bevat <strong><%= I18n.t :inventoried_objects_count, count: @inventoried_objects_count, scope: "count" %></strong>, verdeeld over <strong><%= I18n.t :works, count: @collection_works_count, scope: "count" %></strong>.</p>
+
+<h2>Technieken</h2>
+<p class="large">De 25 meest gebruikte technieken in deze collectie. Populair zijn <strong><%=@technique_stats[:labels][0..2].to_sentence %></strong></p>
+<p>Klik op een techniek om deze uit of aan te zetten in de grafiek.</p>
+    <canvas
+      data-controller="chart"
+      data-chart-type-value="polarArea"
+      data-chart-options-value='<%= {responsive: true}.to_json%>'
+      data-chart-data-value='<%= @technique_stats.to_json %>'
+    ></canvas>
+<h2>Het jaar van vervaardiging</h2>
+    <canvas
+      data-controller="chart"
+      data-chart-type-value="line"
+      data-chart-options-value='<%= {responsive: true}.to_json%>'
+      data-chart-data-value='<%= @object_creation_year_stats.to_json %>'
+    ></canvas>
+
+<h2>De vervaardigers</h2>
+<p class="large">Deze collectie bevat werken van <strong><%= I18n.t :artists, count: @artists_count, scope: "count" %></strong>.</p>
+<h2>Wanneer zijn de vervaardigers geboren?</h2>
+<p class="large">Deze collectie bevat werken van vervaardigers die geboren zijn tussen <strong><%#= @artists_birth_years_range.first %></strong> en <strong><%#= @artists_birth_years_range.last %></strong>.</p>
+
+
+<h2>Gender</h2>
+<p>Hier wordt geteld hoeveel objecten er zijn van bijvoorbeeld mannelijke en vrouwelijke, of indien bekend ook anders identificerende, vervaardigers.</p>
+    <canvas
+      data-controller="chart"
+      data-chart-type-value="pie"
+      data-chart-options-value='<%= {responsive: true}.to_json%>'
+      data-chart-data-value='<%= @artists_gender_stats.to_json %>'
+    ></canvas>
+  </div>
+</div>

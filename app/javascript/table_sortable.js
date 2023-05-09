@@ -13,7 +13,7 @@
 //         data-sorttype="number"      or the data-sorttype
 //         data-sortkey="12.2"       override cells' content with this sortkey
 
-// Minimal CSS along the lines of:
+// Minimal CSS along the lines of (note that this is default in murb-design-system):
 
 //    table.sortable {
 //      thead td, thead th {
@@ -35,7 +35,7 @@
 
 var SortableTable;
 
-SortableTable = (function() {
+SortableTable = (function () {
   var ASC, DESC;
 
   class SortableTable {
@@ -56,7 +56,7 @@ SortableTable = (function() {
     nodeListToArray(nodelist) {
       var arr;
       arr = [];
-      nodelist.forEach(function(i) {
+      nodelist.forEach(function (i) {
         return arr.push(i);
       });
       return arr;
@@ -91,7 +91,7 @@ SortableTable = (function() {
       columnIndex = this.columnIndex;
       orderMultiplier = (this.order === DESC) ? -1 : 1;
       sortEmptyAlwaysLastMultiplier = this.sortEmptyAlwaysLast && this.order === ASC ? -1 : 1;
-      extractSortableRowValue = function(row) {
+      extractSortableRowValue = function (row) {
         var cell, isNumber, value;
         cell = row.querySelectorAll("td, th")[columnIndex];
         isNumber = (cell.dataset && cell.dataset.sorttype === 'number') || cell.classList.contains('number');
@@ -106,7 +106,7 @@ SortableTable = (function() {
         }
         return value;
       };
-      rowSortFunction = function(aRow, bRow) {
+      rowSortFunction = function (aRow, bRow) {
         var aValue, bValue;
         aValue = extractSortableRowValue(aRow);
         bValue = extractSortableRowValue(bRow);

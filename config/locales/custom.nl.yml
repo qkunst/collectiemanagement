@@ -16,6 +16,10 @@ nl:
       zero: geen wijzigingen
       one: 1 wijziging
       other: ! '%{count} wijzigingen'
+    artists:
+      zero: geen vervaardigers
+      one: 1 vervaardiger
+      other: ! '%{count} vervaardigers'
   simple_form:
     include_blanks:
       theme:
@@ -164,7 +168,8 @@ nl:
           transgender: transgender
           intersex: intersexe
           genderqueer: genderqueer
-          na: Niet van toepassing
+          na: niet van toepassing
+          unknown: onbekend
       user:
         role:
           admin: Administrator

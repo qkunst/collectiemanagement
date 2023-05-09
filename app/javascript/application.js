@@ -34,11 +34,17 @@ import('./zxing/zxing_helper')
 const FormStore = require('./formstore.js').default;
 window.FormStore = FormStore;
 
+import { Application } from 'stimulus'
+import Chart from 'stimulus-chartjs'
 
-var collectieBeheerInit = function() {
+const application = Application.start()
+application.register('chart', Chart)
+
+
+var collectieBeheerInit = function () {
   FormStore.init();
 
-  function formatRepo (result) {
+  function formatRepo(result) {
     if (result.loading || !result.name) return result.text;
 
     var markup = "<div class='select2-result clearfix'><strong>" +
@@ -50,7 +56,7 @@ var collectieBeheerInit = function() {
     return markup;
   }
 
-  $(".select2").select2().on('select2:select', function(e){
+  $(".select2").select2().on('select2:select', function (e) {
     var $selectedElement = $(e.params.data.element);
     var $selectedElementOptgroup = $selectedElement.parent("optgroup");
 
@@ -60,7 +66,7 @@ var collectieBeheerInit = function() {
 
     $selectedElement.detach().appendTo($(e.target));
     $(e.target).trigger('change');
-  }).on('select2:unselect', function(e){
+  }).on('select2:unselect', function (e) {
 
   });
 
@@ -71,8 +77,8 @@ var collectieBeheerInit = function() {
       // You can find all of the options in the language files provided in the
       // build. They all must be functions that return the string that should be
       // displayed.
-      inputTooShort: function() {return "Begin met zoeken door te typen..." },
-      searching: function() { return "Bezig met zoeken..."}
+      inputTooShort: function () { return "Begin met zoeken door te typen..." },
+      searching: function () { return "Bezig met zoeken..." }
     },
     allowClear: true,
     ajax: {
@@ -80,11 +86,11 @@ var collectieBeheerInit = function() {
       dataType: 'json',
       delay: 250,
       transport: function (params, success, failure) {
-        fetch(params.url).then(function(response) {
+        fetch(params.url).then(function (response) {
           return response.json();
-        }).then(function(response) {
+        }).then(function (response) {
           return success(response);
-        }).catch(function(error) {
+        }).catch(function (error) {
           return failure(error);
         });
       },
@@ -97,7 +103,7 @@ var collectieBeheerInit = function() {
       processResults: function (data, params) {
         var subset = [];
 
-        var regex_start = RegExp("^"+params.term, 'i');
+        var regex_start = RegExp("^" + params.term, 'i');
         var regex_middle = RegExp(params.term, 'i');
 
         for (var dat in data) {
@@ -124,8 +130,8 @@ var collectieBeheerInit = function() {
       // You can find all of the options in the language files provided in the
       // build. They all must be functions that return the string that should be
       // displayed.
-      inputTooShort: function() {return "Begin met zoeken door te typen..." },
-      searching: function() { return "Bezig met zoeken..."}
+      inputTooShort: function () { return "Begin met zoeken door te typen..." },
+      searching: function () { return "Bezig met zoeken..." }
     },
     allowClear: true,
     ajax: {
@@ -157,22 +163,22 @@ var collectieBeheerInit = function() {
 
 window.collectieBeheerInit = collectieBeheerInit;
 
-$(document).on('click touch', ".tabs ul li a", function(e) {
+$(document).on('click touch', ".tabs ul li a", function (e) {
   $(".tabs ul li a").removeClass("selected");
   $(".tabs section").hide();
 
   var anchor = $(e.target).attr("href");
   $(e.target).addClass("selected");
-  $(".tabs section"+anchor).show();
+  $(".tabs section" + anchor).show();
   return false;
 });
 
 
-$(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function(event) {
+$(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=true], form[data-auto-submit=true] select[data-auto-submit=true]", function (event) {
   var form = $(event.target).parents("form[data-auto-submit=true]");
-  if (form[0].method=='get') {
+  if (form[0].method == 'get') {
     var action = form.attr("action");
-    var url = action+(action.indexOf('?') == -1 ? '?' : '&')+form.serialize();
+    var url = action + (action.indexOf('?') == -1 ? '?' : '&') + form.serialize();
     window.Turbo.visit(url);
     return false;
   } else if (form[0].method == 'post') {
@@ -180,19 +186,19 @@ $(document).on("change", "form[data-auto-submit=true] input[data-auto-submit=tru
   }
 })
 
-$(document).on("click keydown touch", "button[method=post]", function(e) {
+$(document).on("click keydown touch", "button[method=post]", function (e) {
   var form = $(e.target).parents("form[data-auto-submit=true]");
-  form.attr("method","post")
+  form.attr("method", "post")
 });
 
-$(document).on("click touch", ".collapsable li", function(e) {
+$(document).on("click touch", ".collapsable li", function (e) {
   var $target = $(e.target);
   if ($target.hasClass("expanded")) {
-    setTimeout(function(e){
+    setTimeout(function (e) {
       $target.removeClass("expanded");
     }, 100);
   } else {
-    setTimeout(function(e){
+    setTimeout(function (e) {
       $target.addClass("expanded");
     }, 100);
   }
@@ -201,24 +207,23 @@ $(document).on("click touch", ".collapsable li", function(e) {
 
 if (window.isSecureContext) {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', {scope: '/'})
-    .then(function(reg) {
-      // registration worked
-      console.log('Registration succeeded. Scope is ' + reg.scope);
-    }).catch(function(error) {
-      // registration failed
-      console.log('Registration failed with ', error);
-    });
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then(function (reg) {
+        // registration worked
+        console.log('Registration succeeded. Scope is ' + reg.scope);
+      }).catch(function (error) {
+        // registration failed
+        console.log('Registration failed with ', error);
+      });
   }
 } else {
   console.log('Not in secure context')
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
   collectieBeheerInit()
 })
 
-$(document).on("turbo:load", function(){
+$(document).on("turbo:load", function () {
   collectieBeheerInit()
 })
-
