@@ -5,9 +5,8 @@ require "sidekiq/web"
 Sidekiq::Web.set :sessions, false
 
 Rails.application.routes.draw do
-  get "report/index"
   get "application_status" => "status#application_status"
-  # config/routes.rb
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => "/sidekiq"
   end

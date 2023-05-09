@@ -49,6 +49,8 @@
     <% end %>
     <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
     <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+    <% if @artist.techniques.as_sentence != ""%><dt><%=Artist.human_attribute_name(:gender)%>:</dt><dd><dd><%= I18n.t @artist.gender, scope: "activerecord.values.artist.gender" %></dd><% end %>
+
     <% if @collection%>
       <% @artist.collection_attributes.for_collection(@collection.parent_collections_flattened + @collection.expand_with_child_collections).each do |collection_attribute| %>
         <dt title="<%=collection_attribute.label%> uit collectie <%=collection_attribute.collection.cached_collection_name_extended%>"><%=collection_attribute.label%>:</dt>
@@ -113,5 +115,3 @@
 <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-3">
 <%= render @works%>
 </ul>
-
-

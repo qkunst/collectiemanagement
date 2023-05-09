@@ -75,6 +75,10 @@ module ApplicationHelper
     end
   end
 
+  def translate_form_options collection, options = {}
+    collection.map { |a| [I18n.t(a, **options), a] }
+  end
+
   def menu_link_to desc, path, options = {}
     test_path = path.include?("//") ? path.sub("//", "").split("/")[1..1000].join("/") : path
     active = (options[:only_exact_path_match] && request.path.to_s == test_path.to_s) || (!options[:only_exact_path_match] && request.path.to_s.starts_with?(test_path.to_s))

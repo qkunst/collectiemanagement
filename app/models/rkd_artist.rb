@@ -95,7 +95,8 @@ class RkdArtist < ApplicationRecord
       first_name: first_name,
       place_of_death_geoname_id: place_of_death_geoname_id,
       place_of_birth_geoname_id: place_of_birth_geoname_id,
-      rkd_artist_id: rkd_id
+      rkd_artist_id: rkd_id,
+      gender: gender
     }
   end
 
@@ -138,6 +139,21 @@ class RkdArtist < ApplicationRecord
       artist.artist_involvements.new(inv)
     end
     artist
+  end
+
+  def gender_nl
+    api_response.dig("virtualFields", "hoofdTitel", "geslacht_nationaliteit", "contents").select { |a| a["name"] == "geslacht" }.pluck("value").join("/")
+  end
+
+  def gender
+    case gender_nl
+    when "man"
+      :man
+    when "vrouw"
+      :woman
+    when "groep"
+      :na
+    end
   end
 
   def substring

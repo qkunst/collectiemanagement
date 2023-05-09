@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_14_105945) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_09_101020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -68,6 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_105945) do
     t.bigint "replaced_by_artist_id"
     t.text "other_structured_data"
     t.text "old_data"
+    t.string "gender"
   end
 
   create_table "artists_attachments", id: false, force: :cascade do |t|
@@ -149,7 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_14_105945) do
     t.datetime "updated_at", precision: nil, null: false
     t.text "exposable_fields"
     t.text "description"
-    t.bigint "parent_collection_id", default: 1
+    t.bigint "parent_collection_id", default: 7
     t.string "label_override_work_alt_number_1"
     t.string "label_override_work_alt_number_2"
     t.string "label_override_work_alt_number_3"

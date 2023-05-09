@@ -166,7 +166,7 @@ class ArtistsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def artist_params
-    a_params = params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :artist_name, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id, collection_attributes_attributes: [:label, :value])
+    a_params = params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :artist_name, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id, :gender, collection_attributes_attributes: [:label, :value])
     a_params[:collection_attributes_attributes] = a_params[:collection_attributes_attributes].to_h.map { |k, v| [k, v.merge({collection_id: @collection.base_collection.id})] }.to_h if a_params[:collection_attributes_attributes]
     a_params
   end

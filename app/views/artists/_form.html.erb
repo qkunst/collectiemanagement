@@ -16,6 +16,7 @@
       <%= f.input :artist_name, required: false %>
     </div>
     <div class="large-2 medium-2 columns">
+      <%= f.input :gender, collection: translate_form_options(Artist::PREDEFINED_GENDER_VALUES, scope: "activerecord.values.artist.gender") %>
     </div>
     <div class="large-6 medium-6 columns">
     </div>

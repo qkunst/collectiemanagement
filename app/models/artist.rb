@@ -10,6 +10,7 @@
 #  date_of_death             :date
 #  description               :text
 #  first_name                :string
+#  gender                    :string
 #  geoname_ids_cache         :text
 #  last_name                 :string
 #  old_data                  :text
@@ -28,6 +29,8 @@
 #  rkd_artist_id             :bigint
 #
 class Artist < ApplicationRecord
+  PREDEFINED_GENDER_VALUES = %w[woman man nonbinary transgender intersex genderqueer na].freeze
+
   include MethodCache
   include Artist::NameRenderer
 

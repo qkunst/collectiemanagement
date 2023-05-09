@@ -156,6 +156,15 @@ nl:
       time_span: Gebeurtenis
       timespan: Gebeurtenis
     values:
+      artist:
+        gender:
+          woman: vrouw
+          man: man
+          nonbinary: non-binair
+          transgender: transgender
+          intersex: intersexe
+          genderqueer: genderqueer
+          na: Niet van toepassing
       user:
         role:
           admin: Administrator
@@ -292,6 +301,7 @@ nl:
         involvement: Betrekking
         date_of_birth: Geboortedatum
         date_of_death: Datum van overlijden
+        gender: Gender
       artist_involvement:
         involvement: Instelling
         start_year: Vanaf (jaar)
