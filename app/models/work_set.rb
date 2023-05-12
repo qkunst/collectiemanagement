@@ -25,7 +25,9 @@ class WorkSet < ApplicationRecord
 
   scope :accepts_appraisals, -> { joins(:work_set_type).where(work_set_types: {appraise_as_one: true}) }
   scope :count_as_one, -> { joins(:work_set_type).where(work_set_types: {count_as_one: true}) }
-  scope :for_collection, ->(collection) { joins(:works).where(works: {collection_id: (collection.self_and_parent_collections_flattened + collection.child_collections_flattened)}).distinct }
+  scope :for_unexpanded_collections, ->(collections) { joins(:works).where(works: {collection_id: collections}).distinct }
+  scope :for_collection, ->(collection) { for_unexpanded_collections(collection.self_and_parent_collections_flattened + collection.child_collections_flattened) }
+  scope :find_by_uuid_or_id, ->(uuid_or_id) { where(uuid: uuid_or_id).or(where(id: uuid_or_id)).first }
 
   alias_attribute :stock_number, :identification_number
 

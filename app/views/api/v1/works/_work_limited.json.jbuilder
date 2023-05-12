@@ -10,3 +10,11 @@ end
 # json.available work.available? # work_limited.json is only included in time_spans for now; so perhaps not needed; relatively expensive call
 
 json.url collection_work_url(work.collection_id, work.id)
+
+if defined?(current_active_time_span) && current_active_time_span && current_api_user.ability.can?(:read, TimeSpan)
+  json.current_active_time_span do
+    if work.current_active_time_span
+      json.partial! "api/v1/time_spans/time_span", locals: {time_span: work.current_active_time_span, work_context: true}
+    end
+  end
+end

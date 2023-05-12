@@ -127,6 +127,23 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    describe "#accessible_work_sets" do
+      it "should return all timespans for admin" do
+        u = users(:admin)
+        expect(u.accessible_work_sets.pluck(:id).sort).to eq(WorkSet.all.pluck(:id).sort)
+      end
+      it "should not return timespans for collection with works child user" do
+        u = users(:collection_with_works_child_user)
+        # root > collection1 > collection_with_works > collection_with_works_child
+        expect(u.accessible_work_sets.pluck(:id).sort).to be_empty
+      end
+      it "should return a timespan for qkunst_with_collection" do
+        u = users(:qkunst_with_collection)
+        expect(u.accessible_work_sets.pluck(:id).sort).to include(work_sets(:work_set_collection1).id)
+        expect(u.accessible_work_sets.pluck(:id).sort).not_to eq(WorkSet.all.pluck(:id).sort)
+      end
+    end
     describe "#collection_ids" do
       it "should return ids of collections" do
         expect(users(:qkunst_with_collection).collection_ids.sort).to eq(users(:qkunst_with_collection).collections.map(&:id).sort)

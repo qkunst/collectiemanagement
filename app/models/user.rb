@@ -135,6 +135,11 @@ class User < ApplicationRecord
     accessible_collections.sort_by(&:to_label)
   end
 
+  def accessible_work_sets
+    return WorkSet.all if admin?
+    WorkSet.for_unexpanded_collections(accessible_collections)
+  end
+
   def accessible_works
     return Work.all if admin?
     Work.where(collection_id: accessible_collections)
