@@ -547,6 +547,8 @@ GEM
     standard-performance (1.0.1)
       lint_roller (~> 1.0)
       rubocop-performance (~> 1.16.0)
+    stimulus-rails (1.2.1)
+      railties (>= 6.0.0)
     strip_attributes (1.13.0)
       activemodel (>= 3.0, < 8.0)
     thor (1.2.1)
@@ -650,6 +652,7 @@ DEPENDENCIES
   simplecov-cobertura
   stackprof
   standard
+  stimulus-rails
   strip_attributes
   web-console
   workbook!

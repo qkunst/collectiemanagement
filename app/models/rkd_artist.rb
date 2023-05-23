@@ -66,6 +66,30 @@ class RkdArtist < ApplicationRecord
   rescue
   end
 
+  def place_of_birth_doc
+    @place_of_birth_doc ||= api_response["_childDocuments_"]&.find { |a| a["string_type"] == "geboorte" }
+  end
+
+  def place_of_death_doc
+    @place_of_death_doc ||= api_response["_childDocuments_"]&.find { |a| a["string_type"] == "sterf" }
+  end
+
+  def place_of_birth_lat
+    place_of_birth_doc&.[]("float_min_lat")&.to_f
+  end
+
+  def place_of_birth_lon
+    place_of_birth_doc&.[]("float_min_lng")&.to_f
+  end
+
+  def place_of_death_lat
+    place_of_death_doc&.[]("float_min_lat")&.to_f
+  end
+
+  def place_of_death_lon
+    place_of_death_doc&.[]("float_min_lng")&.to_f
+  end
+
   def date_of_birth
     api_response["geboortedatum_eind"].to_date if api_response["geboortedatum_eind"].length > 4
   rescue
@@ -96,7 +120,11 @@ class RkdArtist < ApplicationRecord
       place_of_death_geoname_id: place_of_death_geoname_id,
       place_of_birth_geoname_id: place_of_birth_geoname_id,
       rkd_artist_id: rkd_id,
-      gender: gender
+      gender: gender,
+      place_of_birth_lat: place_of_birth_lat,
+      place_of_birth_lon: place_of_birth_lon,
+      place_of_death_lat: place_of_death_lat,
+      place_of_death_lon: place_of_death_lon
     }
   end
 

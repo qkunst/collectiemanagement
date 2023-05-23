@@ -11,9 +11,12 @@ class StatsController < ApplicationController
     @inventoried_objects_count = @collection.works_including_child_works.count
     @collection_works_count = @works_count = @collection.works_including_child_works.count_as_whole_works
     @artists_count = @collection.artists.count
-
+    @artists_birth_years_range = @collection.artists.where.not(year_of_birth: nil).pluck(:year_of_birth).sort
+    @artists_per_year_of_birth = tally_years_hash_to_chartjs_data(@artists_birth_years_range.tally)
+    @artists_birth_lat_lons = @collection.artists.where.not(place_of_birth_lat: nil, place_of_birth_lon: nil).pluck(:place_of_birth_lat, :place_of_birth_lon)
     @artists_gender_stats = artist_gender_stats
     @technique_stats = technique_stats
+    @categories_stats = categories_stats
     @object_creation_year_stats = object_creation_year_stats
   end
 
@@ -21,6 +24,10 @@ class StatsController < ApplicationController
 
   def technique_stats
     tally_hash_to_chartjs_data(works.left_outer_joins(:techniques).select("techniques.name").pluck(:name).map { |a| a.blank? ? "Onbekend" : a }.tally)
+  end
+
+  def categories_stats
+    tally_hash_to_chartjs_data(works.left_outer_joins(:object_categories).select("object_categories.name").pluck(:name).map { |a| a.blank? ? "Onbekend" : a }.tally)
   end
 
   def artist_gender_stats
@@ -36,10 +43,11 @@ class StatsController < ApplicationController
   def tally_years_hash_to_chartjs_data(tally)
     min_year = tally.keys.min.to_i
     max_year = tally.keys.max.to_i
-    zero_hash = (min_year - 1..max_year + 1).map { |year| [year, 0] }.to_h
+    zero_hash = ((min_year - 1)..(max_year + 1)).map { |year| [year, 0] }.to_h
     tally = zero_hash.merge(tally)
     labels = tally.keys
     data = tally.values
+
     {labels: labels, datasets: [data: data]}
   end
 

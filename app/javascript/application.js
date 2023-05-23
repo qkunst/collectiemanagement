@@ -1,3 +1,4 @@
+import "./controllers"
 const $ = require("jquery");
 window.$ = $;
 window.jQuery = $;

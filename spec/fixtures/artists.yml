@@ -14,7 +14,11 @@
 #  old_data                  :text
 #  other_structured_data     :text
 #  place_of_birth            :string
+#  place_of_birth_lat        :float
+#  place_of_birth_lon        :float
 #  place_of_death            :string
+#  place_of_death_lat        :float
+#  place_of_death_lon        :float
 #  prefix                    :string
 #  year_of_birth             :integer
 #  year_of_death             :integer

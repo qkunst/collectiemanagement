@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_09_101020) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_23_121050) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -69,6 +69,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_09_101020) do
     t.text "other_structured_data"
     t.text "old_data"
     t.string "gender"
+    t.float "place_of_death_lat"
+    t.float "place_of_death_lon"
+    t.float "place_of_birth_lat"
+    t.float "place_of_birth_lon"
   end
 
   create_table "artists_attachments", id: false, force: :cascade do |t|
@@ -348,13 +352,50 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_09_101020) do
     t.index ["admin_code"], name: "index_geonames_admindivs_on_admin_code"
   end
 
+  create_table "geonames_admins", force: :cascade do |t|
+    t.string "name"
+    t.string "asciiname"
+    t.string "country_code"
+    t.string "admin1_code"
+    t.string "admin2_code"
+    t.string "type"
+    t.string "asciiname_first_letters"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin1_code"], name: "index_geonames_admins_on_admin1_code"
+    t.index ["admin2_code"], name: "index_geonames_admins_on_admin2_code"
+    t.index ["asciiname"], name: "index_geonames_admins_on_asciiname"
+    t.index ["asciiname_first_letters"], name: "index_geonames_admins_on_asciiname_first_letters"
+    t.index ["country_code"], name: "index_geonames_admins_on_country_code"
+    t.index ["name"], name: "index_geonames_admins_on_name"
+    t.index ["type"], name: "index_geonames_admins_on_type"
+  end
+
+  create_table "geonames_alternate_names", force: :cascade do |t|
+    t.integer "alternate_name_id"
+    t.integer "geonameid"
+    t.string "isolanguage"
+    t.string "alternate_name"
+    t.boolean "is_preferred_name"
+    t.boolean "is_short_name"
+    t.boolean "is_colloquial"
+    t.boolean "is_historic"
+    t.string "alternate_name_first_letters"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alternate_name_first_letters"], name: "index_geonames_alternate_names_on_alternate_name_first_letters"
+    t.index ["alternate_name_id"], name: "index_geonames_alternate_names_on_alternate_name_id"
+    t.index ["geonameid"], name: "index_geonames_alternate_names_on_geonameid"
+    t.index ["isolanguage"], name: "index_geonames_alternate_names_on_isolanguage"
+  end
+
   create_table "geonames_countries", force: :cascade do |t|
     t.string "iso"
     t.string "iso3"
-    t.string "iso_num"
+    t.string "iso_numeric"
     t.string "fips"
-    t.string "country_name"
-    t.string "capital_name"
+    t.string "country"
+    t.string "capital"
     t.integer "area"
     t.integer "population"
     t.string "continent"
@@ -365,11 +406,61 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_09_101020) do
     t.string "postal_code_format"
     t.string "postal_code_regex"
     t.string "languages"
-    t.bigint "geoname_id"
+    t.bigint "geonameid"
     t.string "neighbours"
     t.string "equivalent_fips_code"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "geonames_features", force: :cascade do |t|
+    t.string "name"
+    t.string "asciiname"
+    t.text "alternatenames"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "feature_class"
+    t.string "feature_code"
+    t.string "country_code"
+    t.string "cc2"
+    t.string "admin1_code"
+    t.string "admin2_code"
+    t.string "admin3_code"
+    t.string "admin4_code"
+    t.integer "population"
+    t.integer "elevation"
+    t.integer "dem"
+    t.string "timezone"
+    t.datetime "modification", precision: nil
+    t.string "type"
+    t.string "asciiname_first_letters"
+    t.integer "admin1_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin1_code"], name: "index_geonames_features_on_admin1_code"
+    t.index ["asciiname"], name: "index_geonames_features_on_asciiname"
+    t.index ["asciiname_first_letters"], name: "index_geonames_features_on_asciiname_first_letters"
+    t.index ["country_code"], name: "index_geonames_features_on_country_code"
+    t.index ["name"], name: "index_geonames_features_on_name"
+    t.index ["population"], name: "index_geonames_features_on_population"
+    t.index ["type"], name: "index_geonames_features_on_type"
+  end
+
+  create_table "geonames_hierarchies", force: :cascade do |t|
+    t.integer "parentId"
+    t.integer "childId"
+    t.string "geo_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "geonames_iso_languagecodes", force: :cascade do |t|
+    t.string "iso_639_3"
+    t.string "iso_639_2"
+    t.string "iso_639_1"
+    t.string "language_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "ids_hashes", force: :cascade do |t|

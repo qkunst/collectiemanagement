@@ -58,5 +58,13 @@ RSpec.describe RkdArtist, type: :model do
       }
       assert_equal(expected, rkd_artist.to_artist_params)
     end
+    it "extracts geo for place of birth" do
+      expect(CachedApi).to receive(:query).and_return(JSON.parse(File.read(File.join(Rails.root, "spec", "fixtures", "rkd_api_full_response1.json"))))
+      rkd_artist = RkdArtist.get_rkd_artist_by_rkd_id(244)
+      expect(rkd_artist.place_of_birth_lat).to eq(51.9225)
+      expect(rkd_artist.place_of_birth_lon).to eq(4.47917)
+      expect(rkd_artist.place_of_death_lat).to eq(50.9225)
+      expect(rkd_artist.place_of_death_lon).to eq(3.47917)
+    end
   end
 end

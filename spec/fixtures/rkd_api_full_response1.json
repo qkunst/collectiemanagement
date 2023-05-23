@@ -1,0 +1,1623 @@
+{
+  "response": {
+    "numFound": 1,
+    "start": 0,
+    "docs": [
+      {
+        "_childDocuments_": [
+          {
+            "string_geboorteplaats": "Rotterdam (stad)",
+            "string_geboorteplaats_en": "Rotterdam (city)",
+            "geo_geboorteplaats": [
+              "51.9225,4.47917"
+            ],
+            "geo": [
+              "51.9225,4.47917"
+            ],
+            "geohash": [
+              "u15pmujwkpx"
+            ],
+            "geohash_level_0": [
+              "u"
+            ],
+            "geohash_level_1": [
+              "u1"
+            ],
+            "geohash_level_2": [
+              "u15"
+            ],
+            "geohash_level_3": [
+              "u15p"
+            ],
+            "geohash_level_4": [
+              "u15pm"
+            ],
+            "geohash_level_5": [
+              "u15pmu"
+            ],
+            "geohash_level_6": [
+              "u15pmuj"
+            ],
+            "geohash_level_7": [
+              "u15pmujw"
+            ],
+            "geohash_level_8": [
+              "u15pmujwk"
+            ],
+            "geohash_level_9": [
+              "u15pmujwkp"
+            ],
+            "geohash_level_10": [
+              "u15pmujwkpx"
+            ],
+            "float_min_lat": 51.9225,
+            "float_min_lng": 4.47917,
+            "float_max_lat": 51.9225,
+            "float_max_lng": 4.47917,
+            "id": "artists_244_401",
+            "priref": 244,
+            "database": "artists_child",
+            "string_type": "geboorte",
+            "tenant": "rkd",
+            "timestamp": "2023-05-01T09:36:00.215Z"
+          },
+          {
+            "string_sterfplaats": "Rotterdam (stad)",
+            "string_sterfplaats_en": "Rotterdam (city)",
+            "geo_sterfplaats": [
+              "51.9225,4.47917"
+            ],
+            "geo": [
+              "51.9225,4.47917"
+            ],
+            "geohash": [
+              "u15pmujwkpx"
+            ],
+            "geohash_level_0": [
+              "u"
+            ],
+            "geohash_level_1": [
+              "u1"
+            ],
+            "geohash_level_2": [
+              "u15"
+            ],
+            "geohash_level_3": [
+              "u15p"
+            ],
+            "geohash_level_4": [
+              "u15pm"
+            ],
+            "geohash_level_5": [
+              "u15pmu"
+            ],
+            "geohash_level_6": [
+              "u15pmuj"
+            ],
+            "geohash_level_7": [
+              "u15pmujw"
+            ],
+            "geohash_level_8": [
+              "u15pmujwk"
+            ],
+            "geohash_level_9": [
+              "u15pmujwkp"
+            ],
+            "geohash_level_10": [
+              "u15pmujwkpx"
+            ],
+            "float_min_lat": 50.9225,
+            "float_min_lng": 3.47917,
+            "float_max_lat": 51.9225,
+            "float_max_lng": 4.47917,
+            "id": "artists_244_402",
+            "priref": 244,
+            "database": "artists_child",
+            "string_type": "sterf",
+            "tenant": "rkd",
+            "timestamp": "2023-05-01T09:36:00.215Z"
+          },
+          {
+            "string_plaats_van_werkzaamheid": "Rotterdam (stad)",
+            "string_plaats_van_werkzaamheid_en": "Rotterdam (city)",
+            "string_plaats_van_werkzaamheid_bijzonderheid": "Scheen(1969-1970) and \u003c c.1967 - c.1997 \u003e (Jacobs 2000)\n1964: construction of first bronze foundry, 's-Gravenweg\n1965-1967: construction, design and completion of a sailing ship\n1969: build second bronze foundry, Oranjeboomstraat\n1985: house converted into studio, s' Gravendijkwal, Rotterdam\n1990: industrial (storage) building converted for RAM gallery, Hoornbrekerstraat, Rotterdam\n2000: design bronze foundry sCULpTUUR, Hoogvliet (Rotterdam), 2001: construction, chairman                           collective\n2001: RMI building converted for gallery RAM and Alsop architects, Blekerstraat, Rotterdam\n2006: renovation studio,Veilingweg, Rotterdam",
+            "string_plaats_v_werkzh_begindatum": "1961",
+            "string_plaats_v_werkzh_einddatum": "2018",
+            "geo_werkzaam": [
+              "51.9225,4.47917"
+            ],
+            "geo": [
+              "51.9225,4.47917"
+            ],
+            "geohash": [
+              "u15pmujwkpx"
+            ],
+            "geohash_level_0": [
+              "u"
+            ],
+            "geohash_level_1": [
+              "u1"
+            ],
+            "geohash_level_2": [
+              "u15"
+            ],
+            "geohash_level_3": [
+              "u15p"
+            ],
+            "geohash_level_4": [
+              "u15pm"
+            ],
+            "geohash_level_5": [
+              "u15pmu"
+            ],
+            "geohash_level_6": [
+              "u15pmuj"
+            ],
+            "geohash_level_7": [
+              "u15pmujw"
+            ],
+            "geohash_level_8": [
+              "u15pmujwk"
+            ],
+            "geohash_level_9": [
+              "u15pmujwkp"
+            ],
+            "geohash_level_10": [
+              "u15pmujwkpx"
+            ],
+            "float_min_lat": 51.9225,
+            "float_min_lng": 4.47917,
+            "float_max_lat": 51.9225,
+            "float_max_lng": 4.47917,
+            "id": "artists_244_403",
+            "priref": 244,
+            "database": "artists_child",
+            "string_type": "werkzaam",
+            "tenant": "rkd",
+            "timestamp": "2023-05-01T09:36:00.215Z"
+          },
+          {
+            "string_plaats_van_werkzaamheid": "Verenigde Staten van Amerika",
+            "string_plaats_van_werkzaamheid_en": "United States of America",
+            "string_plaats_van_werkzaamheid_bijzonderheid": "study trip",
+            "string_plaats_v_werkzh_begindatum": "1962",
+            "string_plaats_v_werkzh_einddatum": "1962",
+            "geo_werkzaam": [
+              "39.76, -98.5"
+            ],
+            "geo": [
+              "39.76, -98.5"
+            ],
+            "geohash": [
+              "9z1fnw46z9h"
+            ],
+            "geohash_level_0": [
+              "9"
+            ],
+            "geohash_level_1": [
+              "9z"
+            ],
+            "geohash_level_2": [
+              "9z1"
+            ],
+            "geohash_level_3": [
+              "9z1f"
+            ],
+            "geohash_level_4": [
+              "9z1fn"
+            ],
+            "geohash_level_5": [
+              "9z1fnw"
+            ],
+            "geohash_level_6": [
+              "9z1fnw4"
+            ],
+            "geohash_level_7": [
+              "9z1fnw46"
+            ],
+            "geohash_level_8": [
+              "9z1fnw46z"
+            ],
+            "geohash_level_9": [
+              "9z1fnw46z9"
+            ],
+            "geohash_level_10": [
+              "9z1fnw46z9h"
+            ],
+            "float_min_lat": 39.76,
+            "float_min_lng": -98.5,
+            "float_max_lat": 39.76,
+            "float_max_lng": -98.5,
+            "id": "artists_244_404",
+            "priref": 244,
+            "database": "artists_child",
+            "string_type": "werkzaam",
+            "tenant": "rkd",
+            "timestamp": "2023-05-01T09:36:00.215Z"
+          },
+          {
+            "string_plaats_van_werkzaamheid": "Frankrijk",
+            "string_plaats_van_werkzaamheid_en": "France",
+            "string_plaats_van_werkzaamheid_bijzonderheid": "lived and worked in Rotterdam and France (Salernes), \ndesigned (and built) several houses with a studio in Salernes (1980/1985, 2001/2012, 2006)",
+            "string_plaats_v_werkzh_begindatum": "1980",
+            "string_plaats_v_werkzh_einddatum": "2018",
+            "geo_werkzaam": [
+              "46, 2"
+            ],
+            "geo": [
+              "46, 2"
+            ],
+            "geohash": [
+              "u01mtw037ms"
+            ],
+            "geohash_level_0": [
+              "u"
+            ],
+            "geohash_level_1": [
+              "u0"
+            ],
+            "geohash_level_2": [
+              "u01"
+            ],
+            "geohash_level_3": [
+              "u01m"
+            ],
+            "geohash_level_4": [
+              "u01mt"
+            ],
+            "geohash_level_5": [
+              "u01mtw"
+            ],
+            "geohash_level_6": [
+              "u01mtw0"
+            ],
+            "geohash_level_7": [
+              "u01mtw03"
+            ],
+            "geohash_level_8": [
+              "u01mtw037"
+            ],
+            "geohash_level_9": [
+              "u01mtw037m"
+            ],
+            "geohash_level_10": [
+              "u01mtw037ms"
+            ],
+            "float_min_lat": 46,
+            "float_min_lng": 2,
+            "float_max_lat": 46,
+            "float_max_lng": 2,
+            "id": "artists_244_405",
+            "priref": 244,
+            "database": "artists_child",
+            "string_type": "werkzaam",
+            "tenant": "rkd",
+            "timestamp": "2023-05-01T09:36:00.215Z"
+          }
+        ],
+        "id": "artists_244",
+        "priref": 244,
+        "allowedproductstrings": [
+          "DOWNLOAD"
+        ],
+        "database": "artists",
+        "modification": "2023-03-30T08:11:43Z",
+        "kunstenaarsnaam": "Abramsen, Per",
+        "kunstenaarsnaam_engels": null,
+        "voorkeursnaam": "x",
+        "geslacht": "m",
+        "nationaliteit": [
+          "Nederlands"
+        ],
+        "nationaliteit_search": [
+          "Nederlands",
+          "stijlen en perioden (guideterm)",
+          "Europees",
+          "topterm onderwerpstrefwoorden",
+          "topterm nationaliteit"
+        ],
+        "nationaliteit_lref": [
+          1
+        ],
+        "opmerking_nationaliteit": [],
+        "voorkeursnaam_naam": null,
+        "spellingsvariant": [
+          "Abramsen, Perry",
+          "Abramsen, Pieter"
+        ],
+        "opmerking_kunstenaarsnaam_var": [],
+        "zie_ook": [],
+        "opmerking_groep_samenwerking": null,
+        "familierelatie": [],
+        "monogram": [],
+        "monogrammeert_als": [],
+        "opmerking_monogrammeert_als": null,
+        "permutatie_monogram": [],
+        "opmerking_permutatie_monogram": null,
+        "geboorteplaats_lref": [
+          30
+        ],
+        "geboorteplaats": [
+          "Rotterdam (stad)"
+        ],
+        "geboorteplaats_search": [
+          "Rotterdam (stad)",
+          "Europa",
+          "Aarde",
+          "topterm plaats",
+          "Nederland",
+          "Zuid-Holland (prov.)",
+          "West-Europa",
+          "Rotterdam (gemeente)"
+        ],
+        "geboortedatum_begin": "1941-03-27",
+        "geboortedatum_eind": "1941-03-27",
+        "geboorte_bijzonderheid": [],
+        "label_geboortedatum": [
+          "1925-1949"
+        ],
+        "label_geboortedatum_lref": [
+          57797
+        ],
+        "sterfplaats": [
+          "Rotterdam (stad)"
+        ],
+        "sterfplaats_search": [
+          "Rotterdam (stad)",
+          "Europa",
+          "Aarde",
+          "topterm plaats",
+          "Nederland",
+          "Zuid-Holland (prov.)",
+          "West-Europa",
+          "Rotterdam (gemeente)"
+        ],
+        "sterfplaats_lref": [
+          30
+        ],
+        "sterfdatum_begin": "2018-03-13",
+        "sterfdatum_eind": "2018-03-13",
+        "sterfdata_plaats_bijzonderheid": [
+          "NRC: 28-03-2018"
+        ],
+        "label_sterfdatum": [
+          "2000-2024"
+        ],
+        "label_sterfdatum_lref": [
+          35142
+        ],
+        "werkzame_periode_begin": [],
+        "werkzame_periode_eind": [],
+        "werkzame_periode_bijzonderheid": [],
+        "label_periode_werkzaamheid": [
+          "2000-2024"
+        ],
+        "label_periode_werkzaamh_lref": [
+          35135,
+          35138,
+          35142
+        ],
+        "werkzaamheid": [
+          {
+            "plaats_v_werkzh_begindatum": "1961",
+            "plaats_v_werkzh_bijzonderheid": "Scheen(1969-1970) and \u003c c.1967 - c.1997 \u003e (Jacobs 2000)\n1964: construction of first bronze foundry, 's-Gravenweg\n1965-1967: construction, design and completion of a sailing ship\n1969: build second bronze foundry, Oranjeboomstraat\n1985: house converted into studio, s' Gravendijkwal, Rotterdam\n1990: industrial (storage) building converted for RAM gallery, Hoornbrekerstraat, Rotterdam\n2000: design bronze foundry sCULpTUUR, Hoogvliet (Rotterdam), 2001: construction, chairman                           collective\n2001: RMI building converted for gallery RAM and Alsop architects, Blekerstraat, Rotterdam\n2006: renovation studio,Veilingweg, Rotterdam",
+            "plaats_v_werkzh_einddatum": "2018",
+            "plaats_van_werkzaamheid_en": "Rotterdam (city)",
+            "plaats_van_werkzaamheid": "Rotterdam (stad)",
+            "plaats_van_werkzaamheid_geocoordinaat_decimaal": "51.9225,4.47917",
+            "plaats_van_werkzaamheid_linkref": "30",
+            "plaats_van_werkzaamheid_link": "/nl/explore/thesaurus?term=30\u0026domain=PLAATS",
+            "plaats_van_werkzaamheid_link_type": "thesaurus",
+            "period_display": "1961 - 2018"
+          },
+          {
+            "plaats_v_werkzh_begindatum": "1962",
+            "plaats_v_werkzh_bijzonderheid": "study trip",
+            "plaats_v_werkzh_einddatum": "1962",
+            "plaats_van_werkzaamheid_en": "United States of America",
+            "plaats_van_werkzaamheid": "Verenigde Staten van Amerika",
+            "plaats_van_werkzaamheid_geocoordinaat_decimaal": "39.76, -98.5",
+            "plaats_van_werkzaamheid_linkref": "1634",
+            "plaats_van_werkzaamheid_link": "/nl/explore/thesaurus?term=1634\u0026domain=PLAATS",
+            "plaats_van_werkzaamheid_link_type": "thesaurus",
+            "period_display": "1962"
+          },
+          {
+            "plaats_v_werkzh_begindatum": "1980",
+            "plaats_v_werkzh_bijzonderheid": "lived and worked in Rotterdam and France (Salernes), \ndesigned (and built) several houses with a studio in Salernes (1980/1985, 2001/2012, 2006)",
+            "plaats_v_werkzh_einddatum": "2018",
+            "plaats_van_werkzaamheid_en": "France",
+            "plaats_van_werkzaamheid": "Frankrijk",
+            "plaats_van_werkzaamheid_geocoordinaat_decimaal": "46, 2",
+            "plaats_van_werkzaamheid_linkref": "455",
+            "plaats_van_werkzaamheid_link": "/nl/explore/thesaurus?term=455\u0026domain=PLAATS",
+            "plaats_van_werkzaamheid_link_type": "thesaurus",
+            "period_display": "1980 - 2018"
+          }
+        ],
+        "afbeeldingsnummer_rkd_picturae_mapping": [],
+        "picturae_images": [],
+        "plaats_van_werkzaamheid_lref": [],
+        "plaats_van_werkzaamheid": [
+          "Rotterdam (stad)",
+          "Verenigde Staten van Amerika",
+          "Frankrijk"
+        ],
+        "plaats_van_werkzaamheid_search": [
+          "Rotterdam (stad)",
+          "Europa",
+          "Aarde",
+          "topterm plaats",
+          "Nederland",
+          "Zuid-Holland (prov.)",
+          "West-Europa",
+          "Rotterdam (gemeente)",
+          "Verenigde Staten van Amerika",
+          "USA",
+          "Amerika",
+          "Noord-Amerika",
+          "Frankrijk"
+        ],
+        "plaats_van_werkzaamheid_linkref": [
+          30,
+          1634,
+          455
+        ],
+        "kwalificatie": [
+          "beeldhouwer",
+          "monumentaal kunstenaar",
+          "ontwerper"
+        ],
+        "kwalificatie_lref": [
+          12,
+          71,
+          3115
+        ],
+        "kwalificatie_search": [
+          "beeldhouwer",
+          "topterm kwalificatie archief",
+          "persoon naar beroep (guideterm)",
+          "persoon",
+          "persoon in de kunsten (guideterm)",
+          "topterm kwalificatie",
+          "actoren en organismen (guideterm)",
+          "kunstenaar",
+          "topterm onderwerpstrefwoorden",
+          "monumentaal kunstenaar",
+          "ontwerper",
+          "vormgever"
+        ],
+        "opmerking_kwalificatie": null,
+        "materiaal": [
+          "brons"
+        ],
+        "materiaal_lref": [
+          37460
+        ],
+        "materiaal_search": [
+          "brons",
+          "anorganisch materiaal",
+          "materiaal",
+          "topterm lijstmateriaal",
+          "topterm drager",
+          "metaal",
+          "topterm materiaal/techniek",
+          "topterm onderwerpstrefwoorden"
+        ],
+        "opmerking_materiaal": "worked for a time on a bronze foundry",
+        "product": [],
+        "product_lref": [],
+        "product_search": [],
+        "opmerking_product": null,
+        "onderwerp_werkvorm": [
+          "abstractie"
+        ],
+        "onderwerp_werkvorm_search": [
+          "non-figuratief",
+          "abstractie",
+          "onderwerp naar genre (guideterm)",
+          "abstract begrip (guideterm)",
+          "begrippen in de kunst (guideterm)",
+          "expressievorm",
+          "topterm genre",
+          "topterm onderwerpstrefwoorden"
+        ],
+        "onderwerp_werkvorm_lref": [
+          30213
+        ],
+        "opmerking_onderwerp_werkvorm": null,
+        "leerling_van": [
+          "Kaas, Jaap"
+        ],
+        "opmerking_leerling_leraar": "taught at the Academy of Visual Arts (Rotterdam) since 1945",
+        "leraar_van": [],
+        "opmerking_leraar_van": null,
+        "nagevolgd_door": [],
+        "opmerking_navolging": null,
+        "navolger_van": [],
+        "opmerking_navolger_van": null,
+        "beinvloed_door": [],
+        "opmerking_beinvloed_door": [],
+        "invloed_op": [],
+        "opmerking_invloed": null,
+        "school_stroming": [],
+        "school_stroming_search": [],
+        "school_stroming_lref": [],
+        "opmerking_school_stroming": null,
+        "academies": [
+          {
+            "academie_en": "Academie voor Beeldende Kunsten (Rotterdam)",
+            "academie": "Academie voor Beeldende Kunsten (Rotterdam)",
+            "academie_linkref": "28251",
+            "opmerking_academie": "1957-1961"
+          }
+        ],
+        "academie": [
+          "Academie voor Beeldende Kunsten (Rotterdam)"
+        ],
+        "academie_linkref": [
+          28251
+        ],
+        "academie_search": [
+          "Academie voor Beeldende Kunsten (Rotterdam)",
+          "Nederland: opleiding",
+          "Hogeschool Rotterdam",
+          "topterm opleiding",
+          "Europa: opleiding",
+          "Zuid-Holland: opleiding",
+          "Rotterdam: opleiding"
+        ],
+        "opmerking_academie": [
+          "1957-1961"
+        ],
+        "vereniging": [
+          {
+            "vereniging_lid_en": "Nederlandse Kring van Beeldhouwers NKVB",
+            "vereniging_lid": "Nederlandse Kring van Beeldhouwers NKVB",
+            "vereniging_lid_lref": "42736"
+          },
+          {
+            "vereniging_lid_en": "CBK Rotterdam",
+            "vereniging_lid": "CBK Rotterdam",
+            "vereniging_lid_lref": "92673"
+          },
+          {
+            "vereniging_lid_en": "Rotterdam: association",
+            "vereniging_lid": "Rotterdam: vereniging",
+            "vereniging_lid_lref": "59342",
+            "vereniging_opm": "1984: founder and chairman of STEK, artists' initiative, Ommoordseweg\n1988: realized the renovation and construction of STEK, 3 exhibition spaces and a guest house"
+          }
+        ],
+        "vereniging_lid": [
+          "Nederlandse Kring van Beeldhouwers NKVB",
+          "CBK Rotterdam",
+          "Rotterdam: vereniging"
+        ],
+        "vereniging_lid_lref": [
+          42736,
+          92673,
+          59342
+        ],
+        "vereniging_lid_search": [
+          "Nederlandse Kring van Beeldhouwers NKVB",
+          "NKVB",
+          "Europa: vereniging",
+          "topterm vereniging",
+          "Nederland: vereniging",
+          "Nederland: vereniging (landelijk)",
+          "CBK Rotterdam",
+          "Nederland: vereniging (regionaal)",
+          "Rotterdam: vereniging",
+          "Zuid-Holland: vereniging"
+        ],
+        "l_academie": [],
+        "leraar_academie": [],
+        "leraar_academie_linkref": [],
+        "leraar_academie_search": [],
+        "opmerking_leraar_academie": [],
+        "winnaar": [
+          {
+            "opmerking_winnaar_van": "2e cultuurprijs 1965",
+            "winnaar_linkref": "45784",
+            "winnaar_van_prijs_en": "EMS Culture Prize",
+            "winnaar_van_prijs": "EMS Cultuurprijs"
+          },
+          {
+            "opmerking_winnaar_van": "1987 Den Hartogprijs, Den Haag"
+          }
+        ],
+        "winnaar_linkref": [
+          45784
+        ],
+        "winnaar_van_prijs": [
+          "EMS Cultuurprijs"
+        ],
+        "winnaar_van_prijs_search": [
+          "EMS Cultuurprijs",
+          "topterm kunstprijs"
+        ],
+        "winnaar_van_prijs_linkref": [],
+        "bronnen": [
+          {
+            "bron_deel_pag": "vol. 1, p. 4",
+            "bron_literatuur": "Scheen 1969-1970",
+            "bron_literatuur_linkref": "107586",
+            "bron_opmerking": "as: Abramsen, Pieter ('Perry');*"
+          },
+          {
+            "bron_literatuur": "Jacobs 1993",
+            "bron_literatuur_linkref": "6099"
+          },
+          {
+            "bron_deel_pag": "vol. 1, p. 27",
+            "bron_literatuur": "Jacobs 2000",
+            "bron_literatuur_linkref": "6095"
+          }
+        ],
+        "literatuur": [],
+        "bronnen_overig": [
+          "archief Fonds BKVB",
+          "www.rotterdamsekunstenaars.nl (2016)",
+          "Overleden NKvB-leden: Per Abramsen (1941 - 2018)"
+        ],
+        "standplaats": [
+          "MHK/Dia's",
+          "BD/RKD/1604 - MHK/Ned./Beeldhouwkunst",
+          "BD/RKD/1640 - MHK/Ned./Kunstenaarsportretten",
+          "MHK/Ned./Monumentale Kunst/Overige technieken",
+          "PDO/Nederlandse kunstenaars"
+        ],
+        "standplaats_lref": [
+          33477,
+          28814,
+          32806,
+          26562,
+          28127
+        ],
+        "standplaats_search": [
+          "MHK/Dia's",
+          "BD/RKD/1604 - MHK/Ned./Beeldhouwkunst",
+          "BD/RKD/1640 - MHK/Ned./Kunstenaarsportretten",
+          "MHK/Ned./Monumentale Kunst/Overige technieken",
+          "PDO/Nederlandse kunstenaars"
+        ],
+        "opmerking_standplaats": [
+          "Samenwerking  P. Abramsen met I. Kruit, zie MHK/mk/overige techn. op: Abramsen, P."
+        ],
+        "opmerking_algemeen": [],
+        "urls": [
+          {
+            "URL": "http://www.perabramsen.com"
+          }
+        ],
+        "archiefint": [
+          {
+            "standplaats_archief": "beelddocumentatie Stichting Fonds voor beeldende kunsten, vormgeving en bouwkunst (Fonds BKVB)",
+            "standplaats_archief_lref": "557",
+            "standplaats_archief_link": "/nl/explore/collections/557",
+            "standplaats_archief_link_type": "recordlink collections"
+          }
+        ],
+        "standplaats_archief": [
+          "beelddocumentatie Stichting Fonds voor beeldende kunsten, vormgeving en bouwkunst (Fonds BKVB)"
+        ],
+        "standplaats_archief_lref": [
+          557
+        ],
+        "project": [],
+        "project_search": [],
+        "project_lref": [],
+        "copyright": [],
+        "archieflocatie": [],
+        "collectienaam": null,
+        "collectienaam_linkref": null,
+        "auteur": null,
+        "auteur_linkref": null,
+        "domein": [],
+        "kunstwerk": [],
+        "gewijzigd_op": "2023-03-30",
+        "ingevoerd_op": "1990-10-29",
+        "periode": [
+          1961,
+          1962,
+          1963,
+          1964,
+          1965,
+          1966,
+          1967,
+          1968,
+          1969,
+          1970,
+          1971,
+          1972,
+          1973,
+          1974,
+          1975,
+          1976,
+          1977,
+          1978,
+          1979,
+          1980,
+          1981,
+          1982,
+          1983,
+          1984,
+          1985,
+          1986,
+          1987,
+          1988,
+          1989,
+          1990,
+          1991,
+          1992,
+          1993,
+          1994,
+          1995,
+          1996,
+          1997,
+          1998,
+          1999,
+          2000,
+          2001,
+          2002,
+          2003,
+          2004,
+          2005,
+          2006,
+          2007,
+          2008,
+          2009,
+          2010,
+          2011,
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018
+        ],
+        "plaatsen": [
+          "Rotterdam (stad)",
+          "Verenigde Staten van Amerika",
+          "Frankrijk"
+        ],
+        "plaatsen_search": [
+          "Rotterdam (stad)",
+          "Europa",
+          "Aarde",
+          "topterm plaats",
+          "Nederland",
+          "Zuid-Holland (prov.)",
+          "West-Europa",
+          "Rotterdam (gemeente)",
+          "Verenigde Staten van Amerika",
+          "USA",
+          "Amerika",
+          "Noord-Amerika",
+          "Frankrijk"
+        ],
+        "sort_name": "Abramsen, Per",
+        "controle_redactie": null,
+        "results_in_other_databases": {
+          "collections_trefwoord_persoon": {
+            "displayDatabase": "RKDcollections",
+            "field": "kunstenaarsnaam",
+            "filterField": "inhoudelijke_beschr.trefw.pers",
+            "filterFieldSolr": "tstrings_collections_inhoudelijke_beschr.trefw.pers",
+            "database": "collections",
+            "displayRole": null,
+            "count": 0
+          },
+          "images_kunstenaar": {
+            "displayDatabase": "RKDimages",
+            "field": "kunstenaarsnaam",
+            "filterField": "kunstenaar",
+            "filterFieldSolr": "tstrings_images_naam",
+            "database": "images",
+            "displayRole": "kunstenaar",
+            "count": 0
+          },
+          "library_onderwerp": {
+            "displayDatabase": "RKDlibrary",
+            "field": "kunstenaarsnaam",
+            "filterField": "artist",
+            "filterFieldSolr": "tstrings_library_artist",
+            "database": "library",
+            "displayRole": "onderwerp",
+            "count": 12
+          },
+          "library_illustrator": {
+            "displayDatabase": "RKDlibrary",
+            "field": "kunstenaarsnaam",
+            "filterField": "illustrator.name",
+            "filterFieldSolr": "tstrings_library_illustrator.name_search",
+            "database": "library",
+            "displayRole": "illustrator",
+            "count": 0
+          },
+          "excerpts_artists": {
+            "displayDatabase": "RKDexcerpts",
+            "field": "kunstenaarsnaam",
+            "filterField": "kunstenaar",
+            "filterFieldSolr": "strings_excerpts_kunstenaar",
+            "database": "excerpts",
+            "displayRole": "kunstenaar",
+            "count": 0
+          },
+          "technical_researcher": {
+            "displayDatabase": "RKDtechnical",
+            "field": "kunstenaarsnaam",
+            "filterField": "research.researcher",
+            "filterFieldSolr": "strings_technical_research.researcher",
+            "database": "technical",
+            "displayRole": "researcher",
+            "count": 0
+          },
+          "technical_artist": {
+            "displayDatabase": "RKDtechnical",
+            "field": "kunstenaarsnaam",
+            "filterField": "link_object_record_naam",
+            "filterFieldSolr": "tstrings_technical_link_object_record_naam",
+            "database": "technical",
+            "displayRole": "researched_artist",
+            "count": 0
+          }
+        },
+        "detail_url": null,
+        "geboortedatum_display": "1941-03-27",
+        "werkzame_periode_display": false,
+        "permalink": "https://rkd.nl/explore/artists/244",
+        "opensearchPermalink": "https://rkd.nl/opensearch-eac-cpf?q=kunstenaarsnummer:244",
+        "virtualFields": {
+          "hoofdTitel": {
+            "kunstenaarsnaam": {
+              "label": "Voorkeursnaam",
+              "contents": "Per Abramsen"
+            },
+            "voorkeursnaam_naam": {
+              "label": "Zie voorkeursnaam",
+              "contents": null
+            },
+            "geslacht_nationaliteit": {
+              "contents": [
+                {
+                  "type": "field",
+                  "name": "geslacht",
+                  "value": "man"
+                },
+                {
+                  "type": "concat",
+                  "value": " "
+                },
+                {
+                  "type": "concat",
+                  "value": "/"
+                },
+                {
+                  "type": "concat",
+                  "value": " "
+                }
+              ]
+            },
+            "opmerking_nationaliteit": {
+              "contents": []
+            },
+            "kwalificaties": {
+              "contents": [
+                {
+                  "type": "field",
+                  "name": "kwalificatie",
+                  "value": "beeldhouwer"
+                },
+                {
+                  "type": "concat",
+                  "name": "",
+                  "value": ", "
+                },
+                {
+                  "type": "field",
+                  "name": "kwalificatie",
+                  "value": "monumentaal kunstenaar"
+                },
+                {
+                  "type": "concat",
+                  "name": "",
+                  "value": ", "
+                },
+                {
+                  "type": "field",
+                  "name": "kwalificatie",
+                  "value": "ontwerper"
+                }
+              ]
+            },
+            "opmerking_kwalificatie": {
+              "contents": null
+            }
+          },
+          "naamsvarianten": {
+            "label": "Naamsvarianten",
+            "contents": {
+              "spellingsvarianten": {
+                "contents": [
+                  "Abramsen, Perry",
+                  "Abramsen, Pieter"
+                ]
+              },
+              "opmerkingen": {
+                "contents": []
+              }
+            }
+          },
+          "monogram": {
+            "contents": {
+              "monogrammeert_als": {
+                "label": "Monogrammeert als",
+                "contents": {
+                  "monogrammeert_als": {
+                    "contents": []
+                  },
+                  "opmerking": {
+                    "contents": null
+                  }
+                }
+              },
+              "permutatie": {
+                "label": "Permutatie",
+                "contents": {
+                  "permutatie_monogram": {
+                    "contents": []
+                  },
+                  "opmerking_permutatie_monogram": {
+                    "contents": null
+                  }
+                }
+              }
+            }
+          },
+          "geboorte_sterf": {
+            "contents": {
+              "geboorte": {
+                "label": "Geboren",
+                "contents": [
+                  {
+                    "type": "field",
+                    "value": "1941-03-27"
+                  }
+                ]
+              },
+              "gestorven": {
+                "label": "Gestorven",
+                "contents": [
+                  {
+                    "type": "field",
+                    "value": "2018-03-13",
+                    "field": "sterfdatum_begin"
+                  },
+                  {
+                    "type": "concat",
+                    "value": " "
+                  }
+                ]
+              },
+              "gestorven_bijzonderheden": {
+                "contents": [
+                  "NRC: 28-03-2018"
+                ]
+              }
+            }
+          },
+          "familierelatie": {
+            "label": "Familierelatie",
+            "contents": []
+          },
+          "zie_ook": {
+            "label": "Zie ook",
+            "contents": []
+          },
+          "werkzame_periode": {
+            "label": "Werkzame periode",
+            "contents": {
+              "periode": {
+                "contents": []
+              },
+              "bijzonderheden": {
+                "contents": []
+              }
+            }
+          },
+          "academies": {
+            "label": "Opleiding",
+            "contents": [
+              {
+                "academie": "Academie voor Beeldende Kunsten (Rotterdam)",
+                "opmerking": "1957-1961"
+              }
+            ]
+          },
+          "werkzaam_in": {
+            "label": "Werkzaam in",
+            "contents": {
+              "werkzaamheden": [
+                {
+                  "plaats_datum": {
+                    "contents": [
+                      {
+                        "type": "field",
+                        "value": "Rotterdam (stad)"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " "
+                      },
+                      {
+                        "type": "field",
+                        "value": "Rotterdam (stad)"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " - "
+                      },
+                      {
+                        "type": "field",
+                        "name": "einddatum",
+                        "value": "2018"
+                      }
+                    ]
+                  },
+                  "bijzonderheid": {
+                    "contents": "Scheen(1969-1970) and \u003c c.1967 - c.1997 \u003e (Jacobs 2000)\n1964: construction of first bronze foundry, 's-Gravenweg\n1965-1967: construction, design and completion of a sailing ship\n1969: build second bronze foundry, Oranjeboomstraat\n1985: house converted into studio, s' Gravendijkwal, Rotterdam\n1990: industrial (storage) building converted for RAM gallery, Hoornbrekerstraat, Rotterdam\n2000: design bronze foundry sCULpTUUR, Hoogvliet (Rotterdam), 2001: construction, chairman                           collective\n2001: RMI building converted for gallery RAM and Alsop architects, Blekerstraat, Rotterdam\n2006: renovation studio,Veilingweg, Rotterdam"
+                  }
+                },
+                {
+                  "plaats_datum": {
+                    "contents": [
+                      {
+                        "type": "field",
+                        "value": "Verenigde Staten van Amerika"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " "
+                      },
+                      {
+                        "type": "field",
+                        "value": "Verenigde Staten van Amerika"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " - "
+                      },
+                      {
+                        "type": "field",
+                        "name": "einddatum",
+                        "value": "1962"
+                      }
+                    ]
+                  },
+                  "bijzonderheid": {
+                    "contents": "study trip"
+                  }
+                },
+                {
+                  "plaats_datum": {
+                    "contents": [
+                      {
+                        "type": "field",
+                        "value": "Frankrijk"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " "
+                      },
+                      {
+                        "type": "field",
+                        "value": "Frankrijk"
+                      },
+                      {
+                        "type": "concat",
+                        "value": " - "
+                      },
+                      {
+                        "type": "field",
+                        "name": "einddatum",
+                        "value": "2018"
+                      }
+                    ]
+                  },
+                  "bijzonderheid": {
+                    "contents": "lived and worked in Rotterdam and France (Salernes), \ndesigned (and built) several houses with a studio in Salernes (1980/1985, 2001/2012, 2006)"
+                  }
+                }
+              ]
+            }
+          },
+          "leraar_aan": {
+            "label": "Leraar aan",
+            "contents": []
+          },
+          "relaties_met_andere_kunstenaars": {
+            "label": "Relaties met andere kunstenaars",
+            "contents": {
+              "leerling_van": {
+                "label": "Leerling van",
+                "contents": [
+                  "Kaas, Jaap"
+                ]
+              },
+              "opmerking_leerling_leraar": {
+                "contents": "taught at the Academy of Visual Arts (Rotterdam) since 1945"
+              },
+              "leraar_van": {
+                "label": "Leraar van",
+                "contents": []
+              },
+              "opmerking_leraar_van": {
+                "contents": null
+              },
+              "navolger_van": {
+                "label": "Navolger van",
+                "contents": []
+              },
+              "opmerking_navolger_van": {
+                "contents": null
+              },
+              "nagevolgd_door": {
+                "label": "Nagevolgd door",
+                "contents": []
+              },
+              "opmerking_navolging": {
+                "contents": null
+              },
+              "beinvloed_door": {
+                "contents": []
+              },
+              "opmerking_beinvloed_door": {
+                "contents": []
+              },
+              "invloed_op": {
+                "contents": []
+              },
+              "opmerking_invloed_op": {
+                "contents": null
+              }
+            }
+          },
+          "onderwerpen": {
+            "label": "Onderwerpen",
+            "contents": {
+              "werkvormen": {
+                "contents": [
+                  "abstractie"
+                ]
+              },
+              "opmerking": {
+                "contents": null
+              }
+            }
+          },
+          "materialen": {
+            "contents": {
+              "materialen": {
+                "label": "Materialen",
+                "contents": [
+                  {
+                    "type": "field",
+                    "name": "materiaal",
+                    "value": "brons"
+                  }
+                ]
+              },
+              "opmerking_materialen": {
+                "contents": "worked for a time on a bronze foundry"
+              },
+              "producten": {
+                "label": "Producten",
+                "contents": []
+              },
+              "opmerking_producten": {
+                "contents": null
+              }
+            }
+          },
+          "stroming": {
+            "contents": {
+              "stromingen": {
+                "label": "Stroming",
+                "contents": []
+              },
+              "opmerking": {
+                "contents": null
+              }
+            }
+          },
+          "prijzen": {
+            "contents": [
+              {
+                "prijs": "EMS Cultuurprijs",
+                "opmerking": "2e cultuurprijs 1965"
+              },
+              {
+                "prijs": null,
+                "opmerking": "1987 Den Hartogprijs, Den Haag"
+              }
+            ],
+            "label": "Prijzen"
+          },
+          "lid_van": {
+            "contents": [
+              {
+                "naam": "Nederlandse Kring van Beeldhouwers NKVB",
+                "opmerking": null
+              },
+              {
+                "naam": "CBK Rotterdam",
+                "opmerking": null
+              },
+              {
+                "naam": "Rotterdam: vereniging",
+                "opmerking": "1984: founder and chairman of STEK, artists' initiative, Ommoordseweg\n1988: realized the renovation and construction of STEK, 3 exhibition spaces and a guest house"
+              }
+            ],
+            "label": "Lid van"
+          },
+          "overige_literatuur": {
+            "label": "Overige literatuur",
+            "contents": {
+              "bronnen": {
+                "contents": [
+                  [
+                    {
+                      "type": "field",
+                      "value": "Scheen 1969-1970"
+                    },
+                    {
+                      "type": "concat",
+                      "value": ", "
+                    },
+                    {
+                      "type": "field",
+                      "value": "vol. 1, p. 4"
+                    },
+                    {
+                      "type": "concat",
+                      "value": "("
+                    },
+                    {
+                      "type": "field",
+                      "value": "as: Abramsen, Pieter ('Perry');*"
+                    },
+                    {
+                      "type": "concat",
+                      "value": ")"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "field",
+                      "value": "Jacobs 1993"
+                    }
+                  ],
+                  [
+                    {
+                      "type": "field",
+                      "value": "Jacobs 2000"
+                    },
+                    {
+                      "type": "concat",
+                      "value": ", "
+                    },
+                    {
+                      "type": "field",
+                      "value": "vol. 1, p. 27"
+                    }
+                  ]
+                ]
+              },
+              "literatuur": {
+                "contents": []
+              },
+              "bronnen_overig": {
+                "contents": [
+                  "archief Fonds BKVB",
+                  "www.rotterdamsekunstenaars.nl (2016)",
+                  "Overleden NKvB-leden: Per Abramsen (1941 - 2018)"
+                ]
+              }
+            }
+          },
+          "documentatie_komt_voor_project": {
+            "contents": {
+              "komt_voor_in": {
+                "label": "Komt voor in",
+                "contents": []
+              },
+              "projecten": {
+                "label": "Projecten",
+                "contents": []
+              }
+            }
+          },
+          "archief_berust_bij": {
+            "contents": []
+          },
+          "overige_opmerkingen": [
+            ""
+          ],
+          "suggested": [
+            {
+              "field": "geboortedatum_begin",
+              "database": "artists",
+              "value": "1941-03-27",
+              "filterField": "geboortedatum_begin",
+              "url": "/nl/explore/artists?filters%5Bgeboortedatum_begin%5D=1941-03-27"
+            },
+            {
+              "field": "sterfplaats",
+              "database": "artists",
+              "value": "Rotterdam (stad)",
+              "filterField": "sterfplaats",
+              "url": "/nl/explore/artists?filters%5Bsterfplaats%5D=Rotterdam+%28stad%29"
+            },
+            {
+              "field": "plaats_van_werkzaamheid",
+              "database": "artists",
+              "value": "Rotterdam (stad)",
+              "filterField": "plaats_van_werkzaamheid",
+              "url": "/nl/explore/artists?filters%5Bplaats_van_werkzaamheid%5D=Rotterdam+%28stad%29"
+            },
+            {
+              "field": "plaats_van_werkzaamheid",
+              "database": "artists",
+              "value": "Verenigde Staten van Amerika",
+              "filterField": "plaats_van_werkzaamheid",
+              "url": "/nl/explore/artists?filters%5Bplaats_van_werkzaamheid%5D=Verenigde+Staten+van+Amerika"
+            },
+            {
+              "field": "plaats_van_werkzaamheid",
+              "database": "artists",
+              "value": "Frankrijk",
+              "filterField": "plaats_van_werkzaamheid",
+              "url": "/nl/explore/artists?filters%5Bplaats_van_werkzaamheid%5D=Frankrijk"
+            },
+            {
+              "field": "kwalificatie",
+              "database": "artists",
+              "value": "beeldhouwer",
+              "filterField": "kwalificatie",
+              "url": "/nl/explore/artists?filters%5Bkwalificatie%5D=beeldhouwer"
+            },
+            {
+              "field": "kwalificatie",
+              "database": "artists",
+              "value": "monumentaal kunstenaar",
+              "filterField": "kwalificatie",
+              "url": "/nl/explore/artists?filters%5Bkwalificatie%5D=monumentaal+kunstenaar"
+            },
+            {
+              "field": "kwalificatie",
+              "database": "artists",
+              "value": "ontwerper",
+              "filterField": "kwalificatie",
+              "url": "/nl/explore/artists?filters%5Bkwalificatie%5D=ontwerper"
+            },
+            {
+              "field": "materiaal",
+              "database": "artists",
+              "value": "brons",
+              "filterField": "materiaal",
+              "url": "/nl/explore/artists?filters%5Bmateriaal%5D=brons"
+            },
+            {
+              "field": "onderwerp_werkvorm",
+              "database": "artists",
+              "value": "abstractie",
+              "filterField": "onderwerp_werkvorm",
+              "url": "/nl/explore/artists?filters%5Bonderwerp_werkvorm%5D=abstractie"
+            },
+            {
+              "field": "academie",
+              "database": "artists",
+              "value": "Academie voor Beeldende Kunsten (Rotterdam)",
+              "filterField": "academie",
+              "url": "/nl/explore/artists?filters%5Bacademie%5D=Academie+voor+Beeldende+Kunsten+%28Rotterdam%29"
+            },
+            {
+              "field": "vereniging_lid",
+              "database": "artists",
+              "value": "Nederlandse Kring van Beeldhouwers NKVB",
+              "filterField": "vereniging_lid",
+              "url": "/nl/explore/artists?filters%5Bvereniging_lid%5D=Nederlandse+Kring+van+Beeldhouwers+NKVB"
+            },
+            {
+              "field": "vereniging_lid",
+              "database": "artists",
+              "value": "CBK Rotterdam",
+              "filterField": "vereniging_lid",
+              "url": "/nl/explore/artists?filters%5Bvereniging_lid%5D=CBK+Rotterdam"
+            },
+            {
+              "field": "vereniging_lid",
+              "database": "artists",
+              "value": "Rotterdam: vereniging",
+              "filterField": "vereniging_lid",
+              "url": "/nl/explore/artists?filters%5Bvereniging_lid%5D=Rotterdam%3A+vereniging"
+            },
+            {
+              "field": "winnaar_van_prijs",
+              "database": "artists",
+              "value": "EMS Cultuurprijs",
+              "filterField": "winnaar_van_prijs",
+              "url": "/nl/explore/artists?filters%5Bwinnaar_van_prijs%5D=EMS+Cultuurprijs"
+            },
+            {
+              "field": "standplaats_archief",
+              "database": "artists",
+              "value": "beelddocumentatie Stichting Fonds voor beeldende kunsten, vormgeving en bouwkunst (Fonds BKVB)",
+              "filterField": "standplaats_archief",
+              "url": "/nl/explore/artists?filters%5Bstandplaats_archief%5D=beelddocumentatie+Stichting+Fonds+voor+beeldende+kunsten%2C+vormgeving+en+bouwkunst+%28Fonds+BKVB%29"
+            }
+          ],
+          "results_in_other_databases": {
+            "collections_trefwoord_persoon": {
+              "displayDatabase": "RKDcollections",
+              "field": "kunstenaarsnaam",
+              "filterField": "inhoudelijke_beschr.trefw.pers",
+              "filterFieldSolr": "tstrings_collections_inhoudelijke_beschr.trefw.pers",
+              "database": "collections",
+              "displayRole": null,
+              "count": 0,
+              "url": "/nl/explore/collections?filters%5Binhoudelijke_beschr.trefw.pers%5D=Abramsen%2C+Per"
+            },
+            "images_kunstenaar": {
+              "displayDatabase": "RKDimages",
+              "field": "kunstenaarsnaam",
+              "filterField": "kunstenaar",
+              "filterFieldSolr": "tstrings_images_naam",
+              "database": "images",
+              "displayRole": "kunstenaar",
+              "count": 0,
+              "url": "/nl/explore/images?filters%5Bkunstenaar%5D=Abramsen%2C+Per"
+            },
+            "library_onderwerp": {
+              "displayDatabase": "RKDlibrary",
+              "field": "kunstenaarsnaam",
+              "filterField": "artist",
+              "filterFieldSolr": "tstrings_library_artist",
+              "database": "library",
+              "displayRole": "onderwerp",
+              "count": 12,
+              "url": "/nl/explore/library?filters%5Bartist%5D=Abramsen%2C+Per"
+            },
+            "library_illustrator": {
+              "displayDatabase": "RKDlibrary",
+              "field": "kunstenaarsnaam",
+              "filterField": "illustrator.name",
+              "filterFieldSolr": "tstrings_library_illustrator.name_search",
+              "database": "library",
+              "displayRole": "illustrator",
+              "count": 0,
+              "url": "/nl/explore/library?filters%5Billustrator.name%5D=Abramsen%2C+Per"
+            },
+            "excerpts_artists": {
+              "displayDatabase": "RKDexcerpts",
+              "field": "kunstenaarsnaam",
+              "filterField": "kunstenaar",
+              "filterFieldSolr": "strings_excerpts_kunstenaar",
+              "database": "excerpts",
+              "displayRole": "kunstenaar",
+              "count": 0,
+              "url": "/nl/explore/excerpts?filters%5Bkunstenaar%5D=Abramsen%2C+Per"
+            },
+            "technical_researcher": {
+              "displayDatabase": "RKDtechnical",
+              "field": "kunstenaarsnaam",
+              "filterField": "research.researcher",
+              "filterFieldSolr": "strings_technical_research.researcher",
+              "database": "technical",
+              "displayRole": "researcher",
+              "count": 0,
+              "url": "/nl/explore/technical?filters%5Bresearch.researcher%5D=Abramsen%2C+Per"
+            },
+            "technical_artist": {
+              "displayDatabase": "RKDtechnical",
+              "field": "kunstenaarsnaam",
+              "filterField": "link_object_record_naam",
+              "filterFieldSolr": "tstrings_technical_link_object_record_naam",
+              "database": "technical",
+              "displayRole": "researched_artist",
+              "count": 0,
+              "url": "/nl/explore/technical?filters%5Blink_object_record_naam%5D=Abramsen%2C+Per"
+            }
+          }
+        }
+      }
+    ],
+    "detailsTechnical": null,
+    "relatedLinks": []
+  },
+  "facet_counts": {
+    "facet_queries": [],
+    "facet_fields": {
+      "database": [
+        "artists",
+        1,
+        "artists_child",
+        0,
+        "collections",
+        0,
+        "excerpts",
+        0,
+        "images",
+        0,
+        "images_child",
+        0,
+        "library",
+        0,
+        "technical",
+        0
+      ]
+    },
+    "facet_ranges": [],
+    "facet_intervals": [],
+    "facet_heatmaps": []
+  },
+  "language": "nl",
+  "options": {
+    "images": {
+      "servers": {
+        "picturae": "https://images.rkd.nl/rkd/thumb/",
+        "rkd": "//imagehandler.rkd.nl/wwwopac.ashx?command=getcontent\u0026server=images\u0026value="
+      },
+      "usePicturaeIfPossible": true
+    },
+    "base_url": "/nl",
+    "baseurl": "",
+    "baseurl_facetvalues": "",
+    "baseurl_permalink": "https://rkd.nl",
+    "bibl_form_images": {
+      "bf_boek": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_boek_groot.png",
+      "bf_periodiek": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_tijdschrift_groot.png",
+      "bf_artikel": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_artikel_groot.png",
+      "bf_av": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_audiovis_groot.png",
+      "bf_collectie": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_collcatalogus_groot.png",
+      "bf_tentoonstelling": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_tentcatalogus_groot.png",
+      "bf_veiling": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_veilingcatalogus_groot.png",
+      "bf_lexicon": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_lexicon_groot.png",
+      "bf_preciosa": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_preciosa_groot.png",
+      "bf_kunstenaar": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_kunstenaarsboek_groot.png",
+      "bf_digi": "/templates/cust-rkd-website/img/icons/library/large/rkd_icon_library_digipublicatie_groot.png"
+    },
+    "contact_td": {
+      "url": "contact-td",
+      "params": {
+        "tmpl": "ajax",
+        "layout": "td"
+      }
+    },
+    "thesaurus": {
+      "aat_url": "http://browser.aat-ned.nl",
+      "iconclass_url": "http://www.iconclass.org/rkd"
+    },
+    "language": "nl",
+    "suggestions": {
+      "geboortedatum_begin": [],
+      "sterfplaats": [],
+      "plaats_van_werkzaamheid": [],
+      "kwalificatie": [],
+      "materiaal": [],
+      "product": [],
+      "onderwerp_werkvorm": [],
+      "school_stroming": [],
+      "academie": [],
+      "vereniging_lid": [],
+      "leraar_academie": [],
+      "winnaar_van_prijs": [],
+      "collectienaam": [],
+      "auteur": [],
+      "standplaats_archief": []
+    },
+    "database": "artists"
+  }
+}
