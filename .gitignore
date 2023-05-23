@@ -45,3 +45,4 @@ prod-console
 /app/assets/builds/*
 !/app/assets/builds/.keep
 rspec.xml
+/db/geonames_cache
