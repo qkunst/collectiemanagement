@@ -19,7 +19,11 @@
     <% end %>
     <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
     <li><%= link_to "Toon in rapportage", collection_report_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
+    <% if @current_active_time_span%>
     <li><%= link_to "Factureer werkset", uitleen_new_draft_invoice_url(invoiceable_item_collection: @work_set), class: "tertiary small button right", data: { confirm: "U wordt doorgestuurd naar de uitleen applicatie. Werken met een actieve gebeurtenis voor de organisatie worden automatisch toegevoegd aan de factuur."}%></li>
+    <% else %>
+    <li><%= link_to "Factureer werkset", new_collection_work_set_time_span_path(@collection, @work_set), class: "disabled tertiary small button right", title: "U dient eerst een gebeurtenis te starten voor deze werkset.", data: { confirm: "U dient eerst een gebeurtenis te starten voor deze werkset. Wilt u een gebeurtenis aanmaken?"}%></li>
+    <% end %>
 </ul>
 </nav>
  <% if @current_active_time_span %>

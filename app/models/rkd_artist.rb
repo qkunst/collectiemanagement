@@ -173,6 +173,10 @@ class RkdArtist < ApplicationRecord
     api_response.dig("virtualFields", "hoofdTitel", "geslacht_nationaliteit", "contents").select { |a| a["name"] == "geslacht" }.pluck("value").join("/")
   end
 
+  def artists
+    Artist.where(rkd_artist_id: rkd_id) if rkd_id
+  end
+
   def gender
     case gender_nl
     when "man"

@@ -281,7 +281,7 @@ class TimeSpan < ApplicationRecord
         ts = similar_child_time_spans.find_or_initialize_by(subject: work)
 
         unless ts.finished?
-          ts.starts_at ||= Time.current
+          ts.starts_at ||= created_recently? ? starts_at : Time.current
           ts.status = status
           ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
         end
@@ -289,5 +289,9 @@ class TimeSpan < ApplicationRecord
         ts.save
       end
     end
+  end
+
+  def created_recently?
+    created_at > 5.minutes.ago
   end
 end
