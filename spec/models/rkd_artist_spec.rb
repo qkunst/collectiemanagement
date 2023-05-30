@@ -35,7 +35,12 @@ RSpec.describe RkdArtist, type: :model do
         place_of_death_geoname_id: nil,
         place_of_birth_geoname_id: nil,
         rkd_artist_id: 123123,
-        gender: :woman
+        gender: :woman,
+        place_of_birth_lat: nil,
+        place_of_birth_lon: nil,
+        place_of_death_lat: nil,
+        place_of_death_lon: nil
+
       }
       assert_equal(expected, rkd_artist.to_artist_params)
     end
@@ -54,7 +59,11 @@ RSpec.describe RkdArtist, type: :model do
         place_of_death_geoname_id: nil,
         place_of_birth_geoname_id: nil,
         rkd_artist_id: 123123,
-        gender: :man
+        gender: :man,
+        place_of_birth_lat: nil,
+        place_of_birth_lon: nil,
+        place_of_death_lat: nil,
+        place_of_death_lon: nil
       }
       assert_equal(expected, rkd_artist.to_artist_params)
     end
