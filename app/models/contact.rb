@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  address       :text
+#  contact_type  :string
 #  external      :boolean
 #  name          :string
 #  remote_data   :text
@@ -48,6 +49,17 @@ class Contact < ApplicationRecord
         c.update_columns(url: c.url.sub("http://localhost:5001/", Rails.application.secrets.uitleen_site))
       end
       puts "#{contact_count} contacts updated."
+    end
+
+    def update_with_remote_uitleen_data(current_user:)
+      customers = Uitleen::Customer.all(current_user: current_user)
+      customers.each do |customer|
+        new_data = {
+          contact_type: customer.customer_type
+        }
+        new_data["name"] = customer.name if customer.public_name?
+        Contact.find_by_url(customer.uri)&.update_columns(new_data)
+      end
     end
   end
 end

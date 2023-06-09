@@ -1,7 +1,7 @@
 class Uitleen::Customer
   include ActiveModel::Model
 
-  attr_accessor :uri, :name
+  attr_accessor :uri, :name, :public_name, :customer_type
 
   def to_param
     uri
@@ -14,6 +14,8 @@ class Uitleen::Customer
   def to_select_value
     uri
   end
+
+  alias_method :public_name?, :public_name
 
   class << self
     def authorization_header(current_user: nil)

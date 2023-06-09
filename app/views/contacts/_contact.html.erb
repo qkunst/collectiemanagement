@@ -1,7 +1,7 @@
 <div class="contact">
 <% if contact.external? && contact.url%>
 <% begin %>
-<%= link_to "Extern contact", contact.url %> (<%= Uitleen.configured? ? Uitleen::Customer.find(contact.url, current_user: current_user)&.name : nil%>)
+<%= link_to (contact.name.present? ? "#{contact.name} (extern contact)" : "Extern contact"), contact.url %> (<%= Uitleen.configured? ? Uitleen::Customer.find(contact.url, current_user: current_user)&.name : nil%>)
 <% rescue OAuthUser::Error%>
 probleem bij het ophalen van gegevens)
 <% end%>

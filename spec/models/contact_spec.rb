@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  address       :text
+#  contact_type  :string
 #  external      :boolean
 #  name          :string
 #  remote_data   :text
