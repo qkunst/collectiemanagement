@@ -58,7 +58,7 @@ class Contact < ApplicationRecord
           contact_type: customer.customer_type
         }
         new_data["name"] = customer.name if customer.public_name?
-        Contact.find_by_url(customer.uri)&.update_columns(new_data)
+        Contact.where(url: customer.uri).update_all(new_data)
       end
     end
   end
