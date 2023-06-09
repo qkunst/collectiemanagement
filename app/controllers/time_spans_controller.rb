@@ -67,7 +67,7 @@ class TimeSpansController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def time_span_params
-    params.require(:time_span).permit(:starts_at, :ends_at, :status, :contact_id, :status, :classification, :contact, :collection_id)
+    params.require(:time_span).permit(:starts_at, :ends_at, :status, :contact_id, :status, :comments, :classification, :contact, :collection_id)
   end
 
   def set_work

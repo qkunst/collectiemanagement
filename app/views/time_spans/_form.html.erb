@@ -8,6 +8,7 @@
     <%= f.input :starts_at, html5: true %>
     <%= f.input :ends_at, html5: true %>
     <%= f.input :status, collection: TimeSpan::STATUSSES.map{|a| [I18n.t(a, scope: "activerecord.values.time_span.status" ), a]}, include_blank: false, as: :radio_buttons  %>
+    <%= f.input :comments %>
   </div>
 
   <div class="form-actions">

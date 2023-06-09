@@ -10,10 +10,11 @@
   <% end %>
   <dt>Betreft:</dt>
   <dd><%= link_to @time_span.subject.name, @time_span.subject%></dd>
+  <dt>Opmerkingen:</dt>
+  <dd><%= @time_span.comments %></dd>
 </dl>
 <%  unless @time_span.finished? || @time_span.ends_at %>
   <%= link_to "Bewerk", @time_span.subject.is_a?(Work) ? edit_collection_work_time_span_url(@time_span.collection, @time_span.subject, @time_span) : edit_collection_work_set_time_span_url(@time_span.collection, @time_span.subject, @time_span), class: [:button] %>
   <%= button_to "Beëindig", [@time_span.collection, @time_span.subject, @time_span], method: :delete, data: {confirm: "Weet u zeker dat u deze gebeurtenis wilt beëindigen?"}, class: [:button, :secondary] unless @time_span.ends_at%>
 <% end %>
 </div>
-

@@ -24,3 +24,4 @@ end
 json.starts_at time_span.starts_at
 json.ends_at time_span.ends_at
 json.classification time_span.classification
+json.comments time_span.comments
