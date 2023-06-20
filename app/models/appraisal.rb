@@ -23,7 +23,8 @@
 #
 # Indexes
 #
-#  index_appraisals_on_appraisee_id  (appraisee_id)
+#  index_appraisals_on_appraisee_id                     (appraisee_id)
+#  index_appraisals_on_appraisee_id_and_appraisee_type  (appraisee_id,appraisee_type)
 #
 class Appraisal < ApplicationRecord
   MARKET_VALUE_CATEGORIES = [0..20, 20..50, 50..100, 100..200, 200..300, 300..500, 500..1_000, 1_000..2_500, 2_500..5_000, 5_000..7_500, 7_500..10_000, 10_000..15_000, 15_000..20_000, 20_000..50_000, 50_000..100_000, 100_000..200_000, 200_000..500_000, 500_000..1_000_000]

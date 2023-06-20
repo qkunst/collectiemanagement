@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_09_074724) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_20_100247) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -31,6 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_074724) do
     t.decimal "replacement_value_max", precision: 16, scale: 2
     t.string "appraisee_type", default: "Work"
     t.text "notice"
+    t.index ["appraisee_id", "appraisee_type"], name: "index_appraisals_on_appraisee_id_and_appraisee_type"
     t.index ["appraisee_id"], name: "index_appraisals_on_appraisee_id"
   end
 
@@ -701,6 +702,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_074724) do
     t.bigint "time_span_id"
     t.text "comments"
     t.text "old_data"
+    t.index ["subject_type", "subject_id"], name: "index_time_spans_on_subject_type_and_subject_id"
     t.index ["uuid"], name: "index_time_spans_on_uuid"
   end
 

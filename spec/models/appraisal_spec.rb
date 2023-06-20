@@ -23,7 +23,8 @@
 #
 # Indexes
 #
-#  index_appraisals_on_appraisee_id  (appraisee_id)
+#  index_appraisals_on_appraisee_id                     (appraisee_id)
+#  index_appraisals_on_appraisee_id_and_appraisee_type  (appraisee_id,appraisee_type)
 #
 require "rails_helper"
 

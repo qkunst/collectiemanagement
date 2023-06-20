@@ -20,7 +20,8 @@
 #
 # Indexes
 #
-#  index_time_spans_on_uuid  (uuid)
+#  index_time_spans_on_subject_type_and_subject_id  (subject_type,subject_id)
+#  index_time_spans_on_uuid                         (uuid)
 #
 class TimeSpan < ApplicationRecord
   include Uuid
