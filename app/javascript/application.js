@@ -10,7 +10,7 @@ UJS.start();
 
 // import Foundation from 'foundation-sites';
 //import "controllers"
-require('./prototypes');
+import('./prototypes');
 
 require('jquery_nested_form');
 require('chosen-js');
