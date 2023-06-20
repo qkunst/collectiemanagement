@@ -16,6 +16,8 @@
         </td>
       </tr></thead>
       <tbody>
+      <% if @collection.base_collection.show_availability_status && work.availability_status == :lent && work.current_active_time_span.contact&.business?%>
+      <% end %>
       <%= define_unless_blank :location %>
       <%= define_unless_blank :location_floor %>
       <%= define_unless_blank :location_detail %>

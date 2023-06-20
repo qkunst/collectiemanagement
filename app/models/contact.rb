@@ -38,6 +38,10 @@ class Contact < ApplicationRecord
     external? && remote_data.blank?
   end
 
+  def business?
+    contact_type == "business"
+  end
+
   def to_select_value
     external_and_no_remote_data? ? Uitleen::Customer.new(uri: url) : self
   end
