@@ -38,10 +38,6 @@ class WorksController < ApplicationController
 
     update_current_user_with_params
 
-    @min_index = params["min_index"].to_i if params["min_index"]
-    @min_index ||= 0
-    @max_index = params["max_index"].to_i if params["max_index"]
-
     if redirect_directly_to_work_using_search_text
       return true
     end
@@ -62,7 +58,6 @@ class WorksController < ApplicationController
     end
 
     @aggregations = @collection.works_including_child_works.fast_aggregations([:themes, :subset, :grade_within_collection, :placeability, :cluster, :sources, :techniques, :object_categories, :geoname_ids, :main_collection])
-
     @cleaned_params = params.to_unsafe_h.merge({cluster_new: nil, utf8: nil, action: nil, batch_edit_property: nil, collection_id: nil, controller: nil, authenticity_token: nil, button: nil})
 
     @title = "Werken van #{@collection.name}"

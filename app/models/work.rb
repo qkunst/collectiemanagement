@@ -668,13 +668,11 @@ class Work < ApplicationRecord
 
     # takes work sets into account where some are counted as one.
     def count_as_whole_works
-      return @count_as_whole_works if @count_as_whole_works
-
       not_counted_as_group_ids = left_outer_joins(:work_set_types).where({work_set_types: {count_as_one: [nil, false]}}).pluck(:id)
       unique_group_count = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).group("work_set_id").count.keys.count
       work_ids_in_unique_work_groups = joins(:work_set_types).where({work_set_types: {count_as_one: true}}).pluck(:id)
 
-      @count_as_whole_works = (not_counted_as_group_ids - work_ids_in_unique_work_groups).uniq.count + unique_group_count
+      (not_counted_as_group_ids - work_ids_in_unique_work_groups).uniq.count + unique_group_count
     end
 
     def column_types

@@ -86,6 +86,7 @@ module WorksHelper
 
   def describe_work_counts
     report = controller.is_a?(ReportController)
+
     filtered = @collection_works_count > @works_count
     grouped = @selection && @selection[:group] != :no_grouping
     more_inventoried_objects_than_works = @inventoried_objects_count != @works_count

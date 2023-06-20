@@ -6,6 +6,12 @@ module Works::Filtering
   MAX_WORK_COUNT = 99999
   DEFAULT_WORK_COUNT = 159
   DEFAULT_GROUPED_WORK_COUNT = 7
+  IDS_TO_SELECT_WHEN_GROUPING = {
+    cluster: [:id, :cluster_id],
+    subset: [:id, :subset_id],
+    placeability: [:id, :placeability_id],
+    grade_within_collection: [:id, :grade_within_collection]
+  }
 
   included do
     private
@@ -74,6 +80,10 @@ module Works::Filtering
       @selection[thing]
     end
 
+    def preload_relation_ships(works)
+      works.preload_relations_for_display(@selection[:display])
+    end
+
     def set_works
       filter = @selection_filter
       filter = filter.merge(id: @time_filter.work_ids) if @time_filter&.enabled?
@@ -84,28 +94,33 @@ module Works::Filtering
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
-      @inventoried_objects_count = @works.count
+      @inventoried_objects_count = @works.distinct.count
       @works_count = @works.count_as_whole_works
-      @works = @works.preload_relations_for_display(@selection[:display])
       @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.offset(params[:from].to_i) if params[:from]
       @works = @works.where(id: ((params[:id_gt].to_i + 1)...)).except(:order).order_by(:id) if params[:id_gt]
+    end
 
+    def sort_works(works)
       sort_explicitly = params[:id_gt].nil? || params[:sort] # the default sorting by stock_number will always be applied.
-
-      @works = @works.except(:order).order_by(@selection[:sort]) if @selection[:sort] && sort_explicitly
+      works = works.except(:order).order_by(@selection[:sort]) if @selection[:sort] && sort_explicitly
+      works
     end
 
     def set_works_grouped
       works_grouped = {}
-      @works.each do |work|
-        groups = work.send(@selection[:group])
+
+      selection_group = @selection[:group]
+
+      @works.select(IDS_TO_SELECT_WHEN_GROUPING[selection_group || :id]).includes(selection_group).each do |work|
+        groups = work.send(selection_group)
         groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
         [groups].flatten.each do |group|
           works_grouped[group] ||= []
-          works_grouped[group] << work
+          works_grouped[group] << work.id
         end
       end
+
       @max_index ||= (@works_count < DEFAULT_WORK_COUNT) ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
       @works_grouped = {}
       works_grouped.keys.compact.sort.each do |key|
@@ -114,15 +129,20 @@ module Works::Filtering
       if works_grouped[nil]
         @works_grouped[nil] = works_grouped[nil].uniq
       end
+
+      @works_grouped = @works_grouped.map { |k, v| [k, sort_works(preload_relation_ships(Work.where(id: v)))] }.to_h
     end
 
     def reset_works_limited
-      @max_index ||= DEFAULT_WORK_COUNT
-      @works = if @works.is_a? Array
-        @works[0..@max_index].uniq
+      @min_index = params["min_index"] ? params["min_index"].to_i : 0
+      @max_index = params["max_index"] ? params["max_index"].to_i : DEFAULT_WORK_COUNT
+
+      work_ids = if @works.is_a? Array
+        @works[@min_index..@max_index].uniq.map(&:id)
       else
-        @works.offset(@min_index).limit(@max_index - @min_index + 1).uniq
+        @works.offset(@min_index).limit(@max_index - @min_index + 1).pluck(:id).uniq
       end
+      @works = sort_works(preload_relation_ships(Work.where(id: work_ids)))
     end
 
     def set_selected_localities
