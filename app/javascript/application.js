@@ -30,7 +30,6 @@ import('./works');
 import('./offline_collections')
 import('./block_link');
 require('./toggle');
-import('./zxing/zxing_helper')
 
 const FormStore = require('./formstore.js').default;
 window.FormStore = FormStore;
@@ -228,3 +227,5 @@ $(document).ready(function () {
 $(document).on("turbo:load", function () {
   collectieBeheerInit()
 })
+
+console.log("application.js loaded")
