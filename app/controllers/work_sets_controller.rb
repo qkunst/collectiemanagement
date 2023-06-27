@@ -42,9 +42,11 @@ class WorkSetsController < ApplicationController
   end
 
   def show
-    if params[:collection_id].blank?
-      redirect_to collection_work_set_path(@collection, @work_set) and return if params[:collection_id].blank? && @collection
-
+    if params[:collection_id].blank? && @collection
+      redirect_to collection_work_set_path(@collection, @work_set) and return
+    elsif params[:collection_id].blank? && !@collection && @work_set.works.empty?
+      redirect_to root_path(@collection, @work_set), notice: "Geen werken in deze werkgroepering, noch gekoppeld aan collectie" and return
+    elsif params[:collection_id].blank? && !@collection
       authorize! :read_without_collection, @work_set
     else
       authorize! :show, @work_set
@@ -56,6 +58,9 @@ class WorkSetsController < ApplicationController
 
     if @current_active_time_span
       @works_outside_current_collection = @works.where.not(collection_id: @current_active_time_span.collection.expand_with_child_collections).pluck(:id)
+      @works_not_for_current_time_span_contact = @works.joins(:time_spans).where(time_spans: TimeSpan.active.where.not(contact_id: @current_active_time_span.contact_id)).uniq
+
+      # raise
     end
 
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")

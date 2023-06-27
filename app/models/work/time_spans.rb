@@ -5,18 +5,18 @@ module Work::TimeSpans
 
   included do
     def available?
-      !(current_active_time_span || removed_from_collection?)
+      !(removed_from_collection? || current_active_time_span)
     end
 
     def availability_status
-      @availability_status ||= if available? && (for_purchase || for_rent)
+      @availability_status ||= if removed_from_collection_at || current_active_time_span&.classification == "purchase"
+        :sold
+      elsif available? && (for_purchase || for_rent)
         :available
       elsif available? && !(for_purchase || for_rent)
         :available_not_for_rent_or_purchase
       elsif current_active_time_span&.status == "reservation"
         :reserved
-      elsif removed_from_collection_at || current_active_time_span&.classification == "purchase"
-        :sold
       elsif current_active_time_span&.classification == "rental_outgoing"
         :lent
       end
@@ -27,7 +27,11 @@ module Work::TimeSpans
     end
 
     def last_active_time_span
-      time_spans.max_by(&:created_at)
+      @last_active_time_span ||= time_spans.max_by(&:created_at)
+    end
+
+    def currently_relevant_time_span
+      (availability_status == :sold) ? last_active_time_span : current_active_time_span
     end
   end
 end

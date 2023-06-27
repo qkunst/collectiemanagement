@@ -160,7 +160,9 @@ class TimeSpan < ApplicationRecord
   end
 
   def contact= new_contact
-    new_contact_obj = if new_contact.is_a?(Contact)
+    new_contact_obj = if new_contact.nil?
+      nil
+    elsif new_contact.is_a?(Contact)
       new_contact
     elsif new_contact.present? && new_contact.to_i.to_s == new_contact
       Contact.find(new_contact)
@@ -170,6 +172,8 @@ class TimeSpan < ApplicationRecord
 
     if new_contact_obj
       self.contact_id = new_contact_obj.id
+    elsif new_contact.nil?
+      self.contact_id = nil
     end
   end
 
@@ -279,15 +283,30 @@ class TimeSpan < ApplicationRecord
   def sync_time_spans_for_works_when_work_set
     if subject.is_a?(WorkSet)
       subject.works.each do |work|
-        ts = similar_child_time_spans.find_or_initialize_by(subject: work)
+        ts = similar_child_time_spans.find_by(subject: work)
+        if ts.nil? && work.available?
+          ts = similar_child_time_spans.new(subject: work, time_span: self)
+        end
 
-        unless ts.finished?
+        if ts && !ts.finished?
           ts.starts_at ||= created_recently? ? starts_at : Time.current
           ts.status = status
           ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
         end
 
-        ts.save
+        ts&.save
+      end
+
+      time_spans.each do |ts|
+        if ts.subject.is_a?(Work) && !subject.works.include?(ts.subject)
+          ts.update(time_span: nil)
+        elsif !ts.finished?
+          ts.status = status
+          ts.contact = contact
+          ts.starts_at ||= created_recently? ? starts_at : Time.current
+          ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
+          ts.save
+        end
       end
     end
   end

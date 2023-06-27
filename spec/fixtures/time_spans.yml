@@ -126,3 +126,4 @@ work_set_time_span:
   classification: purchase
   starts_at: 1998-04-02T12:00
   uuid: time_span_time_span
+  contact: :contact1

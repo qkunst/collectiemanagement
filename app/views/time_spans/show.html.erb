@@ -17,4 +17,7 @@
   <%= link_to "Bewerk", @time_span.subject.is_a?(Work) ? edit_collection_work_time_span_url(@time_span.collection, @time_span.subject, @time_span) : edit_collection_work_set_time_span_url(@time_span.collection, @time_span.subject, @time_span), class: [:button] %>
   <%= button_to "Beëindig", [@time_span.collection, @time_span.subject, @time_span], method: :delete, data: {confirm: "Weet u zeker dat u deze gebeurtenis wilt beëindigen?"}, class: [:button, :secondary] unless @time_span.ends_at%>
 <% end %>
+<p>
+<%= link_to "Alle tijdsspannes", @time_span.subject.is_a?(Work) ? collection_work_time_spans_url(@time_span.collection, @time_span.subject) : collection_work_set_time_spans_url(@time_span.collection, @time_span.subject) %>
+</p>
 </div>

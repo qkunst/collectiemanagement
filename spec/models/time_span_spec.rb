@@ -115,86 +115,119 @@ RSpec.describe TimeSpan, type: :model do
     end
 
     describe "#sync_time_spans_for_works_when_work_set" do
+      let(:work_set) { work_sets(:random_other_collection) }
+      let(:classification) { :purchase }
+      let(:time_span) { TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: classification) }
+
       it "creates none when a work" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: classification)
         expect(ts.time_spans).to eq([])
       end
 
       it "creates time spans when for works in a work_set" do
-        work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
-        expect(ts.time_spans.count).to eq(work_set.works.count)
+        expect(time_span.time_spans.count).to eq(work_set.works.count)
       end
 
       it "results in underlying works to be no longer available" do
-        work_set = work_sets(:random_other_collection)
-        TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
+        time_span
+
         expect(work_set.works.first.availability_status).to eq(:sold)
         expect(work_set.works.first.removed_from_collection?).to eq(true)
       end
 
-      it "results in underlying works to become available when returned" do
-        work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
-        expect(ts.time_spans.count).to eq(work_set.works.count)
+      it "updates contact when time span is updated and time span is connected" do
+        time_span.time_spans.first.update(contact: contacts(:contact2))
 
-        work_set.works.reload
-
-        expect(work_set.works.first.availability_status).to eq(:lent)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
-
-        ts.finish
-        ts.save
-
-        work_set.works.reload
-
-        expect(work_set.works.first.availability_status).to eq(:available)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
+        time_span.update(contact: contacts(:contact3))
+        expect(time_span.time_spans.map(&:contact).uniq).to eq([contacts(:contact3)])
       end
 
-      it "results in underlying works to become available when converted to concept" do
-        work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
-        expect(ts.time_spans.count).to eq(work_set.works.count)
+      it "doesn't update contact when time span is updated and time span is not connected" do
+        work_time_spans = time_span.time_spans
+        work_time_span = work_time_spans.first
+        work_time_span.update(contact: contacts(:contact2), time_span: nil)
 
-        work_set.works.reload
+        reloaded_time_span = TimeSpan.find(time_span.id)
+        reloaded_time_span.update(contact: contacts(:contact3))
 
-        expect(work_set.works.first.availability_status).to eq(:lent)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
-
-        ts.status = :concept
-        ts.save
-
-        work_set.works.reload
-
-        expect(work_set.works.first.availability_status).to eq(:available)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
+        expect(work_time_spans.map(&:reload).map(&:contact).uniq).to eq([contacts(:contact2), contacts(:contact3)])
       end
 
-      it "results in underlying works to become available when ended" do
-        work_set = work_sets(:random_other_collection)
-        ts = TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
-        expect(ts.time_spans.count).to eq(work_set.works.count)
+      it "disconnects time spans if work is removed from work set" do
+        work_time_spans = time_span.time_spans
+        work_time_span = work_time_spans.first
+        work = work_time_span.subject
 
-        work_set.works.reload
+        work.work_sets -= [work_set]
+        work.save
 
-        expect(work_set.works.first.availability_status).to eq(:lent)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
+        reloaded_time_span = TimeSpan.find(time_span.id)
+        reloaded_time_span.update(contact: contacts(:contact3))
 
-        ts.end_time_span!
+        expect(work_time_spans.map(&:reload).map(&:time_span).uniq).to include(nil)
+        expect(work_time_spans.map(&:reload).map(&:time_span).uniq).to include(time_span)
+      end
 
-        work_set.works.reload
+      context "rental outgoing" do
+        let(:classification) { :rental_outgoing }
 
-        expect(work_set.works.first.availability_status).to eq(:available)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
+        it "results in underlying works to become available when returned" do
+          expect(time_span.time_spans.count).to eq(work_set.works.count)
 
-        work_set.works.reload
+          work_set.works.reload
 
-        work_set.works.update_all(for_purchase_at: nil)
-        work_set.works.reload
+          expect(work_set.works.first.availability_status).to eq(:lent)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
 
-        expect(work_set.works.first.availability_status).to eq(:available_not_for_rent_or_purchase)
-        expect(work_set.works.first.removed_from_collection?).to eq(false)
+          time_span.finish
+          time_span.save
+
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:available)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+        end
+
+        it "results in underlying works to become available when converted to concept" do
+          expect(time_span.time_spans.count).to eq(work_set.works.count)
+
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:lent)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+          time_span.status = :concept
+          time_span.save
+
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:available)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+        end
+
+        it "results in underlying works to become available when ended" do
+          expect(time_span.time_spans.count).to eq(work_set.works.count)
+
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:lent)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+          time_span.end_time_span!
+
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:available)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+
+          work_set.works.reload
+
+          work_set.works.update_all(for_purchase_at: nil)
+          work_set.works.reload
+
+          expect(work_set.works.first.availability_status).to eq(:available_not_for_rent_or_purchase)
+          expect(work_set.works.first.removed_from_collection?).to eq(false)
+        end
       end
     end
   end

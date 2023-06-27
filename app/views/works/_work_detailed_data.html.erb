@@ -39,12 +39,10 @@
         <%= define_unless_blank :for_rent %>
         <% if work.availability_status %>
           <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
-            <% if work.current_active_time_span && work.availability_status == :reserved %>
+            <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
               <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true }%>
-            <% elsif work.current_active_time_span %>
-              <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.current_active_time_span), data: { open_in_context: true }%>
-            <% elsif work.availability_status == :sold && work.last_active_time_span %>
-              <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.last_active_time_span), data: { open_in_context: true }%>
+            <% elsif work.currently_relevant_time_span %>
+              <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true }%>
             <% else %>
               <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
             <% end%>

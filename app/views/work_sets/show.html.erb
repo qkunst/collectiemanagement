@@ -35,3 +35,9 @@
 </div>
 <% end %>
 <%= render @works %>
+<% if @current_active_time_span && @works_not_for_current_time_span_contact.count > 0 %>
+<hr/>
+  <h2>Werken die niet gekoppeld zijn aan de huidige klant</h2>
+  <p>Deze groepering is gekoppeld aan <%= link_to [@work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span] %>, de volgende werken zijn echter niet gekoppeld aan deze klant. Verwijder deze werken uit de collectie.</p>
+  <%= render @works_not_for_current_time_span_contact%>
+<% end %>

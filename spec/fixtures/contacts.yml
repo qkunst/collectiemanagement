@@ -23,6 +23,11 @@ contact2:
   external: true
   url: "http://uitleen/contact/2"
 
+contact3:
+  collection: :collection1
+  external: true
+  url: "http://uitleen/contact/3"
+
 contact_internal:
   collection: :collection1
   external: false
