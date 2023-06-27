@@ -301,10 +301,10 @@ class TimeSpan < ApplicationRecord
         if ts.subject.is_a?(Work) && !subject.works.include?(ts.subject)
           ts.update(time_span: nil)
         elsif !ts.finished?
+          ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
           ts.status = status
           ts.contact = contact
           ts.starts_at ||= created_recently? ? starts_at : Time.current
-          ts.ends_at = ends_at unless ts.ends_at && ts.ends_at < Time.current
           ts.save
         end
       end

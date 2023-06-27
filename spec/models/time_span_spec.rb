@@ -142,6 +142,15 @@ RSpec.describe TimeSpan, type: :model do
         expect(time_span.time_spans.map(&:contact).uniq).to eq([contacts(:contact3)])
       end
 
+      it "updates the status when work set's time span is updated and time span is connected" do
+        time = "2021-04-12T12:00:00+02:00".to_datetime
+        expect(time_span.time_spans.map(&:ends_at).uniq).to eq([nil])
+        time_span.update(created_at: 1.day.ago, status: :finished, ends_at: time)
+
+        expect(time_span.time_spans.map(&:status).uniq).to eq(["finished"])
+        expect(time_span.time_spans.map(&:ends_at).uniq).to eq([time])
+      end
+
       it "doesn't update contact when time span is updated and time span is not connected" do
         work_time_spans = time_span.time_spans
         work_time_span = work_time_spans.first
