@@ -162,5 +162,11 @@ module Work::ParameterRerendering
         read_attribute(:title)
       end
     end
+
+    def title_with_year_rendered
+      string = title_rendered
+      string += " (#{object_creation_year})" if object_creation_year.present?
+      string
+    end
   end
 end
