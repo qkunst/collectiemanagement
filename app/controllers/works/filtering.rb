@@ -121,6 +121,7 @@ module Works::Filtering
         end
       end
 
+      @max_index = params["max_index"] ? params["max_index"].to_i : DEFAULT_GROUPED_WORK_COUNT
       @max_index ||= (@works_count < DEFAULT_WORK_COUNT) ? MAX_WORK_COUNT : DEFAULT_GROUPED_WORK_COUNT
       @works_grouped = {}
       works_grouped.keys.compact.sort.each do |key|
