@@ -62,7 +62,7 @@ class Collection::HtmlRendererWorker
       works_count: @works_count,
       inventoried_objects_count: @inventoried_objects_count,
       min_index: 0,
-      max_index: @max_index,
+      max_index: 999999,
       works: @works,
       selection: @selection,
       works_grouped: @works_grouped
