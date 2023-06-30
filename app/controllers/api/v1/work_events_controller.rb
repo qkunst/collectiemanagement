@@ -30,7 +30,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
       if work_event_params[:status] == "finished"
         time_span.finish
       else
-        time_span.status = status
+        time_span.status = work_event_params[:status]
       end
       time_span
     else
@@ -46,6 +46,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
     end
 
     save_result = @time_span.save
+
     if save_result
       render @time_span
     else

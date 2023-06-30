@@ -22,91 +22,105 @@ RSpec.describe Api::V1::WorkEventsController, type: :request do
       expect(response).to be_unauthorized
     end
 
-    it "starts a rental when signed in" do
-      sign_in users(:admin)
+    context "signed in" do
+      before do
+        sign_in users(:admin)
+      end
 
-      expect {
-        start_rental_attributes_post_call
-      }.to change(TimeSpan, :count).by(1)
+      it "starts a rental" do
+        expect {
+          start_rental_attributes_post_call
+        }.to change(TimeSpan, :count).by(1)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
 
-      work.reload
-      expect(work.availability_status).to eql(:lent)
-    end
+        work.reload
+        expect(work.availability_status).to eql(:lent)
+      end
 
-    it "starts a reservation when signed in" do
-      sign_in users(:admin)
+      it "starts a reservation" do
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
+        }.to change(TimeSpan, :count).by(1)
 
-      expect {
-        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
-      }.to change(TimeSpan, :count).by(1)
+        expect(response).to be_successful
 
-      expect(response).to be_successful
+        work.reload
+        expect(work.availability_status).to eql(:reserved)
+      end
 
-      work.reload
-      expect(work.availability_status).to eql(:reserved)
-    end
+      it "starts a rental from a reservation" do
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
+        }.to change(TimeSpan, :count).by(1)
 
-    it "cannot start a rental twice when signed in" do
-      sign_in users(:admin)
+        expect(response).to be_successful
 
-      expect {
-        start_rental_attributes_post_call
-      }.to change(TimeSpan, :count).by(1)
+        work.reload
+        expect(work.availability_status).to eql(:reserved)
+        time_span = work.current_active_time_span
 
-      expect(response).to be_successful
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(time_span_uuid: time_span.uuid)}, format: :json)
+        }.to change(TimeSpan, :count).by(0)
 
-      expect {
-        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes}, format: :json)
-      }.to change(TimeSpan, :count).by(0)
+        expect(Work.find(work.id).availability_status).to eql(:lent)
+      end
 
-      expect(response).not_to be_successful
+      it "cannot start a rental twice when signed in" do
+        expect {
+          start_rental_attributes_post_call
+        }.to change(TimeSpan, :count).by(1)
 
-      expect(work.availability_status).to eql(:lent)
-    end
+        expect(response).to be_successful
 
-    it "can start a reservation after a rental when signed in" do
-      sign_in users(:admin)
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes}, format: :json)
+        }.to change(TimeSpan, :count).by(0)
 
-      expect {
-        start_rental_attributes_post_call
-      }.to change(TimeSpan, :count).by(1)
+        expect(response).not_to be_successful
 
-      expect(response).to be_successful
+        expect(work.availability_status).to eql(:lent)
+      end
 
-      expect {
-        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
-      }.to change(TimeSpan, :count).by(1)
+      it "can start a reservation after a rental when signed in" do
+        expect {
+          start_rental_attributes_post_call
+        }.to change(TimeSpan, :count).by(1)
 
-      expect(response).to be_successful
+        expect(response).to be_successful
 
-      expect(work.availability_status).to eql(:lent)
-    end
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: start_rental_attributes.merge(status: :reservation)}, format: :json)
+        }.to change(TimeSpan, :count).by(1)
 
-    it "ends a rental when signed in" do
-      sign_in users(:admin)
+        expect(response).to be_successful
 
-      contact = contacts(:contact1)
+        expect(work.availability_status).to eql(:lent)
+      end
 
-      expect(work.availability_status).to eql(:available)
+      it "ends a rental when signed in" do
+        contact = contacts(:contact1)
 
-      time_span = TimeSpan.create(starts_at: 1.year.ago, contact: contact, subject: work, status: :active, classification: :rental_outgoing, collection: work.collection)
+        expect(work.availability_status).to eql(:available)
 
-      work_id = work.id
-      work = Work.find(work_id)
-      expect(work.availability_status).to eql(:lent)
+        time_span = TimeSpan.create(starts_at: 1.year.ago, contact: contact, subject: work, status: :active, classification: :rental_outgoing, collection: work.collection)
 
-      expect {
-        post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: {contact_uri: contact.url, event_type: "rental_outgoing", status: "finished", time_span_uuid: time_span.uuid}}, format: :json)
-      }.to change(TimeSpan, :count).by(0)
+        work_id = work.id
+        work = Work.find(work_id)
+        expect(work.availability_status).to eql(:lent)
 
-      expect(response).to be_successful
+        expect {
+          post api_v1_collection_work_work_events_path(work.collection, work, params: {work_event: {contact_uri: contact.url, event_type: "rental_outgoing", status: "finished", time_span_uuid: time_span.uuid}}, format: :json)
+        }.to change(TimeSpan, :count).by(0)
 
-      work_id = work.id
-      work = Work.find(work_id)
+        expect(response).to be_successful
 
-      expect(work.availability_status).to eql(:available)
+        work_id = work.id
+        work = Work.find(work_id)
+
+        expect(work.availability_status).to eql(:available)
+      end
     end
   end
 end
