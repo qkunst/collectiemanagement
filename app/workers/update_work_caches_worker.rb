@@ -3,7 +3,7 @@
 class UpdateWorkCachesWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: true, backtrace: true, queue: :qkunst_default
+  sidekiq_options retry: false, backtrace: true, queue: :qkunst_default
 
   def perform(work_id, context = "artist")
     if context == "artist"
