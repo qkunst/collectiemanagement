@@ -171,6 +171,24 @@
       <%= f.input(:main_collection)  %>
     </fieldset>
     <fieldset>
+      <legend>Collectiespecifiek</legend>
+          <p>Gegevens worden gekoppeld aan <%= link_to @collection.base_collection.cached_collection_name_extended, @collection.base_collection %>.</p>
+    <div class="row">
+      <div class="large-6 medium-6 columns">
+        <% @work.collection_attributes.each do |collection_attribute| %>
+          <% if collection_attribute.collection_id == @collection.base_collection.id %>
+            <%= f.simple_fields_for :collection_attributes, collection_attribute do |caf|%>
+              <%= caf.input :label, as: :hidden %>
+              <%= caf.input :attribute_type, as: :hidden%>
+              <%= caf.input :language, as: :hidden%>
+              <%= caf.input :value, label: collection_attribute.label, required: false, as: collection_attribute.input_type %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    </fieldset>
+    <fieldset>
       <legend>Publicatie</legend>
       <%= f.input :public_description %>
       <%= f.input :highlight_priority %>

@@ -5,8 +5,10 @@
 # Table name: collection_attributes
 #
 #  id               :bigint           not null, primary key
+#  attribute_type   :string           default("unknown")
 #  attributed_type  :string
 #  label            :string
+#  language         :string
 #  value_ciphertext :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -65,6 +67,22 @@ RSpec.describe CollectionAttribute, type: :model do
         expect(attributes.map(&:collection)).not_to include(collections(:collection_with_stages))
         expect(attributes.map(&:collection)).to include(collections(:collection_with_stages_child))
       end
+    end
+  end
+
+  describe "validations" do
+    it "only accepts dutch and english" do
+      good = {value: "value", collection: collections(:collection1), attributed: artists(:artist1), label: "Kaas"}
+      expect(CollectionAttribute.new(**good.merge({language: "nl"}))).to be_valid
+      expect(CollectionAttribute.new(**good.merge({language: "en"}))).to be_valid
+      expect(CollectionAttribute.new(**good.merge({language: "not_applicable"}))).to be_valid
+      expect(CollectionAttribute.new(**good.merge({language: "de"}))).not_to be_valid
+    end
+    it "only accepts dutch and english" do
+      good = {value: "value", collection: collections(:collection1), attributed: artists(:artist1), label: "Kaas"}
+      expect(CollectionAttribute.new(**good.merge({language: "nl"}))).to be_valid
+      expect(CollectionAttribute.new(**good.merge({language: "en"}))).to be_valid
+      expect(CollectionAttribute.new(**good.merge({language: "de"}))).not_to be_valid
     end
   end
 end

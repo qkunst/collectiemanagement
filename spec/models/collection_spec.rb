@@ -4,27 +4,30 @@
 #
 # Table name: collections
 #
-#  id                               :bigint           not null, primary key
-#  appraise_with_ranges             :boolean          default(FALSE)
-#  base                             :boolean
-#  collection_name_extended_cache   :text
-#  description                      :text
-#  exposable_fields                 :text
-#  external_reference_code          :string
-#  geoname_ids_cache                :text
-#  internal_comments                :text
-#  label_override_work_alt_number_1 :string
-#  label_override_work_alt_number_2 :string
-#  label_override_work_alt_number_3 :string
-#  name                             :string
-#  qkunst_managed                   :boolean          default(TRUE)
-#  root                             :boolean          default(FALSE)
-#  show_availability_status         :boolean
-#  show_library                     :boolean
-#  sort_works_by                    :string
-#  created_at                       :datetime         not null
-#  updated_at                       :datetime         not null
-#  parent_collection_id             :bigint           default(7)
+#  id                                        :bigint           not null, primary key
+#  appraise_with_ranges                      :boolean          default(FALSE)
+#  base                                      :boolean
+#  collection_name_extended_cache            :text
+#  default_collection_attributes_for_artists :text             default(["\"website\"", "\"email\"", "\"telephone_number\"", "\"description\""]), is an Array
+#  default_collection_attributes_for_works   :text             default([]), is an Array
+#  description                               :text
+#  exposable_fields                          :text
+#  external_reference_code                   :string
+#  geoname_ids_cache                         :text
+#  internal_comments                         :text
+#  label_override_work_alt_number_1          :string
+#  label_override_work_alt_number_2          :string
+#  label_override_work_alt_number_3          :string
+#  name                                      :string
+#  qkunst_managed                            :boolean          default(TRUE)
+#  root                                      :boolean          default(FALSE)
+#  show_availability_status                  :boolean
+#  show_library                              :boolean
+#  sort_works_by                             :string
+#  supported_languages                       :text             default(["\"nl\""]), is an Array
+#  created_at                                :datetime         not null
+#  updated_at                                :datetime         not null
+#  parent_collection_id                      :bigint           default(7)
 #
 require "rails_helper"
 

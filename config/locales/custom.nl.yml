@@ -160,6 +160,20 @@ nl:
       time_span: Gebeurtenis
       timespan: Gebeurtenis
     values:
+      collection_attributes:
+        attribute_type:
+          description:
+            nl: Beschrijving (Nederlands)
+            en: Beschrijving (Engels)
+          public_description:
+            nl: Publieke beschrijving (Nederlands)
+            en: Publieke beschrijving (Engels)
+          website:
+            not_applicable: Website
+          telephone_number:
+            not_applicable: Telefoon
+          email:
+            not_applicable: E-mailadres
       artist:
         gender:
           woman: vrouw

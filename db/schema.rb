@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_20_100247) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_10_201407) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -147,6 +147,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_100247) do
     t.string "label"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.string "language"
+    t.string "attribute_type", default: "unknown"
   end
 
   create_table "collections", force: :cascade do |t|
@@ -170,6 +172,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_20_100247) do
     t.boolean "qkunst_managed", default: true
     t.boolean "show_availability_status"
     t.boolean "show_library"
+    t.text "supported_languages", default: ["nl"], array: true
+    t.text "default_collection_attributes_for_artists", default: ["website", "email", "telephone_number", "description"], array: true
+    t.text "default_collection_attributes_for_works", default: [], array: true
   end
 
   create_table "collections_geoname_summaries", force: :cascade do |t|

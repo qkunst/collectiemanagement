@@ -37,6 +37,7 @@ class Artist < ApplicationRecord
 
   include MethodCache
   include Artist::NameRenderer
+  include HasCollectionAttributes
 
   has_paper_trail
 
@@ -51,7 +52,6 @@ class Artist < ApplicationRecord
   has_many :involvements, -> { distinct }, through: :artist_involvement
   has_many :subsets, through: :works
   has_many :techniques, through: :works
-  has_many :collection_attributes, as: :attributed
 
   has_cache_for_method :geoname_ids
 
@@ -174,17 +174,6 @@ class Artist < ApplicationRecord
   def place_of_death_geoname_name
     gs = GeonameSummary.where(geoname_id: place_of_death_geoname_id).first
     return gs.label if gs
-  end
-
-  def collection_attributes_attributes= collection_attribute_params
-    collection_attribute_params.values.each do |collection_attribute_attributes|
-      collection_attribute = collection_attributes.find_or_initialize_by(collection_id: collection_attribute_attributes[:collection_id], label: collection_attribute_attributes[:label])
-      if collection_attribute_attributes[:value].present?
-        collection_attribute.update(value: collection_attribute_attributes[:value])
-      else # if collection_attribute.persisted?
-        collection_attribute.destroy
-      end
-    end
   end
 
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})

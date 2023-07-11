@@ -39,7 +39,7 @@ RSpec.describe ImportCollection::Workbook, type: :model do
         expect(object_keys).to include(:artists)
         expect(object_keys).not_to include(:work_sets)
         expect(object_keys).not_to include(:library_items)
-
+        expect(object_keys).not_to include(:collection_attributes)
         expect(object_keys.length).to eq(3)
       end
 

@@ -153,7 +153,7 @@ class CollectionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def collection_params
-    rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, :base, :appraise_with_ranges, :show_availability_status, :show_collection, exposable_fields: [], stage_ids: [], geoname_summary_ids: [])
+    rv = params.require(:collection).permit(:name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id, :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3, :internal_comments, :sort_works_by, :base, :appraise_with_ranges, :show_availability_status, :show_collection, exposable_fields: [], stage_ids: [], geoname_summary_ids: [], supported_languages: [], default_collection_attributes_for_artists: [], default_collection_attributes_for_works: [])
     if rv[:geoname_summary_ids]
       rv[:geoname_summaries] = GeonameSummary.where(geoname_id: rv[:geoname_summary_ids])
       rv.delete(:geoname_summary_ids)

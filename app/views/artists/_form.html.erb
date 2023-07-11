@@ -32,7 +32,9 @@
           <% if collection_attribute.collection_id == @collection.base_collection.id %>
             <%= f.simple_fields_for :collection_attributes, collection_attribute do |caf|%>
               <%= caf.input :label, as: :hidden %>
-              <%= caf.input :value, label: collection_attribute.label, required: false, as: ArtistsController::COLLECTION_ATTRIBUTE_LABELS.dig(collection_attribute.label, :type) %>
+              <%= caf.input :attribute_type, as: :hidden%>
+              <%= caf.input :language, as: :hidden%>
+              <%= caf.input :value, label: collection_attribute.label, required: false, as: collection_attribute.input_type %>
             <% end %>
           <% end %>
         <% end %>

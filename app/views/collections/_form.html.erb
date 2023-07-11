@@ -7,6 +7,7 @@
   <ul>
     <li><a href="#standard">Standaard</a></li>
     <li><a href="#stages">Projectfasering</a></li>
+    <li><a href="#input">Invoer &amp; Velden</a></li>
     <li><a href="#manage">Beheer</a></li>
   </ul>
   </nav>
@@ -63,6 +64,32 @@
     <p>Hieronder kies je de fases die geldig zijn voor deze collectie. Op de overzichtspagina kan een fase als voltooid worden gemarkeerd.</p>
     <%= f.association :stages, as: :check_boxes, collection: Stage.actual_stages %>
   </section>
+  <section id="input">
+    <h3>Invoer &amp; velden</h3>
+
+    <fieldset class="form-inputs">
+      <legend>Labels voor de 'alternatieve nummers'</legend>
+      <p>Standaard is er sprake van alt. nr. 1 t/m 3, in dit scherm kun je ze overschrijven zodat bij het invoeren, het tonen en het uitdraaien voor iedereen duidelijk is welke getallen wat representeren.</p>
+      <%= f.input :label_override_work_alt_number_1 %>
+      <%= f.input :label_override_work_alt_number_2 %>
+      <%= f.input :label_override_work_alt_number_3 %>
+    </fieldset>
+
+    <fieldset class="form-inputs">
+      <legend>Ondersteunde talen voor collectiespecifieke velden</legend>
+      <div class="row">
+      <div class="medium-4 columns">
+        <%= f.input :supported_languages, collection: CollectionAttribute::LANGUAGES, as: :check_boxes %>
+      </div>
+      <div class="medium-4 columns">
+        <%= f.input :default_collection_attributes_for_artists, collection: CollectionAttribute::ATTRIBUTE_TYPES, as: :check_boxes %>
+      </div>
+      <div class="medium-4 columns">
+        <%= f.input :default_collection_attributes_for_works, collection: CollectionAttribute::ATTRIBUTE_TYPES, as: :check_boxes %>
+      </div>
+      </div>
+    </fieldset>
+  </section>
   <section id="manage">
     <h3>Beheer</h3>
     <% if @collection.persisted? %>
@@ -71,13 +98,7 @@
         <p><%= link_to 'Verwijder collectie', @collection, method: :delete, class: [:warning, :button], data: { confirm: "Je verwijderd collectie #{@collection.name} inclusief alle onderliggende subcollecties. Wanneer er geen bovenliggende collectie is worden de werken definitief verwijderd. Deze werken zijn niet terug te halen. Wil je doorgaan? "} %></p>
       </fieldset>
     <% end %>
-    <fieldset class="form-inputs">
-      <legend>Labels voor de 'alternatieve nummers'</legend>
-      <p>Standaard is er sprake van alt. nr. 1 t/m 3, in dit scherm kun je ze overschrijven zodat bij het invoeren, het tonen en het uitdraaien voor iedereen duidelijk is welke getallen wat representeren.</p>
-      <%= f.input :label_override_work_alt_number_1 %>
-      <%= f.input :label_override_work_alt_number_2 %>
-      <%= f.input :label_override_work_alt_number_3 %>
-    </fieldset>
+
     <fieldset class="form-inputs">
       <legend>Sortering</legend>
       <%= f.input :sort_works_by, collection: Work::SORTING_FIELDS.collect{|a| [I18n.t(a, scope: [:activerecord, :attributes, :work]),a]}, hint: "Wanneer je sortering leeg laat wordt er standaard gesorteerd, en dat is op 'Inventarisnummer'.

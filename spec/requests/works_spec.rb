@@ -37,7 +37,26 @@ RSpec.describe "Works", type: :request do
       work.reload
       expect(work.work_status).to eq(work_status)
     end
+
+    describe "collection attributes" do
+      before do
+        work.collection.update(
+          supported_languages: [:en, :nl],
+          default_collection_attributes_for_works: [:public_description, :description]
+        )
+      end
+
+      it "should allow for updating collection attributes" do
+        sign_in user
+
+        patch collection_work_path(work.collection, work), params: {work: {collection_attributes_attributes: {0 => {attribute_type: "public_description", language: "nl", value: "Dit is een publieke beschrijving"}}}}
+
+        work.reload
+        expect(work.collection_attributes.where(attribute_type: "public_description", language: "nl").first.value).to eq("Dit is een publieke beschrijving")
+      end
+    end
   end
+
   describe "DELETE /collections/:colletion_id/work_id" do
     [:admin].each do |user_key|
       it "allows access for #{user_key}", requires_elasticsearch: true do

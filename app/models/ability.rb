@@ -61,10 +61,12 @@ class Ability
         :information_back, :other_comments, :subset_id, :public_description, :highlight_priority,
         :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
-        :placeability_id, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [],
-                          theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
-                            :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
-                          ]
+        :placeability_id,
+        artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [], theme_ids: [], object_category_ids: [], technique_ids: [],
+        artists_attributes: [
+          :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
+        ],
+        collection_attributes_attributes: HasCollectionAttributes::COLLECTION_ATTRIBUTES_PARAMS
       ]
     end
     if can?(:create, WorkSet)

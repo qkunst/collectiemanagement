@@ -12,6 +12,8 @@ class WorksController < ApplicationController
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
   before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices, :show_old_data]
   before_action :set_collection # set_collection includes authentication
+  before_action :init_work, only: [:new]
+  before_action :populate_collection_attributes_for_work, only: [:new, :edit]
 
   # NOTE: every now and then an error is raised, and the app will try to repost the same request, which results in an error. It is accepted that an external party could create additional, unwanted records (though highly unlikely due to the obscureness of this app (and they would still need login credentials))
   skip_before_action :verify_authenticity_token, only: [:create]
@@ -98,9 +100,6 @@ class WorksController < ApplicationController
 
   # GET /works/new
   def new
-    @work = @collection.works.new
-    @work.created_by = current_user
-    @work.purchase_price_currency = Currency.find_by_iso_4217_code("EUR")
   end
 
   # GET /works/1/edit
@@ -214,11 +213,21 @@ class WorksController < ApplicationController
     false
   end
 
+  def init_work
+    @work = @collection.works.new
+    @work.created_by = current_user
+    @work.purchase_price_currency = Currency.find_by_iso_4217_code("EUR")
+  end
+
   def works_modified_form_params
     if params["works_modified_form"]
       params.require(:works_modified_form).permit(:only_location_changes, :only_non_qkunst, :from_date, :to_date)
     else
       {}
     end
+  end
+
+  def populate_collection_attributes_for_work
+    @work.populate_collection_attributes(collection: @collection)
   end
 end

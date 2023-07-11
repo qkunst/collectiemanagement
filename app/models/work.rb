@@ -140,6 +140,7 @@ class Work < ApplicationRecord
   include Work::Search
   include Work::SizingRendering
   include Work::TimeSpans
+  include HasCollectionAttributes
 
   store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6], coder: JSON
   store :old_data, coder: JSON
