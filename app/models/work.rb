@@ -473,10 +473,11 @@ class Work < ApplicationRecord
     if grade_within_collection.is_a?(String) && (grade_within_collection.strip == "")
       self.grade_within_collection = nil
     end
+  end
 
-    if public_description == ""
-      self.public_description = nil
-    end
+  # TODO: public description is still a legacy field in the database; this should be removed in the future
+  def public_description
+    collection_attributes.public_description.map(&:value).join("\n\n")
   end
 
   def report_val_sorted_artist_ids

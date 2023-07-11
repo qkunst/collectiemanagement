@@ -28,8 +28,15 @@ json.sources(work.sources) { |attribute| json.extract! attribute, :name, :id } i
 if current_api_user.ability.viewable_work_fields.include?(:artists)
   json.artists(work.artists) do |attribute|
     json.extract! attribute, :name, :id, :first_name, :prefix, :last_name, :year_of_birth, :year_of_death, :rkd_artist_id, :artist_name, :place_of_birth, :place_of_death, :description
+
+    # deprecated element => if KPN agrees remove!
     description_in_collection_context = attribute.collection_attributes.description.for_collection(@collection).map(&:value).join("\n\n")
     json.description_in_collection_context description_in_collection_context if description_in_collection_context.present?
+    # end deprecated element
+
+    json.collection_attributes(attribute.collection_attributes.for_collection(@collection)) do |collection_attribute|
+      json.extract! collection_attribute, :value, :language, :attribute_type, :label
+    end
   end
 end
 
@@ -94,7 +101,9 @@ if current_api_user.ability.can?(:read, Appraisal)
   json.replacement_value_range "#{work.replacement_value_min}-#{work.replacement_value_max}"
 
 end
-
+json.collection_attributes(work.collection_attributes) do |collection_attribute|
+  json.extract! collection_attribute, :value, :language, :attribute_type, :label
+end
 if current_api_user.ability.can?(:read, TimeSpan)
   json.time_spans(work.time_spans) do |time_span|
     json.partial! "api/v1/time_spans/time_span", locals: {time_span: time_span, work_context: true}

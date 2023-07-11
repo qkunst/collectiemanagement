@@ -122,7 +122,10 @@ RSpec.describe Api::V1::WorksController, type: :request do
         end
 
         expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["description_in_collection_context"]).to match "Private note about artist_1, firstname (1900 - 2000) in Collection with works child (sub of Collection 1 » colection with works)"
+        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["collection_attributes"][0]["value"]).to match "Private note about artist_1, firstname (1900 - 2000) in Collection with works child (sub of Collection 1 » colection with works)"
+        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["collection_attributes"][0]["language"]).to match "en"
         expect(json_data_response.find { |w| w["stock_number"] == "Q002" }["artists"][0]["description_in_collection_context"]).to be_nil
+        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["collection_attributes"].map { |a| a["language"] }.sort).to eq ["en", "nl"]
       end
 
       it "plucks" do

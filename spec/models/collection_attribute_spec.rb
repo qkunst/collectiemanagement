@@ -85,4 +85,21 @@ RSpec.describe CollectionAttribute, type: :model do
       expect(CollectionAttribute.new(**good.merge({language: "de"}))).not_to be_valid
     end
   end
+
+  describe "callbacks" do
+    it "set significantly updated at on update for works when artist is updated" do
+      ca = collection_attributes(:artist_1_collection1_attribute)
+      expect(ca.attributed.works.first.significantly_updated_at).not_to be_within(1.second).of(Time.zone.now)
+
+      ca.update(value: "new value")
+      expect(ca.attributed.works.first.significantly_updated_at).to be_within(1.second).of(Time.zone.now)
+    end
+
+    it "set significantly updated at on update for works when work attribute is updated" do
+      ca = collection_attributes(:work1_collection_attributes_description_en)
+      expect(ca.attributed.significantly_updated_at).not_to be_within(1.second).of(Time.zone.now)
+      ca.update(value: "new value")
+      expect(ca.attributed.significantly_updated_at).to be_within(1.second).of(Time.zone.now)
+    end
+  end
 end
