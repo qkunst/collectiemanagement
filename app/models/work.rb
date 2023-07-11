@@ -477,7 +477,8 @@ class Work < ApplicationRecord
 
   # TODO: public description is still a legacy field in the database; this should be removed in the future
   def public_description
-    collection_attributes.public_description.map(&:value).join("\n\n")
+    rv = collection_attributes.public_description.map(&:value).join("\n\n")
+    rv if rv.present?
   end
 
   def report_val_sorted_artist_ids
