@@ -6,13 +6,15 @@ class WorkSets::WorksController < ApplicationController
   before_action :set_work
 
   def destroy
+    work_parent_time_span = @work.current_active_time_span.time_span if @work.current_active_time_span
+
     @work_set.work_ids = @work_set.work_ids - [@work.id]
     work_set_time_span = @work_set.current_active_time_span
 
     if @work_set.save
       ReindexWorkWorker.perform_async(@work.id)
 
-      if @work.current_active_time_span && @work.current_active_time_span.time_span == work_set_time_span
+      if work_parent_time_span == work_set_time_span && @work.current_active_time_span
         @work.current_active_time_span.time_span = nil
 
         if @work.current_active_time_span.finished? && @work.current_active_time_span.save

@@ -132,13 +132,13 @@ RSpec.feature "Werken groeperen", type: :feature do
 
     expect(page.body).to match "QDT2e"
     # timespans are connected
-    expect(first_work.current_active_time_span.time_span).to eq(work_set.time_spans.first)
+    expect(first_work.current_active_time_span.time_span).to eq(work_set.current_active_time_span)
 
     within "form[action=\"/work_sets/#{work_set.id}/works/#{first_work.id}\"]" do
       click_on "⨯"
     end
 
-    expect(page.body).to match "Het werk Available is verwijderd uit deze groepering"
+    expect(page.body).to match "Het werk Available is verwijderd uit de groepering"
     expect(page.body).to match "Let op: de actieve gebeurtenis is niet beëindigd"
 
     first_work = Work.find(first_work.id)
