@@ -4,7 +4,8 @@ class DataMigratePublicDescriptionToCollectionAttributes < ActiveRecord::Migrati
     Work.where.not(public_description: nil).each do |work|
       base_collection = work.collection.base_collection
       collections << base_collection
-      work.collection_attributes.create!(value: work.read_attribute(:public_description), collection: base_collection, language: "nl", attribute_type: "public_description")
+      value = work.read_attribute(:public_description)
+      work.collection_attributes.create!(value: value, collection: base_collection, language: "nl", attribute_type: "public_description") if value.present?
     end
 
     collections.each do |collection|
