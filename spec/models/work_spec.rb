@@ -99,6 +99,7 @@
 #  frame_type_id                                       :bigint
 #  import_collection_id                                :bigint
 #  locality_geoname_id                                 :bigint
+#  main_location_id                                    :integer
 #  medium_id                                           :bigint
 #  owner_id                                            :bigint
 #  placeability_id                                     :bigint
@@ -119,6 +120,7 @@
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
+  let(:collection) { collections(:collection1) }
   describe "callbacks" do
     describe "significantly_updated_at" do
       it "does not update when nothing changed" do
@@ -128,7 +130,7 @@ RSpec.describe Work, type: :model do
         }.not_to change(w, :significantly_updated_at)
       end
       it "does update on create" do
-        w = collections(:collection1).works.create
+        w = collection.works.create
         expect(w.significantly_updated_at.to_date).to eq(w.created_at.to_date)
       end
       it "does update on a title change" do
@@ -453,6 +455,53 @@ RSpec.describe Work, type: :model do
         expect(work.location_history(empty_locations: false, skip_current: true).collect { |a| a[:location] }).to eq(["first location"])
       end
     end
+
+    describe "#main_location=" do
+      it "updates location" do
+        location = Location.create(name: "test new location", collection: collection)
+        w = Work.create!(main_location: location, collection: collection)
+        w = Work.find(w.id)
+        expect(w.location).to eq("test new location")
+      end
+    end
+
+    describe "#main_location_id=" do
+      it "sets the location id when number" do
+        location = Location.create(name: "test", collection: collection)
+        w = Work.create!(main_location_id: location.id, collection: collection)
+        w = Work.find(w.id)
+        expect(w.main_location).to eq(location)
+      end
+
+      it "updates location" do
+        location = Location.create(name: "test new location", collection: collection)
+        w = Work.create!(main_location_id: location.id, collection: collection)
+        w = Work.find(w.id)
+        expect(w.location).to eq("test new location")
+      end
+
+      it "sets the location id when numberstring" do
+        location = Location.create(name: "test", collection: collection)
+        w = Work.create!(main_location_id: location.id.to_s, collection: collection)
+        w = Work.find(w.id)
+        expect(w.main_location).to eq(location)
+      end
+
+      it "creates a new location when main_location_id is not a number " do
+        w = Work.create!(collection: collection, main_location_id: "Depot, Teststraat 22")
+        w = Work.find(w.id.to_s)
+        expect(w.main_location.name).to eq("Depot")
+      end
+
+      it "reuses an existing location when main_location_id is not a number, but the same location is found by the name" do
+        w = Work.create!(collection: collection, main_location_id: "Depot, Teststraat 22")
+        w2 = Work.create!(collection: collection, main_location_id: "Depot, Teststraat 22")
+        w = Work.find(w.id)
+        expect(w.main_location.name).to eq("Depot")
+        expect(w.main_location).to eq(w2.main_location)
+      end
+    end
+
     describe "#purchased_on_with_fallback" do
       it "should return nil when not set" do
         w = works(:work1)
@@ -505,9 +554,14 @@ RSpec.describe Work, type: :model do
     end
     describe "#restore_last_location_if_blank!" do
       it "shoudl restore last location when blenk" do
-        w = collections(:collection1).works.create(location: "first location")
+        w = collections(:collection1).works.create
+        w.main_location_id = "first location"
+        w.save
+        expect(w.main_location.name).to eq("first location")
+        expect(w.valid?).to be_truthy
 
         original_location_description = w.location_description
+        expect(original_location_description).to eq("first location")
         w.location = nil
         w.location_floor = nil
         w.location_detail = nil

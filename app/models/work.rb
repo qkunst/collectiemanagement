@@ -99,6 +99,7 @@
 #  frame_type_id                                       :bigint
 #  import_collection_id                                :bigint
 #  locality_geoname_id                                 :bigint
+#  main_location_id                                    :integer
 #  medium_id                                           :bigint
 #  owner_id                                            :bigint
 #  placeability_id                                     :bigint
@@ -165,37 +166,40 @@ class Work < ApplicationRecord
   after_save :touch_collection!
   attr_accessor :skip_touch_collection
 
+  belongs_to :balance_category, optional: true
   belongs_to :cluster, optional: true
   belongs_to :collection, class_name: "Collection"
-  belongs_to :owner, optional: true
   belongs_to :condition_frame, class_name: "Condition", optional: true
   belongs_to :condition_work, class_name: "Condition", optional: true
   belongs_to :created_by, class_name: "User", optional: true
   belongs_to :frame_type, optional: true
+  belongs_to :geoname_summary, foreign_key: :locality_geoname_id, primary_key: :geoname_id, optional: true
   belongs_to :import_collection, optional: true
+  belongs_to :main_location, optional: true, class_name: "Location"
   belongs_to :medium, optional: true
+  belongs_to :owner, optional: true
   belongs_to :placeability, optional: true
   belongs_to :purchase_price_currency, class_name: "Currency", optional: true
   belongs_to :style, optional: true
   belongs_to :subset, optional: true
   belongs_to :work_status, optional: true
-  belongs_to :balance_category, optional: true
-  belongs_to :geoname_summary, foreign_key: :locality_geoname_id, primary_key: :geoname_id, optional: true
+
   has_and_belongs_to_many :artists, -> { distinct }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :attachments
+  has_and_belongs_to_many :custom_reports
   has_and_belongs_to_many :damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :frame_damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
+  has_and_belongs_to_many :library_items
   has_and_belongs_to_many :object_categories, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :sources, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :techniques, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :themes, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
-  has_and_belongs_to_many :custom_reports
-  has_and_belongs_to_many :attachments
-  has_and_belongs_to_many :library_items
   has_and_belongs_to_many :work_sets
-  has_many :work_set_types, through: :work_sets
+
   has_many :appraisals, as: :appraisee
   has_many :messages, as: :subject_object
   has_many :time_spans, as: :subject
+  has_many :work_set_types, through: :work_sets
 
   scope :artist, ->(artist) { joins("INNER JOIN artists_works ON works.id = artists_works.work_id").where(artists_works: {artist_id: artist.id}) }
   scope :has_number, ->(number) { number.blank? ? none : where(stock_number: number).or(where(alt_number_1: number)).or(where(alt_number_2: number)).or(where(alt_number_3: number)) }
@@ -538,6 +542,24 @@ class Work < ApplicationRecord
     end
   end
 
+  def main_location_id= id
+    self.main_location = if id.is_a?(Integer) || id.to_s.match(/\A\d+$/) || id.blank?
+      Location.find(id)
+    else
+      self.main_location = Location.find_or_create_by_name_and_collection(id, collection.base_collection)
+    end
+    self.location = main_location.name
+  end
+
+  def main_location= location
+    self.location = location.name
+    super(location)
+  end
+
+  # def location
+  #   binding.irb
+  # end
+
   def restore_last_location_if_blank!
     unless location_description
       prev_location = location_history(skip_current: true, empty_locations: false).last
@@ -616,14 +638,15 @@ class Work < ApplicationRecord
     self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price && purchase_price_currency
   end
 
-  def significantly_updated!
+  def significantly_updated!(save_record = false)
     self.significantly_updated_at = Time.now
+    save unless save_record == false
   end
 
   private
 
   def mark_significant_update_if_significant
-    significantly_updated! if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
+    significantly_updated!(false) if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
   end
 
   def mark_as_removed_from_collection_according_to_work_status

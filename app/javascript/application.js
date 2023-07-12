@@ -143,6 +143,11 @@ var collectieBeheerInit = function () {
     minimumInputLength: 1
   });
 
+  $(".select2.location").select2({
+    placeholder: "Type een lokaliteit...",
+    tags: true
+  })
+
   $(".chosen-select").chosen({
     placeholder_text_single: "Selecteer een optie",
     placeholder_text_multiple: "Type de opties",

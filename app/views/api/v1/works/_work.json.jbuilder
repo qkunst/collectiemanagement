@@ -40,6 +40,8 @@ if current_api_user.ability.viewable_work_fields.include?(:artists)
   end
 end
 
+json.public_description work.public_description
+
 json.object_categories(work.object_categories) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:object_categories)
 json.techniques(work.techniques) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:techniques)
 json.damage_types(work.damage_types) { |attribute| json.extract! attribute, :name, :id } if current_api_user.ability.viewable_work_fields.include?(:damage_types)

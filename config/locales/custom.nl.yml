@@ -231,7 +231,7 @@ nl:
         location_raw:
           not_set: Adres en/of gebouw(deel) onbekend
         location_detail_raw:
-          not_set: Geen locatiespecificiatie
+          not_set: Geen locatiespecificatie
         location_floor_raw:
           not_set: Geen verdieping
         subset_id:
@@ -471,6 +471,7 @@ nl:
         location_floor: Verdieping
         location_floor_raw: Verdieping
         location_raw: Adres en/of gebouw(deel)
+        main_location: Locatie
         main_collection: Kerncollectie
         market_value: Marktwaarde (€)
         market_value_max: Marktwaarde (max)

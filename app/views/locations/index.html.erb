@@ -1,0 +1,13 @@
+<h2>Overzicht Locaties</h2>
+<table>
+  <thead>
+    <tr><th>Locatie</th><th>Adres</th><th>Zichtbaar</th></tr>
+      </thead>
+  <tbody>
+<% @locations.each do |location| %>
+<tr>
+<td><%= link_to location.name, edit_collection_location_path(@collection, location) %></td><td><address><%= simple_format location.address%></address></td><td><%=location.hide? ? "✗" : "✔︎"%>
+</tr>
+<% end %>
+</tbody>
+</table>

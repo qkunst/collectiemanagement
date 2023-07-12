@@ -97,6 +97,7 @@
 #  frame_type_id                                       :bigint
 #  import_collection_id                                :bigint
 #  locality_geoname_id                                 :bigint
+#  main_location_id                                    :integer
 #  medium_id                                           :bigint
 #  owner_id                                            :bigint
 #  placeability_id                                     :bigint

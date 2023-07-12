@@ -34,7 +34,11 @@
       </fieldset>
       <div class="row">
       <div class="medium-5 columns">
-        <%= f.input :location %>
+        <% if @work.location && !@work.main_location %>
+          <%= f.input :location %>
+        <% else %>
+          <%= f.association :main_location, input_html: {class: 'select2 location'}  %>
+        <% end %>
       </div>
       <div class="medium-4 columns">
         <%= f.input :location_floor %>

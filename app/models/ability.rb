@@ -40,7 +40,7 @@ class Ability
   def editable_work_fields
     permitted_fields = []
     if can?(:edit_location, Work)
-      permitted_fields += [:location_detail, :location, :location_floor, :work_status_id]
+      permitted_fields += [:location_detail, :location, :main_location_id, :location_floor, :work_status_id]
     end
     if can?(:write_internal_comments, Work)
       permitted_fields += [:internal_comments]

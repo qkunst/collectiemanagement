@@ -83,7 +83,7 @@ Rails.application.routes.draw do
   resources :collections do
     get "manage" => "collections#manage"
     resources :contacts
-
+    resources :locations
     resources :users, module: :collection
     resources :library_items
     resources :time_spans, only: [:index, :show]
