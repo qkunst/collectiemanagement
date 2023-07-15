@@ -159,8 +159,10 @@ class Work < ApplicationRecord
   before_save :update_artist_name_rendered
   before_save :cache_tag_list!
   before_save :cache_collection_locality_artist_involvements_texts!
-  before_save :mark_significant_update_if_significant
+  before_save :update_location_with_main_location
   before_save :mark_as_removed_from_collection_according_to_work_status
+
+  before_save :mark_significant_update_if_significant
   before_create :significantly_updated!
 
   after_save :touch_collection!
@@ -543,16 +545,16 @@ class Work < ApplicationRecord
   end
 
   def main_location_id= id
-    self.main_location = if id.is_a?(Integer) || id.to_s.match(/\A\d+$/) || id.blank?
+    self.main_location = if id.is_a?(Integer) || id.to_s.match(/\A\d+$/)
       Location.find(id)
+    elsif id.blank?
+      nil
     else
       self.main_location = Location.find_or_create_by_name_and_collection(id, collection.base_collection)
     end
-    self.location = main_location.name
   end
 
   def main_location= location
-    self.location = location.name
     super(location)
   end
 
@@ -651,6 +653,10 @@ class Work < ApplicationRecord
 
   def mark_as_removed_from_collection_according_to_work_status
     self.removed_from_collection_at ||= Time.now if work_status&.set_work_as_removed_from_collection
+  end
+
+  def update_location_with_main_location
+    self.location = main_location.name if main_location
   end
 
   class << self

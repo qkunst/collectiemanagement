@@ -6,6 +6,7 @@
   small {
     opacity: 0.6;
   }
+
   margin-bottom: 1em;
 }
 
@@ -14,11 +15,15 @@
     background: #eee;
     color: #777;
   }
+
   &.primary {
     color: #fff;
+
     &:hover {
       color: #fff;
-    };
+    }
+
+    ;
   }
 }
 
@@ -30,10 +35,12 @@ fieldset {
   margin-top: 1em;
   margin-bottom: 1em;
   border-bottom: 1px solid $light-grey;
+
   legend {
     color: $header-color;
     font-size: 1.2em;
   }
+
   &.subform {
     padding: 1em;
     border: 1px solid $light-grey;
@@ -64,21 +71,30 @@ fieldset.warning {
   display: block;
   margin-bottom: 1em;
 }
+
 .boolean.input .hint {
   margin-top: -0.5em;
   padding-left: 1.5rem;
 }
 
-.chosen-container, .select2-container {
-  margin-bottom: 1rem!important;
+.chosen-container,
+.select2-container {
+  margin-bottom: 1rem !important;
+  width: 100% !important;
 }
 
-.medium-3, .small-3, .small-4 {
-  select, .button, .dropdwon.menu, .dropdown.menu .is-dropdown-submenu-parent {
+.medium-3,
+.small-3,
+.small-4 {
+
+  select,
+  .button,
+  .dropdwon.menu,
+  .dropdown.menu .is-dropdown-submenu-parent {
     width: 100%;
   }
 }
 
-.menu > li.is-dropdown-submenu-parent {
+.menu>li.is-dropdown-submenu-parent {
   padding: 0;
 }

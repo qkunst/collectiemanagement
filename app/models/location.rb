@@ -13,6 +13,8 @@
 #  collection_id :integer
 #
 class Location < ApplicationRecord
+  include Hidable
+
   NAME_SPLITTER = /[,-]/
   belongs_to :collection
 
@@ -46,6 +48,6 @@ class Location < ApplicationRecord
   private
 
   def update_works!
-    works.map { |w| significantly_updated!(false) }
+    works.map { |w| w.save }
   end
 end

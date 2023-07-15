@@ -8,4 +8,8 @@ class LocationsController < ApplicationController
   def controlled_class
     Location
   end
+
+  def white_listed_params
+    params.require(singularized_name.to_sym).permit(:name, :address, :order, :hide, :collection_id)
+  end
 end

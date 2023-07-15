@@ -18,7 +18,11 @@
       <tbody>
       <% if @collection.base_collection.show_availability_status && work.availability_status == :lent && work.current_active_time_span.contact&.business?%>
       <% end %>
+
       <%= define_unless_blank :location %>
+      <% if @work && @work.main_location&.address%>
+        <tr><th>Adres</th><td><%= link_to @work.main_location.address, edit_collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
+      <% end %>
       <%= define_unless_blank :location_floor %>
       <%= define_unless_blank :location_detail %>
       <% if @selection[:display] == :detailed_with_location_history %>

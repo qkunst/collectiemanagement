@@ -562,6 +562,7 @@ RSpec.describe Work, type: :model do
 
         original_location_description = w.location_description
         expect(original_location_description).to eq("first location")
+        w.main_location_id = nil
         w.location = nil
         w.location_floor = nil
         w.location_detail = nil

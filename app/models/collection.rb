@@ -73,6 +73,7 @@ class Collection < ApplicationRecord
   has_many :collections_stages
   has_many :reminders
   has_many :library_items
+  has_many :locations
   has_many :time_spans
   has_many :contacts
 
