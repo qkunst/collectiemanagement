@@ -243,7 +243,7 @@ RSpec.describe Collection, type: :model do
       end
     end
 
-    describe "#main_collection" do
+    describe "#base_collection" do
       it "should return self if no main collection exists" do
         expect(collections(:boring_collection).base_collection).to eq(collections(:boring_collection))
         expect(collections(:sub_boring_collection).base_collection).to eq(collections(:sub_boring_collection))
@@ -253,7 +253,50 @@ RSpec.describe Collection, type: :model do
         expect(collections(:collection_with_works_child).base_collection).to eq(collections(:collection_with_works))
         expect(collections(:collection_with_works).base_collection).to eq(collections(:collection_with_works))
       end
+
+      it "should return the first parent collection marked as base when it exists" do
+        collections(:collection1).update(base: true)
+        expect(collections(:collection_with_works_child).base_collection).to eq(collections(:collection_with_works))
+        expect(collections(:collection_with_works).base_collection).to eq(collections(:collection_with_works))
+      end
     end
+
+    describe "#base_collections" do
+      it "should return an empty array if no main collection exists" do
+        expect(collections(:boring_collection).base_collections).to eq([])
+        expect(collections(:sub_boring_collection).base_collections).to eq([])
+      end
+
+      it "should return the parent collection marked as base when it exists" do
+        expect(collections(:collection_with_works_child).base_collections).to eq([collections(:collection_with_works)])
+        expect(collections(:collection_with_works).base_collections).to eq([collections(:collection_with_works)])
+      end
+
+      it "should return the first parent collection marked as base when it exists" do
+        collections(:collection1).update(base: true)
+        expect(collections(:collection_with_works_child).base_collections).to eq([collections(:collection1), collections(:collection_with_works)])
+        expect(collections(:collection_with_works).base_collections).to eq([collections(:collection1), collections(:collection_with_works)])
+      end
+    end
+
+    describe "#super_base_collection" do
+      it "should return self if no main collection exists" do
+        expect(collections(:boring_collection).super_base_collection).to eq(collections(:boring_collection))
+        expect(collections(:sub_boring_collection).super_base_collection).to eq(collections(:sub_boring_collection))
+      end
+
+      it "should return the parent collection marked as base when it exists" do
+        expect(collections(:collection_with_works_child).super_base_collection).to eq(collections(:collection_with_works))
+        expect(collections(:collection_with_works).super_base_collection).to eq(collections(:collection_with_works))
+      end
+
+      it "should return the first parent collection marked as base when it exists" do
+        collections(:collection1).update(base: true)
+        expect(collections(:collection_with_works_child).super_base_collection).to eq(collections(:collection1))
+        expect(collections(:collection_with_works).super_base_collection).to eq(collections(:collection1))
+      end
+    end
+
     describe "#search_works" do
       it "should return works for this collection" do
         expect(collections(:collection1).search_works.pluck(:id)).to include(works(:work1).id)

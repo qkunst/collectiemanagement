@@ -550,7 +550,7 @@ class Work < ApplicationRecord
     elsif id.blank?
       nil
     else
-      self.main_location = Location.find_or_create_by_name_and_collection(id, collection.base_collection)
+      self.main_location = Location.find_or_create_by_name_and_collection(id, collection.super_base_collection)
     end
   end
 

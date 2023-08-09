@@ -37,7 +37,7 @@
         <% if @work.location && !@work.main_location %>
           <%= f.input :location %>
         <% else %>
-          <%= f.association :main_location, input_html: {class: 'select2 location'}, collection: @collection.base_collection.locations.not_hidden  %>
+          <%= f.association :main_location, input_html: {class: 'select2 location'}, collection: @collection.super_base_collection.locations.not_hidden  %>
         <% end %>
       </div>
       <div class="medium-4 columns">

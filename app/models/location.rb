@@ -31,7 +31,7 @@ class Location < ApplicationRecord
   end
 
   def collection= collection
-    self.collection_id = collection.base_collection.id
+    self.collection_id = collection.super_base_collection.id
   end
 
   def name= name

@@ -143,7 +143,11 @@ class Collection < ApplicationRecord
   end
 
   def base_collections
-    expand_with_parent_collections(:desc).not_system.where(base: true)
+    expand_with_parent_collections(:asc).not_system.where(base: true)
+  end
+
+  def super_base_collection
+    base_collections.first || self
   end
 
   def base_collection?
