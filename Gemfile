@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7"
+gem "rails", "~> 7", ">= 7.0.7.1"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -42,10 +42,10 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" #, git: "https://github.com/heartcombo/devise.git"
+gem "devise" , ">= 4.9.0" #, git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
-gem "carrierwave"
+gem "carrierwave", ">= 2.2.3"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
 gem "nokogiri"
@@ -56,7 +56,7 @@ gem "attribute_normalizer" # keeps the database clean
 
 gem "elasticsearch-model", "~> 7"
 gem "elasticsearch-rails", "~> 7"
-gem "rspec-rails", group: [:development, :test]
+gem "rspec-rails", ">= 6.0.2", group: [:development, :test]
 
 ##
 ## DEVELOPMENT
@@ -81,7 +81,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.2.0"
 gem "kramdown"
 
 ##
@@ -99,7 +99,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
-gem "paper_trail" #, "11.1.0"
+gem "paper_trail" , ">= 14.0.0" #, "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "daemons"
@@ -124,9 +124,9 @@ gem "stackprof"
 gem "memory_profiler"
 
 group :test, :gitlabci do
-  gem "database_cleaner"
+  gem "database_cleaner", ">= 2.0.2"
   gem "simplecov", require: false
-  gem "bullet"
+  gem "bullet", ">= 7.0.4"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
@@ -134,5 +134,5 @@ gem "annotate", group: [:development]
 
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
-gem "invisible_captcha"
-gem "jsbundling-rails", "~> 1.0"
+gem "invisible_captcha", ">= 2.1.0"
+gem "jsbundling-rails", "~> 1.1", ">= 1.1.0"
