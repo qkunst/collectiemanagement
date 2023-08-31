@@ -55,8 +55,7 @@ class ArtistInvolvement < ApplicationRecord
 
   def place_geoname_name
     gs = geoname_summary
-    gs ||= GeonameSummary.where(geoname_id: involvement.place_geoname_id).first if involvement
-    return gs.label if gs
+    gs || (GeonameSummary.where(geoname_id: involvement.place_geoname_id).first&.label if involvement)
   end
 
   def name

@@ -43,8 +43,7 @@ class Reminder < ApplicationRecord
   end
 
   def last_sent_at
-    last_message = messages.order(:created_at).last
-    return last_message.created_at if last_message
+    messages.order(:created_at).last&.created_at
   end
 
   def next_dates(amount = 10)

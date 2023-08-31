@@ -49,7 +49,7 @@ module Report
 
         counts[aggregation_key] = {count: (base_report ? 0 : aggregation.doc_count), subs: subcounts_in_hash}
       end
-      return counts unless IGNORE_KEYS.include?(aggregation_key)
+      counts unless IGNORE_KEYS.include?(aggregation_key)
     end
 
     def parse_bucket_key aggregation_key, bucket_key

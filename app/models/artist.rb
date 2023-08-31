@@ -167,13 +167,11 @@ class Artist < ApplicationRecord
   end
 
   def place_of_birth_geoname_name
-    gs = GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first
-    return gs.label if gs
+    GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first&.label
   end
 
   def place_of_death_geoname_name
-    gs = GeonameSummary.where(geoname_id: place_of_death_geoname_id).first
-    return gs.label if gs
+    GeonameSummary.where(geoname_id: place_of_death_geoname_id).first&.label
   end
 
   def combine_artists_with_ids(artist_ids_to_combine_with, options = {})

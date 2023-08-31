@@ -41,7 +41,7 @@ module Work::ParameterRerendering
       rv.push(damage_types.collect { |a| a.name }.join(", "))
       rv.push(condition_work_comments) if condition_work_comments?
       rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
-      return rv if rv != ""
+      rv if rv != ""
     end
 
     def condition_frame_rendered
@@ -50,7 +50,7 @@ module Work::ParameterRerendering
       rv.push(frame_damage_types.collect { |a| a.name }.join(", "))
       rv.push(condition_frame_comments) if condition_frame_comments?
       rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
-      return rv if rv != ""
+      rv if rv != ""
     end
 
     def hpd_keywords

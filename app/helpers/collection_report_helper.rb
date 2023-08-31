@@ -45,7 +45,7 @@ module CollectionReportHelper
     present_filter_param = present_filter_params.to_a.last
 
     param_name = present_filter_param[0]
-    field_name = param_name.sub(/filter\[/, "").gsub(/[\[\]]/, "")
+    field_name = param_name.sub("filter[", "").gsub(/[\[\]]/, "")
 
     value = present_filter_param[1]
 

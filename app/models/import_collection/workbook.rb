@@ -260,7 +260,7 @@ module ImportCollection::Workbook
         corresponding_value = corresponding_value.to_s.tr(",", ".")
       end
       # hack against aggressive conversion to floats
-      if field_type == :string && corresponding_value && corresponding_value.to_s.start_with?(/TEXTVALUE/)
+      if field_type == :string && corresponding_value && corresponding_value.to_s.start_with?("TEXTVALUE")
         corresponding_value = corresponding_value.sub("TEXTVALUE", "")
       end
       if (assign_strategy == :replace) || ((assign_strategy == :first_then_join_rest) && (index == 0))
