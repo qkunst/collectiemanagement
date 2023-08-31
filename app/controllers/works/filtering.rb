@@ -112,7 +112,9 @@ module Works::Filtering
 
       selection_group = @selection[:group]
 
-      @works.select(IDS_TO_SELECT_WHEN_GROUPING[selection_group || :id]).includes(selection_group).each do |work|
+      include_selection_group = [selection_group] - [:grade_within_collection]
+
+      @works.select(IDS_TO_SELECT_WHEN_GROUPING[selection_group || :id]).includes(include_selection_group).each do |work|
         groups = work.send(selection_group)
         groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
         [groups].flatten.each do |group|

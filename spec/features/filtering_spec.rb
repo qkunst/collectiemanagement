@@ -25,6 +25,7 @@ RSpec.feature "Filter from report", type: :feature do
 
     expect(page).to have_content("Er worden vanwege een filter #{I18n.translate "count.works", count: inital_works_count} getoond.")
 
+    select "Niveau", from: "Groepeer:"
     select "Compleet", from: "Weergave:"
 
     click_on("Filter")
