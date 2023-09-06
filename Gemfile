@@ -69,7 +69,7 @@ group :development do
   gem "capistrano-rails"
   gem 'capistrano-sidekiq' #, group: :development
   gem "highline"
-  gem "web-console"
+  gem "web-console", ">= 4.2.1"
   gem "listen"
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
