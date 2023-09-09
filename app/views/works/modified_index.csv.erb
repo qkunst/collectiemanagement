@@ -1,0 +1,9 @@
+<%=(["Datum wijziging","Inventarisnr.","Vervaardiger","Titel","Gebruiker"]+@all_changed_keys.map{|key| Work.human_attribute_name(key.gsub(/_id$/, ""))}).to_csv%><% @works_with_version_created_at.each do |work_with_version_created_at| %>
+  <% work = work_with_version_created_at.work %>
+  <% if work %>
+    <% created_at = work_with_version_created_at.created_at %>
+    <% user = work_with_version_created_at.user_name %>
+    <% changes = work_with_version_created_at.cleaned_changes(expose_internals: current_user.qkunst?) %>
+    <%= raw ([I18n.l(created_at, format: :short), (work.stock_number || "-"), (work.artist_name_rendered || "-"), work.title_rendered, (user || "onbekend")]+@all_changed_keys.map{|k| v=changes[k]; "#{v.old}=>#{v.new}" if v}).to_csv%>
+  <% end %>
+<% end %>

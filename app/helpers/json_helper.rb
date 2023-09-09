@@ -34,32 +34,11 @@ module JsonHelper
   end
 
   def render_object_changes_json json
-    ignore_keys = Work::INSIGNIFICANT_FIELDS.map(&:to_s)
-    ignore_keys += ["internal_comments"] unless current_user.qkunst?
-    html_bits = []
+    sanitize(json.map do |key, change|
+      key_human = Work.human_attribute_name(key.gsub(/_id$/, ""))
 
-    first = true
-
-    json.each do |key, values|
-      unless ignore_keys.include?(key)
-        key_human = Work.human_attribute_name(key.gsub(/_id$/, ""))
-        if !first
-          key_human = key_human.downcase
-          first = false
-        end
-        key_human_formatted = "<strong>#{key_human}</strong>"
-
-        html_bits << if key.ends_with? "_id"
-          "#{key_human_formatted} gewijzigd"
-        elsif key.starts_with? "photo_"
-          "#{key_human_formatted} #{values[0].blank? ? "toegevoegd" : "gewijzigd"}"
-        elsif values[0].blank?
-          "#{key_human_formatted} #{simple_format_value(values[1].to_s)}"
-        else
-          "#{key_human_formatted} <s>#{simple_format_value(values[0].to_s)}</s>#{simple_format_value(values[1].to_s)}"
-        end
-      end
-    end
-    html_bits.to_sentence.html_safe
+      value = "<s>#{simple_format_value(change.old)}</s> #{simple_format_value(change.new)}"
+      "<strong>#{key_human}</strong> #{value}"
+    end.to_sentence, tags: %w[s strong])
   end
 end

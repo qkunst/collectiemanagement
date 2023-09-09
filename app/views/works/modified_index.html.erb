@@ -34,11 +34,11 @@
   </thead>
   <tbody>
     <% @works_with_version_created_at.each do |work_with_version_created_at| %>
-      <% work = work_with_version_created_at[1] %>
+      <% work = work_with_version_created_at.work %>
       <% if work %>
-        <% created_at = work_with_version_created_at[0] %>
-        <% user = work_with_version_created_at[2] %>
-        <% changes = work_with_version_created_at[3] %>
+        <% created_at = work_with_version_created_at.created_at %>
+        <% user = work_with_version_created_at.user_name %>
+        <% changes = work_with_version_created_at.cleaned_changes(expose_internals: current_user.qkunst?) %>
         <tr>
           <td><%= link_to I18n.l(created_at, format: :short), collection_work_path(@collection, work) %></td>
           <td><%= link_to work.stock_number || "-", collection_work_path(@collection, work) %></td>

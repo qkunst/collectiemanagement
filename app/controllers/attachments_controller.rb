@@ -114,10 +114,13 @@ class AttachmentsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def attachment_params
-    a_params = params.require(:attachment).permit(:name, :file, :file_cache, visibility: [], append_work_ids: [], append_artist_ids: [])
+    permit = [:name, :file, :file_cache, append_work_ids: [], append_artist_ids: []]
+
+    permit += [visibility: []] if can?(:edit_visibility, @attachment) || !@attachment&.persisted?
+
+    a_params = params.require(:attachment).permit(permit)
     a_params[:append_works] = current_user.accessible_works.where(id: a_params.delete(:append_work_ids))
     a_params[:append_artists] = current_user.accessible_artists.where(id: a_params.delete(:append_artist_ids))
-    a_params.delete(:visibility) unless !(@attachment && @attachment.persisted?) || can?(:edit_visibility, @attachment)
     a_params
   end
 end

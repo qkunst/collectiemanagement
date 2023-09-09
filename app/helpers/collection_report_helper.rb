@@ -108,8 +108,11 @@ module CollectionReportHelper
       link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
       group = group.to_s.gsub(/(.*)_split$/, '\1')
-      id_separator = "."
-      id_separator = "_" unless (group.to_s.ends_with?("s") && group.to_s != "work_status") || group.to_s.ends_with?("split")
+      id_separator = if (group.to_s.ends_with?("s") && group.to_s != "work_status") || group.to_s.ends_with?("split")
+        "."
+      else
+        "_"
+      end
       @params["filter[#{group}#{id_separator}id]"] = selection.keys
 
       link_label = selection.values.to_sentence

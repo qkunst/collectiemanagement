@@ -1,6 +1,43 @@
 # frozen_string_literal: true
 
 class WorksController < ApplicationController
+  class Modification
+    class Change
+      include ActiveModel::Model
+      attr_accessor :old, :new
+    end
+    include ActiveModel::Model
+    attr_accessor :work, :changes, :user, :created_at
+
+    def user_name
+      user&.first&.name
+    end
+
+    def changed_keys
+      changes.keys - Work::INSIGNIFICANT_FIELDS.map(&:to_s)
+    end
+
+    def cleaned_changes(expose_internals: false)
+      ignore_keys = Work::INSIGNIFICANT_FIELDS.map(&:to_s)
+      ignore_keys += ["internal_comments"] unless expose_internals
+
+      changes.map do |key, values|
+        unless ignore_keys.include?(key)
+          change = if key.ends_with? "_id"
+            Change.new(new: "gewijzigd")
+          elsif key.starts_with? "photo_"
+            Change.new(new: values[0].blank? ? "toegevoegd" : "gewijzigd")
+          elsif values[0].blank?
+            Change.new(new: values[1].to_s)
+          else
+            Change.new(new: values[1].to_s, old: values[0].to_s)
+          end
+
+          [key, change]
+        end
+      end.compact.to_h
+    end
+  end
   include ActionController::Streaming
   include Works::ZipResponse
   include Works::XlsxResponse
@@ -161,7 +198,13 @@ class WorksController < ApplicationController
 
     @result_count = versions.count
     @unlimited_result_count = versions.unscope(:limit).count
-    @works_with_version_created_at = versions.collect { |a| [a.created_at, a.reify, User.where(id: a.whodunnit).first&.name, (a.object_changes ? YAML.load(a.object_changes) : {})] }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+    @works_with_version_created_at = versions.collect { |a| Modification.new(created_at: a.created_at, work: a.reify, user: User.where(id: a.whodunnit), changes: (a.object_changes ? YAML.load(a.object_changes) : {})) }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+    @all_changed_keys = @works_with_version_created_at.map(&:changed_keys).flatten.uniq.sort
+
+    respond_to do |format|
+      format.html { render :modified_index }
+      format.csv { render :modified_index }
+    end
   end
 
   # DELETE /works/1
