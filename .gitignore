@@ -46,3 +46,4 @@ prod-console
 !/app/assets/builds/.keep
 rspec.xml
 /db/geonames_cache
+/firefox
