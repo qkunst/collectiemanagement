@@ -163,7 +163,7 @@ class Work < ApplicationRecord
   before_save :mark_as_removed_from_collection_according_to_work_status
 
   before_save :mark_significant_update_if_significant
-  before_create :significantly_updated!
+  before_create :significantly_updated
 
   after_save :touch_collection!
   attr_accessor :skip_touch_collection
@@ -640,15 +640,19 @@ class Work < ApplicationRecord
     self.purchase_price_in_eur = purchase_price_currency.to_eur(purchase_price) if purchase_price && purchase_price_currency
   end
 
-  def significantly_updated!(save_record = false)
+  def significantly_updated
     self.significantly_updated_at = Time.now
-    save unless save_record == false
+  end
+
+  def significantly_updated!
+    significantly_updated
+    save
   end
 
   private
 
   def mark_significant_update_if_significant
-    significantly_updated!(false) if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
+    significantly_updated if (changed.map(&:to_sym) - Work::INSIGNIFICANT_FIELDS).count > 0
   end
 
   def mark_as_removed_from_collection_according_to_work_status

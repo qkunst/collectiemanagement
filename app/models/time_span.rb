@@ -34,7 +34,7 @@ class TimeSpan < ApplicationRecord
   STATUSSES = [:concept, :reservation, :active, :finished]
 
   belongs_to :collection
-  belongs_to :subject, polymorphic: true, touch: true
+  belongs_to :subject, polymorphic: true
   belongs_to :contact, optional: true
   belongs_to :time_span, optional: true
 
@@ -47,6 +47,7 @@ class TimeSpan < ApplicationRecord
 
   validate :validate_subject_available?
 
+  before_save :significantly_update_works!
   after_save :remove_work_from_collection_when_purchase_active
   after_save :sync_time_spans_for_works_when_work_set
 
@@ -309,6 +310,10 @@ class TimeSpan < ApplicationRecord
         end
       end
     end
+  end
+
+  def significantly_update_works!
+    subject.significantly_updated!
   end
 
   def created_recently?

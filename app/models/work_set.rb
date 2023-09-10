@@ -36,7 +36,7 @@ class WorkSet < ApplicationRecord
 
   before_validation :add_works_to_active_time_span
 
-  after_save :reindex_works!
+  before_save :significantly_update_works!
 
   class << self
     def names_hash
@@ -187,9 +187,10 @@ class WorkSet < ApplicationRecord
     end
   end
 
-  def reindex_works!
-    works.each { |work| ReindexWorkWorker.perform_async(work.id) }
+  def significantly_update_works!
+    works.each(&:significantly_updated!)
   end
+  alias_method :significantly_updated!, :significantly_update_works!
 
   def add_works_to_active_time_span
     current_active_time_span&.save

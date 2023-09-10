@@ -177,6 +177,23 @@ RSpec.describe TimeSpan, type: :model do
         expect(work_time_spans.map(&:reload).map(&:time_span).uniq).to include(time_span)
       end
 
+      describe "#significantly_update_works!" do
+        it "significantly updates edit status of works" do
+          work = works(:work1)
+          work.update_column(:significantly_updated_at, 1.day.ago)
+          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+          time_span.save
+          expect(Work.find(work.id).significantly_updated_at).to be > 1.hour.ago
+        end
+
+        it "triggers async reindex of work" do
+          work = works(:work1)
+          expect(work).to receive(:reindex_async!)
+          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+          time_span.save
+        end
+      end
+
       context "rental outgoing" do
         let(:classification) { :rental_outgoing }
 
