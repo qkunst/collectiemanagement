@@ -193,7 +193,7 @@ class WorksController < ApplicationController
     versions = versions.where("versions.created_at <= ?", @form.to_date.end_of_day) if @form.to_date
 
     if @form.active?
-      versions = versions.limit(2500)
+      versions = versions.limit(10_000)
     end
 
     @result_count = versions.count
