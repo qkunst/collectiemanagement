@@ -56,7 +56,7 @@ RSpec.describe Artist, type: :model do
   end
   describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
     it "should work", skip_ci: true do
-      Sidekiq::Worker.drain_all
+      Sidekiq::Worker.clear_all
 
       ids = []
       c = collections(:collection1)

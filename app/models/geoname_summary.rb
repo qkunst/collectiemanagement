@@ -30,7 +30,7 @@ class GeonameSummary < ApplicationRecord
   before_save :cache_parent_geoname_ids!
 
   def to_s
-    "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description[0..30]}\">"
+    "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description&.[](0..30)}\">"
   end
 
   def label
