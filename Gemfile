@@ -130,7 +130,7 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
-  gem "rspec-openapi"
+  gem "rspec-openapi", ">= 0.9.0"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
