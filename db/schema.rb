@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_14_154754) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_11_205842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -175,6 +175,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_14_154754) do
     t.text "supported_languages", default: ["nl"], array: true
     t.text "default_collection_attributes_for_artists", default: ["website", "email", "telephone_number", "description"], array: true
     t.text "default_collection_attributes_for_works", default: [], array: true
+    t.string "unique_short_code"
+    t.index ["unique_short_code"], name: "index_collections_on_unique_short_code", unique: true
   end
 
   create_table "collections_geoname_summaries", force: :cascade do |t|

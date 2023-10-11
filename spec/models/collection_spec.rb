@@ -25,9 +25,14 @@
 #  show_library                              :boolean
 #  sort_works_by                             :string
 #  supported_languages                       :text             default(["\"nl\""]), is an Array
+#  unique_short_code                         :string
 #  created_at                                :datetime         not null
 #  updated_at                                :datetime         not null
-#  parent_collection_id                      :bigint           default(7)
+#  parent_collection_id                      :bigint           default(1)
+#
+# Indexes
+#
+#  index_collections_on_unique_short_code  (unique_short_code) UNIQUE
 #
 require "rails_helper"
 

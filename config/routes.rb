@@ -5,6 +5,7 @@ require "sidekiq/web"
 Sidekiq::Web.set :sessions, false
 
 Rails.application.routes.draw do
+  get "short_code_resolver/resolve/:collection_code/:work_code" => "short_code_resolver#resolve"
   get "application_status" => "status#application_status"
 
   authenticate :user, lambda { |u| u.admin? } do
