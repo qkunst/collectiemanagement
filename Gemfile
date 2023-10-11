@@ -141,4 +141,4 @@ gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-central
 gem "invisible_captcha"
 gem "jsbundling-rails", "~> 1.0"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
-gem "stimulus-rails"
+gem "stimulus-rails", ">= 1.3.0"
