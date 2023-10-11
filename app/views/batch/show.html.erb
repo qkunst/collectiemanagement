@@ -22,6 +22,7 @@
     <% end %>
     <% if can_edit_field?(:location) %>
       <fieldset>
+        <%= f.association :main_location, param_name: :main_location_id, input_html: {class: 'chosen-select location', data: {strategy_input_id:"work_update_main_location_id_strategy"}}, collection: @collection.super_base_collection.locations.not_hidden  %><%= f.batch_editable_strategy_select(:main_location_id) %>
         <%= f.batch_editable_input :location%>
         <%= f.batch_editable_input :location_floor%>
         <%= f.batch_editable_input :location_detail%>

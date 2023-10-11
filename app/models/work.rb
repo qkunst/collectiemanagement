@@ -550,17 +550,9 @@ class Work < ApplicationRecord
     elsif id.blank?
       nil
     else
-      self.main_location = Location.find_or_create_by_name_and_collection(id, collection.super_base_collection)
+      Location.find_or_create_by_name_and_collection(id, collection.super_base_collection)
     end
   end
-
-  def main_location= location
-    super(location)
-  end
-
-  # def location
-  #   binding.irb
-  # end
 
   def restore_last_location_if_blank!
     unless location_description

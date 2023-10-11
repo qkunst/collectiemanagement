@@ -1,4 +1,9 @@
 <h2>Overzicht Locaties</h2>
+<nav class="sub-nav bottom-nav hide-for-print" aria-label="Werk acties">
+  <ul class="menu right-aligned menu--only-buttons">
+    <%= link_to "Nieuwe locatie", new_collection_location_path(@collection), class: [:primary, :button] %>
+</ul>
+</nav>
 <table>
   <thead>
     <tr><th>Locatie</th><th>Adres</th><th>Zichtbaar</th></tr>
