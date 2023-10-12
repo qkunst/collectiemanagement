@@ -45,7 +45,7 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" # , git: "https://github.com/heartcombo/devise.git"
+gem "devise" , ">= 4.9.3" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
@@ -83,7 +83,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.3.0"
 gem "kramdown"
 
 ##
