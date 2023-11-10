@@ -116,7 +116,8 @@ class CollectionsController < ApplicationController
         notice = "De collectie “#{name}” is verwijderd, de werken zijn verplaatst naar de bovenliggende collectie “#{parent_name}”"
       end
     else
-      @collection.works.destroy_all
+      @collection.works.find_in_batches(batch_size: 250).map { |a| a.each(&:destroy) }
+
       @collection.collections.each do |collection|
         collection.parent_collection = nil
         collection.save
