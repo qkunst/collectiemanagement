@@ -121,7 +121,7 @@ gem "sidekiq-scheduler", ">= 3.1.0"
 gem "sidekiq-unique-jobs", ">= 7.1.5"
 # gem "webpacker"
 
-gem "rack-mini-profiler"
+gem "rack-mini-profiler", ">= 3.2.0"
 gem "flamegraph"
 gem "stackprof"
 gem "memory_profiler"

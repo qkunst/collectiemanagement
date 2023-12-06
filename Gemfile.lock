@@ -369,7 +369,7 @@ GEM
     racc (1.7.1)
     rack (2.2.8)
     rack-headers_filter (0.0.1)
-    rack-mini-profiler (3.1.1)
+    rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
     rack-protection (3.1.0)
       rack (~> 2.2, >= 2.2.4)
@@ -644,7 +644,7 @@ DEPENDENCIES
   puma
   pupprb!
   rack-headers_filter
-  rack-mini-profiler
+  rack-mini-profiler (>= 3.2.0)
   rails (~> 7)
   redis-rails
   rspec-openapi
