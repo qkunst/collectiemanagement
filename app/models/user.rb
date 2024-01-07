@@ -169,12 +169,12 @@ class User < ApplicationRecord
   end
 
   def accessible_roles
-    @accessible_roles ||= User::ROLES.select { |role| ability.can?(:"update_#{role}", User) }
+    @accessible_roles ||= User::ROLES.select { |role| ability.can?("update_#{role}".to_sym, User) }
   end
 
   def role= new_role
     User::ROLES.each do |r|
-      send(:"#{r}=", r.to_s == new_role.to_s) if methods.include?(r)
+      send("#{r}=", r.to_s == new_role.to_s) if methods.include?(r)
     end
     role
   end
@@ -252,7 +252,7 @@ class User < ApplicationRecord
   def reset_all_roles
     ROLES.each do |role|
       unless role == :read_only # "default" role
-        send(:"#{role}=", false)
+        send("#{role}=", false)
       end
     end
   end

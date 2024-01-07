@@ -64,7 +64,7 @@ module WorksHelper
   def options_from_aggregation_for_select aggregation, selected = nil
     html = ""
     aggregation.each do |k, v|
-      selected_true = selected && (selected == k) || (selected.methods.include?(:include?) && selected.collect { |a| a.to_param }.include?(k.to_param))
+      selected_true = (selected && (selected == k) || (selected.methods.include?(:include?) && selected.collect { |a| a.to_param }.include?(k.to_param)))
       html += "<option value=\"#{k.to_param}\""
       html += "selected=\"selected\"" if selected_true
       html += ">#{v[:name]}</option>"

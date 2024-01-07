@@ -6,7 +6,7 @@ class FixStringValuesToNilWhenEmpty < ActiveRecord::Migration[4.2]
     columns = [:location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail]
     Work.all.each do |a|
       columns.each do |c|
-        a.send(:"#{c}=", nil) if a.send(c).to_s.strip == ""
+        a.send("#{c}=".to_sym, nil) if a.send(c).to_s.strip == ""
       end
       a.save
     end

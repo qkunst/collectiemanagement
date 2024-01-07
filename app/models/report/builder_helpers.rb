@@ -6,7 +6,7 @@ module Report
       rv = {
         key.to_sym => {
           terms: {
-            field: field || "#{key}#{postfix}", size: 999
+            field: (field || "#{key}#{postfix}"), size: 999
           }
         }
       }
@@ -16,9 +16,9 @@ module Report
 
     def basic_aggregation_snippet_with_missing key, postfix = "", field = nil
       rv = basic_aggregation_snippet(key, postfix, field)
-      rv[:"#{key}_missing"] = {
+      rv["#{key}_missing".to_sym] = {
         missing: {
-          field: field || "#{key}#{postfix}"
+          field: (field || "#{key}#{postfix}")
         }
       }
       rv

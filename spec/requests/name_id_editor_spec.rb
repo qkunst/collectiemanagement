@@ -22,7 +22,7 @@ RSpec.describe "Admin level management", type: :request do
       constant = name_id_admin_resource.singularize.camelize.constantize
 
       describe "GET /#{name_id_admin_resource}" do
-        let(:path) { send(:"#{name_id_admin_resource}_path") }
+        let(:path) { send("#{name_id_admin_resource}_path") }
 
         it "ignores anonymous request" do
           get path
@@ -40,7 +40,7 @@ RSpec.describe "Admin level management", type: :request do
         end
       end
       describe "GET /#{name_id_admin_resource}/new" do
-        let(:path) { send(:"new_#{name_id_admin_resource.singularize}_path") }
+        let(:path) { send("new_#{name_id_admin_resource.singularize}_path") }
 
         it "ignores anonymous request" do
           get path
@@ -59,7 +59,7 @@ RSpec.describe "Admin level management", type: :request do
       end
 
       describe "POST /#{name_id_admin_resource}" do
-        let(:path) { send(:"#{name_id_admin_resource}_path") }
+        let(:path) { send("#{name_id_admin_resource}_path") }
 
         it "does not change #{constant}.count when performed by anonymous" do
           expect {

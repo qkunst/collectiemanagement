@@ -25,7 +25,7 @@ module Batch::BaseForm
     end
 
     def strategy_attribute_for(field_name)
-      :"update_#{field_name}_strategy"
+      "update_#{field_name}_strategy".to_sym
     end
 
     def strategies_for(field_name)
@@ -50,7 +50,7 @@ module Batch::BaseForm
 
     def default_to_ignore!
       self.class.batch_fields.each do |field_name|
-        send(:"#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if send(self.class.strategy_attribute_for(field_name)).nil?
+        send("#{self.class.strategy_attribute_for(field_name)}=", :IGNORE) if send(self.class.strategy_attribute_for(field_name)).nil?
       end
     end
 

@@ -209,11 +209,11 @@ class Artist < ApplicationRecord
   def import!(other)
     other.to_parameters.each do |k, v|
       skip_name_fields = prefix? || artist_name?
-      empty_value = v.nil? || v.to_s.empty?
-      name_fields = (k == "first_name") || (k == "last_name")
+      empty_value = (v.nil? || v.to_s.empty?)
+      name_fields = ((k == "first_name") || (k == "last_name"))
 
       if !empty_value && !(name_fields && skip_name_fields)
-        send(:"#{k}=", v)
+        send("#{k}=".to_sym, v)
       end
     end
     educational_involvements = []

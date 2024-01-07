@@ -52,10 +52,10 @@ module ApplicationHelper
   def link_to_edit item
     if item.is_a? Array
       item_part = item.collect { |a| a.class.model_name.singular }.join("_")
-      url = send(:"edit_#{item_part}_path", *item)
+      url = send("edit_#{item_part}_path".to_sym, *item)
       name = item.last.name
     else
-      url = send(:"edit_#{item.class.model_name.singular}_path", item)
+      url = send("edit_#{item.class.model_name.singular}_path".to_sym, item)
       name = item.name
     end
     link_to name, url

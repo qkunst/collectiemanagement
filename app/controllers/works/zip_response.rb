@@ -18,7 +18,7 @@ module Works::ZipResponse
         @works.each do |work|
           base_file_name = work.base_file_name
           file_editions.each do |field|
-            if work.send(:"#{field}?")
+            if work.send("#{field}?".to_sym)
               filename_components = [base_file_name]
               filename_components << field.gsub("photo_", "") unless only_front
               filename = "#{filename_components.join("_")}.jpg"
