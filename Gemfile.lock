@@ -278,7 +278,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jsbundling-rails (1.2.1)
+    jsbundling-rails (1.2.2)
       railties (>= 6.0.0)
     json (2.7.1)
     jwt (2.2.3)
@@ -325,7 +325,7 @@ GEM
       net-protocol
     net-ssh (7.2.1)
     nio4r (2.7.0)
-    nokogiri (1.16.0)
+    nokogiri (1.15.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (2.0.9)
@@ -636,7 +636,7 @@ DEPENDENCIES
   highline
   invisible_captcha
   jbuilder
-  jsbundling-rails (~> 1.0)
+  jsbundling-rails (~> 1.2, >= 1.2.2)
   keyword_finder
   kramdown
   letter_opener
