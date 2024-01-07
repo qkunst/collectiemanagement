@@ -20,7 +20,7 @@ class Ability
       alias_action :read_location, :edit_location, to: :manage_location
 
       # default role settings
-      send("initialize_#{user.role}")
+      send(:"initialize_#{user.role}")
 
       # specific cross role functionality
       message_rules

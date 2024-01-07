@@ -38,10 +38,10 @@ class Location < ApplicationRecord
     return if name.blank?
     name_split = name.split(NAME_SPLITTER)
     if name_split.size > 1 && !persisted?
-      super name_split[0].strip
+      super(name_split[0].strip)
       self.address = name_split[1...].map(&:strip).join("\n").strip
     else
-      super name.strip
+      super(name.strip)
     end
   end
 

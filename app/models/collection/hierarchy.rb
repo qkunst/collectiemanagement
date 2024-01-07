@@ -66,7 +66,7 @@ module Collection::Hierarchy
       joins(join_sql)
         .select(select_sql)
         .each do |intermediate_result|
-          (depth + 1).times { |a| ids << intermediate_result.send("_child_level#{a}".to_sym) }
+          (depth + 1).times { |a| ids << intermediate_result.send(:"_child_level#{a}") }
         end
       ::Collection.unscoped.where(id: ids.compact.uniq)
     end

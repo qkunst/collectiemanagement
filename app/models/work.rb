@@ -682,7 +682,7 @@ class Work < ApplicationRecord
     end
 
     def human_attribute_name_for_alt_number_field(field_name, collection)
-      custom_label_name = collection&.send("label_override_work_#{field_name}_with_inheritance".to_sym)
+      custom_label_name = collection&.send(:"label_override_work_#{field_name}_with_inheritance")
       custom_label_name || Work.human_attribute_name(field_name)
     end
 

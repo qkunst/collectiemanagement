@@ -30,7 +30,7 @@ class BatchPhotoUpload < ApplicationRecord
       if image.file_exists? && image.work
         attribute = image.image_type
         work = image.work
-        work.send("#{attribute}=".to_sym, image.file)
+        work.send(:"#{attribute}=", image.file)
         work.save
       end
     end

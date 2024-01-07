@@ -5,7 +5,7 @@ class ImportCollection::ClassAssociation
 
   def initialize(options = {})
     options.each do |k, v|
-      send("#{k}=", v)
+      send(:"#{k}=", v)
     end
   end
 
