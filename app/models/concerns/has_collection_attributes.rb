@@ -25,7 +25,7 @@ module HasCollectionAttributes
     # for new and create actions
     def populate_collection_attributes(collection:)
       collection = collection.base_collection
-      default_collection_attributes = collection.send("default_collection_attributes_for_#{self.class.table_name}")&.select(&:present?)
+      default_collection_attributes = collection.send(:"default_collection_attributes_for_#{self.class.table_name}")&.select(&:present?)
       default_collection_languages = collection.supported_languages&.select(&:present?) || [:nl]
 
       default_collection_attributes&.each do |attribute_type|

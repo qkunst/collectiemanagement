@@ -78,7 +78,7 @@ class TimeSpan < ApplicationRecord
     (time_spans.starts_at <= :start AND time_spans.ends_at IS NULL) OR
     (time_spans.starts_at > :start AND time_spans.starts_at < :end) OR
     (time_spans.starts_at <= :start AND time_spans.status = 'active')
-    ", {start: (period.begin || 2000.years.ago), end: (period.end || 2000.years.from_now)})
+    ", {start: period.begin || 2000.years.ago, end: period.end || 2000.years.from_now})
                  }
   scope :current, -> { period(Time.now...Time.now) }
   scope :sold, -> { where(status: [:active, :finished]).where(classification: :purchase) }
@@ -143,13 +143,12 @@ class TimeSpan < ApplicationRecord
 
   def current?
     current_time = Time.current
-    (
-      (starts_at.nil? && ends_at.nil?) or
+
+    (starts_at.nil? && ends_at.nil?) or
       (starts_at.nil? && ends_at > current_time) or
       (ends_at.nil? && starts_at <= current_time) or
       (starts_at <= current_time && ends_at > current_time) or
       (starts_at <= current_time && status == "active")
-    )
   end
 
   def status= new_status

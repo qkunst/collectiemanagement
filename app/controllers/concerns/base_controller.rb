@@ -67,7 +67,7 @@ module BaseController
     end
 
     def named_collection_url
-      @collection ? send("collection_#{controlled_class.table_name}_url", @collection) : send("#{controlled_class.table_name}_url")
+      @collection ? send(:"collection_#{controlled_class.table_name}_url", @collection) : send(:"#{controlled_class.table_name}_url")
     end
 
     def singularized_name
@@ -75,15 +75,15 @@ module BaseController
     end
 
     def named_collection_variable= values
-      instance_variable_set("@#{controlled_class.table_name}", values)
+      instance_variable_set(:"@#{controlled_class.table_name}", values)
     end
 
     def named_variable= value
-      instance_variable_set("@#{singularized_name}", value)
+      instance_variable_set(:"@#{singularized_name}", value)
     end
 
     def named_variable
-      instance_variable_get("@#{singularized_name}")
+      instance_variable_get(:"@#{singularized_name}")
     end
 
     def set_named_variable_by_class

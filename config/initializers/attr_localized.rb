@@ -6,7 +6,7 @@ class ActiveRecord::Base
     separator = I18n.t("number.format.separator")
 
     fields.each do |field|
-      define_method("#{field}=") do |value|
+      define_method(:"#{field}=") do |value|
         self[field] = if value.is_a?(String)
           value.gsub(Regexp.new("(\\#{delimiter}(\\d\\d\\d))"), '\2').sub(separator, ".")
         else

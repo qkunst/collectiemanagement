@@ -12,7 +12,7 @@ class SimpleArtist
 
   def initialize kvs = {}
     kvs.each do |k, v|
-      send("#{k}=", v)
+      send(:"#{k}=", v)
     end
   end
 
