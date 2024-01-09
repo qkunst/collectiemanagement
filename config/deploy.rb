@@ -220,13 +220,6 @@ end
 after "server:init", "sidekiq:install"
 
 namespace :sidekiq do
-  desc "Sidekiq status info"
-  task :status do
-    on roles(:app), in: :sequence do |app|
-      execute "systemctl --user status sidekiq.service"
-    end
-  end
-
   desc "Sidekiq install"
   task :install do
     on roles(:app), in: :sequence do |app|
