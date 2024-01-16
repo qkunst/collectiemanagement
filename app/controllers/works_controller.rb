@@ -198,7 +198,7 @@ class WorksController < ApplicationController
 
     @result_count = versions.count
     @unlimited_result_count = versions.unscope(:limit).count
-    @works_with_version_created_at = versions.collect { |a| Modification.new(created_at: a.created_at, work: a.reify, user: User.where(id: a.whodunnit), changes: (a.object_changes ? YAML.load(a.object_changes) : {})) }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+    @works_with_version_created_at = versions.collect { |a| Modification.new(created_at: a.created_at, work: a.reify, user: User.where(id: a.whodunnit), changes: (a.object_changes ? YAML.unsafe_load(a.object_changes) : {})) }.compact # standard:disable Security/YAMLLoad # object_changes is created by papertrail
     @all_changed_keys = @works_with_version_created_at.map(&:changed_keys).flatten.uniq.sort
 
     respond_to do |format|
