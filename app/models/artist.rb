@@ -129,6 +129,8 @@ class Artist < ApplicationRecord
     return [rkd_artist] if rkd_artist
     begin
       RkdArtist.search_rkd_by_artist(self)
+    rescue OpenSSL::SSL::SSLError
+      []
     rescue SocketError
       []
     end
