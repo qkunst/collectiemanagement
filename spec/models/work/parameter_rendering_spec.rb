@@ -7,7 +7,7 @@ RSpec.describe Work::ParameterRerendering do
       w.save # saving just to make the diff smaller
       w.artists << artists(:artist2)
       w.save
-      change_set = YAML.load(w.versions.last.object_changes) # standard:disable Security/YAMLLoad # object_changes is created by papertrail
+      change_set = YAML.unsafe_load(w.versions.last.object_changes) # standard:disable Security/YAMLLoad # object_changes is created by papertrail
       artist_name_for_sorting_changes = change_set["artist_name_for_sorting"]
       expect(artist_name_for_sorting_changes[0]).to eq("artist_1, firstname")
       expect(artist_name_for_sorting_changes[1].split(";")).to match_array(["artist_1, firstname", "artist_2 achternaam, firstie"])
