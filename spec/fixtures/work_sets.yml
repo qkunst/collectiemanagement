@@ -5,6 +5,7 @@
 #  id                    :bigint           not null, primary key
 #  appraisal_notice      :text
 #  comment               :text
+#  deactivated_at        :datetime
 #  identification_number :string
 #  uuid                  :string
 #  created_at            :datetime         not null

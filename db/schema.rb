@@ -810,6 +810,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_11_205842) do
     t.text "appraisal_notice"
     t.text "comment"
     t.string "uuid"
+    t.datetime "deactivated_at"
   end
 
   create_table "work_sets_works", id: false, force: :cascade do |t|
