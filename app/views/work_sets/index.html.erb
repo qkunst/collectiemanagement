@@ -1,31 +1,35 @@
+<h1>Werkgroeperingen</h1>
+<p>Werkgroeperingen worden gemaakt middels de batch-editor.</p>
+<%= simple_form_for @work_sets_filter, url: collection_work_sets_path(@collection), method: :get do |filter_form| %>
 <div class="row">
+  <aside class="large-3 medium-3 columns">
+    <%= filter_form.input :deactivated, as: :boolean%>
+    <hr/>
+    <%= filter_form.submit value: "Filter", class: [:button] %>
+  </aside>
   <div class="large-9 medium-9 columns">
-    <h1>Werkgroeperingen</h1>
-    <p>Werkgroeperingen worden gemaakt middels de batch-editor.</p>
-    <table class="sortable">
+    <label>Filter <input type="text" id="work_sets_table_filter_input" data-filters="work_sets_table"></label>
+    <table class="sortable" id="work_sets_table">
       <thead>
-        <tr>    <th>Type</th><th>Naam / Code</th></tr>
+        <tr>
+          <th data-filtered-by="work_sets_table_filter_input">Type</th>
+          <th data-filtered-by="work_sets_table_filter_input">Naam / Code</th>
+          <th data-filtered-by="work_sets_table_filter_input">Aanmaakdatum</th>
+          <th data-filtered-by="work_sets_table_filter_input">Laatste wijziging</th>
+        </tr>
       </thead>
       <tbody>
         <% @work_sets.each do |work_set| %>
         <tr>
           <td><%= link_to work_set.work_set_type.name, collection_work_set_path(@collection, work_set)%></td>
           <td><%= link_to work_set.identification_number, collection_work_set_path(@collection, work_set)%></td>
+          <td data-sortkey="<%=work_set.created_at.to_i%>"><%= link_to I18n.l(work_set.created_at, format: :short), collection_work_set_path(@collection, work_set)%></td>
+          <td data-sortkey="<%=work_set.updated_at.to_i%>"><%= link_to I18n.l(work_set.updated_at, format: :short), collection_work_set_path(@collection, work_set)%></td>
         </tr>
         <% end%>
       </tbody>
     </table>
   </div>
 
-  <aside class="large-3 medium-3 columns">
-    <%= link_to 'Nieuwe werkgroepering maken', new_collection_work_set_path(@collection), class: :button if can? :create, @collection.clusters.new %>
-  </aside>
 </div>
-
-
-
-
-
-
-
-
+<% end %>

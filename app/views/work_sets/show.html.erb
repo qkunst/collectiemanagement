@@ -4,12 +4,18 @@
 <nav class="sub-nav bottom-nav hide-for-print" aria-label="Groeperingsacties">
   <ul class="menu right-aligned menu--only-buttons">
     <% if (can? :edit, @work_set) %>
-      <li><%= button_to 'Verwijder groep', [@collection,@work_set].compact, method: :delete, class: 'warning small button right', data: {confirm: "Weet u zeker dat u deze Werkgroepering wilt opheffen?"} %></li>
+      <% if @work_set.deactivated? %>
+        <li><%= button_to 'Verwijder groep', [@collection,@work_set].compact, method: :delete, class: 'warning small button right', data: {confirm: "Weet u zeker dat u deze Werkgroepering wilt opheffen?"} %></li>
+        <li><%= button_to 'Activeer groep', [@collection,@work_set].compact, method: :patch, params: {work_set: {deactivated: "0"}}, class: 'secondary small button right' %></li>
+      <% else %>
+        <li><%= button_to 'Verberg groep', [@collection,@work_set].compact, method: :patch, params: {work_set: {deactivated: true}}, class: 'warning small button right' %></li>
+
+      <% end %>
     <% end %>
     <% if (can? :edit, @work_set) %>
       <li><%= link_to 'Bewerk', (@collection ? edit_collection_work_set_path(@collection,@work_set) : edit_work_set_path(@work_set)), class: 'secondary small button right' %></li>
     <% end %>
-    <% if (can? :create, TimeSpan) && @collection && @collection.base_collection.show_availability_status && @work_set.time_spans.none? %>
+    <% if (can? :create, TimeSpan) && !@work_set.deactivated? && @collection && @collection.base_collection.show_availability_status && @work_set.time_spans.none? %>
       <li><%= link_to "Start gebeurtenis", new_collection_work_set_time_span_path(@collection, @work_set), class: 'secondary small button right'%></li>
     <% elsif (can? :create, TimeSpan) && @collection && @collection.base_collection.show_availability_status %>
       <li><%= link_to "Gebeurtenissen", collection_work_set_time_spans_path(@collection, @work_set), class: 'secondary small button right'%></li>
@@ -19,9 +25,9 @@
     <% end %>
     <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
     <li><%= link_to "Toon in rapportage", collection_report_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
-    <% if @current_active_time_span%>
+    <% if @current_active_time_span  && !@work_set.deactivated? %>
     <li><%= link_to "Factureer werkset", uitleen_new_draft_invoice_url(invoiceable_item_collection: @work_set), class: "tertiary small button right", data: { confirm: "U wordt doorgestuurd naar de uitleen applicatie. Werken met een actieve gebeurtenis voor de organisatie worden automatisch toegevoegd aan de factuur."}%></li>
-    <% else %>
+    <% elsif !@work_set.deactivated? %>
     <li><%= link_to "Factureer werkset", new_collection_work_set_time_span_path(@collection, @work_set), class: "disabled tertiary small button right", title: "U dient eerst een gebeurtenis te starten voor deze werkset.", data: { confirm: "U dient eerst een gebeurtenis te starten voor deze werkset. Wilt u een gebeurtenis aanmaken?"}%></li>
     <% end %>
 </ul>

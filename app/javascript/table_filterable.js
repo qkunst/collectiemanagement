@@ -24,7 +24,7 @@ FilterableTableField = class FilterableTableField {
     tableBody.setAttribute("hidden", "hidden");
     index = 0;
     filterColumnIndexes = [];
-    columns.forEach(function(column) {
+    columns.forEach(function (column) {
       if (column.dataset.filteredBy === field) {
         filterColumnIndexes.push(index);
       }
@@ -32,9 +32,9 @@ FilterableTableField = class FilterableTableField {
     });
     rows = this.table.querySelectorAll("tbody tr");
     cleanTxt = this.cleanText;
-    rows.forEach(function(row) {
+    rows.forEach(function (row) {
       var rowFilteredText, rowValues;
-      rowValues = filterColumnIndexes.map(function(index) {
+      rowValues = filterColumnIndexes.map(function (index) {
         return cleanTxt(row.children[index].innerText);
       });
       rowFilteredText = ` ${rowValues.join(' ')} `;
@@ -51,7 +51,7 @@ FilterableTableField = class FilterableTableField {
     var filter, filterTable, table;
     if (e.target.dataset.filters) {
       filter = e.target;
-      filterTable = document.querySelector("table#"+e.target.dataset.filters);
+      filterTable = document.querySelector("table#" + e.target.dataset.filters);
       if (filterTable) {
         table = new FilterableTableField(filterTable);
         return table.filterWith(filter.id, filter.value);
@@ -62,5 +62,4 @@ FilterableTableField = class FilterableTableField {
 };
 
 document.addEventListener('change', FilterableTableField.changeListener, true);
-
 document.addEventListener('keyup', FilterableTableField.changeListener, true);

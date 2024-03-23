@@ -63,13 +63,18 @@ class WorkSetsController < ApplicationController
       # raise
     end
 
+    @hidden_title_add = "(verborgen)" if @work_set.deactivated?
+
     @title = [@work_set.work_set_type.name, @work_set.identification_number].compact.join(" - ")
+    @title = [@title, @hidden_title_add].compact.join(" ")
   end
 
   def index
     authorize! :show, WorkSet
 
-    @work_sets = @collection.work_sets.order(:work_set_type_id, :identification_number).all
+    @work_sets_filter = WorkSetsFilter.new(work_set_filter_params)
+    @work_sets = @collection.work_sets.order(:work_set_type_id, :identification_number)
+    @work_sets = @work_sets.not_deactivated if !@work_sets_filter.deactivated?
   end
 
   def edit
@@ -118,8 +123,14 @@ class WorkSetsController < ApplicationController
     @works = current_user.accessible_works.where(id: work_ids).order(:stock_number)
   end
 
+  def work_set_filter_params
+    params.require("work_sets_filter").permit("deactivated")
+  rescue ActionController::ParameterMissing
+    {}
+  end
+
   def work_set_params
-    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment)
+    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment, :deactivated)
     rv[:work_ids] = current_user.accessible_works.where(id: rv[:work_ids].split(/[\s,]/)).pluck(:id) if rv[:work_ids]
     rv
   end

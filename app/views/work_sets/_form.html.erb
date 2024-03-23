@@ -9,6 +9,7 @@
       <%= f.association :work_set_type%>
       <%= f.input :identification_number %>
       <%= f.input :comment %>
+      <%= f.input :deactivated, as: :boolean%>
       <%= f.association :works, as: :hidden%>
       <%= f.submit class: :button%>
     <% end %>

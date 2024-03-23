@@ -112,6 +112,8 @@ nl:
         name: Attribuut
         start: Startdatum
         end: Einddatum
+      work_sets_filter:
+        deactivated: Inclusief verborgen
   activerecord:
     models:
       all: Alles

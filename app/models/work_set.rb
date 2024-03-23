@@ -28,6 +28,7 @@ class WorkSet < ApplicationRecord
   scope :for_unexpanded_collections, ->(collections) { joins(:works).where(works: {collection_id: collections}).distinct }
   scope :for_collection, ->(collection) { for_unexpanded_collections(collection.self_and_parent_collections_flattened + collection.child_collections_flattened) }
   scope :find_by_uuid_or_id, ->(uuid_or_id) { where(uuid: uuid_or_id).or(where(id: uuid_or_id)).first }
+  scope :not_deactivated, -> { where(deactivated_at: nil) }
 
   alias_attribute :stock_number, :identification_number
 
@@ -37,6 +38,8 @@ class WorkSet < ApplicationRecord
   before_validation :add_works_to_active_time_span
 
   before_save :significantly_update_works!
+
+  time_as_boolean :deactivated
 
   class << self
     def names_hash
