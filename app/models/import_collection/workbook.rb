@@ -153,7 +153,7 @@ module ImportCollection::Workbook
       import_collection_id: id,
       imported_at: Time.now,
       external_inventory: external_inventory,
-      old_data: row.to_hash.map { |k, v| [k, v.value] }.to_h
+      old_data: row.to_hash.map { |k, v| [k, v&.value] }.to_h
     })
 
     parameters[:collection_id] ||= collection.id
@@ -163,8 +163,6 @@ module ImportCollection::Workbook
     lookup_artists!(parameters)
 
     new_obj = Work.new(parameters)
-
-    # Rails.logger.debug "  result: #{new_obj.inspect}"
 
     unless new_obj.valid?
       error_message = new_obj.errors.full_messages.to_sentence
