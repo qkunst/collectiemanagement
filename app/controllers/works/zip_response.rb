@@ -4,7 +4,7 @@ module Works::ZipResponse
   extend ActiveSupport::Concern
 
   included do
-    include ZipTricks::RailsStreaming
+    include ZipKit::RailsStreaming
 
     def show_zip_response
       if can?(:download_photos, @collection)
@@ -32,7 +32,7 @@ module Works::ZipResponse
             end
           end
         end
-        zip_tricks_stream do |zip|
+        zip_kit_stream do |zip|
           files.lazy.each do |file|
             zip.write_stored_file(file[1]) do |sink|
               sink << File.binread(file[0])
