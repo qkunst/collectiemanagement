@@ -76,7 +76,8 @@ namespace :deploy do
     on roles(:app) do |role|
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rails, "branding:pull #{host.properties.brand || "default"}"
+          execute :echo, "#{host.properties.brand || "default"} > .current_brand"
+          execute :rails, "branding:pull"
         end
       end
     end
