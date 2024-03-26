@@ -73,7 +73,7 @@ class WorkSetsController < ApplicationController
     authorize! :show, WorkSet
 
     @work_sets_filter = WorkSetsFilter.new(work_set_filter_params)
-    @work_sets = @collection.work_sets.order(:work_set_type_id, :identification_number)
+    @work_sets = @collection.work_sets.order(created_at: :desc, work_set_type_id: :desc, identification_number: :desc)
     @work_sets = @work_sets.not_deactivated if !@work_sets_filter.deactivated?
   end
 

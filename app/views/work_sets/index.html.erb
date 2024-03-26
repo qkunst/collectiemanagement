@@ -14,8 +14,10 @@
         <tr>
           <th data-filtered-by="work_sets_table_filter_input">Type</th>
           <th data-filtered-by="work_sets_table_filter_input">Naam / Code</th>
-          <th data-filtered-by="work_sets_table_filter_input">Aanmaakdatum</th>
-          <th data-filtered-by="work_sets_table_filter_input">Laatste wijziging</th>
+          <th data-filtered-by="work_sets_table_filter_input" aria-sort="descending">Aanmaakdatum</th>
+          <% if @work_sets_filter.deactivated?%>
+            <th data-filtered-by="work_sets_table_filter_input">Gedeactiveerd op</th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +26,9 @@
           <td><%= link_to work_set.work_set_type.name, collection_work_set_path(@collection, work_set)%></td>
           <td><%= link_to work_set.identification_number, collection_work_set_path(@collection, work_set)%></td>
           <td data-sortkey="<%=work_set.created_at.to_i%>"><%= link_to I18n.l(work_set.created_at, format: :short), collection_work_set_path(@collection, work_set)%></td>
-          <td data-sortkey="<%=work_set.updated_at.to_i%>"><%= link_to I18n.l(work_set.updated_at, format: :short), collection_work_set_path(@collection, work_set)%></td>
+          <% if @work_sets_filter.deactivated?%>
+            <td data-sortkey="<%=work_set.deactivated_at.to_i%>"><%= link_to I18n.l(work_set.deactivated_at, format: :short), collection_work_set_path(@collection, work_set) if work_set.deactivated?%></td>
+          <% end %>
         </tr>
         <% end%>
       </tbody>
