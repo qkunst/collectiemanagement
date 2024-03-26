@@ -4,7 +4,7 @@
     <div class="medium-6 column">
     <h2>Toevoegen aan bestaande sectie</h2>
       <%= form_tag(work_sets_url) do %>
-        <%= select("work_set", "id", WorkSet.for_collection(@collection || @works.first.collection.base_collection).all.collect { |p| [ p.name, p.id ] } )  %>
+        <%= select("work_set", "id", WorkSet.for_collection(@collection || @works.first.collection.base_collection).order(identification_number: :asc).not_deactivated.all.collect { |p| [ p.name, p.id ] }, {}, {class: "chosen-select"} )  %>
         <%= hidden_field_tag "work_set[work_ids]", @works&.pluck(:id)&.join(" ")  %>
 
         <%= button_tag "Toevoegen", class: [:button, :primary]%>
