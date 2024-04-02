@@ -117,7 +117,7 @@ module DefineTasticHelper
     object ? link_to(name, object) : options[:nil_value]
   end
 
-  def definition_list_for object, *args, &block
+  def definition_list_for(object, *args, &)
     @define_tastic_object = object
     @define_tastic_object_klass = object.class
     @define_tastic_render_as = :dl
@@ -131,7 +131,7 @@ module DefineTasticHelper
       end
     end
 
-    block_contents = capture(&block).to_s
+    block_contents = capture(&).to_s
 
     html_string = block_contents.strip.empty? ? "" : ["<#{@define_tastic_render_as}>", block_contents, "</#{@define_tastic_render_as}>"].join("\n")
 
