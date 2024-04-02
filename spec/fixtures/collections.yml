@@ -6,6 +6,7 @@
 #  appraise_with_ranges                      :boolean          default(FALSE)
 #  base                                      :boolean
 #  collection_name_extended_cache            :text
+#  commercial                                :boolean
 #  default_collection_attributes_for_artists :text             default(["\"website\"", "\"email\"", "\"telephone_number\"", "\"description\""]), is an Array
 #  default_collection_attributes_for_works   :text             default([]), is an Array
 #  description                               :text

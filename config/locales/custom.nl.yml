@@ -550,6 +550,8 @@ nl:
         work_set_types: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
         work_status: Status
+        default_rent_price: Verhuurprijs (particulier)
+        business_rent_price_ex_vat: Verhuurprijs (zakelijk)
         availability_status: Beschikbaarheidsstatus
         artist_0_artist_name: Vervaardiger 1 Artiestennaam
         artist_0_first_name: Vervaardiger 1 Voornaam

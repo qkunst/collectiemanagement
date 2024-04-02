@@ -133,14 +133,15 @@ class Work < ApplicationRecord
   include MethodCache
   include Searchable
 
-  include Work::Caching
-  include Work::Export
-  include Work::ParameterRerendering
-  include Work::PreloadRelationsForDisplay
-  include Work::Reflecting
-  include Work::Search
-  include Work::SizingRendering
-  include Work::TimeSpans
+  include Caching
+  include Export
+  include ParameterRerendering
+  include CustomParameterRendering
+  include PreloadRelationsForDisplay
+  include Reflecting
+  include Search
+  include SizingRendering
+  include TimeSpans
   include HasCollectionAttributes
 
   store :other_structured_data, accessors: [:alt_number_4, :alt_number_5, :alt_number_6], coder: JSON

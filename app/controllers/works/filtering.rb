@@ -190,6 +190,13 @@ module Works::Filtering
       @selection_display_options["Compleet"] = :complete unless current_user.read_only? || current_user.facility_manager_support?
       if current_user.qkunst?
         @selection_display_options["Beperkt"] = :limited
+        if @collection.commercial?
+          @selection_display_options["Beperkt (+verkoop)"] = :limited_selling_price
+          @selection_display_options["Beperkt (+huur particulier)"] = :limited_default_rent_price
+          @selection_display_options["Beperkt (+huur zakelijk)"] = :limited_business_rent_price
+          @selection_display_options["Beperkt (+huur/verkoop particulier)"] = :limited_selling_price_and_default_rent_price
+          @selection_display_options["Beperkt (+huur/verkoop zakelijk)"] = :limited_selling_price_and_business_rent_price
+        end
         @selection_display_options["Veilinghuis"] = :limited_auction
       end
       @selection_display_options
