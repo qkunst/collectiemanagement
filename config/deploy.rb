@@ -25,7 +25,7 @@ set :repo_url, "https://gitlab.com/murb-org/collectiemanagement.git"
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb]
+set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb config/master.key config/credentials.yml.enc]
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w[log tmp public/uploads storage node_modules]
@@ -196,11 +196,12 @@ namespace :server do
     on roles(:app), in: :sequence do |app|
       execute "mkdir -p #{shared_path}/config"
 
-      begin
-        execute "test -f #{shared_path}/config/secrets.yml && echo Secrets already present"
-      rescue SSHKit::Command::Failed
-        execute "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
-      end
+      # disabled in 7.2
+      # begin
+      #   execute "test -f #{shared_path}/config/secrets.yml && echo Secrets already present"
+      # rescue SSHKit::Command::Failed
+      #   execute "printf \"#{fetch(:stage)}:\\n  secret_key_base: #{SecureRandom.hex(64)}\\n\" > #{shared_path}/config/secrets.yml"
+      # end
 
       begin
         execute "test -f #{shared_path}/config/database.yml && echo Database config already present"
