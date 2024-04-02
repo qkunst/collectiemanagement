@@ -118,5 +118,6 @@ if current_api_user.ability.can?(:read, TimeSpan)
 end
 json.available work.available?
 json.tag_list work.cached_tag_list
-
+json.business_rent_price_ex_vat work.business_rent_price_ex_vat
+json.default_rent_price work.default_rent_price
 json.url collection_work_url(work.collection, work)

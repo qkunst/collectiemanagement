@@ -154,6 +154,10 @@
         <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
         <% if work.selling_price.present? %>
         <tr><th><%=Work.human_attribute_name(:selling_price)%></th><td><%=number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
+          <% if @collection.commercial? %>
+            <%= define_unless_blank :default_rent_price, {modifier: :number_to_currency} %>
+            <%= define_unless_blank :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
+          <% end%>
         <% end %>
         <%= define_unless_blank :balance_category %>
         <%= define_unless_blank :selling_price_minimum_bid_comments %>
