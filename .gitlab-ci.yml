@@ -5,7 +5,7 @@
 
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/ruby/tags/
-image: $CI_REGISTRY/murb-org/build-image/ruby
+image: $CI_REGISTRY/murb-org/build-image/ruby:3.3
 
 variables:
 # Configure postgres service (https://hub.docker.com/_/postgres/)
@@ -82,4 +82,3 @@ brakeman:
   script:
     - gem install brakeman
     - brakeman -i config/brakeman.ignore
-
