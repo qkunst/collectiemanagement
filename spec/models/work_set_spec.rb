@@ -51,9 +51,27 @@ RSpec.describe WorkSet, type: :model do
   end
 
   describe "class methods" do
-    describe ".work_ids" do
-      it "returns work ids" do
-        expect(WorkSet.work_ids).to match_array(WorkSet.all.map(&:work_ids).flatten)
+    describe ".find_by_uuid_or_id!" do
+      it "raises when not found" do
+        expect { WorkSet.find_by_uuid_or_id!(-1) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe ".find_by_uuid_or_id" do
+      it "returns nothing when nothing is present" do
+        expect(WorkSet.find_by_uuid_or_id(-1)).to eq(nil)
+      end
+      it "returns nil when nil is sent" do
+        expect(WorkSet.find_by_uuid_or_id(nil)).to eq(nil)
+      end
+      it "finds by uuid" do
+        ws = WorkSet.first
+        expect(WorkSet.find_by_uuid_or_id(ws.uuid)).to eq(ws)
+      end
+
+      it "finds by id" do
+        ws = WorkSet.first
+        expect(WorkSet.find_by_uuid_or_id(ws.id)).to eq(ws)
       end
     end
   end

@@ -28,7 +28,6 @@ class WorkSet < ApplicationRecord
   scope :count_as_one, -> { joins(:work_set_type).where(work_set_types: {count_as_one: true}) }
   scope :for_unexpanded_collections, ->(collections) { joins(:works).where(works: {collection_id: collections}).distinct }
   scope :for_collection, ->(collection) { for_unexpanded_collections(collection.self_and_parent_collections_flattened + collection.child_collections_flattened) }
-  scope :find_by_uuid_or_id, ->(uuid_or_id) { where(uuid: uuid_or_id).or(where(id: uuid_or_id)).first }
   scope :not_deactivated, -> { where(deactivated_at: nil) }
 
   alias_attribute :stock_number, :identification_number
@@ -67,8 +66,19 @@ class WorkSet < ApplicationRecord
       rv
     end
 
-    def work_ids
-      all.flat_map { |a| a.works.pluck(:id) }
+    def find_by_uuid_or_id(uuid_or_id)
+      find_by_uuid_or_id!(uuid_or_id)
+    rescue ActiveRecord::RecordNotFound
+    end
+
+    def find_by_uuid_or_id!(uuid_or_id)
+      if uuid_or_id.nil?
+        raise ActiveRecord::RecordNotFound
+      elsif uuid_or_id.is_a?(Integer) || uuid_or_id.match?(/\A\d+\z/)
+        find(uuid_or_id)
+      else
+        find_by!(uuid: uuid_or_id)
+      end
     end
   end
 

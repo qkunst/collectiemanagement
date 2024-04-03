@@ -88,7 +88,7 @@ namespace :deploy do
     on roles(:app) do |role|
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :echo, "\"Rails.application.config.action_controller.asset_host = 'https://#{role.hostname}'\" > config/initializers/asset_hosts.rb"
+          execute :echo, "\"Rails.application.config.action_controller.asset_host = 'https://#{role.hostname}'\nActionController::Base.asset_host = 'https://#{role.hostname}'\" > config/initializers/asset_hosts.rb"
         end
       end
     end

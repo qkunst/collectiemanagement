@@ -117,7 +117,7 @@ class WorkSetsController < ApplicationController
   end
 
   def set_work_set
-    @work_set = WorkSet.find_by_uuid_or_id(params[:id])
+    @work_set = WorkSet.find_by_uuid_or_id!(params[:id])
     @collection ||= @work_set.most_specific_shared_collection
     work_ids = @work_set.work_ids
     @works = current_user.accessible_works.where(id: work_ids).order(:stock_number)
