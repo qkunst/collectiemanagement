@@ -66,6 +66,10 @@ class WorkSet < ApplicationRecord
       end
       rv
     end
+
+    def work_ids
+      all.flat_map { |a| a.works.pluck(:id) }
+    end
   end
 
   def appraisable?

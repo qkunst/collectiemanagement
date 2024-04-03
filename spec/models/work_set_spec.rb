@@ -50,6 +50,14 @@ RSpec.describe WorkSet, type: :model do
     end
   end
 
+  describe "class methods" do
+    describe ".work_ids" do
+      it "returns work ids" do
+        expect(WorkSet.work_ids).to match_array(WorkSet.all.map(&:work_ids).flatten)
+      end
+    end
+  end
+
   describe "instance methods" do
     it "#appraisable?" do
       expect(work_sets(:work_diptych)).to be_appraisable
