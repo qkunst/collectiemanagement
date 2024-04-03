@@ -23,6 +23,14 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).not_to match("<h3>Houtskool</h3>")
   end
 
+  it "includes full urls; not just paths" do
+    collection = collections(:collection_with_works)
+    user = users(:admin)
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id)
+    expect(html).to match(/https?:\/\/localhost/)
+  end
+
   it "performs a filtered render", requires_elasticsearch: true, skip_ci: true do
     collection = collections(:collection_with_works)
     user = users(:admin)

@@ -80,4 +80,6 @@ Rails.application.configure do
       password: "PleaseChangeMe"
     }]
   }
+
+  config.action_controller.asset_host = "http://localhost:3000"
 end

@@ -64,6 +64,8 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
   end
+
+  config.action_controller.asset_host = "http://localhost:3000"
 end
 
 OmniAuth.config.test_mode = true

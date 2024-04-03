@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/murb/omniauth-azure-activedirectory.git
-  revision: 05a56ca16b1c9c0e7d23bb19067ba56c5189b2a6
+  revision: 49be78dd0da622da9e1da628d82f20b508486a60
   specs:
     omniauth-azure-activedirectory (1.1.0)
       jwt (~> 2.2)
@@ -278,7 +278,8 @@ GEM
     jsbundling-rails (1.3.0)
       railties (>= 6.0.0)
     json (2.7.1)
-    jwt (2.7.1)
+    jwt (2.8.1)
+      base64
     keyword_finder (0.3.1)
     kramdown (2.4.0)
       rexml
@@ -643,7 +644,6 @@ DEPENDENCIES
   invisible_captcha
   jbuilder
   jsbundling-rails (~> 1.0)
-  jwt (~> 2.7.0)
   keyword_finder
   kramdown
   letter_opener
