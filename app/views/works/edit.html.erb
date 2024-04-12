@@ -1,4 +1,8 @@
-<h2>Bewerk werk <small><%= link_to 'Verwijder werk', collection_work_path(@work.collection,@work), method: :delete, data: {confirm: "Weet u zeker dat u dit werk definitief wilt verwijderen?"}, class: :warn %></small></h2>
+<h2>Bewerk werk
+  <% can? :destroy, @work %>
+  <small><%= link_to 'Verwijder werk', collection_work_path(@work.collection,@work), method: :delete, data: {confirm: "Weet u zeker dat u dit werk definitief wilt verwijderen?"}, class: :warn %></small>
+  <% end %>
+</h2>
 
 <%= render 'form' %>
 <%= link_to 'Bewerken annuleren', collection_work_path(@work.collection,@work) %>
