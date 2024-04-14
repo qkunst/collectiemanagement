@@ -6,9 +6,9 @@ module Work::CustomParameterRendering
   included do
     # custom for single customer; will have to adjust when adding more customers
     def business_rent_price_ex_vat
-      return nil unless selling_price
-
-      if selling_price < 500
+      if selling_price.nil?
+        nil
+      elsif selling_price < 500
         7.0
       elsif selling_price < 1500
         12.4
@@ -18,9 +18,9 @@ module Work::CustomParameterRendering
     end
 
     def default_rent_price
-      return nil unless selling_price
-
-      if selling_price < 1000
+      if selling_price.nil?
+        nil
+      elsif selling_price < 1000
         8.75
       elsif selling_price < 2000
         14.0
