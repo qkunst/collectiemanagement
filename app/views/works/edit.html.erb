@@ -1,5 +1,5 @@
 <h2>Bewerk werk
-  <% can? :destroy, @work %>
+  <% if can?(:destroy, @work) %>
   <small><%= link_to 'Verwijder werk', collection_work_path(@work.collection,@work), method: :delete, data: {confirm: "Weet u zeker dat u dit werk definitief wilt verwijderen?"}, class: :warn %></small>
   <% end %>
 </h2>
