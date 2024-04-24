@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find . -type f | grep -v -E "(.*screen.*)|(.*thumb.*)" | head -10000 | xargs -I %filename% sh -c 'filename=%filename%; dir=${filename%\/*}; mkdir --parents /mnt/networks-3096-2/originals/public/uploads/work/$dir; cp -f %filename% /mnt/networks-3096-2/originals/public/uploads/work/$dir; rm %filename%; ln -s /mnt/networks-3096-2/originals/public/uploads/work/%filename% %filename%'
