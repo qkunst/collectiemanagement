@@ -132,7 +132,7 @@ group :test, :gitlabci do
   gem "rspec-openapi"
 end
 gem "standard", group: [:development, :test]
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", ">= 3.1.1", groups: [:development, :test]
 gem "annotate", group: [:development]
 
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
