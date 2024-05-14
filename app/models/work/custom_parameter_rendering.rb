@@ -13,7 +13,7 @@ module Work::CustomParameterRendering
       elsif selling_price < 1500
         12.4
       else
-        [selling_price / 100.0].min
+        selling_price / 100.0
       end
     end
 
@@ -25,7 +25,7 @@ module Work::CustomParameterRendering
       elsif selling_price < 2000
         14.0
       else
-        [selling_price / 100.0, 40].min
+        selling_price / 100.0
       end
     end
   end
