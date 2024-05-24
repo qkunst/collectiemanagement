@@ -83,7 +83,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.3.1"
 gem "kramdown"
 
 ##
