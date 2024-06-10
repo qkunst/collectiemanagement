@@ -34,7 +34,7 @@
       </fieldset>
       <div class="row">
       <div class="medium-5 columns">
-        <% if @work.location && !@work.main_location %>
+        <% if (@work.location && !@work.main_location) || @collection.super_base_collection.locations.empty? %>
           <%= f.input :location %>
         <% else %>
           <%= f.association :main_location, input_html: {class: 'select2 location'}, collection: @collection.super_base_collection.locations.not_hidden  %>

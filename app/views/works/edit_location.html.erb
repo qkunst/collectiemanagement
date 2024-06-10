@@ -2,7 +2,7 @@
 <h2>Bewerk locatie</h2>
 <p>Bewerk locatie van <%= @work.stock_number%> <%= @work.name%></p>
 <%= simple_form_for([@collection,@work]) do |f| %>
-        <% if @work.location && !@work.main_location %>
+        <% if (@work.location && !@work.main_location) || @collection.super_base_collection.locations.empty? %>
           <%= f.input :location %>
         <% else %>
           <%= f.association :main_location, input_html: {class: 'select2 location'}, collection: @collection.super_base_collection.locations.not_hidden  %>
