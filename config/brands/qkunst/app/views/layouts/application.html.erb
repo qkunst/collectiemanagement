@@ -50,7 +50,7 @@
               <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
               <li><%= menu_link_to 'Beheren', admin_path if can?(:manage, :all) %></li>
               <li><%= menu_link_to 'Gebruikers', users_path if can?(:manage, User) %></li>
-              <li><%= link_to "➥ Uitleen",  Rails.application.secrets.uitleen_site if Rails.application.secrets.uitleen_site %></li>
+              <li><%= link_to "➥ Uitleen",  Rails.application.credentials.uitleen_site if Rails.application.credentials.uitleen_site %></li>
             <% end %>
           </ul>
         </div>

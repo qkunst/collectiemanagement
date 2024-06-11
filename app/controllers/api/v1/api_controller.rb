@@ -81,6 +81,6 @@ class Api::V1::ApiController < ApplicationController
   end
 
   def central_login_oauth_strategy
-    @central_login_oauth_strategy ||= ::OmniAuth::Strategies::CentralLogin.new(:central_login, Rails.application.secrets.central_login_id, Rails.application.secrets.central_login_secret, client_options: {site: Rails.application.secrets.central_login_site})
+    @central_login_oauth_strategy ||= ::OmniAuth::Strategies::CentralLogin.new(:central_login, Rails.application.credentials.central_login_id, Rails.application.credentials.central_login_secret, client_options: {site: Rails.application.credentials.central_login_site})
   end
 end

@@ -241,9 +241,9 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :google_oauth2, Rails.application.secrets.google_client_id, Rails.application.secrets.google_client_secret, {scope: "userinfo.email,userinfo.profile,openid", prompt: "select_account"}
-  config.omniauth :azureactivedirectory, Rails.application.secrets.azure_client_id, "common", {scope: "openid email profile", prompt: "select_account"}
-  config.omniauth :central_login, Rails.application.secrets.central_login_id, Rails.application.secrets.central_login_secret, {client_options: {site: Rails.application.secrets.central_login_site}, scope: "openid email profile"}
+  config.omniauth :google_oauth2, Rails.application.credentials.google_client_id, Rails.application.credentials.google_client_secret, {scope: "userinfo.email,userinfo.profile,openid", prompt: "select_account"}
+  config.omniauth :azureactivedirectory, Rails.application.credentials.azure_client_id, "common", {scope: "openid email profile", prompt: "select_account"}
+  config.omniauth :central_login, Rails.application.credentials.central_login_id, Rails.application.credentials.central_login_secret, {client_options: {site: Rails.application.credentials.central_login_site}, scope: "openid email profile"}
 
   config.parent_mailer = "ApplicationMailer"
 

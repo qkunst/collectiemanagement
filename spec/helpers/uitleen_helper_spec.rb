@@ -7,7 +7,7 @@ RSpec.describe UitleenHelper, type: :helper do
     let(:work) { works(:work1) }
 
     before do
-      Rails.application.secrets.uitleen_site = nil
+      Rails.application.credentials.uitleen_site = nil
     end
 
     it "return nil by default" do
@@ -16,11 +16,11 @@ RSpec.describe UitleenHelper, type: :helper do
 
     context "uitleen site set" do
       before do
-        Rails.application.secrets.uitleen_site = "http://uitleen.localhost"
+        Rails.application.credentials.uitleen_site = "http://uitleen.localhost"
       end
 
       it "returns a work url in uitleen if uitleen config is present" do
-        Rails.application.secrets.uitleen_site = "http://uitleen.localhost"
+        Rails.application.credentials.uitleen_site = "http://uitleen.localhost"
         expect(uitleen_work_url(work)).to eq("http://uitleen.localhost/collections/#{work.collection_id}/works/#{work.id}")
       end
     end
@@ -31,7 +31,7 @@ RSpec.describe UitleenHelper, type: :helper do
     let(:params) { {invoiceable_item_collection: work_set} }
 
     before do
-      Rails.application.secrets.uitleen_site = nil
+      Rails.application.credentials.uitleen_site = nil
     end
 
     it "returns nil by default" do
@@ -41,7 +41,7 @@ RSpec.describe UitleenHelper, type: :helper do
 
     context "uitleen site set" do
       before do
-        Rails.application.secrets.uitleen_site = "http://uitleen.localhost"
+        Rails.application.credentials.uitleen_site = "http://uitleen.localhost"
       end
 
       it "returns a new url with no params" do

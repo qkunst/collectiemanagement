@@ -12,7 +12,7 @@ module OAuthUser
     end
 
     def oauth_strategy
-      @oauth_strategy ||= "::OmniAuth::Strategies::#{oauth_provider.classify}".constantize.new(name, Rails.application.secrets.send(:"#{oauth_provider}_id"), Rails.application.secrets.send(:"#{oauth_provider}_secret"), client_options: {site: Rails.application.secrets.send(:"#{oauth_provider}_site")})
+      @oauth_strategy ||= "::OmniAuth::Strategies::#{oauth_provider.classify}".constantize.new(name, Rails.application.credentials.send(:"#{oauth_provider}_id"), Rails.application.credentials.send(:"#{oauth_provider}_secret"), client_options: {site: Rails.application.credentials.send(:"#{oauth_provider}_site")})
     end
 
     def client

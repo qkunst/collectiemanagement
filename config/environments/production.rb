@@ -102,14 +102,14 @@ Rails.application.configure do
       exception_recipients: %w[qkunst@murb.nl]
     }
 
-  if Rails.application.secrets.elasticsearch_host
+  if Rails.application.credentials.elasticsearch_host
     config.elasticsearch = {
       hosts: [{
-        host: Rails.application.secrets.elasticsearch_host,
-        port: Rails.application.secrets.elasticsearch_port,
-        user: Rails.application.secrets.elasticsearch_user,
-        password: Rails.application.secrets.elasticsearch_password,
-        scheme: Rails.application.secrets.elasticsearch_scheme
+        host: Rails.application.credentials.elasticsearch_host,
+        port: Rails.application.credentials.elasticsearch_port,
+        user: Rails.application.credentials.elasticsearch_user,
+        password: Rails.application.credentials.elasticsearch_password,
+        scheme: Rails.application.credentials.elasticsearch_scheme
       }]
     }
   end

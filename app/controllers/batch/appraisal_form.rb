@@ -32,5 +32,5 @@ class Batch::AppraisalForm < Appraisal
 
     appraisal_params.except(:appraised_on).empty?
   end
-  alias_attribute :ignore_validation_errors?, :empty_params?
+  alias_method :ignore_validation_errors?, :empty_params?
 end

@@ -1,7 +1,7 @@
 class Uitleen
   class << self
     def site
-      Rails.application.secrets.uitleen_site
+      Rails.application.credentials.uitleen_site
     end
 
     def configured?

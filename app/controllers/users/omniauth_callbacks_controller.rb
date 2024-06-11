@@ -31,7 +31,7 @@ module OmniAuth
       def crypt(salt = generate_salt)
         return @crypt if @crypt
         len = ActiveSupport::MessageEncryptor.key_len
-        key = ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base).generate_key(salt, len)
+        key = ActiveSupport::KeyGenerator.new(Rails.application.credentials.secret_key_base).generate_key(salt, len)
         @crypt = ActiveSupport::MessageEncryptor.new(key)
       end
 

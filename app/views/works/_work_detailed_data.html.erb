@@ -50,8 +50,8 @@
             <% else %>
               <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
             <% end%>
-            <% if Rails.application.secrets.uitleen_site %>
-              (<%= link_to "Toon in uitleen", File.join(Rails.application.secrets.uitleen_site, collection_work_path(work.collection, work)) %>)
+            <% if Rails.application.credentials.uitleen_site %>
+              (<%= link_to "Toon in uitleen", File.join(Rails.application.credentials.uitleen_site, collection_work_path(work.collection, work)) %>)
             <% end %>
           </td></tr>
         <% end%>

@@ -34,7 +34,7 @@ class CustomReport < ApplicationRecord
       tmp
     end
   end
-  alias_attribute :name, :title
+  alias_method :name, :title
 
   def title_with_collection
     [collection.name, title].compact.join(": ")

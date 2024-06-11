@@ -2,28 +2,28 @@
   <%= link_to "Inloggen", new_session_path(resource_name) %><br />
 <% end -%>
 
-<%- if devise_mapping.registerable? && controller_name != 'registrations' && !Rails.application.secrets.central_login_id  %>
+<%- if devise_mapping.registerable? && controller_name != 'registrations' && !Rails.application.credentials.central_login_id  %>
   <%= link_to "Registeren", new_registration_path(resource_name) %><br />
 <% end -%>
 
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'  && !Rails.application.secrets.central_login_id %>
+<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'  && !Rails.application.credentials.central_login_id %>
   <%= link_to "Wachtwoord vergeten?", new_password_path(resource_name) %><br />
 <% end -%>
 
-<%- if devise_mapping.confirmable? && controller_name != 'confirmations' && !Rails.application.secrets.central_login_id  %>
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' && !Rails.application.credentials.central_login_id  %>
   <%= link_to "Geen bevestigingse-mail gekregen?", new_confirmation_path(resource_name) %><br />
 <% end -%>
 
-<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' && !Rails.application.secrets.central_login_id %>
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' && !Rails.application.credentials.central_login_id %>
   <%= link_to "Geen ontgrendelinstructies gekregen?", new_unlock_path(resource_name) %><br />
 <% end -%>
 
-<% if Rails.application.secrets.google_client_id %>
+<% if Rails.application.credentials.google_client_id %>
 <%= button_to "Log in met Google", omniauth_authorize_path(resource_name, :google_oauth2), class: [:secondary, :button], data: {turbo: false} %><br />
 <% end%>
-<% if Rails.application.secrets.azure_client_id %>
+<% if Rails.application.credentials.azure_client_id %>
 <%= button_to "Log in met Microsoft", omniauth_authorize_path(resource_name, :azureactivedirectory), class: [:secondary, :button], data: {turbo: false} %><br />
 <% end %>
-<% if Rails.application.secrets.central_login_id %>
+<% if Rails.application.credentials.central_login_id %>
 <%= button_to "Log in met Central Login", omniauth_authorize_path(resource_name, :central_login), class: [:secondary, :button], data: {turbo: false} %><br />
 <% end %>
