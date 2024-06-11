@@ -45,7 +45,7 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" # , git: "https://github.com/heartcombo/devise.git"
+gem "devise" , ">= 4.9.4" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
@@ -129,7 +129,7 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
-  gem "rspec-openapi"
+  gem "rspec-openapi", ">= 0.17.0"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
