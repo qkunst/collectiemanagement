@@ -31,7 +31,7 @@ group :development, :test, :gitlabci do
   gem "capybara"
   gem "byebug", platform: :mri
   gem "foreman"
-  gem "rspec-rails"
+  gem "rspec-rails", ">= 6.1.3"
   gem "rspec_junit_formatter"
   gem "simplecov-cobertura"
 end
