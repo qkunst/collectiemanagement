@@ -116,7 +116,7 @@
   <% end %>
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <% if work.work_sets.any? && can?(:show, work.work_set) %>
+    <% if work.work_sets.any? && can?(:show, WorkSet) %>
       <tr>
         <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @selection[:display] != :detailed_discreet %>
         <th rowspan="2">

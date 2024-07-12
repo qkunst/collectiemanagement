@@ -296,10 +296,6 @@ class Work < ApplicationRecord
     photo_front? || photo_back? || photo_detail_1? || photo_detail_2?
   end
 
-  def work_set
-    WorkSet.last
-  end
-
   def work_set_attributes= work_set_params
     if !work_set_params.values.map(&:present?).include?(false) && work_set_params.is_a?(Hash)
       work_set = WorkSet.find_or_initialize_by(work_set_params)
