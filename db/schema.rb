@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_13_154108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -177,6 +177,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
     t.text "default_collection_attributes_for_works", default: [], array: true
     t.string "unique_short_code"
     t.boolean "commercial"
+    t.text "work_attributes_present_cache"
     t.index ["unique_short_code"], name: "index_collections_on_unique_short_code", unique: true
   end
 
@@ -786,8 +787,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "artist_unknown"
-    t.string "entry_status"
-    t.text "entry_status_description"
     t.bigint "created_by_id"
     t.text "medium_comments"
     t.string "abstract_or_figurative"
@@ -820,8 +819,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
     t.datetime "new_found_at", precision: nil
     t.decimal "market_value_min", precision: 16, scale: 2
     t.decimal "market_value_max", precision: 16, scale: 2
-    t.decimal "replacement_value_min", precision: 16, scale: 2
-    t.decimal "replacement_value_max", precision: 16, scale: 2
     t.decimal "minimum_bid", precision: 16, scale: 2
     t.decimal "selling_price", precision: 16, scale: 2
     t.boolean "print_unknown"
@@ -835,7 +832,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
     t.string "artist_name_for_sorting"
     t.datetime "significantly_updated_at", precision: nil
     t.datetime "removed_from_collection_at", precision: nil
-    t.string "removed_from_collection_note"
     t.datetime "for_purchase_at", precision: nil
     t.datetime "for_rent_at", precision: nil
     t.text "old_data"
@@ -844,6 +840,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_26_155124) do
     t.boolean "publish_selling_price", default: true
     t.datetime "checked_at"
     t.integer "main_location_id"
+    t.decimal "replacement_value_max"
+    t.decimal "replacement_value_min"
     t.index ["alt_number_1"], name: "index_works_on_alt_number_1"
     t.index ["alt_number_2"], name: "index_works_on_alt_number_2"
     t.index ["alt_number_3"], name: "index_works_on_alt_number_3"

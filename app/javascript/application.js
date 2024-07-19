@@ -35,7 +35,7 @@ const FormStore = require('./formstore.js').default;
 window.FormStore = FormStore;
 
 import { Application } from 'stimulus'
-import Chart from 'stimulus-chartjs'
+import Chart from '@stimulus-components/chartjs'
 
 const application = Application.start()
 application.register('chart', Chart)

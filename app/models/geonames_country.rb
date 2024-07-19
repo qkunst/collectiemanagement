@@ -6,17 +6,16 @@
 #
 #  id                   :bigint           not null, primary key
 #  area                 :integer
-#  capital              :string
+#  capital_name         :string
 #  continent            :string
-#  country              :string
+#  country_name         :string
 #  currency_code        :string
 #  currency_name        :string
 #  equivalent_fips_code :string
 #  fips                 :string
-#  geonameid            :bigint
 #  iso                  :string
 #  iso3                 :string
-#  iso_numeric          :string
+#  iso_num              :string
 #  languages            :string
 #  neighbours           :string
 #  phone                :string
@@ -26,6 +25,7 @@
 #  tld                  :string
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  geoname_id           :bigint
 #
 class GeonamesCountry < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geoname_id, class_name: "GeonameTranslation"

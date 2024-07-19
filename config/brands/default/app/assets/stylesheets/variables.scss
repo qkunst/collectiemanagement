@@ -4,35 +4,35 @@ $success-color: null;
 $warning-color: null;
 $alert-color: null;
 
-$white       : #FFFFFF;
-$ghost       : #FAFAFA;
-$snow        : #F9F9F9;
-$vapor       : #F6F6F6;
+$white : #FFFFFF;
+$ghost : #FAFAFA;
+$snow : #F9F9F9;
+$vapor : #F6F6F6;
 $white-smoke : #F5F5F5;
-$silver      : #EFEFEF;
-$smoke       : #EEEEEE;
-$gainsboro   : #DDDDDD;
-$iron        : #CCCCCC;
-$base        : #AAAAAA;
-$aluminum    : #999999;
-$jumbo       : #888888;
-$monsoon     : #777777;
-$steel       : #666666;
-$charcoal    : #555555;
-$tuatara     : #444444;
-$oil         : #333333;
-$jet         : #222222;
-$black       : #000000;
+$silver : #EFEFEF;
+$smoke : #EEEEEE;
+$gainsboro : #DDDDDD;
+$iron : #CCCCCC;
+$base : #AAAAAA;
+$aluminum : #999999;
+$jumbo : #888888;
+$monsoon : #777777;
+$steel : #666666;
+$charcoal : #555555;
+$tuatara : #444444;
+$oil : #333333;
+$jet : #222222;
+$black : #000000;
 
-$qkunst-red:            rgba(#EA4630, 1);
-$qkunst-orange:         rgba(#EA8830, 1);
-$qkunst-brown:          rgba(#AF917D, 1);
-$qkunst-grey :          rgba(#676a6a, 1);
-$qkunst-dark :          rgba(#1A1A18, 1);
-$qkunst-blue:           rgba(#18186B, 1);
-$qkunst-green:          rgba(#99DF95, 1);
-$light-grey:            rgba(#ccc, 1);
-$lighter-grey:          rgba(#f0f0f0, 1);
+$qkunst-red: rgba(#EA4630, 1);
+$qkunst-orange: rgba(#EA8830, 1);
+$qkunst-brown: rgba(#AF917D, 1);
+$qkunst-grey : rgba(#676a6a, 1);
+$qkunst-dark : rgba(#1A1A18, 1);
+$qkunst-blue: rgba(#18186B, 1);
+$qkunst-green: rgba(#99DF95, 1);
+$light-grey: rgba(#ccc, 1);
+$lighter-grey: rgba(#eee, 1);
 $background-light-grey: rgba(#fafafa, 1);
 
 
@@ -119,5 +119,5 @@ $topbar-menu-icon-color-toggled: $jumbo;
 
 
 .label.qkunst {
-  background:  $qkunst-brown;
+  background: $qkunst-brown;
 }

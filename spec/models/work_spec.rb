@@ -21,8 +21,6 @@
 #  depth                                               :float
 #  description                                         :text
 #  diameter                                            :float
-#  entry_status                                        :string
-#  entry_status_description                            :text
 #  external_inventory                                  :boolean
 #  for_purchase_at                                     :datetime
 #  for_rent_at                                         :datetime
@@ -72,10 +70,9 @@
 #  purchased_on                                        :date
 #  refound_at                                          :datetime
 #  removed_from_collection_at                          :datetime
-#  removed_from_collection_note                        :string
 #  replacement_value                                   :decimal(16, 2)
-#  replacement_value_max                               :decimal(16, 2)
-#  replacement_value_min                               :decimal(16, 2)
+#  replacement_value_max                               :decimal(, )
+#  replacement_value_min                               :decimal(, )
 #  selling_price                                       :decimal(16, 2)
 #  selling_price_minimum_bid_comments                  :text
 #  signature_comments                                  :text

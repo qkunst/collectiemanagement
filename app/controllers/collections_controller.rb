@@ -81,10 +81,8 @@ class CollectionsController < ApplicationController
       @collection.label_override_work_alt_number_1 = collection_params[:label_override_work_alt_number_1]
       @collection.label_override_work_alt_number_2 = collection_params[:label_override_work_alt_number_2]
       @collection.label_override_work_alt_number_3 = collection_params[:label_override_work_alt_number_3]
-      touch_all_works = @collection.changes.keys.count > 0
 
       if @collection.update(collection_params)
-        @collection.works_including_child_works.all.collect { |a| a.touch } if touch_all_works
         format.html { redirect_to @collection, notice: "De collectie is bijgewerkt." }
         format.json { render :show, status: :ok, location: @collection }
       else

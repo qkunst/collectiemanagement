@@ -27,6 +27,7 @@
 #  sort_works_by                             :string
 #  supported_languages                       :text             default(["\"nl\""]), is an Array
 #  unique_short_code                         :string
+#  work_attributes_present_cache             :text
 #  created_at                                :datetime         not null
 #  updated_at                                :datetime         not null
 #  parent_collection_id                      :bigint           default(1)
