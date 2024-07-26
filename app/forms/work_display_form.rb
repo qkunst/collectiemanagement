@@ -7,7 +7,7 @@ class WorkDisplayForm
   attr_accessor :attributes_to_display
   attr_accessor :current_user
   attr_accessor :collection
-  attr_accessor :force_display_all_used_fields
+  attr_accessor :hide_empty_fields
 
   def initialize(*)
     super
@@ -73,6 +73,10 @@ class WorkDisplayForm
     collection&.displayable_work_attributes_present || []
   end
 
+  def display_cache_key
+    [display, attributes_to_display, hide_empty_fields]
+  end
+
   private
 
   def set_to_valid_values
@@ -83,7 +87,7 @@ class WorkDisplayForm
     self.sort = nil unless sort.nil? || valid_sorts.include?(sort)
     self.display = nil unless display.nil? || valid_displays.include?(display)
     self.attributes_to_display = (attributes_to_display || []).select(&:present?).map(&:to_sym)
-    self.force_display_all_used_fields = ["1", "true", true].include?(force_display_all_used_fields.to_s)
+    self.hide_empty_fields = !["0", "false", false].include?(hide_empty_fields.to_s)
   end
 
   def valid_groups

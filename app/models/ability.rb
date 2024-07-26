@@ -106,8 +106,8 @@ class Ability
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
     permitted_fields = [:collection_id, :id, :significantly_updated_at, :stock_number, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
-      :height, :width, :depth, :diameter, :subset, :subset_id, :abstract_or_figurative, :abstract_or_figurative_rendered, theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
-        :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description, :for_purchase_at, :for_rent_at, :highlight_at
+      :height, :width, :depth, :diameter, :object_format_code, :work_size, :frame_size, :floor_surface, :wall_surface, :subset, :subset_id, :abstract_or_figurative, :abstract_or_figurative_rendered, :highlight, :for_purchase, :for_rent, theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
+        :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
       ]]
     permitted_fields += [:artist_name_rendered_without_years_nor_locality]
     if can?(:read_location, Work)
@@ -119,6 +119,7 @@ class Ability
     permitted_fields += []
     if can?(:edit, Work) || can?(:show_details, Work)
       permitted_fields += [
+        :for_purchase_at, :for_rent_at, :highlight_at,
         :alt_number_1, :alt_number_2, :alt_number_3, :alt_number_4, :alt_number_5, :alt_number_6,
         :updated_at, :created_at,
         :inventoried, :refound, :new_found,
@@ -128,6 +129,7 @@ class Ability
         :cached_tag_list,
         :signature_comments, :no_signature_present,
         :other_comments,
+        :checked_at,
         :grade_within_collection, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :cluster_id, :owner_id, :permanently_fixed,
         :signature_rendered, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name,
@@ -149,12 +151,12 @@ class Ability
 
     if can?(:read, WorkSet)
       permitted_fields += [
-        work_set_attributes: [:identification_number, :work_set_type_id]
+        :work_sets, work_set_attributes: [:identification_number, :work_set_type_id]
       ]
     end
     if can?(:edit_source_information, Work)
       permitted_fields += [
-        :source_comments, :sources, :owner, source_ids: []
+        :source_comments, :sources, :old_data, :owner, source_ids: []
       ]
     end
     if can?(:edit_purchase_information, Work)
@@ -163,7 +165,7 @@ class Ability
       ]
     end
     if can?(:read_valuation, Collection)
-      permitted_fields += [:publish_selling_price, :selling_price, :minimum_bid, :replacement_value_complete, :replacement_value_range_complete, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id, :purchased_on_with_fallback]
+      permitted_fields += [:publish_selling_price, :selling_price, :minimum_bid, :replacement_value_complete, :replacement_value_range_complete, :balance_category, :purchase_price, :purchased_on, :purchase_year, :default_rent_price, :business_rent_price_ex_vat, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id, :purchased_on_with_fallback]
     end
     if can?(:read, Appraisal)
       permitted_fields += [

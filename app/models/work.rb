@@ -162,6 +162,7 @@ class Work < ApplicationRecord
 
   after_save :touch_collection!
   attr_accessor :skip_touch_collection
+  attr_accessor :work_set
 
   belongs_to :balance_category, optional: true
   belongs_to :cluster, optional: true

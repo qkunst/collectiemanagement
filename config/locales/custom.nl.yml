@@ -113,7 +113,7 @@ nl:
         start: Startdatum
         end: Einddatum
       work_display_form:
-        force_display_all_used_fields: Toon alle velden in weergave
+        hide_empty_fields: Verberg lege velden
       work_sets_filter:
         deactivated: Inclusief verborgen
   activerecord:

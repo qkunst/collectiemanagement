@@ -32,9 +32,9 @@
                 <div class="row">
                 <label class="medium-3 small-6 columns">Weergave: <%= work_display_form.select :display, @work_display_form.display_options  %></label>
                 </div>
-                <%=work_display_form.input :force_display_all_used_fields, as: :boolean%>
+                <%=work_display_form.input :hide_empty_fields, as: :boolean%>
                 <details>
-                  <summary>Aangepaste velden</summary>
+                  <summary>Selecteer velden voor een aangepaste weergave</summary>
                   <div class="columned-inputs">
                     <%= work_display_form.collection_check_boxes(:attributes_to_display, @work_display_form.selectable_work_attributes.map{|a| [a, Work.human_attribute_name_overridden(a, @collection)]}.sort{|a,b| a[1]<=>b[1]}, :first, :last) %>
                   </div>

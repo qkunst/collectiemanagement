@@ -3,7 +3,7 @@
 
 this_works_collection_work_url = work.id && !@for_print ? collection_work_path(work.collection_id, work.id) : "#"
 %>
-<% cache_unless(@no_work_cache, ["works/_work", "2.0.4", work, @work_display_form&.display, @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
+<% cache_unless(@no_work_cache, ["works/_work", "2.0.5", work, @work_display_form&.display_cache_key, @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
 <div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@work_display_form&.display%>">
   <% if !@for_print && @work_set&.id && can?(:edit, @work_set) %>
   <div class="actions">

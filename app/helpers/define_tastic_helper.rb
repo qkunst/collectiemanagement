@@ -34,7 +34,7 @@ module DefineTasticHelper
   end
 
   def force_presence?(property)
-    @work_display_form&.force_display_all_used_fields
+    !@work_display_form&.hide_empty_fields
   end
 
   def define?(property, options = {})

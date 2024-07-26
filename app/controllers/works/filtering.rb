@@ -50,7 +50,7 @@ module Works::Filtering
       work_display_form_params[:display] = params[:display]
 
       if params[:work_display_form]
-        work_display_form_params = work_display_form_params.merge(params.require(:work_display_form).permit(:group, :sort, :display, :force_display_all_used_fields, attributes_to_display: []))
+        work_display_form_params = work_display_form_params.merge(params.require(:work_display_form).permit(:group, :sort, :display, :hide_empty_fields, attributes_to_display: []))
       end
       @work_display_form = WorkDisplayForm.new(work_display_form_params)
       @work_display_form.sort = :id if params[:id_gt]

@@ -38,7 +38,7 @@
       <% if @collection.base_collection.show_availability_status %>
         <%= define_when_present :for_purchase %>
         <%= define_when_present :for_rent %>
-        <% if work.availability_status %>
+        <% if define?(:availability_status) %>
           <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
             <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
               <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true }%>
@@ -132,11 +132,11 @@
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? && @work_display_form&.display != :detailed_discreet %>
+      <% if work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
         <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
       <%= define_when_present :purchased_on_with_fallback %>
-      <% if work.purchase_price && @work_display_form&.display != :detailed_discreet %>
+      <% if define?(:purchase_price) && @work_display_form&.display != :detailed_discreet %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
       <% if @work_display_form&.display != :detailed_discreet %>
