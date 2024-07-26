@@ -110,7 +110,7 @@ RSpec.describe "Works", type: :request do
       describe "sorting and grouping" do
         it "should be able to get a grouped index" do
           sign_in user
-          get collection_works_path(collection, params: {group: :themes})
+          get collection_works_path(collection, params: {work_display_form: {group: :themes}})
           expect(response).to have_http_status(200)
           expect(response.body).to match("<h3>wind</h3>")
         end

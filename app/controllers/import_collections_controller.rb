@@ -34,7 +34,8 @@ class ImportCollectionsController < ApplicationController
 
     begin
       @selection ||= {}
-      @selection[:display] = :complete
+      @work_display_form = WorkDisplayForm.new(current_user:, display: :complete)
+
       @works = @import_collection.read
     rescue ImportCollection::FailedImportError => error
       redirect_to collection_import_collection_path(@collection, @import_collection), alert: "Er is een fout opgetreden bij het maken van de preview, verbeter de import file: #{error.message}..."

@@ -9,7 +9,7 @@ module MethodCache
   included do
   end
   class_methods do
-    def has_cache_for_method(*method_names)
+    def has_cache_for_method(*method_names, as: nil, trigger: nil)
       method_names.each do |method_name|
         # cache_#{method_name}! caches a column, by default it uses write_attribute (which is better
         # at a before safe operation), but optionally you can choose update_colum for larger batches,
@@ -22,7 +22,12 @@ module MethodCache
         #   end
         # end
 
-        define_method(:"cache_#{method_name}!") do |update_column = false|
+        define_method(:"cache_#{method_name}") do
+          new_cache_value = send(method_name).to_json
+          write_attribute("#{method_name}_cache", new_cache_value)
+        end
+
+        define_method(:"cache_#{method_name}!") do |update_column = true|
           new_cache_value = send(method_name).to_json
           if update_column
             update_column("#{method_name}_cache", new_cache_value)
@@ -33,10 +38,22 @@ module MethodCache
 
         define_method(:"cached_#{method_name}") do # |arg=nil| # default arg to allow before_blah callbacks
           column_value = read_attribute("#{method_name}_cache")
-          JSON.parse(column_value) if column_value
+          if column_value
+            value = JSON.parse(column_value)
+            value = value.map(&:to_sym) if as == :symbols && value.is_a?(Array)
+            value
+          end
+        end
+
+        if trigger
+          if trigger == :after_safe
+            send(trigger, :"cache_#{method_name}!")
+          else
+            send(trigger, :"cache_#{method_name}")
+          end
         end
       end
     end
-    # alias_method :has_cache_for_method, :has_cache_for_methods
+    alias_method :has_cache_for_methods, :has_cache_for_method
   end
 end

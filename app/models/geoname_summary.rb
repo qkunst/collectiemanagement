@@ -27,7 +27,7 @@ class GeonameSummary < ApplicationRecord
 
   has_cache_for_method :parent_geoname_ids
 
-  before_save :cache_parent_geoname_ids!
+  before_save :cache_parent_geoname_ids
 
   def to_s
     "#<GeonameSummary id=#{id} name=\"#{name}\" type_code=#{type_code} desc=\"#{parent_description&.[](0..30)}\">"

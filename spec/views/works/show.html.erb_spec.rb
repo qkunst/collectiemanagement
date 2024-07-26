@@ -45,6 +45,8 @@ RSpec.describe "works/show", type: :view do
     let(:display) { :complete }
     before(:each) do
       @selection = {display: display}
+      @work_display_form = WorkDisplayForm.new(current_user: users(:admin), display: display)
+
       @work = works(:work1)
       @collection = collections(:collection1)
       assign(:work, @work)
@@ -81,7 +83,7 @@ RSpec.describe "works/show", type: :view do
 
   it "renders attachments" do
     @collection = collections(:collection1)
-    @selection = {display: :complete}
+    @work_display_form = WorkDisplayForm.new(current_user: users(:admin), display: :complete)
     @work = works(:work_with_attachments)
     @custom_reports = []
     sign_in users(:admin)

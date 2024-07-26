@@ -60,7 +60,7 @@ class Artist < ApplicationRecord
 
   before_save :sync_dates_and_years
   before_save :sync_places
-  before_save :cache_geoname_ids!
+  before_save :cache_geoname_ids
 
   scope :created_at_date, ->(date) { where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day) }
   scope :exclude_artist, ->(artist) { where("artists.id != ?", artist.id) }

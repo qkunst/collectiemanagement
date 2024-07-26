@@ -112,6 +112,8 @@ nl:
         name: Attribuut
         start: Startdatum
         end: Einddatum
+      work_display_form:
+        force_display_all_used_fields: Toon alle velden in weergave
       work_sets_filter:
         deactivated: Inclusief verborgen
   activerecord:
@@ -429,8 +431,6 @@ nl:
         depth: Diepte beeld (cm)
         description: Beschrijving
         diameter: Diameter beeld (cm)
-        entry_status: Invoerstatus
-        entry_status_description: Invoerstatus opmerkingen
         figurative: Figuratief
         fin_balance_item_id: Balansitem
         for_purchase: Voor verkoop

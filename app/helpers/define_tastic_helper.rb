@@ -13,13 +13,13 @@
 #        <%= define_unless_blank :turnover, {modifier: :number_to_currency} %>
 #    <% end %>
 module DefineTasticHelper
-  def render_unless_blank_definition description, value, options = {}
+  def render_definition description, value, options = {}
     classname = options[:classname]
     if @define_tastic_render_as == :table
       style = " style=\"width: #{@define_tastic_key_width}\"" if @define_tastic_key_width
-      "<tr#{" class=\"#{classname}\"" if classname}><th#{style}>#{description}:</th><td>#{sanitize value}</td></tr>".html_safe unless value.blank?
+      "<tr#{" class=\"#{classname}\"" if classname}><th#{style}>#{description}:</th><td>#{sanitize(value) if value}</td></tr>".html_safe
     else
-      "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{sanitize value}</dd>".html_safe unless value.blank?
+      "<dt#{" class=\"#{classname}\"" if classname}>#{description}:</dt><dd#{" class=\"#{classname}\"" if classname}>#{sanitize(value) if value}</dd>".html_safe
     end
   end
 
@@ -29,10 +29,25 @@ module DefineTasticHelper
     end
   end
 
+  def define_when_present property, options = {}
+    define_unless_blank property, options
+  end
+
+  def force_presence?(property)
+    @work_display_form&.force_display_all_used_fields
+  end
+
+  def define?(property, options = {})
+    may_see = current_user.admin? || current_user.viewable_work_fields.include?(property)
+    to_see = options[:value].present? || value_render(property, options).present? || (@collection&.displayable_work_attributes_present&.include?(property) && force_presence?(property))
+    want_to_see = @work_display_form ? (@work_display_form.attributes_to_display.empty? || @work_display_form.attributes_to_display.include?(property)) : true
+    may_see && to_see && want_to_see
+  end
+
   def define_unless_blank property, options = {}
     description = options[:description] || @define_tastic_object_klass.human_attribute_name(property)
-
-    render_unless_blank_definition(description, value_render(property, options), options)
+    value = value_render(property, options)
+    render_definition(description, value, options) if define?(property, {value:}.merge(options))
   end
 
   def humanize_value val, options = {}
@@ -157,7 +172,7 @@ end
 # #    <% end %>
 #
 #
-#   def render_unless_blank_definition description, value
+#   def render_definition description, value
 #     "<dt>#{description}:</dt><dd>#{value}</dd>" unless value.blank?
 #   end
 #
@@ -166,7 +181,7 @@ end
 #     value = @object.read_attribute property
 #     modifier = options[:modifier]
 #     value = eval "#{modifier} '#{value}'" unless value.blank?
-#     render_unless_blank_definition(description, value)
+#     render_definition(description, value)
 #   end
 #
 #   def link_to_with_name object

@@ -23,7 +23,7 @@ module Works::Filtering
     # sets filter starting with empty or a user's previous filter; but reset when params are present that modify the state
     def initiate_filter
       @selection_filter = current_user&.filter_params&.[](:filter) || {}
-      if params[:filter] || params[:group] || params[:sort] || params[:display] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter]
+      if params[:filter] || params[:work_display_form] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter]
         @selection_filter = {}
       end
     end
@@ -39,6 +39,22 @@ module Works::Filtering
       time_filter_params = time_filter_params.select { |_, v| v.present? }
       time_filter_params[:base_scope] = @collection.works_including_child_works
       @time_filter = TimeFilter.new(time_filter_params)
+    end
+
+    def set_work_display_form
+      work_display_form_params = {current_user: current_user, collection: @collection}
+
+      # api compatibility
+      work_display_form_params[:sort] = params[:sort]
+      work_display_form_params[:group] = params[:group]
+      work_display_form_params[:display] = params[:display]
+
+      if params[:work_display_form]
+        work_display_form_params = work_display_form_params.merge(params.require(:work_display_form).permit(:group, :sort, :display, :force_display_all_used_fields, attributes_to_display: []))
+      end
+      @work_display_form = WorkDisplayForm.new(work_display_form_params)
+      @work_display_form.sort = :id if params[:id_gt]
+      @work_display_form
     end
 
     def set_selection_filter
@@ -70,18 +86,8 @@ module Works::Filtering
       @selection_filter
     end
 
-    def set_selection thing, list
-      @selection[thing] = list[0]
-      if params[thing] && list.include?(params[thing].to_sym)
-        @selection[thing] = params[thing].to_sym
-      elsif current_user && current_user.filter_params[thing]
-        @selection[thing] = current_user.filter_params[thing].to_sym
-      end
-      @selection[thing]
-    end
-
     def preload_relation_ships(works)
-      works.preload_relations_for_display(@selection[:display])
+      works.preload_relations_for_display(@work_display_form.display)
     end
 
     def set_works
@@ -98,19 +104,17 @@ module Works::Filtering
       @works_count = @works.count_as_whole_works
       @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.offset(params[:from].to_i) if params[:from]
-      @works = @works.where(id: ((params[:id_gt].to_i + 1)...)).except(:order).order_by(:id) if params[:id_gt]
+      @works = @works.where(id: ((params[:id_gt].to_i + 1)...)) if params[:id_gt]
     end
 
     def sort_works(works)
-      sort_explicitly = params[:id_gt].nil? || params[:sort] # the default sorting by stock_number will always be applied.
-      works = works.except(:order).order_by(@selection[:sort]) if @selection[:sort] && sort_explicitly
-      works
+      works.except(:order).order_by(@work_display_form.sort)
     end
 
     def set_works_grouped
       works_grouped = {}
 
-      selection_group = @selection[:group]
+      selection_group = @work_display_form.group
 
       include_selection_group = [selection_group] - [:grade_within_collection]
 
@@ -152,68 +156,6 @@ module Works::Filtering
       @filter_localities = @selection_filter["geoname_ids"] ? GeonameSummary.where(geoname_id: @selection_filter["geoname_ids"]) : []
     end
 
-    def set_selection_group
-      set_selection :group, [:no_grouping, :cluster, :subset, :placeability, :grade_within_collection, :themes, :techniques, :sources]
-    end
-
-    def set_selection_sort
-      set_selection :sort, [:stock_number, :artist_name, :location, :created_at, :created_at_asc, :significantly_updated_at, :significantly_updated_at_asc, :id, :"-id"]
-    end
-
-    def set_selection_display
-      set_selection :display, set_selection_display_options.collect { |k, v| v }
-    end
-
-    def set_selection_group_options
-      proto_selection_group_options = {
-        "Niet" => :no_grouping,
-        "Cluster" => :cluster,
-        "Deelcollectie" => :subset,
-        "Herkomst" => :sources,
-        "Niveau" => :grade_within_collection,
-        "Plaatsbaarheid" => :placeability,
-        "Techniek" => :techniques,
-        "Thema" => :themes
-      }
-      @selection_group_options = {}
-      proto_selection_group_options.each do |k, v|
-        @selection_group_options[k] = v if current_user.can_filter_and_group?(v)
-      end
-    end
-
-    def set_selection_display_options
-      @selection_display_options = {"Compact" => :compact, "Basis" => :detailed}
-      if /vermist/i.match?(@collection.name)
-        @selection_display_options["Basis met locatiegeschiedenis"] = :detailed_with_location_history
-      end
-      @selection_display_options["Basis Discreet"] = :detailed_discreet if current_user.qkunst? || current_user.facility_manager?
-      @selection_display_options["Compleet"] = :complete unless current_user.read_only? || current_user.facility_manager_support?
-      if current_user.qkunst?
-        @selection_display_options["Beperkt"] = :limited
-        if @collection.commercial?
-          @selection_display_options["Beperkt (+verkoop)"] = :limited_selling_price
-          @selection_display_options["Beperkt (+huur particulier)"] = :limited_default_rent_price
-          @selection_display_options["Beperkt (+huur zakelijk)"] = :limited_business_rent_price
-          @selection_display_options["Beperkt (+huur/verkoop particulier)"] = :limited_selling_price_and_default_rent_price
-          @selection_display_options["Beperkt (+huur/verkoop zakelijk)"] = :limited_selling_price_and_business_rent_price
-        end
-        @selection_display_options["Veilinghuis"] = :limited_auction
-      end
-      @selection_display_options
-    end
-
-    def set_selection_sort_options
-      @selection_sort_options = {
-        "Inventarisnummer" => :stock_number,
-        "Vervaardiger" => :artist_name,
-        "Locatie" => :location,
-        "Toevoegdatum (nieuwste eerst)" => :created_at,
-        "Toevoegdatum (oudste eerst)" => :created_at_asc,
-        "Wijzigingsdatum (nieuwste eerst)" => :significantly_updated_at,
-        "Wijzigingsdatum (oudste eerst)" => :significantly_updated_at_asc
-      }
-    end
-
     def set_no_child_works
       @no_child_works = parse_boolean(params[:no_child_works])
     end
@@ -223,9 +165,9 @@ module Works::Filtering
     end
 
     def update_current_user_with_params
-      current_user.filter_params[:group] = @selection[:group]
-      current_user.filter_params[:display] = @selection[:display]
-      current_user.filter_params[:sort] = @selection[:sort]
+      current_user.filter_params[:group] = @work_display_form.group
+      current_user.filter_params[:display] = @work_display_form.display
+      current_user.filter_params[:sort] = @work_display_form.sort
       current_user.filter_params[:filter] = @selection_filter
       current_user.save
     end

@@ -132,7 +132,7 @@ class Work < ApplicationRecord
 
   include Caching
   include Export
-  include ParameterRerendering
+  include ParameterRendering
   include CustomParameterRendering
   include PreloadRelationsForDisplay
   include Reflecting
@@ -146,8 +146,7 @@ class Work < ApplicationRecord
 
   has_paper_trail
 
-  has_cache_for_method :tag_list
-  has_cache_for_method :collection_locality_artist_involvements_texts
+  has_cache_for_methods :tag_list, :collection_locality_artist_involvements_texts, trigger: :before_save
 
   before_save :set_empty_values_to_nil
   before_save :sync_purchase_year
@@ -155,8 +154,6 @@ class Work < ApplicationRecord
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
   before_save :update_artist_name_rendered
-  before_save :cache_tag_list!
-  before_save :cache_collection_locality_artist_involvements_texts!
   before_save :update_location_with_main_location
   before_save :mark_as_removed_from_collection_according_to_work_status
 
@@ -272,7 +269,7 @@ class Work < ApplicationRecord
 
   acts_as_taggable
 
-  normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :entry_status, :abstract_or_figurative, :location_detail
+  normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :abstract_or_figurative, :location_detail
 
   mount_uploader :photo_front, PictureUploader
   mount_uploader :photo_back, PictureUploader
@@ -650,6 +647,12 @@ class Work < ApplicationRecord
   end
 
   class << self
+    def attributes_present
+      query_main = column_names.map { |column_name| "(SELECT 1 AS \"#{column_name}\" FROM \"works\" WHERE \"works\".\"#{column_name}\" IS NOT NULL LIMIT 1)" }.join(", ")
+      query = "SELECT #{query_main}"
+      ActiveRecord::Base.connection.execute(query).to_a.first.select { |k, v| v == 1 }.symbolize_keys.keys
+    end
+
     def collect_locations
       rv = {}
       group(:location).count.sort { |a, b| a[0].to_s.downcase <=> b[0].to_s.downcase }.each { |a| rv[a[0]] = {count: a[1], subs: []} }

@@ -10,10 +10,10 @@ class Api::V1::WorksController < Api::V1::ApiController
   def index
     api_authorize! :read_api, @collection
 
-    @selection = {display: :complete}
+    @selection = {}
 
     set_selection_filter
-    set_selection_sort
+    set_work_display_form
     set_search_text
 
     # if work matches a number exactly, don't continue to search
@@ -46,7 +46,7 @@ class Api::V1::WorksController < Api::V1::ApiController
   end
 
   def exposable_database_fields
-    @exposable_database_fields ||= current_api_user.ability.viewable_work_fields.select { |a| [String, Symbol].include?(a.class) } - [:style, :medium, :subset, :placeability, :condition_work, :condition_work_id, :condition_frame, :condition_frame_id, :work_status_id, :work_status, :artist_ids, :damage_type_ids, :frame_damage_type_ids, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :cluster] + [:artist_name_for_sorting]
+    @exposable_database_fields ||= current_api_user.ability.viewable_work_fields.select { |a| [String, Symbol].include?(a.class) } - [:style, :medium, :subset, :placeability, :condition_work, :condition_work_id, :condition_frame, :condition_frame_id, :work_status_id, :work_status, :artist_ids, :damage_type_ids, :frame_damage_type_ids, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :cluster, :owner] + [:artist_name_for_sorting]
   end
 
   private

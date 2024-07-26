@@ -59,7 +59,7 @@ class Ability
         :signature_comments, :no_signature_present, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
         :height, :width, :depth, :diameter, :condition_work_id, :condition_work_comments, :condition_frame_id, :condition_frame_comments,
         :information_back, :other_comments, :subset_id, :public_description, :highlight_priority,
-        :grade_within_collection, :entry_status, :entry_status_description, :abstract_or_figurative, :medium_comments,
+        :grade_within_collection, :abstract_or_figurative, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
         :placeability_id,
         artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [], theme_ids: [], object_category_ids: [], technique_ids: [],
@@ -128,9 +128,8 @@ class Ability
         :cached_tag_list,
         :signature_comments, :no_signature_present,
         :other_comments,
-        :grade_within_collection, :entry_status, :entry_status_description, :medium_comments,
+        :grade_within_collection, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :cluster_id, :owner_id, :permanently_fixed,
-        :removed_from_collection_note,
         :signature_rendered, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name,
         :placeability_id, :placeability, artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: []
       ]
@@ -144,6 +143,10 @@ class Ability
     if can?(:read_condition, Work)
       permitted_fields += [:damage_types, :damage_type_ids, :frame_damage_types, :frame_damage_type_ids, :condition_work, :condition_work_id, :condition_work_comments, :condition_frame, :condition_frame_id, :condition_frame_comments]
     end
+    if can?(:read, Attachment)
+      permitted_fields += [:attachments]
+    end
+
     if can?(:read, WorkSet)
       permitted_fields += [
         work_set_attributes: [:identification_number, :work_set_type_id]
@@ -151,7 +154,7 @@ class Ability
     end
     if can?(:edit_source_information, Work)
       permitted_fields += [
-        :source_comments, :sources, source_ids: []
+        :source_comments, :sources, :owner, source_ids: []
       ]
     end
     if can?(:edit_purchase_information, Work)
@@ -160,15 +163,23 @@ class Ability
       ]
     end
     if can?(:read_valuation, Collection)
-      permitted_fields += [:publish_selling_price, :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id]
+      permitted_fields += [:publish_selling_price, :selling_price, :minimum_bid, :replacement_value_complete, :replacement_value_range_complete, :purchase_price, :purchased_on, :purchase_year, :purchase_price_currency_id, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id, :fin_balance_item_id, :purchased_on_with_fallback]
     end
     if can?(:read, Appraisal)
       permitted_fields += [
-        :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,
-        appraisals_attributes: [
+        :selling_price, :minimum_bid, :purchase_price, :purchased_on, :purchase_year, :purchased_on_with_fallback, :selling_price_minimum_bid_comments, :purchase_price_currency_id, :balance_category_id,
+        :market_value_complete, :replacement_value_complete, :market_value_range_complete, :replacement_value_range_complete, :fin_balance_item_id, :valuation_on, :appraisal_notice, :minimum_bid, appraisals_attributes: [
           :appraised_on, :market_value, :replacement_value, :market_value_range, :replacement_value_range, :appraised_by, :reference, :notice
         ]
       ]
+    end
+    if can?(:read, Owner)
+      permitted_fields += [
+        :owner
+      ]
+    end
+    if can?(:read_valuation_reference, Collection)
+      permitted_fields += [:price_reference]
     end
     permitted_fields.uniq
   end

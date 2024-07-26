@@ -41,6 +41,11 @@ RSpec.feature "Appraise works", type: :feature do
 
       click_on "Waardering toevoegen"
 
+      work.reload
+      expect(work.purchase_year).to eq(1962)
+      work.update(purchase_year: 1962)
+      visit collection_work_path(work.collection, work)
+
       expect(page).to have_content "€100,00-€200,00"
       expect(page).to have_content "€250,00-€500,00"
       expect(page).to have_content "1962"

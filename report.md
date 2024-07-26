@@ -219,8 +219,6 @@ This is a list of fields a user can write to
 |*subset_id*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*public_description*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*grade_within_collection*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*entry_status*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*entry_status_description*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*abstract_or_figurative*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*medium_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*main_collection*|✔|✔|✘|✔|✔|✘|✘|✘|

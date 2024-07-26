@@ -38,6 +38,8 @@ class AppraisalsController < ApplicationController
     if @appraisee.is_a? Work
       # currently only supported for works
       @appraisee.update(appraisal_params[:appraisee_attributes])
+      @collection.cache_work_attributes_present!
+      @collection.cache_derived_work_attributes_present!
     end
     params = appraisal_params
     params.delete(:appraisee_attributes)
@@ -62,6 +64,9 @@ class AppraisalsController < ApplicationController
       params = appraisal_params
       params.delete(:appraisee_attributes)
       if @appraisal.update(params)
+        @collection.cache_work_attributes_present!
+        @collection.cache_derived_work_attributes_present!
+
         format.html { redirect_to [@collection, @appraisee], notice: "De waardering is bijgewerkt" }
         format.json { render :show, status: :ok, location: @appraisal }
       else

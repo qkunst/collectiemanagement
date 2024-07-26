@@ -16,16 +16,13 @@
         </td>
       </tr></thead>
       <tbody>
-      <% if @collection.base_collection.show_availability_status && work.availability_status == :lent && work.current_active_time_span.contact&.business?%>
-      <% end %>
-
-      <%= define_unless_blank :location %>
+      <%= define_when_present :location %>
       <% if @work && @work.main_location&.address%>
         <tr><th>Adres</th><td><%= link_to @work.main_location.address, edit_collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
       <% end %>
-      <%= define_unless_blank :location_floor %>
-      <%= define_unless_blank :location_detail %>
-      <% if @selection[:display] == :detailed_with_location_history %>
+      <%= define_when_present :location_floor %>
+      <%= define_when_present :location_detail %>
+      <% if @work_display_form&.display == :detailed_with_location_history %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
         <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
           <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
@@ -36,11 +33,11 @@
   <% end %>
   <% if can?(:read_status, work)%>
     <%= definition_list_for work, {render_as: :table} do %>
-      <%= define_unless_blank :work_status %>
-      <%= define_unless_blank :highlight %>
+      <%= define_when_present :work_status %>
+      <%= define_when_present :highlight %>
       <% if @collection.base_collection.show_availability_status %>
-        <%= define_unless_blank :for_purchase %>
-        <%= define_unless_blank :for_rent %>
+        <%= define_when_present :for_purchase %>
+        <%= define_when_present :for_rent %>
         <% if work.availability_status %>
           <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
             <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
@@ -59,66 +56,66 @@
     <% end %>
   <% end %>
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
-    <%= define_unless_blank :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
-    <%= define_unless_blank :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
-    <%= define_unless_blank :alt_number_4 %>
-    <%= define_unless_blank :alt_number_5 %>
-    <%= define_unless_blank :alt_number_6 %>
-    <%= define_unless_blank :object_creation_year, description: 'Datering' %>
-    <%= define_unless_blank :object_categories, {humanize_attribute_value: true} %>
-    <%= define_unless_blank :techniques %>
-    <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :medium %>
-      <%= sanctioned_define_unless_blank :medium_comments %>
-      <%= define_unless_blank :frame_type %>
+    <%= define_when_present :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
+    <%= define_when_present :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
+    <%= define_when_present :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
+    <%= define_when_present :alt_number_4 %>
+    <%= define_when_present :alt_number_5 %>
+    <%= define_when_present :alt_number_6 %>
+    <%= define_when_present :object_creation_year, description: 'Datering' %>
+    <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
+    <%= define_when_present :techniques %>
+    <% if @work_display_form&.display == :complete %>
+      <%= define_when_present :medium %>
+      <%= define_when_present :medium_comments %>
+      <%= define_when_present :frame_type %>
     <% end %>
-    <%= sanctioned_define_unless_blank :signature_rendered %>
-    <%= define_unless_blank :object_format_code, {modifier: :upcase} %>
-    <%= define_unless_blank :work_size, {description: "Afm. beeld (cm)"} %>
-    <%= define_unless_blank :frame_size, {description: "Afm. lijst (cm)"}  %>
-    <% if @selection[:display] == :complete %>
+    <%= define_when_present :signature_rendered %>
+    <%= define_when_present :object_format_code, {modifier: :upcase} %>
+    <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
+    <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
+    <% if @work_display_form&.display == :complete %>
       <% if params[:surface_calc] %>
-        <%= define_unless_blank :floor_surface %>
-        <%= define_unless_blank :wall_surface %>
+        <%= define_when_present :floor_surface %>
+        <%= define_when_present :wall_surface %>
       <% end %>
-      <%= sanctioned_define_unless_blank :abstract_or_figurative_rendered %>
-      <%= sanctioned_define_unless_blank :style %>
-      <%= sanctioned_define_unless_blank :subset %>
-      <%= sanctioned_define_unless_blank :collection_name_extended %>
-      <%= sanctioned_define_unless_blank :themes %>
-      <%= sanctioned_define_unless_blank :locality_geoname_name %>
+      <%= define_when_present :abstract_or_figurative_rendered %>
+      <%= define_when_present :style %>
+      <%= define_when_present :subset %>
+      <%= define_when_present :collection_name_extended %>
+      <%= define_when_present :themes %>
+      <%= define_when_present :locality_geoname_name %>
     <% end%>
-    <%= sanctioned_define_unless_blank :cluster if @selection[:display] != :detailed_discreet %>
-    <%= define_unless_blank :print_rendered  %>
+    <%= define_when_present :cluster if @work_display_form&.display != :detailed_discreet %>
+    <%= define_when_present :print_rendered  %>
   <% end %>
   </div>
   <div class="medium-6 columns">
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= sanctioned_define_unless_blank :cached_tag_list if @selection[:display] != :detailed_discreet %>
-    <%= sanctioned_define_unless_blank :condition_work_rendered %>
-    <%= sanctioned_define_unless_blank :condition_frame_rendered %>
-    <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :placeability  %>
-      <%= define_unless_blank :permanently_fixed if work.permanently_fixed %>
-      <%= define_unless_blank :main_collection %>
+    <%= define_when_present :cached_tag_list if @work_display_form&.display != :detailed_discreet %>
+    <%= define_when_present :condition_work_rendered %>
+    <%= define_when_present :condition_frame_rendered %>
+    <% if @work_display_form&.display == :complete %>
+      <%= define_when_present :placeability  %>
+      <%= define_when_present :permanently_fixed if work.permanently_fixed %>
+      <%= define_when_present :main_collection %>
     <% end %>
-    <%= sanctioned_define_unless_blank :grade_within_collection %>
-    <%= sanctioned_define_unless_blank :information_back, description: "Info. achterz." %>
-    <%= define_unless_blank :other_comments, description: "Overige opm." %>
-    <%= define_unless_blank :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @selection[:display] != :detailed_discreet and @selection[:display] != :detailed %>
-    <% if @selection[:display] == :complete %>
-      <%= define_unless_blank :sources %>
-      <%= define_unless_blank :source_comments %>
-      <%= define_unless_blank :owner %>
+    <%= define_when_present :grade_within_collection %>
+    <%= define_when_present :information_back, description: "Info. achterz." %>
+    <%= define_when_present :other_comments, description: "Overige opm." %>
+    <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @work_display_form&.display != :detailed_discreet and @work_display_form&.display != :detailed %>
+    <% if @work_display_form&.display == :complete %>
+      <%= define_when_present :sources %>
+      <%= define_when_present :source_comments %>
+      <%= define_when_present :owner %>
     <% end %>
   <% end %>
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <% if work.work_sets.any? && can?(:show, WorkSet) %>
+    <% if define?(:work_sets, value: work.work_sets.any?) %>
       <tr>
-        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @selection[:display] != :detailed_discreet %>
+        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet %>
         <th rowspan="2">
         <% else %>
         <th>
@@ -135,35 +132,33 @@
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? && @selection[:display] != :detailed_discreet %>
+      <% if work.appraised_in_set? && @work_display_form&.display != :detailed_discreet %>
         <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
-      <%= define_unless_blank :purchased_on_with_fallback %>
-      <% if work.purchase_price && @selection[:display] != :detailed_discreet %>
+      <%= define_when_present :purchased_on_with_fallback %>
+      <% if work.purchase_price && @work_display_form&.display != :detailed_discreet %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
-      <% if @selection[:display] != :detailed_discreet %>
-        <%= define_unless_blank :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
-        <%= define_unless_blank :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
-        <%= define_unless_blank :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
-        <%= define_unless_blank :replacement_value_range_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
-        <%= define_unless_blank :fin_balance_item_id %>
-        <%= define_unless_blank :valuation_on %>
-        <%= define_unless_blank :appraisal_notice %>
+      <% if @work_display_form&.display != :detailed_discreet %>
+        <%= define_when_present :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
+        <%= define_when_present :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+        <%= define_when_present :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
+        <%= define_when_present :replacement_value_range_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
+        <%= define_when_present :fin_balance_item_id %>
+        <%= define_when_present :valuation_on %>
+        <%= define_when_present :appraisal_notice %>
 
-        <%= define_unless_blank :minimum_bid, modifier: :number_to_currency %>
-        <% if work.selling_price.present? %>
-        <tr><th><%=Work.human_attribute_name(:selling_price)%></th><td><%=number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
+        <%= define_when_present :minimum_bid, modifier: :number_to_currency %>
+        <% if define?(:selling_price) %>
+          <tr><th><%=Work.human_attribute_name(:selling_price)%></th><td><%=number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
           <% if @collection.commercial? %>
-            <%= define_unless_blank :default_rent_price, {modifier: :number_to_currency} %>
-            <%= define_unless_blank :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
+            <%= define_when_present :default_rent_price, {modifier: :number_to_currency} %>
+            <%= define_when_present :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
           <% end%>
         <% end %>
-        <%= define_unless_blank :balance_category %>
-        <%= define_unless_blank :selling_price_minimum_bid_comments %>
-        <% if can?(:read_valuation_reference, work.collection) %>
-          <%= define_unless_blank :price_reference if @selection[:display] == :complete %>
-        <% end %>
+        <%= define_when_present :balance_category %>
+        <%= define_when_present :selling_price_minimum_bid_comments %>
+        <%= define_when_present :price_reference if @work_display_form&.display == :complete %>
       <% end %>
 
     <% end %>
@@ -181,14 +176,14 @@
     if artist_involvements_texts && artist_involvements_texts.length > 0 %>
     <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
     <% end %>
-    <% if @selection[:display] == :complete %>
+    <% if @work_display_form&.display == :complete %>
       <%
         role = current_user.role.to_s
         work_attachments = work.attachments.to_a.delete_if{|a| a.id.nil?}.select do |attachment|
           (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s))
         end
       %>
-      <% if work_attachments.count > 0 %>
+      <% if define?(:attachments, value: work_attachments.any?) %>
         <tr><th>Bijlagen:</th><td><ul>
           <% work_attachments.each do |attachment| %>
             <li>
@@ -197,17 +192,17 @@
           <% end %>
         </ul></td></tr>
       <% end %>
-      <%= sanctioned_define_unless_blank :image_rights %>
-      <%= sanctioned_define_unless_blank :publish %>
-      <%= sanctioned_define_unless_blank :created_at %>
-      <%= sanctioned_define_unless_blank :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
-      <%= sanctioned_define_unless_blank :inventoried_at %>
-      <%= sanctioned_define_unless_blank :refound_at %>
-      <%= sanctioned_define_unless_blank :new_found_at %>
-      <%= sanctioned_define_unless_blank :checked_at %>
+      <%= define_when_present :image_rights %>
+      <%= define_when_present :publish %>
+      <%= define_when_present :created_at %>
+      <%= define_when_present :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
+      <%= define_when_present :inventoried_at %>
+      <%= define_when_present :refound_at %>
+      <%= define_when_present :new_found_at %>
+      <%= define_when_present :checked_at %>
     <% end %>
-    <% if @work&.old_data&.present? %>
-    <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, @work), data: { open_in_context: true}%></td></tr>
+    <% if define?(:old_data) && work.persisted? %>
+    <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
     <% end %>
 
   <% end %>

@@ -62,13 +62,9 @@ class WorksController < ApplicationController
   def index
     @selection = {}
     set_time_filter
+    set_work_display_form
     set_selection_filter
-    set_selection_group
-    set_selection_sort
-    set_selection_display
-    set_selection_group_options
-    set_selection_sort_options
-    set_selection_display_options
+
     set_no_child_works
     set_selected_localities
 
@@ -109,7 +105,7 @@ class WorksController < ApplicationController
       format.zip { show_zip_response }
 
       format.html do
-        if @selection[:group] != :no_grouping
+        if @work_display_form.group != :no_grouping
           set_works_grouped
         else
           reset_works_limited
@@ -121,7 +117,7 @@ class WorksController < ApplicationController
   # GET /works/1
   def show
     @selection = {}
-    @selection[:display] = can?(:show_details, @work) ? :complete : :detailed
+    @work_display_form = WorkDisplayForm.new(current_user:, collection: @collection)
     @custom_reports = @work.custom_reports.to_a
     @title = @work.name
   end
@@ -157,6 +153,10 @@ class WorksController < ApplicationController
   # PATCH/PUT /works/1
   def update
     if @work.update(work_params)
+      @collection.cache_work_attributes_present!
+      @collection.reload
+      @collection.cache_derived_work_attributes_present!
+
       if ["1", 1, true].include? params["submit_and_edit_next"]
         redirect_to edit_collection_work_path(@collection, @work.next), notice: "Het werk is bijgewerkt, nu de volgende."
       elsif ["1", 1, true].include? params["submit_and_edit_photos_in_next"]

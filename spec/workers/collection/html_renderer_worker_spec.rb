@@ -7,7 +7,7 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     collection = collections(:collection_with_works)
     user = users(:admin)
 
-    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id)
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, {display: :compact})
 
     # expect html not to include any links
     expect(html).not_to match("<a ")

@@ -35,9 +35,8 @@ class Collection::HtmlRendererWorker
 
     @selection = {}
     set_selection_filter
-    set_selection_group
-    set_selection_sort
-    set_selection_display
+
+    set_work_display_form
     set_selected_localities
     set_no_child_works
     set_search_text
@@ -47,7 +46,7 @@ class Collection::HtmlRendererWorker
 
     set_works
 
-    if @selection[:group] != :no_grouping
+    if @work_display_form.group != :no_grouping
       set_works_grouped
     else
       reset_works_limited
@@ -65,7 +64,8 @@ class Collection::HtmlRendererWorker
       max_index: 999999,
       works: @works,
       selection: @selection,
-      works_grouped: @works_grouped
+      works_grouped: @works_grouped,
+      work_display_form: @work_display_form
     }
 
     filename = Rails.root.join("tmp/#{SecureRandom.base58(32)}.html")

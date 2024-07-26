@@ -12,7 +12,7 @@
 #  value_ciphertext :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  attributed_id    :string
+#  attributed_id    :bigint
 #  collection_id    :bigint
 #
 class CollectionAttribute < ApplicationRecord
