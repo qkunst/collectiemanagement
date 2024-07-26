@@ -45,7 +45,11 @@ class AttachmentsController < ApplicationController
 
     respond_to do |format|
       if @attachment.save
-        @attachment.works << @work if @work
+        if @work
+          @attachment.works << @work
+          @collection.cache_work_attributes_present!
+          @collection.cache_derived_work_attributes_present!
+        end
         @attachment.artists << @artist if @artist
 
         format.html { redirect_to redirect_url, notice: "Attachment toegevoegd" }
@@ -60,6 +64,9 @@ class AttachmentsController < ApplicationController
   def update
     respond_to do |format|
       if @attachment.update(attachment_params)
+        @collection.cache_work_attributes_present!
+        @collection.cache_derived_work_attributes_present!
+
         format.html { redirect_to redirect_url, notice: "Attachment bijgewerkt" }
         format.json { render :show, status: :ok, location: redirect_url }
       else

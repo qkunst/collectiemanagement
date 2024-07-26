@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_13_154108) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_27_074823) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -143,7 +143,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_154108) do
     t.string "value_ciphertext"
     t.bigint "collection_id"
     t.string "attributed_type"
-    t.string "attributed_id"
+    t.bigint "attributed_id"
     t.string "label"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -178,6 +178,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_154108) do
     t.string "unique_short_code"
     t.boolean "commercial"
     t.text "work_attributes_present_cache"
+    t.text "derived_work_attributes_present_cache"
     t.index ["unique_short_code"], name: "index_collections_on_unique_short_code", unique: true
   end
 
@@ -474,7 +475,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_13_154108) do
     t.string "issuer"
     t.string "value_type"
     t.string "value"
-    t.string "collection_id"
+    t.bigint "collection_id"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

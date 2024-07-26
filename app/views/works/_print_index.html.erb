@@ -4,7 +4,7 @@
     <% if @works_grouped[nil] %>
       <% works = @works_grouped[nil] %>
       <div class="select_all_scope cluster">
-        <h3>Overige werken (geen <%= I18n.t(@selection[:group], scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
+        <h3>Overige werken (geen <%= I18n.t(@work_display_form.group, scope: [:activerecord,:attributes,:work]).downcase %>)</h3>
         <p>
           Deze groep bevat <%= I18n.translate 'count.inventoried_objects_count', count: works.count %>
         </p>

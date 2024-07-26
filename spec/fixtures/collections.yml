@@ -9,6 +9,7 @@
 #  commercial                                :boolean
 #  default_collection_attributes_for_artists :text             default(["\"website\"", "\"email\"", "\"telephone_number\"", "\"description\""]), is an Array
 #  default_collection_attributes_for_works   :text             default([]), is an Array
+#  derived_work_attributes_present_cache     :text
 #  description                               :text
 #  exposable_fields                          :text
 #  external_reference_code                   :string
@@ -34,27 +35,36 @@
 #
 #  index_collections_on_unique_short_code  (unique_short_code) UNIQUE
 #
+proto_collection: &proto_collection
+  work_attributes_present_cache: '["id","collection_id","location","stock_number","alt_number_1","alt_number_2","alt_number_3","title","description","medium_id","frame_height","frame_width","condition_work_id","condition_frame_id","style_id","subset_id","market_value","replacement_value","purchase_price","grade_within_collection","created_at","updated_at","created_by_id","abstract_or_figurative","placeability_id","purchase_price_currency_id","location_detail","internal_comments","cluster_id","import_collection_id","locality_geoname_id","location_floor","artist_name_rendered","publish","frame_type_id","owner_id","created_by_name","tag_list_cache","collection_locality_artist_involvements_texts_cache","inventoried_at","market_value_min","market_value_max","purchase_price_in_eur","work_status_id","other_structured_data","artist_name_for_sorting","significantly_updated_at","removed_from_collection_at","for_purchase_at","highlight_priority","publish_selling_price","replacement_value_max","replacement_value_min","techniques"]'
+  derived_work_attributes_present_cache: '["work_status","highlight","for_purchase","medium","frame_type","object_format_code","frame_size","floor_surface","wall_surface","abstract_or_figurative_rendered","style","subset","collection_name_extended","locality_geoname_name","cluster","cached_tag_list","condition_work_rendered","condition_frame_rendered","placeability","owner","market_value_complete","replacement_value_complete","market_value_range_complete","replacement_value_range_complete"]'
+
 root_collection:
+  <<: *proto_collection
   name: "-"
   root: true
 
 collection1:
+  <<: *proto_collection
   name: Collection 1
   parent_collection: :root_collection
   appraise_with_ranges: true
   collection_name_extended_cache: "\"Collection 1\""
 
 collection2:
+  <<: *proto_collection
   name: Collection 2 (sub of Collection 1)
   parent_collection: :collection1
   collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1)\""
 
 collection4:
+  <<: *proto_collection
   name: Collection 4
   parent_collection: :collection2
   collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4\""
 
 collection_with_works:
+  <<: *proto_collection
   name: Collection with works (sub of Collection 1)
   base: true
   parent_collection: :collection1
@@ -62,50 +72,59 @@ collection_with_works:
   collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1)\""
 
 collection_with_works_child:
+  <<: *proto_collection
   name: Collection with works child (sub of Collection 1 » colection with works)
   parent_collection: :collection_with_works
   collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 » colection with works)\""
 
 collection3:
+  <<: *proto_collection
   name: Collection 3
   unique_short_code: COL4
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Collection 3\""
 
 collection_with_stages:
+  <<: *proto_collection
   name: Collection with stages
   parent_collection: :root_collection
   base: true
   collection_name_extended_cache: "\"Collection with stages\""
 
 collection_with_stages_child:
+  <<: *proto_collection
   name: Collection with stages child
   parent_collection: :collection_with_stages
   collection_name_extended_cache: "\"Collection with stages » Collection with stages child\""
 
 boring_collection:
+  <<: *proto_collection
   name: Just a boring collection
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Just a boring collection\""
 
 sub_boring_collection:
+  <<: *proto_collection
   name: Just a sub boring collection
   parent_collection: :boring_collection
   collection_name_extended_cache: "\"Just a boring collection » Just a sub boring collection\""
 
 not_qkunst_managed_collection:
+  <<: *proto_collection
   name: Not a QKunst managed Collection
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Not a QKunst managed Collection\""
   qkunst_managed: false
 
 collection_with_availability:
+  <<: *proto_collection
   name: Manage availability demo collection
   parent_collection: :root_collection
   collection_name_extended_cache: "\"Manage availability demo collection\""
   show_availability_status: true
 
 sub_collection_with_inherited_availability:
+  <<: *proto_collection
   name: Manage availability sub demo collection
   parent_collection: :collection_with_availability
   collection_name_extended_cache: "\"Manage availability demo collection » Manage availability sub demo collection\""

@@ -11,7 +11,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
+  <body class="<% if offline? %>offline-page <% end %><%= @work_display_form&.display %>">
     <nav class="top-bar" role="navigation" aria-label="Hoofdmenu">
       <div class="top-bar-title">
         <h1>

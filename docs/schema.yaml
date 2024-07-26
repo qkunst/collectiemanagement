@@ -530,10 +530,6 @@ paths:
                         grade_within_collection:
                           type: string
                           nullable: true
-                        entry_status:
-                          nullable: true
-                        entry_status_description:
-                          nullable: true
                         medium_comments:
                           nullable: true
                         main_collection:
@@ -930,8 +926,6 @@ paths:
                   no_signature_present:
                   other_comments:
                   grade_within_collection:
-                  entry_status:
-                  entry_status_description:
                   medium_comments:
                   main_collection:
                   image_rights: false
@@ -1070,8 +1064,6 @@ paths:
                   no_signature_present:
                   other_comments:
                   grade_within_collection:
-                  entry_status:
-                  entry_status_description:
                   medium_comments:
                   main_collection:
                   image_rights: false

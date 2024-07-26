@@ -1,28 +1,28 @@
 <div class="detailed_data row">
   <div class="medium-12 columns">
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_unless_blank :object_creation_year, description: 'Datering' %>
-    <%= define_unless_blank :object_categories, {humanize_attribute_value: true} %>
-    <%= define_unless_blank :techniques %>
-    <%= define_unless_blank :medium, {classname: :complete_data} %>
-    <%= define_unless_blank :frame_size_with_fallback%>
-    <% case @selection[:display] %>
+    <%= define_when_present :object_creation_year, description: 'Datering' %>
+    <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
+    <%= define_when_present :techniques %>
+    <%= define_when_present :medium, {classname: :complete_data} %>
+    <%= define_when_present :frame_size_with_fallback%>
+    <% case @work_display_form&.display %>
     <% when :limited_auction %>
-      <%= define_unless_blank :signature_rendered  %>
-      <%= define_unless_blank :condition_work_rendered %>
-      <%= define_unless_blank :condition_frame_rendered %>
+      <%= define_when_present :signature_rendered  %>
+      <%= define_when_present :condition_work_rendered %>
+      <%= define_when_present :condition_frame_rendered %>
     <% when :limited_selling_price %>
-      <%= define_unless_blank :selling_price, {modifier: :number_to_currency} %>
+      <%= define_when_present :selling_price, {modifier: :number_to_currency} %>
     <% when :limited_selling_price_and_default_rent_price %>
-      <%= define_unless_blank :selling_price, {modifier: :number_to_currency} %>
-      <%= define_unless_blank :default_rent_price, {modifier: :number_to_currency} %>
+      <%= define_when_present :selling_price, {modifier: :number_to_currency} %>
+      <%= define_when_present :default_rent_price, {modifier: :number_to_currency} %>
     <% when :limited_default_rent_price %>
-      <%= define_unless_blank :default_rent_price, {modifier: :number_to_currency} %>
+      <%= define_when_present :default_rent_price, {modifier: :number_to_currency} %>
     <% when :limited_business_rent_price %>
-      <%= define_unless_blank :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
+      <%= define_when_present :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
     <% when :limited_selling_price_and_business_rent_price %>
-      <%= define_unless_blank :selling_price, {modifier: :number_to_currency} %>
-      <%= define_unless_blank :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
+      <%= define_when_present :selling_price, {modifier: :number_to_currency} %>
+      <%= define_when_present :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
     <% end %>
 
   <% end %>

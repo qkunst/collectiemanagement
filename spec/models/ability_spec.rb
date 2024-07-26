@@ -182,4 +182,12 @@ RSpec.describe Ability, type: :model do
       end
     end
   end
+
+  describe "#viewable_work_fields" do
+    it "returns all fields in DISPLAYED_PROPERTIES for admin" do
+      ability = Ability.new(users(:admin))
+      not_returned = Work::ParameterRendering::DISPLAYED_PROPERTIES - ability.viewable_work_fields
+      expect(not_returned).to eq([])
+    end
+  end
 end

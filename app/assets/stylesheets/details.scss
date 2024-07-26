@@ -1,0 +1,33 @@
+@import 'settings';
+
+details {
+  position: relative;
+  margin-left: 0.25rem;
+
+  summary.button {
+    display: list-item !important
+  }
+
+  details {
+    margin: 1em 0 1em 0;
+
+    summary {
+      margin-bottom: 1em;
+    }
+  }
+
+  .display__body--wider {
+    width: 40em;
+  }
+
+  .details__body--overlay {
+    box-shadow: 0 0 1em rgba(0, 0, 0, 0.3);
+    position: absolute;
+    min-width: 10em;
+    max-width: 90vw;
+    background: $lighter-grey;
+    right: 0;
+    z-index: 10;
+    top: 50px;
+  }
+}

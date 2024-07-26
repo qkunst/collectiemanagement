@@ -25,16 +25,22 @@ RSpec.feature "Filter from report", type: :feature do
 
     expect(page).to have_content("Er worden vanwege een filter #{I18n.translate "count.works", count: inital_works_count} getoond.")
 
-    select "Niveau", from: "Groepeer:"
-    select "Compleet", from: "Weergave:"
+    # save_and_open_page
+    Capybara.ignore_hidden_elements = false
+    within "#group_sort_display .details__body.display__body--wider", visible: false do
+      select "Niveau", from: "Groepeer:"
+      select "Compleet", from: "Weergave:"
 
-    click_on("Filter")
+      click_on("Pas weergave aan")
+    end
 
     expect(page).to have_content("Interne opmerking bij werk 1")
 
-    select "Compact", from: "Weergave:"
+    within "#group_sort_display .details__body.display__body--wider", visible: false do
+      select "Compact", from: "Weergave:"
 
-    click_on("Filter")
+      click_on("Pas weergave aan")
+    end
 
     expect(page).not_to have_content("Interne opmerking bij werk 1")
     expect(page).to have_content("Er worden vanwege een filter #{I18n.translate "count.works", count: inital_works_count} getoond.")
@@ -53,8 +59,9 @@ RSpec.feature "Filter from report", type: :feature do
     expect(page).to have_content("vanwege een filter #{I18n.translate "count.works", count: inital_works_count - 1} getoond.")
 
     url = page.current_url
-    expect(url).to match "display=compact"
+    expect(url).to match(/work_display_form\[display\]=compact/)
     expect(url).to match "q=Bijzondere"
     expect(url).to match(/filter\[inventoried\]\[\]=true/)
+    Capybara.ignore_hidden_elements = true
   end
 end

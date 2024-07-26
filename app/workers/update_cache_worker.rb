@@ -19,7 +19,7 @@ class UpdateCacheWorker
       konstant.pluck(:id).each { |obj_id| UpdateCacheWorker.perform_async(class_name, field_name, obj_id) }
     else
       objekt = class_name.constantize.find(id)
-      objekt.send(:"cache_#{field_name}!", true) # updates the cache using update_column
+      objekt.send(:"cache_#{field_name}!") # updates the cache using update_column
     end
   end
 end

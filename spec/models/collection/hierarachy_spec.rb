@@ -14,7 +14,7 @@ RSpec.describe Collection::Hierarchy, type: :model do
 
     describe "#expand_with_child_collections" do
       it "should return all collections when expanded from root" do
-        expect(collections(:root_collection).expand_with_child_collections.count).to eq(Collection.all.count)
+        expect(collections(:root_collection).expand_with_child_collections.count).to eq(Collection.all.count - 1)
       end
       it "should return empty array when no id" do
         expect(Collection.new.expand_with_child_collections).to eq([])
@@ -73,10 +73,10 @@ RSpec.describe Collection::Hierarchy, type: :model do
 
     describe "#possible_parent_collections" do
       it "should return all qkunst managed collections if new and qkunst admin" do
-        expect(Collection.new.possible_parent_collections(user: users(:admin)).count).to eq(Collection.qkunst_managed.count)
+        expect(Collection.new.possible_parent_collections(user: users(:admin)).count).to eq(Collection.qkunst_managed.count - 1)
       end
       it "should return all collections if new if super admin" do
-        expect(Collection.new.possible_parent_collections(user: users(:super_admin)).count).to eq(Collection.all.count)
+        expect(Collection.new.possible_parent_collections(user: users(:super_admin)).count).to eq(Collection.all.count - 1)
       end
 
       it "should not return child collections" do

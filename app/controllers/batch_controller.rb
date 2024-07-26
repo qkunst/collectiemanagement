@@ -14,7 +14,7 @@ class BatchController < ApplicationController
     elsif params[:batch_process_property] == "create_work_set"
       redirect_to new_work_set_path(work_ids_hash: works_to_work_ids_hash)
     else
-      @selection = {display: :complete}
+      @work_display_form = WorkDisplayForm.new(current_user:, display: :complete)
 
       @form.default_to_ignore!
     end
@@ -28,7 +28,7 @@ class BatchController < ApplicationController
       Work.transaction do
         @works.map { |work| @form.update_work!(work) }
       end
-      @collection&.touch # touching collection is skipped explicitly in work update for performance reasons
+      @collection.save
       redirect_to_collection_works_return_url
     else
       render :show

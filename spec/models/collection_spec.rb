@@ -11,6 +11,7 @@
 #  commercial                                :boolean
 #  default_collection_attributes_for_artists :text             default(["\"website\"", "\"email\"", "\"telephone_number\"", "\"description\""]), is an Array
 #  default_collection_attributes_for_works   :text             default([]), is an Array
+#  derived_work_attributes_present_cache     :text
 #  description                               :text
 #  exposable_fields                          :text
 #  external_reference_code                   :string
@@ -366,6 +367,45 @@ RSpec.describe Collection, type: :model do
         expect(child_works).to include(works(:work1))
       end
     end
+
+    describe "#work_attributes_present" do
+      let(:collection) { collections(:collection3).tap(&:save).tap(&:save) }
+      let(:found_attributes) { collection.work_attributes_present }
+      it "should return all the attributes used" do
+        expect(found_attributes).to include(:location)
+        expect(found_attributes).not_to include(:no_signature_present)
+      end
+
+      it "s cached equivalent should also return symbols" do
+        expect(found_attributes).to eq(collection.cached_work_attributes_present)
+      end
+    end
+
+    describe "#derived_work_attributes_present" do
+      let(:collection) { collections(:collection3).tap(&:save).tap(&:save) }
+      let(:found_attributes) { collection.derived_work_attributes_present }
+      it "should return derived attributes used" do
+        expect(found_attributes).to include :cluster
+        expect(found_attributes).not_to include :alt_number_6
+        expect(found_attributes).not_to include :balance_category
+      end
+
+      it "s cached equivalent should also return symbols" do
+        expect(found_attributes).to eq(collection.cached_derived_work_attributes_present)
+      end
+    end
+
+    describe "#displayable_work_attributes_present" do
+      let(:collection) { collections(:collection3).tap(&:save).tap(&:save) }
+      let(:found_attributes) { collection.displayable_work_attributes_present }
+
+      it "returns only work attributes that are presented and available" do
+        expect(found_attributes).to include :cluster
+        expect(found_attributes).not_to include :cluster_id
+        expect(found_attributes).not_to include :balance_category
+        expect(found_attributes).to include :location
+      end
+    end
   end
   describe "Class methods" do
     describe ".for_user" do
@@ -384,11 +424,11 @@ RSpec.describe Collection, type: :model do
 
     describe ".for_user_expanded" do
       it "returns collections with root parent for super admin user" do
-        expect(Collection.for_user_expanded(users(:super_admin)).all.collect(&:id).sort).to eq(Collection.not_system.all.collect(&:id).sort)
+        expect(Collection.for_user_expanded(users(:super_admin)).all.collect(&:id).sort).to eq((Collection.not_system.all.collect(&:id) - [collections(:proto_collection).id]).sort)
       end
 
       it "returns collections with root parent for admin user, except for those not qkunst managed" do
-        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq(Collection.not_system.qkunst_managed.all.collect(&:id).sort)
+        expect(Collection.for_user_expanded(users(:admin)).all.collect(&:id).sort).to eq((Collection.not_system.qkunst_managed.all.collect(&:id) - [collections(:proto_collection).id]).sort)
       end
 
       it "returns only base collection for user" do

@@ -89,6 +89,7 @@ class User < ApplicationRecord
   scope :recently_updated, -> { where("users.updated_at > ?", 1.month.ago) }
 
   before_save :serialize_collection_accessibility!
+  delegate :can?, to: :ability
 
   def qkunst?
     read_attribute(:qkunst) || admin? || appraiser? || advisor?
@@ -232,12 +233,12 @@ class User < ApplicationRecord
   end
 
   def reset_filters!
-    group_sorting_and_display = {
+    group_sorting_and_display_to_maintain = {
       group: filter_params[:group],
       sort: filter_params[:sort],
       display: filter_params[:display]
     }
-    self.filter_params = {}.merge(group_sorting_and_display)
+    self.filter_params = {}.merge(group_sorting_and_display_to_maintain)
     save
   end
 

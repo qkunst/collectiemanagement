@@ -64,7 +64,7 @@ module Work::Export
       return @@possible_exposable_fields if defined? @@possible_exposable_fields
 
       fields = instance_methods.collect { |method|
-        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|_|=|<|!|\[|photo_|remote_|remove_|defined_enums|find_by_statement_cache|validation_context|record_timestamps|aggregate_reflections|include_root_in_json|destroyed_by_association|attributes|entry_status_description|entry_status|paper_trail|verions|custom_report|messages|tags|custom_contexts|base_tags|preserve_tag_order|tag_|taggings|version|param_delimiter)(.*)/) && !method.to_s.match(/(.*)_(id|ids|attributes|class_name|association_name|cache)=$/)
+        if method.to_s.match(/=/) && !method.to_s.match(/^(before|after|_|=|<|!|\[|photo_|remote_|remove_|defined_enums|find_by_statement_cache|validation_context|record_timestamps|aggregate_reflections|include_root_in_json|destroyed_by_association|attributes|paper_trail|verions|custom_report|messages|tags|custom_contexts|base_tags|preserve_tag_order|tag_|taggings|version|param_delimiter)(.*)/) && !method.to_s.match(/(.*)_(id|ids|attributes|class_name|association_name|cache)=$/)
           method.to_s.delete("=")
         end
       }.compact

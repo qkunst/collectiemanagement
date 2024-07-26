@@ -1,6 +1,15 @@
 require_relative "../../rails_helper"
 
-RSpec.describe Work::ParameterRerendering do
+RSpec.describe Work::ParameterRendering do
+  describe "constants" do
+    describe "DISPLAYED_PROPERTIES" do
+      it "contains all the fields from the detailed data erb" do
+        detailed_data_erb = File.read(Rails.root.join("app", "views", "works", "_work_detailed_data.html.erb"))
+        fields = detailed_data_erb.scan(/(define_when_present|define\?)[\s\(]:(\w+)/).map { _2.to_sym }
+        expect(described_class::DISPLAYED_PROPERTIES.sort).to match(fields.sort)
+      end
+    end
+  end
   describe "artist_name" do
     it "should keep a log of changed artists" do
       w = works(:work1)

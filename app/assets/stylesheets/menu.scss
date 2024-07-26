@@ -5,10 +5,12 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0;
+
   li {
     padding: 0 0.5em;
     line-height: $menu-height;
   }
+
   &.menu--only-buttons {
     li {
       padding: 0;
@@ -21,13 +23,16 @@
   &.left {
     float: left;
   }
-  & > li > a {
+
+  &>li>a {
     display: inline-block;
   }
+
   a.button {
     min-height: 2.2rem;
     margin: 0.25em;
   }
+
   input {
     margin: 0.25em;
     max-height: 2.2rem;
@@ -37,7 +42,7 @@
 .menu .submenu-container {
   margin-left: 1em;
 
-  & > a {
+  &>a {
     border-top: 1px solid $primary-color;
   }
 }
@@ -50,46 +55,15 @@
   width: 100%;
 }
 
-.dropdown.menu {
-  .menu {
-    position: absolute;
-    flex-direction: column;
-    background: #fff;
-    box-shadow: 0 0 6px rgba(0,0,0,.1);
-    z-index: 1;
-  }
-}
-.dropdown.menu > li.is-dropdown-submenu-parent > button {
-  position: relative;
-  padding-right: 1.5rem;
-
-}
-
-.dropdown.menu > li.is-dropdown-submenu-parent > button::after {
-  position: absolute;
-    display: block;
-    width: 0;
-    height: 0;
-    border: inset 6px;
-    content: '';
-    border-bottom-width: 0;
-    border-top-style: solid;
-    border-color: #af917d transparent transparent;
-    right: 0.75rem;
-    left: auto;
-    margin-top: -0.7em;
-}
-
-.dropdown.menu.collapsed {
-  .menu {
-    display: none;
-  }
+.menu.vertical {
+  flex-direction: column;
 }
 
 @media screen and (max-width: 40em) {
   .menu.right-aligned {
     flex-direction: row; // do not right align when full width
   }
+
   .menu.vertical-only-small {
     flex-direction: column;
 

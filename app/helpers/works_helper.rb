@@ -88,7 +88,7 @@ module WorksHelper
     report = controller.is_a?(ReportController)
 
     filtered = @collection_works_count > @works_count
-    grouped = @selection && @selection[:group] != :no_grouping
+    grouped = @work_display_form && @work_display_form.group != :no_grouping
     more_inventoried_objects_than_works = @inventoried_objects_count != @works_count
 
     sentence_items = ["Deze collectie bevat #{translate_works(@collection_works_count)}"]
@@ -104,7 +104,7 @@ module WorksHelper
     end
     sentence_items << ". "
     if grouped
-      sentence_items << "<span class=\"hide-for-screen\">Er is gegroepeerd op #{I18n.t(@selection[:group], scope: [:activerecord, :attributes, :work])}.</span>"
+      sentence_items << "<span class=\"hide-for-screen\">Er is gegroepeerd op #{I18n.t(@work_display_form.group, scope: [:activerecord, :attributes, :work])}.</span>"
     end
 
     if params[:surface_calc]

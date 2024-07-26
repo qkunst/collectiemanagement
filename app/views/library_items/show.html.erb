@@ -13,9 +13,9 @@
   </div>
   <div class="medium-6 columns">
     <%= definition_list_for @library_item do%>
-      <%= define_unless_blank :ean%>
-      <%= define_unless_blank :stock_number%>
-      <%= define_unless_blank :location%>
+      <%= define_when_present :ean%>
+      <%= define_when_present :stock_number%>
+      <%= define_when_present :location%>
     <% end%>
   </div>
 </div>
@@ -49,4 +49,3 @@
       <%= render @library_item.works %>
     <% end %>
 </div>
-

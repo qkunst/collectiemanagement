@@ -11,6 +11,7 @@
 #  commercial                                :boolean
 #  default_collection_attributes_for_artists :text             default(["\"website\"", "\"email\"", "\"telephone_number\"", "\"description\""]), is an Array
 #  default_collection_attributes_for_works   :text             default([]), is an Array
+#  derived_work_attributes_present_cache     :text
 #  description                               :text
 #  exposable_fields                          :text
 #  external_reference_code                   :string
@@ -27,6 +28,7 @@
 #  sort_works_by                             :string
 #  supported_languages                       :text             default(["\"nl\""]), is an Array
 #  unique_short_code                         :string
+#  work_attributes_present_cache             :text
 #  created_at                                :datetime         not null
 #  updated_at                                :datetime         not null
 #  parent_collection_id                      :bigint           default(1)
@@ -83,8 +85,9 @@ class Collection < ApplicationRecord
   has_many :time_spans
   has_many :contacts
 
-  has_cache_for_method :geoname_ids
+  has_cache_for_method :geoname_ids, trigger: :before_save
   has_cache_for_method :collection_name_extended
+  has_cache_for_methods :work_attributes_present, :derived_work_attributes_present, as: :symbols, trigger: :before_save
 
   has_paper_trail # only enabled in may 2020
 
@@ -95,7 +98,6 @@ class Collection < ApplicationRecord
   scope :not_system, -> { not_root }
   scope :qkunst_managed, -> { where(qkunst_managed: true) }
 
-  before_save :cache_geoname_ids!
   before_save :attach_sub_collection_ownables_when_base
 
   after_create :copy_default_reminders!
@@ -247,6 +249,57 @@ class Collection < ApplicationRecord
 
   def library_items_including_parent_library_items
     LibraryItem.where(collection: expand_with_parent_collections)
+  end
+
+  def work_attributes_present
+    direct_work_attributes = Work.attributes_present
+    relations = (Work.has_manies + Work.has_and_belongs_to_manies).select { |a| works.joins(a).any? }
+    relations + direct_work_attributes
+  end
+
+  def derived_work_attributes_present
+    direct_attributes = cached_work_attributes_present
+    {
+      work_status: -> { direct_attributes.include?(:work_status_id) },
+      highlight: -> { direct_attributes.include?(:highlight_priority) },
+      for_purchase: -> { direct_attributes.include?(:for_purchase_at) },
+      for_rent: -> { direct_attributes.include?(:for_rent) },
+      alt_number_4: -> { false },
+      alt_number_5: -> { false },
+      alt_number_6: -> { false },
+      medium: -> { direct_attributes.include?(:medium_id) },
+      frame_type: -> { direct_attributes.include?(:frame_type_id) },
+      signature_rendered: -> { direct_attributes.include?(:signature_comments) },
+      object_format_code: -> { true },
+      work_size: -> { direct_attributes.include?(:height) || direct_attributes.include?(:width) },
+      frame_size: -> { direct_attributes.include?(:frame_height) || direct_attributes.include?(:frame_width) },
+      floor_surface: -> { direct_attributes.include?(:frame_depth) || direct_attributes.include?(:frame_width) || direct_attributes.include?(:depth) || direct_attributes.include?(:width) },
+      wall_surface: -> { direct_attributes.include?(:frame_height) || direct_attributes.include?(:frame_width) || direct_attributes.include?(:height) || direct_attributes.include?(:width) },
+      abstract_or_figurative_rendered: -> { direct_attributes.include?(:abstract_or_figurative) },
+      style: -> { direct_attributes.include?(:style_id) },
+      subset: -> { direct_attributes.include?(:subset_id) },
+      collection_name_extended: -> { true },
+      locality_geoname_name: -> { direct_attributes.include?(:locality_geoname_id) },
+      cluster: -> { direct_attributes.include?(:cluster_id) },
+      print_rendered: -> { direct_attributes.include?(:print) || direct_attributes.include?(:print_unknown) },
+      cached_tag_list: -> { direct_attributes.include?(:tag_list_cache) },
+      condition_work_rendered: -> { direct_attributes.include?(:condition_work_id) },
+      condition_frame_rendered: -> { direct_attributes.include?(:condition_frame_id) },
+      placeability: -> { direct_attributes.include?(:placeability_id) },
+      owner: -> { direct_attributes.include?(:owner_id) },
+      purchased_on_with_fallback: -> { direct_attributes.include?(:purchased_on) || direct_attributes.include?(:purchase_year) },
+      market_value_complete: -> { direct_attributes.include?(:market_value) },
+      replacement_value_complete: -> { direct_attributes.include?(:replacement_value) },
+      market_value_range_complete: -> { direct_attributes.include?(:market_value_max) || direct_attributes.include?(:market_value_min) },
+      replacement_value_range_complete: -> { direct_attributes.include?(:replacement_value_max) || direct_attributes.include?(:replacement_value_min) },
+      default_rent_price: -> { direct_attributes.include?(:selling_price) },
+      business_rent_price_ex_vat: -> { direct_attributes.include?(:selling_price) },
+      balance_category: -> { direct_attributes.include?(:balance_category_id) }
+    }.select { |k, v| k if v.call }.keys
+  end
+
+  def displayable_work_attributes_present
+    Work::ParameterRendering::DISPLAYED_PROPERTIES & (cached_derived_work_attributes_present + cached_work_attributes_present)
   end
 
   def touch_parent

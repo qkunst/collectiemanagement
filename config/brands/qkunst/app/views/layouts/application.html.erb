@@ -13,7 +13,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @selection[:display] : nil %>">
+  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @work_display_form&.display : nil %>">
     <div class="skiplink">
           <a href="#content">Naar hoofdinhoud</a>
     </div>
