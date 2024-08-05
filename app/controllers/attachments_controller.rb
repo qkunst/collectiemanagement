@@ -31,7 +31,6 @@ class AttachmentsController < ApplicationController
     @attachment.artists << @artist if @artist
     @attachment.visibility = ["facility_manager", "compliance"]
     @attachment.visibility += ["qkunst"] if current_user.registrator?
-
     @attachments = attachment_scope.where(collection: @collection.expand_with_parent_collections).all
     @attachments -= @subject.attachments if @subject
   end

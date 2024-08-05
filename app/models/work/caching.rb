@@ -16,9 +16,8 @@ module Work::Caching
       artist_name_rendered({include_years: false, include_locality: false, join: ";"})
     end
 
-    def artist_name_rendered(opts = {})
-      options = {include_years: true, include_locality: false, join: :to_sentence, render_error: false}.merge(opts)
-      simple_artists = begin
+    def simple_artists_for_artist_name_rendering
+      [begin
         SimpleArtist.new_from_json(read_attribute(:artist_name_rendered))
       rescue JSON::ParserError
         if attributes["artist_name_rendered"]
@@ -26,9 +25,13 @@ module Work::Caching
         else
           SimpleArtist.new_from_json(artists.to_json_for_simple_artist)
         end
-      end
+      end].flatten
+    end
 
-      names = [simple_artists].flatten.collect { |a| a.name(options) }.delete_if(&:blank?)
+    def artist_name_rendered(opts = {})
+      options = {include_years: true, include_locality: false, join: :to_sentence, render_error: false}.merge(opts)
+
+      names = simple_artists_for_artist_name_rendering.collect { |a| a.name(options) }.delete_if(&:blank?)
 
       return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?

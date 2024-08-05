@@ -56,7 +56,7 @@ RSpec.feature "Manage attachments", type: :feature do
 
       click_on "Work2"
       click_on "Bijlage toevoegen"
-      first("[value=Koppel]").click
+      first("form.button_to button[type=submit]").click
 
       expect(page).to have_content("Attachment bijgewerkt")
       expect(page).to have_content("Image1.jpg")
@@ -88,7 +88,7 @@ RSpec.feature "Manage attachments", type: :feature do
 
       click_on "artist_2"
       click_on "Bijlage toevoegen"
-      first("[value=Koppel]").click
+      first("form.button_to button[type=submit]").click
 
       expect(page).to have_content("Attachment bijgewerkt")
       expect(page).to have_content("ArtistImage1.jpg")

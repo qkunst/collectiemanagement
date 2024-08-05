@@ -11,5 +11,14 @@ module Works::PdfResponse
         redirect_to collection_works_path(@collection, @cleaned_params.merge(format: :html)), alert: "Er ging iets mis bij het genereren van de PDF, probeer het later nog eens"
       end
     end
+
+    def show_label_pdf_response
+      labels = Works::TitleLabels.new(
+        collection: @collection,
+        works: @works
+      )
+
+      send_data labels.render
+    end
   end
 end

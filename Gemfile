@@ -26,6 +26,12 @@ gem "jbuilder"
 gem "cancancan"
 gem "bootsnap"
 gem "lockbox"
+
+gem "prawn"
+gem "prawn-labels"
+gem "prawn-svg"
+gem "prawn-qr", git: "https://github.com/murb/prawn-qr"
+
 group :development, :test, :gitlabci do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem "capybara"

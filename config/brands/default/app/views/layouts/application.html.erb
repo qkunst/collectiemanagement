@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title><%= "#{I18n.t("application.name")} - #{@title}" %></title>
 
     <%= stylesheet_link_tag    "application", media: 'all' %>
@@ -13,7 +12,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="<% if offline? %>offline-page <% end %><%= @selection ? @work_display_form&.display : nil %>">
+  <body class="<% if offline? %>offline-page <% end %><%= @work_display_form&.display %>">
     <div class="skiplink">
           <a href="#content">Naar hoofdinhoud</a>
     </div>

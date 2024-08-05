@@ -115,7 +115,7 @@
   <%= definition_list_for work, {render_as: :table} do %>
     <% if define?(:work_sets, value: work.work_sets.any?) %>
       <tr>
-        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet %>
+        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete))  %>
         <th rowspan="2">
         <% else %>
         <th>
@@ -128,7 +128,8 @@
           else
             link_to(sanitize(ws.name), ws)
           end
-        end.to_sentence).html_safe %></td>
+        end.to_sentence).html_safe %>
+        </td>
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>

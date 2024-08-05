@@ -40,6 +40,10 @@ class CollectionsController < ApplicationController
     @collections = @collection.child_collections
     @attachments = @collection.attachments.without_works.without_artists.for_me(current_user)
     current_user.reset_filters!
+
+    respond_to do |format|
+      format.html {}
+    end
   end
 
   # GET /collections/new
