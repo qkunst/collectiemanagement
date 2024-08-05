@@ -6,7 +6,8 @@ RSpec.describe Work::ParameterRendering do
       it "contains all the fields from the detailed data erb" do
         detailed_data_erb = File.read(Rails.root.join("app", "views", "works", "_work_detailed_data.html.erb"))
         fields = detailed_data_erb.scan(/(define_when_present|define\?)[\s\(]:(\w+)/).map { _2.to_sym }
-        expect(described_class::DISPLAYED_PROPERTIES.sort).to match(fields.sort)
+
+        expect(described_class::DISPLAYED_PROPERTIES.sort).to match(fields.uniq.sort)
       end
     end
   end
