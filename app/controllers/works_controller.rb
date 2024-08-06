@@ -117,7 +117,7 @@ class WorksController < ApplicationController
   # GET /works/1
   def show
     @selection = {}
-    @work_display_form = WorkDisplayForm.new(current_user:, collection: @collection)
+    @work_display_form = WorkDisplayForm.new(current_user:, collection: @collection, display: (current_user&.can?(:show_details, Work.new(collection_id: @collection.id)) ? :complete : :detailed))
     @custom_reports = @work.custom_reports.to_a
     @title = @work.name
   end
