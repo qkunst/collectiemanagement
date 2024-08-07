@@ -54,7 +54,6 @@ RSpec.describe LabelsSupport do
           expect(grid.height).to eq(800)
         end
         it "has the cells correctly sorted" do
-          puts grid.cells.map { |row| row.map { |c| [[c.x, c.y_max], [c.x_max, c.y]] } }.inspect
           expect(grid.cells.map { |row| row.map { |c| [[c.x, c.y_max], [c.x_max, c.y]] } }).to eq(
             [[[[0, 800], [100, 600]], [[100, 800], [200, 600]], [[200, 800], [300, 600]], [[300, 800], [400, 600]]],
               [[[0, 600], [100, 400]], [[100, 600], [200, 400]], [[200, 600], [300, 400]], [[300, 600], [400, 400]]],
