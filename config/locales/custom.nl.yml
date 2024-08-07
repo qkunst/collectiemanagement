@@ -614,6 +614,8 @@ nl:
       collection:
         appraise_with_ranges: Taxeer met prijscategorieën
         base: Basis collectie
+        show_library: Toon Bibliotheek functie
+        unique_short_code: Unieke korte collectiecode
         collections_stage_delivery_on: Opleverdatum
         description: Toelichting bij collectie
         exposable_fields: Beschikbare velden

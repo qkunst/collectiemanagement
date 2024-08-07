@@ -31,9 +31,9 @@ module LabelsSupport
     # ----------------
     # |    |    |    |
 
-    def row_height = (height / 3)
+    def row_height = (height / rows)
 
-    def col_width = (width / 3)
+    def col_width = (width / columns)
 
     def width = (outer_width - (2 * margin))
 

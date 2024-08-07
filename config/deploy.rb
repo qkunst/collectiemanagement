@@ -25,7 +25,7 @@ set :repo_url, "https://gitlab.com/murb-org/collectiemanagement.git"
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb config/master.key config/credentials.yml.enc]
+set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb config/master.key config/credentials.yml.enc config/config.yml]
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w[log tmp public/uploads storage node_modules]

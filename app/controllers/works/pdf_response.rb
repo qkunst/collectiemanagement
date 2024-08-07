@@ -15,7 +15,8 @@ module Works::PdfResponse
     def show_label_pdf_response
       labels = Works::TitleLabels.new(
         collection: @collection,
-        works: @works
+        works: @works,
+        qr_code: params[:qr_code]
       )
 
       send_data labels.render
