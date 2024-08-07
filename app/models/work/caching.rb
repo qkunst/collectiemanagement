@@ -31,7 +31,10 @@ module Work::Caching
     def artist_name_rendered(opts = {})
       options = {include_years: true, include_locality: false, join: :to_sentence, render_error: false}.merge(opts)
 
-      names = simple_artists_for_artist_name_rendering.collect { |a| a.name(options) }.delete_if(&:blank?)
+      simple_artists = simple_artists_for_artist_name_rendering
+      return simple_artists if simple_artists.is_a?(String) && simple_artists.present?
+
+      names = simple_artists.collect { |a| a.name(options) }.delete_if(&:blank?)
 
       return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?

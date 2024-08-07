@@ -50,7 +50,9 @@ module Works::Filtering
       work_display_form_params[:display] = params[:display]
 
       if params[:work_display_form]
-        work_display_form_params = work_display_form_params.merge(params.require(:work_display_form).permit(:group, :sort, :display, :hide_empty_fields, attributes_to_display: []))
+        forced_action_controller_params = params.is_a?(ActionController::Parameters) ? params : ActionController::Parameters.new(params)
+
+        work_display_form_params = work_display_form_params.merge(forced_action_controller_params.require(:work_display_form).permit(:group, :sort, :display, :hide_empty_fields, attributes_to_display: []))
       end
       @work_display_form = WorkDisplayForm.new(work_display_form_params)
       @work_display_form.sort = :id if params[:id_gt]

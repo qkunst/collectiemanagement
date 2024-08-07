@@ -53,6 +53,31 @@ RSpec.describe Collection::HtmlRendererWorker, type: :model do
     expect(html).to match("Interne opmerking bij werk 1")
   end
 
+  it "accepts work_display_form" do
+    collection = collections(:collection_with_works)
+    user = users(:admin)
+
+    # required for TravisCI
+    collections(:collection_with_works).works_including_child_works.all.reindex!
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, work_display_form: {display: "compact"})
+
+    # expect html not to include any links
+    expect(html).not_to match("<a ")
+
+    expect(html).to match("Q001")
+    expect(html).to match("Q002")
+    expect(html).not_to match("Q006")
+    expect(html).to match("Collectie Collection with works")
+    expect(html).not_to match("Vervangingswaarde")
+    expect(html).not_to match("Plaatsbaarheid")
+    expect(html).not_to match("Acrylverf")
+    expect(html).not_to match("Interne opmerking bij werk 1")
+
+    html = Collection::HtmlRendererWorker.new.perform(collection.id, user.id, work_display_form: {display: "complete"})
+    expect(html).to match("Interne opmerking bij werk 1")
+  end
+
   it "doesn't export internal comments to facility manager" do
     collection = collections(:collection_with_works)
     user = users(:facility_manager)
