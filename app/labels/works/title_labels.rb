@@ -8,7 +8,7 @@ class Works::TitleLabels
     code = collection.unique_short_code
     base_url = Rails.application.config_for(:config)[:ppid_base_domain]
     logo_path = File.open(Rails.root.join("app", "assets", "images", "logo.svg"))
-    @works = @works[1..16]
+    # @works = @works[1..16]
 
     Prawn::Labels.types["A7"] = {
       "columns" => 2,
