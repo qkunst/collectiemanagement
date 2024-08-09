@@ -2,13 +2,14 @@ class Works::TitleLabels
   include ActiveModel::Model
   include LabelsSupport
 
-  attr_accessor :collection, :works, :qr_code
+  attr_accessor :collection, :works, :qr_code_enabled, :resource_variant
 
   def render
     code = collection.unique_short_code || collection.base_collection.unique_short_code
     base_url = Rails.application.config_for(:config)[:ppid_base_domain]
     logo_path = File.open(Rails.root.join("app", "assets", "images", "logo.svg"))
-    # @works = @works[1..16]
+
+    self.works = works.to_a.select { |w| w.stock_number } if qr_code_enabled
 
     Prawn::Labels.types["A7"] = {
       "columns" => 2,
@@ -25,7 +26,7 @@ class Works::TitleLabels
     Prawn::Labels.new(works, type: "A7") do |pdf, work|
       number = work.stock_number
       url = URI.join(base_url, "#{code}/", number).to_s
-      puts url
+      url = [url, resource_variant].compact.join(".")
       margin = 5
       grid = Grid.new(columns: 4, rows: 4, outer_width: pdf.bounds.width, outer_height: pdf.bounds.height, margin:)
 
@@ -48,8 +49,10 @@ class Works::TitleLabels
           end
         end
 
-        pdf.bounding_box(*grid.area_bounding_box([3, 3])) do
-          pdf.qrcode(url, align: :right, valign: :bottom)
+        if qr_code_enabled
+          pdf.bounding_box(*grid.area_bounding_box([3, 3])) do
+            pdf.qrcode(url, align: :right, valign: :bottom)
+          end
         end
       end
     end.document.render

@@ -59,6 +59,12 @@
                   <% if can? :download_pdf, @collection  %>
                     <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
                   <% end %>
+                  <% if can?(:download_title_labels, @collection) %>
+                    <li><%=link_to ".pdf <small>(titels)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels})) %></li>
+                    <% if @collection.unique_short_code.present? %>
+                      <li><%=link_to ".pdf <small>(titels+QR)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels, qr_code_enabled: true, resource_variant: :public})) %></li>
+                    <% end %>
+                  <% end %>
                   <% if can? :download_public_datadump, @collection %>
                     <li><%=link_to ".xml <small>(publiek)</small>".html_safe, collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml", title: "xml-file zonder gevoelige informatie" } %></li>
                   <% end %>

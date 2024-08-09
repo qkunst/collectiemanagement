@@ -16,7 +16,8 @@ module Works::PdfResponse
       labels = Works::TitleLabels.new(
         collection: @collection,
         works: @works,
-        qr_code: params[:qr_code]
+        qr_code_enabled: params[:qr_code_enabled],
+        resource_variant: params[:resource_variant]
       )
 
       send_data labels.render
