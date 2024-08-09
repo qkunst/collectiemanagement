@@ -34,7 +34,7 @@ class Works::TitleLabels
         pdf.bounding_box(*grid.area_bounding_box([0, 1], [3, 2])) do
           pdf.text work.artist_name_rendered, size: 10, weight: 500
           pdf.text " ", size: 5, weight: 500
-          pdf.text work.title, size: 15
+          pdf.text work.title_rendered, size: 15
           pdf.text " ", size: 5, weight: 500
           pdf.text work.object_creation_year.to_s, size: 12, weight: 500
         end
