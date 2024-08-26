@@ -361,7 +361,7 @@ body.detailed div.detailed_data {
       }
 
       form {
-        input[type=submit].alert {
+        button[type=submit].alert {
           position: absolute;
           top: 4px;
           right: 4px;
