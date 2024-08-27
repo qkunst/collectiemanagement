@@ -356,6 +356,20 @@ RSpec.describe Collection, type: :model do
       end
     end
 
+    describe "#unique_short_code_from_self_or_base" do
+      let(:child_col) { collections(:collection_with_works_child) }
+
+      it "will return its own short code" do
+        short_code = "af3913412"
+        child_col.update(unique_short_code: "af3913412")
+        expect(child_col.unique_short_code_from_self_or_base).to eq(short_code)
+      end
+
+      it "will return base collection short code if none set" do
+        expect(child_col.unique_short_code_from_self_or_base).to eq("col_with_works")
+      end
+    end
+
     describe "#works_including_child_works" do
       it "should return all child works" do
         child_works = collections(:collection3).works_including_child_works

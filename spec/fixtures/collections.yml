@@ -69,6 +69,7 @@ collection_with_works:
   base: true
   parent_collection: :collection1
   geoname_ids_cache: "[]"
+  unique_short_code: col_with_works
   collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1)\""
 
 collection_with_works_child:

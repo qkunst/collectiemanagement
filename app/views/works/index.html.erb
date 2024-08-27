@@ -61,7 +61,7 @@
                   <% end %>
                   <% if can?(:download_title_labels, @collection) %>
                     <li><%=link_to ".pdf <small>(titels)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels})) %></li>
-                    <% if @collection.unique_short_code.present? %>
+                    <% if @collection.unique_short_code_from_self_or_base.present? %>
                       <li><%=link_to ".pdf <small>(titels+QR)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels, qr_code_enabled: true, resource_variant: :public})) %></li>
                     <% end %>
                   <% end %>

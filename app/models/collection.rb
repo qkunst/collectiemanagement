@@ -85,6 +85,8 @@ class Collection < ApplicationRecord
   has_many :time_spans
   has_many :contacts
 
+  validates_uniqueness_of :unique_short_code
+
   has_cache_for_method :geoname_ids, trigger: :before_save
   has_cache_for_method :collection_name_extended
   has_cache_for_methods :work_attributes_present, :derived_work_attributes_present, as: :symbols, trigger: :before_save
@@ -199,6 +201,10 @@ class Collection < ApplicationRecord
 
   def geoname_summaries?
     cached_geoname_ids && cached_geoname_ids.count > 0
+  end
+
+  def unique_short_code_from_self_or_base
+    unique_short_code || base_collection.unique_short_code
   end
 
   def self_or_parent_collection_with_geoname_summaries

@@ -5,7 +5,7 @@ class Works::TitleLabels
   attr_accessor :collection, :works, :qr_code_enabled, :resource_variant
 
   def render
-    code = collection.unique_short_code || collection.base_collection.unique_short_code
+    code = collection.unique_short_code_from_self_or_base
     base_url = Rails.application.config_for(:config)[:ppid_base_domain]
     logo_path = File.open(Rails.root.join("app", "assets", "images", "logo.svg"))
 
