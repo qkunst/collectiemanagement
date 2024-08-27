@@ -68,6 +68,15 @@ RSpec.describe CollectionAttribute, type: :model do
         expect(attributes.map(&:collection)).to include(collections(:collection_with_stages_child))
       end
     end
+
+    describe "default scope" do
+      it "always renders nl before en" do
+        results = CollectionAttribute.all.pluck(:language)
+        expect(results).to include("en")
+
+        expect(results[0]).to eq("nl")
+      end
+    end
   end
 
   describe "validations" do

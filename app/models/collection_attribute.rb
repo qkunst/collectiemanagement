@@ -40,6 +40,8 @@ class CollectionAttribute < ApplicationRecord
   scope :public_description, -> { where(attribute_type: :public_description) }
   scope :language, ->(language) { where(language: language) }
 
+  default_scope -> { order(language: :desc) }
+
   after_save :touch_relations
 
   def collection= collection
