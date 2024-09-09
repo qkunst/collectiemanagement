@@ -1,0 +1,5 @@
+<h1>Upload import</h1>
+<%= simple_form_for [@collection, @simple_import_collection] do |f| %>
+<%= f.input :file %>
+<%= f.submit class: [:button, :primary]%>
+<% end %>

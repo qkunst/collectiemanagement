@@ -1,0 +1,14 @@
+<h1>Import preview</h1>
+<%= simple_form_for [@collection, @simple_import_collection] do |f| %>
+<div class="row">
+  <div class="medium-6 columns">
+    <%= f.input :primary_key, collection: [:stock_number, :id].collect{|a| [Work.human_attribute_name(a), a]}%>
+    </div>
+<div class="medium-6 columns">
+  <%= f.input :decimal_separator, collection: [",","."] %>
+  </div>
+</div>
+<%= f.submit class: [:primary, :button]%>
+<%= f.submit value: "Voer import uit", name: "write", class: [:warning, :right, :button]%>
+<% end %>
+<%= render @works %>

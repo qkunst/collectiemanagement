@@ -675,3 +675,13 @@ body.offline {
     display: block;
   }
 }
+
+main+aside {
+  float: right;
+  width: 25%;
+}
+
+main:has(+ aside) {
+  width: 74%;
+  float: left;
+}

@@ -123,7 +123,7 @@ module ImportCollection::Workbook
       if fields.count > 0
         if split_strategy == :find_keywords
           table_values = find_keywords(table_values[1], fields)
-          raise ImportCollection::FailedImportError.new("Geen matchende waarde gevonden voor fields.to_sentence (moet er een splits-strategie actief zijn?)") if table_values.nil?
+          raise ImportCollection::FailedImportError.new("Geen matchende waarde gevonden voor #{fields.to_sentence} (moet er een splits-strategie actief zijn?)") if table_values.nil?
         end
 
         field_value_indexes = [table_values.count, fields.count].max
@@ -134,6 +134,7 @@ module ImportCollection::Workbook
           field_props = analyze_field_properties(field)
 
           property = field_props[:property]
+          next unless Work.new.methods.include? :"#{property}="
           complex_association = field_props[:complex_association]
           fieldname = field_props[:fieldname]
           parsed_value = parse_table_value(field_props, table_values[index])
@@ -152,17 +153,27 @@ module ImportCollection::Workbook
     parameters.merge!({
       import_collection_id: id,
       imported_at: Time.now,
+      updated_at: Time.now,
       external_inventory: external_inventory,
       old_data: row.to_hash.map { |k, v| [k, v&.value] }.to_h
     })
 
-    parameters[:collection_id] ||= collection.id
+    parameters.delete(:old_data) if merge_data
 
-    prevent_non_child_colection_association_on_import!(parameters, Collection.find(parameters[:collection_id]))
+    parameters[:collection_id] ||= collection.id
+    collection = Collection.find(parameters[:collection_id])
+
+    prevent_non_child_colection_association_on_import!(parameters, collection)
 
     lookup_artists!(parameters)
 
-    new_obj = Work.new(parameters)
+    new_obj = if merge_data
+      collection.works_including_child_works.find_or_initialize_by({primary_key.to_sym => parameters[primary_key.to_sym]})
+    else
+      Work.new
+    end
+
+    new_obj.assign_attributes(parameters)
 
     unless new_obj.valid?
       error_message = new_obj.errors.full_messages.to_sentence

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_27_074823) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_07_102416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -403,6 +403,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_27_074823) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.text "import_file_snippet"
+    t.string "type", default: "ImportCollection"
   end
 
   create_table "involvements", force: :cascade do |t|

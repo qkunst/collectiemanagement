@@ -104,6 +104,11 @@ Rails.application.routes.draw do
       patch "import_works" => "import_collections#import_works"
     end
 
+    resources :simple_import_collections, path: "manage/simple_import_collections" do
+      get "preview" => "simple_import_collections#preview"
+      patch "import_works" => "simple_import_collections#import_works"
+    end
+
     resources :owners
     resources :custom_reports, path: "manage/custom_reports"
 

@@ -579,6 +579,7 @@ class Work < ApplicationRecord
       write_attribute(:title, titel)
     end
   end
+  alias_method :work_title=, :title=
 
   def object_creation_year= year
     if year.to_i > 0

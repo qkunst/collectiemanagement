@@ -74,6 +74,7 @@ class Collection < ApplicationRecord
   has_many :custom_reports
   has_many :geoname_summaries, through: :collections_geoname_summaries
   has_many :import_collections
+  has_many :simple_import_collections
   has_many :themes
   has_many :works
   has_many :owners
@@ -85,7 +86,7 @@ class Collection < ApplicationRecord
   has_many :time_spans
   has_many :contacts
 
-  validates_uniqueness_of :unique_short_code
+  validates_uniqueness_of :unique_short_code, allow_nil: true
 
   has_cache_for_method :geoname_ids, trigger: :before_save
   has_cache_for_method :collection_name_extended
@@ -315,7 +316,7 @@ class Collection < ApplicationRecord
   def touch_works_including_child_works!
     if previous_changes.key? "geoname_ids_cache"
       works_including_child_works.each { |a| a.save } # TODO: Turn into a worker
-    elsif previous_changes.key?("name") || previous_changes.key?("parent_collection_id")
+    elsif (["name", "parent_collection_id"] & previous_changes.keys).any?
       works_including_child_works.touch_all
     end
   end

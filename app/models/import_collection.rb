@@ -8,6 +8,7 @@
 #  file                :string
 #  import_file_snippet :text
 #  settings            :text
+#  type                :string           default("ImportCollection")
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  collection_id       :bigint
@@ -22,7 +23,7 @@ class ImportCollection < ApplicationRecord
   has_many :artists
   has_many :works
 
-  store :settings, accessors: [:header_row, :import_settings, :decimal_separator, :external_inventory]
+  store :settings, accessors: [:header_row, :import_settings, :decimal_separator, :external_inventory, :primary_key, :merge_data]
 
   mount_uploader :file, TableUploader
 
@@ -41,6 +42,10 @@ class ImportCollection < ApplicationRecord
 
   def collapse_all_generated_artists
     artists.collapse_by_name!
+  end
+
+  def static_column_import_settings?
+    json? || instance_of?(SimpleImportCollection)
   end
 
   def json?

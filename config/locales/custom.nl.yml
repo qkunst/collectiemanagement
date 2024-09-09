@@ -737,6 +737,7 @@ nl:
         header_row: Koprij
         decimal_separator: Scheidingsteken decimalen
         external_inventory: Externe inventarisatie
+        primary_key: Koppelvlak
   report:
     titles:
       balance_category: Geen marktwaarde toegekend
