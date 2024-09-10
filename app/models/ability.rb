@@ -378,7 +378,8 @@ class Ability
     can [:read, :read_condition, :read_information_back, :manage_location, :view_location_history, :show_details, :work_status], Work, collection_id: accessible_collection_ids
     can [:read], LibraryItem, collection_id: accessible_collection_ids
     can :read, Owner
-
+    can :read, Appraisal
+    can :read, WorkSet
     can :create, Message
     can :manage, TimeSpan
     can [:read, :read, :read_status], Message, qkunst_private: [false, nil]
