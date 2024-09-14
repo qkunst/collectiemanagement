@@ -40,16 +40,22 @@ class PictureUploader < CarrierWave::Uploader::Base
   #   # do something
   # end
 
+  convert :jpg
+  process optimize: [{quality: 80}]
+
   # Create different versions of your uploaded files:
   version :thumb do
+    convert :jpg
     process resize_to_fit: [100, 100]
     process optimize: [{quality: 50}]
   end
   version :big_thumb do
+    convert :jpg
     process resize_to_fit: [250, 250]
     process optimize: [{quality: 60}]
   end
   version :screen do
+    convert :jpg
     process resize_to_fit: [1024, 1024]
     process optimize: [{quality: 70}]
   end
@@ -57,7 +63,7 @@ class PictureUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w[jpg jpeg gif png]
+    %w[jpg jpeg gif png heic]
   end
 
   def to_be_path version = nil
