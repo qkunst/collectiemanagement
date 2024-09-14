@@ -20,7 +20,7 @@
     <% @import_collections.each do |import_collection| %>
       <tr>
         <td><%= I18n.l import_collection.created_at, format: :short %></td>
-        <td><%= link_to (import_collection.name), collection_import_collection_path(@collection, import_collection) %></td>
+        <td><%= link_to (import_collection.name), [@collection, import_collection] %></td>
         <td><%= import_collection.works.count %></td>
         <td><%= import_collection.artists.count %></td>
       </tr>
@@ -59,8 +59,9 @@
 
 
 <aside class="large-3 medium-3 columns">
-<%= link_to 'Nieuwe import', new_collection_import_collection_path(@collection), class: :button %>
-<br/><%= link_to 'Nieuwe set aan foto\'s uploaden', new_collection_batch_photo_upload_path(@collection), class: :button %>
+<%= link_to 'Nieuwe import', new_collection_import_collection_path(@collection), class: :button %><br/>
+<%= link_to 'Nieuwe attributen import', new_collection_simple_import_collection_path(@collection), class: :button %><br/>
+<%= link_to 'Nieuwe set aan foto\'s uploaden', new_collection_batch_photo_upload_path(@collection), class: :button %>
 
 </aside>
 </div>

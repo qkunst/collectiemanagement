@@ -22,10 +22,10 @@ GIT
 
 GIT
   remote: https://github.com/murb/workbook.git
-  revision: 4662382d87813c6962e12e35d094dd6246dd5746
+  revision: fc6738853a1bd401c131254b099a8827ab2c648e
   branch: main
   specs:
-    workbook (0.8.1)
+    workbook (0.8.2)
       caxlsx (> 3.0)
       json (> 2.3)
       nokogiri (> 1.10)
@@ -342,7 +342,7 @@ GEM
       net-protocol
     net-ssh (7.2.3)
     nio4r (2.7.3)
-    nokogiri (1.16.6)
+    nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oauth2 (2.0.9)
@@ -396,7 +396,7 @@ GEM
     puma (6.4.2)
       nio4r (~> 2.0)
     raabro (1.4.0)
-    racc (1.8.0)
+    racc (1.8.1)
     rack (2.2.9)
     rack-headers_filter (0.0.1)
     rack-mini-profiler (3.3.1)

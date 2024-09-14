@@ -1,6 +1,27 @@
 <main><h1>Attributen import</h1>
-<p>Importeer een CSV of XLSX bestand met attributen voor werken binnen deze collectie.</p>
-<%= @simple_import_collections %>
+<p>Importeer een CSV, ODS of XLSX bestand om attributen van werken binnen deze collectie bij te werken.</p>
+<h3>Data-imports</h3>
+<p>Eerdere uploads</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Datum</th>
+      <th>Formaat</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @import_collections.each do |import_collection| %>
+      <tr>
+        <td><%= link_to (I18n.l import_collection.created_at, format: :short), collection_simple_import_collection_path(@collection, import_collection) %></td>
+        <td><%=import_collection.file_extension %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 </main>
 <aside>
   <%= link_to "Nieuwe import", new_collection_simple_import_collection_path(@collection), class: [:button, :primary] %>

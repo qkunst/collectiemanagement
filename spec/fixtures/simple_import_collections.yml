@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: import_collections
+#
+#  id                  :bigint           not null, primary key
+#  file                :string
+#  import_file_snippet :text
+#  settings            :text
+#  type                :string           default("ImportCollection")
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  collection_id       :bigint
+#
+simple_import_collection1:
+  collection: collection1
+
+simple_import_collection2:
+  collection: collection_with_works

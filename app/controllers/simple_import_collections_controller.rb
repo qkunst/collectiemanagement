@@ -4,19 +4,21 @@ class SimpleImportCollectionsController < ApplicationController
   before_action :set_simple_import_collection, only: [:show, :update]
 
   def index
-    @import_collections = @collection.simple_import_collections
+    @import_collections = @collection.simple_import_collections.order(created_at: :desc)
   end
 
   def new
-    @simple_import_collection = SimpleImportCollection.new(collection: @collection, primary_key: :stock_number, merge_data: true, decimal_separator: ",")
+    @simple_import_collection = SimpleImportCollection.new({collection: @collection})
+    @works = []
+    render :show
   end
 
   def create
-    @simple_import_collection = SimpleImportCollection.new(simple_import_collection_params.merge(collection: @collection, merge_data: true))
+    @simple_import_collection = SimpleImportCollection.new(simple_import_collection_params.merge(collection: @collection).merge(SimpleImportCollection::DEFAULT_SETTINGS))
     if @simple_import_collection.save
       redirect_to collection_simple_import_collection_path(@collection, @simple_import_collection)
     else
-      render :new
+      render :show
     end
   end
 

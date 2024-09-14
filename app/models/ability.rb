@@ -280,6 +280,7 @@ class Ability
     can :manage_collection, :all
     can :manage, Cluster, collection_id: accessible_collection_ids
     cannot :manage_collection, ImportCollection
+    can :manage, SimpleImportCollection
 
     can :manage, Attachment, collection_id: accessible_collection_ids
 

@@ -14,6 +14,8 @@
 #  collection_id       :bigint
 #
 class ImportCollection < ApplicationRecord
+  DEFAULT_SETTINGS = {merge_data: false, primary_key: :stock_number, decimal_separator: ","}
+
   class ImportError < StandardError; end
 
   include ImportCollection::Json
@@ -34,6 +36,14 @@ class ImportCollection < ApplicationRecord
   def import_setting_for field
     settings = (import_settings && import_settings[field.to_s]) ? import_settings[field.to_s] : {}
     {"fields" => [], "split_strategy" => "split_nothing", "assign_strategy" => "append"}.merge(settings)
+  end
+
+  def file_extension
+    if json?
+      "json"
+    elsif file.present?
+      file.url.split(".").last
+    end
   end
 
   def base_collection
@@ -61,7 +71,7 @@ class ImportCollection < ApplicationRecord
   end
 
   def write
-    remove_works_imported_with_this_importer
+    remove_works_imported_with_this_importer unless merge_data
 
     if json?
       write_json

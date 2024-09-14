@@ -1,14 +1,46 @@
-<h1>Import preview</h1>
+<h1>Attributen import</h1>
+<p>Aandachtspunten:</p>
+<ul>
+<li>Het is van belang dat het koppelvlak uniek is in de collectie. Er kan gekozen worden voor het inventarisnummer of een database ID (afkomstig uit een export).</li>
+<% if @simple_import_collection.file_extension == "csv" %>
+<li>Soms wordt een Amerikaanse notatie gebruikt, stel het nummerformaat dan in op ".".</li>
+<% end %>
+<li>Wanneer u de import uitvoert worden de gegevens van de werken in deze collectie overschreven. U kunt de import niet ongedaan maken.</li>
+<li>De kolomnamen dienen overeen te komen met de kolomnamen in de export.</li>
+</ul>
 <%= simple_form_for [@collection, @simple_import_collection] do |f| %>
 <div class="row">
-  <div class="medium-6 columns">
+  <div class="medium-4 columns">
+    <% if @simple_import_collection.file.present? %>
+    <label>Bestand:</label><%= link_to @simple_import_collection.file_extension, @simple_import_collection.file.url %></p>
+    <% else %>
+    <%= f.input :file %>
+    <% end %>
+  </div>
+  <div class="medium-4 columns">
     <%= f.input :primary_key, collection: [:stock_number, :id].collect{|a| [Work.human_attribute_name(a), a]}%>
     </div>
-<div class="medium-6 columns">
-  <%= f.input :decimal_separator, collection: [",","."] %>
+  <div class="medium-4 columns">
+    <% if @simple_import_collection.file_extension == "csv" %>
+
+    <%= f.input :decimal_separator, collection: [",","."] %>
+  <% end %>
   </div>
 </div>
 <%= f.submit class: [:primary, :button]%>
-<%= f.submit value: "Voer import uit", name: "write", class: [:warning, :right, :button]%>
+<%= f.submit value: "Voer import uit", name: "write", class: [:warning, :right, :button] if @works.any?%>
 <% end %>
+<% if @works.any? %>
+<h2>voorvertoning</h2>
+<p>In deze voorvertoning worden een beperkt aantal werken getoond met de nieuwe gegevens. Als u tevreden bent met de voorvertoning, kunt u de import uitvoeren.</p>
+
 <%= render @works %>
+<% else%>
+<h2>Advies voor een goede import</h2>
+<ul>
+  <li>Deze import importeert alleen directe attributen van werken, geen relaties zoals vervaardigers of waarderingen.</li>
+  <li>Gebruik voor data wanneer mogelijk de ISO<small>(8601)</small> datum notatie: JAAR-MAAND-DAG dus b.v. <%= Date.current.iso8601 %>.</li>
+  <li>Pas op met formules; deze worden niet geïnterpreteerd.</li>
+  <li>De volgende formaten worden geaccepteerd: CSV, ODS en XLSX.</li>
+</ul>
+<% end %>
