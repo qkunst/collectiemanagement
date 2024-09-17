@@ -62,8 +62,8 @@ if current_api_user.ability.can?(:read, Appraisal)
   json.appraisals(work.appraisals) do |appraisal|
     json.partial! "api/v1/appraisals/appraisal", locals: {appraisal: appraisal}
   end
-  json.balance_category { json.extract! work.balance_category, :name, :id } if work.balance_category
 
+  json.balance_category { json.extract! work.balance_category, :name, :id } if work.balance_category
 end
 json.work_sets(work.work_sets) do |work_set|
   json.work_set_type { json.extract! work_set.work_set_type, :name, :count_as_one, :appraise_as_one }

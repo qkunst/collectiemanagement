@@ -230,6 +230,7 @@ work5:
   grade_within_collection: A (of B)
   subset: :modern
   collection: :collection_with_works
+  balance_category: :one
   import_collection: :import_collection1
   cluster: :cluster2
   locality_geoname_id: 123
