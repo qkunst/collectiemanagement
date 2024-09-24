@@ -83,6 +83,7 @@
 #  title                                               :string
 #  title_unknown                                       :boolean
 #  valuation_on                                        :date
+#  weight                                              :float
 #  width                                               :float
 #  created_at                                          :datetime         not null
 #  updated_at                                          :datetime         not null

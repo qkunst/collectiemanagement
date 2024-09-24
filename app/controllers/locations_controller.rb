@@ -10,6 +10,6 @@ class LocationsController < ApplicationController
   end
 
   def white_listed_params
-    params.require(singularized_name.to_sym).permit(:name, :address, :order, :hide, :collection_id)
+    params.require(singularized_name.to_sym).permit(:name, :address, :order, :hide, :building_number, :lat, :lon)
   end
 end

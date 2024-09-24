@@ -2,15 +2,16 @@
 #
 # Table name: locations
 #
-#  id            :bigint           not null, primary key
-#  address       :text
-#  hide          :boolean
-#  lat           :float
-#  lon           :float
-#  name          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  collection_id :integer
+#  id              :bigint           not null, primary key
+#  address         :text
+#  building_number :string
+#  hide            :boolean
+#  lat             :float
+#  lon             :float
+#  name            :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  collection_id   :integer
 #
 class Location < ApplicationRecord
   include Hidable
@@ -48,6 +49,6 @@ class Location < ApplicationRecord
   private
 
   def update_works!
-    works.map { |w| w.save }
+    works.update_all(location: name, updated_at: Time.now, significantly_updated_at: Time.now)
   end
 end

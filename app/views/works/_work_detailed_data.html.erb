@@ -74,6 +74,7 @@
     <%= define_when_present :object_format_code, {modifier: :upcase} %>
     <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
     <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
+    <%= define_when_present :weight %>
     <% if @work_display_form&.display == :complete %>
       <% if params[:surface_calc] %>
         <%= define_when_present :floor_surface %>

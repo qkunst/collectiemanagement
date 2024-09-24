@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: import_collections
+#
+#  id                  :bigint           not null, primary key
+#  file                :string
+#  import_file_snippet :text
+#  settings            :text
+#  type                :string           default("ImportCollection")
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  collection_id       :bigint
+#
 require "rails_helper"
 RSpec.describe SimpleImportCollection, type: :model do
   let(:filename) { "import_collection_file.xlsx" }

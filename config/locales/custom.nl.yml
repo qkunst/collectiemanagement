@@ -444,6 +444,7 @@ nl:
         frame_size_with_fallback: Afmetingen (cm)
         frame_type: Lijsttype
         frame_width: Breedte lijst (cm)
+        weight: Gewicht (kg)
         grade_within_collection: Niveau binnen collectie
         has_photo_front: Foto voorzijde
         height: Hoogte beeld (cm)
