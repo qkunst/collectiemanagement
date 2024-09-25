@@ -245,16 +245,29 @@ RSpec.describe "Works", type: :request do
           end
         end
         describe "pdf" do
+          let(:as) { nil }
           let(:get_index) do
             sign_in user if user
-            get collection_works_path(collections(:collection1), format: :pdf)
+            get collection_works_path(collections(:collection1), as: as, format: :pdf)
           end
-          context(:anonymous) do
-            let(:user) { nil }
 
-            it "requires login" do
+          it "schedules" do
+            get_index
+
+            follow_redirect!
+            expect(response).to have_http_status(200)
+            expect(response.body).to match "De PDF wordt voorbereid"
+          end
+
+          context "as=title_labels" do
+            let(:as) { "title_labels" }
+
+            it "generates directly when as_labels" do
               get_index
-              expect(response).to have_http_status(401)
+
+              expect(response).to have_http_status(200)
+              expect(response.content_type).to eq "application/pdf"
+              expect(response.headers["Content-Disposition"]).to match(/filename="titels Collection 1.pdf"/)
             end
           end
         end

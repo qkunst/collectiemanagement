@@ -20,7 +20,7 @@ module Works::PdfResponse
         resource_variant: params[:resource_variant]
       )
 
-      send_data labels.render
+      send_data labels.render, filename: "titels #{@collection.name}.pdf"
     end
   end
 end

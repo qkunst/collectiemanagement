@@ -12,15 +12,15 @@ class Works::TitleLabels
     self.works = works.to_a.select { |w| w.stock_number } if qr_code_enabled
 
     Prawn::Labels.types["A7"] = {
-      columns: 2,
-      rows: 4,
-      paper_size: "A4",
-      left_margin: 0,
-      right_margin: 0,
-      top_margin: 0,
-      bottom_margin: 0,
-      column_gutter: 0,
-      row_gutter: 0
+      "columns" => 2,
+      "rows" => 4,
+      "paper_size" => "A4",
+      "left_margin" => 0,
+      "right_margin" => 0,
+      "top_margin" => 0,
+      "bottom_margin" => 0,
+      "column_gutter" => 0,
+      "row_gutter" => 0
     }.freeze
 
     Prawn::Labels.new(works, type: "A7") do |pdf, work|
