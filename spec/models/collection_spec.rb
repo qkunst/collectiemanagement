@@ -401,7 +401,7 @@ RSpec.describe Collection, type: :model do
       it "should return derived attributes used" do
         expect(found_attributes).to include :cluster
         expect(found_attributes).not_to include :alt_number_6
-        expect(found_attributes).not_to include :balance_category
+        expect(found_attributes).to include :balance_category
       end
 
       it "s cached equivalent should also return symbols" do
@@ -416,7 +416,7 @@ RSpec.describe Collection, type: :model do
       it "returns only work attributes that are presented and available" do
         expect(found_attributes).to include :cluster
         expect(found_attributes).not_to include :cluster_id
-        expect(found_attributes).not_to include :balance_category
+        expect(found_attributes).to include :balance_category
         expect(found_attributes).to include :location
       end
     end

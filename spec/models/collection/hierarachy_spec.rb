@@ -52,7 +52,7 @@ RSpec.describe Collection::Hierarchy, type: :model do
 
     describe "#self_and_parent_collections_flattened" do
       it "should return sorted from parent to child" do
-        expect(collections(:collection_with_works_child).self_and_parent_collections_flattened.map(&:id)).to eq([:collection1, :collection_with_works, :collection_with_works_child].map { |c| collections(c).id })
+        expect(collections(:collection_with_works_child).self_and_parent_collections_flattened.pluck(:id)).to eq([:collection1, :collection_with_works, :collection_with_works_child].map { |c| collections(c).id })
       end
     end
 

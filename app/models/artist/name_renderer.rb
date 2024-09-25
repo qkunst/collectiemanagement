@@ -5,9 +5,13 @@ module Artist::NameRenderer
 
   included do
     def name(options = {})
-      options = {include_years: true, include_locality: false, render_error: true}.merge(options)
+      options = {include_years: true, include_locality: false, render_error: true, name_order: :phonebook}.merge(options)
       last_name_part = [first_name, prefix].join(" ").strip
-      namepart = [last_name, last_name_part].delete_if(&:blank?).compact.join(", ")
+      namepart = if options[:name_order] == :phonebook
+        [last_name, last_name_part].delete_if(&:blank?).compact.join(", ")
+      elsif options[:name_order] == :human
+        [last_name_part, last_name].delete_if(&:blank?).compact.join(" ")
+      end
       if artist_name.present?
         namepart = artist_name
       end

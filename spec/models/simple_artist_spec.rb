@@ -16,7 +16,11 @@ RSpec.describe SimpleArtist, type: :model do
       it "can render places as well" do
         expect(SimpleArtist.new(first_name: "Jan", last_name: "Sluys", prefix: "van der", year_of_birth: 1000, year_of_death: 1200, place_of_birth: "Amsterdam", place_of_death: "Rome").name({include_locality: true})).to eq "Sluys, Jan van der (Amsterdam, 1000 - Rome, 1200)"
       end
+      it "should allow for human rendering" do
+        expect(SimpleArtist.new(first_name: "Jan", last_name: "Sluys", prefix: "van der").name(name_order: :human)).to eq "Jan van der Sluys"
+      end
     end
+
     describe "#to_json_for_simple_artist" do
       it "should work" do
         expect(SimpleArtist.new(first_name: "Jan", last_name: "Sluys", prefix: "van der").to_json_for_simple_artist).to eq "{\"first_name\":\"Jan\",\"last_name\":\"Sluys\",\"prefix\":\"van der\"}"

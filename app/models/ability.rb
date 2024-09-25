@@ -106,7 +106,7 @@ class Ability
   # centralize store of fields editable per user; this array is used for sanctioning viewing
   def viewable_work_fields
     permitted_fields = [:collection_id, :id, :significantly_updated_at, :stock_number, :title, :title_unknown, :description, :object_creation_year, :object_creation_year_unknown, :medium_id, :frame_type_id, :object_categories, :techniques, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :artist_ids, :artists, :themes, :style, :medium, :subset, :description, :title_rendered, :frame_type, :abstract_or_figurative_rendered, :collection_name_extended, :locality_geoname_name, :print_rendered, :condition_work_rendered, :condition_frame_rendered, :print, :print_unknown, :frame_height, :frame_width, :frame_depth, :frame_diameter,
-      :height, :width, :depth, :diameter, :object_format_code, :work_size, :frame_size, :floor_surface, :wall_surface, :subset, :subset_id, :abstract_or_figurative, :abstract_or_figurative_rendered, :highlight, :for_purchase, :for_rent, theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
+      :height, :width, :depth, :diameter, :weight, :object_format_code, :work_size, :frame_size, :floor_surface, :wall_surface, :subset, :subset_id, :abstract_or_figurative, :abstract_or_figurative_rendered, :highlight, :for_purchase, :for_rent, theme_ids: [], object_category_ids: [], technique_ids: [], artists_attributes: [
         :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
       ]]
     permitted_fields += [:artist_name_rendered_without_years_nor_locality]
