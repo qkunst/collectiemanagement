@@ -119,6 +119,7 @@ class Ability
     permitted_fields += []
     if can?(:edit, Work) || can?(:show_details, Work)
       permitted_fields += [
+        :dimension_weight_description,
         :for_purchase_at, :for_rent_at, :availability_status,
         :alt_number_1, :alt_number_2, :alt_number_3, :alt_number_4, :alt_number_5, :alt_number_6,
         :updated_at, :created_at,

@@ -16,9 +16,13 @@
         </td>
       </tr></thead>
       <tbody>
-      <%= define_when_present :location %>
+      <% if work.main_location_id %>
+        <tr><th>Adres</th><td><%= link_to work.location, collection_location_path(@collection, work.main_location_id) %></td></tr>
+      <% else %>
+        <%= define_when_present :location %>
+      <% end %>
       <% if @work && @work.main_location&.address%>
-        <tr><th>Adres</th><td><%= link_to @work.main_location.address, edit_collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
+        <tr><th>Adres</th><td><%= link_to @work.main_location.address, collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
       <% end %>
       <%= define_when_present :location_floor %>
       <%= define_when_present :location_detail %>
@@ -75,6 +79,7 @@
     <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
     <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
     <%= define_when_present :weight %>
+    <%= define_when_present :dimension_weight_description %>
     <% if @work_display_form&.display == :complete %>
       <% if params[:surface_calc] %>
         <%= define_when_present :floor_surface %>

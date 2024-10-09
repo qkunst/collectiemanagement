@@ -2,16 +2,17 @@
 #
 # Table name: locations
 #
-#  id              :bigint           not null, primary key
-#  address         :text
-#  building_number :string
-#  hide            :boolean
-#  lat             :float
-#  lon             :float
-#  name            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  collection_id   :integer
+#  id                    :bigint           not null, primary key
+#  address               :text
+#  building_number       :string
+#  hide                  :boolean
+#  lat                   :float
+#  lon                   :float
+#  name                  :string
+#  other_structured_data :text
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  collection_id         :integer
 #
 require "rails_helper"
 

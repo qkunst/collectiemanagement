@@ -21,6 +21,7 @@
 #  depth                                               :float
 #  description                                         :text
 #  diameter                                            :float
+#  dimension_weight_description                        :string
 #  external_inventory                                  :boolean
 #  for_purchase_at                                     :datetime
 #  for_rent_at                                         :datetime

@@ -1,6 +1,19 @@
 
 
 <h2><%=@location.name%></h2>
+<%= definition_list_for @location do %>
+  <%= define_when_present :address %>
+  <%= define_when_present :lat %>
+  <%= define_when_present :lon %>
+  <%= define_when_present :building_number%>
+<% end %>
+
+<h3>Overige attributen</h3>
+<%= render_hash @location.other_structured_data %>
+
+
+<h3>Werken</h3>
+<%= render @location.works.limit(4) %>
 
 <%= link_to 'Bewerken', edit_collection_location_path(@collection, @location) %> |
 <%= link_to 'Terug naar overzicht', collection_locations_path(@collection) %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_20_125809) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_09_111557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -443,6 +443,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_125809) do
     t.datetime "updated_at", null: false
     t.boolean "hide"
     t.string "building_number"
+    t.text "other_structured_data"
   end
 
   create_table "media", force: :cascade do |t|
@@ -846,6 +847,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_20_125809) do
     t.decimal "replacement_value_max"
     t.decimal "replacement_value_min"
     t.float "weight"
+    t.string "dimension_weight_description"
     t.index ["alt_number_1"], name: "index_works_on_alt_number_1"
     t.index ["alt_number_2"], name: "index_works_on_alt_number_2"
     t.index ["alt_number_3"], name: "index_works_on_alt_number_3"

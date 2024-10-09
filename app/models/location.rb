@@ -2,16 +2,17 @@
 #
 # Table name: locations
 #
-#  id              :bigint           not null, primary key
-#  address         :text
-#  building_number :string
-#  hide            :boolean
-#  lat             :float
-#  lon             :float
-#  name            :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  collection_id   :integer
+#  id                    :bigint           not null, primary key
+#  address               :text
+#  building_number       :string
+#  hide                  :boolean
+#  lat                   :float
+#  lon                   :float
+#  name                  :string
+#  other_structured_data :text
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  collection_id         :integer
 #
 class Location < ApplicationRecord
   include Hidable
@@ -21,6 +22,7 @@ class Location < ApplicationRecord
 
   validates_presence_of :name
   has_many :works, foreign_key: :main_location_id
+  store :other_structured_data
 
   after_save :update_works!
 

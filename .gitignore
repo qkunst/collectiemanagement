@@ -47,3 +47,5 @@ prod-console
 rspec.xml
 /db/geonames_cache
 /firefox
+.envrc
+data/import/*
