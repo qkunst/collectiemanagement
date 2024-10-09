@@ -614,7 +614,7 @@ namespace :import do
       "zwarte viltpen" => {techniques: ["Viltpen"], medium: []}
     }
 
-    p material_map_stringed.map { |_, v| v.map { |k, __| k } }.flatten.uniq
+    # p material_map_stringed.map { |_, v| v.map { |k, __| k } }.flatten.uniq
     material_submapping = {techniques: Technique, medium: Medium, frame_type: FrameType}
     category_type_map = category_type_map_stringed.map { |k, v| [k, ObjectCategory.find_by_name(v)] }.to_h
     material_map = material_map_stringed.map { |k, v| [k, v.map { |t, m| [t, material_submapping[t].find_by_name(m)] }.to_h] }.to_h
@@ -636,27 +636,27 @@ namespace :import do
       if json_location
         object_placement = :buiten if json_location["placement"] == "buiten"
         json_location.delete_if { |k, v| v.blank? }
-        buildingName = json_location["buildingName"]&.strip
-        name = if buildingName
+        building_name = json_location["buildingName"]&.strip
+        name = if building_name
           city = json_location["city"]&.strip
           if city.present?
-            buildingName + " (#{city})"
+            building_name + " (#{city})"
           else
-            buildingName
+            building_name
           end
         else
           json_location["address"]&.strip
         end
 
         location = if json_location["buildingNumber"]&.strip.present?
-            collection.locations.order(:id).find_or_initialize_by(building_number: json_location["buildingNumber"]&.strip)
-          else
-            collection.locations.order(:id).find_or_initialize_by(name: name)
-          end
+          collection.locations.order(:id).find_or_initialize_by(building_number: json_location["buildingNumber"]&.strip)
+        else
+          collection.locations.order(:id).find_or_initialize_by(name: name)
+        end
         location.name = name
         location.lat = json_location["gpsLatitude"].to_f
         location.lon = json_location["gpsLongitude"].to_f
-        location.other_structured_data = json_location.select{|k,v| %w[architects part].include?(k)}
+        location.other_structured_data = json_location.select { |k, v| %w[architects part].include?(k) }
         location.address = json_location["address"]
         location.save
         w.main_location = location
@@ -698,7 +698,7 @@ namespace :import do
       w.description = json_work.delete("description")
       w.object_categories = [category_type_map[json_work["type"]]].compact
       w.object_categories = [ObjectCategory.find_by_name("Sculptuur (buiten)")] if w.object_categories.pluck(:id) == ObjectCategory.where(name: "Sculptuur (binnen)").pluck(:id) && object_placement == :buiten
-# binding.irb
+      # binding.irb
       materials = ([json_work.delete("materials")] + [json_work.delete("aatMaterials")]).flatten.compact.uniq
       json_work["materials"] = materials
       material_values = materials.map { |material| material_map[material] }.compact
