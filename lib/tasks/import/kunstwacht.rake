@@ -697,6 +697,7 @@ namespace :import do
       w.publish = json_work.delete("showPublic")
       w.description = json_work.delete("description")
       w.object_categories = [category_type_map[json_work["type"]]].compact
+      w.tag_list << "type: #{json_work["type"]}" if json_work["type"]
       w.object_categories = [ObjectCategory.find_by_name("Sculptuur (buiten)")] if w.object_categories.pluck(:id) == ObjectCategory.where(name: "Sculptuur (binnen)").pluck(:id) && object_placement == :buiten
       # binding.irb
       materials = ([json_work.delete("materials")] + [json_work.delete("aatMaterials")]).flatten.compact.uniq

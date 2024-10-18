@@ -17,7 +17,8 @@ module Works::PdfResponse
         collection: @collection,
         works: @works,
         qr_code_enabled: params[:qr_code_enabled],
-        resource_variant: params[:resource_variant]
+        resource_variant: params[:resource_variant],
+        foreground_color: params[:foreground_color]
       )
 
       send_data labels.render, filename: "titels #{@collection.name}.pdf"

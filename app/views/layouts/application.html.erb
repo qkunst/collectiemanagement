@@ -22,8 +22,8 @@
       </div>
       <div class="top-bar-title">
           <%= link_to root_path do %>
-            <%= image_tag "logo.svg", id: 'logo', alt: "#{I18n.t("application.name")}, naar homepage"%>
-            <% end%>
+            <%= File.read(Rails.root.join("app", "assets","images", "logo.svg")).html_safe %>
+          <% end%>
       </div>
       <div id="responsive-menu" class="hide-for-print hide-for-small-only">
 

@@ -6,6 +6,7 @@ files:
   - app/assets/images/logo.svg
   - app/assets/stylesheets/_settings.scss
   - app/assets/stylesheets/variables.scss
+  - app/assets/stylesheets/custom.scss
   - public/favicon.ico
   - public/Icon.png
   - public/iOS App Icon Template.png
