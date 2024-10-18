@@ -96,7 +96,7 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails"
+gem "foundation-rails", "~>6.6.0"
 gem "autoprefixer-rails"
 
 ##

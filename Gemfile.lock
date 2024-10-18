@@ -263,10 +263,10 @@ GEM
     ffi (1.17.0)
     flamegraph (0.9.5)
     foreman (0.88.1)
-    foundation-rails (6.9.0.0)
+    foundation-rails (6.6.2.0)
       railties (>= 3.1.0)
-      sassc
-      sprockets-es6
+      sass (>= 3.3.0)
+      sprockets-es6 (>= 0.9.0)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -526,6 +526,11 @@ GEM
     rubyzip (2.3.2)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
+    sass (3.7.4)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -668,7 +673,7 @@ DEPENDENCIES
   exception_notification
   flamegraph
   foreman
-  foundation-rails
+  foundation-rails (~> 6.6.0)
   highline
   invisible_captcha
   jbuilder
