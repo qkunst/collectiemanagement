@@ -17,7 +17,7 @@ module CollectionReportHelper
     html = ""
     sections.each do |report_section|
       html += "<table>"
-      html += iterate_report_sections(report_section, report[report_section], DEEPEST + 1)
+      html += iterate_report_sections(report_section, report[report_section], DEEPEST)
       report.except!(report_section)
       html += "</table>"
     end
@@ -145,7 +145,7 @@ module CollectionReportHelper
       unless ignore_super?(section_head)
         html = "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
-        html += "<th colspan=\"#{depth + 1}\">#{titleize_section_head section_head}</th>"
+        html += "<th colspan=\"#{depth}\">#{titleize_section_head section_head}</th><th></th>"
         html += "</tr>\n"
       end
       html += iterate_groups(section_head, section, depth - 1)
@@ -201,7 +201,7 @@ module CollectionReportHelper
         contents.each do |s|
           sk = s[0]
           sv = s[1]
-          @params = {} if depth == DEEPEST
+          @params = {} if depth == (DEEPEST - 1)
           sk = link(min_range_column(group), sk)
           hidden = ignore_super?(group)
           group_hash = @params.to_a
@@ -215,7 +215,7 @@ module CollectionReportHelper
           end
         end
       end
-      html += "<tr class=\"group_separator\"><td colspan=\"7\"></td></tr>\n"
+      html += "<tr class=\"group_separator\"><td colspan=\"#{DEEPEST + 1}\"></td></tr>\n"
       @params.delete(@params.keys.last)
     end
     html
@@ -234,7 +234,7 @@ module CollectionReportHelper
     total_max = range_counts.sum { |c| c[:max] * c[:count] }
 
     html += "<tfoot>"
-    html += "<tr><td class=\"count\" colspan=\"7\">Totaal: #{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"
+    html += "<tr><td class=\"count\" colspan=\"#{DEEPEST + 1}\">Totaal: #{number_to_currency(total_min, precision: 0)} - #{number_to_currency(total_max, precision: 0)}</td></tr>"
     html += "</tfoot>"
 
     range_counts.each do |range_count|

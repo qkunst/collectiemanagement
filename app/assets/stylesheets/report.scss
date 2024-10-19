@@ -3,28 +3,25 @@ table {
     margin-right: 0.5em;
   }
 }
+
 #locaties table {
 
-//  li > ul {
-//    max-height: 0;
-//    transition: max-height 0.5s, opacity 1s;
-//    opacity: 0;
-//    overflow: hidden;
-//  }
-  tr.span-6, tr.span-4 {
+  tr.span-5,
+  tr.span-3 {
     td[colspan]:before {
       content: '▶ ';
       font-size: 0.9em;
       color: grey;
       cursor: default;
-    };
+    }
   }
+
   tr {
     &.expanded {
       td[colspan]:before {
         color: #111;
         content: '▼ ';
-      };
+      }
     }
   }
 }
@@ -32,6 +29,7 @@ table {
 #report_filter_fields {
   display: none;
 }
+
 #report_filter_fields.show {
   display: block;
 }

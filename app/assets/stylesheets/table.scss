@@ -8,32 +8,46 @@ table {
   border: 0;
   width: 100%;
 
+  td.number,
+  th.number {
+    text-align: right;
+  }
+
   thead {
     th {
       font-family: $header-font-family;
       vertical-align: bottom;
     }
+
     th[colspan] {
-      text-align: center!important;
+      text-align: center !important;
     }
   }
 
   tbody {
     border: 0;
   }
-  tbody,tr {
+
+  tbody,
+  tr {
     width: 100%;
   }
-  tr, tr:nth-of-type(2n), tr:nth-of-type(1n) {
+
+  tr,
+  tr:nth-of-type(2n),
+  tr:nth-of-type(1n) {
     background: none;
+
     td {
       background: none;
       padding: 0.25em;
       min-width: 1em;
+
       &.count {
         text-align: right;
       }
     }
+
     th {
       border-bottom: 1px solid #ccc;
       text-align: left;
@@ -45,9 +59,11 @@ table {
       padding-right: 0.25em;
     }
   }
+
   tr.group_separator {
     height: 0.6em;
   }
+
   ul {
     margin-left: 1em;
     margin-bottom: 0;
@@ -60,9 +76,11 @@ table {
 
 table.non_cyclic_graph {
   border-collapse: separate;
+
   thead {
     background: none;
     border-bottom: 0 none;
+
     th {
       background: none;
       text-align: center;
@@ -71,11 +89,13 @@ table.non_cyclic_graph {
       padding: 0;
       color: #aaa;
     }
+
     tr {
       background: none;
       border-bottom: 0 none;
     }
   }
+
   tbody {
     td {
       background: $light-grey;
@@ -84,14 +104,18 @@ table.non_cyclic_graph {
       padding-left: 25px;
       position: relative;
       font-family: $header-font-family;
+
       input[type=submit] {
-        font-family:  $header-font-family;
+        font-family: $header-font-family;
       }
+
       &[rowspan='3'] {
         border-top: 30px solid #fff;
         border-bottom: 30px solid #fff;
       }
-      &:before, &:after {
+
+      &:before,
+      &:after {
         content: " ";
         display: block;
         height: 0;
@@ -105,32 +129,40 @@ table.non_cyclic_graph {
         margin-top: -75px;
         left: -17px;
       }
+
       &:after {
         border-color: #fff #fff #fff transparent;
         right: 0px;
         left: auto;
       }
+
       &.disabled {
         opacity: 0.2;
       }
+
       &.completed {
         background: $secondary-color;
         color: $white;
       }
+
       &.active {
         background: $primary-color;
         color: $white;
-        .button_to input[type=button], .button_to input[type=submit] {
+
+        .button_to input[type=button],
+        .button_to input[type=submit] {
           color: $white;
         }
       }
     }
   }
+
   &.compact {
     td {
       font-size: 0.8em;
       padding-top: 0.2em;
       padding-bottom: 0.2em;
+
       &[rowspan='3'] {
         border-top: 15px solid #fff;
         border-bottom: 15px solid #fff;
@@ -145,9 +177,11 @@ table.non_cyclic_graph {
     display: inline-block;
     cursor: pointer;
     color: #fff;
+
     &:hover {
       color: #666;
-      &::after{
+
+      &::after {
         content: ' ✓';
       }
     }
@@ -155,12 +189,15 @@ table.non_cyclic_graph {
 }
 
 table.sortable {
-  thead td, thead th {
+
+  thead td,
+  thead th {
     &[aria-sort="descending"] {
       &::after {
         content: '▼';
       }
     }
+
     &[aria-sort="ascending"] {
       &::after {
         content: '▲';
