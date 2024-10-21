@@ -630,6 +630,7 @@ namespace :import do
       w.stock_number = json_work.delete("inventoryNumber")
       w.alt_number_1 = json_work.delete("rvbNumber")
       print w.stock_number
+      w.tag_list = []
       # location
       json_location = json_work.delete("location")
       object_placement = :binnen
@@ -697,7 +698,7 @@ namespace :import do
       w.publish = json_work.delete("showPublic")
       w.description = json_work.delete("description")
       w.object_categories = [category_type_map[json_work["type"]]].compact
-      w.tag_list << "type: #{json_work["type"]}" if json_work["type"]
+      w.tag_list << "type:#{json_work["type"]}" if json_work["type"]
       w.object_categories = [ObjectCategory.find_by_name("Sculptuur (buiten)")] if w.object_categories.pluck(:id) == ObjectCategory.where(name: "Sculptuur (binnen)").pluck(:id) && object_placement == :buiten
       # binding.irb
       materials = ([json_work.delete("materials")] + [json_work.delete("aatMaterials")]).flatten.compact.uniq
@@ -709,8 +710,8 @@ namespace :import do
       w.object_creation_year = json_work.delete("completionYear") || json_work["startYear"]
       w.internal_comments = json_work.delete("remark")
       w.permanently_fixed = json_work.delete("fixed")
-      w.tag_list << json_work.delete("appreciation") if json_work["appreciation"].present?
-      w.tag_list << json_work.delete("artHistoric") if json_work["artHistoric"].present?
+      w.tag_list << "waardering:#{json_work.delete("appreciation")}" if json_work["appreciation"].present?
+      w.tag_list << "artHistoric:#{json_work.delete("artHistoric")}" if json_work["artHistoric"].present?
 
       # hdw updated to how generally used in collectionmanagment
       w.height = json_work.delete("length")&.to_f&./(10.0)
@@ -721,12 +722,43 @@ namespace :import do
       w.dimension_weight_description = [json_work.delete("dimensionDescription"), json_work.delete("weightDescription")].compact.join("; ")
       w.print = [json_work.delete("editionNumber"), json_work.delete("editionAmount")].compact.join("/")
 
+      statuses = json_work.delete("statuses")
+      statuses.sort_by! { |a| a.dig("fromDate", "date") }
+      last_status = statuses.last
+      last_status_date = last_status&.dig("fromDate", "date")&.to_date
+      last_status_identifier = last_status&.dig("state", "identifier")
+      w.tag_list << "status:#{last_status_identifier}"
+      case last_status_identifier
+      when "aanwezig"
+        w.inventoried_at = last_status_date
+      when "afgestoten"
+        w.work_status = WorkStatus.find_or_create_by(name: "Herbestemd", set_work_as_removed_from_collection: true)
+        w.removed_from_collection_at = last_status_date
+      when "vernietigd"
+        w.work_status = WorkStatus.find_or_create_by(name: "Vernietigd", set_work_as_removed_from_collection: true)
+        w.removed_from_collection_at = last_status_date
+      when "teruggegeven"
+        w.work_status = WorkStatus.find_or_create_by(name: "Herbestemd", set_work_as_removed_from_collection: true)
+        w.removed_from_collection_at = last_status_date
+        # when "integralecontracten"
+        # when "afstoot"
+        # when "overig"
+        # when "musea"
+        # when "niet-aangetroffen"
+        # when "verdwenen"
+        # when "naslagwerk"
+        # when "herplaatsbaar"
+        # when "vervallen"
+      end
+
+      json_work["statuses"] = statuses.map { |s| {s.dig("fromDate", "date")&.to_date.to_s => s.dig("state", "identifier")} }
+
       json_work["maintainer"] = json_work.delete("maintainer")&.[]("name")
 
       owner = json_work.delete("owner")
       if owner.present?
         w.owner = Owner.find_or_create_by(name: owner["name"])
-        w.tag_list << "eigenaar-#{owner.dig("method", "identifier")}" if owner.dig("method", "identifier")
+        w.tag_list << "eigenaar:#{owner.dig("method", "identifier")}" if owner.dig("method", "identifier")
         w.purchase_price = owner["cost"].to_f if owner["cost"].present?
         w.purchase_price_currency = Currency.find_by_iso_4217_code(owner.dig("currency", "abbreviation")) if owner.dig("currency", "abbreviation").present?
       end
