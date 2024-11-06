@@ -20,7 +20,7 @@ table {
     }
 
     th[colspan] {
-      text-align: center !important;
+      text-align: left !important;
     }
   }
 
@@ -43,7 +43,8 @@ table {
       padding: 0.25em;
       min-width: 1em;
 
-      &.count {
+      &.count,
+      &.number {
         text-align: right;
       }
     }
@@ -57,6 +58,11 @@ table {
       padding-bottom: 0.5em;
       padding-top: 0.5em;
       padding-right: 0.25em;
+
+      &.count,
+      &.number {
+        text-align: right;
+      }
     }
   }
 

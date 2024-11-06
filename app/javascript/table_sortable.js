@@ -74,9 +74,9 @@ SortableTable = (function () {
     }
 
     resetSortsAndSetColumnIndex() {
-      var index, j, len, tableColumnHead, tableColumnHeads;
+      var index, len, tableColumnHead, tableColumnHeads;
       tableColumnHeads = this.table.querySelectorAll("thead th, thead td");
-      for (index = j = 0, len = tableColumnHeads.length; j < len; index = ++j) {
+      for (index = 0, len = tableColumnHeads.length; index < len; index = ++index) {
         tableColumnHead = tableColumnHeads[index];
         tableColumnHead.removeAttribute("aria-sort");
         if (tableColumnHead === this.columnHead) {
@@ -94,17 +94,21 @@ SortableTable = (function () {
       extractSortableRowValue = function (row) {
         var cell, isNumber, value;
         cell = row.querySelectorAll("td, th")[columnIndex];
-        isNumber = (cell.dataset && cell.dataset.sorttype === 'number') || cell.classList.contains('number');
-        value = (cell.dataset && Object.keys(cell.dataset).includes("sortkey")) ? cell.dataset.sortkey : cell.innerText;
-        // empty values for numbers
-        if (isNumber && ((value === "") || (typeof value === 'undefined'))) {
-          value = -9999999999 * sortEmptyAlwaysLastMultiplier;
-        } else if (isNumber) {
-          value = parseFloat(value);
-        } else if (typeof value === "string") {
-          value = value.toLowerCase();
+        if (cell) {
+          isNumber = (cell.dataset && cell.dataset.sorttype === 'number') || cell.classList.contains('number');
+          value = (cell.dataset && Object.keys(cell.dataset).includes("sortkey")) ? cell.dataset.sortkey : cell.innerText;
+          // empty values for numbers
+          if (isNumber && ((value === "") || (typeof value === 'undefined'))) {
+            value = -9999999999 * sortEmptyAlwaysLastMultiplier;
+          } else if (isNumber) {
+            value = parseFloat(value);
+          } else if (typeof value === "string") {
+            value = value.toLowerCase();
+          }
+          return value;
+        } else {
+          return -9999999999;
         }
-        return value;
       };
       rowSortFunction = function (aRow, bRow) {
         var aValue, bValue;

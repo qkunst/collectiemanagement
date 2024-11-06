@@ -7,7 +7,9 @@ module CollectionReportHelper
   HAS_JOIN_STRING_NESTED_VALUES = [:location_raw, :location_floor_raw, :location_detail_raw]
   RANGE_GROUP = [:market_value_range, :replacement_value_range]
 
-  DEEPEST = 6
+  SORTABLE = Report::Builder.fields_without_aggregates + RANGE_GROUP
+
+  DEEPEST = 6 # table width is 6+1 for counts
 
   def report
     @report
@@ -16,12 +18,16 @@ module CollectionReportHelper
   def render_report_column(sections)
     html = ""
     sections.each do |report_section|
-      html += "<table>"
+      html += if SORTABLE.include?(report_section)
+        "<table class=\"sortable\">"
+      else
+        "<table>"
+      end
       html += iterate_report_sections(report_section, report[report_section], DEEPEST)
       report.except!(report_section)
       html += "</table>"
     end
-    html.gsub("<table></table>", "").html_safe
+    html.gsub("<table></table>", "").gsub("<table class=\"sortable\"></table>", "").html_safe
   end
 
   def missing_link_label(group)
@@ -96,6 +102,9 @@ module CollectionReportHelper
   def link(group, selection)
     link_label = selection
 
+    if @params.nil? || @params.empty?
+      @params = {}
+    end
     @params.delete("filter[#{group}.id]")
     @params.delete("filter[#{group}_id]")
     @params.delete("filter[#{group}][]")
@@ -143,12 +152,19 @@ module CollectionReportHelper
     if section && (section.keys.count > 0)
       html = ""
       unless ignore_super?(section_head)
-        html = "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
+        html = ""
+        if depth == DEEPEST
+          html += "<thead>"
+        end
+        html += "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
-        html += "<th colspan=\"#{depth}\">#{titleize_section_head section_head}</th><th></th>"
+        html += "<th colspan=\"#{depth}\">#{titleize_section_head section_head}</th><th class=\"number\">#</th>"
         html += "</tr>\n"
+        if depth == DEEPEST
+          html += "</thead>\n"
+        end
       end
-      html += iterate_groups(section_head, section, depth - 1)
+      html += iterate_groups(section_head, section, depth)
       html
     else
       ""
@@ -191,33 +207,43 @@ module CollectionReportHelper
     html = ""
     if contents && depth > 0
       contents = sort_contents_by_group(contents, group)
-      if range?(group) && depth == DEEPEST
-        html += render_range(contents, group)
+      html += if range?(group) && depth == DEEPEST
+        render_range(contents, group)
       else
-        if PRICE_COLUMNS.include?(group)
-          total = contents.sum { |a| a[0][0].to_i * a[1][:count] }
-          html += "<tfoot><tr><td  class=\"count\" colspan=\"#{DEEPEST}\">Totaal:</td><td class=\"count\">#{number_to_currency(total, precision: 0)}</td></tr></tfoot>"
-        end
-        contents.each do |s|
-          sk = s[0]
-          sv = s[1]
-          @params = {} if depth == (DEEPEST - 1)
-          sk = link(min_range_column(group), sk)
-          hidden = ignore_super?(group)
-          group_hash = @params.to_a
-          group_hash.pop
-
-          html += "<tr class=\"content span-#{depth} #{hidden ? "hide" : ""}\" data-group=\"#{Digest::MD5.hexdigest(group_hash.to_s)}\">"
-          html += render_spacers(depth)
-          html += "<td colspan=\"#{depth}\">#{sk}</td><td class=\"count\">#{sv[:count]}</td></tr>\n"
-          sv[:subs].each do |subbucketgroupname, subbucketgroup|
-            html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth - 1))
-          end
-        end
+        render_values(contents, group, depth)
       end
       html += "<tr class=\"group_separator\"><td colspan=\"#{DEEPEST + 1}\"></td></tr>\n"
       @params.delete(@params.keys.last)
     end
+    html
+  end
+
+  def render_values(contents, group, depth)
+    html = ""
+    if PRICE_COLUMNS.include?(group)
+      total = contents.sum { |a| a[0][0].to_i * a[1][:count] }
+      html += "<tfoot><tr><td  class=\"number\" colspan=\"#{DEEPEST}\">Totaal:</td><td class=\"number\">#{number_to_currency(total, precision: 0)}</td></tr></tfoot>"
+    end
+    contents.each do |s|
+      sk = s[0]
+      sv = s[1]
+      @params = {} if depth == (DEEPEST)
+      sk = link(min_range_column(group), sk)
+      hidden = ignore_super?(group)
+      group_hash = @params.to_a
+      group_hash.pop
+
+      html += "<tr class=\"content span-#{depth} #{hidden ? "hide" : ""}\" data-group=\"#{Digest::MD5.hexdigest(group_hash.to_s)}\">"
+      html += render_spacers(depth)
+      html += PRICE_COLUMNS.include?(group) ? "<td colspan=\"#{depth}\" data-sortkey=\"#{s[0][0]}\" data-sorttype=\"number\">" : "<td colspan=\"#{depth}\">"
+      html += sk
+      html += "</td>"
+      html += "<td class=\"count number\">#{sv[:count]}</td></tr>\n"
+      sv[:subs].each do |subbucketgroupname, subbucketgroup|
+        html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth - 1))
+      end
+    end
+
     html
   end
 

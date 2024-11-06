@@ -5,6 +5,10 @@ module Report
     extend Report::BuilderHelpers
 
     class << self
+      def fields_without_aggregates
+        aggregations.select { |k, v| !v.key?(:aggs) }.keys
+      end
+
       def aggregations
         aggregation = {
           total: {

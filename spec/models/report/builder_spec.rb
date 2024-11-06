@@ -3,7 +3,22 @@
 require "rails_helper"
 
 RSpec.describe Report::Builder, type: :model do
-  describe "aggregation_builder" do
+  describe ".fields_without_aggregates" do
+    let(:result) { Report::Builder.fields_without_aggregates }
+    it "doesn't contain any aggregation fields" do
+      expect(result).not_to include(:object_categories)
+      expect(result).not_to include(:object_categories_split)
+      expect(result).not_to include(:market_value_min_ignore_super_missing)
+    end
+
+    it "does contain basic fields" do
+      expect(result).to include(:artists)
+      expect(result).to include(:tag_list)
+      expect(result).to include(:cluster)
+    end
+  end
+
+  describe ".aggregations" do
     it "expected build result" do
       expected = {
         total: {value_count: {field: :id}},
@@ -35,7 +50,11 @@ RSpec.describe Report::Builder, type: :model do
         damage_types: {terms: {field: "damage_types.id", size: 999}},
         frame_damage_types: {terms: {field: "frame_damage_types.id", size: 999}},
         abstract_or_figurative: {terms: {field: "abstract_or_figurative", size: 999}},
-        abstract_or_figurative_missing: {missing: {field: "abstract_or_figurative"}}, grade_within_collection: {terms: {field: "grade_within_collection", size: 999}}, grade_within_collection_missing: {missing: {field: "grade_within_collection"}}, object_format_code: {terms: {field: "object_format_code", size: 999}}, object_format_code_missing: {missing: {field: "object_format_code"}}, market_value: {terms: {field: "market_value", size: 999}},
+        abstract_or_figurative_missing: {missing: {field: "abstract_or_figurative"}},
+        grade_within_collection: {terms: {field: "grade_within_collection", size: 999}},
+        grade_within_collection_missing: {missing: {field: "grade_within_collection"}},
+        object_format_code: {terms: {field: "object_format_code", size: 999}},
+        object_format_code_missing: {missing: {field: "object_format_code"}}, market_value: {terms: {field: "market_value", size: 999}},
         market_value_min_ignore_super_missing: {aggs: {market_value_ignore_super_missing: {aggs: {balance_category: {terms: {field: "balance_category.id", size: 999}}, balance_category_missing: {missing: {field: "balance_category.id"}}}, missing: {field: :market_value}}}, missing: {field: :market_value_min}},
         replacement_value: {terms: {field: "replacement_value", size: 999}},
         replacement_value_min_ignore_super_missing: {aggs: {replacement_value_ignore_super_missing: {aggs: {missing_explainer_missing: {missing: {field: :replacement_value}}}, missing: {field: :replacement_value}}}, missing: {field: :replacement_value_min}},
