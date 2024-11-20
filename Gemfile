@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7"
+gem "rails", "~>7.2.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -110,7 +110,7 @@ gem "nested_form"
 gem "paper_trail" # , "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
-gem "mail", "~> 2.7.0"
+gem "mail" # , "~> 2.7.0"
 gem "daemons"
 gem "redis-rails" # jobs
 gem "dalli" # memcache
@@ -122,9 +122,9 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
-gem "sidekiq", "~> 6", ">= 6.2.1"
-gem "sidekiq-scheduler", ">= 3.1.0"
-gem "sidekiq-unique-jobs", ">= 7.1.5"
+gem "sidekiq"
+gem "sidekiq-scheduler"
+gem "sidekiq-unique-jobs"
 
 gem "rack-mini-profiler"
 gem "flamegraph"
@@ -146,4 +146,4 @@ gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-central
 gem "invisible_captcha"
 gem "jsbundling-rails", "~> 1.0"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
-gem "stimulus-rails"
+# gem "stimulus-rails"
