@@ -693,7 +693,7 @@ DEPENDENCIES
   mini_magick
   nested_form
   nokogiri
-  omniauth
+  omniauth (>= 2.1.2)
   omniauth-azure-activedirectory!
   omniauth-central_login!
   omniauth-google-oauth2
