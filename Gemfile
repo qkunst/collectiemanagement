@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7"
+gem "rails", "~> 7", ">= 7.1.3.3"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -22,7 +22,7 @@ gem "sass-rails"
 # Use jquery as the JavaScript library
 # gem "jquery-rails"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder"
+gem "jbuilder", ">= 2.12.0"
 gem "cancancan"
 gem "bootsnap"
 gem "lockbox"
@@ -51,13 +51,13 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" # , git: "https://github.com/heartcombo/devise.git"
+gem "devise" , ">= 4.9.4" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
-gem "nokogiri"
+gem "nokogiri", ">= 1.16.5"
 gem "attribute_normalizer" # keeps the database clean
 ##
 ## SEARCH
@@ -89,7 +89,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.3.1"
 gem "kramdown"
 
 ##
@@ -120,7 +120,7 @@ gem "rack-headers_filter"
 gem "strip_attributes"
 gem "omniauth"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection"
+gem "omniauth-rails_csrf_protection", ">= 1.0.2"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
 gem "sidekiq", "~> 6", ">= 6.2.1"
 gem "sidekiq-scheduler", ">= 3.1.0"
@@ -135,10 +135,10 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
-  gem "rspec-openapi"
+  gem "rspec-openapi", ">= 0.17.0"
 end
 gem "standard", group: [:development, :test]
-gem "dotenv-rails", groups: [:development, :test]
+gem "dotenv-rails", ">= 3.1.1", groups: [:development, :test]
 gem "annotate", group: [:development]
 
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
