@@ -3,13 +3,13 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7"
+gem "rails", "~> 7", ">= 7.1.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
 # gem 'webrick'
 # gem "markdown-rails"
-gem "puma"
+gem "puma", ">= 6.4.2"
 # Use SCSS for stylesheets
 gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
@@ -37,7 +37,7 @@ group :development, :test, :gitlabci do
   gem "capybara"
   gem "byebug", platform: :mri
   gem "foreman"
-  gem "rspec-rails"
+  gem "rspec-rails", ">= 6.0.4"
   gem "rspec_junit_formatter"
   gem "simplecov-cobertura"
 end
@@ -51,7 +51,7 @@ end
 ##
 gem "bundler-audit"
 gem "pg"
-gem "devise" # , git: "https://github.com/heartcombo/devise.git"
+gem "devise" , ">= 4.9.3" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
@@ -89,7 +89,7 @@ end
 ## INTERACTIVITY
 ##
 
-gem "simple_form"
+gem "simple_form", ">= 5.3.0"
 gem "kramdown"
 
 ##
@@ -107,7 +107,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
-gem "paper_trail" # , "11.1.0"
+gem "paper_trail" , ">= 15.1.0" # , "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "mail", "~> 2.7.0"
@@ -118,7 +118,7 @@ gem "exception_notification"
 gem "zipline"
 gem "rack-headers_filter"
 gem "strip_attributes"
-gem "omniauth"
+gem "omniauth", ">= 2.1.2"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
@@ -126,7 +126,7 @@ gem "sidekiq", "~> 6", ">= 6.2.1"
 gem "sidekiq-scheduler", ">= 3.1.0"
 gem "sidekiq-unique-jobs", ">= 7.1.5"
 
-gem "rack-mini-profiler"
+gem "rack-mini-profiler", ">= 3.2.0"
 gem "flamegraph"
 gem "stackprof"
 gem "memory_profiler"
@@ -135,7 +135,7 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
-  gem "rspec-openapi"
+  gem "rspec-openapi", ">= 0.10.0"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
@@ -144,6 +144,6 @@ gem "annotate", group: [:development]
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
 gem "invisible_captcha"
-gem "jsbundling-rails", "~> 1.0"
+gem "jsbundling-rails", "~> 1.2", ">= 1.2.2"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
-gem "stimulus-rails"
+gem "stimulus-rails", ">= 1.3.1"
