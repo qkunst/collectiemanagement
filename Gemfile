@@ -137,7 +137,7 @@ group :test, :gitlabci do
   gem "bullet"
   gem "rspec-openapi"
 end
-gem "standard", group: [:development, :test]
+gem "standard", ">= 1.39.2", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
 gem "annotate", group: [:development]
 
