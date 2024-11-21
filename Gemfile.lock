@@ -705,7 +705,7 @@ DEPENDENCIES
   prawn-labels
   prawn-qr!
   prawn-svg
-  puma
+  puma (>= 6.4.3)
   pupprb!
   rack-headers_filter
   rack-mini-profiler
