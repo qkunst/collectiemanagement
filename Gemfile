@@ -54,7 +54,7 @@ gem "pg"
 gem "devise" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
-gem "carrierwave"
+gem "carrierwave", ">= 2.2.6"
 gem "carrierwave-imageoptimizer"
 gem "mini_magick" # transforming images
 gem "nokogiri"
