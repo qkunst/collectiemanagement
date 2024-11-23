@@ -82,6 +82,7 @@ nl:
       outgoing_rental_between: Uitgeleend
   errors:
     messages:
+      mini_magick_processing_error: "Dit bestand kon niet verwerkt worden (%{e})"
       extension_white_list_error: Dit bestand heeft een onbekende extentie
   notifications:
     welcome: Welkom bij heerlijk zoeken!

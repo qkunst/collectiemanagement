@@ -16,7 +16,7 @@ class Api::V1::ApiController < ApplicationController
     elsif request.headers["X-user-id"]
       @user = User.where(id: request.headers["X-user-id"].to_i).first
       return not_authorized if !@user || !@user.api_key
-      data = "#{request.remote_ip}#{request.url}#{request.body.read}"
+      data = "#{request.remote_ip}#{request.url}#{request.body&.read}"
       digest = OpenSSL::Digest.new("sha512")
       expected_token = OpenSSL::HMAC.hexdigest(digest, @user.api_key, data)
       received_token = request.headers["X-hmac-token"].strip
@@ -74,7 +74,7 @@ class Api::V1::ApiController < ApplicationController
     render json: {
       message: ["Not authorized", additional_message].compact.join(" "),
       nuid: request.headers["X-user-id"].to_i,
-      data: "#{request.remote_ip}#{request.url}#{request.body.read}",
+      data: "#{request.remote_ip}#{request.url}#{request.body&.read}",
       your_remote_ip: request.remote_ip
     }, status: 401
     false

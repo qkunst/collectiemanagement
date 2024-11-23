@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StatusController < ApplicationController
+  skip_before_action :authenticate_activated_user!
+
   def application_status
     @sidekiq_running = Sidekiq::Workers.new.size > 0
     if @sidekiq_running == false

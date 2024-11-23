@@ -11,9 +11,8 @@ RSpec.feature "Appraise works", type: :feature do
     end
     it "cannot appraise work outside scope" do
       work = works(:work_with_private_theme)
-      expect {
-        visit collection_work_path(work.collection, work)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      visit collection_work_path(work.collection, work)
+      expect(page.status_code).to eq 404
     end
 
     it "can appraise work using ranges" do

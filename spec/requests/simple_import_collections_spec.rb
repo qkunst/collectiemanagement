@@ -35,9 +35,8 @@ RSpec.describe "SimpleImportCollections", type: :request do
     describe "POST #create" do
       it "will evaluat the params" do
         # skipping delivering correct values here for now
-        expect {
-          post "/collections/#{collection.id}/manage/simple_import_collections"
-        }.to raise_error(ActionController::ParameterMissing)
+        post "/collections/#{collection.id}/manage/simple_import_collections"
+        expect(response.code).to eq "400"
       end
     end
   end

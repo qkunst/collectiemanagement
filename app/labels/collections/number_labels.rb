@@ -6,7 +6,7 @@ class Collections::NumberLabels
   def render
     prefix = collection.unique_short_code
     code = collection.unique_short_code
-    title = collection.base_collection.name
+    collection.base_collection.name
     base_url = "https://ppid.qkunst.nl"
     logo_path = nil # File.open(Rails.root.join("app", "assets", "images", "logo.svg")) # this still needs improvement
 

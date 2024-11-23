@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Collection::UsersController < ApplicationController
-  before_action :set_collection, only: [:show, :edit, :index, :update, :destroy, :manage] # includes authentication
-  before_action :set_user, only: [:edit, :update, :destroy]
+  before_action :set_collection, only: [:edit, :index, :update] # includes authentication
+  before_action :set_user, only: [:edit, :update]
 
   def index
     @manage_controller = true
@@ -31,6 +31,8 @@ class Collection::UsersController < ApplicationController
       render :edit
     end
   end
+
+  private
 
   def set_user
     @user = User.find(params[:id])

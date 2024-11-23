@@ -9,9 +9,8 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
     it "returns a 404, even as an admin, no writing" do
       sign_in users(:admin)
 
-      expect {
-        post api_v1_time_spans_path(params: {}, format: :json)
-      }.to raise_error(ActionController::RoutingError)
+      post api_v1_time_spans_path(params: {}, format: :json)
+      expect(response).to be_not_found
     end
   end
 

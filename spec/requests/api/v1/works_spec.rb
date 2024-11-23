@@ -48,9 +48,8 @@ RSpec.describe Api::V1::WorksController, type: :request do
       end
 
       it "doesn't return works outside own collections" do
-        expect {
-          get api_v1_collection_works_path(collections(:collection3), format: :json)
-        }.to raise_error ActiveRecord::RecordNotFound
+        get api_v1_collection_works_path(collections(:collection3), format: :json)
+        expect(response).to be_not_found
       end
 
       it "returns meta" do

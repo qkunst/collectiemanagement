@@ -82,9 +82,9 @@ RSpec.describe "/contacts", type: :request do
     it "doesn't allow a user without acces to the collection to edit the contact" do
       sign_in users(:advisor_user_with_api_key)
 
-      expect {
-        get edit_collection_contact_url(collections(:collection_with_works), contact)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get edit_collection_contact_url(collections(:collection_with_works), contact)
+
+      expect(response).to be_not_found
     end
 
     it "does allow an advisor with access to the collection to edit the the contact" do

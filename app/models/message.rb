@@ -83,7 +83,7 @@ class Message < ApplicationRecord
   end
 
   def read(user = nil)
-    actioned_upon_by_qkunst_admin? || (user && from_user?(user)) || (user && !user.qkunst? && from_user && from_user.qkunst?)
+    actioned_upon_by_qkunst_admin? || (user && from_user?(user)) || (user && !user.qkunst? && from_user&.qkunst?)
   end
 
   def unread(user = nil)

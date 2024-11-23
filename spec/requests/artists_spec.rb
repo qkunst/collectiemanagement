@@ -102,7 +102,9 @@ RSpec.describe "Artists", type: :request do
       end
       it "should not give access to artists not visible in collection" do
         sign_in users(:qkunst_with_collection)
-        expect { get collection_artist_path(collections(:collection1), artists(:artist2_dup2)) }.to raise_error(ActiveRecord::RecordNotFound)
+
+        get collection_artist_path(collections(:collection1), artists(:artist2_dup2))
+        expect(response).to be_not_found
       end
       it "should not expose attachments outside original collection" do
         sign_in users(:appraiser)

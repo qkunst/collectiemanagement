@@ -47,7 +47,7 @@ class WorksController < ApplicationController
 
   before_action :authenticate_qkunst_user!, only: [:edit, :create, :new, :edit_photos]
   before_action :authenticate_qkunst_or_facility_user!, only: [:edit_location, :update, :edit_tags]
-  before_action :set_work, only: [:show, :edit, :update, :destroy, :update_location, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices, :show_old_data]
+  before_action :set_work, only: [:show, :edit, :update, :destroy, :edit_location, :edit_photos, :edit_tags, :location_history, :edit_prices, :show_old_data]
   before_action :set_collection # set_collection includes authentication
   before_action :init_work, only: [:new]
   before_action :populate_collection_attributes_for_work, only: [:new, :edit]

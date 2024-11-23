@@ -37,6 +37,7 @@ class BatchPhotoUploadsController < ApplicationController
   def create
     @batch_photo_upload = BatchPhotoUpload.new(batch_photo_upload_params)
     @batch_photo_upload.collection = @collection
+
     respond_to do |format|
       if @batch_photo_upload.save
         format.html { redirect_to collection_batch_photo_upload_path(@collection, @batch_photo_upload), notice: "Batch photo upload was successfully created." }
@@ -81,6 +82,8 @@ class BatchPhotoUploadsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def batch_photo_upload_params
-    params.require(:batch_photo_upload).permit(:zip_file, :column, {images: []})
+    cleaned_params = params.require(:batch_photo_upload).permit(:zip_file, :column, {images: []})
+    cleaned_params[:images] = cleaned_params[:images]&.select { |a| a.present? }
+    cleaned_params
   end
 end

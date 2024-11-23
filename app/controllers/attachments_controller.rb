@@ -7,7 +7,7 @@ class AttachmentsController < ApplicationController
   before_action :set_subject
   before_action :set_collection
 
-  before_action :set_attachment, only: [:show, :edit, :update, :destroy]
+  before_action :set_attachment, only: [:edit, :update, :destroy]
 
   authorize_resource
 

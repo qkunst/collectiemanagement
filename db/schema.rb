@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_09_111557) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_20_151126) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -854,5 +854,4 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_09_111557) do
     t.index ["collection_id"], name: "index_works_on_collection_id"
     t.index ["stock_number"], name: "index_works_on_stock_number"
   end
-
 end

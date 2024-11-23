@@ -9,9 +9,8 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
     it "returns a 404, even as an admin, when not found" do
       sign_in users(:admin)
 
-      expect {
-        get api_v1_work_set_path("asb", params: {}, format: :json)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get api_v1_work_set_path("asb", params: {}, format: :json)
+      expect(response).to be_not_found
     end
 
     it "returns a 200, even when found" do
