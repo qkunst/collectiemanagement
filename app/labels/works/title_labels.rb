@@ -25,7 +25,7 @@ class Works::TitleLabels
     }.freeze
 
     Prawn::Labels.new(works, type: "A7") do |pdf, work|
-      number = work.stock_number
+      number = work.stock_number || "DB#{work.id.to_s.rjust(8, "0")}"
       url = URI.join(base_url, "#{code}/", number).to_s
       url = [url, resource_variant].compact.join(".")
       margin = 5
@@ -33,9 +33,9 @@ class Works::TitleLabels
 
       pdf.bounding_box(*grid.bounding_box) do
         pdf.bounding_box(*grid.area_bounding_box([0, 1], [3, 2])) do
-          pdf.text work.artist_name_rendered(name_order: :human), size: 10, weight: 500, color: foreground_color
+          pdf.text work.artist_name_rendered(name_order: :human), size: 15, color: foreground_color
           pdf.text " ", size: 5, weight: 500
-          pdf.text work.title_rendered, size: 15, color: foreground_color
+          pdf.text work.title_rendered, size: 10, weight: 500, color: foreground_color
           pdf.text " ", size: 5, weight: 500
           pdf.text work.object_creation_year.to_s, size: 12, weight: 500, color: foreground_color
         end
