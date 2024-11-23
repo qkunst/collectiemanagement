@@ -3,7 +3,8 @@
 class PictureUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  include CarrierWave::Vips
+  # include CarrierWave::Vips
+  include CarrierWave::MiniMagick
   include CarrierWave::ImageOptimizer
   include SecureUploadFilename
 

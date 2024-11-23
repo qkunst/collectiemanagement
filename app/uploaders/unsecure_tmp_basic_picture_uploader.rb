@@ -3,7 +3,9 @@
 class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  include CarrierWave::Vips
+  # include CarrierWave::Vips
+  include CarrierWave::MiniMagick
+
   include CarrierWave::ImageOptimizer
 
   # Choose what kind of storage to use for this uploader:

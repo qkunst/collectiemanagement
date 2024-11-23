@@ -56,7 +56,8 @@ gem "devise" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-google-oauth2'
 gem "carrierwave"
 gem "carrierwave-imageoptimizer"
-gem "carrierwave-vips" # transforming images
+# gem "carrierwave-vips" # transforming images
+gem "mini_magick" # fallback for vips
 gem "nokogiri"
 gem "attribute_normalizer" # keeps the database clean
 ##
