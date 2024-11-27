@@ -46,6 +46,12 @@ GIT
   specs:
     pupprb (0.1.0)
 
+GIT
+  remote: https://gitlab.com/murb/rkd.git
+  revision: b47c32ce33dad19c8ef437837afcb9ad31f9ba23
+  specs:
+    rkd (0.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -734,6 +740,7 @@ DEPENDENCIES
   rack-mini-profiler
   rails (~> 7.2.0)
   redis-rails
+  rkd!
   rspec-openapi
   rspec-rails
   rspec_junit_formatter

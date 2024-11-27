@@ -1,0 +1,16 @@
+<% url = @collection ? collection_rkd_artist_path(@collection, artist, @artist ? {artist_id: @artist.id} : {}) : rkd_artist_path(artist, @artist ? {artist_id: @artist.id} : {})%>
+<article class="rkd_artist">
+  <header>
+    <h4><small>RKDartist:<br/></small><%= link_to url  do %><%= artist.identifier%>: <%= artist.name %><% end %></h4>
+    <p><%= artist.name%> (<%=artist.birth_date&.year%>-<%=artist.death_date&.year%>)</p>
+  </header>
+  <% if can?(:update, Artist) and @artist %>
+  <nav class="actions" aria-label="Vervaardigersacties">
+      <% if @artist.rkd_artist_id == artist.identifier %>
+        <%= button_to 'Ontkoppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
+      <% else %>
+        <%= button_to 'Koppel', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => artist.identifier}, method: :patch, class: 'small secondary button' %>
+      <% end %>
+  </nav>
+  <% end %>
+</article>

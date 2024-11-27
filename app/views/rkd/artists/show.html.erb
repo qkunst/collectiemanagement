@@ -1,0 +1,7 @@
+<% if admin_user? and @artist %>
+<p><%= link_to '← Terug naar de vervaardigerspagina', [@collection,@artist].compact%></p>
+<% else %>
+<p><%= link_to '← Terug ', 'javascript:history.back(1)'%></p>
+<% end %>
+<h1>RKDartist <%= @rkd_artist.identifier%>: <%= @rkd_artist.name %></h1>
+<p>Het overnemen van gegevens wordt binnenkort weer aangeboden (na voltooiing API wijzigingen). Nog even geduld.</p>

@@ -101,9 +101,9 @@
         <%= render @artist.rkd_artist %>
       <% elsif @artist.rkd_artists.count == 0 %>
         <p>Er kon geen match gevonden worden in RKDartists&amp;</p>
-      <% elsif @artist.rkd_artists.count > 0 and @artist.rkd_artists.count <= 3 %>
+      <% elsif @artist.rkd_artists.count > 0 %>
         <p>Matches in RKDartists&amp;:</p>
-        <%= render @artist.rkd_artists%>
+        <%= render @artist.rkd_artists[0..3]%>
       <% end %>
     <% end %>
   </aside>

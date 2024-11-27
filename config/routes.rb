@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   end
   resources :work_set_types
 
-  resources :rkd_artists do
+  resources :rkd_artists, module: :r_k_d, controller: :artists do
     patch "copy" => "rkd_artists#copy"
   end
 

@@ -100,7 +100,9 @@ class ArtistsController < ApplicationController
   def update
     if @artist.update(artist_params)
       if artist_params["rkd_artist_id"] && (artist_params["rkd_artist_id"].to_i > 0) && (artist_params.keys.count == 1)
-        redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: "De vervaardiger is gekoppeld met een RKD artist"
+        redirect_to [@collection, @artist].compact, notice: "De vervaardiger is gekoppeld"
+
+        # redirect_to @collection ? collection_rkd_artist_path(@collection, @artist.rkd_artist, params: {artist_id: @artist.id}) : rkd_artist_path(@artist.rkd_artist, params: {artist_id: @artist.id}), notice: "De vervaardiger is gekoppeld met een RKD artist"
       else
         redirect_to [@collection, @artist].compact, notice: "De vervaardiger is bijgewerkt"
       end

@@ -41,7 +41,7 @@ class Artist < ApplicationRecord
 
   has_paper_trail
 
-  belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id, optional: true
+  # belongs_to :rkd_artist, foreign_key: :rkd_artist_id, primary_key: :rkd_id, optional: true
   belongs_to :import_collection, optional: true
 
   has_and_belongs_to_many :works
@@ -125,10 +125,14 @@ class Artist < ApplicationRecord
     name
   end
 
+  def rkd_artist
+    RKD::Artist.find(rkd_artist_id) if rkd_artist_id > 0
+  end
+
   def rkd_artists
     return [rkd_artist] if rkd_artist
     begin
-      RkdArtist.search_rkd_by_artist(self)
+      ::RKD::Artist.search name
     rescue OpenSSL::SSL::SSLError
       []
     rescue SocketError
@@ -320,6 +324,10 @@ class Artist < ApplicationRecord
         first_artist = Artist.find(first)
         first_artist.combine_artists_with_ids(ids, options)
       end
+    end
+
+    def initialize_from_rkd_artist(rkd_artist)
+      new
     end
   end
 end
