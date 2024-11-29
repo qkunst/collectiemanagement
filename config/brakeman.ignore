@@ -7,7 +7,7 @@
       "check_name": "CrossSiteScripting",
       "message": "Unescaped model attribute",
       "file": "app/views/works/_work_detailed_data.html.erb",
-      "line": 124,
+      "line": 131,
       "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
       "code": "current_user.accessible_works.find((params[:work_id] or params[:id]).to_i).work_sets.map do\n @for_print ? (sanitize(ws.name)) : (link_to(sanitize(ws.name), ws))\n end.to_sentence",
       "render_path": [
@@ -15,7 +15,7 @@
           "type": "controller",
           "class": "WorksController",
           "method": "show",
-          "line": 92,
+          "line": 130,
           "file": "app/controllers/works_controller.rb",
           "rendered": {
             "name": "works/show",
@@ -69,7 +69,7 @@
         {
           "type": "template",
           "name": "import_collections/edit",
-          "line": 38,
+          "line": 39,
           "file": "app/views/import_collections/edit.html.erb",
           "rendered": {
             "name": "import_collections/_import_table",
@@ -95,7 +95,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/users_controller.rb",
-      "line": 56,
+      "line": 57,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:role, :role_manager, :receive_mails, :name, :collection_ids => ([]))",
       "render_path": null,
@@ -169,29 +169,6 @@
       "note": ""
     },
     {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "85660b89dac0ba5cb2e56a2ae8c32f7a07f05c5c202007ca4e2a829e1b576499",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/artists_controller.rb",
-      "line": 74,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).artists.find((params[:artist_id] or params[:id])) or begin\n  Artist.find((params[:artist_id] or params[:id]))\nrescue ActiveRecord::RecordNotFound\n  artist = Artist.unscoped.find((params[:artist_id] or params[:id]))\n  redirect_to(Artist.unscoped.find((params[:artist_id] or params[:id])), :notice => \"Gekoppelde vervaardiger\")\nend), :notice => (\"De vervaardigers zijn samengevoegd, er zijn #{((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).artists.find((params[:artist_id] or params[:id])) or begin\n  Artist.find((params[:artist_id] or params[:id]))\nrescue ActiveRecord::RecordNotFound\n  artist = Artist.unscoped.find((params[:artist_id] or params[:id]))\n  redirect_to(Artist.unscoped.find((params[:artist_id] or params[:id])), :notice => \"Gekoppelde vervaardiger\")\nend).combine_artists_with_ids(params.require(:artist).permit(:artists_with_same_name => ([]))[:artists_with_same_name].delete_if(&:blank?))} werken opnieuw gekoppeld.\"))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "ArtistsController",
-        "method": "combine"
-      },
-      "user_input": "params[:artist_id]",
-      "confidence": "High",
-      "cwe_id": [
-        601
-      ],
-      "note": "Save redirect to a database entry; complicated lookup is fallback"
-    },
-    {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
       "fingerprint": "a262490bf8ca5862e835df75a7a7a5804ddf36a231c301179922b2e1f589ae2d",
@@ -224,74 +201,6 @@
         79
       ],
       "note": "this is a url_for attribute at model level because of reasons"
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "aa8d8d16cd83fc841d36ba39b9c746474e77f5d075044c2edb0703a14bd21907",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/rkd_artists/show.html.erb",
-      "line": 13,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"Toon artist op RKD \\u2794\", RkdArtist.find_by_rkd_id!(params[:id]).end_user_link, :class => ([:small, :secondary, :button]), :target => \"_blank\")",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "RkdArtistsController",
-          "method": "show",
-          "line": 13,
-          "file": "app/controllers/rkd_artists_controller.rb",
-          "rendered": {
-            "name": "rkd_artists/show",
-            "file": "app/views/rkd_artists/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "rkd_artists/show"
-      },
-      "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
-      "confidence": "Weak",
-      "cwe_id": [
-        79
-      ],
-      "note": "end user link is a database value; safe"
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "aa8d8d16cd83fc841d36ba39b9c746474e77f5d075044c2edb0703a14bd21907",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/rkd_artists/show.html.erb",
-      "line": 35,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"Toon artist op RKD \\u2794\", RkdArtist.find_by_rkd_id!(params[:id]).end_user_link, :class => ([:small, :secondary, :button]), :target => \"_blank\")",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "RkdArtistsController",
-          "method": "show",
-          "line": 13,
-          "file": "app/controllers/rkd_artists_controller.rb",
-          "rendered": {
-            "name": "rkd_artists/show",
-            "file": "app/views/rkd_artists/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "rkd_artists/show"
-      },
-      "user_input": "RkdArtist.find_by_rkd_id!(params[:id]).end_user_link",
-      "confidence": "Weak",
-      "cwe_id": [
-        79
-      ],
-      "note": "end user link is a database value; safe"
     },
     {
       "warning_type": "File Access",
@@ -357,7 +266,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/collection/users_controller.rb",
-      "line": 42,
+      "line": 44,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:role, :collection_ids => ([]))",
       "render_path": null,
@@ -380,7 +289,7 @@
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/views/batch/show.html.erb",
-      "line": 116,
+      "line": 118,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
       "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
       "render_path": [
@@ -408,6 +317,6 @@
       "note": ""
     }
   ],
-  "updated": "2023-02-24 13:41:40 +0100",
-  "brakeman_version": "5.4.1"
+  "updated": "2024-11-29 17:41:56 +0100",
+  "brakeman_version": "6.1.2"
 }
