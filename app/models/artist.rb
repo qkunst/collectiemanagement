@@ -126,7 +126,7 @@ class Artist < ApplicationRecord
   end
 
   def rkd_artist
-    RKD::Artist.find(rkd_artist_id) if rkd_artist_id > 0
+    RKD::Artist.find(rkd_artist_id) if rkd_artist_id.to_i > 0
   end
 
   def rkd_artists

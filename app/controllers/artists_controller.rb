@@ -2,11 +2,9 @@
 
 class ArtistsController < ApplicationController
   before_action :set_collection
-  before_action :authenticate_admin_user!, only: [:clean, :combine, :combine_prepare]
-  before_action :authenticate_qkunst_user!, only: [:edit, :update, :destroy, :new, :create]
   before_action :authenticate_qkunst_user_if_no_collection!
   before_action :set_new_artist, only: [:new]
-  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :rkd_artists]
+  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare]
   before_action :retrieve_rkd_artists, only: [:show]
   before_action :authenticate_admin_user_when_no_collection
   before_action :populate_collection_attributes_for_artist, only: [:edit, :new]
@@ -98,6 +96,8 @@ class ArtistsController < ApplicationController
   # PATCH/PUT /artists/1
   # PATCH/PUT /artists/1.json
   def update
+    authorize! :update, @artist
+
     if @artist.update(artist_params)
       if artist_params["rkd_artist_id"] && (artist_params["rkd_artist_id"].to_i > 0) && (artist_params.keys.count == 1)
         redirect_to [@collection, @artist].compact, notice: "De vervaardiger is gekoppeld"
@@ -114,18 +114,10 @@ class ArtistsController < ApplicationController
   # DELETE /artists/1
   # DELETE /artists/1.json
   def destroy
+    authorize! :destroy, @artist
+
     @artist.destroy
     redirect_to artists_url, notice: "De vervaardiger is verwijderd."
-  end
-
-  def rkd_artists
-    @q = params[:q].to_s.strip
-    if !@q.empty?
-      @rkd_artists = RkdArtist.search_rkd @q
-    else
-      @q = @artist.search_name
-      @rkd_artists = @artist.retrieve_rkd_artists!
-    end
   end
 
   private

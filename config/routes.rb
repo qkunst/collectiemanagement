@@ -124,13 +124,13 @@ Rails.application.routes.draw do
     resources :artists do
       get "combine_prepare" => "artists#combine_prepare"
       patch "combine" => "artists#combine"
-      get "rkd_artists" => "artists#rkd_artists"
 
+      resources :rkd_artists, module: :r_k_d, controller: :artists
       resources :artist_involvements
       resources :attachments
       resources :library_items
     end
-    resources :rkd_artists do
+    resources :rkd_artists, module: :r_k_d, controller: :artists do
       patch "copy" => "rkd_artists#copy"
     end
 
@@ -163,7 +163,7 @@ Rails.application.routes.draw do
   resources :artists do
     get "combine_prepare" => "artists#combine_prepare"
     patch "combine" => "artists#combine"
-    get "rkd_artists" => "artists#rkd_artists"
+    resources :rkd_artists, module: :r_k_d, controller: :artists
     get "old_data" => "artists#show_old_data"
 
     resources :artist_involvements

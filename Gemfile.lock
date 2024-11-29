@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/murb/rkd.git
-  revision: b47c32ce33dad19c8ef437837afcb9ad31f9ba23
+  revision: c0da28a6e672a98b4735e1948c8b077ffc6c17a2
   specs:
     rkd (0.2.0)
 
@@ -494,7 +494,7 @@ GEM
     redis-store (1.11.0)
       redis (>= 4, < 6)
     regexp_parser (2.9.2)
-    reline (0.5.11)
+    reline (0.5.12)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
@@ -536,7 +536,7 @@ GEM
       rubocop-ast (>= 1.32.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.36.1)
+    rubocop-ast (1.36.2)
       parser (>= 3.3.1.0)
     rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)

@@ -27,7 +27,7 @@
       <% if admin_user? %>
         <li><%= link_to 'Combineer', artist_combine_prepare_path(@artist), class: [:secondary, :small, :button, :right] %></li>
       <% end %>
-      <% if can?(:read, RkdArtist) %>
+      <% if can?(:read, RKD::Artist) %>
         <li><%= link_to  @artist.rkd_artist ? "Beheer RKD koppeling" : "Maak RKD koppeling", (@collection ? collection_artist_rkd_artists_path(@collection, @artist) : artist_rkd_artists_path(@artist)), class: [:small,:button, :right, :secondary ] %></p>
 
       <% end %>
@@ -94,7 +94,7 @@
         <% end %>
       </ul>
     <% end %>
-    <% if can?(:read, RkdArtist) %>
+    <% if can?(:read, RKD::Artist) %>
       <h3>RKDartists&amp;</h3>
       <% if @artist.rkd_artist %>
         <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>

@@ -251,7 +251,7 @@ class Ability
     can :manage, Message
     can :manage, Owner
 
-    can [:read, :copy], RkdArtist
+    can [:read, :copy], RKD::Artist
 
     can [:edit_visibility, :update], Attachment, collection_id: accessible_collection_ids
     can :manage, LibraryItem
@@ -270,7 +270,7 @@ class Ability
     can [:create, :read, :update], ArtistInvolvement
     can [:create, :read, :update, :destroy], WorkSet
 
-    can [:read, :copy], RkdArtist
+    can [:read, :copy], RKD::Artist
     can [:create, :update, :read], Appraisal
     can [:create, :update, :read], CustomReport, collection_id: accessible_collection_ids
     can :manage, LibraryItem, collection_id: accessible_collection_ids
@@ -298,7 +298,7 @@ class Ability
     cannot [:create, :edit, :update, :tag], :all
 
     can [:read, :review_collection], Artist
-    can :read, RkdArtist
+    can :read, RKD::Artist
     can [:read], WorkSet
 
     can :review_collection, Cluster, collection_id: accessible_collection_ids
@@ -334,7 +334,7 @@ class Ability
   def initialize_appraiser
     can [:create, :update, :read, :manage_collection], Artist
     can [:create, :update], ArtistInvolvement
-    can [:read, :copy], RkdArtist
+    can [:read, :copy], RKD::Artist
     can [:create, :read, :update, :destroy], WorkSet
 
     can [:create, :update, :read], Appraisal do |appraisal|
@@ -360,7 +360,7 @@ class Ability
   def initialize_registrator
     can [:create, :update, :read, :manage_collection], Artist
     can [:create, :update], ArtistInvolvement
-    can [:read, :copy], RkdArtist
+    can [:read, :copy], RKD::Artist
     can [:create, :read, :update], WorkSet
     can :manage, TimeSpan
     can [:read, :create, :update], Attachment, collection_id: accessible_collection_ids

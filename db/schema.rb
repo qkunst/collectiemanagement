@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_20_151126) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -525,16 +525,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_20_151126) do
     t.bigint "collection_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "rkd_artists", force: :cascade do |t|
-    t.bigint "rkd_id"
-    t.string "name"
-    t.string "api_response_source_url"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.json "api_response"
-    t.index ["rkd_id"], name: "index_rkd_artists_on_rkd_id"
   end
 
   create_table "sources", force: :cascade do |t|

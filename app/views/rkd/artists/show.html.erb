@@ -5,3 +5,12 @@
 <% end %>
 <h1>RKDartist <%= @rkd_artist.identifier%>: <%= @rkd_artist.name %></h1>
 <p>Het overnemen van gegevens wordt binnenkort weer aangeboden (na voltooiing API wijzigingen). Nog even geduld.</p>
+  <% if can?(:update, Artist) and @artist %>
+  <nav class="actions" aria-label="Vervaardigersacties">
+      <% if @artist.rkd_artist_id == @rkd_artist.identifier.to_i %>
+        <%= button_to 'Ontkoppel van deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %>
+      <% else %>
+        <%= button_to 'Koppel met deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => @rkd_artist.identifier}, method: :patch, class: 'small secondary button' %>
+      <% end %>
+  </nav>
+  <% end %>
