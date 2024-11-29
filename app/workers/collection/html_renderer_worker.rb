@@ -73,7 +73,7 @@ class Collection::HtmlRendererWorker
     File.write(filename, html)
 
     if options[:generate_pdf] && options[:send_message]
-      PdfPrinterWorker.perform_async(filename, inform_user_id: (options[:send_message] ? as_user_id : nil), subject_object_id: @collection.id, subject_object_type: "Collection")
+      PdfPrinterWorker.perform_async(filename.to_s, {inform_user_id: (options[:send_message] ? as_user_id : nil), subject_object_id: @collection.id, subject_object_type: "Collection"}.stringify_keys)
     elsif !options[:generate_pdf] && options[:send_message]
       Message.create(to_user_id: inform_user_id, subject_object: subject_object, from_user_name: "Download voorbereider", attachment: File.open(filename), message: "De download is gereed, open het bericht in je browser om de bijlage te downloaden.\n\nFormaat: HTML", subject: "HTML download gereed")
     end
