@@ -44,7 +44,6 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :big_thumb do
     process resize_to_fit: [250, 250]
-    process optimize: [{quality: 40}]
   end
 
   def process_now?(work)
@@ -95,7 +94,11 @@ class UnsecureTmpBasicPictureUploader < CarrierWave::Uploader::Base
       "achter" => :photo_back,
       "back" => :photo_back,
       "detail 1" => :photo_detail_1,
-      "detail 2" => :photo_detail_2
+      "detail 2" => :photo_detail_2,
+      "detail_1" => :photo_detail_1,
+      "detail_2" => :photo_detail_2,
+      "detail1" => :photo_detail_1,
+      "detail2" => :photo_detail_2
       # "detail" => :photo_detail_1
     }
 
