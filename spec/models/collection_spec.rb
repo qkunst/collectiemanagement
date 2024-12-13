@@ -31,7 +31,7 @@
 #  work_attributes_present_cache             :text
 #  created_at                                :datetime         not null
 #  updated_at                                :datetime         not null
-#  parent_collection_id                      :bigint           default(1)
+#  parent_collection_id                      :bigint           default(7)
 #
 # Indexes
 #

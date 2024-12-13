@@ -72,8 +72,8 @@
 #  refound_at                                          :datetime
 #  removed_from_collection_at                          :datetime
 #  replacement_value                                   :decimal(16, 2)
-#  replacement_value_max                               :decimal(, )
-#  replacement_value_min                               :decimal(, )
+#  replacement_value_max                               :decimal(16, 2)
+#  replacement_value_min                               :decimal(16, 2)
 #  selling_price                                       :decimal(16, 2)
 #  selling_price_minimum_bid_comments                  :text
 #  signature_comments                                  :text
