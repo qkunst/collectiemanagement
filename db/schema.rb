@@ -813,6 +813,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
     t.datetime "new_found_at", precision: nil
     t.decimal "market_value_min", precision: 16, scale: 2
     t.decimal "market_value_max", precision: 16, scale: 2
+    t.decimal "replacement_value_min", precision: 16, scale: 2
+    t.decimal "replacement_value_max", precision: 16, scale: 2
     t.decimal "minimum_bid", precision: 16, scale: 2
     t.decimal "selling_price", precision: 16, scale: 2
     t.boolean "print_unknown"
@@ -834,8 +836,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
     t.boolean "publish_selling_price", default: true
     t.datetime "checked_at"
     t.integer "main_location_id"
-    t.decimal "replacement_value_max"
-    t.decimal "replacement_value_min"
     t.float "weight"
     t.string "dimension_weight_description"
     t.index ["alt_number_1"], name: "index_works_on_alt_number_1"
