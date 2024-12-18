@@ -26,8 +26,6 @@ class Works::TitleLabels
 
     Prawn::Labels.new(works, type: "A7") do |pdf, work|
       number = work.stock_number || "DB#{work.id.to_s.rjust(8, "0")}"
-      url = URI.join(base_url, "#{code}/", number).to_s
-      url = [url, resource_variant].compact.join(".")
       margin = 5
       grid = Grid.new(columns: 4, rows: 4, outer_width: pdf.bounds.width, outer_height: pdf.bounds.height, margin:)
 
@@ -53,6 +51,8 @@ class Works::TitleLabels
         end
 
         if qr_code_enabled
+          url = URI.join(base_url, "#{code}/", number).to_s
+          url = [url, resource_variant].compact.join(".")
           pdf.bounding_box(*grid.area_bounding_box([3, 3])) do
             pdf.qrcode(url, color: foreground_color)
           end

@@ -11,6 +11,7 @@ gem "rails", "~>7.2.0"
 # gem "markdown-rails"
 gem "puma"
 gem "rkd", git: "https://gitlab.com/murb/rkd.git" # , require: "r_k_d"
+gem "namae"
 # Use SCSS for stylesheets
 gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
