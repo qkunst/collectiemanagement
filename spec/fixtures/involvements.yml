@@ -2,12 +2,13 @@
 #
 # Table name: involvements
 #
-#  id               :bigint           not null, primary key
-#  name             :string
-#  place            :string
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  place_geoname_id :bigint
+#  id                 :bigint           not null, primary key
+#  external_reference :string
+#  name               :string
+#  place              :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  place_geoname_id   :bigint
 #
 involvement1:
   name: Involvement 1

@@ -7,7 +7,7 @@
     <% end %>
     <p>
     <% if artist.born? %>
-      <%=@artist.date_of_birth ? I18n.l(@artist.date_of_birth, format: :long) : @artist.year_of_birth%>
+      <%= artist.date_of_birth ? I18n.l(artist.date_of_birth, format: :long) : artist.year_of_birth%>
       <% if artist.place_of_birth? %>
         te <%= artist.place_of_birth %><% if artist.place_of_birth and artist.place_of_birth_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%>
       <% end %>
@@ -15,7 +15,7 @@
 
     <% if artist.died? %>
       -
-      <%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%>
+      <%=artist.date_of_death ? I18n.l(artist.date_of_death, format: :long) : artist.year_of_death%>
       <% if artist.place_of_death? %>
         te <%= artist.place_of_death %><% if artist.place_of_death and artist.place_of_death_geoname_id == nil %><span title="Plaatsnaam niet teruggevonden in gestructureerde plaatsnamen tabel">*</span><% end%>
       <% end %>
@@ -25,9 +25,16 @@
       <dt>Gender</dt>
       <dd><%= I18n.t artist.gender, scope: "activerecord.values.artist.gender" %></dd>
       <% end %>
+      <% if artist.name_variants.any? %>
+          <dt>Varianten van de naam</dt><dd><%= artist.name_variants.join("; ") %></dd>
+      <% end %>
       <% if artist.techniques.as_sentence != ""%>
         <dt>Technieken</dt>
-        <dd><%= artist.techniques.as_sentence %><% end %><% if artist.subsets.as_sentence != ""%>; Deelcollecties: <%= artist.subsets.as_sentence %><% end %></dd>
+        <dd><%= artist.techniques.as_sentence %></dd>
+      <% end %>
+      <% if artist.subsets.as_sentence != ""%>
+          <dt>Deelcollecties</dt><dd><%= artist.subsets.as_sentence %></dd>
+      <% end %>
     </dl>
   </header>
   <% if @show_full_artists %>

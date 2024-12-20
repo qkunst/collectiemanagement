@@ -49,7 +49,7 @@ GIT
 
 GIT
   remote: https://gitlab.com/murb/rkd.git
-  revision: 5548b07d2efd5a727e45fb943ed104acbd2cf992
+  revision: ff02f2ff7f5d8aa1591009a6f7fc13b78fb95f99
   specs:
     rkd (0.2.0)
 

@@ -13,6 +13,7 @@
 #  gender                    :string
 #  geoname_ids_cache         :text
 #  last_name                 :string
+#  name_variants             :string           default([]), is an Array
 #  old_data                  :text
 #  other_structured_data     :text
 #  place_of_birth            :string

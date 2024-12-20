@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_18_150819) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -74,6 +74,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
     t.float "place_of_death_lon"
     t.float "place_of_birth_lat"
     t.float "place_of_birth_lon"
+    t.string "name_variants", default: [], array: true
   end
 
   create_table "artists_attachments", id: false, force: :cascade do |t|
@@ -412,6 +413,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_29_160201) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "place_geoname_id"
+    t.string "external_reference"
   end
 
   create_table "library_items", force: :cascade do |t|

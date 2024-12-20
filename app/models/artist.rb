@@ -13,6 +13,7 @@
 #  gender                    :string
 #  geoname_ids_cache         :text
 #  last_name                 :string
+#  name_variants             :string           default([]), is an Array
 #  old_data                  :text
 #  other_structured_data     :text
 #  place_of_birth            :string
@@ -247,6 +248,14 @@ class Artist < ApplicationRecord
     save
   end
 
+  def rkd_artist_as_artist
+    self.class.initialize_from_rkd_artist(rkd_artist)
+  end
+
+  def import_rkd_artist_as_artist
+    import!(rkd_artist_as_artist)
+  end
+
   private
 
   def update_artist_name_rendered_async
@@ -327,7 +336,65 @@ class Artist < ApplicationRecord
     end
 
     def initialize_from_rkd_artist(rkd_artist)
-      new
+      artist = new
+
+      artist_name = (!rkd_artist.name.match(/\s/)) ? rkd_artist.name : nil
+      if artist_name
+        artist.artist_name = artist_name
+      else
+        parsed_name = Namae.parse(rkd_artist.name).first
+        if parsed_name
+          artist.first_name = parsed_name.given
+          artist.last_name = parsed_name.family
+          artist.prefix = parsed_name.particle
+        else
+          artist.artist_name = artist_name
+        end
+      end
+      artist.date_of_birth = rkd_artist.birth_date
+      artist.date_of_death = rkd_artist.death_date
+      artist.year_of_birth = rkd_artist.birth_date&.year
+      artist.year_of_death = rkd_artist.death_date&.year
+      artist.gender = if rkd_artist.gender.to_s == "male"
+        "man"
+      elsif rkd_artist.gender.to_s == "female"
+        "woman"
+      end
+      artist.place_of_birth = rkd_artist.birth_place_desc
+      artist.place_of_death = rkd_artist.death_place_desc
+      artist.place_of_birth_geoname_id = rkd_artist.birth_place&.geoname_id
+      artist.place_of_birth_lat = rkd_artist.birth_place&.lat
+      artist.place_of_birth_lon = rkd_artist.birth_place&.lon
+      artist.place_of_death_geoname_id = rkd_artist.death_place&.geoname_id
+      artist.place_of_death_lat = rkd_artist.death_place&.lat
+      artist.place_of_death_lon = rkd_artist.death_place&.lon
+      artist.rkd_artist_id = rkd_artist.identifier
+      artist.name_variants = rkd_artist.name_variants
+
+      artist.artist_involvements = rkd_artist.performances.map do |performance|
+        artist_involvement = ArtistInvolvement.new
+        artist_involvement.artist = artist
+        artist_involvement.place = performance.place&.label
+        artist_involvement.place_geoname_id = performance.place&.geoname_id
+        if performance.institution
+          artist_involvement.involvement = Involvement.find_or_initialize_by(external_reference: performance.institution.id)
+          artist_involvement.involvement.place = performance.institution.place&.label
+          artist_involvement.involvement.name = performance.institution.label
+          artist_involvement.place ||= performance.institution.place&.label
+          artist_involvement.place_geoname_id ||= performance.institution.place&.geoname_id
+        end
+        artist_involvement.end_year = performance.date_span&.end&.year
+        artist_involvement.start_year = performance.date_span&.begin&.year
+        artist_involvement.involvement_type = if performance.is_a?(RKD::Performance::Study)
+          :educational
+        elsif performance.is_a?(RKD::Performance::Work)
+          :professional
+        end
+
+        artist_involvement
+      end
+
+      artist
     end
   end
 end

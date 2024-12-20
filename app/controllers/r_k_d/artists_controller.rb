@@ -1,24 +1,22 @@
 # frozen_string_literal: true
 
 class RKD::ArtistsController < ApplicationController
-  # before_action :authenticate_admin_user!
   before_action :set_collection
-  before_action :set_artist
+  before_action :set_artist, except: [:index]
 
   def index
+    authorize! :index, RKD::Artist
     @q = params[:q]
-    @rkd_artists = RKD::Artist.search(params[:q] || @artist.name)
+    @rkd_artists = RKD::Artist.search(params[:q] || @artist&.name)
   end
 
   def show
-    @rkd_artist = RKD::Artist.find(params[:id])
     authorize! :show, @rkd_artist
-    @new_artist = Artist.initialize_from_rkd_artist(@rkd_artist)
+    @new_artist = ::Artist.initialize_from_rkd_artist(@rkd_artist)
     @show_full_artists = true
   end
 
   def copy
-    @rkd_artist = RKD::Artist.find_by_rkd_id!(params[:rkd_artist_id])
     authorize! :copy, @rkd_artist
     @new_artist = @rkd_artist.to_artist
     @artist.import!(@new_artist)
@@ -33,9 +31,13 @@ class RKD::ArtistsController < ApplicationController
   private
 
   def set_artist
+    @rkd_artist = RKD::Artist.find(params[:rkd_artist_id] || params[:id])
+
     if params[:artist_id]
       @artist = Artist.find_by_id(params[:artist_id])
       authorize! :show, @artist
     end
+  rescue RKD::Artist::NotFoundError => e
+    raise ActiveRecord::RecordNotFound.new("rkd artist with  not found (#{e.message})")
   end
 end

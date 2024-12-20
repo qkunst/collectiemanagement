@@ -1,13 +1,18 @@
 <div class="row columns">
   <header class="row">
     <div class="large-12 columns">
+      <% if @artist%>
       <p><%= link_to '← Terug naar de vervaardigerspagina', artist_path(@artist)%></p>
       <h1>Mogelijke RKD koppelingen voor <%= link_to @artist.name, @artist %></h1>
+      <% else %>
+      <h1>Mogelijke RKD koppelingen voor <%= params[:q] %></h1>
+      <% end %>
     </div>
 
   </header>
   <div class="row">
     <div class="medium-9 columns">
+  <% if @artist %>
   <p>Zoek naar mogelijke overeenkomende vervaardigers in RKDartists&amp;. Klik op 'koppel' om een RKDartist-vermelding te koppelen aan een vervaardiger in de <%=I18n.t("application.name")%> vervaardigers-database, klik op de naam om details te bekijken van de vermelding in het RKD.</p>
   <form action="<%=artist_rkd_artists_path(@artist)%>" method="get">
     <div class="row">
@@ -15,6 +20,7 @@
       <div class="medium-2 columns"><input type="submit" value="Zoek" class="button expanded" /></div>
     </div>
   </form>
+  <% end %>
   <h4>Resultaten</h4>
   <div class="panel">
     <p><strong>Vind je niet wat je zoekt?</strong> Zoek dan de vervaardiger zelf handmatig op in het RKD en gebruik de RKD id (vaak 4 of 5 cijferige code) die je terug vind op de vervaardigerspagina, rechtsbovenin, net boven het sterretje.</p>
@@ -30,7 +36,7 @@
     </div>
 
     <aside class="medium-3 columns">
-      <% if @artist.rkd_artist %>
+      <% if @artist&.rkd_artist %>
         <p>Deze vervaardiger is gekoppeld aan het volgende record in de RKDartists&amp;-database.</p>
         <%= render @artist.rkd_artist %>
         <hr />
