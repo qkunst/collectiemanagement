@@ -5,7 +5,7 @@ require_relative "feature_helper"
 RSpec.feature "Navigate works", type: :feature do
   include FeatureHelper
 
-  let(:fake_rkd_artist) { RKD::Artist.new(identifier: 123, name: "Artist 2") }
+  let(:fake_rkd_artist) { RKD::Artist.new(identifier: 123, name: "Artist 2", gender: "female") }
 
   before do
     allow(RKD::Artist).to receive(:search).and_return([fake_rkd_artist])
@@ -70,7 +70,6 @@ RSpec.feature "Navigate works", type: :feature do
     # click_on "Neem informatie over uit het RKD"
     # expect(page).to have_content("De gegevens zijn bijgewerkt met de gegevens uit het RKD")
     # expect(page).to have_content("Koninklijke Academie van Beeldende Kunsten (Den Haag)")
-    expect(page).not_to have_content("Combineer")
   end
   scenario "appraiser" do
     login "qkunst-test-appraiser@murb.nl"
@@ -99,7 +98,6 @@ RSpec.feature "Navigate works", type: :feature do
     click_on "Maak RKD koppeling"
     click_on "123: Artist 2"
     expect(page).to have_content("123: Artist 2")
-
     click_on "Koppel met deze vervaardiger"
     expect(page).to have_content("De vervaardiger is gekoppeld")
 
@@ -136,6 +134,7 @@ RSpec.feature "Navigate works", type: :feature do
     fill_in "Voornaam", with: "Nieuwe voornaam"
     click_on "Vervaardiger bewaren"
     expect(page).to have_content "Nieuwe voornaam"
+    expect(page).not_to have_content "vrouw"
     expect(page).to have_content("Collection 1")
     click_on "Maak RKD koppeling"
     click_on "123: Artist 2"
@@ -153,7 +152,10 @@ RSpec.feature "Navigate works", type: :feature do
     select "Involvement 1"
     click_on "Vervaardigersbetrekking toevoegen"
     expect(page).to have_content("Betrekking toegevoegd")
-    click_on "Beheer RKD koppeling"
+    click_on "123: Artist 2"
+    click_on "Koppel en kopieer gegevens"
+    expect(page).to have_content("De vervaardiger is gekoppeld & de gegevens zijn overgenomen.")
+    expect(page).to have_content "vrouw"
   end
   scenario "compliance" do
     login "qkunst-test-compliance@murb.nl"

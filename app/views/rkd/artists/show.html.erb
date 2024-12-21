@@ -1,30 +1,23 @@
-<% if admin_user? and @artist %>
+<% if admin_user? && @artist %>
 <p><%= link_to '← Terug naar de vervaardigerspagina', [@collection,@artist].compact%></p>
 <% else %>
 <p><%= link_to '← Terug ', 'javascript:history.back(1)'%></p>
 <% end %>
 <h1>RKDartist <%= @rkd_artist.identifier%>: <%= @rkd_artist.name %></h1>
-<% if can?(:update, Artist) and @artist %>
-<p>Het overnemen van gegevens wordt binnenkort weer aangeboden (na voltooiing API wijzigingen). Nog even geduld.</p>
+<% if can?(:update, Artist) && @artist %>
 <nav class="actions " aria-label="Vervaardigersacties">
-    <ul class="menu">
-      <% if @artist.rkd_artist_id == @rkd_artist.identifier.to_i %>
-        <li><%= button_to 'Ontkoppel van deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
-      <% else %>
-        <li><%= button_to 'Koppel met deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => @rkd_artist.identifier}, method: :patch, class: 'small secondary button' %></li>
-      <% end %>
-        <li><%= button_to 'Koppel en kopieer gegevens', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" =>  @rkd_artist.identifier, "copy_rkd_artist" => true}, method: :patch, class: 'small button' %></li>
-      <li><%= link_to('Toon artist op RKD ➔',  @rkd_artist.public_url, class: [:small, :secondary, :button], target: "_blank") if @rkd_artist %></li>
-    </ul>
+  <ul class="menu">
+    <% if @artist.rkd_artist_id == @rkd_artist.identifier.to_i %>
+      <li><%= button_to 'Ontkoppel van deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => -1}, method: :patch, class: 'small secondary button warning' %></li>
+    <% else %>
+      <li><%= button_to 'Koppel met deze vervaardiger', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" => @rkd_artist.identifier}, method: :patch, class: 'small secondary button' %></li>
+    <% end %>
+    <li><%= button_to 'Koppel en kopieer gegevens', [@collection, @artist].compact, params: {"artist[rkd_artist_id]" =>  @rkd_artist.identifier, "copy_rkd_artist" => true}, method: :patch, class: 'small button' %></li>
+    <li><%= link_to('Toon artist op RKD ➔',  @rkd_artist.public_url, class: [:small, :secondary, :button], target: "_blank") if @rkd_artist %></li>
+  </ul>
 </nav>
 <% end %>
 <hr/>
-  <nav class="actions" aria-label="Vervaardigersacties">
-    <ul class="menu">
-      <li class="right"></li>
-    </ul>
-  </nav>
-
 <div class="row">
   <div class="medium-6 columns">
     <h3>Huidige informatie in <%=I18n.t("application.name")%> Vervaardigersdatabase</h3>

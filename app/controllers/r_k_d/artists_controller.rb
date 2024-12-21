@@ -2,7 +2,7 @@
 
 class RKD::ArtistsController < ApplicationController
   before_action :set_collection
-  before_action :set_artist, except: [:index]
+  before_action :set_artist
 
   def index
     authorize! :index, RKD::Artist
@@ -31,7 +31,9 @@ class RKD::ArtistsController < ApplicationController
   private
 
   def set_artist
-    @rkd_artist = RKD::Artist.find(params[:rkd_artist_id] || params[:id])
+    if (rkd_artist_id = params[:rkd_artist_id] || params[:id])
+      @rkd_artist = RKD::Artist.find(rkd_artist_id)
+    end
 
     if params[:artist_id]
       @artist = Artist.find_by_id(params[:artist_id])

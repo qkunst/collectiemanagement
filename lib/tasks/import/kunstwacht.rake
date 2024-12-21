@@ -622,8 +622,6 @@ namespace :import do
     collection = Collection.find_or_create_by(name: "CIS Rijk")
     json = JSON.parse(File.read(Rails.root.join("data/import/cisrijk.json")))
 
-    # binding.irb
-
     json.each do |json_work|
       print "🆕"
       w = Work.find_or_initialize_by(stock_number: json_work["inventoryNumber"], collection: collection)
@@ -700,7 +698,6 @@ namespace :import do
       w.object_categories = [category_type_map[json_work["type"]]].compact
       w.tag_list << "type:#{json_work["type"]}" if json_work["type"]
       w.object_categories = [ObjectCategory.find_by_name("Sculptuur (buiten)")] if w.object_categories.pluck(:id) == ObjectCategory.where(name: "Sculptuur (binnen)").pluck(:id) && object_placement == :buiten
-      # binding.irb
       materials = ([json_work.delete("materials")] + [json_work.delete("aatMaterials")]).flatten.compact.uniq
       json_work["materials"] = materials
       material_values = materials.map { |material| material_map[material] }.compact
