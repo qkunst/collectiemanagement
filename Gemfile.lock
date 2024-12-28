@@ -727,6 +727,8 @@ DEPENDENCIES
   mini_magick
   namae
   nested_form
+  net-protocol
+  net-smtp
   nokogiri
   omniauth
   omniauth-azure-activedirectory!

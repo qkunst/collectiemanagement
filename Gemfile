@@ -14,6 +14,8 @@ gem "rkd", git: "https://gitlab.com/murb/rkd.git" # , require: "r_k_d"
 gem "namae"
 # Use SCSS for stylesheets
 gem "sass-rails"
+gem "net-smtp"
+gem "net-protocol"
 # Use Uglifier as compressor for JavaScript assets
 # gem "uglifier"
 # Use CoffeeScript for .coffee assets and views
