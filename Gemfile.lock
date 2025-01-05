@@ -565,7 +565,7 @@ GEM
     ruby-vips (2.2.2)
       ffi (~> 1.12)
       logger
-    rubyzip (2.4)
+    rubyzip (2.3.2)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     sass (3.7.4)
@@ -770,6 +770,7 @@ DEPENDENCIES
   rspec-openapi
   rspec-rails
   rspec_junit_formatter
+  rubyzip (= 2.3.2)
   sass-rails
   sidekiq
   sidekiq-scheduler

@@ -122,6 +122,7 @@ gem "redis-rails" # jobs
 gem "dalli" # memcache
 gem "exception_notification"
 gem "zipline"
+gem "rubyzip", "2.3.2"
 gem "rack-headers_filter"
 gem "strip_attributes"
 gem "omniauth"
