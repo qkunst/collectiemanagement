@@ -20,6 +20,10 @@ nl:
       zero: geen vervaardigers
       one: 1 vervaardiger
       other: ! '%{count} vervaardigers'
+    possible_matches:
+      zero: geen hits in gevonden
+      one: 1 mogelijke match gevonden
+      other: ! '%{count} mogelijke matches gevonden'
   simple_form:
     include_blanks:
       theme:
@@ -327,6 +331,9 @@ nl:
         date_of_birth: Geboortedatum
         date_of_death: Datum van overlijden
         gender: Gender
+        collectie_nederland_total_results: Aantal mogelijke resultaten gevonden in CollectieNederland
+        collectie_nederland_received_at: Gegevens het laatst opgehaald uit CollectieNederland op
+        combined_name_variants: Gebruikte zoektermen in externe database
       artist_involvement:
         involvement: Instelling
         start_year: Vanaf (jaar)

@@ -1,0 +1,13 @@
+<h1>CollectieNederland resultaten voor <%= @artist.name%></h1>
+<%= button_to "Update gegevens", [@collection, @artist, :collectie_nederland_summary], method: :patch, class: :button if can? :collectie_nederland_summary_update, @artist%>
+<%= definition_list_for @artist do %>
+  <%= define_unless_blank :collectie_nederland_total_results%>
+  <%= define_unless_blank :collectie_nederland_received_at%>
+  <%= define :combined_name_variants, value: "a" %>
+<% end %>
+<% if @artist.collectie_nederland_summary%>
+<hr/>
+<%= render @artist.collectie_nederland_summary%>
+<% else %>
+<p>Geen resultaten, gegevens moeten eerst opgehaald worden bij CollectieNederland</p>
+<% end %>

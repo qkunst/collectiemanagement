@@ -45,9 +45,14 @@ module DefineTasticHelper
   end
 
   def define_unless_blank property, options = {}
+    value = value_render(property, options)
+    define(property, options) if define?(property, {value:}.merge(options))
+  end
+
+  def define property, options = {}
     description = options[:description] || @define_tastic_object_klass.human_attribute_name(property)
     value = value_render(property, options)
-    render_definition(description, value, options) if define?(property, {value:}.merge(options))
+    render_definition(description, value, options)
   end
 
   def humanize_value val, options = {}

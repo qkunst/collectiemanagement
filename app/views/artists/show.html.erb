@@ -47,10 +47,10 @@
       <dt>Gestorven:</dt>
       <dd><%=@artist.date_of_death ? I18n.l(@artist.date_of_death, format: :long) : @artist.year_of_death%><% if @artist.place_of_birth %> te <%=  @artist.place_of_death %><% end %>
     <% end %>
-    <% if @artist.techniques.as_sentence != ""%><dt>Technieken:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
-    <% if @artist.subsets.as_sentence != ""%><dt>Deelcollecties:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
-    <% if @artist.techniques.as_sentence != ""%><dt><%=Artist.human_attribute_name(:gender)%>:</dt><dd><dd><%= I18n.t @artist.gender, scope: "activerecord.values.artist.gender" %></dd><% end %>
-
+    <% if @artist.techniques.as_sentence != ""%><dt><%=Artist.human_attribute_name(:techniques)%>:</dt><dd><%= @artist.techniques.as_sentence %></dd><% end %>
+    <% if @artist.subsets.as_sentence != ""%><dt><%=Artist.human_attribute_name(:subsets)%>:</dt><dd><%= @artist.subsets.as_sentence %></dd><% end %>
+    <% if @artist.gender.present? %><dt><%=Artist.human_attribute_name(:gender)%>:</dt><dd><%= I18n.t @artist.gender, scope: "activerecord.values.artist.gender" %></dd><% end %>
+    <dt><%=Artist.human_attribute_name(:collectie_nederland_total_results)%>:</dt><dd><%=link_to I18n.t("count.possible_matches", count: @artist.collectie_nederland_total_results.to_i).upcase_first,[@artist,:collectie_nederland_summary] %> (<% if @artist.collectie_nederland_summary %>laatste controle <%= I18n.l(@artist.collectie_nederland_summary.received_at.to_date, format: :short)%><% else %>Geen gegevens bekend<% end %>)</dd>
     <% if @collection%>
       <% @artist.collection_attributes.for_collection(@collection.parent_collections_flattened + @collection.expand_with_child_collections).each do |collection_attribute| %>
         <dt title="<%=collection_attribute.label%> uit collectie <%=collection_attribute.collection.cached_collection_name_extended%>"><%=collection_attribute.label%>:</dt>

@@ -4,7 +4,7 @@ class ArtistsController < ApplicationController
   before_action :set_collection
   before_action :authenticate_qkunst_user_if_no_collection!
   before_action :set_new_artist, only: [:new]
-  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare]
+  before_action :set_artist, only: [:show, :edit, :update, :destroy, :combine, :combine_prepare, :collectie_nederland_summary, :collectie_nederland_summary_update]
   before_action :retrieve_rkd_artists, only: [:show]
   before_action :authenticate_admin_user_when_no_collection
   before_action :populate_collection_attributes_for_artist, only: [:edit, :new]
@@ -123,6 +123,20 @@ class ArtistsController < ApplicationController
 
     @artist.destroy
     redirect_to artists_url, notice: "De vervaardiger is verwijderd."
+  end
+
+  def collectie_nederland_summary
+  end
+
+  def collectie_nederland_summary_update
+    authorize! :collectie_nederland_summary_update, @artist
+
+    @artist.store_collectie_nederland_summary
+    if @artist.save
+      redirect_to artist_collectie_nederland_summary_path(@artist), notice: "Bijgewerkt"
+    else
+      redirect_to artist_collectie_nederland_summary_path(@artist), notice: "Bijwerken lukte niet"
+    end
   end
 
   private

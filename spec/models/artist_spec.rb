@@ -4,55 +4,55 @@
 #
 # Table name: artists
 #
-#  id                        :bigint           not null, primary key
-#  artist_name               :string
-#  date_of_birth             :date
-#  date_of_death             :date
-#  description               :text
-#  first_name                :string
-#  gender                    :string
-#  geoname_ids_cache         :text
-#  last_name                 :string
-#  name_variants             :string           default([]), is an Array
-#  old_data                  :text
-#  other_structured_data     :text
-#  place_of_birth            :string
-#  place_of_birth_lat        :float
-#  place_of_birth_lon        :float
-#  place_of_death            :string
-#  place_of_death_lat        :float
-#  place_of_death_lon        :float
-#  prefix                    :string
-#  year_of_birth             :integer
-#  year_of_death             :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  import_collection_id      :bigint
-#  place_of_birth_geoname_id :bigint
-#  place_of_death_geoname_id :bigint
-#  replaced_by_artist_id     :bigint
-#  rkd_artist_id             :bigint
+#  id                          :bigint           not null, primary key
+#  artist_name                 :string
+#  collectie_nederland_summary :jsonb
+#  date_of_birth               :date
+#  date_of_death               :date
+#  description                 :text
+#  first_name                  :string
+#  gender                      :string
+#  geoname_ids_cache           :text
+#  last_name                   :string
+#  name_variants               :string           default([]), is an Array
+#  old_data                    :text
+#  other_structured_data       :text
+#  place_of_birth              :string
+#  place_of_birth_lat          :float
+#  place_of_birth_lon          :float
+#  place_of_death              :string
+#  place_of_death_lat          :float
+#  place_of_death_lon          :float
+#  prefix                      :string
+#  year_of_birth               :integer
+#  year_of_death               :integer
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  import_collection_id        :bigint
+#  place_of_birth_geoname_id   :bigint
+#  place_of_death_geoname_id   :bigint
+#  replaced_by_artist_id       :bigint
+#  rkd_artist_id               :bigint
 #
 require "rails_helper"
 
 RSpec.describe Artist, type: :model do
+  let(:artist) { artists(:artist1) }
   describe "#collection_attributes_attributes=" do
     it "should create collection attributes" do
-      a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      artist.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
 
-      expect(a.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
+      expect(artist.collection_attributes.for_collection(c).map(&:label)).to include("Label for artist spec")
     end
     it "should destroy collection attributes when emptied" do
-      a = artists(:artist1)
       c = collections(:collection1)
 
-      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
-      a.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
+      artist.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "Value", collection_id: c.id.to_s}})
+      artist.update(collection_attributes_attributes: {"0" => {label: "Label for artist spec", value: "", collection_id: c.id.to_s}})
 
-      expect(a.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
+      expect(artist.collection_attributes.for_collection(c).map(&:label)).not_to include("Label for artist spec")
     end
   end
   describe "#combine_artists_with_ids(artist_ids_to_combine_with)" do
@@ -96,6 +96,63 @@ RSpec.describe Artist, type: :model do
       }.to change(artist1.collection_attributes, :count).by(1)
     end
   end
+
+  describe "#human_name" do
+    it "should return human name" do
+      b = Artist.create(first_name: "B", last_name: "A")
+      expect(b.human_name).to eq("B A")
+    end
+    it "should return human name with prefix" do
+      b = Artist.create(first_name: "B", prefix: "van", last_name: "A")
+      expect(b.human_name).to eq("B van A")
+    end
+  end
+
+  describe "#search_name" do
+    it "should return search name" do
+      b = Artist.create(first_name: "B", last_name: "A")
+      expect(b.search_name).to eq("A, B")
+    end
+
+    it "should return search name with prefix" do
+      b = Artist.create(first_name: "B", prefix: "van", last_name: "A")
+      expect(b.search_name).to eq("A, B van")
+    end
+  end
+
+  describe "#combined_name_variants" do
+    it "returns basic name variants" do
+      b = Artist.create(first_name: "B", prefix: "van", last_name: "A")
+      expect(b.combined_name_variants).to eq([b.search_name, b.human_name])
+    end
+    it "includes name variants" do
+      b = Artist.create(first_name: "B", prefix: "van", last_name: "A", name_variants: ["Ah Beh"])
+      expect(b.combined_name_variants).to eq([b.search_name, b.human_name] + ["Ah Beh"])
+    end
+  end
+
+  describe "#store_collectie_nederland_summary" do
+    it "fetches and stores a summary of the results" do
+      expect(artist.collectie_nederland_summary).to be_nil
+      expect(CollectieNederland::Item).to receive(:search).and_return(CollectieNederland::Collection.new(items: [{title: "a"}], total_results: 1))
+      artist.store_collectie_nederland_summary
+      expect(artist.collectie_nederland_summary).to be_a CollectieNederland::Collection
+      expect(artist.collectie_nederland_total_results).to eq 1
+    end
+  end
+
+  describe "#collectie_nederland_summary" do
+    it "returns nil by default" do
+      expect(artist.collectie_nederland_summary).to eq(nil)
+    end
+
+    it "returns collectie nl when present" do
+      artist.update(collectie_nederland_summary: {items: [], total_results: 10, received_at: "2012-01-02"})
+      expect(artist.collectie_nederland_summary).to be_a CollectieNederland::Collection
+      expect(artist.collectie_nederland_summary.total_results).to eq(10)
+    end
+  end
+
   describe "#import" do
     it "should import from another artist" do
       b = Artist.create(first_name: "B", last_name: "A")
@@ -199,6 +256,18 @@ RSpec.describe Artist, type: :model do
       expect(a.artist_involvements.professional.count).to eq(1)
       expect(a.artist_involvements.professional.first.place).to eq("Kopenhagen")
       expect(a.artist_involvements.educational.first.place).to eq("Parijs")
+    end
+  end
+
+  describe "#import_rkd_artist_as_artist" do
+    it "should import RKD artist data" do
+      rkd_artist = RKD::Artist.new(name: "Rembrandt", identifier: 123, name_variants: ["Rembrandt Harmensz. van Rijn", "Rembrandt Harmensz. van Rhijn"])
+      artist = Artist.new
+      expect(artist).to receive(:rkd_artist).and_return(rkd_artist)
+      artist.import_rkd_artist_as_artist
+      expect(artist.name).to eq("Rembrandt")
+      expect(artist.rkd_artist_id).to eq(123)
+      expect(artist.name_variants).to eq(["Rembrandt Harmensz. van Rijn", "Rembrandt Harmensz. van Rhijn"])
     end
   end
 

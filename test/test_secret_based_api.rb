@@ -22,7 +22,6 @@ response = JSON.parse(`#{command}`)
 
 begin
   puts "Succesful" if response["data"].count > 1
-  # binding.irb
 rescue
   p response
 end

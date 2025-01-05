@@ -161,6 +161,8 @@ Rails.application.routes.draw do
     get "stats" => "stats#show"
   end
   resources :artists do
+    get :collectie_nederland_summary
+    patch "collectie_nederland_summary" => "artists#collectie_nederland_summary_update"
     get "combine_prepare" => "artists#combine_prepare"
     patch "combine" => "artists#combine"
     resources :rkd_artists, module: :r_k_d, controller: :artists

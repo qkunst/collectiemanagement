@@ -1,0 +1,4 @@
+<article>
+  <h3><%= link_to [item.creator, item.title].compact.join("-"), item.entry_uri %> (<%= item.date%>)</h3>
+  <p><%= [item.data_provider, item.type].join(" / ") %></p>
+</article>

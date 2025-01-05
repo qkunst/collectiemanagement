@@ -4,34 +4,35 @@
 #
 # Table name: artists
 #
-#  id                        :bigint           not null, primary key
-#  artist_name               :string
-#  date_of_birth             :date
-#  date_of_death             :date
-#  description               :text
-#  first_name                :string
-#  gender                    :string
-#  geoname_ids_cache         :text
-#  last_name                 :string
-#  name_variants             :string           default([]), is an Array
-#  old_data                  :text
-#  other_structured_data     :text
-#  place_of_birth            :string
-#  place_of_birth_lat        :float
-#  place_of_birth_lon        :float
-#  place_of_death            :string
-#  place_of_death_lat        :float
-#  place_of_death_lon        :float
-#  prefix                    :string
-#  year_of_birth             :integer
-#  year_of_death             :integer
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  import_collection_id      :bigint
-#  place_of_birth_geoname_id :bigint
-#  place_of_death_geoname_id :bigint
-#  replaced_by_artist_id     :bigint
-#  rkd_artist_id             :bigint
+#  id                          :bigint           not null, primary key
+#  artist_name                 :string
+#  collectie_nederland_summary :jsonb
+#  date_of_birth               :date
+#  date_of_death               :date
+#  description                 :text
+#  first_name                  :string
+#  gender                      :string
+#  geoname_ids_cache           :text
+#  last_name                   :string
+#  name_variants               :string           default([]), is an Array
+#  old_data                    :text
+#  other_structured_data       :text
+#  place_of_birth              :string
+#  place_of_birth_lat          :float
+#  place_of_birth_lon          :float
+#  place_of_death              :string
+#  place_of_death_lat          :float
+#  place_of_death_lon          :float
+#  prefix                      :string
+#  year_of_birth               :integer
+#  year_of_death               :integer
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  import_collection_id        :bigint
+#  place_of_birth_geoname_id   :bigint
+#  place_of_death_geoname_id   :bigint
+#  replaced_by_artist_id       :bigint
+#  rkd_artist_id               :bigint
 #
 class Artist < ApplicationRecord
   PREDEFINED_GENDER_VALUES = %w[woman man nonbinary transgender intersex genderqueer na].freeze
@@ -98,6 +99,10 @@ class Artist < ApplicationRecord
       first_name_part = [first_name, prefix].join(" ").strip
       [last_name, first_name_part].delete_if(&:blank?).compact.join(", ")
     end
+  end
+
+  def human_name
+    artist_name || [first_name, prefix, last_name].delete_if(&:blank?).join(" ")
   end
 
   def base_file_name
@@ -248,12 +253,42 @@ class Artist < ApplicationRecord
     save
   end
 
-  def rkd_artist_as_artist
-    self.class.initialize_from_rkd_artist(rkd_artist)
+  def import_rkd_artist_as_artist
+    rkd_artist_as_artist = self.class.initialize_from_rkd_artist(rkd_artist)
+    import!(rkd_artist_as_artist)
   end
 
-  def import_rkd_artist_as_artist
-    import!(rkd_artist_as_artist)
+  def combined_name_variants
+    ([search_name, human_name] + name_variants).uniq
+  end
+
+  def store_collectie_nederland_summary
+    self.collectie_nederland_summary = CollectieNederland::Item.search(creator: combined_name_variants)
+  end
+
+  def collectie_nederland_summary= collection
+    if collection.is_a?(CollectieNederland::Collection)
+      super(collection.attributes)
+    elsif collection.is_a?(Hash) && collection.key?(:total_results) && collection.key?(:items) && collection.key?(:received_at)
+      super
+    else
+      raise "Invalid type"
+    end
+  end
+
+  def collectie_nederland_summary
+    data = super
+    if data.present?
+      CollectieNederland::Collection.new(data.deep_symbolize_keys)
+    end
+  end
+
+  def collectie_nederland_total_results
+    collectie_nederland_summary&.total_results
+  end
+
+  def collectie_nederland_received_at
+    collectie_nederland_summary&.received_at
   end
 
   private
