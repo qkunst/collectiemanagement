@@ -122,6 +122,8 @@ Rails.application.routes.draw do
       post "match_works" => "batch_photo_uploads#match_works"
     end
     resources :artists do
+      get :collectie_nederland_summary
+
       get "combine_prepare" => "artists#combine_prepare"
       patch "combine" => "artists#combine"
 
