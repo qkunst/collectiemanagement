@@ -213,5 +213,5 @@ nl:
     errors:
       <<: *errors
   invisible_captcha:
-    sentence_for_humans: "Wanneer u een mens bent, laat dan dit veld leeg"
+    sentence_for_humans: "Het onderstaande veld moet leeg blijven (robots vullen namelijk graag alles automatisch in)"
     timestamp_error_message: "Helaas, dat was te snel, u lijkt wel een robot!"
