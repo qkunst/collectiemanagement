@@ -212,3 +212,6 @@ nl:
   activerecord:
     errors:
       <<: *errors
+  invisible_captcha:
+    sentence_for_humans: "Wanneer u een mens bent, laat dan dit veld leeg"
+    timestamp_error_message: "Helaas, dat was te snel, u lijkt wel een robot!"
