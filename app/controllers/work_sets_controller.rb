@@ -60,7 +60,6 @@ class WorkSetsController < ApplicationController
       @works_outside_current_collection = @works.where.not(collection_id: @current_active_time_span.collection.expand_with_child_collections).pluck(:id)
       @works_not_for_current_time_span_contact = @works.joins(:time_spans).where(time_spans: TimeSpan.joins(:contact).active.where.not(contacts: {url: @current_active_time_span.contact_url})).uniq
 
-      # raise
     end
 
     @hidden_title_add = "(verborgen)" if @work_set.deactivated?

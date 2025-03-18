@@ -82,6 +82,19 @@ RSpec.describe WorkSet, type: :model do
       expect(work_sets(:random_other_collection)).not_to be_appraisable
     end
 
+    describe "#current_active_time_span" do
+      it "may not have a current active time span" do
+        expect(work_sets(:work_diptych).current_active_time_span).to eq(nil)
+      end
+
+      it "will only return active workset" do
+        expect(work_sets(:work_set_collection1).current_active_time_span).to eq(nil)
+        ts = time_spans(:work_set_time_span)
+        ts.update(status: :active)
+        expect(work_sets(:work_set_collection1).current_active_time_span).to eq(ts)
+      end
+    end
+
     describe "#can_be_accessed_by_user?(user)" do
       context "only work1" do
         let!(:work_set) { WorkSet.new(works: [works(:work1)]) }

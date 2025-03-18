@@ -64,18 +64,18 @@ RSpec.describe CollectionReportHelper, type: :helper do
       expect(helper.render_report_column([:frame_damage_types])).to eq("")
     end
     it "should render location tree" do
-      expect(helper.render_report_column([:location_raw])).to eq('<table><thead><tr class="section location_raw span-6"><th colspan="6">Adres en/of gebouw(deel)</th><th class="number">#</th></tr>
+      expect(helper.render_report_column([:location_raw])).to eq('<table><thead><tr class="section location_raw span-6"><th colspan="6">Adres en/of gebouw(deel)</th><th class="number" aria-sort="descending">#</th></tr>
 </thead>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[location_raw][]" id="filter_location_raw_" value="Location A" data-parent="{}" /><a href="/collections/200799059/works?filter%5Blocation_raw%5D%5B%5D=Location+A">Location A</a></td><td class="count number">1527</td></tr>
-<tr class="section location_floor_raw span-5"><td class="spacer"></td><th colspan="5">Verdieping</th><th class="number">#</th></tr>
+<tr class="section location_floor_raw span-5"><td class="spacer"></td><th colspan="5">Verdieping</th><th class="number" aria-sort="descending">#</th></tr>
 <tr class="content span-5 " data-group="2eb3aa0082c40f073f954889c8119b39"><td class="spacer"></td><td colspan="5"><input type="checkbox" name="filter[location_floor_raw][]" id="filter_location_floor_raw_" value="Floor 2" data-parent="{&quot;filter[location_raw][]&quot;:&quot;Location A&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_floor_raw%5D%5B%5D=Floor+2&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Floor 2</a></td><td class="count number">429</td></tr>
-<tr class="section location_detail_raw span-4"><td class="spacer"></td><td class="spacer"></td><th colspan="4">Locatie specificatie</th><th class="number">#</th></tr>
+<tr class="section location_detail_raw span-4"><td class="spacer"></td><td class="spacer"></td><th colspan="4">Locatie specificatie</th><th class="number" aria-sort="descending">#</th></tr>
 <tr class="content span-4 " data-group="631a8f425ca79a8dc2fd71c18a2656b9"><td class="spacer"></td><td class="spacer"></td><td colspan="4"><input type="checkbox" name="filter[location_detail_raw][]" id="filter_location_detail_raw_" value="Detail I" data-parent="{&quot;filter[location_floor_raw][]&quot;:&quot;Floor 2&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_detail_raw%5D%5B%5D=Detail+I&amp;filter%5Blocation_floor_raw%5D%5B%5D=Floor+2&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Detail I</a></td><td class="count number">61</td></tr>
 <tr class="content span-4 " data-group="631a8f425ca79a8dc2fd71c18a2656b9"><td class="spacer"></td><td class="spacer"></td><td colspan="4"><input type="checkbox" name="filter[location_detail_raw][]" id="filter_location_detail_raw_" value="Detail II" data-parent="{&quot;filter[location_floor_raw][]&quot;:&quot;Floor 2&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_detail_raw%5D%5B%5D=Detail+II&amp;filter%5Blocation_floor_raw%5D%5B%5D=Floor+2&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Detail II</a></td><td class="count number">57</td></tr>
 <tr class="content span-4 " data-group="631a8f425ca79a8dc2fd71c18a2656b9"><td class="spacer"></td><td class="spacer"></td><td colspan="4"><input type="checkbox" name="filter[location_detail_raw][]" id="filter_location_detail_raw_" value="not_set" data-parent="{&quot;filter[location_floor_raw][]&quot;:&quot;Floor 2&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_detail_raw%5D%5B%5D=not_set&amp;filter%5Blocation_floor_raw%5D%5B%5D=Floor+2&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Locatie specificatie onbekend</a></td><td class="count number">55</td></tr>
 <tr class="group_separator"><td colspan="7"></td></tr>
 <tr class="content span-5 " data-group="2eb3aa0082c40f073f954889c8119b39"><td class="spacer"></td><td colspan="5"><input type="checkbox" name="filter[location_floor_raw][]" id="filter_location_floor_raw_" value="Floor 1" data-parent="{&quot;filter[location_raw][]&quot;:&quot;Location A&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_floor_raw%5D%5B%5D=Floor+1&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Floor 1</a></td><td class="count number">12</td></tr>
-<tr class="section location_detail_raw span-4"><td class="spacer"></td><td class="spacer"></td><th colspan="4">Locatie specificatie</th><th class="number">#</th></tr>
+<tr class="section location_detail_raw span-4"><td class="spacer"></td><td class="spacer"></td><th colspan="4">Locatie specificatie</th><th class="number" aria-sort="descending">#</th></tr>
 <tr class="content span-4 " data-group="c54582b2b7284f04a5c25d4cf7e5a89c"><td class="spacer"></td><td class="spacer"></td><td colspan="4"><input type="checkbox" name="filter[location_detail_raw][]" id="filter_location_detail_raw_" value="not_set" data-parent="{&quot;filter[location_floor_raw][]&quot;:&quot;Floor 1&quot;}" /><a href="/collections/200799059/works?filter%5Blocation_detail_raw%5D%5B%5D=not_set&amp;filter%5Blocation_floor_raw%5D%5B%5D=Floor+1&amp;filter%5Blocation_raw%5D%5B%5D=Location+A">Locatie specificatie onbekend</a></td><td class="count number">12</td></tr>
 <tr class="group_separator"><td colspan="7"></td></tr>
 <tr class="group_separator"><td colspan="7"></td></tr>
@@ -83,7 +83,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 </table>')
     end
     it "should render a simple report (with missing)" do
-      expect(helper.render_report_column([:condition_work])).to eq('<table class="sortable"><thead><tr class="section condition_work span-6"><th colspan="6">Conditie beeld</th><th class="number">#</th></tr>
+      expect(helper.render_report_column([:condition_work])).to eq('<table class="sortable"><thead><tr class="section condition_work span-6"><th colspan="6">Conditie beeld</th><th class="number" aria-sort="descending">#</th></tr>
 </thead>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[condition_work_id][]" id="filter_condition_work_id_" value="1" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bcondition_work_id%5D%5B%5D=1">Goed (++)</a></td><td class="count number">2265</td></tr>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[condition_work_id][]" id="filter_condition_work_id_" value="4" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bcondition_work_id%5D%5B%5D=4">Slecht (--)</a></td><td class="count number">83</td></tr>
@@ -94,7 +94,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 </table>')
     end
     it "should render a report with numbers" do
-      expect(helper.render_report_column([:object_creation_year])).to eq('<table class="sortable"><thead><tr class="section object_creation_year span-6"><th colspan="6">Datering (jaar)</th><th class="number">#</th></tr>
+      expect(helper.render_report_column([:object_creation_year])).to eq('<table class="sortable"><thead><tr class="section object_creation_year span-6"><th colspan="6" aria-sort="ascending">Datering (jaar)</th><th class="number">#</th></tr>
 </thead>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[object_creation_year][]" id="filter_object_creation_year_" value="2002" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bobject_creation_year%5D%5B%5D=2002">2002</a></td><td class="count number">109</td></tr>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[object_creation_year][]" id="filter_object_creation_year_" value="not_set" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bobject_creation_year%5D%5B%5D=not_set">Niets ingevuld</a></td><td class="count number">993</td></tr>
@@ -102,7 +102,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
 </table>')
     end
     it "should render a report with a string/key" do
-      expect(helper.render_report_column([:object_format_code])).to eq('<table class="sortable"><thead><tr class="section object_format_code span-6"><th colspan="6">Formaatcode</th><th class="number">#</th></tr>
+      expect(helper.render_report_column([:object_format_code])).to eq('<table class="sortable"><thead><tr class="section object_format_code span-6"><th colspan="6">Formaatcode</th><th class="number" aria-sort="descending">#</th></tr>
 </thead>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[object_format_code][]" id="filter_object_format_code_" value="m" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bobject_format_code%5D%5B%5D=m">M</a></td><td class="count number">1083</td></tr>
 <tr class="content span-6 " data-group="d751713988987e9331980363e24189ce"><td colspan="6"><input type="checkbox" name="filter[object_format_code][]" id="filter_object_format_code_" value="l" data-parent="{}" /><a href="/collections/200799059/works?filter%5Bobject_format_code%5D%5B%5D=l">L</a></td><td class="count number">553</td></tr>
@@ -151,7 +151,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
     end
     it "should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count" do
       section = helper.report[:object_format_code]
-      expect(iterate_report_sections("object_format_code", section, 6)).to eq("<thead><tr class=\"section object_format_code span-6\"><th colspan=\"6\">Formaatcode</th><th class=\"number\">#</th></tr>
+      expect(iterate_report_sections("object_format_code", section, 6)).to eq("<thead><tr class=\"section object_format_code span-6\"><th colspan=\"6\">Formaatcode</th><th class=\"number\" aria-sort=\"descending\">#</th></tr>
 </thead>
 <tr class=\"content span-6 \" data-group=\"d751713988987e9331980363e24189ce\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=m\">M</a></td><td class=\"count number\">1083</td></tr>
 <tr class=\"content span-6 \" data-group=\"d751713988987e9331980363e24189ce\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=l\">L</a></td><td class=\"count number\">553</td></tr>

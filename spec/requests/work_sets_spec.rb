@@ -30,8 +30,16 @@ RSpec.describe "/collection/:id/work_sets", type: :request do
     end
 
     describe "GET #show" do
-      it "responds" do
+      it "responds in collection context" do
         get collection_work_set_url(collection, work_sets(:work_set_collection1))
+        expect(response).to be_successful
+        expect(response.body).to match(/Q007/)
+        expect(response.body).to match(/Q001/)
+        expect(response.body).not_to match(/Q002/)
+      end
+      it "responds outside collection context" do
+        get work_set_url(work_sets(:work_set_collection1))
+        follow_redirect!
         expect(response).to be_successful
         expect(response.body).to match(/Q007/)
         expect(response.body).to match(/Q001/)

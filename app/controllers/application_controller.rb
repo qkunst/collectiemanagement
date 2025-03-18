@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
   def set_collection
     authenticate_activated_user!
     if params[:collection_id]
-      # @collection = Collection.find(params[:collection_id])
       begin
         @collection = current_user.accessible_collections.find(params[:collection_id])
       rescue

@@ -166,7 +166,7 @@ class WorkSet < ApplicationRecord
   end
 
   def current_active_time_span
-    @current_active_time_span ||= time_spans.reverse.find(&:current_and_active?)
+    @current_active_time_span ||= time_spans.order(starts_at: :desc).find(&:current_and_active?)
   end
 
   def can_be_accessed_by_user?(user)

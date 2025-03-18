@@ -158,7 +158,11 @@ module CollectionReportHelper
         end
         html += "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
-        html += "<th colspan=\"#{depth}\">#{titleize_section_head section_head}</th><th class=\"number\">#</th>"
+        html += if sort_by_value?(section_head)
+          "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}</th><th class=\"number\">#</th>"
+        else
+          "<th colspan=\"#{depth}\">#{titleize_section_head(section_head)}</th><th class=\"number\" aria-sort=\"descending\">#</th>"
+        end
         html += "</tr>\n"
         if depth == DEEPEST
           html += "</thead>\n"
@@ -177,10 +181,22 @@ module CollectionReportHelper
     I18n.t(title_translation_key, scope: "report.titles", default: default_title)
   end
 
+  def sort_by_integer_value?(group)
+    DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group) || BOOLEANS.include?(group)
+  end
+
+  def sort_by_string_value?(group)
+    [:grade_within_collection].include? group
+  end
+
+  def sort_by_value?(group)
+    sort_by_integer_value?(group) || sort_by_string_value?(group)
+  end
+
   def sort_contents_by_group(contents, group)
-    if DATE_OR_TIME_COLUMNS.include?(group) || PRICE_COLUMNS.include?(group) || RANGE_GROUP.include?(group) || BOOLEANS.include?(group)
+    if sort_by_integer_value?(group)
       contents.sort { |a, b| b[0][0].to_i <=> a[0][0].to_i }
-    elsif [:grade_within_collection].include? group
+    elsif sort_by_string_value?(group)
       contents.sort { |a, b| a[0].to_s <=> b[0].to_s }
     else
       contents.sort { |a, b| b[1][:count] <=> a[1][:count] }
