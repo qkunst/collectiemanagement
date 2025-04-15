@@ -242,7 +242,7 @@ var FormStore = {
       var has_files = false
       for (let elem_key in form.elements) {
         const elem_i = parseInt(elem_key);
-        if ((typeof elem_i === 'number') && elem_i !== NaN ) {
+        if ((typeof elem_i === 'number') && !Number.isNaN(elem_i)  ) {
           var element = form.elements[elem_key];
           if (element.type === "checkbox" || element.type === "radio") {
             if (element.checked) {
