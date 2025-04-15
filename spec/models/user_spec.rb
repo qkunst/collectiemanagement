@@ -336,6 +336,7 @@ RSpec.describe User, type: :model do
         new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
 
         expect(new_user.facility_manager?).to be_truthy
+        expect(new_user.advisor?).to be_falsey
         expect(new_user.collections).to include(collections(:collection1))
       end
       it "auto overides a user's memberschip when configured as such" do
@@ -343,6 +344,7 @@ RSpec.describe User, type: :model do
         existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
 
         expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.advisor?).to be_falsey
         expect(existing_user.collections).to include(collections(:collection1))
       end
       it "auto overides a user's memberschip when configured as such" do
@@ -351,26 +353,48 @@ RSpec.describe User, type: :model do
 
         expect(existing_user.facility_manager?).to be_truthy
         expect(existing_user.appraiser?).to be_falsey
+        expect(existing_user.advisor?).to be_falsey
         expect(existing_user.collections).to include(collections(:collection1))
         expect(existing_user.collections).not_to include(collections(:collection3))
       end
       it "leaves a user's memberschip as is when not configured as such" do
         email = users(:appraiser).email
-        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "micfrosoft/abc"))
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "fake/abc"))
 
         expect(existing_user.facility_manager?).to be_falsey
         expect(existing_user.appraiser?).to be_truthy
+        expect(existing_user.advisor?).to be_falsey
         expect(existing_user.collections).to include(collections(:collection1))
         expect(existing_user.collections).to include(collections(:collection3))
       end
       it "it updates account, even when case doesn't match" do
         email = users(:appraiser).email.upcase
-        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "micfrosoft/abc"))
+        existing_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: ["jfjfjk"], groups: ["jfaaa", "jfaab"], issuer: "microsoft/abc"))
 
-        expect(existing_user.facility_manager?).to be_falsey
-        expect(existing_user.appraiser?).to be_truthy
+        expect(existing_user.facility_manager?).to be_truthy
+        expect(existing_user.appraiser?).to be_falsey
+        expect(existing_user.advisor?).to be_falsey
         expect(existing_user.collections).to include(collections(:collection1))
-        expect(existing_user.collections).to include(collections(:collection3))
+        expect(existing_user.collections).not_to include(collections(:collection3))
+      end
+
+      it "always accepts the highest role" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        roles = ["jfjfjk", "jfjfjl"]
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles:, issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_falsey
+        expect(new_user.advisor?).to be_truthy
+        expect(new_user.collections).not_to include(collections(:collection1))
+
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        new_user = User.from_omniauth_callback_data(Users::OmniauthCallbackData.new(email: email, oauth_provider: "google_oauth2", oauth_subject: "123", email_confirmed: true, roles: roles.reverse, issuer: "microsoft/abc"))
+
+        expect(new_user.facility_manager?).to be_falsey
+        expect(new_user.advisor?).to be_truthy
+        expect(new_user.collections).not_to include(collections(:collection1))
       end
     end
   end

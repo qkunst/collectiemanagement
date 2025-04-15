@@ -17,6 +17,11 @@ microsoft_abc_fm:
   role: facility_manager
   value_type: role
   value: jfjfjk
+microsoft_abc_adv:
+  issuer: microsoft/abc
+  role: advisor
+  value_type: role
+  value: jfjfjl
 microsoft_abc_collection_1:
   issuer: microsoft/abc
   collection: :collection1
