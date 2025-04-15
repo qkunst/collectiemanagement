@@ -655,7 +655,7 @@ namespace :import do
         location.name = name
         location.lat = json_location["gpsLatitude"].to_f
         location.lon = json_location["gpsLongitude"].to_f
-        location.other_structured_data = json_location.select { |k, v| %w[architects part].include?(k) }
+        location.other_structured_data = json_location.slice("architechts", "part")
         location.address = json_location["address"]
         location.save
         w.main_location = location

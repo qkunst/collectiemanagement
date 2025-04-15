@@ -251,7 +251,7 @@ class TimeSpan < ApplicationRecord
   end
 
   def self_is_subject_current_active_time_span?
-    subject && (subject.current_active_time_span.present? && subject.current_active_time_span.id == id)
+    subject && subject.current_active_time_span.present? && subject.current_active_time_span.id == id
   end
 
   def subject_is_at_customer?
