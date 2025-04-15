@@ -2,7 +2,7 @@ class Works::TitleLabels
   include ActiveModel::Model
   include LabelsSupport
 
-  attr_accessor :collection, :works, :qr_code_enabled, :resource_variant, :foreground_color
+  attr_accessor :collection, :works, :qr_code_enabled, :resource_variant, :foreground_color, :show_logo
 
   def render
     code = collection.unique_short_code_from_self_or_base
@@ -38,15 +38,17 @@ class Works::TitleLabels
           pdf.text work.object_creation_year.to_s, size: 12, weight: 500, color: foreground_color
         end
         pdf.bounding_box(*grid.area_bounding_box([0, 0], [1, 0])) do
-          if logo_path&.path&.end_with? ".svg"
-            svg_contents = File.read(logo_path)
-            svg_contents = svg_contents.sub("<svg ", "<svg fill=\"##{foreground_color}\" stroke=\"##{foreground_color}\" ")
-            pdf.svg svg_contents, height: (pdf.bounds.height / 2), valign: :bottom, align: :center, fill_color: foreground_color
-          elsif logo_path
-            pdf.image logo_path, width: pdf.bounds.width, valign: :bottom, align: :center # , at: [pdf.bounds.width - logo_width, pdf.bounds.height], valign: :middle
-          else
-            pdf.text "\n", size: 5
-            pdf.text title, size: 15
+          if show_logo
+            if logo_path&.path&.end_with? ".svg"
+              svg_contents = File.read(logo_path)
+              svg_contents = svg_contents.sub("<svg ", "<svg fill=\"##{foreground_color}\" stroke=\"##{foreground_color}\" ")
+              pdf.svg svg_contents, height: (pdf.bounds.height / 2), valign: :bottom, align: :center, fill_color: foreground_color
+            elsif logo_path
+              pdf.image logo_path, width: pdf.bounds.width, valign: :bottom, align: :center # , at: [pdf.bounds.width - logo_width, pdf.bounds.height], valign: :middle
+            else
+              pdf.text "\n", size: 5
+              pdf.text title, size: 15
+            end
           end
         end
 

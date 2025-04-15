@@ -19,6 +19,7 @@
 #  label_override_work_alt_number_2          :string
 #  label_override_work_alt_number_3          :string
 #  name                                      :string
+#  pdf_title_export_variants_text            :text
 #  qkunst_managed                            :boolean          default(TRUE)
 #  root                                      :boolean          default(FALSE)
 #  show_availability_status                  :boolean

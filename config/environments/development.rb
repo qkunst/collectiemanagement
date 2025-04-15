@@ -85,7 +85,7 @@ Rails.application.configure do
   }
 
   config.action_controller.asset_host = "http://localhost:3000"
-  # config.action_controller.asset_host = "https://collectiemanagement.test"
+  config.action_controller.asset_host = "https://collectiemanagement.test"
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
 

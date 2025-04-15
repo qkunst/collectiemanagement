@@ -21,6 +21,7 @@
 #  label_override_work_alt_number_2          :string
 #  label_override_work_alt_number_3          :string
 #  name                                      :string
+#  pdf_title_export_variants_text            :text
 #  qkunst_managed                            :boolean          default(TRUE)
 #  root                                      :boolean          default(FALSE)
 #  show_availability_status                  :boolean
@@ -41,6 +42,12 @@
 class Collection < ApplicationRecord
   include MethodCache
   include Collection::Hierarchy
+
+  DEFAULT_PDF_TITLE_CONFIGURATION = {
+    show_logo: true,
+    resource_variant: "public",
+    foreground_color: "000000"
+  }
 
   class CollectionBaseError < StandardError
   end
@@ -87,6 +94,7 @@ class Collection < ApplicationRecord
   has_many :contacts
 
   validates_uniqueness_of :unique_short_code, allow_nil: true
+  validate :pdf_title_export_variants_text_valid?
 
   has_cache_for_method :geoname_ids, trigger: :before_save
   has_cache_for_method :collection_name_extended
@@ -359,6 +367,13 @@ class Collection < ApplicationRecord
     @collection_name_extended ||= self_and_parent_collections_flattened.map(&:name).join(" » ")
   end
 
+  def pdf_title_export_variants
+    parsed = YAML.load(pdf_title_export_variants_text.to_s, symbolize_names: true) || {}
+    parsed = parsed.map { |k, v| [k, DEFAULT_PDF_TITLE_CONFIGURATION.merge(v)] }.to_h
+    parsed[:default] = DEFAULT_PDF_TITLE_CONFIGURATION.merge(parsed[:default] || {})
+    parsed
+  end
+
   def cached_collection_name_extended_with_fallback
     cached_collection_name_extended || collection_name_extended
   end
@@ -507,6 +522,14 @@ class Collection < ApplicationRecord
 
   def cache_all_collection_name_extended!
     UpdateCacheWorker.perform_async(self.class.name, "collection_name_extended")
+  end
+
+  def pdf_title_export_variants_text_valid?
+    pdf_title_export_variants
+    true
+  rescue
+    errors.add(:pdf_title_export_variants_text, :invalid_configuration)
+    false
   end
 
   class << Collection

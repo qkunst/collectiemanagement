@@ -21,6 +21,7 @@
 #  label_override_work_alt_number_2          :string
 #  label_override_work_alt_number_3          :string
 #  name                                      :string
+#  pdf_title_export_variants_text            :text
 #  qkunst_managed                            :boolean          default(TRUE)
 #  root                                      :boolean          default(FALSE)
 #  show_availability_status                  :boolean
@@ -146,6 +147,32 @@ RSpec.describe Collection, type: :model do
 
         expect(boring_collection_theme.works.count).to eq(10)
         expect(boring_collection_cluster.works.count).to eq(10)
+      end
+    end
+  end
+  describe "validations" do
+    let(:collection) { collections(:boring_collection) }
+    describe "validates validity of pdf_title_export_variants_text" do
+      it "is valid by default" do
+        expect(collection.valid?).to be_truthy
+      end
+
+      it "is valid when nil or empty" do
+        collection.update(pdf_title_export_variants_text: nil)
+        expect(collection.valid?).to be_truthy
+
+        collection.update(pdf_title_export_variants_text: "")
+        expect(collection.valid?).to be_truthy
+      end
+
+      it "is valid with valid contents" do
+        collection.update(pdf_title_export_variants_text: "default:\n  show_logo: false")
+        expect(collection.valid?).to be_truthy
+      end
+
+      it "is invalid with invalid contents" do
+        collection.update(pdf_title_export_variants_text: "default:\n  show_logo :\aa false")
+        expect(collection.valid?).to be_falsey
       end
     end
   end
@@ -284,6 +311,40 @@ RSpec.describe Collection, type: :model do
         collections(:collection1).update(base: true)
         expect(collections(:collection_with_works_child).base_collections).to eq([collections(:collection1), collections(:collection_with_works)])
         expect(collections(:collection_with_works).base_collections).to eq([collections(:collection1), collections(:collection_with_works)])
+      end
+    end
+
+    describe "#pdf_title_export_variants" do
+      let(:collection) { collections(:boring_collection) }
+      it "has a default variant" do
+        expect(collection.pdf_title_export_variants[:default]).to eq({
+          show_logo: true,
+          resource_variant: "public",
+          foreground_color: "000000"
+        })
+      end
+
+      it "s default can be overwritten" do
+        collection.update(pdf_title_export_variants_text: "default:\n  show_logo: false\n  foreground_color: \"ffff00\"")
+        expect(collection.pdf_title_export_variants[:default]).to eq({
+          show_logo: false,
+          resource_variant: "public",
+          foreground_color: "ffff00"
+        })
+      end
+
+      it "can contain other settings" do
+        collection.update(pdf_title_export_variants_text: "Een bijzondere klantwens:\n  show_logo: false\n  foreground_color: \"ffff00\"")
+        expect(collection.pdf_title_export_variants[:default]).to eq({
+          show_logo: true,
+          resource_variant: "public",
+          foreground_color: "000000"
+        })
+        expect(collection.pdf_title_export_variants[:"Een bijzondere klantwens"]).to eq({
+          show_logo: false,
+          resource_variant: "public",
+          foreground_color: "ffff00"
+        })
       end
     end
 

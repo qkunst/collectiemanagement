@@ -117,7 +117,11 @@
       <%= f.input :appraise_with_ranges, hint: "Standaard wordt gewaardeerd met willekeurige prijzen, als deze optie is ingeschakeld kan er slechts gekozen worden uit een beperkt aantal prijsranges." %>
       <%= f.input :show_library, hint: "Activeert bibliotheek functie (referenties naar niet-digitale documentatie)" %>
       <%= f.input :show_availability_status, hint: "Wanneer beschikbaarheid wordt gebruikt in een collectie wordt deze hiermee zichtbaar gemaakt." %>
+    </fieldset>
+    <fieldset class="form-inputs">
+      <legend>PDF Export instellingen</legend>
       <%= f.input :unique_short_code, hint: "Unieke code om de collectie extern te identificeren ((p)pid prefix)" %>
+      <%= f.input :pdf_title_export_variants_text, hint: "Gebruik YAML syntax om extra varianten te maken"%>
     </fieldset>
   </section>
 </div>

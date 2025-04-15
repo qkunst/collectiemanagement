@@ -60,9 +60,12 @@
                     <li><%=link_to ".pdf", collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default})) %></li>
                   <% end %>
                   <% if can?(:download_title_labels, @collection) %>
-                    <li><%=link_to ".pdf <small>(titels)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels})) %></li>
-                    <% if @collection.unique_short_code_from_self_or_base.present? %>
-                      <li><%=link_to ".pdf <small>(titels+QR)</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge({audience: :default, as: :title_labels, qr_code_enabled: true, resource_variant: :public})) %></li>
+                    <% @collection.pdf_title_export_variants.each do |key, params| %>
+                      <% variant_suffix = key != :default ? "; #{key}" : nil %>
+                      <li><%=link_to ".pdf <small>(titels#{variant_suffix})</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge(params).merge({as: :title_labels})) %></li>
+                      <% if @collection.unique_short_code_from_self_or_base.present? %>
+                        <li><%=link_to ".pdf <small>(titels+QR#{variant_suffix})</small>".html_safe, collection_works_path(@collection, format: :pdf, params: @cleaned_params.merge(params).merge({as: :title_labels, qr_code_enabled: true, resource_variant: :public})) %></li>
+                      <% end %>
                     <% end %>
                   <% end %>
                   <% if can? :download_public_datadump, @collection %>

@@ -160,7 +160,7 @@ class CollectionsController < ApplicationController
       :name, :description, :external_reference_code, :collections_stage_delivery_on, :parent_collection_id,
       :label_override_work_alt_number_1, :label_override_work_alt_number_2, :label_override_work_alt_number_3,
       :internal_comments, :sort_works_by, :base, :appraise_with_ranges, :show_availability_status, :show_collection,
-      :unique_short_code,
+      :unique_short_code, :pdf_title_export_variants_text,
       exposable_fields: [], stage_ids: [], geoname_summary_ids: [], supported_languages: [], default_collection_attributes_for_artists: [], default_collection_attributes_for_works: []
     )
     if rv[:geoname_summary_ids]

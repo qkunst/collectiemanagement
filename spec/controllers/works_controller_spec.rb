@@ -4,8 +4,40 @@ require "rails_helper"
 
 RSpec.describe WorksController, type: :controller do
   include Devise::Test::ControllerHelpers
+  render_views
 
-  describe "PATCH/PUT #works" do
+  describe "GET /collections/:collection_id/works (#index)" do
+    let(:collection) { collections(:collection_with_works) }
+
+    context "not signed in" do
+      it "it is inaccessible by users who are not signed in" do
+        expect(get(:index, params: {collection_id: collection.id})).to redirect_to new_user_session_path
+      end
+    end
+
+    context "advisor" do
+      before do
+        sign_in users(:advisor)
+      end
+
+      it "renders pdf titles" do
+        get(:index, params: {collection_id: collection.id})
+        expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;resource_variant=public&amp;show_logo=true/)
+        expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;qr_code_enabled=true&amp;resource_variant=public&amp;show_logo=true/)
+      end
+
+      it "renders pdf titles" do
+        collection.update(pdf_title_export_variants_text: "Een bijzondere klantwens:\n  show_logo: false\n  foreground_color: \"ffff00\"")
+
+        get(:index, params: {collection_id: collection.id})
+        expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=ffff00&amp;resource_variant=public&amp;show_logo=false/)
+        expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;resource_variant=public&amp;show_logo=true/)
+        expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;qr_code_enabled=true&amp;resource_variant=public&amp;show_logo=true/)
+      end
+    end
+  end
+
+  describe "PATCH/PUT /collections/:collection_id/works/:id (#update)" do
     it "shouldn't change anything by default" do
       work = works(:work1)
       # work1:

@@ -86,6 +86,7 @@ nl:
       outgoing_rental_between: Uitgeleend
   errors:
     messages:
+      invalid_configuration: "Niet geldige configuratie"
       mini_magick_processing_error: "Dit bestand kon niet verwerkt worden (%{e})"
       extension_white_list_error: Dit bestand heeft een onbekende extentie
   notifications:
@@ -637,6 +638,7 @@ nl:
         name: Naam
         order: Volgorde
         parent_collection: Maakt onderdeel uit van de collectie
+        pdf_title_export_variants_text: PDF titel exportvarianten
         show_availability_status: Toon beschikbaarheidsstatus
         sort_works_by: Sorteer werken op
         stages: Procesfases die gelden voor deze (en onderliggende) collectie

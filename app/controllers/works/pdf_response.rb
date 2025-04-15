@@ -16,9 +16,10 @@ module Works::PdfResponse
       labels = Works::TitleLabels.new(
         collection: @collection,
         works: @works,
-        qr_code_enabled: params[:qr_code_enabled],
+        qr_code_enabled: ActiveRecord::Type::Boolean.new.cast(params[:qr_code_enabled]),
         resource_variant: params[:resource_variant],
-        foreground_color: params[:foreground_color]
+        foreground_color: params[:foreground_color],
+        show_logo: ActiveRecord::Type::Boolean.new.cast(params[:show_logo])
       )
 
       send_data labels.render, filename: "titels #{@collection.name}.pdf"
