@@ -90,5 +90,11 @@ RSpec.describe Work::ParameterRendering do
     it "returns a ppid url when code is present on collection" do
       expect(works(:work1).ppid_url).to eq("https://ppid.qkunst.nl/col_with_works/Q001.public")
     end
+
+    it "returns a ppid url when code contains spaces" do
+      work = works(:work1)
+      work.stock_number = "Q 001"
+      expect(work.ppid_url).to eq("https://ppid.qkunst.nl/col_with_works/Q+001.public")
+    end
   end
 end

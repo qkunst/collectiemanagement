@@ -13,6 +13,10 @@ module Work::ParameterRendering
       return nil if code.blank? || base_url.blank?
 
       number = stock_number || id
+
+      code = Rack::Utils.escape(code)
+      number = Rack::Utils.escape(number.to_s)
+
       url = URI.join(base_url, "#{code}/", number).to_s
       [url, resource_variant].compact.join(".")
     end
