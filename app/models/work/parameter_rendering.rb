@@ -6,6 +6,17 @@ module Work::ParameterRendering
   extend ActiveSupport::Concern
 
   included do
+    def ppid_url(resource_variant: "public")
+      code = collection&.unique_short_code_from_self_or_base
+      base_url = Rails.application.config_for(:config)[:ppid_base_domain]
+
+      return nil if code.blank? || base_url.blank?
+
+      number = stock_number || id
+      url = URI.join(base_url, "#{code}/", number).to_s
+      [url, resource_variant].compact.join(".")
+    end
+
     def abstract_or_figurative_rendered
       if abstract_or_figurative?
         (abstract_or_figurative == "abstract") ? "Abstract" : "Figuratief"

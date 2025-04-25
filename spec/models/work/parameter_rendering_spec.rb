@@ -81,4 +81,14 @@ RSpec.describe Work::ParameterRendering do
       expect(w.location_detail_raw).to eq("A|>|b|>|1")
     end
   end
+
+  describe "#ppid_url" do
+    it "returns nil by default" do
+      expect(Work.new.ppid_url).to eq(nil)
+    end
+
+    it "returns a ppid url when code is present on collection" do
+      expect(works(:work1).ppid_url).to eq("https://ppid.qkunst.nl/col_with_works/Q001.public")
+    end
+  end
 end
