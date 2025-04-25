@@ -39,7 +39,7 @@ class Reminder < ApplicationRecord
   end
 
   def next_date
-    next_dates.first.to_date if next_dates&.first
+    next_dates&.first&.to_date
   end
 
   def last_sent_at

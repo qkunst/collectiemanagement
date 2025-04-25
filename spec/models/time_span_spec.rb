@@ -298,16 +298,16 @@ RSpec.describe TimeSpan, type: :model do
     describe ".current / .period" do
       [:time_span1, :time_span2, :time_span3, :time_span4].each do |span|
         it { expect(TimeSpan.current).to include time_spans(span) }
-        it { expect(TimeSpan.period((Time.current...Time.current))).to include time_spans(span) }
+        it { expect(TimeSpan.period(Time.current...Time.current)).to include time_spans(span) }
       end
       [:time_span_historic, :time_span_future].each do |span|
         it { expect(TimeSpan.current).not_to include time_spans(span) }
-        it { expect(TimeSpan.period((Time.current...Time.current))).not_to include time_spans(span) }
+        it { expect(TimeSpan.period(Time.current...Time.current)).not_to include time_spans(span) }
       end
 
       it "should include expired, active time spans" do
         expect(TimeSpan.current).to include time_spans(:time_span_expired)
-        expect(TimeSpan.period((Time.current...Time.current))).to include time_spans(:time_span_expired)
+        expect(TimeSpan.period(Time.current...Time.current)).to include time_spans(:time_span_expired)
       end
 
       it "should include all when period is extreme" do

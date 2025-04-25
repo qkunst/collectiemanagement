@@ -243,7 +243,7 @@ module CollectionReportHelper
     contents.each do |s|
       sk = s[0]
       sv = s[1]
-      @params = {} if depth == (DEEPEST)
+      @params = {} if depth == DEEPEST
       sk = link(min_range_column(group), sk)
       hidden = ignore_super?(group)
       group_hash = @params.to_a
@@ -256,7 +256,7 @@ module CollectionReportHelper
       html += "</td>"
       html += "<td class=\"count number\">#{sv[:count]}</td></tr>\n"
       sv[:subs].each do |subbucketgroupname, subbucketgroup|
-        html += iterate_report_sections(subbucketgroupname, subbucketgroup, (depth - 1))
+        html += iterate_report_sections(subbucketgroupname, subbucketgroup, depth - 1)
       end
     end
 
