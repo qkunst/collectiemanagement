@@ -58,9 +58,11 @@
         </select><%= f.batch_editable_strategy_select(:tag_list) %>
       </fieldset>
     <% end %>
+
     <% if can_edit_field?(:technique_ids) && can_edit_field?(:subset_id)%>
       <fieldset>
         <%= f.batch_editable_input :subset, param_name: :subset_id, input_type: :association, input_html: {class: 'chosen-select'} %>
+        <%= f.batch_editable_input :object_categories, param_name: :object_category_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :techniques, param_name: :technique_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :other_comments %>
       </fieldset>
