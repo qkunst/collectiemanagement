@@ -8,17 +8,13 @@ class ReportController < ApplicationController
   def show
     authorize! :read_report, @collection
     current_user.reset_filters!
-    set_time_filter
-    set_selection_filter
-    set_no_child_works
-
-    unsafe_filter_params = params[:filter]&.to_unsafe_h || {}
-    unsafe_time_filter_params = params[:time_filter]&.to_unsafe_h || {}
+    set_all_filters
 
     if params[:filter_on] == "works"
-      redirect_to collection_works_path({filter: unsafe_filter_params, time_filter: unsafe_time_filter_params})
-    elsif params[:filter_on] == "works_unlimited"
-      redirect_to collection_works_path({filter: unsafe_filter_params, max_index: 9999999})
+      redirect_to collection_works_path({filter: @selection_filter, time_filter: @time_filter.to_parameters})
+    elsif params[:filter_on] == "create_work_set"
+      # raise
+      redirect_to new_collection_work_set_path({filter: @selection_filter, time_filter: @time_filter.to_parameters})
     end
 
     @title = "Rapportage voor #{@collection.name}"

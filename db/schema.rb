@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_15_100746) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_16_153452) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -724,6 +724,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_15_100746) do
     t.text "comment"
     t.string "uuid"
     t.datetime "deactivated_at"
+    t.json "works_filter_params"
   end
 
   create_table "work_sets_works", id: false, force: :cascade do |t|

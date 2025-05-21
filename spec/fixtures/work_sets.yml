@@ -8,6 +8,7 @@
 #  deactivated_at        :datetime
 #  identification_number :string
 #  uuid                  :string
+#  works_filter_params   :json
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint
@@ -39,3 +40,7 @@ available_works:
   works:
     - :collection_with_availability_available_work
     - :collection_with_availability_another_available_work
+
+dynamic_filter_by_ids:
+  uuid: 3c8988cc-b10f-4996-a0e7-cc64cb5a6096
+  work_set_type: :group

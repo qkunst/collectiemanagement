@@ -2,9 +2,11 @@
 
 class WorkSetsController < ApplicationController
   include Works::WorkIds
+  include Works::Filtering
 
   before_action :set_collection
   before_action :set_work_set, only: [:show, :edit, :destroy, :update]
+  before_action :set_all_filters, only: [:show, :edit, :update, :create]
 
   def new
     @work_set = WorkSet.new
@@ -13,12 +15,14 @@ class WorkSetsController < ApplicationController
     if params[:works] || params[:work_ids]
       work_ids = (params[:works] || params[:work_ids]).map { |w| w.to_i }
       @works = current_user.accessible_works.where(id: work_ids)
-      @work_set.works = @works
     elsif params[:work_ids_hash]
       work_ids = IdsHash.find_by_hashed(params[:work_ids_hash]).ids
       @works = current_user.accessible_works.where(id: work_ids)
-      @work_set.works = @works
+    elsif params[:filter]
+      set_works
     end
+
+    @work_set.works = @works
   end
 
   def create
@@ -27,16 +31,20 @@ class WorkSetsController < ApplicationController
       ids_to_append = params.dig(:work_set, :work_ids).split(" ").map(&:to_i)
       authorize! :update, @work_set
       @work_set.work_ids = (@work_set.work_ids + ids_to_append).uniq
+    elsif params[:filter]
+      @work_set = WorkSet.new(work_set_params)
+      @work_set.works_filter_params = {time_filter: @time_filter.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text, collection_id: @collection.id}
+      authorize! :create, @work_set
     else
       @work_set = WorkSet.new(work_set_params)
-      work_ids = @work_set.works.map(&:id)
-      @works = current_user.accessible_works.where(id: work_ids)
 
       authorize! :create, @work_set
     end
+
     if @work_set.save
       redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de verzameling"
     else
+      @works = @work_set.works
       render :new
     end
   end

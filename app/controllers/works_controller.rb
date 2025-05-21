@@ -61,11 +61,9 @@ class WorksController < ApplicationController
 
   def index
     @selection = {}
-    set_time_filter
-    set_work_display_form
-    set_selection_filter
+    set_all_filters
 
-    set_no_child_works
+    set_work_display_form
     set_selected_localities
 
     @show_work_checkbox = qkunst_user?

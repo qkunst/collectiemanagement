@@ -10,6 +10,7 @@
 #  deactivated_at        :datetime
 #  identification_number :string
 #  uuid                  :string
+#  works_filter_params   :json
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint
@@ -156,6 +157,26 @@ RSpec.describe WorkSet, type: :model do
         expect(work).to receive(:reindex_async!)
         work_set = WorkSet.new(works: [work], work_set_type: work_set_types(:meerluik))
         work_set.save
+      end
+    end
+
+    describe "#update_with_works_filter_params" do
+      it "shouldn't do anything when nothing is set" do
+        work_set = work_sets(:work_set_collection1)
+        work_ids_before = work_set.works.map(&:id)
+        work_set.update_with_works_filter_params
+        expect(work_set.works.map(&:id).sort).to eq(work_ids_before.sort)
+      end
+
+      it "should filter by ids" do
+        work_set = work_sets(:dynamic_filter_by_ids)
+        expect(work_set.works).to eq([])
+
+        works = [works(:work1), works(:work2)]
+        work_set.works_filter_params = {ids: works.map(&:id), collection_id: collections(:collection1).id}
+        work_set.update_with_works_filter_params
+        work_set.reload
+        expect(work_set.works.map(&:id).sort)
       end
     end
   end

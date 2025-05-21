@@ -117,4 +117,8 @@ module ApplicationHelper
       end
     end.join("\n").html_safe
   end
+
+  def all_filter_data_to_hidden_inputs
+    data_to_hidden_inputs({time_filter: @time_filter.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text})
+  end
 end

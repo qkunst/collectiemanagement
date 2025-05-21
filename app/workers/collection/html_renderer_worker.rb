@@ -34,13 +34,10 @@ class Collection::HtmlRendererWorker
     @max_index = 99999
 
     @selection = {}
-    set_selection_filter
 
+    set_all_filters
     set_work_display_form
     set_selected_localities
-    set_no_child_works
-    set_search_text
-    set_time_filter
 
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
 

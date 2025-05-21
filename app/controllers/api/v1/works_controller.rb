@@ -13,8 +13,8 @@ class Api::V1::WorksController < Api::V1::ApiController
     @selection = {}
 
     set_selection_filter
+    set_all_filters
     set_work_display_form
-    set_search_text
 
     # if work matches a number exactly, don't continue to search
     if @search_text && (@search_text.length > 3)

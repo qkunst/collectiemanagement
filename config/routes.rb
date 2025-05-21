@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   resources :themes
   resources :balance_categories
   resources :work_statuses
-  resources :work_sets do
+  resources :work_sets, only: [:show, :index] do
     resources :works, module: :work_sets, only: :destroy # , controller: "WorkSet::WorksController"
   end
   resources :work_set_types

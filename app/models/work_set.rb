@@ -10,12 +10,14 @@
 #  deactivated_at        :datetime
 #  identification_number :string
 #  uuid                  :string
+#  works_filter_params   :json
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  work_set_type_id      :bigint
 #
 class WorkSet < ApplicationRecord
   include Uuid
+  include Works::Filtering # Controller concern
 
   has_and_belongs_to_many :works, touch: true
 
@@ -26,7 +28,7 @@ class WorkSet < ApplicationRecord
 
   scope :accepts_appraisals, -> { joins(:work_set_type).where(work_set_types: {appraise_as_one: true}) }
   scope :count_as_one, -> { joins(:work_set_type).where(work_set_types: {count_as_one: true}) }
-  scope :for_unexpanded_collections, ->(collections) { joins(:works).where(works: {collection_id: collections}).distinct }
+  scope :for_unexpanded_collections, ->(collections) { WorkSet.where(id: joins(:works).where(works: {collection_id: collections}).pluck(:id).uniq) }
   scope :for_collection, ->(collection) { for_unexpanded_collections(collection.self_and_parent_collections_flattened + collection.child_collections_flattened) }
   scope :not_deactivated, -> { where(deactivated_at: nil) }
 
@@ -212,5 +214,27 @@ class WorkSet < ApplicationRecord
 
   def add_works_to_active_time_span
     current_active_time_span&.save
+  end
+
+  def current_user
+    User.new(admin: true)
+  end
+
+  attr_reader :params, :collection
+
+  def works_filter_params_json
+    works_filter_params.to_json if works_filter_params.present?
+  end
+
+  def update_with_works_filter_params
+    return nil if works_filter_params.blank?
+    @params = ActiveSupport::HashWithIndifferentAccess.new(works_filter_params)
+    @collection = Collection.find(@params[:collection_id])
+
+    set_all_filters
+
+    set_works
+
+    self.works = @works
   end
 end

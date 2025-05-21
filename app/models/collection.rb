@@ -564,5 +564,9 @@ class Collection < ApplicationRecord
     def last_updated
       order(:updated_at).last
     end
+
+    def root
+      where(root: true).first
+    end
   end
 end

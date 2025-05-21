@@ -28,6 +28,13 @@ module Works::Filtering
       end
     end
 
+    def set_all_filters
+      set_selection_filter
+      set_time_filter
+      set_no_child_works
+      set_search_text
+    end
+
     def set_time_filter
       time_filter_params = {}
       if params[:time_filter]
@@ -67,8 +74,7 @@ module Works::Filtering
         @selection_filter = {}
       elsif params[:filter]
         params[:filter].each do |field, values|
-          if field == "reset"
-          elsif field == "work_sets.uuid"
+          if field == "work_sets.uuid"
             @selection_filter["work_sets.id"] ||= []
             @selection_filter["work_sets.id"] += WorkSet.where(uuid: values).pluck(:id)
           elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status"].include?(field)
@@ -82,8 +88,6 @@ module Works::Filtering
           end
         end
       end
-
-      set_search_text
 
       @selection_filter
     end
