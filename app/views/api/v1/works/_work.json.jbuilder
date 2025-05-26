@@ -65,7 +65,7 @@ if current_api_user.ability.can?(:read, Appraisal)
 
   json.balance_category { json.extract! work.balance_category, :name, :id } if work.balance_category
 end
-json.work_sets(work.work_sets) do |work_set|
+json.work_sets(work.work_sets.not_deactivated) do |work_set|
   json.work_set_type { json.extract! work_set.work_set_type, :name, :count_as_one, :appraise_as_one }
   json.identification_number work_set.identification_number
   json.id work_set.id

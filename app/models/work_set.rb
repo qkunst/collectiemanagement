@@ -41,7 +41,7 @@ class WorkSet < ApplicationRecord
 
   before_validation :add_works_to_active_time_span
 
-  before_save :significantly_update_works!
+  after_save :significantly_update_works!
 
   time_as_boolean :deactivated
 

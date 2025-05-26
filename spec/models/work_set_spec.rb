@@ -148,8 +148,11 @@ RSpec.describe WorkSet, type: :model do
       it "significantly updates edit status of works" do
         work = works(:work1)
         work.update_column(:significantly_updated_at, 1.day.ago)
-        work_set = WorkSet.new(works: [work], work_set_type: work_set_types(:meerluik))
-        expect { work_set.save }.to change { Work.find(work.id).significantly_updated_at }
+        work_set = WorkSet.new(works: [work], work_set_type: work_set_types(:group))
+        work_set.save
+
+        work = work.reload
+        expect(work.significantly_updated_at).to be > 1.minute.ago
       end
 
       it "triggers async reindex of work" do

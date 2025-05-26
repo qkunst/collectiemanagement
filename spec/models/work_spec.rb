@@ -733,9 +733,10 @@ RSpec.describe Work, type: :model do
 
       it "schedules reindex jobs" do
         Sidekiq::Worker.clear_all
+        work_count = Work.count
         expect do
           Work.significantly_updated!
-        end.to change(ReindexWorkWorker.jobs, :size).by(Work.count)
+        end.to change(ReindexWorkWorker.jobs, :size).by(work_count)
       end
     end
   end
