@@ -62,7 +62,7 @@
 
   <div class="bottom-controls">
   <%= button_tag "Toon geselecteerde werken", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
-  <%= button_tag t(".create_work_set"), name: :filter_on, value: :create_work_set, class: [:tertiary, :button, :small]%>
+  <%= button_tag t(".create_work_set"), name: :filter_on, value: :create_work_set, class: [:tertiary, :button, :small] if can?(:create, WorkSet) %>
   <%= button_tag "Werk aantallen selectie in rapportage bij", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
   </div>
 
