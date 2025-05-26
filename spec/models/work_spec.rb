@@ -731,7 +731,7 @@ RSpec.describe Work, type: :model do
         expect(Work.where(significantly_updated_at: (...1.week.from_now)).count).to eq(0)
       end
 
-      it "schedules reindex jobs", skip_ci: true do
+      it "schedules reindex jobs" do
         Sidekiq::Worker.clear_all
         work_count = Work.count
         expect do
