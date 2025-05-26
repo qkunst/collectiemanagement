@@ -733,7 +733,6 @@ RSpec.describe Work, type: :model do
 
       it "schedules reindex jobs" do
         Sidekiq::Worker.clear_all
-        binding.irb
         expect do
           Work.significantly_updated!
         end.to change(ReindexWorkWorker.jobs, :size).by(Work.count)
