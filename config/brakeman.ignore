@@ -15,7 +15,7 @@
           "type": "controller",
           "class": "WorksController",
           "method": "show",
-          "line": 130,
+          "line": 128,
           "file": "app/controllers/works_controller.rb",
           "rendered": {
             "name": "works/show",
@@ -285,13 +285,13 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
-      "fingerprint": "f0a59a5ef3eb468368713baac9b59934800aa8fd31a44ba8867e1b2d7f5fed00",
+      "fingerprint": "ede7aafd25d4279ab9549a437e6a3e72d85adddb01c13015f54782a072459aeb",
       "check_name": "Render",
       "message": "Render path contains parameter value",
       "file": "app/views/batch/show.html.erb",
-      "line": 118,
+      "line": 120,
       "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, @selection_filter, :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
+      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
       "render_path": [
         {
           "type": "controller",
@@ -314,9 +314,8 @@
       "cwe_id": [
         22
       ],
-      "note": ""
+      "note": "the param is used to filter accessible collections; using find; should be safe"
     }
   ],
-  "updated": "2024-11-29 17:41:56 +0100",
-  "brakeman_version": "6.1.2"
+  "brakeman_version": "7.0.2"
 }
