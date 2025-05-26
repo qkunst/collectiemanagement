@@ -164,7 +164,7 @@ RSpec.describe WorkSet, type: :model do
       it "shouldn't do anything when nothing is set" do
         work_set = work_sets(:work_set_collection1)
         work_ids_before = work_set.works.map(&:id)
-        work_set.update_with_works_filter_params
+        expect(work_set.update_with_works_filter_params).to be_nil
         expect(work_set.works.map(&:id).sort).to eq(work_ids_before.sort)
       end
 
@@ -177,6 +177,19 @@ RSpec.describe WorkSet, type: :model do
         work_set.update_with_works_filter_params
         work_set.reload
         expect(work_set.works.map(&:id).sort)
+      end
+    end
+
+    describe "#dynamic?" do
+      it "should return false when filter is present with collection" do
+        work_set = work_sets(:work_set_collection1)
+        expect(work_set.dynamic?).to be_falsey
+      end
+
+      it "should return true when filter is defined wit collection" do
+        work_set = work_sets(:dynamic_filter_by_ids)
+        work_set.works_filter_params = {ids: works.map(&:id), collection_id: collections(:collection1).id}
+        expect(work_set.dynamic?).to be_truthy
       end
     end
   end

@@ -32,4 +32,6 @@
 <p>Dit zijn niet alle werken, het zijn in totaal <%= t("count.works", count: @works.count) %>. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @works.count) }", collection_works_path(@collection, params: {ids: @works.pluck(:id).join(",") }), target: "_blank" if @collection %></p>
 <% end%>
 
+<% else %>
+<div class="callout warning">Let op: Er zijn geen werken geselecteerd, noch is er een filter actief.</div>
 <% end %>

@@ -12,7 +12,8 @@ class BatchController < ApplicationController
     if params[:batch_process_property] == "create_report"
       redirect_to new_collection_custom_report_path(work_ids_hash: works_to_work_ids_hash)
     elsif params[:batch_process_property] == "create_work_set"
-      redirect_to new_collection_work_set_path(collection_id: @collection.id, work_ids_hash: works_to_work_ids_hash)
+      set_all_filters
+      redirect_to new_collection_work_set_path(collection_id: @collection.id, work_ids_hash: works_to_work_ids_hash, time_filter: @time_filter&.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text)
     else
       @work_display_form = WorkDisplayForm.new(current_user:, display: :complete)
 
@@ -57,7 +58,7 @@ class BatchController < ApplicationController
     set_all_filters
 
     @form = Batch::WorkForm.new(collection: @collection)
-    filtered_works = @collection.search_works(@search_text, @selection_filter, {force_elastic: false, return_records: true, no_child_works: false})
+    filtered_works = @collection.search_works(@search_text, @selection_filter || {}, {force_elastic: false, return_records: true, no_child_works: false})
 
     @work_ids = filtered_works.by_group(selected_work_group_type, selected_work_group_ids).pluck(:id)
     @work_ids += filtered_works.has_number(work_numbers).pluck(:id)

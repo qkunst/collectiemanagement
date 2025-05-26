@@ -19,5 +19,8 @@ scheduler:
       cron: "22 5 * * *"
       class: ScheduleReindexWorkWorker
     schedule_rinse_and_clean:
-      cron: "23 5 * * *"
+      cron: "4 5 * * *"
       class: RinseAndCleanWorker
+    schedule_update_dynamic_work_sets:
+      cron: "14 5 * * *"
+      class: UpdateDynamicWorkSetsWorker

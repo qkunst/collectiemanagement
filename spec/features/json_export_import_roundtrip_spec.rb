@@ -5,10 +5,10 @@ require_relative "feature_helper"
 RSpec.feature "Manage Collection", type: :feature do
   include FeatureHelper
 
-  def download_json(collection)
+  def download_json(collection, prefix_id: nil)
     visit api_v1_collection_works_path(collection, format: :json)
     filename = File.join(Rails.root, "tmp", "#{SecureRandom.uuid}.json")
-    File.write(filename, page.body.gsub("\"id\":", "\"id\":99"))
+    File.write(filename, page.body.gsub("\"id\":", "\"id\":#{prefix_id}")) if prefix_id
     filename
   end
 
@@ -21,7 +21,7 @@ RSpec.feature "Manage Collection", type: :feature do
       target_collection = collections(:boring_collection)
       source_collection = collections(:collection1)
       appraisals(:appraisal_without_date).destroy
-      file = download_json(source_collection)
+      file = download_json(source_collection, prefix_id: 99)
 
       visit new_collection_import_collection_url(target_collection)
       # expect(page).to have_content "Aantal geïmporteerde werken"
@@ -55,7 +55,7 @@ RSpec.feature "Manage Collection", type: :feature do
         end
         string_compare_attributes_of_interest.each do |str_attribute|
           if pair[1].send(str_attribute).public_methods.include?(:[])
-            expect(pair[1].send(str_attribute)[0].to_s).to eq(pair[0].send(str_attribute)[0].to_s)
+            expect(pair[1].send(str_attribute).map(&:to_s).sort.join(",")).to eq(pair[0].send(str_attribute).map(&:to_s).sort.join(","))
           else
             expect(pair[1].send(str_attribute).to_s).to eq(pair[0].send(str_attribute).to_s)
           end

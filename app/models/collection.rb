@@ -192,7 +192,7 @@ class Collection < ApplicationRecord
   alias_method :appraise_with_ranges?, :appraise_with_ranges
 
   def show_availability_status
-    read_attribute(:show_availability_status) || (self_and_parent_collections_flattened.where(show_availability_status: true).count > 0)
+    @show_availability_status ||= read_attribute(:show_availability_status) || (self_and_parent_collections_flattened.where(show_availability_status: true).count > 0)
   end
   alias_method :show_availability_status?, :show_availability_status
 

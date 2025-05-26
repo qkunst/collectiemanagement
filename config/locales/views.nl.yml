@@ -1,0 +1,9 @@
+nl:
+  work_sets:
+    show:
+      dynamic_explainer: Dit is een dynamische werkgroepering. Dynamische werkgroeperingen worden dagelijks automatisch bijgewerkt op basis van de filter.
+    form:
+      dynamic: Dynamische werkgroeperingen worden dagelijks automatisch bijgewerkt op basis van de filter
+  report:
+    show:
+      create_work_set: Maak een dynamische werkgroepering

@@ -19,10 +19,12 @@ class WorkSetsController < ApplicationController
       work_ids = IdsHash.find_by_hashed(params[:work_ids_hash]).ids
       @works = current_user.accessible_works.where(id: work_ids)
     elsif params[:filter]
+      set_all_filters
+      @work_set.works_filter_params = {time_filter: @time_filter.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text, collection_id: @collection.id}
       set_works
     end
 
-    @work_set.works = @works
+    @work_set.works = @works || []
   end
 
   def create
@@ -137,7 +139,7 @@ class WorkSetsController < ApplicationController
   end
 
   def work_set_params
-    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment, :deactivated)
+    rv = params.require(:work_set).permit(:work_set_type_id, :identification_number, :work_ids, :comment, :deactivated, :dynamic)
     rv[:work_ids] = current_user.accessible_works.where(id: rv[:work_ids].split(/[\s,]/)).pluck(:id) if rv[:work_ids]
     rv
   end

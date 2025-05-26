@@ -101,7 +101,7 @@ module Works::Filtering
       filter = filter.merge(id: @time_filter.work_ids) if @time_filter&.enabled?
       options = {force_elastic: false, return_records: true, no_child_works: @no_child_works}
 
-      @works = @collection.search_works(@search_text, filter, options)
+      @works = @collection.search_works(@search_text, filter || {}, options)
       @works = @works.published if params[:published]
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]

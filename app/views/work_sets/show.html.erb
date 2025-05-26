@@ -1,6 +1,8 @@
 <h1><%= @title  %></h1>
 <%= kramdown @work_set.comment %>
-
+<% if @work_set.dynamic?%>
+<p><%= t(".dynamic_explainer")%></p>
+<% end %>
 <nav class="sub-nav bottom-nav hide-for-print" aria-label="Groeperingsacties">
   <ul class="menu right-aligned menu--only-buttons">
     <% if (can? :edit, @work_set) %>
@@ -23,8 +25,15 @@
     <% if can?(:create, Appraisal.new(appraisee: @work_set)) && @work_set.appraisable? %>
       <li><%= link_to 'Waardeer', new_collection_work_set_appraisal_path(@collection,@work_set), class: 'secondary small button right', data: { open_in_context: true}%></li>
     <% end %>
+    <% if @work_set.dynamic? %>
+
+    <li><%= link_to "Toon in werken", collection_works_path(@collection, params: @work_set.works_filter_params), class: "tertiary small button right"%></li>
+    <li><%= link_to "Toon in rapportage", collection_report_path(@collection, params: @work_set.works_filter_params), class: "tertiary small button right"%></li>
+
+    <% else %>
     <li><%= link_to "Toon in werken", collection_works_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
     <li><%= link_to "Toon in rapportage", collection_report_path(@collection, params: {filter: {"work_sets.id": [@work_set.id]}}), class: "tertiary small button right"%></li>
+    <%end%>
     <% if @current_active_time_span  && !@work_set.deactivated? %>
     <li><%= link_to "Factureer werkset", uitleen_new_draft_invoice_url(invoiceable_item_collection: @work_set), class: "tertiary small button right", data: { confirm: "U wordt doorgestuurd naar de uitleen applicatie. Werken met een actieve gebeurtenis voor de organisatie worden automatisch toegevoegd aan de factuur."}%></li>
     <% elsif !@work_set.deactivated? %>

@@ -1,0 +1,4 @@
+en:
+  work_sets:
+    form:
+      dynamic: Dynamic work sets are updated daily (or more frequently when manually triggered) based on a filter

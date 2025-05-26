@@ -31,6 +31,8 @@ class WorkSet < ApplicationRecord
   scope :for_unexpanded_collections, ->(collections) { WorkSet.where(id: joins(:works).where(works: {collection_id: collections}).pluck(:id).uniq) }
   scope :for_collection, ->(collection) { for_unexpanded_collections(collection.self_and_parent_collections_flattened + collection.child_collections_flattened) }
   scope :not_deactivated, -> { where(deactivated_at: nil) }
+  scope :not_dynamic, -> { where(works_filter_params: nil) }
+  scope :dynamic, -> { where.not(works_filter_params: nil) }
 
   alias_attribute :stock_number, :identification_number
 
@@ -220,14 +222,23 @@ class WorkSet < ApplicationRecord
     User.new(admin: true)
   end
 
-  attr_reader :params, :collection
-
-  def works_filter_params_json
-    works_filter_params.to_json if works_filter_params.present?
+  def dynamic= bool
+    bool = ActiveRecord::Type::Boolean.new.cast(bool)
+    if bool == false
+      self.works_filter_params = nil
+    end
   end
 
+  def dynamic
+    !works_filter_params.blank? && (works_filter_params[:collection_id].present? || works_filter_params["collection_id"].present?)
+  end
+  alias_method :dynamic?, :dynamic
+
+  attr_reader :params, :collection
+
   def update_with_works_filter_params
-    return nil if works_filter_params.blank?
+    return nil if !dynamic?
+
     @params = ActiveSupport::HashWithIndifferentAccess.new(works_filter_params)
     @collection = Collection.find(@params[:collection_id])
 

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require "sidekiq/web"
-
-# Sidekiq::Web.set :sessions, false
+require "sidekiq-scheduler/web"
 
 Rails.application.routes.draw do
   get "short_code_resolver/resolve/:collection_code/:work_code" => "short_code_resolver#resolve"

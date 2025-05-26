@@ -167,7 +167,6 @@ nl:
       work_set_type: Werkgroeperingstype
       workset: Werkgroepering
       work_set: Werkgroepering
-      library_item: Bibliotheek item
       time_span: Gebeurtenis
       timespan: Gebeurtenis
     values:
@@ -617,6 +616,8 @@ nl:
         work_set_type: Type groepering
         identification_number: Identificatiecode
         comment: Opmerking
+        deactivated: Gedeactiveerd / verborgen
+        dynamic: Dynamisch
       category:
         name: Naam
         order: Volgorde

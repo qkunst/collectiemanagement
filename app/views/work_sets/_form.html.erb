@@ -10,7 +10,7 @@
       <%= f.input :identification_number %>
       <%= f.input :comment %>
       <%= f.input :deactivated, as: :boolean%>
-      <%= f.input :works_filter_params_json, as: :hidden %>
+      <%= f.input :dynamic, as: :boolean, hint: t(".dynamic") if @work_set.dynamic?%>
       <%= f.association :works, as: :hidden%>
       <%= all_filter_data_to_hidden_inputs if params[:filter] %>
       <%= f.submit class: :button%>
