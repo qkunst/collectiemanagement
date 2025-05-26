@@ -119,6 +119,8 @@
 require_relative "../rails_helper"
 
 RSpec.describe Work, type: :model do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:collection) { collections(:collection1) }
   describe "callbacks" do
     describe "significantly_updated_at" do
@@ -703,6 +705,7 @@ RSpec.describe Work, type: :model do
         Work.where(id: works(:work1).id)
       end
     end
+
     describe ".column_types" do
       it "returns a hash" do
         expect(Work.column_types).to be_a(Hash)
@@ -714,6 +717,26 @@ RSpec.describe Work, type: :model do
         it "should return #{v} for #{k}" do
           expect(Work.column_types[k.to_s]).to eq(v)
         end
+      end
+    end
+
+    describe ".significantly_updated!" do
+      it "marks all works as significantly updated" do
+        expect(Work.where(significantly_updated_at: (...1.week.from_now)).count).to be > 0
+
+        travel_to(1.month.from_now) do
+          Work.significantly_updated!
+        end
+
+        expect(Work.where(significantly_updated_at: (...1.week.from_now)).count).to eq(0)
+      end
+
+      it "schedules reindex jobs" do
+        Sidekiq::Worker.clear_all
+        binding.irb
+        expect do
+          Work.significantly_updated!
+        end.to change(ReindexWorkWorker.jobs, :size).by(Work.count)
       end
     end
   end

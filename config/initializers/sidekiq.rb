@@ -11,18 +11,18 @@ end
 
 Sidekiq.configure_server do |config|
   config.client_middleware do |chain|
-    chain.add SidekiqUniqueJobs::Middleware::Client
+    chain.add SidekiqUniqueJobs::Middleware::Client unless Rails.env.test?
   end
   config.server_middleware do |chain|
     chain.add SourceQkunstbeheer::SidekiqErrorLogger
-    chain.add SidekiqUniqueJobs::Middleware::Server
+    chain.add SidekiqUniqueJobs::Middleware::Server unless Rails.env.test?
   end
 
-  SidekiqUniqueJobs::Server.configure(config)
+  SidekiqUniqueJobs::Server.configure(config) unless Rails.env.test?
 end
 
 Sidekiq.configure_client do |config|
   config.client_middleware do |chain|
-    chain.add SidekiqUniqueJobs::Middleware::Client
+    chain.add SidekiqUniqueJobs::Middleware::Client unless Rails.env.test?
   end
 end

@@ -5,7 +5,7 @@
     <h2>Toevoegen aan bestaande sectie</h2>
       <% @collection ||= @works.first.collection.base_collection%>
       <%= form_tag(collection_work_sets_url(@collection)) do %>
-        <%= select("work_set", "id", WorkSet.for_collection(@collection).order(identification_number: :asc).not_deactivated.all.collect { |p| [ p.name, p.id ] }, {}, {class: "chosen-select"} )  %>
+        <%= select("work_set", "id", WorkSet.for_collection(@collection).order(identification_number: :asc).not_deactivated.not_dynamic.all.collect { |p| [ p.name, p.id ] }, {}, {class: "chosen-select"} )  %>
         <%= hidden_field_tag "work_set[work_ids]", @works&.pluck(:id)&.join(" ")  %>
 
         <%= button_tag "Toevoegen", class: [:button, :primary]%>

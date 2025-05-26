@@ -712,5 +712,12 @@ class Work < ApplicationRecord
       @@column_types["new_found"] = :boolean
       @@column_types
     end
+
+    def significantly_updated!
+      update_all(significantly_updated_at: Time.current)
+      pluck(:id).each do |work_id|
+        ReindexWorkWorker.perform_async(work_id)
+      end
+    end
   end
 end

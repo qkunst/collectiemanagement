@@ -210,7 +210,7 @@ class WorkSet < ApplicationRecord
   end
 
   def significantly_update_works!
-    works.each(&:significantly_updated!)
+    works.significantly_updated!
   end
   alias_method :significantly_updated!, :significantly_update_works!
 
