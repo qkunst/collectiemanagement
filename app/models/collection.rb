@@ -5,6 +5,7 @@
 # Table name: collections
 #
 #  id                                        :bigint           not null, primary key
+#  api_setting_expose_only_published_works   :boolean
 #  appraise_with_ranges                      :boolean          default(FALSE)
 #  base                                      :boolean
 #  collection_name_extended_cache            :text

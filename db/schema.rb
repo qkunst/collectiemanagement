@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_16_153452) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_28_133743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -182,6 +182,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_16_153452) do
     t.text "work_attributes_present_cache"
     t.text "derived_work_attributes_present_cache"
     t.text "pdf_title_export_variants_text"
+    t.boolean "api_setting_expose_only_published_works"
     t.index ["unique_short_code"], name: "index_collections_on_unique_short_code", unique: true
   end
 

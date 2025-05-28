@@ -153,24 +153,60 @@ RSpec.describe Api::V1::WorksController, type: :request do
     before do
       sign_in users(:admin)
     end
-    it "allows for filtering on currently rent", requires_elasticsearch: true do
-      get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
 
-      expect(JSON.parse(response.body)["data"].sort).to eq([])
+    describe "GET /api/v1/collections/:collection_id/works #index" do
+      it "allows for filtering on currently rent", requires_elasticsearch: true do
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
 
-      get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id])
-      expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_availability).works_including_child_works.pluck(:id).sort)
+        expect(JSON.parse(response.body)["data"].sort).to eq([])
 
-      if Rails.env.test?
-        get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
-        expect(JSON.parse(response.body)["data"].sort).to eq([works(:collection_with_availability_rent_work).id])
+        get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id])
+        expect(JSON.parse(response.body)["data"].sort).to eq(collections(:collection_with_availability).works_including_child_works.pluck(:id).sort)
+
+        if Rails.env.test?
+          get api_v1_collection_works_path(collections(:collection_with_availability), format: :json, pluck: [:id], filter: {availability_status: [:lent]})
+          expect(JSON.parse(response.body)["data"].sort).to eq([works(:collection_with_availability_rent_work).id])
+        end
+      end
+
+      it "returns a work set with work set type" do
+        get api_v1_collection_works_path(collections(:collection3), format: :json)
+        work_with_work_sets = JSON.parse(response.body)["data"].find { |a| a["work_sets"] != [] }
+        expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).not_to be_nil
+      end
+
+      it "only returns published works, when set, even when admin is true" do
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
+        expect(JSON.parse(response.body)["data"].count).to be >= 3
+
+        collections(:collection_with_works).update(api_setting_expose_only_published_works: true)
+        get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
+        expect(JSON.parse(response.body)["data"].count).to be < 3
       end
     end
 
-    it "returns a work set with work set type" do
-      get api_v1_collection_works_path(collections(:collection3), format: :json)
-      work_with_work_sets = JSON.parse(response.body)["data"].find { |a| a["work_sets"] != [] }
-      expect(work_with_work_sets["work_sets"].first["work_set_type"]["name"]).not_to be_nil
+    describe "GET /api/v1/collections/:collection_id/works/:id #show" do
+      it "only returns published works, when set, even when admin is true" do
+        get api_v1_collection_work_path(collections(:collection_with_works), works(:work1), format: :json)
+        expect(response).to be_successful
+
+        get api_v1_collection_work_path(collections(:collection_with_works), works(:work5), format: :json)
+        expect(response).to be_successful
+      end
+
+      context "api_setting_expose_only_published_works: true" do
+        before do
+          collections(:collection_with_works).update(api_setting_expose_only_published_works: true)
+        end
+
+        it "only returns published works, when set, even when admin is true" do
+          get api_v1_collection_work_path(collections(:collection_with_works), works(:work1), format: :json)
+          expect(response).to be_successful
+
+          get api_v1_collection_work_path(collections(:collection_with_works), works(:work5), format: :json)
+          expect(response).to be_not_found
+        end
+      end
     end
   end
 end

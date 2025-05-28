@@ -32,6 +32,8 @@ class Api::V1::WorksController < Api::V1::ApiController
       end
     end
 
+    @works = @works.published if @collection.api_setting_expose_only_published_works?
+
     if params[:pluck]
       render json: {data: @works.pluck(*(params[:pluck].map(&:to_sym) & exposable_database_fields))}
     end
@@ -42,7 +44,11 @@ class Api::V1::WorksController < Api::V1::ApiController
   def show
     @collection ||= Work.find(params[:id])&.collection
     api_authorize! :read_api, @collection
-    @work = @collection.works_including_child_works.find(params[:id])
+
+    base_work_scope = @collection.works_including_child_works
+    base_work_scope = base_work_scope.published if @collection.api_setting_expose_only_published_works?
+
+    @work = base_work_scope.find(params[:id])
   end
 
   def exposable_database_fields
