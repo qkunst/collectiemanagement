@@ -1,5 +1,7 @@
 # Security
 
+**Update: 2 June 2025**: This document is outdated. It has been revised and merged with other security policies and moved to internal storage. If you need a copy of our most recent security policy, request it by sending an e-mail to info@qkunst.nl .
+
 Last review: 21 july 2021
 
 This document describes the policies and measures
