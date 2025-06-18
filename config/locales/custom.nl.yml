@@ -46,6 +46,7 @@ nl:
     write_internal_comments: Toon interne opmerkingen
     read_internal_comments: Wijzig interne opmerkingen
     read_information_back: Toon informatie achterzijde
+    read_cluster_report: Toon cluster rapportage
     review_modified_works: Toon gewijzigde werken
     review_collection_users: Toon gebruikers binnen de collectie
     edit_photos: Foto's bewerken
@@ -79,6 +80,8 @@ nl:
     edit_availability: Bewerk beschikbaarheid
     read_condition: Toon conditie
     work_status: Toon status
+    time_filter: Tijdsfilter
+    download_title_labels: Download titel-bordjes (pdf)
   filters:
     time:
       sold_between: Verkocht op
@@ -155,7 +158,11 @@ nl:
       reminder: Herinnering
       rkdartist: RKD Artist
       rkd_artist: RKD Artist
+      rkd/artist: RKD Artist
+      rkdartist: RKD Artist
+      "rkd::artist": RKD Artist
       source: Herkomst
+      simpleimportcollection: Eenvoudige Import
       stage: Workflow stadium
       style: Stijl
       subset: Deelcollectie
