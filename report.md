@@ -1,6 +1,6 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2025-06-18 21:51:26 +0200
+Date: 2025-06-18 22:59:42 +0200
 
 This report gives an overview of the test ran. This report is automatically created.
 
@@ -165,120 +165,265 @@ This lists what a user can do per object-type.
 |**Thema**||
 |*Overzicht tonen in collectie-context*|✔|✔|✔|✘|✘|✘|✘|✘|
 
-### Write access
+### Read access
 
-This is a list of fields a user can write to
+This is a list of fields / properties the user can read
 
 |-|Administrator | Kunstadviseur | Compliance | Registrator | Taxateur | Facility Manager | Facility Manager Support | Read-only|
 |-|---|---|---|---|---|---|---|---|
-|**works_attributes**||
-|*location_detail*|✔|✔|✘|✔|✔|✔|✘|✘|
-|*location*|✔|✔|✘|✔|✔|✔|✘|✘|
-|*main_location_id*|✔|✔|✘|✔|✔|✔|✘|✘|
-|*location_floor*|✔|✔|✘|✔|✔|✔|✘|✘|
-|*work_status_id*|✔|✔|✘|✔|✔|✔|✘|✘|
-|*internal_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*photo_front*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*photo_back*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*photo_detail_1*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*photo_detail_2*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*remove_photo_front*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*remove_photo_back*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*remove_photo_detail_1*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*remove_photo_detail_2*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*inventoried*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*refound*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*new_found*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*checked*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*locality_geoname_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*imported_at*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*import_collection_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*stock_number*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*alt_number_1*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*alt_number_2*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*alt_number_3*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*artist_unknown*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*title*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*title_unknown*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*description*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*object_creation_year*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*object_creation_year_unknown*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*medium_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_type_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*signature_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*no_signature_present*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*print*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*print_unknown*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_height*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_width*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_depth*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_diameter*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*height*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*width*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*depth*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*diameter*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*condition_work_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*condition_work_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*condition_frame_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*condition_frame_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*information_back*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*other_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*subset_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*public_description*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*highlight_priority*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*grade_within_collection*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*abstract_or_figurative*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*medium_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*main_collection*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*image_rights*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*publish*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*cluster_name*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*collection_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*cluster_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*owner_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*permanently_fixed*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*placeability_id*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*artist_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*damage_type_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*frame_damage_type_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*theme_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*object_category_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*technique_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*source_comments*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*source_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*purchase_price*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*purchased_on*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*purchase_year*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*fin_balance_item_id*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*for_rent*|✔|✔|✘|✘|✘|✘|✘|✘|
-|*for_purchase*|✔|✔|✘|✘|✘|✘|✘|✘|
-|*removed_from_collection*|✔|✔|✘|✘|✘|✘|✘|✘|
-|*cluster*|✔|✔|✘|✘|✘|✘|✘|✘|
-|*selling_price*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*publish_selling_price*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*minimum_bid*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*selling_price_minimum_bid_comments*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*purchase_price_currency_id*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*balance_category_id*|✔|✔|✘|✘|✔|✘|✘|✘|
-|**artists_attributes**||
-|*_destroy*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*first_name*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*last_name*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*prefix*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*place_of_birth*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*place_of_death*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*year_of_birth*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*year_of_death*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*description*|✔|✔|✘|✔|✔|✘|✘|✘|
-|**appraisals_attributes**||
-|*appraised_on*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*market_value*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*replacement_value*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*market_value_range*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*replacement_value_range*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*appraised_by*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*reference*|✔|✔|✘|✘|✔|✘|✘|✘|
-|*notice*|✔|✔|✘|✘|✔|✘|✘|✘|
+|**Werk**||
+|*Collectie*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*ID*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Bijgewerkt op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Inventarisnummer*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Titel*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Zonder titel*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Beschrijving*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Datering (jaar)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Datering onbekend*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Drager*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Lijsttype*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Categorieën*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Technieken*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Foto voorkant*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Foto achterkant*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Foto detail 1*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Foto detail 2*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Vervaardiger(s)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Vervaardigers*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Thema's*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Stijl*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Deelcollectie*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Abstract of figuratief*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Lokaliteit*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Oplage*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Conditie werk*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Conditie lijst*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Oplage onbekend*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Hoogte lijst (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Breedte lijst (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Diepte lijst (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Diameter lijst (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Hoogte beeld (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Breedte beeld (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Diepte beeld (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Diameter beeld (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Gewicht (kg)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Formaatcode*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Afmetingen beeld (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Lijstafmetingen (cm)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Vloeroppervlak (m²)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Muuroppervlak (m²)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Highlight*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Voor verkoop*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Voor verhuur*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Vervaardiger(s) (compact)*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Locatie specificatie*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Adres en/of gebouw(deel)*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Verdieping*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Status*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Verwijderd uit collectie op*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Gebeurtenissen*|✔|✔|✔|✔|✔|✔|✔|✘|
+|*Opmerkingen voor intern gebruik*|✔|✔|✔|✔|✔|✘|✘|✘|
+|*Formaatbeschrijving*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Voor verkoop sinds*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Voor verhuur sinds*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Beschikbaarheidsstatus*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 1*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 2*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 3*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 4*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 5*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Alternatief nummer 6*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Toegevoegd op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Geïnventariseerd*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Teruggevonden*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Nieuw aangetroffen*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Geïnventariseerd op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Teruggevonden op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Nieuw aangetroffen op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Geïmporteerd op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Import ID*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Vervaardiger onbekend*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Tags*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Signatuur (incl. locatie)*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Geen signatuur aanwezig*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Overige opmerkingen*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Gecontroleerd op*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Niveau binnen collectie*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Toelichting drager*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Kerncollectie*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Beeldrecht aanwezig*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Publiceer*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Clusternaam*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Cluster*|✔|✔|✔|✔|✔|✘|✔|✘|
+|*Eigendom*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Aard- en nagelvast*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Signatuur*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Plaatsbaarheid*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Type schade beeld*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Type schade lijst*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Informatie achterkant*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Conditie beeld*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Conditie beeld toelichting & locatie*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Conditie lijst toelichting & locatie*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Bijlagen*|✔|✔|✔|✔|✔|✘|✘|✘|
+|*Werkgroeperingen*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Herkomst opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Herkomst*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Oorspronkelijke gegevens (ruw)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Aankoopprijs*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Aankoopdatum*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Aankoopjaar*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Balansitem*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Publiceer verkoopprijs*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Verkoopprijs*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Startbod*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Vervangingswaarde (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Vervangingswaardecategorie (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Balanscategorie*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Verhuurprijs (particulier)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Verhuurprijs (zakelijk)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Munteenheid*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Verkoop/startprijs opmerkingen*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Aankoopjaar/datum*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Marktwaarde (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Marktwaardecategorie (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Datum waardebepaling*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Toelichting waardering*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Prijsreferentie*|✔|✔|✘|✘|✔|✘|✘|✘|
+|**Vervaardiger**||
+|*Voornaam*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Achternaam*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Tussenvoegsel*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Geboorteplaats*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Plaats van overlijden*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Geboortejaar*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Jaar van overlijden*|✔|✔|✔|✔|✔|✔|✔|✔|
+|*Opmerkingen*|✔|✔|✔|✔|✔|✔|✔|✔|
+|**Waardering**||
+|*Gewaardeerd op*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Marktwaarde (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Vervangingswaarde (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Marktwaardecategorie (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Vervangingswaardecategorie (€)*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Waardering door*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Referentie / Opmerkingen*|✔|✔|✔|✘|✔|✔|✘|✘|
+|*Toelichting waardering voor klant*|✔|✔|✔|✘|✔|✔|✘|✘|
+
+### Write access
+
+This is a list of fields / properties a user can write to / modify
+
+|-|Administrator | Kunstadviseur | Compliance | Registrator | Taxateur | Facility Manager | Facility Manager Support | Read-only|
+|-|---|---|---|---|---|---|---|---|
+|**Werk**||
+|*Locatie specificatie*|✔|✔|✘|✔|✔|✔|✘|✘|
+|*Adres en/of gebouw(deel)*|✔|✔|✘|✔|✔|✔|✘|✘|
+|*Locatie*|✔|✔|✘|✔|✔|✔|✘|✘|
+|*Verdieping*|✔|✔|✘|✔|✔|✔|✘|✘|
+|*Status*|✔|✔|✘|✔|✔|✔|✘|✘|
+|*Opmerkingen voor intern gebruik*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Foto voorkant*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Foto achterkant*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Foto detail 1*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Foto detail 2*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Verwijder Foto voorkant*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Verwijder Foto achterkant*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Verwijder Foto detail 1*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Verwijder Foto detail 2*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Geïnventariseerd*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Teruggevonden*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Nieuw aangetroffen*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Gecontroleerd*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Lokaliteit*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Geïmporteerd op*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Import ID*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Inventarisnummer*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Alternatief nummer 1*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Alternatief nummer 2*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Alternatief nummer 3*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Vervaardiger onbekend*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Titel*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Zonder titel*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Beschrijving*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Datering (jaar)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Datering onbekend*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Drager*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Lijsttype*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Signatuur (incl. locatie)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Geen signatuur aanwezig*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Oplage*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Oplage onbekend*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Hoogte lijst (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Breedte lijst (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Diepte lijst (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Diameter lijst (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Hoogte beeld (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Breedte beeld (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Diepte beeld (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Diameter beeld (cm)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Conditie werk*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Conditie beeld toelichting & locatie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Conditie lijst*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Conditie lijst toelichting & locatie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Informatie achterkant*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Overige opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Deelcollectie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Toelichting bij kunstwerk*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Highlight-prioriteit*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Niveau binnen collectie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Abstract of figuratief*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Toelichting drager*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Kerncollectie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Beeldrecht aanwezig*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Publiceer*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Clusternaam*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Collectie*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Cluster*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Eigendom*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Aard- en nagelvast*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Plaatsbaarheid*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Vervaardiger(s)*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Type schade beeld*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Type schade lijst*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Thema's*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Categorieën*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Technieken*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Herkomst opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Herkomst*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Aankoopprijs*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Aankoopdatum*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Aankoopjaar*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Balansitem*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Voor verhuur*|✔|✔|✘|✘|✘|✘|✘|✘|
+|*Voor verkoop*|✔|✔|✘|✘|✘|✘|✘|✘|
+|*Verwijderd uit collectie*|✔|✔|✘|✘|✘|✘|✘|✘|
+|*Verkoopprijs*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Publiceer verkoopprijs*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Startbod*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Verkoop/startprijs opmerkingen*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Munteenheid*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Balanscategorie*|✔|✔|✘|✘|✔|✘|✘|✘|
+|**Vervaardiger**||
+|*Verwijder*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Voornaam*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Achternaam*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Tussenvoegsel*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Geboorteplaats*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Plaats van overlijden*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Geboortejaar*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Jaar van overlijden*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
+|**Waardering**||
+|*Gewaardeerd op*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Marktwaarde (€)*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Vervangingswaarde (€)*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Marktwaardecategorie (€)*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Vervangingswaardecategorie (€)*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Waardering door*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Referentie / Opmerkingen*|✔|✔|✘|✘|✔|✘|✘|✘|
+|*Toelichting waardering voor klant*|✔|✔|✘|✘|✔|✘|✘|✘|
 
 
 ## Features
@@ -428,7 +573,7 @@ View report
   as a facility manager (limited)
   as a facility manager support (limited)
 
-Finished in 1 minute 10.48 seconds (files took 4.08 seconds to load)
+Finished in 1 minute 14.52 seconds (files took 3.62 seconds to load)
 70 examples, 0 failures
 
 

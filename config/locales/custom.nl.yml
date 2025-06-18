@@ -323,6 +323,7 @@ nl:
         actual_stage: Stadium samenvoegen met
         previous_stage: Vorig stadium
       artist:
+        _destroy: Verwijder
         id: ID
         alt_number_1: Alt. nr. 1
         artist_name: Artiestennaam
@@ -408,9 +409,9 @@ nl:
         ends_at: Tot
         classification: Soort
       work:
-        abstract: Abstract
-        abstract_or_figurative: Abstract of figuratief
         abstract_or_figurative_rendered: Abstract of figuratief
+        abstract_or_figurative: Abstract of figuratief
+        abstract: Abstract
         alt_number_1: Alternatief nummer 1
         alt_number_2: Alternatief nummer 2
         alt_number_3: Alternatief nummer 3
@@ -420,51 +421,112 @@ nl:
         appraisal_notice: Toelichting waardering
         appraisals: Waarderingen
         appraised_on: Gewaardeerd op
-        artists: Vervaardigers
-        artist_name_rendered: Vervaardiger(s)
+        artist_0_alt_number_1: Vervaardiger 1 Alt. nr. 1
+        artist_0_artist_name: Vervaardiger 1 Artiestennaam
+        artist_0_first_name: Vervaardiger 1 Voornaam
+        artist_0_id: Vervaardiger 1 QKunst ID
+        artist_0_last_name: Vervaardiger 1 Achternaam
+        artist_0_prefix: Vervaardiger 1 Tussenvoegsel
+        artist_0_rkd_artist_id: Vervaardiger 1 RKD nummer
+        artist_0_year_of_birth: Vervaardiger 1 Geboortejaar
+        artist_0_year_of_death: Vervaardiger 1 Jaar van overlijden
+        artist_1_alt_number_1: Vervaardiger 2 Alt. nr. 1
+        artist_1_artist_name: Vervaardiger 2 Artiestennaam
+        artist_1_first_name: Vervaardiger 2 Voornaam
+        artist_1_id: Vervaardiger 2 QKunst ID
+        artist_1_last_name: Vervaardiger 2 Achternaam
+        artist_1_prefix: Vervaardiger 2 Tussenvoegsel
+        artist_1_rkd_artist_id: Vervaardiger 2 RKD nummer
+        artist_1_year_of_birth: Vervaardiger 2 Geboortejaar
+        artist_1_year_of_death: Vervaardiger 2 Jaar van overlijden
+        artist_2_alt_number_1: Vervaardiger 3 Alt. nr. 1
+        artist_2_artist_name: Vervaardiger 3 Artiestennaam
+        artist_2_first_name: Vervaardiger 3 Voornaam
+        artist_2_id: Vervaardiger 3 QKunst ID
+        artist_2_last_name: Vervaardiger 3 Achternaam
+        artist_2_prefix: Vervaardiger 3 Tussenvoegsel
+        artist_2_rkd_artist_id: Vervaardiger 3 RKD nummer
+        artist_2_year_of_birth: Vervaardiger 3 Geboortejaar
+        artist_2_year_of_death: Vervaardiger 3 Jaar van overlijden
+        artist_3_alt_number_1: Vervaardiger 4 Alt. nr. 1
+        artist_3_artist_name: Vervaardiger 4 Artiestennaam
+        artist_3_first_name: Vervaardiger 4 Voornaam
+        artist_3_id: Vervaardiger 4 QKunst ID
+        artist_3_last_name: Vervaardiger 4 Achternaam
+        artist_3_prefix: Vervaardiger 4 Tussenvoegsel
+        artist_3_rkd_artist_id: Vervaardiger 4 RKD nummer
+        artist_3_year_of_birth: Vervaardiger 4 year_of_birth
+        artist_3_year_of_death: Vervaardiger 4 year_of_death
+        artist_4_alt_number_1: Vervaardiger 5 Alt. nr. 1
+        artist_4_artist_name: Vervaardiger 5 Artiestennaam
+        artist_4_first_name: Vervaardiger 5 Voornaam
+        artist_4_id: Vervaardiger 5 QKunst ID
+        artist_4_last_name: Vervaardiger 5 Achternaam
+        artist_4_prefix: Vervaardiger 5 Tussenvoegsel
+        artist_4_rkd_artist_id: Vervaardiger 5 RKD nummer
+        artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
+        artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
+        artist_ids: Vervaardiger(s)
         artist_name_for_sorting: Vervaardiger(s) (sort)
-        artist_name_rendered_without_years_nor_locality: Vervaardiger(s) (compact)
         artist_name_rendered_without_years_nor_locality_semicolon_separated: Vervaardiger(s) (sys)
+        artist_name_rendered_without_years_nor_locality: Vervaardiger(s) (compact)
+        artist_name_rendered: Vervaardiger(s)
         artist_unknown: Vervaardiger onbekend
+        artists: Vervaardigers
+        attachments: Bijlagen
+        availability_status: Beschikbaarheidsstatus
+        balance_category_id: Balanscategorie
         balance_category: Balanscategorie
-        checked: Gecontroleerd
+        business_rent_price_ex_vat: Verhuurprijs (zakelijk)
+        cached_tag_list: Tags
         checked_at: Gecontroleerd op
-        cluster: Cluster
+        checked: Gecontroleerd
+        cluster_id: Cluster
         cluster_name: Clusternaam
-        collection: Collectie
+        cluster: Cluster
         collection_external_reference_code: Collectie (externe) referentiecode
+        collection_id: Collectie
         collection_name_extended: Collectie
-        condition_frame: Conditie lijst
+        collection: Collectie
         condition_frame_comments: "Conditie lijst toelichting & locatie"
+        condition_frame_id: Conditie lijst
         condition_frame_rendered: Conditie lijst
-        condition_work: Conditie beeld
+        condition_frame: Conditie lijst
         condition_work_comments: "Conditie beeld toelichting & locatie"
+        condition_work_id: Conditie werk
         condition_work_rendered: Conditie werk
+        condition_work: Conditie beeld
         created_at: Toegevoegd op
         created_by: Invoerder
+        damage_type_ids: Type schade beeld
         damage_types: Type schade beeld
+        default_rent_price: Verhuurprijs (particulier)
         depth: Diepte beeld (cm)
         description: Beschrijving
         diameter: Diameter beeld (cm)
+        dimension_weight_description: Formaatbeschrijving
         figurative: Figuratief
         fin_balance_item_id: Balansitem
-        for_purchase: Voor verkoop
-        for_rent: Voor verhuur
         floor_surface: Vloeroppervlak (m²)
+        for_purchase_at: Voor verkoop sinds
+        for_purchase: Voor verkoop
+        for_rent_at: Voor verhuur sinds
+        for_rent: Voor verhuur
+        frame_damage_type_ids: Type schade lijst
         frame_damage_types:  Type schade lijst
         frame_depth: Diepte lijst (cm)
         frame_diameter: Diameter lijst (cm)
         frame_height: Hoogte lijst (cm)
-        frame_size: Lijstafmetingen (cm)
         frame_size_with_fallback: Afmetingen (cm)
+        frame_size: Lijstafmetingen (cm)
+        frame_type_id: Lijsttype
         frame_type: Lijsttype
         frame_width: Breedte lijst (cm)
-        weight: Gewicht (kg)
         grade_within_collection: Niveau binnen collectie
         has_photo_front: Foto voorzijde
         height: Hoogte beeld (cm)
-        highlight: Highlight
         highlight_priority: Highlight-prioriteit
+        highlight: Highlight
         hpd_comments: Opmerkingen
         hpd_condition: Fysieke staat
         hpd_contact: Contactpersoon
@@ -475,145 +537,122 @@ nl:
         hpd_materials: Materiaal
         hpd_photo_file_name: Foto-bestandsnaam
         hpd_width: Breedte
+        id: ID
         image_rights: Beeldrecht aanwezig
+        import_collection_id: Import ID
+        imported_at: Geïmporteerd op
         information_back: Informatie achterkant
         internal_comments: Opmerkingen voor intern gebruik
-        inventoried: Geïnventariseerd
         inventoried_at: Geïnventariseerd op
-        locality_geoname: Lokaliteit
+        inventoried: Geïnventariseerd
         locality_geoname_id: Lokaliteit
         locality_geoname_name: Lokaliteit
+        locality_geoname: Lokaliteit
+        location_detail_raw: Locatie specificatie
+        location_detail: Locatie specificatie
+        location_floor_raw: Verdieping
+        location_floor: Verdieping
+        location_raw: Adres en/of gebouw(deel)
         location: Adres en/of gebouw(deel)
         locations: Locaties
-        location_detail: Locatie specificatie
-        location_detail_raw: Locatie specificatie
-        location_floor: Verdieping
-        location_floor_raw: Verdieping
-        location_raw: Adres en/of gebouw(deel)
-        main_location: Locatie
         main_collection: Kerncollectie
-        market_value: Marktwaarde (€)
+        main_location_id: Locatie
+        main_location: Locatie
+        market_value_complete: Marktwaarde (€)
         market_value_max: Marktwaarde (max)
         market_value_min: Marktwaarde (min)
+        market_value_range_complete: Marktwaardecategorie (€)
         market_value_range: Marktwaardecategorie (€)
-        medium: Drager
+        market_value: Marktwaarde (€)
         medium_comments: Toelichting drager
+        medium_id: Drager
+        medium: Drager
         minimum_bid: Startbod
-        new_found: Nieuw aangetroffen
         new_found_at: Nieuw aangetroffen op
+        new_found: Nieuw aangetroffen
         no_signature_present: Geen signatuur aanwezig
-        object_categories: Categorieën
         object_categories_split: Categorieën (technieken afzonderlijk geteld)
-        object_creation_year: Datering (jaar)
+        object_categories: Categorieën
+        object_category_ids: Categorieën
         object_creation_year_unknown: Datering onbekend
+        object_creation_year: Datering (jaar)
         object_format_code: Formaatcode
+        old_data: Oorspronkelijke gegevens (ruw)
         other_comments: Overige opmerkingen
         other_structured_data: Overige gestructureerde gegevens
+        owner_id: Eigendom
         owner: Eigendom
         permanently_fixed: Aard- en nagelvast
         photo_back: Foto achterkant
         photo_detail_1: Foto detail 1
         photo_detail_2: Foto detail 2
         photo_front: Foto voorkant
+        placeability_id: Plaatsbaarheid
         placeability: Plaatsbaarheid
         price_reference: Prijsreferentie
-        print: Oplage
         print_rendered: Oplage
         print_unknown: Oplage onbekend
+        print: Oplage
         public_description: Toelichting bij kunstwerk
-        publish: Publiceer
         publish_selling_price: Publiceer verkoopprijs
-        purchased_on: Aankoopdatum
-        purchased_on_with_fallback: Aankoopjaar/datum
-        purchase_price: Aankoopprijs
-        purchase_price_in_eur: Aankoopprijs (€)
+        publish: Publiceer
+        purchase_price_currency_id: Munteenheid
         purchase_price_currency: Munteenheid
+        purchase_price_in_eur: Aankoopprijs (€)
+        purchase_price: Aankoopprijs
         purchase_year: Aankoopjaar
-        refound: Teruggevonden
+        purchased_on_with_fallback: Aankoopjaar/datum
+        purchased_on: Aankoopdatum
         refound_at: Teruggevonden op
+        refound: Teruggevonden
+        remove_photo_back: Verwijder Foto achterkant
+        remove_photo_detail_1: Verwijder Foto detail 1
+        remove_photo_detail_2: Verwijder Foto detail 2
+        remove_photo_front: Verwijder Foto voorkant
+        removed_from_collection_at: Verwijderd uit collectie op
         removed_from_collection: Verwijderd uit collectie
-        replacement_value: Vervangingswaarde (€)
-        replacement_value_min: Vervangingswaarde (min)
+        replacement_value_complete: Vervangingswaarde (€)
         replacement_value_max: Vervangingswaarde (max)
+        replacement_value_min: Vervangingswaarde (min)
+        replacement_value_range_complete: Vervangingswaardecategorie (€)
         replacement_value_range: Vervangingswaardecategorie (€)
-        selling_price: Verkoopprijs
+        replacement_value: Vervangingswaarde (€)
         selling_price_minimum_bid_comments: Verkoop/startprijs opmerkingen
-        signature: Signatuur
+        selling_price: Verkoopprijs
         signature_comments: Signatuur (incl. locatie)
         signature_rendered: Signatuur
+        signature: Signatuur
+        significantly_updated_at: Bijgewerkt op
+        source_comments: Herkomst opmerkingen
+        source_ids: Herkomst
         source: Herkomst
         sources: Herkomst
-        source_comments: Herkomst opmerkingen
         Stock number file safe: Inventarisnummer (bestandsnaamveilig)
         stock_number: Inventarisnummer
         style: Stijl
+        subset_id: Deelcollectie
         subset: Deelcollectie
-        tag_list: Tags
         tag_list_cache: Tags
-        cached_tag_list: Tags
+        tag_list: Tags
+        technique_ids: Technieken
         techniques: Technieken
+        theme_ids: "Thema's"
         themes: "Thema's"
-        title: Titel
+        time_spans: Gebeurtenissen
         title_rendered: Titel
         title_unknown: Zonder titel
+        title: Titel
         updated_at: Bijgewerkt op
-        significantly_updated_at: Bijgewerkt op
         user: Gebruiker
         valuation_on: Datum waardebepaling
         wall_surface: Muuroppervlak (m²)
+        weight: Gewicht (kg)
         width: Breedte beeld (cm)
-        work_sets: Werkgroeperingen
         work_set_types: Werkgroeperingen
+        work_sets: Werkgroeperingen
         work_size: Afmetingen beeld (cm)
+        work_status_id: Status
         work_status: Status
-        default_rent_price: Verhuurprijs (particulier)
-        business_rent_price_ex_vat: Verhuurprijs (zakelijk)
-        availability_status: Beschikbaarheidsstatus
-        artist_0_artist_name: Vervaardiger 1 Artiestennaam
-        artist_0_first_name: Vervaardiger 1 Voornaam
-        artist_0_prefix: Vervaardiger 1 Tussenvoegsel
-        artist_0_last_name: Vervaardiger 1 Achternaam
-        artist_0_rkd_artist_id: Vervaardiger 1 RKD nummer
-        artist_0_id: Vervaardiger 1 QKunst ID
-        artist_0_alt_number_1: Vervaardiger 1 Alt. nr. 1
-        artist_0_year_of_birth: Vervaardiger 1 Geboortejaar
-        artist_0_year_of_death: Vervaardiger 1 Jaar van overlijden
-        artist_1_artist_name: Vervaardiger 2 Artiestennaam
-        artist_1_first_name: Vervaardiger 2 Voornaam
-        artist_1_prefix: Vervaardiger 2 Tussenvoegsel
-        artist_1_last_name: Vervaardiger 2 Achternaam
-        artist_1_rkd_artist_id: Vervaardiger 2 RKD nummer
-        artist_1_id: Vervaardiger 2 QKunst ID
-        artist_1_alt_number_1: Vervaardiger 2 Alt. nr. 1
-        artist_1_year_of_birth: Vervaardiger 2 Geboortejaar
-        artist_1_year_of_death: Vervaardiger 2 Jaar van overlijden
-        artist_2_artist_name: Vervaardiger 3 Artiestennaam
-        artist_2_first_name: Vervaardiger 3 Voornaam
-        artist_2_prefix: Vervaardiger 3 Tussenvoegsel
-        artist_2_last_name: Vervaardiger 3 Achternaam
-        artist_2_rkd_artist_id: Vervaardiger 3 RKD nummer
-        artist_2_id: Vervaardiger 3 QKunst ID
-        artist_2_alt_number_1: Vervaardiger 3 Alt. nr. 1
-        artist_2_year_of_birth: Vervaardiger 3 Geboortejaar
-        artist_2_year_of_death: Vervaardiger 3 Jaar van overlijden
-        artist_3_artist_name: Vervaardiger 4 Artiestennaam
-        artist_3_first_name: Vervaardiger 4 Voornaam
-        artist_3_prefix: Vervaardiger 4 Tussenvoegsel
-        artist_3_last_name: Vervaardiger 4 Achternaam
-        artist_3_rkd_artist_id: Vervaardiger 4 RKD nummer
-        artist_3_id: Vervaardiger 4 QKunst ID
-        artist_3_alt_number_1: Vervaardiger 4 Alt. nr. 1
-        artist_3_year_of_birth: Vervaardiger 4 year_of_birth
-        artist_3_year_of_death: Vervaardiger 4 year_of_death
-        artist_4_artist_name: Vervaardiger 5 Artiestennaam
-        artist_4_first_name: Vervaardiger 5 Voornaam
-        artist_4_prefix: Vervaardiger 5 Tussenvoegsel
-        artist_4_last_name: Vervaardiger 5 Achternaam
-        artist_4_rkd_artist_id: Vervaardiger 5 RKD nummer
-        artist_4_id: Vervaardiger 5 QKunst ID
-        artist_4_alt_number_1: Vervaardiger 5 Alt. nr. 1
-        artist_4_year_of_birth: Vervaardiger 5 Geboortejaar
-        artist_4_year_of_death: Vervaardiger 5 Jaar van overlijden
       work_set_type:
         name: Naam
         hide: Verberg

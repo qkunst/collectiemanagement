@@ -188,14 +188,23 @@ class Ability
   end
 
   def editable_work_fields_grouped
-    return @fields if @fields
+    @editable_work_fields_grouped ||= work_fields_grouped(editable_work_fields)
+  end
+
+  def viewable_work_fields_grouped
+    @viewable_work_fields_grouped ||= work_fields_grouped(viewable_work_fields)
+  end
+
+  private
+
+  def work_fields_grouped(field_defs)
     fields = {
       works_attributes: [],
       artists_attributes: [],
       appraisals_attributes: []
     }
 
-    editable_work_fields.each do |a|
+    field_defs.each do |a|
       if a.is_a?(Symbol)
         fields[:works_attributes] << a
       elsif a.is_a?(Hash)
@@ -211,10 +220,9 @@ class Ability
         end
       end
     end
-    @fields = fields
-  end
 
-  private
+    fields
+  end
 
   def message_rules
     can :read, Message, from_user: user

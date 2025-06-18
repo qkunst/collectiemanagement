@@ -22,6 +22,10 @@ def generate_field_abilities_report
   report_to_markdown(Ability.report_field_abilities)
 end
 
+def generate_viewable_field_abilities_report
+  report_to_markdown(Ability.report_field_abilities(ability: :read))
+end
+
 def report_to_markdown report
   header = report[:header].collect { |a| I18n.t a[:user].role, scope: [:activerecord, :values, :user, :role] }.join(" | ")
   header_seperator = report[:header].collect { |a| "---" }.join("|")
@@ -43,6 +47,7 @@ def create_report_md
   @stats = {lcov: lcov, ltot: ltot, perc: perc}
   @abilities_report = generate_abilities_report
   @field_abilities_report = generate_field_abilities_report
+  @viewable_field_abilities_report = generate_viewable_field_abilities_report
 
   File.write("report.md", ERB.new(File.read("report_template.md.erb")).result(binding))
 end
@@ -50,8 +55,8 @@ end
 puts "Generating management report"
 
 puts "- Generate sub-report for features"
-generate_feature_report
+# generate_feature_report
 puts "- Generate RSpec report"
-generate_full_report
+# generate_full_report
 puts "- Compile document"
 create_report_md

@@ -7,16 +7,20 @@ module Ability::Report
   end
 
   class_methods do
-    def report_field_abilities
-      approles = User::ROLES # - [:qkunst]
+    def report_field_abilities(ability: :edit)
+      approles = User::ROLES
 
-      all_fields = Ability.new(Ability::TestUser.new(:admin)).editable_work_fields_grouped
+      field_method = (ability == :edit) ? :editable_work_fields_grouped : :viewable_work_fields_grouped
+
+      all_fields = Ability.new(Ability::TestUser.new(:admin)).send(field_method)
 
       field_report = {header: [], data: {}}
       all_fields.each do |model_key, model_fields|
-        field_report[:data][model_key] = {}
+        model_key_translated = I18n.t "activerecord.models.#{model_key.to_s.sub("s_attributes", "")}"
+        field_report[:data][model_key_translated] = {}
         model_fields.each do |attribute|
-          field_report[:data][model_key][attribute] = []
+          attribute_translated = I18n.t "activerecord.attributes.#{model_key.to_s.sub("s_attributes", "")}.#{attribute}"
+          field_report[:data][model_key_translated][attribute_translated] = []
         end
       end
 
@@ -30,10 +34,14 @@ module Ability::Report
       end
 
       all_fields.each do |model_key, model_fields|
+        model_key_translated = I18n.t "activerecord.models.#{model_key.to_s.sub("s_attributes", "")}"
+
         model_fields.each do |attribute|
+          attribute_translated = I18n.t "activerecord.attributes.#{model_key.to_s.sub("s_attributes", "")}.#{attribute}"
+
           field_report[:header].each_with_index do |ability, index|
-            contains_attribute = ability[:ability].editable_work_fields_grouped[model_key]&.include?(attribute)
-            field_report[:data][model_key][attribute][index] = contains_attribute
+            contains_attribute = ability[:ability].send(field_method)[model_key]&.include?(attribute)
+            field_report[:data][model_key_translated][attribute_translated][index] = contains_attribute
           end
         end
       end
