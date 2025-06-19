@@ -168,7 +168,22 @@ RSpec.describe Ability, type: :model do
         field_abilities = Ability.report_field_abilities
         expect(field_abilities[:header][0][:ability]).to be_a(Ability)
         expect(field_abilities[:header][0][:user]).to be_a(Ability::TestUser)
-        expect(field_abilities.dig(:data, :works_attributes, :location)).to be_a(Array)
+        expect(field_abilities.dig(:data, "Werk", "Adres en/of gebouw(deel)")).to be_a(Array)
+      end
+
+      it "should report read field abilities" do
+        field_abilities = Ability.report_field_abilities(ability: :read)
+        expect(field_abilities[:header][0][:ability]).to be_a(Ability)
+        expect(field_abilities[:header][0][:user]).to be_a(Ability::TestUser)
+        expect(field_abilities.dig(:data, "Werk", "Adres en/of gebouw(deel)")).to be_a(Array)
+      end
+
+      it "should return fewer abilities for non reading" do
+        edit_field_abilities = Ability.report_field_abilities(ability: :edit).dig(:data, "Werk", "Adres en/of gebouw(deel)")
+        read_field_abilities = Ability.report_field_abilities(ability: :read).dig(:data, "Werk", "Adres en/of gebouw(deel)")
+        count_edit_field_abilities = edit_field_abilities.count { |a| a == true }
+        count_read_field_abilities = read_field_abilities.count { |a| a == true }
+        expect(count_edit_field_abilities).to be < count_read_field_abilities
       end
     end
 
