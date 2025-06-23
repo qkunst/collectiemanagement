@@ -65,6 +65,26 @@ RSpec.describe Api::V1::TimeSpansController, type: :request do
           expect(json_response["data"].count).to eql(TimeSpan.where("ends_at < ?", Date.new(2605, 1, 1)).count)
         end
       end
+
+      describe "period" do
+        it "allows for filtering on end date" do
+          get api_v1_time_spans_path(params: {period: {end: "2021-02-01"}}, format: :json)
+          json_response = JSON.parse(response.body)
+          expect(json_response["data"].count).to eql(TimeSpan.period(...Date.new(2021, 2, 1)).count)
+        end
+
+        it "allows for filtering on begin and end date" do
+          get api_v1_time_spans_path(params: {period: {begin: "2009-01-01", end: "2021-02-01"}}, format: :json)
+          json_response = JSON.parse(response.body)
+          expect(json_response["data"].count).to eql(TimeSpan.period(Date.new(2009, 1, 1)...Date.new(2021, 2, 1)).count)
+        end
+
+        it "allows for filtering on begin" do
+          get api_v1_time_spans_path(params: {period: {begin: "2009-01-01"}}, format: :json)
+          json_response = JSON.parse(response.body)
+          expect(json_response["data"].count).to eql(TimeSpan.period(Date.new(2009, 1, 1)...).count)
+        end
+      end
     end
 
     context "advisor" do

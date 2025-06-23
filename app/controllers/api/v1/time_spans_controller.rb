@@ -8,7 +8,7 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
   end
 
   def index
-    @time_spans = current_api_user.accessible_time_spans.includes(:contact, :collection)
+    @time_spans = current_api_user.accessible_time_spans.includes(:contact, :collection, :subject)
 
     if params[:contact_url]
       @time_spans = @time_spans.joins(:contact).where(contacts: {url: params[:contact_url]})
@@ -28,6 +28,10 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
 
     if params[:ends_at_lt]
       @time_spans = @time_spans.where(ends_at: (...params[:ends_at_lt].to_datetime))
+    end
+
+    if params[:period]&.[](:begin) || params[:period]&.[](:end)
+      @time_spans = @time_spans.period(params[:period]&.[](:begin)&.to_datetime...params[:period]&.[](:end)&.to_datetime)
     end
 
     if params[:subject_type]
