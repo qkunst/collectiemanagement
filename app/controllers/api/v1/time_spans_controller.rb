@@ -8,7 +8,7 @@ class Api::V1::TimeSpansController < Api::V1::ApiController
   end
 
   def index
-    @time_spans = current_api_user.accessible_time_spans.includes(:contact, :collection, :subject)
+    @time_spans = current_api_user.accessible_time_spans.includes(:contact, :collection)
 
     if params[:contact_url]
       @time_spans = @time_spans.joins(:contact).where(contacts: {url: params[:contact_url]})
