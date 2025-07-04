@@ -56,6 +56,11 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
+  include ActiveJob::TestHelper
+
+  after do
+    clear_enqueued_jobs
+  end
   describe "methods" do
     describe "#accessible_collections" do
       it "should return all collections when admin (except when not qkunst managed)" do
