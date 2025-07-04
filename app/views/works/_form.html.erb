@@ -78,6 +78,8 @@
     </fieldset>
     <fieldset id="vervaardigers">
       <legend>Vervaardiger(s)</legend>
+      <%= f.input :signature_comments %>
+      <%= f.input :no_signature_present %>
       <%= f.association :artists, input_html: {class: 'chosen-select'}  %>
       <%= f.input :artist_unknown %>
       <p><%= f.link_to_add "Voeg een nog niet eerder geregistreerde vervaardiger toe", :artists, :data => { :target => "#artists" }, class: [:button, :secondary] %></p>
@@ -97,8 +99,6 @@
       <%= f.association :medium, input_html: {class: 'chosen-select'}, collection: Medium.not_hidden %>
       <%= f.input :medium_comments %>
       <%= f.association :frame_type, input_html: {class: 'chosen-select'}, collection: FrameType.not_hidden %>
-      <%= f.input :signature_comments %>
-      <%= f.input :no_signature_present %>
       <%= f.input :print %>
       <%= f.input :print_unknown %>
     </fieldset>

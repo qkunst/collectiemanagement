@@ -417,5 +417,33 @@ RSpec.describe User, type: :model do
         expect(w.created_by_name).to eq("Administrateur")
       end
     end
+
+    describe "#send_user_confirmed_after_confirmation" do
+      it "should not send a message after update" do
+        offset = ActiveJob::Base.queue_adapter.enqueued_jobs.size
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+        User.create(email: "new@example.com", password: "asdfasdf", password_confirmation: "asdfasdf")
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+      end
+
+      it "should send a message after confirmation" do
+        offset = ActiveJob::Base.queue_adapter.enqueued_jobs.size
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+        u = User.create(email: "new@example.com", password: "asdfasdf", password_confirmation: "asdfasdf")
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+        u.confirmed_at = Time.current
+        u.save
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset + User.admin.count)
+      end
+
+      it "should skip message when confirmed long ago" do
+        offset = ActiveJob::Base.queue_adapter.enqueued_jobs.size
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+        u = users(:registrator)
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+        u.update(name: "Registrator")
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
+      end
+    end
   end
 end

@@ -3,12 +3,12 @@
 require "rails_helper"
 
 RSpec.describe WorksController, type: :controller do
+  let(:collection) { collections(:collection_with_works) }
+
   include Devise::Test::ControllerHelpers
   render_views
 
   describe "GET /collections/:collection_id/works (#index)" do
-    let(:collection) { collections(:collection_with_works) }
-
     context "not signed in" do
       it "it is inaccessible by users who are not signed in" do
         expect(get(:index, params: {collection_id: collection.id})).to redirect_to new_user_session_path
@@ -33,6 +33,26 @@ RSpec.describe WorksController, type: :controller do
         expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=ffff00&amp;resource_variant=public&amp;show_logo=false/)
         expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;resource_variant=public&amp;show_logo=true/)
         expect(response.body).to match(/works\.pdf\?as=title_labels&amp;foreground_color=000000&amp;qr_code_enabled=true&amp;resource_variant=public&amp;show_logo=true/)
+      end
+    end
+  end
+
+  describe "GET /collections/:collection_id/works/:id #show" do
+    let(:work) { works(:work1) }
+
+    {compliance: false, advisor: true, appraiser: true, facility_manager: false}.each do |role, can_see|
+      describe role.to_s do
+        it "should #{"not " unless can_see} show internal comments and price reference" do
+          sign_in(users(role))
+          get(:show, params: {collection_id: collection.id, id: work.id})
+          if can_see
+            expect(response.body).to match "Internal price reference for work 1"
+            expect(response.body).to match "Interne opmerking bij werk 1"
+          else
+            expect(response.body).not_to match "Internal price reference for work 1"
+            expect(response.body).not_to match "Interne opmerking bij werk 1"
+          end
+        end
       end
     end
   end

@@ -6,6 +6,10 @@ class SystemMailer < ApplicationMailer
   #
   #   en.system_mailer.error_message.subject
   #
+  def information_message(user, subject:, body:)
+    mail to: user.email, subject:, body:
+  end
+
   def error_message(error)
     mail to: "qkunst@murb.nl", subject: "#{error.class} fout in #{I18n.t("application.name")}", body: "#{error.message}\n\nError occurred at: #{Time.now}\n\n#{error.backtrace&.join("\n")}"
   end

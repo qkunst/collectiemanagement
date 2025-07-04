@@ -40,7 +40,7 @@
 <%= render @collection.works_including_child_works.order(grade_within_collection: :asc, market_value: :desc)[0..3]%>
   </div>
 </div>
-<p><%= link_to "Toon alle #{@collection.works_including_child_works.count} werken", collection_works_path(@collection) %></p>
+<p><%= link_to "Toon alle #{translate_extended_count(@collection.works_including_child_works)}", collection_works_path(@collection) %></p>
 <% if @collection.internal_comments? and qkunst_user? %>
 <h3>Interne opmerkingen</h3>
 <%= kramdown(@collection.internal_comments) %>
@@ -74,7 +74,3 @@
 </aside>
 <% end %>
 </div>
-
-
-
-

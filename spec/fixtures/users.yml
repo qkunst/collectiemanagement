@@ -119,14 +119,6 @@ qkunst_with_collection:
   collections:
     - :collection1
   confirmed_at: 2000-01-01T01:00
-qkunst_with_collection:
-  email: qkunst-regular-user-with-collection@murb.nl
-  admin: false
-  qkunst: true
-  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
-  collections:
-    - :collection1
-  confirmed_at: 2000-01-01T01:00
 user_with_no_rights:
   email: qkunst-test-user_with_no_rights@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy

@@ -84,6 +84,17 @@ module WorksHelper
     I18n.translate "count.inventoried_objects_count", count: count
   end
 
+  def translate_extended_count works
+    count = works.try(:count_as_whole_works)
+    inventoried_objects_count = works.count
+
+    if count.nil? || count == inventoried_objects_count
+      I18n.translate "count.works", count: inventoried_objects_count
+    else
+      "#{I18n.translate "count.works", count: count} (#{I18n.translate "count.inventoried_objects_count", count: inventoried_objects_count})"
+    end
+  end
+
   def describe_work_counts
     report = controller.is_a?(ReportController)
 

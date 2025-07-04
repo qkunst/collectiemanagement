@@ -149,6 +149,7 @@ work1:
   frame_type: :one
   medium: :papier
   placeability: :one
+  price_reference: Internal price reference for work 1
   style: :one
   work_status: :in_gebruik
   locality_geoname_id: 123
@@ -298,14 +299,14 @@ artistless_work:
 
 work_diptych_1:
   title: Work Diptych Left
-  stock_number: QDT2a
+  stock_number: QDT2a-left
   artists:
     - :artist4
   collection: :collection3
 
 work_diptych_2:
   title: Work Diptych Right
-  stock_number: QDT2b
+  stock_number: QDT2a-right
   artists:
     - :artist4
   collection: :collection3

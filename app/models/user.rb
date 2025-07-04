@@ -71,6 +71,7 @@ class User < ApplicationRecord
   store :raw_open_id_token
 
   after_update :schedule_sync_stored_user_names
+  after_update :send_user_confirmed_after_confirmation
 
   has_and_belongs_to_many :collections
 
@@ -267,6 +268,14 @@ class User < ApplicationRecord
   def serialize_collection_accessibility!
     to_store = collections.each_with_object({}) { |c, h| h[c.id] = c.name }
     self.collection_accessibility_serialization = to_store
+  end
+
+  def send_user_confirmed_after_confirmation
+    if confirmed_at&.> 5.seconds.ago
+      User.admin.each do |user|
+        SystemMailer.information_message(user, subject: "Nieuwe gebruiker #{email}", body: "Dag #{user.name},\n\nEen nieuwe gebruiker heeft zich aangemeld. Ga naar CollectieManagement en controleer de gebruiker.\n\nHet systeem").deliver_later
+      end
+    end
   end
 
   class << self

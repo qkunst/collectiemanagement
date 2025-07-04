@@ -331,7 +331,7 @@ class Ability
 
     can :read, Attachment, collection_id: accessible_collection_ids
 
-    can [:read, :read_condition, :read_status, :read_information_back, :read_location, :read_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+    can [:read, :read_condition, :read_status, :read_information_back, :read_location, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
 
     can :read, User
     can :read, TimeSpan
