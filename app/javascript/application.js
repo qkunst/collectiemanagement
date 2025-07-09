@@ -21,7 +21,6 @@ import('./cookie');
 import('./debug');
 import('./filter-list');
 import('./forms');
-import('./lazy_load_images');
 import('./batch');
 import('./report');
 import('./table_filterable');
