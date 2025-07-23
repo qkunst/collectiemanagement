@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7.2.0"
+gem "rails", "~> 8.0.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -42,7 +42,7 @@ group :development, :test, :gitlabci do
   gem "capybara"
   gem "byebug", platform: :mri
   gem "foreman"
-  gem "rspec-rails"
+  gem "rspec-rails", ">= 8.0.1"
   gem "rspec_junit_formatter"
   gem "simplecov-cobertura"
 end
@@ -102,7 +102,7 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails", "~>6.6.0"
+gem "foundation-rails", "~> 6.9.0", ">= 6.9.0.0"
 gem "autoprefixer-rails"
 
 ##
