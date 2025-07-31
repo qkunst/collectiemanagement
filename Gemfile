@@ -113,7 +113,7 @@ gem "acts-as-taggable-on"
 gem "act_as_time_as_boolean"
 gem "workbook", git: "https://github.com/murb/workbook.git", branch: :main
 gem "nested_form"
-gem "paper_trail" # , "11.1.0"
+gem "paper_trail" , ">= 15.1.0" # , "11.1.0"
 gem "paper_trail-association_tracking"
 gem "keyword_finder"
 gem "mail" # , "~> 2.7.0"
