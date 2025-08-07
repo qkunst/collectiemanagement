@@ -309,7 +309,7 @@ class User < ApplicationRecord
     #  updated_at                             :datetime         not null
     #
     email_domain = email.split("@").last
-    new_email = "removed-at-#{email_domain}@removed.qkunst.nl"
+    new_email = "removed-at-#{email_domain}-#{SecureRandom.alphanumeric(8)}@removed.qkunst.nl"
     new_password = SecureRandom.alphanumeric(64)
     new_name = "removed user (#{email_domain})"
 

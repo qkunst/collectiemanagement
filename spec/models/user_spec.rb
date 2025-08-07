@@ -158,7 +158,7 @@ RSpec.describe User, type: :model do
         u.anonymize!
         u.reload
         expect(u.email).not_to eq("collection_with_works_child@murb.nl")
-        expect(u.email).to eq "removed-at-murb.nl@removed.qkunst.nl"
+        expect(u.email).to match(/removed-at-murb\.nl-[A-Za-z0-9]{8}@removed.qkunst.nl/)
         expect(u.name).to eq "removed user (murb.nl)"
       end
     end
