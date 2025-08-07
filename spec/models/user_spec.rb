@@ -149,6 +149,20 @@ RSpec.describe User, type: :model do
         expect(u.accessible_work_sets.pluck(:id).sort).not_to eq(WorkSet.all.pluck(:id).sort)
       end
     end
+
+    describe "#anonymize!" do
+      it "anonymizes a user" do
+        u = users(:collection_with_works_child_user)
+        expect(u.email).to eq("collection_with_works_child@murb.nl")
+        expect(u.name).to eq("Joost heeft een collectie met werken kind, of zo")
+        u.anonymize!
+        u.reload
+        expect(u.email).not_to eq("collection_with_works_child@murb.nl")
+        expect(u.email).to eq "removed-at-murb.nl@removed.qkunst.nl"
+        expect(u.name).to eq "removed user (murb.nl)"
+      end
+    end
+
     describe "#collection_ids" do
       it "should return ids of collections" do
         expect(users(:qkunst_with_collection).collection_ids.sort).to eq(users(:qkunst_with_collection).collections.map(&:id).sort)

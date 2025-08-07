@@ -111,6 +111,7 @@ qkunst:
   domain: qkunst.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
+  last_sign_in_at: 2000-01-01T01:00
 qkunst_with_collection:
   email: qkunst-regular-user-with-collection@murb.nl
   admin: false
@@ -215,13 +216,16 @@ registrator:
   confirmed_at: 2000-01-01T01:00
 collection_with_works_child_user:
   email: collection_with_works_child@murb.nl
+  name: Joost heeft een collectie met werken kind, of zo
   admin: false
   qkunst: false
   appraiser: false
   compliance: true
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection_with_works_child
   confirmed_at: 2000-01-01T01:00
+  last_sign_in_at: 2000-01-01T01:00
 collection_with_works_user:
   email: collection_with_works@murb.nl
   admin: false
@@ -230,6 +234,7 @@ collection_with_works_user:
   compliance: true
   oauth_provider: google_oauth2
   oauth_subject: 3
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection_with_works
 

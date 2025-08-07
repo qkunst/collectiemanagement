@@ -263,6 +263,93 @@ class User < ApplicationRecord
     oauth_provider == "central_login"
   end
 
+  def anonymize!
+    #  id                                     :bigint           not null, primary key
+    #  admin                                  :boolean
+    #  advisor                                :boolean
+    #  api_key                                :string
+    #  app                                    :boolean          default(FALSE)
+    #  appraiser                              :boolean
+    #  collection_accessibility_serialization :text
+    #  compliance                             :boolean
+    #  confirmation_sent_at                   :datetime
+    #  confirmation_token                     :string
+    #  confirmed_at                           :datetime
+    #  current_sign_in_at                     :datetime
+    #  current_sign_in_ip                     :string
+    #  domain                                 :string
+    #  email                                  :string           default(""), not null
+    #  encrypted_password                     :string           default(""), not null
+    #  facility_manager                       :boolean
+    #  facility_manager_support               :boolean
+    #  failed_attempts                        :integer          default(0), not null
+    #  filter_params                          :text
+    #  last_sign_in_at                        :datetime
+    #  last_sign_in_ip                        :string
+    #  locked_at                              :datetime
+    #  name                                   :string
+    #  oauth_access_token                     :string
+    #  oauth_expires_at                       :bigint
+    #  oauth_id_token                         :string
+    #  oauth_provider                         :string
+    #  oauth_refresh_token                    :string
+    #  oauth_subject                          :string
+    #  qkunst                                 :boolean
+    #  raw_open_id_token                      :text
+    #  receive_mails                          :boolean          default(TRUE)
+    #  remember_created_at                    :datetime
+    #  reset_password_sent_at                 :datetime
+    #  reset_password_token                   :string
+    #  role_manager                           :boolean
+    #  sign_in_count                          :integer          default(0), not null
+    #  super_admin                            :boolean          default(FALSE)
+    #  unconfirmed_email                      :string
+    #  unlock_token                           :string
+    #  created_at                             :datetime         not null
+    #  updated_at                             :datetime         not null
+    #
+    email_domain = email.split("@").last
+    new_email = "removed-at-#{email_domain}@removed.qkunst.nl"
+    new_password = SecureRandom.alphanumeric(64)
+    new_name = "removed user (#{email_domain})"
+
+    update_columns(
+      admin: false,
+      advisor: false,
+      api_key: nil,
+      app: false,
+      appraiser: false,
+      compliance: false,
+      confirmed_at: nil,
+      encrypted_password: new_password,
+      current_sign_in_at: nil,
+      current_sign_in_ip: nil,
+      domain: domain || email_domain,
+      email: new_email,
+      facility_manager: false,
+      facility_manager_support: false,
+      locked_at: Time.current,
+      name: new_name,
+      oauth_access_token: SecureRandom.alphanumeric(64),
+      oauth_id_token: SecureRandom.alphanumeric(64),
+      oauth_expires_at: 100.years.from_now,
+      oauth_subject: SecureRandom.alphanumeric(64),
+      qkunst: false,
+      raw_open_id_token: {},
+      receive_mails: false,
+      remember_created_at: nil,
+      reset_password_sent_at: nil,
+      reset_password_token: nil,
+      role_manager: false,
+      sign_in_count: 0,
+      super_admin: false,
+      unconfirmed_email: new_email,
+      unlock_token: SecureRandom.alphanumeric(64)
+    )
+    versions.destroy_all
+    true
+  end
+
   private
 
   def serialize_collection_accessibility!
