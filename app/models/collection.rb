@@ -319,7 +319,7 @@ class Collection < ApplicationRecord
   end
 
   def touch_parent
-    parent_collection&.touch
+    parent_collection&.touch unless parent_collection == self
   end
 
   def touch_works_including_child_works!

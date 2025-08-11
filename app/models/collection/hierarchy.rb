@@ -32,11 +32,11 @@ module Collection::Hierarchy
 
     def expand_with_parent_collections(order = nil)
       if persisted?
-        ar_relation = Collection.unscope(:order).joins("INNER JOIN (
+        ar_relation = Collection.unscoped.root_collection ? Collection.unscope(:order).joins("INNER JOIN (
           SELECT CAST(regexp_split_to_table(branch,'~') AS bigint) AS branch_split, branch, lvl, pid
             FROM connectby('collections', 'id', 'parent_collection_id', '#{Collection.unscoped.root_collection.id}', 0, '~') as (id bigint, pid bigint, lvl int, branch text)
             WHERE id = #{id}
-          ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split")
+          ) AS collection_branche_ids ON collections.id = collection_branche_ids.branch_split") : Collection.unscoped
         if order
           ar_relation = ar_relation.select("collections.*, position(concat('~', id) IN branch) AS depth").order(depth: order)
         end
