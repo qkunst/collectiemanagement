@@ -26,7 +26,7 @@
       <% end %>
       <%= define_when_present :location_floor %>
       <%= define_when_present :location_detail %>
-      <% if @work_display_form&.display == :detailed_with_location_history %>
+      <% if @work_display_form&.display_detailed_with_location_history? %>
         <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
         <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
           <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
@@ -69,7 +69,7 @@
     <%= define_when_present :object_creation_year, description: 'Datering' %>
     <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
     <%= define_when_present :techniques %>
-    <% if @work_display_form&.display == :complete %>
+    <% if @work_display_form&.display_complete? %>
       <%= define_when_present :medium %>
       <%= define_when_present :medium_comments %>
       <%= define_when_present :frame_type %>
@@ -80,7 +80,7 @@
     <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
     <%= define_when_present :weight %>
     <%= define_when_present :dimension_weight_description %>
-    <% if @work_display_form&.display == :complete %>
+    <% if @work_display_form&.display_complete? %>
       <% if params[:surface_calc] %>
         <%= define_when_present :floor_surface %>
         <%= define_when_present :wall_surface %>
@@ -92,17 +92,17 @@
       <%= define_when_present :themes %>
       <%= define_when_present :locality_geoname_name %>
     <% end%>
-    <%= define_when_present :cluster if @work_display_form&.display != :detailed_discreet %>
+    <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet? %>
     <%= define_when_present :print_rendered  %>
   <% end %>
   </div>
   <div class="medium-6 columns">
 
   <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_when_present :cached_tag_list if @work_display_form&.display != :detailed_discreet %>
+    <%= define_when_present :cached_tag_list unless @work_display_form&.display_detailed_discreet? %>
     <%= define_when_present :condition_work_rendered %>
     <%= define_when_present :condition_frame_rendered %>
-    <% if @work_display_form&.display == :complete %>
+    <% if @work_display_form&.display_complete? %>
       <%= define_when_present :placeability  %>
       <%= define_when_present :permanently_fixed if work.permanently_fixed %>
       <%= define_when_present :main_collection %>
@@ -111,7 +111,7 @@
     <%= define_when_present :information_back, description: "Info. achterz." %>
     <%= define_when_present :other_comments, description: "Overige opm." %>
     <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @work_display_form&.display != :detailed_discreet and @work_display_form&.display != :detailed %>
-    <% if @work_display_form&.display == :complete %>
+    <% if @work_display_form&.display_complete? %>
       <%= define_when_present :sources %>
       <%= define_when_present :source_comments %>
       <%= define_when_present :owner %>
@@ -139,14 +139,14 @@
       </tr>
     <% end %>
     <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
+      <% if work.appraised_in_set? && !@work_display_form&.display_detailed_discreet? && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
         <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
       <% end %>
       <%= define_when_present :purchased_on_with_fallback %>
-      <% if define?(:purchase_price) && @work_display_form&.display != :detailed_discreet %>
+      <% if define?(:purchase_price) && !@work_display_form&.display_detailed_discreet? %>
       <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
       <% end %>
-      <% if @work_display_form&.display != :detailed_discreet %>
+      <% unless @work_display_form&.display_detailed_discreet? %>
         <%= define_when_present :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
         <%= define_when_present :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
         <%= define_when_present :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
@@ -165,7 +165,7 @@
         <% end %>
         <%= define_when_present :balance_category %>
         <%= define_when_present :selling_price_minimum_bid_comments %>
-        <%= define_when_present :price_reference if @work_display_form&.display == :complete %>
+        <%= define_when_present :price_reference if @work_display_form&.display_complete? %>
       <% end %>
 
     <% end %>
@@ -183,7 +183,7 @@
     if artist_involvements_texts && artist_involvements_texts.length > 0 %>
     <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
     <% end %>
-    <% if @work_display_form&.display == :complete %>
+    <% if @work_display_form&.display_complete? %>
       <%
         role = current_user.role.to_s
         work_attachments = work.attachments.to_a.delete_if{|a| a.id.nil?}.select do |attachment|
@@ -206,8 +206,8 @@
       <%= define_when_present :inventoried_at %>
       <%= define_when_present :refound_at %>
       <%= define_when_present :new_found_at %>
-      <%= define_when_present :checked_at %>
     <% end %>
+    <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? %>
     <% if define?(:old_data) && work.persisted? %>
     <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
     <% end %>

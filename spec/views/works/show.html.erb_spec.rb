@@ -59,6 +59,7 @@ RSpec.describe "works/show", type: :view do
       it "renders correctly" do
         expect(rendered).to match("Interne opmerking bij werk 1")
         expect(rendered).to match("Marktwaarde")
+        expect(rendered).to match("Gecontroleerd op")
       end
     end
 
@@ -68,6 +69,7 @@ RSpec.describe "works/show", type: :view do
       it "renders correctly" do
         expect(rendered).not_to match("Interne opmerking bij werk 1")
         expect(rendered).to match("Marktwaarde")
+        expect(rendered).to match("Gecontroleerd op")
       end
     end
 
@@ -77,6 +79,7 @@ RSpec.describe "works/show", type: :view do
       it "renders correctly" do
         expect(rendered).not_to match("Interne opmerking bij werk 1")
         expect(rendered).not_to match("Marktwaarde")
+        expect(rendered).not_to match("Gecontroleerd op")
       end
     end
   end

@@ -14,6 +14,22 @@ class WorkDisplayForm
     set_to_valid_values
   end
 
+  def display_detailed_discreet?
+    display == :detailed_discreet
+  end
+
+  def display_compact?
+    display == :compact
+  end
+
+  def display_complete?
+    display == :complete
+  end
+
+  def display_detailed_with_location_history?
+    display == :detailed_with_location_history
+  end
+
   def group_options
     return [] if current_user.nil?
     return @group_options if @group_options

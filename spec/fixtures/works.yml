@@ -140,6 +140,7 @@ work1:
   purchase_price_currency: :nlg
   purchase_price_in_eur: 200
   inventoried_at: 2012-01-02
+  checked_at: 2020-01-02
   frame_width: 100
   publish: true
   for_purchase_at: 2000-01-01T12:00

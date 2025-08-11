@@ -31,7 +31,7 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
     </label>
     <% end %>
       <p class="stocknumber"><%= @for_print ? work.stock_number : link_to(work.stock_number, this_works_collection_work_url) %><% if work.external_inventory? %><span title="Dit werk is niet door #{I18n.t(organisation.name)} geïnventariseerd">*</span><% end %></p>
-        <% if @work_display_form&.display == :compact%>
+        <% if @work_display_form&.display_compact?%>
         <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
         <% else %>
         <h3><%= work.artist_name_rendered(include_years: true, include_locality: true)%></h3>
