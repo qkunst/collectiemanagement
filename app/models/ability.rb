@@ -61,8 +61,8 @@ class Ability
         :information_back, :other_comments, :subset_id, :public_description, :highlight_priority,
         :grade_within_collection, :abstract_or_figurative, :medium_comments,
         :main_collection, :image_rights, :publish, :cluster_name, :collection_id, :cluster_id, :owner_id, :permanently_fixed,
-        :placeability_id,
-        artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [], theme_ids: [], object_category_ids: [], technique_ids: [],
+        :placeability_id, :logistical_peculiarities_comments,
+        artist_ids: [], damage_type_ids: [], frame_damage_type_ids: [], tag_list: [], theme_ids: [], object_category_ids: [], technique_ids: [], logistical_peculiarity_ids: [],
         artists_attributes: [
           :_destroy, :first_name, :last_name, :prefix, :place_of_birth, :place_of_death, :year_of_birth, :year_of_death, :description
         ],
@@ -127,7 +127,7 @@ class Ability
         :inventoried_at, :refound_at, :new_found_at,
         :locality_geoname_id, :imported_at, :import_collection_id,
         :artist_unknown,
-        :cached_tag_list,
+        :cached_tag_list, :logistical_peculiarities, :logistical_peculiarities_comments,
         :signature_comments, :no_signature_present,
         :other_comments,
         :checked_at,

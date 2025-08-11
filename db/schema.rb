@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_08_140944) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_11_130140) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -856,6 +856,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_08_140944) do
     t.integer "main_location_id"
     t.float "weight"
     t.string "dimension_weight_description"
+    t.text "logistical_peculiarities_comments"
     t.index ["alt_number_1"], name: "index_works_on_alt_number_1"
     t.index ["alt_number_2"], name: "index_works_on_alt_number_2"
     t.index ["alt_number_3"], name: "index_works_on_alt_number_3"

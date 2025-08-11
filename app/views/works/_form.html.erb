@@ -137,6 +137,15 @@
           <%= f.input :permanently_fixed %>
         </div>
       </div>
+      <div class="row">
+        <div class="columns">
+          <%= f.association( :logistical_peculiarities, input_html: {class: 'chosen-select'}, collection: LogisticalPeculiarity.not_hidden)  %>
+        </div>
+        <div class="columns">
+          <%= f.input :logistical_peculiarities_comments %>
+        </div>
+      </div>
+
     </fieldset>
     <% if can?(:edit_source_information, @work) || can?(:edit_purchase_information, @work) %>
       <% wf = f %>

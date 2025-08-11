@@ -40,6 +40,7 @@
 #  location                                            :string
 #  location_detail                                     :string
 #  location_floor                                      :string
+#  logistical_peculiarities_comments                   :text
 #  lognotes                                            :text
 #  main_collection                                     :boolean
 #  market_value                                        :decimal(16, 2)

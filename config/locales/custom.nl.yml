@@ -559,6 +559,8 @@ nl:
         location_raw: Adres en/of gebouw(deel)
         location: Adres en/of gebouw(deel)
         locations: Locaties
+        logistical_peculiarities: Logistieke bijzonderheden
+        logistical_peculiarities_comments: Logistieke bijzonderheden toelichting
         main_collection: Kerncollectie
         main_location_id: Locatie
         main_location: Locatie

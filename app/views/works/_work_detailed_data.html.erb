@@ -72,6 +72,8 @@
     <% if @work_display_form&.display_complete? %>
       <%= define_when_present :medium %>
       <%= define_when_present :medium_comments %>
+      <%= define_when_present :logistical_peculiarities%>
+      <%= define_when_present :logistical_peculiarities_comments if @work == work%>
       <%= define_when_present :frame_type %>
     <% end %>
     <%= define_when_present :signature_rendered %>
