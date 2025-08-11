@@ -190,6 +190,7 @@ class Work < ApplicationRecord
   has_and_belongs_to_many :damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :frame_damage_types, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :library_items
+  has_and_belongs_to_many :logistical_peculiarities, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :object_categories, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :sources, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at
   has_and_belongs_to_many :techniques, -> { distinct_with_name }, after_add: :touch_updated_at, after_remove: :touch_updated_at

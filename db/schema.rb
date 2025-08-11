@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_28_133743) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_08_140944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -449,6 +449,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_28_133743) do
     t.boolean "hide"
     t.string "building_number"
     t.text "other_structured_data"
+  end
+
+  create_table "logistical_peculiarities", force: :cascade do |t|
+    t.string "name"
+    t.boolean "hide", default: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "logistical_peculiarities_works", id: false, force: :cascade do |t|
+    t.bigint "logistical_peculiarity_id", null: false
+    t.bigint "work_id", null: false
   end
 
   create_table "media", force: :cascade do |t|

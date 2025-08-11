@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   resources :frame_types
   resources :media
   resources :object_categories
+  resources :logistical_peculiarities
   resources :placeabilities
   resources :sources
   resources :subsets

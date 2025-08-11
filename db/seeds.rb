@@ -20,6 +20,9 @@ end
   Artist.create(first_name: first_names.sample, last_name: last_names.sample)
 end
 
+logistical_peculiarities = ["Heel zwaar", "Ophangsysteem"]
+logistical_peculiarities.each { |name| LogisticalPeculiarity.where({name: name}).first_or_create }
+
 object_categories = ["Audiovisueel", "Fotografie", "Gebouwgebonden", "Grafiek", "Schilderkunst", "Sculptuur (binnen)", "Sculptuur (buiten)", "Textiel", "Uniek werk op papier", "Vormgeving"]
 object_categories.each { |name| ObjectCategory.where({name: name}).first_or_create }
 

@@ -148,6 +148,7 @@ nl:
       importcollection: Import
       import_collection: Import
       involvement: Betrekking
+      logistical_peculiarity: Logistieke bijzonderheid
       library_item: Bibliotheek item
       libraryitem: Bibliotheek item
       location: Locatie
@@ -375,6 +376,9 @@ nl:
       cluster:
         name: Naam
         description: Beschrijving
+      logistical_peculiarity:
+        name: Naam
+        hide: Verberg
       message:
         subject: Onderwerp
         message: Berichttekst
