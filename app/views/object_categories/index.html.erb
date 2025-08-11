@@ -1,8 +1,0 @@
-<h2>Overzicht categoriën</h2>
-<ul>
-    <% @object_categories.each do |item| %>
-      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
-    <% end %>
-</ul>
-<%= link_to 'Nieuwe categorie', new_object_category_path %>
-

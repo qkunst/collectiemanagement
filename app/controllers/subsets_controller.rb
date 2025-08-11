@@ -8,4 +8,6 @@ class SubsetsController < ApplicationController
   def controlled_class
     Subset
   end
+
+  def base_view? = true
 end

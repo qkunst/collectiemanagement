@@ -8,4 +8,6 @@ class TechniquesController < ApplicationController
   def controlled_class
     Technique
   end
+
+  def base_view? = true
 end

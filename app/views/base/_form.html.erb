@@ -1,4 +1,4 @@
-<%= simple_form_for(@technique) do |f| %>
+<%= simple_form_for(@subject) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -7,6 +7,6 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: [:button, :primary] %>
   </div>
 <% end %>

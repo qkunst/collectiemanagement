@@ -1,4 +1,11 @@
 nl:
+  base:
+    new:
+      title: Voeg %{model_name} toe
+    edit:
+      title: Bewerk %{model_name}
+    index:
+      add: "%{model_name} toevoegen"
   work_sets:
     show:
       dynamic_explainer: Dit is een dynamische werkgroepering. Dynamische werkgroeperingen worden dagelijks automatisch bijgewerkt op basis van de filter.

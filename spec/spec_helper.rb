@@ -3,7 +3,7 @@
 require "simplecov"
 require "simplecov-cobertura"
 require "capybara/rails"
-SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter if Rails.env.gitlabci?
 SimpleCov.start
 RSpec::OpenAPI.path = "docs/schema.yaml"
 Capybara.configure do |config|

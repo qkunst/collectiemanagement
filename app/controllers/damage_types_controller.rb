@@ -8,4 +8,6 @@ class DamageTypesController < ApplicationController
   def controlled_class
     DamageType
   end
+
+  def base_view? = true
 end

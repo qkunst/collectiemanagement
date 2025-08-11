@@ -1,7 +1,0 @@
-<h2>Overzicht herkomst-opties</h2>
-<ul>
-    <% @sources.each do |item| %>
-      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
-    <% end %>
-</ul>
-<%= link_to 'Nieuwe herkomst-keuzeoptie', new_source_path %>

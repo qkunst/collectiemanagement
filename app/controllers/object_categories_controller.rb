@@ -8,4 +8,6 @@ class ObjectCategoriesController < ApplicationController
   def controlled_class
     ObjectCategory
   end
+
+  def base_view? = true
 end

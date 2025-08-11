@@ -1,7 +1,0 @@
-<h1>Lijsttypen</h1>
-<ul>
-    <% @frame_types.each do |item| %>
-      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
-    <% end %>
-</ul>
-<%= link_to 'Nieuw type lijst', new_frame_type_path, class: :button %>

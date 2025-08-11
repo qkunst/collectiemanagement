@@ -1,8 +1,0 @@
-<h2>Overzicht beschadigingstypen</h2>
-<ul>
-    <% @damage_types.each do |item| %>
-      <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
-    <% end %>
-</ul>
-<%= link_to 'Nieuw type beschadiging', new_damage_type_path %>
-

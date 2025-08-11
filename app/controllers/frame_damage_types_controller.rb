@@ -8,4 +8,6 @@ class FrameDamageTypesController < ApplicationController
   def controlled_class
     FrameDamageType
   end
+
+  def base_view? = true
 end

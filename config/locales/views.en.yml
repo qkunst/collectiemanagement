@@ -1,4 +1,10 @@
 en:
+  new:
+    title: Add a new %{model_name}
+  new:
+    title: Edit %{model_name}
+  index:
+    add: Add a new %{model_name}
   work_sets:
     form:
       dynamic: Dynamic work sets are updated daily (or more frequently when manually triggered) based on a filter

@@ -8,4 +8,6 @@ class SourcesController < ApplicationController
   def controlled_class
     Source
   end
+
+  def base_view? = true
 end

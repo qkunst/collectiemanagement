@@ -1,0 +1,14 @@
+<%= link_to "Beheer", "/admin" if @collection.nil? %>
+<div class="row">
+  <div class="large-9 medium-9 columns">
+    <h2><%= controlled_class.model_name.human %>: Overzicht</h2>
+    <ul>
+        <% @subjects.each do |item| %>
+          <li><%= link_to_edit item %> <%=item.hide? ? "(verborgen)" : ""%></li>
+        <% end %>
+    </ul>
+  </div>
+  <aside class="large-3 medium-3 columns">
+    <%= link_to(t(".add", model_name: controlled_class.model_name.human), [:new, controlled_class.model_name.singular.to_sym], class: :button) if can?(:create, controlled_class.new) %>
+  </aside>
+</div>

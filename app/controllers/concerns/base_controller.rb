@@ -7,6 +7,7 @@ module BaseController
     before_action :set_collection
     before_action :set_named_variable_by_class, only: [:show, :edit, :update, :destroy]
     before_action :authentication_callbacks
+    helper_method :controlled_class
 
     def index
       self.named_collection_variable = if @collection
@@ -14,14 +15,18 @@ module BaseController
       else
         controlled_class.all
       end
+
+      render base_view? ? "base/index" : nil
     end
 
     def show
+      render base_view? ? "base/show" : nil
     end
 
     def new
       self.named_variable = controlled_class.new
       named_variable.collection = @collection if @collection
+      render base_view? ? "base/new" : nil
     end
 
     def create
@@ -31,7 +36,7 @@ module BaseController
       if named_variable.save
         redirect_to named_collection_url, notice: "#{I18n.t(singularized_name, scope: [:activerecord, :models])} is gemaakt"
       else
-        render :new
+        render base_view? ? "base/new" : nil
       end
     end
 
@@ -39,12 +44,12 @@ module BaseController
       if named_variable.update(white_listed_params)
         redirect_to named_collection_url, notice: "#{I18n.t(singularized_name, scope: [:activerecord, :models])} is bijgewerkt."
       else
-        render :edit
+        render base_view? ? "base/edit" : nil
       end
     end
 
-    # GET /themes/1/edit
     def edit
+      render base_view? ? "base/edit" : nil
     end
 
     def destroy
@@ -74,11 +79,15 @@ module BaseController
       controlled_class.table_name.singularize
     end
 
+    def base_view? = false
+
     def named_collection_variable= values
+      @subjects = values
       instance_variable_set(:"@#{controlled_class.table_name}", values)
     end
 
     def named_variable= value
+      @subject = value
       instance_variable_set(:"@#{singularized_name}", value)
     end
 
