@@ -16,17 +16,17 @@ module BaseController
         controlled_class.all
       end
 
-      render base_view? ? "base/index" : nil
+      render base_view? ? "base/index" : :index
     end
 
     def show
-      render base_view? ? "base/show" : nil
+      render base_view? ? "base/show" : :show
     end
 
     def new
       self.named_variable = controlled_class.new
       named_variable.collection = @collection if @collection
-      render base_view? ? "base/new" : nil
+      render base_view? ? "base/new" : :new
     end
 
     def create
@@ -36,7 +36,7 @@ module BaseController
       if named_variable.save
         redirect_to named_collection_url, notice: "#{I18n.t(singularized_name, scope: [:activerecord, :models])} is gemaakt"
       else
-        render base_view? ? "base/new" : nil
+        render base_view? ? "base/new" : :new
       end
     end
 
@@ -44,12 +44,12 @@ module BaseController
       if named_variable.update(white_listed_params)
         redirect_to named_collection_url, notice: "#{I18n.t(singularized_name, scope: [:activerecord, :models])} is bijgewerkt."
       else
-        render base_view? ? "base/edit" : nil
+        render base_view? ? "base/edit" : :edit
       end
     end
 
     def edit
-      render base_view? ? "base/edit" : nil
+      render base_view? ? "base/edit" : :edit
     end
 
     def destroy
