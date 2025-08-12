@@ -3,50 +3,6 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 2,
-      "fingerprint": "129f2b3ef50cb4fb94f1482b22421566ba45ebc0bc207774fbecc5a22ab8618f",
-      "check_name": "CrossSiteScripting",
-      "message": "Unescaped model attribute",
-      "file": "app/views/works/_work_detailed_data.html.erb",
-      "line": 131,
-      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "current_user.accessible_works.find((params[:work_id] or params[:id]).to_i).work_sets.map do\n @for_print ? (sanitize(ws.name)) : (link_to(sanitize(ws.name), ws))\n end.to_sentence",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "WorksController",
-          "method": "show",
-          "line": 128,
-          "file": "app/controllers/works_controller.rb",
-          "rendered": {
-            "name": "works/show",
-            "file": "app/views/works/show.html.erb"
-          }
-        },
-        {
-          "type": "template",
-          "name": "works/show",
-          "line": 118,
-          "file": "app/views/works/show.html.erb",
-          "rendered": {
-            "name": "works/_work_detailed_data",
-            "file": "app/views/works/_work_detailed_data.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "works/_work_detailed_data"
-      },
-      "user_input": "current_user.accessible_works.find((params[:work_id] or params[:id]).to_i)",
-      "confidence": "Weak",
-      "cwe_id": [
-        79
-      ],
-      "note": "Already sanitized"
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 2,
       "fingerprint": "52633daec30259a45a8920b95f7c1783d4c3e347b5b0f53e9aff53b032d802dc",
       "check_name": "CrossSiteScripting",
       "message": "Unescaped model attribute",
@@ -112,40 +68,6 @@
       "note": "solved with requiring an admin user here explicitly"
     },
     {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "75ced50aadaff88d38a30272b6fb4644a5bb1bd729fe3edb09b9d07ecd7f1a65",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/import_collections/preview.html.erb",
-      "line": 10,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).import_collections.find((params[:import_collection_id] or params[:id])).read, {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "ImportCollectionsController",
-          "method": "preview",
-          "line": 37,
-          "file": "app/controllers/import_collections_controller.rb",
-          "rendered": {
-            "name": "import_collections/preview",
-            "file": "app/views/import_collections/preview.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "import_collections/preview"
-      },
-      "user_input": "params[:id]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "76f937db97e02f7fe6e00dd39a135a8aea04af50e604cea77004109d0e89b5ab",
@@ -167,6 +89,60 @@
         22
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "7afef2621c8a083ef38dc22d58af1aa1b57e912e0d1169c18e69fbf853c3f200",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/works/_work_detailed_data.html.erb",
+      "line": 133,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "(Unresolved Model).new.work_sets.map do\n @for_print ? (sanitize(ws.name)) : (link_to(sanitize(ws.name), ws))\n end.to_sentence",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "ArtistsController",
+          "method": "show",
+          "line": 48,
+          "file": "app/controllers/artists_controller.rb",
+          "rendered": {
+            "name": "artists/show",
+            "file": "app/views/artists/show.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "artists/show",
+          "line": 116,
+          "file": "app/views/artists/show.html.erb",
+          "rendered": {
+            "name": "works/_work",
+            "file": "app/views/works/_work.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "works/_work",
+          "line": 46,
+          "file": "app/views/works/_work.html.erb",
+          "rendered": {
+            "name": "works/_work_detailed_data",
+            "file": "app/views/works/_work_detailed_data.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "works/_work_detailed_data"
+      },
+      "user_input": "(Unresolved Model).new.work_sets",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "attributes are sanitized"
     },
     {
       "warning_type": "Cross-Site Scripting",
@@ -266,7 +242,7 @@
       "check_name": "PermitAttributes",
       "message": "Potentially dangerous key allowed for mass assignment",
       "file": "app/controllers/collection/users_controller.rb",
-      "line": 44,
+      "line": 45,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
       "code": "params.require(:user).permit(:role, :collection_ids => ([]))",
       "render_path": null,
@@ -281,40 +257,6 @@
         915
       ],
       "note": ""
-    },
-    {
-      "warning_type": "Dynamic Render Path",
-      "warning_code": 15,
-      "fingerprint": "ede7aafd25d4279ab9549a437e6a3e72d85adddb01c13015f54782a072459aeb",
-      "check_name": "Render",
-      "message": "Render path contains parameter value",
-      "file": "app/views/batch/show.html.erb",
-      "line": 120,
-      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
-      "code": "render(action => (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).includes(:artists, :work_status, :artists_works, :collection, :themes_works, :themes, :cluster).where(:id => (((current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).by_group((:skip or params[:selected_work_groups].keys.first), ([] or params[:selected_work_groups][params[:selected_work_groups].keys.first])).pluck(:id) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).has_number(separate_by(params[:work_numbers_return_separated], /\\n/)).pluck(:id)) + (current_user.accessible_collections.find(params[:collection_id]) or @work.collection).search_works(@search_text, (@selection_filter or {}), :force_elastic => false, :return_records => true, :no_child_works => false).where(:id => (separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works]))).pluck(:id)).uniq).limit(24), {})",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "BatchController",
-          "method": "show",
-          "line": 13,
-          "file": "app/controllers/batch_controller.rb",
-          "rendered": {
-            "name": "batch/show",
-            "file": "app/views/batch/show.html.erb"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "batch/show"
-      },
-      "user_input": "params[:selected_works]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
-      "note": "the param is used to filter accessible collections; using find; should be safe"
     }
   ],
   "brakeman_version": "7.0.2"
