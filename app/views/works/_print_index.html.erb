@@ -29,5 +29,5 @@
   <% end %>
 </div>
 <% content_for :footer do %>
-<p>Dit overzicht is gemaakt op <%= I18n.l Time.current, format: :long %>.</p>
+<p>Dit overzicht is gemaakt op <%= I18n.l Time.current, format: :long %>. <%= I18n.t "collection.disclaimer", default: "" %></p>
 <% end %>
