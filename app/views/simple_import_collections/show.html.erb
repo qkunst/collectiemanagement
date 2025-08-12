@@ -34,7 +34,9 @@
 <h2>voorvertoning</h2>
 <p>In deze voorvertoning worden een beperkt aantal werken getoond met de nieuwe gegevens. Als u tevreden bent met de voorvertoning, kunt u de import uitvoeren.</p>
 
-<%= render @works %>
+<ul class="works-list <%= @work_display_form&.display %>">
+<%= render partial: "works/work", collection: @works, locals: {container: :li} %>
+</ul>
 <% else%>
 <h2>Advies voor een goede import</h2>
 <ul>

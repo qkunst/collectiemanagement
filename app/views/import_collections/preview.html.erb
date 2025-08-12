@@ -7,4 +7,6 @@
     <p><%= link_to 'Importeer de werken', collection_import_collection_import_works_path(@collection,@import_collection), class: 'button', method: 'patch'%><br/><%= link_to 'Bewerk de importinstellingen', edit_collection_import_collection_path(@collection,@import_collection)%></p>
   </aside>
 </div>
-<%= render @works %>
+<ul class="works-list <%= @work_display_form&.display %>">
+<%= render partial: "works/work", collection: @works, locals: {container: :li} %>
+</ul>

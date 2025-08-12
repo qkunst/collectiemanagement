@@ -44,17 +44,33 @@
   }
 }
 
-.compact #works-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1em;
+ul.works-list, ol.works-list {
   padding-left: 0;
   padding-right: 0;
+  list-style: none;
+  margin: 0;
+
+  &.compact {
+    display: grid;
+    gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+    .work.panel {
+      width: 100%;
+    }
+
+    &.strict-one-row {
+      height: 16em;
+      overflow: hidden;
+    }
+  }
+
+
 }
 
 #works-list {
   padding-left: 0;
-    padding-right: 0;
+  padding-right: 0;
 }
 
 .columns.filter {

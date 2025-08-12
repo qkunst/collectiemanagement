@@ -1,10 +1,10 @@
 <%
 @work_display_form ||= WorkDisplayForm.new(display: :compact)
-
+container ||= "div"
 this_works_collection_work_url = work.id && !@for_print ? collection_work_path(work.collection_id, work.id) : "#"
 %>
 <% cache_unless(@no_work_cache, ["works/_work", "2.0.5", work, @work_display_form&.display_cache_key, @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
-<div class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@work_display_form&.display%>">
+<<%=container%> class="panel work<%=' external_inventory' if work.external_inventory?%> <%=@work_display_form&.display%>">
   <% if !@for_print && @work_set&.id && can?(:edit, @work_set) && !@work_set.dynamic?%>
   <div class="actions">
     <%= button_to('⨯', work_set_work_path(@work_set,work.id), method: :delete, class: [:alert, :button, :medium], title: "Verwijder werk uit deze groep", data: {confirm: "Weet je zeker dat je dit werk uit deze groep wilt verwijderen?"}) %>
@@ -49,5 +49,5 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
         end
         %>
   </div>
-</div>
+</<%=container%>>
 <% end %>

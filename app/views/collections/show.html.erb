@@ -35,9 +35,16 @@
 <p class="hint"><small>Probeer ook eens: <%=["“wildc*rd”", "“één OR ander”", "“\"exacte match\"”", "“fuzzy~”"].sample(2).join(" of ")%></small></p>
 <% end %>
 
+
+
 <div class="row">
   <div class="large-12 columns">
-<%= render @collection.works_including_child_works.order(grade_within_collection: :asc, market_value: :desc)[0..3]%>
+
+
+<ul class="works-list compact strict-one-row">
+<%= render partial: "works/work", collection: @collection.works_including_child_works.order(grade_within_collection: :asc, market_value: :desc)[0..5], locals: {container: :li} %>
+</ul>
+
   </div>
 </div>
 <p><%= link_to "Toon alle #{translate_extended_count(@collection.works_including_child_works)}", collection_works_path(@collection) %></p>

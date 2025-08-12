@@ -1,4 +1,6 @@
-<%= render works[0..@max_index] %>
+<ul class="works-list <%= @work_display_form&.display %>">
+<%= render partial: "work", collection: works[0..@max_index], locals: {container: :li} %>
+</ul>
 <% if works.count > (@max_index + 1)%>
   <p><%= link_to "Toon alle werken", params: @cleaned_params.merge({max_index: 9999999}), class: "hide-for-print button"%><span class="show-for-print">Er wordt slechts een beperkt aantal werken getoond.</span></p>
 <% end %>

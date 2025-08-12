@@ -49,10 +49,14 @@
   <p>De active gebeurtenis is gekoppeld aan de <%= @current_active_time_span.collection.name %>-collectie<% if @works_outside_current_collection.count > 0 %>, er zijn <%=link_to I18n.t("count.works", count: @works_outside_current_collection.count), collection_works_path(collection_id: @collection.self_and_parent_collections_flattened.first, ids: @works_outside_current_collection.join(",")) %> niet beschikbaar binnen deze collectie<% end %>.
 </div>
 <% end %>
-<%= render @works %>
+<ul class="works-list compact">
+<%= render partial: "works/work", collection: @works, locals: {container: :li} %>
+</ul>
 <% if @current_active_time_span && @works_not_for_current_time_span_contact.count > 0 %>
 <hr/>
   <h2>Werken die niet gekoppeld zijn aan de huidige klant</h2>
   <p>Deze groepering is gekoppeld aan <%= link_to [@work_set.current_active_time_span.contact&.name].compact.join(" "), [@collection, @work_set, @work_set.current_active_time_span] %>, de volgende werken zijn echter niet gekoppeld aan deze klant. Verwijder deze werken uit de collectie.</p>
-  <%= render @works_not_for_current_time_span_contact%>
+  <ul class="works-list compact">
+  <%= render partial: "works/work", collection: @works_not_for_current_time_span_contact, locals: {container: :li} %>
+  </ul>
 <% end %>
