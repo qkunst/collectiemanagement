@@ -1,0 +1,24 @@
+@import 'variables';
+
+@page {
+  margin: 1cm 0.8cm 0.8cm 0.8cm;
+
+  main.columns {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media print {
+
+  footer {
+    position: fixed;
+    bottom: 0;
+  }
+
+  .top-bar {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+
+  }
+}

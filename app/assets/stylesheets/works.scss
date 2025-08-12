@@ -44,6 +44,34 @@
   }
 }
 
+.compact #works-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1em;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+#works-list {
+  padding-left: 0;
+    padding-right: 0;
+}
+
+.columns.filter {
+  width: 16%;
+  margin-right: 0.6%;
+}
+
+@media (max-width: 40em) {
+  .columns.filter {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+.compact #works-list .work {
+  width: 100%;
+}
 
 .work.panel {
   position: relative;
@@ -54,7 +82,6 @@
   height: 16em;
   margin: 1% 1% 2%;
   page-break-inside: avoid;
-  //  overflow: hidden;
   border: 0 none;
 
   border-top: 1px solid #ccc;
@@ -152,7 +179,6 @@
 
   padding: 0em;
   background: none;
-  //  min-height: 12em;
 }
 
 .show-work-checkbox .work.panel .work-selector {

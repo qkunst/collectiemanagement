@@ -74,3 +74,7 @@
 </aside>
 <% end %>
 </div>
+
+<% content_for :footer do %>
+<p><%= I18n.t "collection.disclaimer", default: "" %></p>
+<% end %>
