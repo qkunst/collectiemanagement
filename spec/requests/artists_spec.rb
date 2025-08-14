@@ -74,17 +74,57 @@ RSpec.describe "Artists", type: :request do
 
   context "Collection" do
     describe "GET collection/id/artists" do
+      let(:collection) { collections(:collection1) }
       it "shouldn't be publicly accessible" do
-        get collection_artists_path(collections(:collection1))
+        get collection_artists_path(collection)
         expect(response).to have_http_status(302)
       end
       it "should be accessible by QKunst having access to collection" do
         sign_in users(:qkunst)
-        get collection_artists_path(collections(:collection1))
+        get collection_artists_path(collection)
         expect(response).to have_http_status(302)
         sign_in users(:qkunst_with_collection)
-        get collection_artists_path(collections(:collection1))
+        get collection_artists_path(collection)
         expect(response).to have_http_status(200)
+      end
+
+      it "filter works used to retrieve the artists based on tag" do
+        sign_in users(:qkunst_with_collection)
+
+        get collection_artists_path(collection)
+        expect(response).to have_http_status(200)
+        expect(response.body).not_to match "artist_4 achternaam"
+
+        work = collection.works.first
+        work.tag_list << "very specific tag"
+        work.artists = [artists(:artist4)]
+        work.save
+
+        get collection_artists_path(collection)
+        expect(response).to have_http_status(200)
+        expect(response.body).to match "artist_4 achternaam"
+
+        get collection_artists_path(collection, params: {filter: {works_tag_not: "very specific tag"}})
+        expect(response).to have_http_status(200)
+        expect(response.body).not_to match "artist_4 achternaam"
+      end
+
+      it "filter works used to retrieve the artists based on tag will raise 404 when unknown tag is used" do
+        sign_in users(:qkunst_with_collection)
+
+        get collection_artists_path(collection, params: {filter: {works_tag_not: "very specific unknown tag"}})
+        expect(response).to have_http_status(404)
+      end
+
+      it "allows for ransack filters on year of birth" do
+        sign_in users(:qkunst_with_collection)
+        get collection_artists_path(collection)
+        expect(response.body).to match "artist_1"
+        expect(response.body).to match "artist_2 achternaam"
+
+        get collection_artists_path(collection, params: {filter: {year_of_birth_gt: 1910}})
+        expect(response.body).not_to match "artist_1"
+        expect(response.body).to match "artist_2 achternaam"
       end
     end
     describe "GET collection/:collection_id/artists/:id" do

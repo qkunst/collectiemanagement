@@ -13,13 +13,14 @@ class ArtistsController < ApplicationController
   # GET /artists.json
   def index
     authorize! :read, Artist
+    @advanced = !!params.dig(:display, :advanced)
 
     if @collection
-      @artists = @collection.artists.order_by_name.distinct.all
+      @artists = @collection.artists(works_filter).ransack(params[:filter]).result.order_by_name.distinct.all
       @title = "Vervaardigers in collectie #{@collection.name}"
     else
       authorize! :manage, Artist
-      @artists = Artist.order_by_name.all
+      @artists = Artist.ransack(params[:filter]).result.order_by_name.distinct.all
       @title = "Alle vervaardigers"
     end
   end
@@ -176,5 +177,16 @@ class ArtistsController < ApplicationController
     a_params = params.require(:artist).permit(:first_name, :last_name, :prefix, :place_of_birth, :place_of_birth_geoname_id, :place_of_death, :place_of_death_geoname_id, :artist_name, :year_of_birth, :year_of_death, :date_of_birth, :date_of_death, :description, :rkd_artist_id, :gender, collection_attributes_attributes: HasCollectionAttributes::COLLECTION_ATTRIBUTES_PARAMS)
     a_params[:collection_attributes_attributes] = a_params[:collection_attributes_attributes].to_h.map { |k, v| [k, v.merge({collection_id: @collection.base_collection.id})] }.to_h if a_params[:collection_attributes_attributes]
     a_params
+  end
+
+  # this method is used to filter the works that are used to retrieve the artists
+  def works_filter
+    # binding.irb
+    if params.dig(:filter, :works_tag_not)
+      work_tag = ActsAsTaggableOn::Tag.find_by_name!(params.dig(:filter, :works_tag_not)).name
+      ["works.tag_list_cache NOT LIKE ?", "%#{work_tag}%"]
+    else
+      {}
+    end
   end
 end

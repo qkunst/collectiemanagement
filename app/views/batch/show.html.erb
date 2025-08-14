@@ -117,7 +117,7 @@
 <hr/>
 <h2 id="works">Werken</h2>
 <p>De volgende werken zullen hiermee worden aangepast. </p>
-<ul class="works-list compact">
+<ul class="works-list">
 <%= render partial: "works/work", collection: @works.limit(24), locals: {container: :li} %>
 </ul>
 <% if @work_count > 24%>

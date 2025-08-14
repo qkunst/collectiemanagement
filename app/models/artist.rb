@@ -69,7 +69,7 @@ class Artist < ApplicationRecord
   scope :have_name, -> { where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)") }
   scope :no_name, -> { where(last_name: [nil, ""], prefix: [nil, ""], first_name: [nil, ""]) }
   scope :order_by_name, -> { order(:last_name, :prefix, :first_name) }
-  scope :works, ->(work) { joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: [work].flatten.map(&:id)}) }
+  scope :works, ->(work) { joins("INNER JOIN artists_works ON artists.id = artists_works.artist_id").where(artists_works: {work_id: work.is_a?(Work) ? work.id : work.pluck(:id)}) }
 
   accepts_nested_attributes_for :artist_involvements
 
@@ -107,6 +107,10 @@ class Artist < ApplicationRecord
 
   def base_file_name
     search_name.downcase.gsub(/\s+/, "_").gsub(/[\#%&{}\\<>*?\/$!'":@+`|=,]/, "")
+  end
+
+  def place_of_birth_geoname
+    GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first
   end
 
   def geoname_ids
@@ -179,7 +183,7 @@ class Artist < ApplicationRecord
   end
 
   def place_of_birth_geoname_name
-    GeonameSummary.where(geoname_id: place_of_birth_geoname_id).first&.label
+    place_of_birth_geoname&.label
   end
 
   def place_of_death_geoname_name
@@ -298,6 +302,14 @@ class Artist < ApplicationRecord
   end
 
   class << self
+    def ransackable_attributes(auth_object = nil)
+      %w[q artist_name last_name first_name year_of_birth]
+    end
+
+    def ransackable_associations(auth_object = nil)
+      %w[works]
+    end
+
     def names_hash
       unless defined?(@@artist_names)
         @@artist_names = {}

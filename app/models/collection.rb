@@ -243,8 +243,8 @@ class Collection < ApplicationRecord
     end
   end
 
-  def artists
-    Artist.works(works_including_child_works)
+  def artists(works_where_clause = {})
+    Artist.works(works_including_child_works.where(works_where_clause))
   end
 
   def works_including_child_works

@@ -42,6 +42,7 @@ artist1:
 artist2:
   first_name: firstie
   last_name: artist_2 achternaam
+  year_of_birth: 1969
 artist3:
   last_name: artist_3 achternaam
 artist4:

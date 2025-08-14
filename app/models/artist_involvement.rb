@@ -33,6 +33,8 @@ class ArtistInvolvement < ApplicationRecord
     (geoname_ids.length > 0) ? joins(:geoname_summary).where(GeonameSummary.arel_table[:geoname_ids].matches_any(geoname_ids.collect { |a| "%#{a}%" })) : where("true = false")
   end
 
+  default_scope -> { order(start_year: :asc) }
+
   def professional?
     involvement_type.to_s == "professional"
   end

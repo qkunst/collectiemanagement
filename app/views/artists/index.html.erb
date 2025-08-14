@@ -16,6 +16,14 @@
   <table class="sortable" id="artists-table">
     <thead>
       <th data-filtered-by="generic-table-filter"  aria-sort="ascending">Achternaam, Tussenv. of artiestennaam</th><th data-filtered-by="generic-table-filter" >Voornaam</th><th data-filtered-by="generic-table-filter" >Geboortedatum</th><th data-filtered-by="generic-table-filter" >Geboorteplaats</th><th data-filtered-by="generic-table-filter" >Sterfdatum</th><th data-filtered-by="generic-table-filter" >Sterfplaats</th>
+      <% if @advanced %>
+        <th>Nationaliteit(en)</th>
+        <th>Land van geboorte</th>
+        <th>Opleidingen</th>
+        <th>Werkgebieden</th>
+        <th>Collectie NL</th>
+        <th>Musea</th>
+      <% end %>
     </thead>
     <tbody>
       <% @artists.each do |artist|
@@ -36,6 +44,29 @@
           <td data-sortkey="<%=artist.year_of_death%>"><%= link_to context_artist_path do %><%=artist.year_of_death%><% end %></td>
         <% end %>
         <td><%= link_to context_artist_path do %><%= artist.place_of_death %><% end %></td>
+
+        <% if @advanced%>
+          <td><% if artist.rkd_artist&.nationalities%>
+            <ul>
+              <% artist.rkd_artist.nationalities.map(&:label).each do |nationality| %>
+                <li><%=nationality%></li>
+              <% end %>
+            </ul>
+          <% end %></td>
+
+          <td><%= artist.place_of_birth_geoname&.parents&.where(type_code: ["PCLI","COUNTRY"])&.first&.name %> (<%= artist.place_of_birth_geoname_id%>)</td>
+          <td><ul><%= artist.artist_involvements.includes(:involvement).educational.map{ "<li>#{sanitize it.involvement.name} - #{sanitize(it.place)} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
+          <td><ul><%= artist.artist_involvements.professional.map{ "<li>#{sanitize it.place} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
+          <td><%= artist.collectie_nederland_total_results.to_i > 0 ? "J" : "N"%>; <%= link_to I18n.t("count.possible_matches", count: artist.collectie_nederland_total_results.to_i).upcase_first,[@collection, artist,:collectie_nederland_summary].compact%></td>
+          <td><% if artist.collectie_nederland_summary %>
+            <ul>
+            <% artist.collectie_nederland_summary.map{|a| a.data_provider}.uniq.each do |provider_name|%>
+            <li><%= provider_name%></li>
+            <% end %>
+            </ul>
+            <% end %>
+          </td>
+        <% end %>
       </tr>
       <% end %>
     </tbody>

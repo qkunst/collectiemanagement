@@ -118,6 +118,7 @@
 #  index_works_on_stock_number   (stock_number)
 #
 require_relative "../uploaders/picture_uploader"
+
 class Work < ApplicationRecord
   SORTING_FIELDS = [:inventoried_at, :stock_number, :created_at]
   TIME_FILTER_SCOPES = [:sold_between, :created_at_between, :outgoing_rental_between]
@@ -657,6 +658,14 @@ class Work < ApplicationRecord
       query_main = column_names.map { |column_name| "(SELECT 1 AS \"#{column_name}\" FROM \"works\" WHERE \"works\".\"#{column_name}\" IS NOT NULL LIMIT 1)" }.join(", ")
       query = "SELECT #{query_main}"
       ActiveRecord::Base.connection.execute(query).to_a.first.select { |k, v| v == 1 }.symbolize_keys.keys
+    end
+
+    def ransackable_attributes(_ = nil)
+      %w[tag_list]
+    end
+
+    def ransackable_associations(_ = nil)
+      %w[tags]
     end
 
     def collect_locations
