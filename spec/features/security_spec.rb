@@ -14,7 +14,7 @@ RSpec.feature "", type: :feature do
       end
 
       it "production config enforces SSL" do
-        expect(production_config.scan(/(config.force_ssl\s*=\s*([a-z]*))/).map { it.last }).not_to include "false"
+        expect(production_config.scan(/(config.force_ssl\s*=\s*([a-z]*))/).map { |a| a.last }).not_to include "false"
       end
 
       it "https config for collectionmanagement.qkunst.nl" do

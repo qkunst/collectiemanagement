@@ -25,16 +25,16 @@ RSpec.feature "Cache spec", type: :model do
         w = works(:work2)
         w.save
         w.reload # save & reload needed because incomplete record
-        expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie")
+        expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie (1969)")
         travel(-1.day) do
           Work.update_all(updated_at: Time.now)
         end
-        a.year_of_birth = 1980
+        a.year_of_birth = nil
         a.save
         a.reload
         expect(a.works.collect(&:updated_at).min).to be > 1.minute.ago
         w.reload
-        expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie (1980)")
+        expect(w.artist_name_rendered).to eq("artist_2 achternaam, firstie")
         expect(works(:work1).updated_at).to be < 23.hours.ago
       end
     end

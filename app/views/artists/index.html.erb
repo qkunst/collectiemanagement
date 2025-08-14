@@ -1,6 +1,7 @@
 <div class="row">
 <div class="columns">
   <h1><%=@title%></h1>
+  <% if @collection %><p>Er zitten <%=@artists.count%> vervaardigers in deze collectie</p><% end %>
   <% if qkunst_user? %>
   <nav class="sub-nav bottom-nav hide-for-print" aria-label="Vervaardigersacties">
     <ul class="menu right-aligned menu--only-buttons">
@@ -54,8 +55,8 @@
             </ul>
           <% end %></td>
 
-          <td><%= artist.place_of_birth_geoname&.parents&.where(type_code: ["PCLI","COUNTRY"])&.first&.name %> (<%= artist.place_of_birth_geoname_id%>)</td>
-          <td><ul><%= artist.artist_involvements.includes(:involvement).educational.map{ "<li>#{sanitize it.involvement.name} - #{sanitize(it.place)} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
+          <td><%= artist.place_of_birth_geoname&.parents&.where(type_code: ["PCLI","COUNTRY"])&.first&.name %></td>
+          <td><ul><%= artist.artist_involvements.includes(:involvement).educational.map{ "<li>#{sanitize it.involvement&.name || "Onbekend"} - #{sanitize(it.place)} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
           <td><ul><%= artist.artist_involvements.professional.map{ "<li>#{sanitize it.place} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
           <td><%= artist.collectie_nederland_total_results.to_i > 0 ? "J" : "N"%>; <%= link_to I18n.t("count.possible_matches", count: artist.collectie_nederland_total_results.to_i).upcase_first,[@collection, artist,:collectie_nederland_summary].compact%></td>
           <td><% if artist.collectie_nederland_summary %>
