@@ -154,3 +154,5 @@ gem "invisible_captcha"
 gem "jsbundling-rails", "~> 1.0"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
 # gem "stimulus-rails"
+
+gem "ransack", "~> 4.3"
