@@ -6,8 +6,8 @@
   <nav class="sub-nav bottom-nav hide-for-print" aria-label="Vervaardigersacties">
     <ul class="menu right-aligned menu--only-buttons">
       <li><%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %></li>
-      <% if current_user.admin?%>
-        <li><%= link_to "Download .xlsx", artists_path(@sanitized_filter.merge(format: :xlsx)), class: [:right, :button, :secondary]  %></li>
+      <% if current_user.admin? && @collection%>
+        <li><%= link_to "Download .xlsx", collection_artists_path(@collection, @sanitized_filter.merge(format: :xlsx)), class: [:right, :button, :secondary]  %></li>
       <% end %>
       <% if current_user.admin? and !@collection %>
         <li><%= button_to 'Schoon vervaardigers op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %></li>
