@@ -15,8 +15,10 @@ class ArtistsController < ApplicationController
     authorize! :read, Artist
     @sanitized_filter = {display: {}, filter: {}}
     @advanced = !!params.dig(:display, :advanced)
+    indicate_works_filtered = !!params.dig(:display, :download, :indicate_works_filtered) && works_filter.present?
 
     @sanitized_filter[:display][:advanced] = true if @advanced
+    @sanitized_filter[:display][:download] = {indicate_works_filtered: true} if indicate_works_filtered
     merge_ransack_filter_in_sanitized_filter
 
     if @collection
@@ -30,6 +32,9 @@ class ArtistsController < ApplicationController
 
     respond_to do |format|
       format.xlsx do
+        artist_ids_work_filtered = @artists.unscope(:order).pluck(:id)
+        @artists = @collection.artists.ransack(params[:filter]).result.order_by_name.distinct
+
         w = Workbook::Book.new
         header = [
           "ID",
@@ -49,6 +54,9 @@ class ArtistsController < ApplicationController
             "Werkgebieden",
             "Collectie NL",
             "Musea"]
+        end
+        if indicate_works_filtered
+          header += ["Verberg (op basis van werk filter)"]
         end
 
         w.sheet.table = [header]
@@ -73,6 +81,11 @@ class ArtistsController < ApplicationController
               artist.artist_involvements.professional.map { "#{it.place} #{it.start_year&.to_i}" }.uniq.join("; "),
               (artist.collectie_nederland_total_results.to_i > 0) ? "J" : "N",
               artist.collectie_nederland_summary&.map { |a| a.data_provider }&.uniq&.join("; ")
+            ]
+          end
+          if indicate_works_filtered
+            values += [
+              artist_ids_work_filtered.include?(artist.id) ? nil : @sanitized_filter[:filter][:works_tag_not]
             ]
           end
           w.sheet.table << values
