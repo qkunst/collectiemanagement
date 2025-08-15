@@ -253,14 +253,13 @@ class ArtistsController < ApplicationController
   def merge_ransack_filter_in_sanitized_filter
     ransack_filter = Artist.ransack(params[:filter])
     ransack_filter_hash = ransack_filter.base.conditions
-      .map { |c|
-      c.attributes.map do |a|
-        value = c.values.map { |v| v.value }
-        value = value.first if c.predicate.name.in?(["gt", "lt"])
-        ["#{a.name}_#{c.predicate.name}", value]
-      end.to_h
-    }
-      .inject({}) { |b, a| a.merge(b) }
+      .map do |c|
+        c.attributes.map do |a|
+          value = c.values.map { |v| v.value }
+          value = value.first if c.predicate.name.in?(["gt", "lt"])
+          ["#{a.name}_#{c.predicate.name}", value]
+        end.to_h
+      end.inject({}) { |b, a| a.merge(b) }
     @sanitized_filter[:filter].merge!(ransack_filter_hash)
   end
 
