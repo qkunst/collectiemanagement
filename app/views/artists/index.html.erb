@@ -19,7 +19,13 @@
 
   <table class="sortable" id="artists-table">
     <thead>
-      <th data-filtered-by="generic-table-filter"  aria-sort="ascending">Achternaam, Tussenv. of artiestennaam</th><th data-filtered-by="generic-table-filter" >Voornaam</th><th data-filtered-by="generic-table-filter" >Geboortedatum</th><th data-filtered-by="generic-table-filter" >Geboorteplaats</th><th data-filtered-by="generic-table-filter" >Sterfdatum</th><th data-filtered-by="generic-table-filter" >Sterfplaats</th>
+      <th data-filtered-by="generic-table-filter"  aria-sort="ascending">Achternaam, Tussenv. of artiestennaam</th>
+      <th data-filtered-by="generic-table-filter" >Voornaam</th>
+      <th data-filtered-by="generic-table-filter" >RKD Artist ID</th>
+      <th data-filtered-by="generic-table-filter" >Geboortedatum</th>
+      <th data-filtered-by="generic-table-filter" >Geboorteplaats</th>
+      <th data-filtered-by="generic-table-filter" >Sterfdatum</th>
+      <th data-filtered-by="generic-table-filter" >Sterfplaats</th>
       <% if @advanced %>
         <th>Nationaliteit(en)</th>
         <th>Land van geboorte</th>
@@ -36,6 +42,7 @@
       <tr>
         <td><%= link_to (artist.artist_name? ? "#{artist.artist_name} (artiestennaam)" : [artist.last_name, artist.prefix].compact.join(", ")), context_artist_path %></td>
         <td><%= link_to artist.first_name.to_s, context_artist_path %></td>
+        <td><%= link_to artist.rkd_artist_id, context_artist_path %></td>
         <% if artist.date_of_birth %>
           <td data-sortkey="<%=artist.date_of_birth.iso8601 %>"><%= link_to I18n.l(artist.date_of_birth, format: :long), context_artist_path %></td>
         <% else %>
