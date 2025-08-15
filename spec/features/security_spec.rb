@@ -18,9 +18,41 @@ RSpec.feature "", type: :feature do
       end
 
       it "https config for collectionmanagement.qkunst.nl" do
+        headers = Open3.popen3("curl -v http://collectiemanagement.qkunst.nl") do |stdin, stdout, stderr, thread|
+          stderr.read.chomp
+        end
+
+        expect(headers).to match "\n< Location: https://collectiemanagement.qkunst.nl/\r\n"
+
+        headers = Open3.popen3("curl -v https://collectiemanagement.qkunst.nl") do |stdin, stdout, stderr, thread|
+          stderr.read.chomp
+        end
+
+        expect(headers).to match "\n< strict-transport-security: max-age=63072000"
+        expect(headers).to match "TLS handshake"
+        expect(headers).to match "Let's Encrypt"
       end
     end
   end
   describe "Mutation Log" do
+    describe "User" do
+      it "creates a version after sign in" do
+        u = users(:user1)
+        expect(u.versions.count).to eq(0)
+        login(u.email)
+        u.reload
+        expect(u.versions.count).to eq(1)
+      end
+    end
+
+    describe "Work" do
+      it "creates a version after update" do
+        w = works(:work1)
+        expect(w.versions.count).to eq(0)
+        w.update(title: "some other title")
+        w.reload
+        expect(w.versions.count).to eq(1)
+      end
+    end
   end
 end
