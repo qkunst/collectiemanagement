@@ -13,7 +13,11 @@ class ArtistsController < ApplicationController
   # GET /artists.json
   def index
     authorize! :read, Artist
+    @sanitized_filter = {display: {}, filter: {}}
     @advanced = !!params.dig(:display, :advanced)
+
+    @sanitized_filter[:display][:advanced] = true if @advanced
+    merge_ransack_filter_in_sanitized_filter
 
     if @collection
       @artists = @collection.artists(works_filter).ransack(params[:filter]).result.order_by_name.distinct.all
@@ -22,6 +26,60 @@ class ArtistsController < ApplicationController
       authorize! :manage, Artist
       @artists = Artist.ransack(params[:filter]).result.order_by_name.distinct.all
       @title = "Alle vervaardigers"
+    end
+
+    respond_to do |format|
+      format.xlsx do
+        w = Workbook::Book.new
+        header = [
+          "ID",
+          "RKD Artist id",
+          "Achternaam, Tussenv. of artiestennaam",
+          "Voornaam",
+          "Geboortedatum",
+          "Geboorteplaats",
+          "Sterfdatum",
+          "Sterfplaats"
+        ]
+        if @advanced
+          header += ["Volledige naam voor sorteren",
+            "Nationaliteit(en)",
+            "Land van geboorte",
+            "Opleidingen",
+            "Werkgebieden",
+            "Collectie NL",
+            "Musea"]
+        end
+
+        w.sheet.table = [header]
+
+        @artists.each do |artist|
+          values = [
+            artist.id,
+            artist.rkd_artist_id,
+            artist.artist_name? ? "#{artist.artist_name} (artiestennaam)" : [artist.last_name, artist.prefix].compact.join(", "),
+            artist.first_name,
+            artist.year_of_birth,
+            artist.place_of_birth,
+            artist.year_of_death,
+            artist.place_of_death
+          ]
+          if @advanced
+            values += [
+              artist.search_name,
+              artist.rkd_artist_nationalities_as_s&.join(","),
+              artist.country_of_birth_name,
+              artist.artist_involvements.includes(:involvement).educational.map { "#{it.involvement&.name || "Onbekend"} - #{it.place} #{it.start_year&.to_i}" }.uniq.join("; "),
+              artist.artist_involvements.professional.map { "#{it.place} #{it.start_year&.to_i}" }.uniq.join("; "),
+              (artist.collectie_nederland_total_results.to_i > 0) ? "J" : "N",
+              artist.collectie_nederland_summary&.map { |a| a.data_provider }&.uniq&.join("; ")
+            ]
+          end
+          w.sheet.table << values
+        end
+        send_data w.stream_xlsx, filename: "#{["vervaardigers", @collection&.name].compact.join(" ")}.xlsx"
+      end
+      format.html {}
     end
   end
 
@@ -179,11 +237,26 @@ class ArtistsController < ApplicationController
     a_params
   end
 
+  def merge_ransack_filter_in_sanitized_filter
+    ransack_filter = Artist.ransack(params[:filter])
+    ransack_filter_hash = ransack_filter.base.conditions
+      .map { |c|
+      c.attributes.map do |a|
+        value = c.values.map { |v| v.value }
+        value = value.first if c.predicate.name.in?(["gt", "lt"])
+        ["#{a.name}_#{c.predicate.name}", value]
+      end.to_h
+    }
+      .inject({}) { |b, a| a.merge(b) }
+    @sanitized_filter[:filter].merge!(ransack_filter_hash)
+  end
+
   # this method is used to filter the works that are used to retrieve the artists
   def works_filter
     # binding.irb
     if params.dig(:filter, :works_tag_not)
       work_tag = ActsAsTaggableOn::Tag.find_by_name!(params.dig(:filter, :works_tag_not)).name
+      @sanitized_filter[:filter][:works_tag_not] = work_tag
       ["works.tag_list_cache NOT LIKE ?", "%#{work_tag}%"]
     else
       {}

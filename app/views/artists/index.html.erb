@@ -6,6 +6,9 @@
   <nav class="sub-nav bottom-nav hide-for-print" aria-label="Vervaardigersacties">
     <ul class="menu right-aligned menu--only-buttons">
       <li><%= link_to 'Nieuwe vervaardiger', new_artist_path, class: [:right, :button] %></li>
+      <% if current_user.admin?%>
+        <li><%= link_to "Download .xlsx", artists_path(@sanitized_filter.merge(format: :xlsx)), class: [:right, :button, :secondary]  %></li>
+      <% end %>
       <% if current_user.admin? and !@collection %>
         <li><%= button_to 'Schoon vervaardigers op', artists_clean_path, data: {confirm: "Zijn er onlangs veel zaken toegevoegd, wacht dan een dag zodat er in noodgevallen een backup aanwezig is: deze operatie past namelijk veel aan. Weet je zeker dat je door wilt?"}, class: [:button, :warning, :right], method: :post %></li>
       <% end %>
@@ -55,7 +58,7 @@
             </ul>
           <% end %></td>
 
-          <td><%= artist.place_of_birth_geoname&.parents&.where(type_code: ["PCLI","COUNTRY"])&.first&.name %></td>
+          <td><%= artist.country_of_birth_name %></td>
           <td><ul><%= artist.artist_involvements.includes(:involvement).educational.map{ "<li>#{sanitize it.involvement&.name || "Onbekend"} - #{sanitize(it.place)} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
           <td><ul><%= artist.artist_involvements.professional.map{ "<li>#{sanitize it.place} #{it.start_year&.to_i}</li>" }.uniq.join("").html_safe %></ul></td>
           <td><%= artist.collectie_nederland_total_results.to_i > 0 ? "J" : "N"%>; <%= link_to I18n.t("count.possible_matches", count: artist.collectie_nederland_total_results.to_i).upcase_first,[@collection, artist,:collectie_nederland_summary].compact%></td>

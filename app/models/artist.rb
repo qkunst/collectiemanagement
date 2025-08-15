@@ -131,6 +131,14 @@ class Artist < ApplicationRecord
     search_name != ""
   end
 
+  def rkd_artist_nationalities_as_s
+    rkd_artist&.nationalities&.map(&:label)
+  end
+
+  def country_of_birth_name
+    place_of_birth_geoname&.parents&.where(type_code: ["PCLI", "COUNTRY"])&.first&.name
+  end
+
   def title
     name
   end

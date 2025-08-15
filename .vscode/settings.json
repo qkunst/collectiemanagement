@@ -3,6 +3,7 @@
     "geoname",
     "objekt",
     "qkunst",
-    "sidekiq"
+    "sidekiq",
+    "tbody"
   ]
 }
