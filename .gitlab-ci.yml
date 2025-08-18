@@ -80,5 +80,6 @@ bundleaudit:
 
 brakeman:
   script:
+    - gem install prism # older versions of prism might give errors on `it`
     - gem install brakeman
     - brakeman -i config/brakeman.ignore
