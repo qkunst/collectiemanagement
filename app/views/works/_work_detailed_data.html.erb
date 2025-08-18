@@ -1,154 +1,154 @@
 <div class="detailed_data row">
   <div class="medium-6 columns">
-  <% if can?(:read_location, work) %>
-    <%= definition_list_for work, {render_as: :table} do %>
-      <thead><tr>
-        <th>Locatie</th>
-        <td class="actions">
-          <% if work.persisted? && !@for_print %>
-            <% if can?(:edit_location, work) %>
-              <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
+    <% if can?(:read_location, work) %>
+      <%= definition_list_for work, {render_as: :table} do %>
+        <thead><tr>
+          <th>Locatie</th>
+          <td class="actions">
+            <% if work.persisted? && !@for_print %>
+              <% if can?(:edit_location, work) %>
+                <%= link_to 'Bewerk', collection_work_edit_location_path(work.collection, work), data: { open_in_context: true} %> |
+              <% end %>
+              <% if can?(:view_location_history, work) %>
+                <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
+              <% end %>
             <% end %>
-            <% if can?(:view_location_history, work) %>
-              <%= link_to 'Historie', collection_work_location_history_path(work.collection, work), data: { open_in_context: true} %>
-            <% end %>
+          </td>
+        </tr></thead>
+        <tbody>
+        <% if work.main_location_id %>
+          <tr><th>Adres</th><td><%= link_to work.location, collection_location_path(@collection, work.main_location_id) %></td></tr>
+        <% else %>
+          <%= define_when_present :location %>
+        <% end %>
+        <% if @work && @work.main_location&.address%>
+          <tr><th>Adres</th><td><%= link_to @work.main_location.address, collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
+        <% end %>
+        <%= define_when_present :location_floor %>
+        <%= define_when_present :location_detail %>
+        <% if @work_display_form&.display_detailed_with_location_history? %>
+          <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
+          <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
+            <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
           <% end %>
-        </td>
-      </tr></thead>
-      <tbody>
-      <% if work.main_location_id %>
-        <tr><th>Adres</th><td><%= link_to work.location, collection_location_path(@collection, work.main_location_id) %></td></tr>
-      <% else %>
-        <%= define_when_present :location %>
+        <% end %>
+        </tbody>
       <% end %>
-      <% if @work && @work.main_location&.address%>
-        <tr><th>Adres</th><td><%= link_to @work.main_location.address, collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
-      <% end %>
-      <%= define_when_present :location_floor %>
-      <%= define_when_present :location_detail %>
-      <% if @work_display_form&.display_detailed_with_location_history? %>
-        <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
-        <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
-          <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
+    <% end %>
+    <% if can?(:read_status, work)%>
+      <%= definition_list_for work, {render_as: :table} do %>
+        <%= define_when_present :work_status %>
+        <%= define_when_present :highlight %>
+        <% if @collection.base_collection.show_availability_status && !@work_display_form&.display_logistics? %>
+          <%= define_when_present :for_purchase %>
+          <%= define_when_present :for_rent %>
+          <% if define?(:availability_status) %>
+            <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
+              <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true }%>
+              <% elsif work.currently_relevant_time_span %>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true }%>
+              <% else %>
+                <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
+              <% end%>
+              <% if Rails.application.credentials.uitleen_site && work.persisted? %>
+                (<%= link_to "Toon in uitleen", File.join(Rails.application.credentials.uitleen_site, collection_work_path(work.collection, work)) %>)
+              <% end %>
+            </td></tr>
+          <% end%>
         <% end %>
       <% end %>
-      </tbody>
     <% end %>
-  <% end %>
-  <% if can?(:read_status, work)%>
     <%= definition_list_for work, {render_as: :table} do %>
-      <%= define_when_present :work_status %>
-      <%= define_when_present :highlight %>
-      <% if @collection.base_collection.show_availability_status %>
-        <%= define_when_present :for_purchase %>
-        <%= define_when_present :for_rent %>
-        <% if define?(:availability_status) %>
-          <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
-            <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
-              <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true }%>
-            <% elsif work.currently_relevant_time_span %>
-              <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true }%>
-            <% else %>
-              <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
-            <% end%>
-            <% if Rails.application.credentials.uitleen_site && work.persisted? %>
-              (<%= link_to "Toon in uitleen", File.join(Rails.application.credentials.uitleen_site, collection_work_path(work.collection, work)) %>)
-            <% end %>
-          </td></tr>
-        <% end%>
+      <%= define_when_present :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
+      <%= define_when_present :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
+      <%= define_when_present :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
+      <%= define_when_present :alt_number_4 %>
+      <%= define_when_present :alt_number_5 %>
+      <%= define_when_present :alt_number_6 %>
+      <%= define_when_present :object_creation_year, description: 'Datering' %>
+      <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
+      <%= define_when_present :techniques %>
+      <% if @work_display_form&.display_complete? %>
+        <%= define_when_present :medium %>
+        <%= define_when_present :medium_comments %>
+        <%= define_when_present :frame_type %>
       <% end %>
-    <% end %>
-  <% end %>
-  <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_when_present :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
-    <%= define_when_present :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
-    <%= define_when_present :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
-    <%= define_when_present :alt_number_4 %>
-    <%= define_when_present :alt_number_5 %>
-    <%= define_when_present :alt_number_6 %>
-    <%= define_when_present :object_creation_year, description: 'Datering' %>
-    <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
-    <%= define_when_present :techniques %>
-    <% if @work_display_form&.display_complete? %>
-      <%= define_when_present :medium %>
-      <%= define_when_present :medium_comments %>
-      <%= define_when_present :logistical_peculiarities%>
-      <%= define_when_present :logistical_peculiarities_comments if @work == work%>
-      <%= define_when_present :frame_type %>
-    <% end %>
-    <%= define_when_present :signature_rendered %>
-    <%= define_when_present :object_format_code, {modifier: :upcase} %>
-    <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
-    <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
-    <%= define_when_present :weight %>
-    <%= define_when_present :dimension_weight_description %>
-    <% if @work_display_form&.display_complete? %>
-      <% if params[:surface_calc] %>
-        <%= define_when_present :floor_surface %>
-        <%= define_when_present :wall_surface %>
+      <% if @work_display_form&.display_complete? || @work_display_form&.display_logistics? %>
+        <%= define_when_present :logistical_peculiarities%>
+        <%= define_when_present :logistical_peculiarities_comments if @work == work%>
       <% end %>
-      <%= define_when_present :abstract_or_figurative_rendered %>
-      <%= define_when_present :style %>
-      <%= define_when_present :subset %>
-      <%= define_when_present :collection_name_extended %>
-      <%= define_when_present :themes %>
-      <%= define_when_present :locality_geoname_name %>
-    <% end%>
-    <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet? %>
-    <%= define_when_present :print_rendered  %>
-  <% end %>
+      <%= define_when_present :signature_rendered %>
+      <%= define_when_present :object_format_code, {modifier: :upcase} %>
+      <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
+      <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
+      <%= define_when_present :weight %>
+      <%= define_when_present :dimension_weight_description %>
+      <% if @work_display_form&.display_complete? %>
+        <% if params[:surface_calc] %>
+          <%= define_when_present :floor_surface %>
+          <%= define_when_present :wall_surface %>
+        <% end %>
+        <%= define_when_present :abstract_or_figurative_rendered %>
+        <%= define_when_present :style %>
+        <%= define_when_present :subset %>
+        <%= define_when_present :collection_name_extended %>
+        <%= define_when_present :themes %>
+        <%= define_when_present :locality_geoname_name %>
+      <% end%>
+      <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet? %>
+      <%= define_when_present :print_rendered  %>
+    <% end %>
   </div>
   <div class="medium-6 columns">
-
-  <%= definition_list_for work, {render_as: :table} do %>
-    <%= define_when_present :cached_tag_list unless @work_display_form&.display_detailed_discreet? %>
-    <%= define_when_present :condition_work_rendered %>
-    <%= define_when_present :condition_frame_rendered %>
-    <% if @work_display_form&.display_complete? %>
-      <%= define_when_present :placeability  %>
-      <%= define_when_present :permanently_fixed if work.permanently_fixed %>
-      <%= define_when_present :main_collection %>
+    <%= definition_list_for work, {render_as: :table} do %>
+      <%= define_when_present :cached_tag_list unless @work_display_form&.display_detailed_discreet? %>
+      <%= define_when_present :condition_work_rendered %>
+      <%= define_when_present :condition_frame_rendered %>
+      <% if @work_display_form&.display_complete? %>
+        <%= define_when_present :placeability  %>
+        <%= define_when_present :permanently_fixed if work.permanently_fixed %>
+        <%= define_when_present :main_collection %>
+      <% end %>
+      <%= define_when_present :grade_within_collection %>
+      <%= define_when_present :information_back, description: "Info. achterz." %>
+      <%= define_when_present :other_comments, description: "Overige opm." %>
+      <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @work_display_form&.display != :detailed_discreet and @work_display_form&.display != :detailed %>
+      <% if @work_display_form&.display_complete? %>
+        <%= define_when_present :sources %>
+        <%= define_when_present :source_comments %>
+        <%= define_when_present :owner %>
+      <% end %>
     <% end %>
-    <%= define_when_present :grade_within_collection %>
-    <%= define_when_present :information_back, description: "Info. achterz." %>
-    <%= define_when_present :other_comments, description: "Overige opm." %>
-    <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @work_display_form&.display != :detailed_discreet and @work_display_form&.display != :detailed %>
-    <% if @work_display_form&.display_complete? %>
-      <%= define_when_present :sources %>
-      <%= define_when_present :source_comments %>
-      <%= define_when_present :owner %>
-    <% end %>
-  <% end %>
 
-  <%= definition_list_for work, {render_as: :table} do %>
-    <% if define?(:work_sets, value: work.work_sets.any?) %>
-      <tr>
-        <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete))  %>
-        <th rowspan="2">
-        <% else %>
-        <th>
+    <%= definition_list_for work, {render_as: :table} do %>
+      <% if define?(:work_sets, value: work.work_sets.any?) %>
+        <tr>
+          <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete))  %>
+          <th rowspan="2">
+          <% else %>
+          <th>
+          <% end %>
+            <%=Work.human_attribute_name(:work_sets)%>
+          </th>
+          <td><%= (work.work_sets.map do |ws|
+            if @for_print
+              sanitize(ws.name)
+            else
+              link_to(sanitize(ws.name), ws)
+            end
+          end.to_sentence).html_safe %>
+          </td>
+        </tr>
+      <% end %>
+      <% if can?(:read_valuation, work.collection) && !@work_display_form&.display_detailed_discreet? && !@work_display_form&.display_logistics?  %>
+        <% if work.appraised_in_set? && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
+          <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
         <% end %>
-          <%=Work.human_attribute_name(:work_sets)%>
-        </th>
-        <td><%= (work.work_sets.map do |ws|
-          if @for_print
-            sanitize(ws.name)
-          else
-            link_to(sanitize(ws.name), ws)
-          end
-        end.to_sentence).html_safe %>
-        </td>
-      </tr>
-    <% end %>
-    <% if can?(:read_valuation, work.collection) %>
-      <% if work.appraised_in_set? && !@work_display_form&.display_detailed_discreet? && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
-        <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
-      <% end %>
-      <%= define_when_present :purchased_on_with_fallback %>
-      <% if define?(:purchase_price) && !@work_display_form&.display_detailed_discreet? %>
-      <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
-      <% end %>
-      <% unless @work_display_form&.display_detailed_discreet? %>
+        <%= define_when_present :purchased_on_with_fallback %>
+        <% if define?(:purchase_price) %>
+          <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
+        <% end %>
         <%= define_when_present :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
         <%= define_when_present :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
         <%= define_when_present :market_value_range_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
@@ -168,52 +168,50 @@
         <%= define_when_present :balance_category %>
         <%= define_when_present :selling_price_minimum_bid_comments %>
         <%= define_when_present :price_reference if @work_display_form&.display_complete? %>
+
       <% end %>
-
     <% end %>
-  <% end %>
-  <%= definition_list_for work, {render_as: :table} do %>
+    <%= definition_list_for work, {render_as: :table} do %>
 
-    <%
-    artist_involvements_texts = []
-
-    if @selection_filter and @selection_filter["geoname_ids"] and @selection_filter["geoname_ids"].length > 0
-      artist_involvements_texts = work.artist_involvements_texts @selection_filter["geoname_ids"]
-    else
-      artist_involvements_texts = work.cached_collection_locality_artist_involvements_texts
-    end
-    if artist_involvements_texts && artist_involvements_texts.length > 0 %>
-    <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
-    <% end %>
-    <% if @work_display_form&.display_complete? %>
       <%
-        role = current_user.role.to_s
-        work_attachments = work.attachments.to_a.delete_if{|a| a.id.nil?}.select do |attachment|
-          (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s))
-        end
-      %>
-      <% if define?(:attachments, value: work_attachments.any?) %>
-        <tr><th>Bijlagen:</th><td><ul>
-          <% work_attachments.each do |attachment| %>
-            <li>
-              <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
-            </li>
-          <% end %>
-        </ul></td></tr>
-      <% end %>
-      <%= define_when_present :image_rights %>
-      <%= define_when_present :publish %>
-      <%= define_when_present :created_at %>
-      <%= define_when_present :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
-      <%= define_when_present :inventoried_at %>
-      <%= define_when_present :refound_at %>
-      <%= define_when_present :new_found_at %>
-    <% end %>
-    <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? %>
-    <% if define?(:old_data) && work.persisted? %>
-    <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
-    <% end %>
+      artist_involvements_texts = []
 
-  <% end %>
+      if @selection_filter and @selection_filter["geoname_ids"] and @selection_filter["geoname_ids"].length > 0
+        artist_involvements_texts = work.artist_involvements_texts @selection_filter["geoname_ids"]
+      else
+        artist_involvements_texts = work.cached_collection_locality_artist_involvements_texts
+      end
+      if artist_involvements_texts && artist_involvements_texts.length > 0 %>
+      <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
+      <% end %>
+      <% if @work_display_form&.display_complete? %>
+        <%
+          role = current_user.role.to_s
+          work_attachments = work.attachments.to_a.delete_if{|a| a.id.nil?}.select do |attachment|
+            (role == "admin" || role == "advisor" || attachment.visibility.include?(role.to_s))
+          end
+        %>
+        <% if define?(:attachments, value: work_attachments.any?) %>
+          <tr><th>Bijlagen:</th><td><ul>
+            <% work_attachments.each do |attachment| %>
+              <li>
+                <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
+              </li>
+            <% end %>
+          </ul></td></tr>
+        <% end %>
+        <%= define_when_present :image_rights %>
+        <%= define_when_present :publish %>
+        <%= define_when_present :created_at %>
+        <%= define_when_present :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
+        <%= define_when_present :inventoried_at %>
+        <%= define_when_present :refound_at %>
+        <%= define_when_present :new_found_at %>
+      <% end %>
+      <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? %>
+      <% if define?(:old_data) && work.persisted? %>
+      <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
+      <% end %>
+    <% end %>
   </div>
 </div>

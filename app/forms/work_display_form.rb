@@ -18,6 +18,10 @@ class WorkDisplayForm
     display == :detailed_discreet
   end
 
+  def display_logistics?
+    display == :logistics
+  end
+
   def display_compact?
     display == :compact
   end
@@ -66,6 +70,9 @@ class WorkDisplayForm
         @display_options["Beperkt (+huur zakelijk)"] = :limited_business_rent_price
         @display_options["Beperkt (+huur/verkoop particulier)"] = :limited_selling_price_and_default_rent_price
         @display_options["Beperkt (+huur/verkoop zakelijk)"] = :limited_selling_price_and_business_rent_price
+      end
+      if LogisticalPeculiarity.any?
+        @display_options["Logistiek"] = :logistics
       end
       @display_options["Veilinghuis"] = :limited_auction
     end
