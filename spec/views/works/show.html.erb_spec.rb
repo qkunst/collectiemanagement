@@ -82,6 +82,17 @@ RSpec.describe "works/show", type: :view do
         expect(rendered).not_to match("Gecontroleerd op")
       end
     end
+
+    context(:logistics) do
+      let(:display) { :logistics }
+
+      it "renders correctly" do
+        expect(rendered).to match("Interne opmerking bij werk 1")
+        expect(rendered).not_to match("Marktwaarde")
+        expect(rendered).to match("Gecontroleerd op")
+        expect(rendered).to match("Logistieke bijzonderheden")
+      end
+    end
   end
 
   it "renders attachments" do
