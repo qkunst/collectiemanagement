@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>7.2.0"
+gem "rails", "~>8.0"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -69,6 +69,7 @@ gem "attribute_normalizer" # keeps the database clean
 ## SEARCH
 ##
 
+gem "elasticsearch", "~> 7"
 gem "elasticsearch-model", "~> 7"
 gem "elasticsearch-rails", "~> 7"
 
@@ -121,8 +122,8 @@ gem "daemons"
 gem "redis-rails" # jobs
 gem "dalli" # memcache
 gem "exception_notification"
-gem "zipline"
-gem "rubyzip", "2.3.2"
+gem "zipline", git: "https://github.com/alhajrahmoun/zipline.git", ref: "3fcbe12b01e6399a0a4db5292addecdb267cfa03"
+gem "rubyzip" # , "2.3.2"
 gem "rack-headers_filter"
 gem "strip_attributes"
 gem "omniauth"
@@ -155,4 +156,4 @@ gem "jsbundling-rails", "~> 1.0"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
 # gem "stimulus-rails"
 
-gem "ransack", "~> 4.3"
+gem "ransack" # , "~> 4.3"

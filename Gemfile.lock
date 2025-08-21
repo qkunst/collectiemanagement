@@ -1,4 +1,14 @@
 GIT
+  remote: https://github.com/alhajrahmoun/zipline.git
+  revision: 3fcbe12b01e6399a0a4db5292addecdb267cfa03
+  ref: 3fcbe12b01e6399a0a4db5292addecdb267cfa03
+  specs:
+    zipline (2.0.0)
+      actionpack (>= 6.0, < 8.1)
+      content_disposition (~> 1.0)
+      zip_kit (~> 6, >= 6.2.0, < 7)
+
+GIT
   remote: https://github.com/murb/branding_repo.git
   revision: 5a8916d9704d97c274dd96aaebfecffb4e196ab9
   specs:
@@ -64,66 +74,65 @@ GEM
   specs:
     act_as_time_as_boolean (1.0.1)
       activesupport (>= 3.2)
-    actioncable (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actioncable (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
       zeitwerk (~> 2.6)
-    actionmailbox (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      activejob (= 7.2.2.2)
-      activerecord (= 7.2.2.2)
-      activestorage (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actionmailbox (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      activejob (= 8.0.2.1)
+      activerecord (= 8.0.2.1)
+      activestorage (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       mail (>= 2.8.0)
-    actionmailer (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      actionview (= 7.2.2.2)
-      activejob (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actionmailer (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      actionview (= 8.0.2.1)
+      activejob (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       mail (>= 2.8.0)
       rails-dom-testing (~> 2.2)
-    actionpack (7.2.2.2)
-      actionview (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actionpack (8.0.2.1)
+      actionview (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       nokogiri (>= 1.8.5)
-      racc
-      rack (>= 2.2.4, < 3.2)
+      rack (>= 2.2.4)
       rack-session (>= 1.0.1)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
       useragent (~> 0.16)
-    actiontext (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      activerecord (= 7.2.2.2)
-      activestorage (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actiontext (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      activerecord (= 8.0.2.1)
+      activestorage (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       globalid (>= 0.6.0)
       nokogiri (>= 1.8.5)
-    actionview (7.2.2.2)
-      activesupport (= 7.2.2.2)
+    actionview (8.0.2.1)
+      activesupport (= 8.0.2.1)
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activejob (7.2.2.2)
-      activesupport (= 7.2.2.2)
+    activejob (8.0.2.1)
+      activesupport (= 8.0.2.1)
       globalid (>= 0.3.6)
-    activemodel (7.2.2.2)
-      activesupport (= 7.2.2.2)
-    activerecord (7.2.2.2)
-      activemodel (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    activemodel (8.0.2.1)
+      activesupport (= 8.0.2.1)
+    activerecord (8.0.2.1)
+      activemodel (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       timeout (>= 0.4.0)
-    activestorage (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      activejob (= 7.2.2.2)
-      activerecord (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    activestorage (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      activejob (= 8.0.2.1)
+      activerecord (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       marcel (~> 1.0)
-    activesupport (7.2.2.2)
+    activesupport (8.0.2.1)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -135,6 +144,7 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
+      uri (>= 0.13.1)
     acts-as-taggable-on (12.0.0)
       activerecord (>= 7.1, < 8.1)
       zeitwerk (>= 2.4, < 3.0)
@@ -142,9 +152,9 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
-    annotate (3.2.0)
-      activerecord (>= 3.2, < 8.0)
-      rake (>= 10.4, < 14.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     ast (2.4.3)
     attribute_normalizer (1.2.0)
     autoprefixer-rails (10.4.21.0)
@@ -206,11 +216,11 @@ GEM
     carrierwave-imageoptimizer (1.6.0)
       carrierwave (>= 0.8, < 3.0)
       image_optimizer (~> 1.6)
-    caxlsx (4.2.0)
+    caxlsx (4.3.0)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
-      rubyzip (>= 1.3.0, < 3)
+      rubyzip (>= 2.4, < 4)
     childprocess (5.1.0)
       logger (~> 1.5)
     concurrent-ruby (1.3.5)
@@ -247,9 +257,9 @@ GEM
       elasticsearch-transport (= 7.17.11)
     elasticsearch-api (7.17.11)
       multi_json
-    elasticsearch-model (7.2.1)
+    elasticsearch-model (7.1.1)
       activesupport (> 3)
-      elasticsearch (~> 7)
+      elasticsearch (> 1)
       hashie
     elasticsearch-rails (7.2.1)
     elasticsearch-transport (7.17.11)
@@ -457,7 +467,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.16)
+    rack (3.2.0)
     rack-headers_filter (0.0.1)
     rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
@@ -472,20 +482,20 @@ GEM
       rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
-    rails (7.2.2.2)
-      actioncable (= 7.2.2.2)
-      actionmailbox (= 7.2.2.2)
-      actionmailer (= 7.2.2.2)
-      actionpack (= 7.2.2.2)
-      actiontext (= 7.2.2.2)
-      actionview (= 7.2.2.2)
-      activejob (= 7.2.2.2)
-      activemodel (= 7.2.2.2)
-      activerecord (= 7.2.2.2)
-      activestorage (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    rails (8.0.2.1)
+      actioncable (= 8.0.2.1)
+      actionmailbox (= 8.0.2.1)
+      actionmailer (= 8.0.2.1)
+      actionpack (= 8.0.2.1)
+      actiontext (= 8.0.2.1)
+      actionview (= 8.0.2.1)
+      activejob (= 8.0.2.1)
+      activemodel (= 8.0.2.1)
+      activerecord (= 8.0.2.1)
+      activestorage (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       bundler (>= 1.15.0)
-      railties (= 7.2.2.2)
+      railties (= 8.0.2.1)
     rails-dom-testing (2.3.0)
       activesupport (>= 5.0.0)
       minitest
@@ -493,9 +503,9 @@ GEM
     rails-html-sanitizer (1.6.2)
       loofah (~> 2.21)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
-    railties (7.2.2.2)
-      actionpack (= 7.2.2.2)
-      activesupport (= 7.2.2.2)
+    railties (8.0.2.1)
+      actionpack (= 8.0.2.1)
+      activesupport (= 8.0.2.1)
       irb (~> 1.13)
       rackup (>= 1.0.0)
       rake (>= 12.2)
@@ -514,26 +524,9 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    redis (5.4.1)
-      redis-client (>= 0.22.0)
-    redis-actionpack (5.5.0)
-      actionpack (>= 5)
-      redis-rack (>= 2.1.0, < 4)
-      redis-store (>= 1.1.0, < 2)
-    redis-activesupport (5.3.0)
-      activesupport (>= 3, < 8)
-      redis-store (>= 1.3, < 2)
     redis-client (0.25.2)
       connection_pool
-    redis-rack (3.0.0)
-      rack-session (>= 0.2.0)
-      redis-store (>= 1.2, < 2)
-    redis-rails (5.0.2)
-      redis-actionpack (>= 5.0, < 6)
-      redis-activesupport (>= 5.0, < 6)
-      redis-store (>= 1.2, < 2)
-    redis-store (1.11.0)
-      redis (>= 4, < 6)
+    redis-rails (0.0.0)
     regexp_parser (2.11.2)
     reline (0.6.2)
       io-console (~> 0.5)
@@ -590,7 +583,7 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
-    rubyzip (2.3.2)
+    rubyzip (3.0.2)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     sass (3.7.4)
@@ -706,10 +699,6 @@ GEM
       nokogiri (~> 1.8)
     zeitwerk (2.7.3)
     zip_kit (6.3.3)
-    zipline (2.0.0)
-      actionpack (>= 6.0, < 8.0)
-      content_disposition (~> 1.0)
-      zip_kit (~> 6, >= 6.2.0, < 7)
 
 PLATFORMS
   aarch64-linux
@@ -753,6 +742,7 @@ DEPENDENCIES
   database_cleaner
   devise
   dotenv-rails
+  elasticsearch (~> 7)
   elasticsearch-model (~> 7)
   elasticsearch-rails (~> 7)
   exception_notification
@@ -792,14 +782,14 @@ DEPENDENCIES
   pupprb!
   rack-headers_filter
   rack-mini-profiler
-  rails (~> 7.2.0)
-  ransack (~> 4.3)
+  rails (~> 8.0)
+  ransack
   redis-rails
   rkd!
   rspec-openapi
   rspec-rails
   rspec_junit_formatter
-  rubyzip (= 2.3.2)
+  rubyzip
   sass-rails
   sidekiq
   sidekiq-scheduler
@@ -812,7 +802,7 @@ DEPENDENCIES
   strip_attributes
   web-console
   workbook!
-  zipline
+  zipline!
 
 BUNDLED WITH
    2.6.9

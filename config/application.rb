@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module SourceQkunstbeheer
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
     config.middleware.insert_before(0, Rack::HeadersFilter)
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
