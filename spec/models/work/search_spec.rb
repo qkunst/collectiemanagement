@@ -34,9 +34,9 @@ RSpec.describe Work::Search, type: :model do
       end
 
       it "filters for tags" do
-        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter"]})[:query][:bool][:must][0]).to eq(bool: {minimum_should_match: 1, should: [{term: {"tag_list" => "winter"}}]})
-        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter", "zomer"]})[:query][:bool][:must][0]).to eq(bool: {minimum_should_match: 2, should: [{term: {"tag_list" => "winter"}}, {term: {"tag_list" => "zomer"}}]})
-        expect(Work.build_search_and_filter_query("", {"tag_list" => [nil]})[:query]).to eq(bool: {must: [{bool: {minimum_should_match: 1, should: [{bool: {must_not: {exists: {field: "tag_list"}}}}]}}]})
+        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter"], "_and" => ["tag_list"]})[:query][:bool][:must][0]).to eq(bool: {minimum_should_match: 1, should: [{term: {"tag_list" => "winter"}}]})
+        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter", "zomer"], "_and" => ["tag_list"]})[:query][:bool][:must][0]).to eq(bool: {minimum_should_match: 2, should: [{term: {"tag_list" => "winter"}}, {term: {"tag_list" => "zomer"}}]})
+        expect(Work.build_search_and_filter_query("", {"tag_list" => [nil], "_and" => ["tag_list"]})[:query]).to eq(bool: {must: [{bool: {minimum_should_match: 1, should: [{bool: {must_not: {exists: {field: "tag_list"}}}}]}}]})
       end
 
       it "filters for location_raw" do
@@ -53,7 +53,7 @@ RSpec.describe Work::Search, type: :model do
       end
 
       it "handles complex case" do
-        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter", "zomer"], "cluster_id" => [nil, 1], "location_raw" => ["Depot 1", "Depot 2"], "_invert" => ["cluster_id", "tag_list"]})[:query]).to eq(bool: {
+        expect(Work.build_search_and_filter_query("", {"tag_list" => ["winter", "zomer"], "cluster_id" => [nil, 1], "location_raw" => ["Depot 1", "Depot 2"], "_and" => ["tag_list"], "_invert" => ["cluster_id", "tag_list"]})[:query]).to eq(bool: {
           must: [
             {bool: {minimum_should_match: 2, must_not: [{term: {"tag_list" => "winter"}}, {term: {"tag_list" => "zomer"}}]}},
             {bool: {must_not: [{bool: {must_not: {exists: {field: "cluster_id"}}}}, {term: {"cluster_id" => 1}}]}},

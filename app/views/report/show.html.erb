@@ -8,7 +8,7 @@
 
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
-
+  <input type="hidden" name="filter[_and][]" value="<%= Work::Search::NOT_SET_VALUE%>" />
   <% if can?(:time_filter, @collection) && @collection.show_availability_status? %>
   <div class="callout secondary row">
     <%= simple_fields_for @time_filter do |time_filter_form| %>

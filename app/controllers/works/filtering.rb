@@ -6,6 +6,7 @@ module Works::Filtering
   MAX_WORK_COUNT = 99999
   DEFAULT_WORK_COUNT = 159
   DEFAULT_GROUPED_WORK_COUNT = 7
+  USE_AND_FOR_VALUE_FILTERING_BY_DEFAULT = %w[locality_geoname_id geoname_ids tag_list]
   IDS_TO_SELECT_WHEN_GROUPING = {
     cluster: [:id, :cluster_id],
     subset: [:id, :subset_id],
@@ -77,7 +78,7 @@ module Works::Filtering
           if field == "work_sets.uuid"
             @selection_filter["work_sets.id"] ||= []
             @selection_filter["work_sets.id"] += WorkSet.where(uuid: values).pluck(:id)
-          elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status", "_invert"].include?(field)
+          elsif ["grade_within_collection", "abstract_or_figurative", "object_format_code", "main_collection", "tag_list", "availability_status", "_invert", "_and"].include?(field)
             @selection_filter[field] = params[:filter][field].collect { |a| (a == Work::Search::NOT_SET_VALUE) ? nil : a } if params[:filter][field]
           elsif ["location_raw", "location_floor_raw", "location_detail_raw"].include?(field)
             @selection_filter[field] = params[:filter][field] if params[:filter][field]
@@ -88,6 +89,7 @@ module Works::Filtering
           end
         end
       end
+      @selection_filter["_and"] ||= USE_AND_FOR_VALUE_FILTERING_BY_DEFAULT
 
       @selection_filter
     end

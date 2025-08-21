@@ -108,7 +108,11 @@ fieldset.warning {
   background: #ccc;
   border-radius: 2px;
   display: flex;
+  margin: 0 0.5em;
 
+  &.small {
+    font-size: $small-font-size;
+  }
   input {
     position: absolute;
     opacity: 0.01;

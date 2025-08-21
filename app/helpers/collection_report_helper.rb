@@ -157,14 +157,14 @@ module CollectionReportHelper
         end
         html += "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
-        switch_input_id = "filter__invert_#{section_head}"
 
-        inverse_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch\"><input type=\"checkbox\" id=\"#{switch_input_id}\" aria-label=\"#{t(".show_none")}\" #{'checked="checked"' if @selection_filter&.[]("_invert")&.include?(filter_key(section_head))} name=\"filter[_invert][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".filter_not_selected")}\"/><span class=\"unchecked primary \" aria-hidden=\"true\">#{t(".include")}</span><span class=\"checked warning\" aria-hidden=\"true\">#{t(".exclude")}</span></label>" : ""
+        inverse_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small\"><input type=\"checkbox\" aria-label=\"#{t(".show_none")}\" #{'checked="checked"' if @selection_filter&.[]("_invert")&.include?(filter_key(section_head))} name=\"filter[_invert][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".filter_not_selected")}\"/><span class=\"unchecked primary \" aria-hidden=\"true\">#{t(".include")}</span><span class=\"checked warning\" aria-hidden=\"true\">#{t(".exclude")}</span></label>" : ""
+        and_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small \"><input type=\"checkbox\" aria-label=\"#{t(".and_or")}\" #{'checked="checked"' if @selection_filter&.[]("_and")&.include?(filter_key(section_head))} name=\"filter[_and][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".and_or")}\"/><span class=\"unchecked\" aria-hidden=\"true\">#{t(".or")}</span><span class=\"checked\" aria-hidden=\"true\">#{t(".and")}</span></label>" : ""
 
         html += if sort_by_value?(section_head)
-          "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}#{inverse_selector}</th><th class=\"number\">#</th>"
+          "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}#{inverse_selector}#{and_selector}</th><th class=\"number\">#</th>"
         else
-          "<th colspan=\"#{depth}\">#{titleize_section_head(section_head)}#{inverse_selector}</th><th class=\"number\" aria-sort=\"descending\">#</th>"
+          "<th colspan=\"#{depth}\">#{titleize_section_head(section_head)}#{inverse_selector}#{and_selector}</th><th class=\"number\" aria-sort=\"descending\">#</th>"
         end
         html += "</tr>\n"
         if depth == DEEPEST

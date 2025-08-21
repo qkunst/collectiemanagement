@@ -145,9 +145,11 @@ module Work::Search
 
     def filter_to_elasticsearch_filter(filter_hash)
       invert = Array(filter_hash.delete("_invert"))
+      and_filter = Array(filter_hash.delete("_and"))
+
       filter_hash.collect do |key, values|
         should_or_must_not = invert.include?(key) ? :must_not : :should
-
+        use_and_for_value_filtering = and_filter.include?(key)
         new_bool = {
           bool: {
             should_or_must_not => []
@@ -160,7 +162,7 @@ module Work::Search
             {bool: {must_not: {exists: {field: key}}}}
           end
         end
-        if USE_AND_FOR_VALUE_FILTERING.include?(key)
+        if and_filter.include?(key)
           new_bool[:bool][:minimum_should_match] = values.count
         end
         new_bool
