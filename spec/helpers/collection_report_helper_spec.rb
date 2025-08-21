@@ -140,6 +140,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
     end
   end
   describe "#iterate_report_sections" do
+    let(:can_do_advanced_filtering) { false }
     before(:each) do
       @collection = collections(:collection1)
       allow(helper).to receive(:report).and_return(
@@ -148,6 +149,10 @@ RSpec.describe CollectionReportHelper, type: :helper do
           frame_damage_types: {}
         }
       )
+    end
+
+    def can? a, b
+      can_do_advanced_filtering
     end
     it "should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count" do
       section = helper.report[:object_format_code]
@@ -161,6 +166,19 @@ RSpec.describe CollectionReportHelper, type: :helper do
 <tr class=\"content span-6 \" data-group=\"d751713988987e9331980363e24189ce\"><td colspan=\"6\"><a href=\"/collections/#{@collection.id}/works?filter%5Bobject_format_code%5D%5B%5D=not_set\">Formaatcode onbekend</a></td><td class=\"count number\">71</td></tr>
 <tr class=\"group_separator\"><td colspan=\"7\"></td></tr>
 ")
+    end
+
+    context "can do advanced filtering" do
+      let(:can_do_advanced_filtering) { true }
+
+      # otherwise local path isn't available
+      def t item
+        item
+      end
+      it "should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count" do
+        section = helper.report[:object_format_code]
+        expect(iterate_report_sections("object_format_code", section, 6)).to start_with('<thead><tr class="section object_format_code span-6"><th colspan="6">Formaatcode <label class="inline right switch"><input type="checkbox" id="filter__invert_object_format_code" aria-label=".show_none"  name="filter[_invert][]" value="object_format_code" title=".filter_not_selected"/><span class="unchecked primary " aria-hidden="true">.include</span><span class="checked warning" aria-hidden="true">.exclude</span></label></th><th class="number" aria-sort="descending">#</th></tr>')
+      end
     end
   end
 

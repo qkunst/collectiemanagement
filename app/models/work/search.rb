@@ -3,6 +3,7 @@
 module Work::Search
   JOIN_STRING_NESTED_VALUES = "|>|"
   NOT_SET_VALUE = "not_set"
+  USE_AND_FOR_VALUE_FILTERING = %w[locality_geoname_id geoname_ids tag_list]
 
   extend ActiveSupport::Concern
 
@@ -143,28 +144,24 @@ module Work::Search
     end
 
     def filter_to_elasticsearch_filter(filter_hash)
+      invert = Array(filter_hash.delete("_invert"))
       filter_hash.collect do |key, values|
-        new_bool = {bool: {should: []}}
-        if (key == "locality_geoname_id") || (key == "geoname_ids") || (key == "tag_list")
-          values = values.compact
-          if values.count == 0
-            new_bool[:bool] = {must_not: {exists: {field: key}}}
+        should_or_must_not = invert.include?(key) ? :must_not : :should
+
+        new_bool = {
+          bool: {
+            should_or_must_not => []
+          }
+        }
+        values.each do |value|
+          new_bool[:bool][should_or_must_not] << if !value.nil?
+            {term: {key => value}}
           else
-            values.each do |value|
-              new_bool[:bool][:should] << {term: {key => {value: value}}}
-            end
-            new_bool[:bool][:minimum_should_match] = values.count
+            {bool: {must_not: {exists: {field: key}}}}
           end
-        else
-          values.each do |value|
-            new_bool[:bool][:should] << if !value.nil?
-              {term: {key => value}}
-            elsif key.ends_with?(".id")
-              {bool: {must_not: {exists: {field: key}}}}
-            else
-              {bool: {must_not: {exists: {field: key}}}}
-            end
-          end
+        end
+        if USE_AND_FOR_VALUE_FILTERING.include?(key)
+          new_bool[:bool][:minimum_should_match] = values.count
         end
         new_bool
       end

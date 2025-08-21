@@ -102,3 +102,55 @@ fieldset.warning {
 .columned-inputs {
   column-count: 2;
 }
+
+.switch {
+  position:relative;
+  background: #ccc;
+  border-radius: 2px;
+  display: flex;
+
+  input {
+    position: absolute;
+    opacity: 0.01;
+  }
+
+  &:has(input:focus) {
+    outline: 2px solid AccentColor;
+  }
+
+  &:has(.unchecked.primary) {
+    background: $primary-color;
+  }
+
+  .checked, .unchecked {
+    background: #fff;
+    margin: 2px;
+    flex: 1 1 100px;
+    text-align: center;
+    min-width: 3em;
+  }
+
+  .checked {
+    visibility: hidden;
+  }
+  .unchecked {
+    visibility: visible;
+  }
+
+  &:has(input:checked) {
+    .checked {
+      visibility: visible;
+    }
+    .unchecked {
+      visibility: hidden;
+    }
+  }
+
+  &:has(input:checked):has(.checked.warning) {
+    background: $warning-color;
+    .unchecked {
+        opacity: 0.01;
+      }
+  }
+
+}

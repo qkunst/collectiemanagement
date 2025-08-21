@@ -2,25 +2,40 @@
 
 module Report
   module BuilderHelpers
-    def basic_aggregation_snippet key, postfix = "", field = nil, missing = nil
+    def basic_aggregation_snippet key, postfix: "", field: nil, size: 999, aggregation: nil, include_missing: false, &block
       rv = {
         key.to_sym => {
           terms: {
-            field: field || "#{key}#{postfix}", size: 999
+            field: field || "#{key}#{postfix}", size:
           }
         }
       }
-      rv[key.to_sym][:terms][:missing] = missing if missing
+      if include_missing
+        rv[:"#{key}_missing"] = {
+          missing: {
+            field: field || "#{key}#{postfix}"
+          }
+        }
+      end
+      rv[key.to_sym][:aggs] = aggregation if aggregation
+      if block
+        rv[key.to_sym][:aggs] = block.call
+      end
       rv
     end
 
-    def basic_aggregation_snippet_with_missing key, postfix = "", field = nil
-      rv = basic_aggregation_snippet(key, postfix, field)
-      rv[:"#{key}_missing"] = {
-        missing: {
-          field: field || "#{key}#{postfix}"
+    def missing_only_aggregation_snippet key, field: nil, aggregation: nil, &block
+      rv = {
+        key.to_sym => {
+          missing: {
+            field: field || "#{key}#{postfix}"
+          }
         }
       }
+      rv[key.to_sym][:aggs] = aggregation if aggregation
+      if block
+        rv[key.to_sym][:aggs] = block.call
+      end
       rv
     end
   end

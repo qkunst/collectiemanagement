@@ -117,4 +117,8 @@ RSpec.feature "View report", type: :feature, requires_elasticsearch: true do
     expect(page).to have_content("Floor 1")
     expect(page).to have_content("Adres")
   end
+
+  scenario "unset filtering and redirecting" do
+    collections(:collection1).works_including_child_works.all.reindex!
+  end
 end

@@ -8,7 +8,7 @@ module Ability::Report
 
   class_methods do
     def report_field_abilities(ability: :edit)
-      approles = User::ROLES
+      app_roles = User::ROLES
 
       field_method = (ability == :edit) ? :editable_work_fields_grouped : :viewable_work_fields_grouped
 
@@ -26,7 +26,7 @@ module Ability::Report
 
       abilities = {}
 
-      approles.each do |role|
+      app_roles.each do |role|
         user = Ability::TestUser.new(role)
         ability = Ability.new(user)
         abilities[role] = ability
@@ -50,13 +50,13 @@ module Ability::Report
     end
 
     def report_abilities
-      approles = User::ROLES # - [:qkunst]
+      app_roles = User::ROLES # - [:qkunst]
 
       ability_report = {header: [], data: {}}
 
       permissions_per_thing = {}
 
-      approles.each do |role|
+      app_roles.each do |role|
         user = Ability::TestUser.new(role)
         ability = Ability.new(user)
 
@@ -73,7 +73,7 @@ module Ability::Report
         end
       end
 
-      approles.each do |role|
+      app_roles.each do |role|
         user = Ability::TestUser.new(role)
         ability = Ability.new(user)
 

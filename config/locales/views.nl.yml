@@ -14,3 +14,8 @@ nl:
   report:
     show:
       create_work_set: Maak een dynamische werkgroepering
+      disclaimer: In de rapportage wordt geteld op basis van onderdelen.
+      exclude: Geen
+      include: Wel
+      filter_not_selected: Toon niet geselecteerde
+      show_none: Toon geen

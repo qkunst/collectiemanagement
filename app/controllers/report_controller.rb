@@ -11,10 +11,10 @@ class ReportController < ApplicationController
     set_all_filters
 
     if params[:filter_on] == "works"
-      redirect_to collection_works_path({filter: @selection_filter, time_filter: @time_filter.to_parameters})
+      redirect_to collection_works_path({filter: selection_filter_to_params, time_filter: @time_filter.to_parameters})
     elsif params[:filter_on] == "create_work_set"
       # raise
-      redirect_to new_collection_work_set_path({filter: @selection_filter, time_filter: @time_filter.to_parameters})
+      redirect_to new_collection_work_set_path({filter: selection_filter_to_params, time_filter: @time_filter.to_parameters})
     end
 
     @title = "Rapportage voor #{@collection.name}"
@@ -53,6 +53,10 @@ class ReportController < ApplicationController
 
     @works_count = elastic_works.records.count_as_whole_works
     @collection_works_count = @collection.works_including_child_works.count_as_whole_works
+  end
+
+  def selection_filter_to_params
+    @selection_filter.map { |a, b| [a, b.map { |c| c.nil? ? :not_set : c }] }.to_h
   end
 
   def prepare_report_outline

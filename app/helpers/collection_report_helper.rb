@@ -89,13 +89,13 @@ module CollectionReportHelper
 
   def filter_key(group)
     if Work.belong_tos.include? group
-      "filter[#{group}_id][]"
+      "#{group}_id"
     elsif Work.has_and_belongs_to_manies.include? group
-      "filter[#{group}.id][]"
+      "#{group}.id"
     elsif Work.has_manies.include? group
-      "filter[#{group}.id][]"
+      "#{group}.id"
     else
-      "filter[#{group}][]"
+      group.to_s
     end
   end
 
@@ -110,9 +110,8 @@ module CollectionReportHelper
     @params.delete("filter[#{group}][]")
 
     if selection == :missing || (selection.is_a?(Hash) && selection.values.count == 0)
-      filter_key = filter_key(group)
 
-      @params[filter_key] = Work::Search::NOT_SET_VALUE
+      @params["filter[#{filter_key(group)}][]"] = Work::Search::NOT_SET_VALUE
 
       link_label = missing_link_label(group)
     elsif selection.is_a?(Hash)
@@ -158,10 +157,14 @@ module CollectionReportHelper
         end
         html += "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
+        switch_input_id = "filter__invert_#{section_head}"
+
+        inverse_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch\"><input type=\"checkbox\" id=\"#{switch_input_id}\" aria-label=\"#{t(".show_none")}\" #{'checked="checked"' if @selection_filter&.[]("_invert")&.include?(filter_key(section_head))} name=\"filter[_invert][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".filter_not_selected")}\"/><span class=\"unchecked primary \" aria-hidden=\"true\">#{t(".include")}</span><span class=\"checked warning\" aria-hidden=\"true\">#{t(".exclude")}</span></label>" : ""
+
         html += if sort_by_value?(section_head)
-          "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}</th><th class=\"number\">#</th>"
+          "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}#{inverse_selector}</th><th class=\"number\">#</th>"
         else
-          "<th colspan=\"#{depth}\">#{titleize_section_head(section_head)}</th><th class=\"number\" aria-sort=\"descending\">#</th>"
+          "<th colspan=\"#{depth}\">#{titleize_section_head(section_head)}#{inverse_selector}</th><th class=\"number\" aria-sort=\"descending\">#</th>"
         end
         html += "</tr>\n"
         if depth == DEEPEST
