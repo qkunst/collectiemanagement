@@ -177,7 +177,7 @@ RSpec.describe CollectionReportHelper, type: :helper do
       end
       it "should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count" do
         section = helper.report[:object_format_code]
-        expect(iterate_report_sections("object_format_code", section, 6)).to start_with('<thead><tr class="section object_format_code span-6"><th colspan="6">Formaatcode <label class="inline right switch"><input type="checkbox" id="filter__invert_object_format_code" aria-label=".show_none"  name="filter[_invert][]" value="object_format_code" title=".filter_not_selected"/><span class="unchecked primary " aria-hidden="true">.include</span><span class="checked warning" aria-hidden="true">.exclude</span></label></th><th class="number" aria-sort="descending">#</th></tr>')
+        expect(iterate_report_sections("object_format_code", section, 6)).to start_with('<thead><tr class="section object_format_code span-6"><th colspan="6">Formaatcode <label class="inline right switch small" title=".explain_show_none"><input type="checkbox" aria-label=".show_none"  name="filter[_invert][]" value="object_format_code" title=".filter_not_selected"/><span class="unchecked primary " aria-hidden="true">.include</span><span class="checked warning" aria-hidden="true">.exclude</span></label></th><th class="number" aria-sort="descending">#</th></tr>')
       end
     end
   end

@@ -6,6 +6,7 @@ module CollectionReportHelper
   DATE_OR_TIME_COLUMNS = [:object_creation_year, :purchase_year]
   HAS_JOIN_STRING_NESTED_VALUES = [:location_raw, :location_floor_raw, :location_detail_raw]
   RANGE_GROUP = [:market_value_range, :replacement_value_range]
+  ALT_HAS_AND_BELONGS_TO_MANIES = [:tag_list]
 
   SORTABLE = Report::Builder.fields_without_aggregates + RANGE_GROUP
 
@@ -87,6 +88,10 @@ module CollectionReportHelper
     end
   end
 
+  def show_and_or?(group)
+    Work.has_and_belongs_to_manies.include?(group) || Work.has_manies.include?(group) || ALT_HAS_AND_BELONGS_TO_MANIES.include?(group)
+  end
+
   def filter_key(group)
     if Work.belong_tos.include? group
       "#{group}_id"
@@ -158,8 +163,8 @@ module CollectionReportHelper
         html += "<tr class=\"section #{section_head.to_s.gsub(".keyword", "")} span-#{depth}\">"
         html += render_spacers(depth)
 
-        inverse_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small\"><input type=\"checkbox\" aria-label=\"#{t(".show_none")}\" #{'checked="checked"' if @selection_filter&.[]("_invert")&.include?(filter_key(section_head))} name=\"filter[_invert][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".filter_not_selected")}\"/><span class=\"unchecked primary \" aria-hidden=\"true\">#{t(".include")}</span><span class=\"checked warning\" aria-hidden=\"true\">#{t(".exclude")}</span></label>" : ""
-        and_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small \"><input type=\"checkbox\" aria-label=\"#{t(".and_or")}\" #{'checked="checked"' if @selection_filter&.[]("_and")&.include?(filter_key(section_head))} name=\"filter[_and][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".and_or")}\"/><span class=\"unchecked\" aria-hidden=\"true\">#{t(".or")}</span><span class=\"checked\" aria-hidden=\"true\">#{t(".and")}</span></label>" : ""
+        inverse_selector = ((depth == DEEPEST) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small\" title=\"#{t(".explain_show_none")}\"><input type=\"checkbox\" aria-label=\"#{t(".show_none")}\" #{'checked="checked"' if @selection_filter&.[]("_invert")&.include?(filter_key(section_head))} name=\"filter[_invert][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".filter_not_selected")}\"/><span class=\"unchecked primary \" aria-hidden=\"true\">#{t(".include")}</span><span class=\"checked warning\" aria-hidden=\"true\">#{t(".exclude")}</span></label>" : ""
+        and_selector = ((depth == DEEPEST) && show_and_or?(section_head) && can?(:advanced_filter_report, @collection)) ? " <label class=\"inline right switch small\" title=\"#{t(".explain_and_or")}\"><input type=\"checkbox\" aria-label=\"#{t(".and_or")}\" #{'checked="checked"' if @selection_filter&.[]("_and")&.include?(filter_key(section_head))} name=\"filter[_and][]\" value=\"#{filter_key(section_head)}\" title=\"#{t(".and_or")}\"/><span class=\"unchecked\" aria-hidden=\"true\">#{t(".or")}</span><span class=\"checked\" aria-hidden=\"true\">#{t(".and")}</span></label>" : ""
 
         html += if sort_by_value?(section_head)
           "<th colspan=\"#{depth}\" aria-sort=\"ascending\">#{titleize_section_head(section_head)}#{inverse_selector}#{and_selector}</th><th class=\"number\">#</th>"
