@@ -3,7 +3,6 @@
 module Work::Search
   JOIN_STRING_NESTED_VALUES = "|>|"
   NOT_SET_VALUE = "not_set"
-  USE_AND_FOR_VALUE_FILTERING = %w[locality_geoname_id geoname_ids tag_list]
 
   extend ActiveSupport::Concern
 
@@ -149,7 +148,7 @@ module Work::Search
 
       filter_hash.collect do |key, values|
         should_or_must_not = invert.include?(key) ? :must_not : :should
-        use_and_for_value_filtering = and_filter.include?(key)
+
         new_bool = {
           bool: {
             should_or_must_not => []
