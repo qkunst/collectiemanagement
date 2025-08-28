@@ -1,8 +1,6 @@
 $-zf-size: null;
 $-zf-bp-value: null;
 
-@charset 'utf-8';
-
 @import 'settings';
 @import 'foundation';
 
@@ -34,7 +32,7 @@ $-zf-bp-value: null;
 @include foundation-label;
 // @include foundation-media-object;
 //@include foundation-menu;
-// @include foundation-menu-icon;
+@include foundation-menu-icon;
 //@include foundation-off-canvas;
 // @include foundation-orbit;
 // @include foundation-pagination;
@@ -66,6 +64,7 @@ $-zf-bp-value: null;
 select {
   -moz-appearance: none;
   -webkit-appearance: none;
+  appearance: none;
 }
 
 .button.xxsmall {
