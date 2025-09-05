@@ -93,7 +93,9 @@ class WorkSetsController < ApplicationController
   def update
     authorize! :update, @work_set
 
-    if @work_set.update(work_set_params)
+    if params[:refresh] && @work_set.update_with_works_filter_params
+      redirect_to [@collection, @work_set].compact, notice: "De werkgroepering is bijgewerkt"
+    elsif @work_set.update(work_set_params)
       redirect_to [@collection, @work_set].compact, notice: "De werken zijn gegroepeerd in de verzameling"
     else
       render :edit

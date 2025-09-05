@@ -49,6 +49,7 @@ ul.works-list, ol.works-list {
   padding-right: 0;
   list-style: none;
   margin: 0;
+  clear: both;
 
   &.compact {
     display: grid;
