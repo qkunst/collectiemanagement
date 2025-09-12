@@ -14,7 +14,7 @@
 require "rails_helper"
 
 RSpec.describe OAuthGroupMapping, type: :model do
-  describe ".for" do
+  describe ".for [QSECIMP0003]" do
     it "returns nothing when data is empty" do
       expect(OAuthGroupMapping.for(Users::OmniauthCallbackData.new)).to eq([])
     end
@@ -23,7 +23,7 @@ RSpec.describe OAuthGroupMapping, type: :model do
       expect(OAuthGroupMapping.for(Users::OmniauthCallbackData.new(roles: ["a", "jfjfjk"], issuer: "microsoft/abc")).count).to eq(1)
     end
   end
-  describe ".role_mappings_exists_for?" do
+  describe ".role_mappings_exists_for? [QSECIMP0004]" do
     it "returns false when none" do
       expect(OAuthGroupMapping.role_mappings_exists_for?("google")).to be_falsey
     end

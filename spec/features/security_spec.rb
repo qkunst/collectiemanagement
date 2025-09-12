@@ -9,15 +9,15 @@ RSpec.feature "", type: :feature do
   describe "Secure communication" do
     describe "configuration" do
       let(:production_config) { File.read(Rails.root.join("config/environments/production.rb")) }
-      it "has ssl config" do
+      it "has ssl config [QSECIMP0023]" do
         expect(production_config.match(/(config.force_ssl\s*=\s*([a-z]*))/)).to be_present
       end
 
-      it "production config enforces SSL" do
+      it "production config enforces SSL [QSECIMP0023]" do
         expect(production_config.scan(/(config.force_ssl\s*=\s*([a-z]*))/).map { |a| a.last }).not_to include "false"
       end
 
-      it "https config for collectionmanagement.qkunst.nl" do
+      it "https config for collectionmanagement.qkunst.nl [QSECIMP0023]" do
         headers = Open3.popen3("curl -v http://collectiemanagement.qkunst.nl") do |stdin, stdout, stderr, thread|
           stderr.read.chomp
         end
@@ -34,7 +34,7 @@ RSpec.feature "", type: :feature do
       end
     end
   end
-  describe "Mutation Log" do
+  describe "Mutation Log [QSECIMP0024]" do
     describe "User" do
       it "creates a version after sign in" do
         u = users(:user1)

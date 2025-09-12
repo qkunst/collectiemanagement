@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe AnonymizeUnusedAccountsWorker, type: :model do
-  it "removes users who don't have an account" do
+  it "removes users who don't have an account [QSECIMP0025]" do
     u = users(:qkunst)
     u.update(last_sign_in_at: 14.months.ago)
     u.reload
@@ -14,7 +14,7 @@ RSpec.describe AnonymizeUnusedAccountsWorker, type: :model do
     expect { u.reload }.to raise_error(ActiveRecord::RecordNotFound)
   end
 
-  it "removes users who don't have an account" do
+  it "anonymizes users who don't have an account [QSECIMP0025]" do
     u = users(:collection_with_works_child_user)
     u.update(last_sign_in_at: 14.months.ago)
     u.reload

@@ -120,7 +120,7 @@ RSpec.describe Ability, type: :model do
   }
 
   example_groups.each do |k1, v1|
-    context k1 do
+    context "#{k1} [QSECIMP0005]" do
       let(:user) { Ability.new(users(k1)) }
       v1.each do |k2, v2|
         describe k2 do
