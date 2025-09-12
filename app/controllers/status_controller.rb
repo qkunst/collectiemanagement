@@ -11,6 +11,7 @@ class StatusController < ApplicationController
       TestWorker.perform_async(0.1)
       30.times do |t|
         next if (@sidekiq_running = (before < sum_of_processed_and_in_process))
+
         sleep(1)
       end
     end

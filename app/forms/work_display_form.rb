@@ -37,6 +37,7 @@ class WorkDisplayForm
   def group_options
     return [] if current_user.nil?
     return @group_options if @group_options
+
     proto_selection_group_options = {
       "Niet" => :no_grouping,
       "Cluster" => :cluster,
@@ -56,6 +57,7 @@ class WorkDisplayForm
   def display_options
     return [] if current_user.nil?
     return @display_options if @display_options
+
     @display_options = {"Compact" => :compact, "Basis" => :detailed}
     if /vermist/i.match?(collection&.name)
       @display_options["Basis met locatiegeschiedenis"] = :detailed_with_location_history
@@ -81,6 +83,7 @@ class WorkDisplayForm
 
   def sort_options
     return @sort_options if @sort_options
+
     @sort_options = {
       "Inventarisnummer" => :stock_number,
       "Vervaardiger" => :artist_name,

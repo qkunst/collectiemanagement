@@ -37,6 +37,7 @@ class ImportCollection::ClassAssociation
     unless ["PaperTrail::Version", "Currency", "Attachment", "ActsAsTaggableOn::Tag", "ActsAsTaggableOn::Tagging", "::ActsAsTaggableOn::Tag", "::ActsAsTaggableOn::Tagging", "CustomReport", "LibraryItem", "WorkSet", "Message", "TimeSpan", "ImportCollection", "CollectionAttribute"].include? class_name
       return true
     end
+
     false
   end
 

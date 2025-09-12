@@ -38,6 +38,7 @@ module Work::Caching
 
       return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?
+
       (options[:join] == :to_sentence) ? names.to_sentence : names.join(options[:join])
     end
 

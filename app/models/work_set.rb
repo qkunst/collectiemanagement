@@ -188,6 +188,7 @@ class WorkSet < ApplicationRecord
         paths_include_search_id = paths.map { |a| a.include?(search_id) }
         all_paths_include_search_id = !paths_include_search_id.include?(false)
         return Collection.find(search_id) if all_paths_include_search_id
+
         shortest_path_index -= 1
       end
     end

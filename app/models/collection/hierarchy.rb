@@ -54,6 +54,7 @@ module Collection::Hierarchy
 
     def expand_with_child_collections(depth = 5)
       raise ArgumentError, "depth can't be < 1" if depth < 1
+
       join_sql = "LEFT OUTER JOIN collections c1_cs ON collections.id = c1_cs.parent_collection_id "
       select_sql = "collections.id AS _child_level0, c1_cs.id AS _child_level1"
       depth -= 1 # we already have depth = 1

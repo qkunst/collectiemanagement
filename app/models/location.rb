@@ -39,6 +39,7 @@ class Location < ApplicationRecord
 
   def name= name
     return if name.blank?
+
     name_split = name.split(NAME_SPLITTER)
     if name_split.size > 1 && !persisted?
       super(name_split[0].strip)

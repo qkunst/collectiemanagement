@@ -51,7 +51,7 @@ class BatchPhotoUpload < ApplicationRecord
   end
 
   def image_names
-    "#{images[0..9].collect(&:filename).to_sentence}#{(images.count > 10) ? "..." : ""}"
+    "#{images[0..9].collect(&:filename).to_sentence}#{"..." if images.count > 10}"
   end
 
   def image_directory
@@ -65,6 +65,7 @@ class BatchPhotoUpload < ApplicationRecord
 
   def column_values
     return @column_values if @column_values
+
     self.column ||= :stock_number
     values = {}
     collection.works_including_child_works.select(column.to_sym, :id).each { |a| values[a.send(column.to_sym)] = a.id }

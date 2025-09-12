@@ -6,6 +6,7 @@ RSpec.describe WorksController, type: :controller do
   let(:collection) { collections(:collection_with_works) }
 
   include Devise::Test::ControllerHelpers
+
   render_views
 
   describe "GET /collections/:collection_id/works (#index)" do

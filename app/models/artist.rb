@@ -149,6 +149,7 @@ class Artist < ApplicationRecord
 
   def rkd_artists
     return [rkd_artist] if rkd_artist
+
     begin
       ::RKD::Artist.search name
     rescue OpenSSL::SSL::SSLError
@@ -165,6 +166,7 @@ class Artist < ApplicationRecord
 
   def retrieve_rkd_artists!
     return [rkd_artist] if rkd_artist
+
     rkd_artists
   end
 

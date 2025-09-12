@@ -4,9 +4,11 @@ class WorksController < ApplicationController
   class Modification
     class Change
       include ActiveModel::Model
+
       attr_accessor :old, :new
     end
     include ActiveModel::Model
+
     attr_accessor :work, :changes, :user, :created_at
 
     def user_name

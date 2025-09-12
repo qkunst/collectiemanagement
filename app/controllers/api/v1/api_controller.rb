@@ -11,16 +11,19 @@ class Api::V1::ApiController < ApplicationController
 
   def current_api_user
     return @user if @user
+
     if current_user
       @user = current_user
     elsif request.headers["X-user-id"]
       @user = User.where(id: request.headers["X-user-id"].to_i).first
       return not_authorized if !@user || !@user.api_key
+
       data = "#{request.remote_ip}#{request.url}#{request.body&.read}"
       digest = OpenSSL::Digest.new("sha512")
       expected_token = OpenSSL::HMAC.hexdigest(digest, @user.api_key, data)
       received_token = request.headers["X-hmac-token"].strip
       return not_authorized unless received_token == expected_token
+
       @user
     elsif request.headers["Authorization"]&.starts_with?("Bearer ")
       # only compatible with central login id token
@@ -44,7 +47,7 @@ class Api::V1::ApiController < ApplicationController
       end
       data.qkunst = false
 
-      data.issuer = "central_login/#{data.app ? "app/" : ""}#{user_data["iss"]}"
+      data.issuer = "central_login/#{"app/" if data.app}#{user_data["iss"]}"
 
       data.resources = user_data["resources"]
       data.roles = user_data["roles"]

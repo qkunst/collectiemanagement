@@ -2,6 +2,7 @@
 
 module Uuid
   extend ActiveSupport::Concern
+
   included do
     before_validation :set_uuid
     validates_presence_of :uuid

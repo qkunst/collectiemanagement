@@ -2,6 +2,7 @@
 
 module Work::Export
   extend ActiveSupport::Concern
+
   ARTIST_EXPORT_FIELDS = [:id, :alt_number_1, :first_name, :prefix, :last_name, :rkd_artist_id, :year_of_birth, :year_of_death, :artist_name]
 
   included do

@@ -41,7 +41,7 @@ RSpec.describe Collection::UsersController, type: :request do
             expect(body).to match(%r{collection_with_works_child@murb.nl.*\s*.*</th>\s*<td>✘</td>\s*<td>✘</td>\s*<td>✘</td>\s*<td>✘</td>\s*<td>✔︎</td>\s*</tr>})
           end
 
-          it "should #{(user_type == :admin) ? "" : "not "}include removed users" do
+          it "should #{"not " unless user_type == :admin}include removed users" do
             users(:read_only).anonymize!
 
             get collection_users_path(collection)

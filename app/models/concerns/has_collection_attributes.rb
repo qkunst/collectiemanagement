@@ -2,6 +2,7 @@ module HasCollectionAttributes
   COLLECTION_ATTRIBUTES_PARAMS = [:label, :value, :attribute_type, :language].freeze
 
   extend ActiveSupport::Concern
+
   included do
     has_many :collection_attributes, as: :attributed
 

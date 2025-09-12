@@ -225,6 +225,7 @@ class Collection < ApplicationRecord
         return coll if coll.geoname_summaries?
       end
     end
+
     nil
   end
 
@@ -405,6 +406,7 @@ class Collection < ApplicationRecord
 
   def elastic_aggragations
     return @elastic_aggragations if @elastic_aggragations
+
     elastic_report = search_works("", {}, {force_elastic: true, return_records: false, limit: 1, aggregations: Report::Builder.aggregations})
     @elastic_aggragations = elastic_report.aggregations
   rescue Faraday::ConnectionFailed => e

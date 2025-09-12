@@ -5,6 +5,7 @@ module Searchable
 
   included do
     include Elasticsearch::Model
+
     after_commit on: [:create] do
       index_async!
     end

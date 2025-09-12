@@ -26,6 +26,7 @@ module ImportCollection::Workbook
 
   def import_file_snippet_to_workbook_table
     return nil if import_file_snippet.nil? || import_file_snippet.empty?
+
     offset = internal_header_row_offset
     table = ::Workbook::Table.new
     ::Workbook::Book.read(import_file_snippet, :csv, {converters: []}).sheet.table.each_with_index do |row, index|
@@ -135,6 +136,7 @@ module ImportCollection::Workbook
 
           property = field_props[:property]
           next unless Work.new.methods.include? :"#{property}="
+
           complex_association = field_props[:complex_association]
           fieldname = field_props[:fieldname]
           parsed_value = parse_table_value(field_props, table_values[index])

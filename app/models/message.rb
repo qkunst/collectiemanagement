@@ -92,6 +92,7 @@ class Message < ApplicationRecord
 
   def unread_messages_in_thread(user = nil)
     return @unread_messages_in_thread unless @unread_messages_in_thread.nil?
+
     unreads = (conversation.collect { |a| a.unread(user) } + [unread(user)]).uniq
     @unread_messages_in_thread = !((unreads.count == 1) && (unreads.first == false))
   end
@@ -107,6 +108,7 @@ class Message < ApplicationRecord
   def subject_url
     own_value = read_attribute(:subject_url)
     return own_value if own_value
+
     redirect_to_obj = nil
 
     if subject_object.is_a? Collection

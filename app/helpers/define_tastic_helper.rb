@@ -108,6 +108,7 @@ module DefineTasticHelper
     if value && modifier
       return obj.public_send(modifier, value)
     end
+
     value
   end
 

@@ -84,6 +84,7 @@ class GeonameSummary < ApplicationRecord
       if name.nil? || name.to_s.empty?
         return []
       end
+
       results = selectable.where(arel_table[:name].matches(name))
       if results.count > 0
         return results.sort

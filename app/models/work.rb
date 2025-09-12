@@ -348,6 +348,7 @@ class Work < ApplicationRecord
 
   def balance_category
     return nil if appraised?
+
     super
   end
 
@@ -450,6 +451,7 @@ class Work < ApplicationRecord
 
   def all_work_ids_in_collection
     return @all_work_ids_in_collection if @all_work_ids_in_collection
+
     order = [collection.sort_works_by, collection.parent_collection.try(:sort_works_by), :stock_number, :id]
 
     relative_collection = (!order[0] && order[1]) ? collection.parent_collection : collection
@@ -717,6 +719,7 @@ class Work < ApplicationRecord
 
     def column_types
       return @@column_types if defined?(@@column_types)
+
       @@column_types = Work.columns.collect { |a| [a.name, a.type] }.to_h
       @@column_types["inventoried"] = :boolean
       @@column_types["refound"] = :boolean

@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Clusters", type: :request do
   include Rack::Test::Methods
+
   let(:collection) { collections(:collection1) }
 
   describe "GET /collections/:collection_id/clusters" do

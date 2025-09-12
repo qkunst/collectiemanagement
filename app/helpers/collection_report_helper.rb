@@ -257,7 +257,7 @@ module CollectionReportHelper
       group_hash = @params.to_a
       group_hash.pop
 
-      html += "<tr class=\"content span-#{depth} #{hidden ? "hide" : ""}\" data-group=\"#{Digest::MD5.hexdigest(group_hash.to_s)}\">"
+      html += "<tr class=\"content span-#{depth} #{"hide" if hidden}\" data-group=\"#{Digest::MD5.hexdigest(group_hash.to_s)}\">"
       html += render_spacers(depth)
       html += PRICE_COLUMNS.include?(group) ? "<td colspan=\"#{depth}\" data-sortkey=\"#{s[0][0]}\" data-sorttype=\"number\">" : "<td colspan=\"#{depth}\">"
       html += sk

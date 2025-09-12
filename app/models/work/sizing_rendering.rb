@@ -2,6 +2,7 @@
 
 module Work::SizingRendering
   extend ActiveSupport::Concern
+
   MAX_ACCEPTABLE_DEPTH_FOR_2D = 10 # 10cm
 
   included do
@@ -115,6 +116,7 @@ module Work::SizingRendering
       end
       rv = [rv, "⌀ #{dimension_to_s(diameter)}"].compact.join("; ") if dimension_to_s(diameter)
       return nil if rv.empty?
+
       rv
     end
 

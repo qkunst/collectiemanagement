@@ -2,6 +2,7 @@
 
 module Work::Reflecting
   extend ActiveSupport::Concern
+
   MAX_ACCEPTABLE_DEPTH_FOR_2D = 10 # 10cm
 
   class_methods do

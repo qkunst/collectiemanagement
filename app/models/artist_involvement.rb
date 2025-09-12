@@ -63,6 +63,7 @@ class ArtistInvolvement < ApplicationRecord
   def name
     return involvement.name if involvement
     return place if place
+
     place_geoname_name
   end
 

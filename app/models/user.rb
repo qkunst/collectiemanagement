@@ -55,6 +55,7 @@
 #
 class User < ApplicationRecord
   include OAuthUser
+
   # Include default devise modules. Others available are:
   has_paper_trail
 
@@ -138,22 +139,26 @@ class User < ApplicationRecord
 
   def accessible_work_sets
     return WorkSet.all if admin?
+
     WorkSet.for_unexpanded_collections(accessible_collections)
   end
 
   def accessible_works
     return Work.all if admin?
+
     Work.where(collection_id: accessible_collections)
   end
 
   def accessible_artists
     return Artist.all if admin?
+
     Artist.joins(:works).where(works: accessible_works)
   end
 
   def accessible_users
     return User.where("1=1") if admin?
     return User.where("1=0") unless admin? || advisor?
+
     User.not_admin.left_outer_joins(:collections).where(collections_users: {collection_id: accessible_collections}).or(User.inactive)
   end
 
@@ -229,6 +234,7 @@ class User < ApplicationRecord
     return true if grouping == :themes
     return false if role == :read_only
     return false if [:techniques, :sources, :geoname_ids].include?(grouping) && facility_manager?
+
     true
   end
 
