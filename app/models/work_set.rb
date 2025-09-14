@@ -243,7 +243,7 @@ class WorkSet < ApplicationRecord
     @params = ActiveSupport::HashWithIndifferentAccess.new(works_filter_params)
     @collection = Collection.find(@params[:collection_id])
 
-    return nil if @collection.works_including_child_works.where(significantly_updated_at: ((last_run - 1.minute)...)).empty?
+    return nil if last_run && @collection.works_including_child_works.where(significantly_updated_at: ((last_run - 1.minute)...)).empty?
 
     set_all_filters
 
