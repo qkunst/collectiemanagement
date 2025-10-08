@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>8.0"
+gem "rails", "~> 8.0", ">= 8.0.3"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -103,7 +103,7 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails", "~>6.6.0"
+gem "foundation-rails", "~> 6.9.0", ">= 6.9.0.0"
 gem "autoprefixer-rails"
 
 ##
@@ -126,11 +126,11 @@ gem "zipline", git: "https://github.com/alhajrahmoun/zipline.git", ref: "3fcbe12
 gem "rubyzip" # , "2.3.2"
 gem "rack-headers_filter"
 gem "strip_attributes"
-gem "omniauth"
+gem "omniauth", ">= 2.1.4"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
-gem "sidekiq"
+gem "sidekiq", ">= 8.0.8"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
