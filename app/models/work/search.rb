@@ -136,9 +136,10 @@ module Work::Search
 
     private
 
+    # the filter may contain some noise, also _and filtering is not relevant if there are no actual filter values
     def non_filter?(filter)
       if filter.is_a? Hash
-        !filter.any? { |k, v| v.present? }
+        !filter.any? { |k, v| v.present? unless ["_and", "_invert"].include?(k) }
       end
     end
 

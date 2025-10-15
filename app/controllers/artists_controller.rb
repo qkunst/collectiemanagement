@@ -265,7 +265,6 @@ class ArtistsController < ApplicationController
 
   # this method is used to filter the works that are used to retrieve the artists
   def works_filter
-    # binding.irb
     if params.dig(:filter, :works_tag_not)
       work_tag = ActsAsTaggableOn::Tag.find_by_name!(params.dig(:filter, :works_tag_not)).name
       @sanitized_filter[:filter][:works_tag_not] = work_tag
