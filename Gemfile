@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>8.0"
+gem "rails", "~> 8.0", ">= 8.0.3"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -59,7 +59,7 @@ gem "pg"
 gem "devise" # , git: "https://github.com/heartcombo/devise.git"
 # gem 'omniauth-facebook'
 # gem 'omniauth-google-oauth2'
-gem "carrierwave"
+gem "carrierwave", ">= 3.0.0"
 gem "carrierwave-imageoptimizer"
 # gem "carrierwave-vips" # transforming images
 gem "mini_magick" # fallback for vips
@@ -69,8 +69,8 @@ gem "attribute_normalizer" # keeps the database clean
 ## SEARCH
 ##
 
-gem "elasticsearch", "~> 7"
-gem "elasticsearch-model", "~> 7"
+gem "elasticsearch", "~> 8", ">= 8.0.0"
+gem "elasticsearch-model", "~> 8", ">= 8.0.0"
 gem "elasticsearch-rails", "~> 7"
 
 ##
@@ -103,7 +103,7 @@ gem "kramdown"
 ## STYLING
 ##
 
-gem "foundation-rails", "~>6.6.0"
+gem "foundation-rails", "~> 6.9.0", ">= 6.9.0.0"
 gem "autoprefixer-rails"
 
 ##
@@ -126,11 +126,11 @@ gem "zipline", git: "https://github.com/alhajrahmoun/zipline.git", ref: "3fcbe12
 gem "rubyzip" # , "2.3.2"
 gem "rack-headers_filter"
 gem "strip_attributes"
-gem "omniauth"
+gem "omniauth", ">= 2.1.4"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 gem "omniauth-azure-activedirectory", git: "https://github.com/murb/omniauth-azure-activedirectory.git"
-gem "sidekiq"
+gem "sidekiq", ">= 8.0.8"
 gem "sidekiq-scheduler"
 gem "sidekiq-unique-jobs"
 
@@ -143,11 +143,11 @@ group :test, :gitlabci do
   gem "database_cleaner"
   gem "simplecov", require: false
   gem "bullet"
-  gem "rspec-openapi"
+  gem "rspec-openapi", ">= 0.20.0"
 end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
-gem "annotate", group: [:development]
+gem "annotate", ">= 2.6.6", group: [:development]
 
 gem "branding_repo", git: "https://github.com/murb/branding_repo.git"
 gem "omniauth-central_login", git: "https://gitlab.com/murb-org/omniauth-centrallogin.git"
@@ -156,4 +156,4 @@ gem "jsbundling-rails", "~> 1.0"
 gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
 # gem "stimulus-rails"
 
-gem "ransack" # , "~> 4.3"
+gem "ransack" , ">= 4.4.0" # , "~> 4.3"
