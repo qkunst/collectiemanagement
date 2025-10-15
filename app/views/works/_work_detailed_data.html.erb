@@ -96,13 +96,13 @@
         <%= define_when_present :themes %>
         <%= define_when_present :locality_geoname_name %>
       <% end%>
-      <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet? %>
+      <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet?|| @work_display_form.display_logistics? %>
       <%= define_when_present :print_rendered  %>
     <% end %>
   </div>
   <div class="medium-6 columns">
     <%= definition_list_for work, {render_as: :table} do %>
-      <%= define_when_present :cached_tag_list unless @work_display_form&.display_detailed_discreet? %>
+      <%= define_when_present :cached_tag_list unless @work_display_form&.display_detailed_discreet? || @work_display_form.display_logistics? %>
       <%= define_when_present :condition_work_rendered %>
       <%= define_when_present :condition_frame_rendered %>
       <% if @work_display_form&.display_complete? %>
@@ -113,7 +113,7 @@
       <%= define_when_present :grade_within_collection %>
       <%= define_when_present :information_back, description: "Info. achterz." %>
       <%= define_when_present :other_comments, description: "Overige opm." %>
-      <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) and @work_display_form&.display != :detailed_discreet and @work_display_form&.display != :detailed %>
+      <%= define_when_present :internal_comments, {description: "Int. opm.", classname: :complete_data} if can?(:read_internal_comments, work) && @work_display_form&.display != :detailed_discreet && @work_display_form&.display != :detailed && !@work_display_form.display_logistics? %>
       <% if @work_display_form&.display_complete? %>
         <%= define_when_present :sources %>
         <%= define_when_present :source_comments %>
@@ -124,12 +124,12 @@
     <%= definition_list_for work, {render_as: :table} do %>
       <% if define?(:work_sets, value: work.work_sets.any?) %>
         <tr>
-          <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete))  %>
+          <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) && !@work_display_form.display_logistics? %>
           <th rowspan="2">
           <% else %>
           <th>
           <% end %>
-            <%=Work.human_attribute_name(:work_sets)%>
+            <%= Work.human_attribute_name(:work_sets) %>
           </th>
           <td><%= (work.work_sets.map do |ws|
             if @for_print
@@ -208,7 +208,7 @@
         <%= define_when_present :refound_at %>
         <%= define_when_present :new_found_at %>
       <% end %>
-      <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? %>
+      <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? || @work_display_form.display_logistics? %>
       <% if define?(:old_data) && work.persisted? %>
       <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
       <% end %>
