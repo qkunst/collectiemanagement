@@ -19,7 +19,8 @@ module Works::PdfResponse
         qr_code_enabled: ActiveRecord::Type::Boolean.new.cast(params[:qr_code_enabled]),
         resource_variant: params[:resource_variant],
         foreground_color: params[:foreground_color],
-        show_logo: ActiveRecord::Type::Boolean.new.cast(params[:show_logo])
+        show_logo: ActiveRecord::Type::Boolean.new.cast(params[:show_logo]),
+        a4print: !["false", "0", 0].include?(params[:a4print])
       )
 
       send_data labels.render, filename: "titels #{@collection.name}.pdf"

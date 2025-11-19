@@ -2,20 +2,21 @@ class Works::TitleLabels
   include ActiveModel::Model
   include LabelsSupport
 
-  attr_accessor :collection, :works, :qr_code_enabled, :resource_variant, :foreground_color, :show_logo
+  attr_accessor :collection, :works, :qr_code_enabled, :resource_variant, :foreground_color, :show_logo, :a4print
 
   def render
     code = collection.unique_short_code_from_self_or_base
     base_url = Rails.application.config_for(:config)[:ppid_base_domain]
     logo_path = File.open(Rails.root.join("app", "assets", "images", "logo.svg"))
+    self.a4print = true if a4print.nil?
     self.foreground_color ||= "000000"
 
     self.works = works.to_a.select { |w| w.stock_number } if qr_code_enabled
 
     Prawn::Labels.types["A7"] = {
-      "columns" => 2,
-      "rows" => 4,
-      "paper_size" => "A4",
+      "columns" => a4print ? 2 : 1,
+      "rows" => a4print ? 4 : 1,
+      "paper_size" => a4print ? "A4" : "A7",
       "left_margin" => 0,
       "right_margin" => 0,
       "top_margin" => 0,
@@ -24,7 +25,7 @@ class Works::TitleLabels
       "row_gutter" => 0
     }.freeze
 
-    Prawn::Labels.new(works, type: "A7") do |pdf, work|
+    Prawn::Labels.new(works, type: "A7", document: {page_layout: (a4print ? :portrait : :landscape)}) do |pdf, work|
       number = work.stock_number || "DB#{work.id.to_s.rjust(8, "0")}"
       margin = 5
       grid = Grid.new(columns: 4, rows: 4, outer_width: pdf.bounds.width, outer_height: pdf.bounds.height, margin:)
