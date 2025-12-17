@@ -122,14 +122,6 @@ Installeer met `sudo apt-get install jpegoptim optipng imagemagick nginx postgre
 
 Ruby wordt geïnstalleerd via rbenv, dit is een systeem om verschillende ruby-versies te kunnen ondersteunen. Installatie instructies hiervoor zijn te vinden op de [rbenv source code pagina](https://github.com/rbenv/rbenv).
 
-Op het moment van schrijven worden de volgende repositories hiervoor geraadpleegd:
-
-    deb http://debian.directvps.nl/debian jessie main
-    deb http://debian.directvps.nl/security jessie/updates main
-    deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main # let op: voeg key toe: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
-    deb https://artifacts.elastic.co/packages/7.x/apt stable main
-    deb https://oss-binaries.phusionpassenger.com/apt/passenger jessie main
-
 Op ElasticSearch en Passenger na worden dus de standaard door Debian geleverde versies gehanteerd en alle server pakketten worden dagelijks automatisch voorzien van veiligheidsupdates. Voor een basis inrichting kan het volgende artikel worden geraadpleegd:
 
 * [Basis server inrichting handleiding voor Rails op basis van Debian, nginx, passenger en rbenv](https://murb.nl/articles/204-a-somewhat-secure-debian-server-with-nginx-passenger-rbenv-for-hosting-ruby-on-rails-with-mail-support-and-deployment-with-capistrano)
@@ -146,7 +138,7 @@ Chromium kan (ook via yarn) niet worden geïnstalleerd als de volgende packages 
 
 `tablefunc` is nodig voor het navigeren door de boom van collecties:
 
-    enable_extension "tablefunc" #    CREATE EXTENSION IF NOT EXISTS tablefunc;
+        CREATE EXTENSION IF NOT EXISTS tablefunc; #enable_extension "tablefunc" #
 
 #### Sidekiq in usermode
 
@@ -232,13 +224,33 @@ Draai nu:
 De eerste keer zal deze falen, maar door het eenmaal te draaien worden veel van de standaard
 directories klaargezet op de server.
 
-Vervolgens is het zaak om de `database.yml` en `secrets.yml` configuratie voor productie gereed te zetten.
+Vervolgens is het zaak om de `database.yml`, `config.yml`, `credentials.yml.enc` configuratie voor productie gereed te zetten.
 Dit is een eenmalige operatie die plaats vind op de server. De structuur is gelijk aan de `config/database.yml` en `config/secrets.yml` files, maar
 de files in deze publieke repository bevatten (om veiligheidsredenen) geen productiegegevens.
 
 Kopieer deze bestanden naar de server in de `shared/config` folder (de folder `shared` zal na `cap production deploy` al aangemaakt zijn)
 
 Meer over het configureren van Rails applicaties, zoals deze, raadpleeg de Rails documentatie: [Configuring Rails Applications](http://guides.rubyonrails.org/configuring.html).
+
+#### Mogelijke credentials
+
+```
+secret_key_base: # rails generate secret
+google_client_id:
+google_client_secret:
+azure_client_id:
+central_login_id:
+central_login_secret:
+central_login_site:
+uitleen_site: # to be deprecated; will be moved to config
+from_address: # to be deprecated; will be moved to config
+
+#### Application config.yml
+
+shared:
+  ppid_base_domain: https://ppid.qkunst.nl
+  from_address: collectionmanagement@murb.nl
+  uitleen_site: https://uitleen.murb.nl
 
 ### De applicatie draaien op andere omgevingen.
 
@@ -269,8 +281,6 @@ Toegangsrechten dienen wel opnieuw ingesteld te worden.
 
 ### Afhankelijkheden
 
-
-
 #### Elastic Search
 
 curl -X GET "localhost:9200"
@@ -280,4 +290,3 @@ curl -X PUT "localhost:9200/_settings" -H 'Content-Type: application/json' -d'{"
 curl -X GET "elastic:PleaseChangeMe@localhost:59200"
 curl -X PUT "elastic:PleaseChangeMe@localhost:59200/_settings" -H 'Content-Type: application/json' -d '{ "index" : { "max_result_window" : 5000000 } }'
 curl -X PUT "elastic:PleaseChangeMe@localhost:59200/_settings" -H 'Content-Type: application/json' -d'{"index": {"blocks": {"read_only_allow_delete": "false"}}}'
-

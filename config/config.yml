@@ -1,2 +1,4 @@
 shared:
   ppid_base_domain: https://ppid.qkunst.nl
+  from_address: collectionmanagement@murb.nl
+  uitleen_site: https://uitleen.murb.nl

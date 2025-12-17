@@ -25,7 +25,7 @@ set :repo_url, "https://gitlab.com/murb-org/collectiemanagement.git"
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w[config/secrets.yml config/database.yml config/initializers/mailer.rb config/master.key config/credentials.yml.enc config/config.yml]
+set :linked_files, %w[config/database.yml config/initializers/mailer.rb config/master.key config/credentials.yml.enc config/config.yml]
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w[log tmp public/uploads storage node_modules]
@@ -100,7 +100,7 @@ Rake::Task["rbenv:validate"].clear_actions
 namespace :rbenv do
   desc "Install rbenv"
   task :install do
-    on roles(:app) do
+    on roles(:setup) do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
@@ -193,7 +193,7 @@ end
 namespace :server do
   desc "Initialize"
   task :init do
-    on roles(:app), in: :sequence do |app|
+    on roles(:setup), in: :sequence do |app|
       execute "mkdir -p #{shared_path}/config"
 
       # disabled in 7.2
@@ -215,16 +215,23 @@ namespace :server do
       rescue SSHKit::Command::Failed
         execute "printf \"Rails.application.config.action_mailer.delivery_method = :sendmail\\nRails.application.config.action_mailer.default_url_options = {host: '#{app.hostname}'}\\n\" > #{shared_path}/config/initializers/mailer.rb"
       end
+
+      begin
+        execute "touch #{shared_path}/config/master.key"
+        execute "touch #{shared_path}/config/credentials.yml.enc"
+      end
     end
   end
 end
 
 after "server:init", "sidekiq:install"
 
+set :sidekiq_service_unit_name, "sidekiq"
+
 namespace :sidekiq do
   desc "Sidekiq install"
   task :install do
-    on roles(:app), in: :sequence do |app|
+    on roles(:setup), in: :sequence do |app|
       # execute "rm ~/.config/systemd/user/sidekiq.service"
       execute "mkdir -p ~/.config/systemd/user"
       execute "test -f ~/.config/systemd/user/sidekiq.service && echo Sidekiq service config already present"
@@ -234,6 +241,13 @@ namespace :sidekiq do
       `mkdir -p #{host_tmp_dir}`
       File.write("#{host_tmp_dir}/sidekiq.service", template.result_with_hash(stage: fetch(:stage), homedir: "/home/#{app.user}"))
       upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" # , "~/.config/systemd/user/default.target.want/"
+      execute "systemctl --user daemon-reload"
+      execute "systemctl --user enable sidekiq"
+    end
+  end
+
+  task :reload do
+    on roles(:all), in: :sequence do |app|
       execute "systemctl --user daemon-reload"
       execute "systemctl --user enable sidekiq"
     end

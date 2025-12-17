@@ -20,7 +20,7 @@ test:
   username: murb
   adapter: postgresql
   encoding: unicode
-  database: qkunst-test
+  database: qkunst-test<%= ENV['TEST_ENV_NUMBER'] %>
   host: localhost
   pool: 5
   timeout: 5000

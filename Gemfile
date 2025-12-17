@@ -145,6 +145,9 @@ group :test, :gitlabci do
   gem "bullet"
   gem "rspec-openapi"
 end
+group :test, :development do
+  gem "parallel_tests"
+end
 gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
 gem "annotate", group: [:development]

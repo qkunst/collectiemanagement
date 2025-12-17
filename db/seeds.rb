@@ -62,7 +62,6 @@ placeabilities.each_with_index { |name, index| Placeability.where({name: name, o
 currencies = {"EUR" => "€", "USD" => "$", "NLG" => "𝑓"}
 currencies.each { |k, v| Currency.where({iso_4217_code: k, symbol: v, exchange_rate: 1, name: v}).first_or_create }
 
-Collection.where(name: "root", root: true)
 collections = ["Demo Collectie A", "Demo Collectie B", "Subcollectie"]
 collections.each { |name| Collection.where({name: name}).first_or_create }
 
@@ -83,3 +82,10 @@ Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Co
     grade_within_collection: %w[A B C D E F].sample
   )
 end
+
+Collection.unscoped.insert({root: true, name: "-", created_at: Time.now, updated_at: Time.now})
+
+c = Collection.unscoped.where(root: true).first
+change_column_default :collections, :parent_collection_id, c.id
+
+Collection.unscoped.where(parent_collection_id: nil).where.not(root: true).update_all(parent_collection_id: c.id)

@@ -5,14 +5,14 @@ After=syslog.target network.target
 [Service]
 Type=notify
 WatchdogSec=10
-WorkingDirectory=<%=homedir%>/public/collectiemanagement/current
-ExecStart=<%=homedir%>/.rbenv/bin/rbenv exec bundle exec sidekiq -e <%=stage%>
+WorkingDirectory=<%= homedir %>/public/collectiemanagement/current
+ExecStart=<%= homedir %>/.nvm/nvm-exec <%= homedir %>/.rbenv/bin/rbenv exec bundle exec sidekiq -e <%= stage %>
 # ExecReload=/bin/kill -TSTP $MAINPID
 # ExecStop=/bin/kill -TERM $MAINPID
 KillMode=process # mixed # hopefully fixes early exit of pdf generation step https://www.freedesktop.org/software/systemd/man/systemd.kill.html
 Environment=MALLOC_ARENA_MAX=2
-StandardOutput=append:<%=homedir%>/public/collectiemanagement/shared/log/sidekiq.log
-StandardError=append:<%=homedir%>/public/collectiemanagement/shared/log/sidekiq.error.log
+StandardOutput=append:<%= homedir %>/public/collectiemanagement/shared/log/sidekiq.log
+StandardError=append:<%= homedir %>/public/collectiemanagement/shared/log/sidekiq.error.log
 RestartSec=1
 Restart=on-failure
 SyslogIdentifier=sidekiq
