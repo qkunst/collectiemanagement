@@ -29,6 +29,9 @@ RSpec.describe "RKD::Artists", type: :request do
   end
 
   describe "GET /rkd_artists/123" do
+    before do
+      allow(RKD::Artist).to receive(:find).and_return(RKD::Artist.new(name: "Aafjes", id: 12))
+    end
     it "shouldn't be publicly accessible" do
       get rkd_artist_path(12)
       expect(response).to have_http_status(302)
