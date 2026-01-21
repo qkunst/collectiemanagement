@@ -1,4 +1,5 @@
 <h2>Oppervlakte berekeningen voor <%= @collection.name %></h2>
+<p>Er wordt in deze weergave onderscheid gemaakt tussen grote en kleine werken. Grote werken zijn werken in de formaatcategorie L en groter (één van de afmetingen hoger dan 80cm), de rest wordt gezien als 'klein'.</p>
 <% [0,3].each do | margin | %>
 <% @stats = surface_statistics(@collection.works_including_child_works, margin: ) %>
 <% if margin > 0 %>
