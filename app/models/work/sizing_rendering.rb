@@ -84,6 +84,10 @@ module Work::SizingRendering
       end
     end
 
+    def binary_small?
+      [:xs, :s, :m].include? object_format_code
+    end
+
     def orientation
       if height_with_fallback && width_with_fallback && width_with_fallback > 0
         ratio = height_with_fallback / width_with_fallback

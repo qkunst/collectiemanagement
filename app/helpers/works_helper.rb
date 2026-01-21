@@ -135,6 +135,8 @@ module WorksHelper
 
   def surface_statistics(works = @works.to_a, margin: 0)
     floor_surfaces = works.select(&:floor_surface)
+    large_floor_surfaces = works.select(&:floor_surface).select { !it.binary_small? }
+    small_floor_surfaces = works.select(&:floor_surface).select(&:binary_small?)
     wall_surfaces = works.select(&:wall_surface)
     surface_less_works = works.select(&:surfaceless?)
 
@@ -143,6 +145,14 @@ module WorksHelper
       floor_sum: floor_surfaces.map { it.floor_surface(margin:) }.compact.sum,
       floor_max: floor_surfaces.map { it.floor_surface }.compact.max,
       floor_ids: floor_surfaces.map(&:id),
+      large_floor_count: large_floor_surfaces.count,
+      large_floor_sum: large_floor_surfaces.map { it.floor_surface(margin:) }.compact.sum,
+      large_floor_max: large_floor_surfaces.map { it.floor_surface }.compact.max,
+      large_floor_ids: large_floor_surfaces.map(&:id),
+      small_floor_count: small_floor_surfaces.count,
+      small_floor_sum: small_floor_surfaces.map { it.floor_surface(margin:) }.compact.sum,
+      small_floor_max: small_floor_surfaces.map { it.floor_surface }.compact.max,
+      small_floor_ids: small_floor_surfaces.map(&:id),
       wall_count: wall_surfaces.count,
       wall_sum: wall_surfaces.map { it.wall_surface(margin:) }.sum,
       wall_max: wall_surfaces.map { it.wall_surface }.max,
