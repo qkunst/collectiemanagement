@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <% %i[large_floor small_floor large_wall small_wall small_paper_and_frameless large_paper_and_frameless].each do |subset| %>
+        <% %i[large_floor small_floor large_wall small_wall large_paper_and_frameless small_paper_and_frameless].each do |subset| %>
             <tr>
                 <th><%= link_to t(".#{subset}"), collection_works_path(@collection, work_display_form: {display: :complete}, **id_parameter_with_conditional_id_hash(@stats[:"#{subset}_ids"]), surface_calc:true) %></th>
                 <td class="number"><%= number_with_delimiter @stats[:"#{subset}_count"] %></td>
