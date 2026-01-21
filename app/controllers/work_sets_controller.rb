@@ -33,6 +33,12 @@ class WorkSetsController < ApplicationController
       ids_to_append = params.dig(:work_set, :work_ids).split(" ").map(&:to_i)
       authorize! :update, @work_set
       @work_set.work_ids = (@work_set.work_ids + ids_to_append).uniq
+    elsif update_work_set?
+      @work_set = WorkSet.find(params.dig(:work_set, :id))
+      @work_set.dynamic = params.dig(:work_set, :dynamic).to_i == 1
+      @work_set.works_filter_params = {time_filter: @time_filter.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text, collection_id: @collection.id}
+
+      authorize! :update, @work_set
     elsif params[:filter]
       @work_set = WorkSet.new(work_set_params)
       @work_set.works_filter_params = {time_filter: @time_filter.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text, collection_id: @collection.id}
@@ -124,7 +130,11 @@ class WorkSetsController < ApplicationController
   private
 
   def append_to_work_set?
-    params.dig(:work_set, :id).present?
+    params.dig(:work_set, :id).present? && !params.dig(:work_set, :dynamic).present?
+  end
+
+  def update_work_set?
+    params.dig(:work_set, :id).present? && params.dig(:work_set, :dynamic).present?
   end
 
   def set_work_set
