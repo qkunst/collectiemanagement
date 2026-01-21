@@ -60,7 +60,7 @@ module ImportCollection::Workbook
         column = Work.columns.find { |a| a.name == property.to_s }
         if column
           field_type = column.type
-        elsif Work.instance_methods.include?(fieldname.to_sym) && Work.instance_methods.include?(:"#{fieldname}=")
+        elsif Work.method_defined?(fieldname.to_sym) && Work.method_defined?(:"#{fieldname}=")
           field_type = Work.new.send(fieldname).class
         end
       end
