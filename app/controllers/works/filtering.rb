@@ -24,7 +24,7 @@ module Works::Filtering
     # sets filter starting with empty or a user's previous filter; but reset when params are present that modify the state
     def initiate_filter
       @selection_filter = current_user&.filter_params&.[](:filter) || {}
-      if params[:filter] || params[:work_display_form] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter]
+      if params[:filter] || params[:work_display_form] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter] || params[:work_ids_hash]
         @selection_filter = {}
       end
     end
@@ -106,6 +106,7 @@ module Works::Filtering
       @works = @collection.search_works(@search_text, filter || {}, options)
       @works = @works.published if params[:published]
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
+      @works = @works.where(id: IdsHash.find_by(hashed: params[:work_ids_hash])&.ids) if params[:work_ids_hash]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
       @inventoried_objects_count = @works.distinct.count

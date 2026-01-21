@@ -80,6 +80,16 @@ module WorksHelper
     I18n.translate "count.works", count: count
   end
 
+  def id_parameter_with_conditional_id_hash ids
+    if ids.empty?
+      {}
+    elsif ids.length < 100
+      {ids: ids.join(",")}
+    else
+      {work_ids_hash: IdsHash.store(ids).hashed}
+    end
+  end
+
   def translate_inventoried_objects count
     I18n.translate "count.inventoried_objects_count", count: count
   end

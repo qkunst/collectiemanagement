@@ -56,6 +56,10 @@ class IdsHash < ApplicationRecord
     end
   end
 
+  def to_param
+    hashed
+  end
+
   private
 
   def store_hash

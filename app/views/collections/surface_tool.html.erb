@@ -16,19 +16,19 @@
     </thead>
     <tbody>
         <tr>
-            <th><%= link_to "Vloer (groot ruimtelijk)", collection_works_path(@collection, work_display_form: {display: :complete}, ids: @stats[:floor_ids].join(","), surface_calc:true) %></th>
+            <th><%= link_to "Vloer (groot ruimtelijk)", collection_works_path(@collection, work_display_form: {display: :complete}, **id_parameter_with_conditional_id_hash(@stats[:large_floor_ids]), surface_calc:true) %></th>
             <td class="number"><%= number_with_delimiter @stats[:large_floor_count] %></td>
             <td class="number"><%= number_with_delimiter @stats[:large_floor_sum]&.round(1) %></td>
             <td class="number"><%= number_with_delimiter @stats[:large_floor_max]&.round(1) %></td>
         </tr>
         <tr>
-            <th><%= link_to "Kast (klein t/m medium grootte ruimtelijk)", collection_works_path(@collection, work_display_form: {display: :complete}, ids: @stats[:floor_ids].join(","), surface_calc:true) %></th>
+            <th><%= link_to "Kast (klein t/m medium grootte ruimtelijk)", collection_works_path(@collection, work_display_form: {display: :complete}, **id_parameter_with_conditional_id_hash(@stats[:small_floor_ids]), surface_calc:true) %></th>
             <td class="number"><%= number_with_delimiter @stats[:small_floor_count] %></td>
             <td class="number"><%= number_with_delimiter @stats[:small_floor_sum]&.round(1) %></td>
             <td class="number"><%= number_with_delimiter @stats[:small_floor_max]&.round(1) %></td>
         </tr>
         <tr>
-            <th><%= link_to "Muur", collection_works_path(@collection, work_display_form: {display: :complete}, ids: @stats[:wall_ids].join(","), surface_calc:true) %></th>
+            <th><%= link_to "Muur", collection_works_path(@collection, work_display_form: {display: :complete}, **id_parameter_with_conditional_id_hash(@stats[:wall_ids]), surface_calc:true) %></th>
             <td class="number"><%= number_with_delimiter @stats[:wall_count] %></td>
             <td class="number"><%= number_with_delimiter @stats[:wall_sum]&.round(1) %></td>
             <td class="number"><%= number_with_delimiter @stats[:wall_max]&.round(1) %></td>
