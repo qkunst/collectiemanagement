@@ -81,8 +81,10 @@ module WorksHelper
   end
 
   def id_parameter_with_conditional_id_hash ids
-    if ids.empty?
-      {}
+    if ids.nil?
+      {ids: -1}
+    elsif ids.empty?
+      {ids: -1}
     elsif ids.length < 100
       {ids: ids.join(",")}
     else
@@ -144,11 +146,21 @@ module WorksHelper
   end
 
   def surface_statistics(works = @works.to_a, margin: 0)
+    paper_media_ids = Medium.where(name: ["Papier", "Fotopapier", "Krantenpapier"]).map(&:id)
     floor_surfaces = works.select(&:floor_surface)
-    large_floor_surfaces = works.select(&:floor_surface).select { !it.binary_small? }
-    small_floor_surfaces = works.select(&:floor_surface).select(&:binary_small?)
+    large_floor_surfaces = floor_surfaces.select { !it.binary_small? }
+    small_floor_surfaces = floor_surfaces.select(&:binary_small?)
     wall_surfaces = works.select(&:wall_surface)
+    small_wall_surfaces = wall_surfaces.select { it.binary_small? }
+    large_wall_surfaces = wall_surfaces.select { !it.binary_small? }
     surface_less_works = works.select(&:surfaceless?)
+
+    small_paper_and_frameless = small_wall_surfaces.select { it.condition_frame_id.nil? && paper_media_ids.include?(it.medium_id) }
+    large_paper_and_frameless = large_wall_surfaces.select { it.condition_frame_id.nil? && paper_media_ids.include?(it.medium_id) }
+
+    # exclude paper and frameless
+    small_wall_surfaces -= small_paper_and_frameless
+    large_wall_surfaces -= large_paper_and_frameless
 
     {
       floor_count: floor_surfaces.count,
@@ -167,6 +179,23 @@ module WorksHelper
       wall_sum: wall_surfaces.map { it.wall_surface(margin:) }.sum,
       wall_max: wall_surfaces.map { it.wall_surface }.max,
       wall_ids: wall_surfaces.map(&:id),
+      small_wall_count: small_wall_surfaces.count,
+      small_wall_sum: small_wall_surfaces.map { it.wall_surface(margin:) }.sum,
+      small_wall_max: small_wall_surfaces.map { it.wall_surface }.max,
+      small_wall_ids: small_wall_surfaces.map(&:id),
+      large_wall_count: large_wall_surfaces.count,
+      large_wall_sum: large_wall_surfaces.map { it.wall_surface(margin:) }.sum,
+      large_wall_max: large_wall_surfaces.map { it.wall_surface }.max,
+      large_wall_ids: large_wall_surfaces.map(&:id),
+      small_paper_and_frameless_count: small_paper_and_frameless.count,
+      small_paper_and_frameless_sum: small_paper_and_frameless.map { it.wall_surface(margin:) }.sum,
+      small_paper_and_frameless_max: small_paper_and_frameless.map { it.wall_surface }.max,
+      small_paper_and_frameless_ids: small_paper_and_frameless.map(&:id),
+      large_paper_and_frameless_count: large_paper_and_frameless.count,
+      large_paper_and_frameless_sum: large_paper_and_frameless.map { it.wall_surface(margin:) }.sum,
+      large_paper_and_frameless_max: large_paper_and_frameless.map { it.wall_surface }.max,
+      large_paper_and_frameless_ids: large_paper_and_frameless.map(&:id),
+
       surface_less_works_count: surface_less_works.count,
       surface_less_work_ids: surface_less_works.map(&:id)
     }

@@ -24,3 +24,11 @@ nl:
       and: EN
       explain_and_or: Filter alles dat voldoet aan alle waarden (EN (AND)), of minimaal één van de geselecteerde waarden (OF (OR))
       explain_show_none: Filter op alles dat geselecteerd is (Incl(usief)) of sluit juist alles uit dat niet geselecteerd is (Excl(usief))
+  collections:
+    surface_tool:
+      large_floor: Vloer (groot ruimtelijk)
+      small_floor: Kast (klein t/m medium grootte ruimtelijk)
+      large_wall: Muur (groot vlak)
+      small_wall: Muur (klein t/m medium vlak)
+      large_paper_and_frameless: Papier (uitgelijst, groot vlak)
+      small_paper_and_frameless: Papier (uitgelijst, klein t/m medium vlak)
