@@ -1,0 +1,44 @@
+<h2>Oppervlakte berekeningen voor <%= @collection.name %></h2>
+<% [0,3].each do | margin | %>
+<% @stats = surface_statistics(@collection.works_including_child_works, margin: ) %>
+<% if margin > 0 %>
+  <h3>Met marge</h3>
+  <p>Bij dit overzicht wordt rekening gehouden met een marge van <%= 2*margin %> cm tussen de onderdelen voor de oppervlakte berekening. Merk op dat zelfs dit een onderschatting zal zijn van de totale benodigde oppervlakte, er is geen rekening gehouden met grootte van de muren en/of onhandige formaten.</p>
+<% end %>
+<table>
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Aantal werken</th>
+            <th>Oppervlak (m<sup>2</sup>)</th>
+            <th>Grootste object (m<sup>2</sup>)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><%= link_to "Vloer", collection_works_path(@collection, work_display_form: {display: :complete}, ids: @stats[:floor_ids].join(","), surface_calc:true) %></th>
+            <td class="number"><%= number_with_delimiter @stats[:floor_count] %></td>
+            <td class="number"><%= number_with_delimiter @stats[:floor_sum]&.round(1) %></td>
+            <td class="number"><%= number_with_delimiter @stats[:floor_max]&.round(1) %></td>
+        </tr>
+        <tr>
+            <th><%= link_to "Muur", collection_works_path(@collection, work_display_form: {display: :complete}, ids: @stats[:wall_ids].join(","), surface_calc:true) %></th>
+            <td class="number"><%= number_with_delimiter @stats[:wall_count] %></td>
+            <td class="number"><%= number_with_delimiter @stats[:wall_sum]&.round(1) %></td>
+            <td class="number"><%= number_with_delimiter @stats[:wall_max]&.round(1) %></td>
+        </tr>
+        <tr>
+            <th><%= link_to "Onbekend", collection_works_path(@collection, work_display_form: {display: :complete}, filter: {object_format_code: [:not_set]}, surface_calc:true) %></th>
+            <td class="number"><%= number_with_delimiter @stats[:surface_less_works_count] %></td>
+        </tr>
+    </tbody>
+
+
+</table>
+<% end %>
+<p>
+<%= link_to "Toon alle werken met oppervlakte berekening", collection_works_path(@collection, work_display_form: {display: :complete}, surface_calc:true) %>
+</p>
+<% content_for :footer do %>
+<p>Deze berekening is gemaakt op <%= I18n.l Time.current, format: :long %>. </p>
+<% end %>

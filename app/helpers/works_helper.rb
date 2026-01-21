@@ -119,20 +119,36 @@ module WorksHelper
     end
 
     if params[:surface_calc]
-      works = @works.to_a
+      stats = surface_statistics(@works.to_a)
 
-      floor_surfaces = works.map(&:floor_surface).compact
-      sentence_items << "</p><p>#{translate_works(floor_surfaces.count)} met een vloeroppervlak van in totaal #{floor_surfaces.sum}m². "
+      sentence_items << "<br/><br/>"
+      sentence_items << "#{translate_works(stats[:floor_count])} met een vloeroppervlak van in totaal #{stats[:floor_sum]}m². " if stats[:floor_count] > 0
+      sentence_items << "#{translate_works(stats[:wall_count])} met een muuroppervlak van in totaal #{stats[:wall_sum]}m². " if stats[:wall_count] > 0
 
-      wall_surfaces = works.map(&:wall_surface).compact
-      sentence_items << "#{translate_works(wall_surfaces.count)} met een muuroppervlak van in totaal #{wall_surfaces.sum}m². "
-
-      surface_less_works_count = works.count(&:surfaceless?)
-      if surface_less_works_count > 0
-        sentence_items << "#{translate_works(surface_less_works_count)} zonder oppervlak. "
+      if stats[:surface_less_works_count] > 0
+        sentence_items << "#{translate_works(stats[:surface_less_works_count])} zonder oppervlak. "
       end
     end
 
     sanitize(sentence_items.join(""))
+  end
+
+  def surface_statistics(works = @works.to_a, margin: 0)
+    floor_surfaces = works.select(&:floor_surface)
+    wall_surfaces = works.select(&:wall_surface)
+    surface_less_works = works.select(&:surfaceless?)
+
+    {
+      floor_count: floor_surfaces.count,
+      floor_sum: floor_surfaces.map { it.floor_surface(margin:) }.compact.sum,
+      floor_max: floor_surfaces.map { it.floor_surface }.compact.max,
+      floor_ids: floor_surfaces.map(&:id),
+      wall_count: wall_surfaces.count,
+      wall_sum: wall_surfaces.map { it.wall_surface(margin:) }.sum,
+      wall_max: wall_surfaces.map { it.wall_surface }.max,
+      wall_ids: wall_surfaces.map(&:id),
+      surface_less_works_count: surface_less_works.count,
+      surface_less_work_ids: surface_less_works.map(&:id)
+    }
   end
 end

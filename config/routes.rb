@@ -83,6 +83,7 @@ Rails.application.routes.draw do
   resources :involvements
   resources :collections do
     get "manage" => "collections#manage"
+    get "manage/surface_tool" => "collections#surface_tool"
     resources :contacts
     resources :locations
     resources :users, module: :collection

@@ -1,7 +1,7 @@
 <h2>Beheer collectie specifieke opties</h2>
 
 <p>
-  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :tertiary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection%>
+  <%= button_to 'Ververs rapportage', collection_refresh_works_path(@collection), method: :post, class: [:button, :tertiary, :small], title: "Afhankelijk van de hoeveelheid werken in dit collectie kan dit soms lang duren." if can? :refresh, @collection %>
 </p>
 <ul>
   <%= menu_link_to("Eigenaren", collection_owners_path(@collection), {wrap: :li}) if can? :review_collection, Owner %>
@@ -12,6 +12,7 @@
   <%= menu_link_to("Import", collection_import_collections_path(@collection), {wrap: :li}) if can? :review_collection, ImportCollection.new(collection: @collection) %>
   <%= menu_link_to("Locaties", collection_locations_path(@collection), {wrap: :li}) if can? :review_collection, ImportCollection.new(collection: @collection) %>
   <%= menu_link_to("Rapporten", collection_custom_reports_path(@collection), {wrap: :li}) if can? :review_collection, CustomReport.new(collection: @collection) %>
+  <%= menu_link_to("Oppervlakte tool", collection_manage_surface_tool_path(@collection), {wrap: :li}) if can?(:surface_tool, @collection) %>
   <%= menu_link_to("Recent gewijzigd", collection_works_modified_path(@collection), {wrap: :li}) if can?(:review_modified_works, @collection) %>
   <%= menu_link_to("Thema's", collection_themes_path(@collection), {wrap: :li}) if can? :review_collection, Theme %>
 </ul>

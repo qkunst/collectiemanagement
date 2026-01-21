@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CollectionsController < ApplicationController
-  before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage] # includes authentication
+  before_action :set_collection, only: [:show, :edit, :update, :destroy, :manage, :surface_tool] # includes authentication
   before_action :set_parent_collection
 
   # GET /collections
@@ -30,6 +30,10 @@ class CollectionsController < ApplicationController
     @title = @collection.name
     @collections = @collection.child_collections
     current_user.reset_filters!
+  end
+
+  def surface_tool
+    authorize! :surface_tool, @collection
   end
 
   # GET /collections/1

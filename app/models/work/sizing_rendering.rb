@@ -47,18 +47,18 @@ module Work::SizingRendering
     end
 
     # return in meters
-    def wall_surface
+    def wall_surface(margin: 0)
       if !floor_bound? && hpd_width && hpd_height
-        (hpd_width * hpd_height) / 10000.0
+        ((hpd_width + margin) * (hpd_height + margin)) / 10000.0
       end
     end
 
     # return in meters
-    def floor_surface
+    def floor_surface(margin: 0)
       if floor_bound? && hpd_width && hpd_depth
-        (hpd_width * hpd_depth) / 10000.0
+        ((hpd_width + margin) * (hpd_depth + margin)) / 10000.0
       elsif floor_bound? && hpd_diameter
-        (hpd_diameter * hpd_diameter) / 10000.0
+        ((hpd_diameter + margin) * (hpd_diameter + margin)) / 10000.0
       end
     end
 
