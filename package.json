@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
-    "@hotwired/turbo": ">=8",
+    "@hotwired/turbo": ">=8.0.21",
     "@stimulus-components/chartjs": "^6.0.0",
     "chosen-js": ">=1.8.7",
     "esbuild": "^0.15.13",
