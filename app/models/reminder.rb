@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: reminders
 #
-#  id              :bigint           not null, primary key
+#  id              :integer          not null, primary key
+#  name            :string
+#  text            :text
+#  stage_id        :integer
 #  interval_length :integer
 #  interval_unit   :string
-#  name            :string
 #  repeat          :boolean
-#  text            :text
+#  collection_id   :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  collection_id   :bigint
-#  stage_id        :bigint
 #
+
 class Reminder < ApplicationRecord
   include CollectionOwnable
 

@@ -1,15 +1,14 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: geonames_admindivs
 #
-#  id         :bigint           not null, primary key
+#  id         :integer          not null, primary key
 #  admin_code :string
-#  admin_type :integer
-#  asciiname  :string
-#  geonameid  :bigint
 #  name       :string
+#  asciiname  :string
+#  geonameid  :integer
+#  admin_type :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -17,6 +16,7 @@
 #
 #  index_geonames_admindivs_on_admin_code  (admin_code)
 #
+
 class GeonamesAdmindiv < ApplicationRecord
   has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: "GeonameTranslation"
 

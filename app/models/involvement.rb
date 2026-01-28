@@ -1,17 +1,17 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: involvements
 #
-#  id                 :bigint           not null, primary key
-#  external_reference :string
+#  id                 :integer          not null, primary key
 #  name               :string
 #  place              :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  place_geoname_id   :bigint
+#  place_geoname_id   :integer
+#  external_reference :string
 #
+
 class Involvement < ApplicationRecord
   before_save :set_geoname_id_from_name!
 

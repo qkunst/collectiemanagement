@@ -1,16 +1,16 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: stages
 #
-#  id                :bigint           not null, primary key
+#  id                :integer          not null, primary key
 #  name              :string
+#  actual_stage_id   :integer
+#  previous_stage_id :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  actual_stage_id   :bigint
-#  previous_stage_id :bigint
 #
+
 class Stage < ApplicationRecord
   belongs_to :previous_stage, primary_key: :id, class_name: "Stage", optional: true
   belongs_to :actual_stage, primary_key: :id, class_name: "Stage", optional: true

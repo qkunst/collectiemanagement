@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: work_sets
 #
-#  id                    :bigint           not null, primary key
-#  appraisal_notice      :text
-#  comment               :text
-#  deactivated_at        :datetime
+#  id                    :integer          not null, primary key
+#  work_set_type_id      :integer
 #  identification_number :string
-#  uuid                  :string
-#  works_filter_params   :json
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  work_set_type_id      :bigint
+#  appraisal_notice      :text
+#  comment               :text
+#  uuid                  :string
+#  deactivated_at        :datetime
+#  works_filter_params   :json
 #
+
 class WorkSet < ApplicationRecord
   include Uuid
   include Works::Filtering # Controller concern

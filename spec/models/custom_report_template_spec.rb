@@ -1,18 +1,18 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: custom_report_templates
 #
-#  id            :bigint           not null, primary key
-#  hide          :boolean
-#  text          :text
+#  id            :integer          not null, primary key
 #  title         :string
+#  text          :text
+#  collection_id :integer
 #  work_fields   :text
+#  hide          :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
 #
+
 require "rails_helper"
 
 RSpec.describe CustomReportTemplate, type: :model do

@@ -1,22 +1,22 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: library_items
 #
-#  id            :bigint           not null, primary key
-#  author        :string
-#  description   :text
-#  ean           :string
+#  id            :integer          not null, primary key
 #  item_type     :string
-#  location      :string
-#  stock_number  :string
-#  thumbnail     :string
+#  collection_id :integer
 #  title         :string
+#  author        :string
+#  ean           :string
+#  stock_number  :string
+#  location      :string
+#  description   :text
+#  thumbnail     :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
 #
+
 class LibraryItem < ApplicationRecord
   ITEM_TYPES = ["Artikel", "Boek", "DVD"]
 

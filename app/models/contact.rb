@@ -2,17 +2,18 @@
 #
 # Table name: contacts
 #
-#  id            :bigint           not null, primary key
-#  address       :text
-#  contact_type  :string
-#  external      :boolean
+#  id            :integer          not null, primary key
 #  name          :string
-#  remote_data   :text
+#  address       :text
+#  external      :boolean
 #  url           :string
+#  collection_id :integer
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
+#  remote_data   :text
+#  contact_type  :string
 #
+
 class Contact < ApplicationRecord
   belongs_to :collection
 

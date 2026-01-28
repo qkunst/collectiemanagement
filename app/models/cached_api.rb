@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: cached_apis
 #
-#  id         :bigint           not null, primary key
+#  id         :integer          not null, primary key
 #  query      :string
 #  response   :text
 #  created_at :datetime         not null

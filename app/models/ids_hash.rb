@@ -2,7 +2,7 @@
 #
 # Table name: ids_hashes
 #
-#  id             :bigint           not null, primary key
+#  id             :integer          not null, primary key
 #  hashed         :string           not null
 #  ids_compressed :text             not null
 #  created_at     :datetime         not null
@@ -12,6 +12,7 @@
 #
 #  index_ids_hashes_on_hashed  (hashed) UNIQUE
 #
+
 class IdsHash < ApplicationRecord
   after_initialize :store_hash
   validates_presence_of :hashed, :ids_compressed

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: attachments
 #
-#  id            :bigint           not null, primary key
-#  file          :string
+#  id            :integer          not null, primary key
 #  name          :string
+#  file          :string
 #  visibility    :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
+#  collection_id :integer
 #
+
 class Attachment < ApplicationRecord
   belongs_to :collection
   has_and_belongs_to_many :works

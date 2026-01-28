@@ -2,26 +2,27 @@
 #
 # Table name: messages
 #
-#  id                               :bigint           not null, primary key
-#  actioned_upon_by_qkunst_admin_at :datetime
-#  attachment                       :string
-#  from_user_name                   :string
-#  image                            :string
-#  just_a_note                      :boolean
-#  message                          :text
+#  id                               :integer          not null, primary key
+#  from_user_id                     :integer
+#  to_user_id                       :integer
+#  in_reply_to_message_id           :integer
 #  qkunst_private                   :boolean
+#  conversation_start_message_id    :integer
 #  subject                          :string
-#  subject_object_type              :string
+#  message                          :text
 #  subject_url                      :text
+#  just_a_note                      :boolean
+#  image                            :string
+#  actioned_upon_by_qkunst_admin_at :datetime
+#  subject_object_type              :string
+#  subject_object_id                :integer
 #  created_at                       :datetime         not null
 #  updated_at                       :datetime         not null
-#  conversation_start_message_id    :bigint
-#  from_user_id                     :bigint
-#  in_reply_to_message_id           :bigint
-#  reminder_id                      :bigint
-#  subject_object_id                :bigint
-#  to_user_id                       :bigint
+#  reminder_id                      :integer
+#  from_user_name                   :string
+#  attachment                       :string
 #
+
 conversation_starter:
   from_user: :facility_manager
   subject_object: collection1 (Collection)

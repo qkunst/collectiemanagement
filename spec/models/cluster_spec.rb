@@ -1,16 +1,16 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: clusters
 #
-#  id            :bigint           not null, primary key
-#  description   :text
+#  id            :integer          not null, primary key
+#  collection_id :integer
 #  name          :string
+#  description   :text
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
 #
+
 require "rails_helper"
 
 RSpec.describe Cluster, type: :model do

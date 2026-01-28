@@ -2,14 +2,15 @@
 #
 # Table name: attachments
 #
-#  id            :bigint           not null, primary key
-#  file          :string
+#  id            :integer          not null, primary key
 #  name          :string
+#  file          :string
 #  visibility    :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  collection_id :bigint
+#  collection_id :integer
 #
+
 work_attachment:
   collection: collection3
   name: unpredictableattachmentname

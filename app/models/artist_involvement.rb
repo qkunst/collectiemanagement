@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: artist_involvements
 #
-#  id               :bigint           not null, primary key
-#  end_year         :integer
-#  involvement_type :string
-#  place            :string
+#  id               :integer          not null, primary key
+#  involvement_id   :integer
+#  artist_id        :integer
 #  start_year       :integer
+#  end_year         :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  artist_id        :bigint
-#  involvement_id   :bigint
-#  place_geoname_id :bigint
+#  involvement_type :string
+#  place            :string
+#  place_geoname_id :integer
 #
+
 class ArtistInvolvement < ApplicationRecord
   belongs_to :artist, touch: true
   belongs_to :involvement, optional: true

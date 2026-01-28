@@ -2,18 +2,19 @@
 #
 # Table name: locations
 #
-#  id                    :bigint           not null, primary key
+#  id                    :integer          not null, primary key
+#  name                  :string
 #  address               :text
-#  building_number       :string
-#  hide                  :boolean
 #  lat                   :float
 #  lon                   :float
-#  name                  :string
-#  other_structured_data :text
+#  collection_id         :integer
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
-#  collection_id         :integer
+#  hide                  :boolean
+#  building_number       :string
+#  other_structured_data :text
 #
+
 require "rails_helper"
 
 RSpec.describe Location, type: :model do
