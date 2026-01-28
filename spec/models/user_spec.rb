@@ -231,6 +231,24 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    describe "#issuer" do
+      it "returns a User::Issuer object when the issuer attribute is set" do
+        user = users(:admin)
+        user.update!(issuer: "microsoft/abc")
+
+        expect(user.issuer).to be_a(User::Issuer)
+        expect(user.issuer.issuer).to eq("microsoft/abc")
+      end
+
+      it "returns nil when the issuer attribute is blank" do
+        user = users(:user1)
+        user.update!(issuer: nil)
+
+        expect(user.issuer).to be_nil
+      end
+    end
+
     describe "#role" do
       it "should return read_only by default" do
         u = User.new
@@ -244,6 +262,7 @@ RSpec.describe User, type: :model do
         expect(u.role).to eq(:read_only)
       end
     end
+
     describe "#roles" do
       it "should return read_only by default" do
         u = User.new
@@ -254,6 +273,7 @@ RSpec.describe User, type: :model do
         expect(u.roles).to eq([:admin, :read_only])
       end
     end
+
     describe "#super_admin?" do
       it "should return false for regular admin" do
         expect(users(:admin).super_admin?).to eq(false)
@@ -262,12 +282,14 @@ RSpec.describe User, type: :model do
         expect(users(:super_admin).super_admin?).to eq(true)
       end
     end
+
     describe "#works_created" do
       it "should count 2 for admin" do
         u = users(:admin)
         expect(u.works_created.count).to eq(2)
       end
     end
+
     describe "#accessible_users" do
       it "should return all users when admin" do
         expect(users(:admin).accessible_users.all.collect { |a| a.email }.sort).to eq(User.all.collect { |a| a.email }.sort)

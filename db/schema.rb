@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_11_130140) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_28_085506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "tablefunc"
@@ -693,6 +693,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_11_130140) do
     t.bigint "oauth_expires_at"
     t.string "oauth_access_token"
     t.boolean "facility_manager_support"
+    t.string "issuer"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

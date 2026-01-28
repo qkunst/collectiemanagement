@@ -100,11 +100,23 @@ class User < ApplicationRecord
     roles.first
   end
 
+  def oauth_issuer_assigned_roles
+    issuer && OAuthGroupMapping.where(issuer:).where.not(role: nil).pluck(:role)
+  end
+
+  def oauth_issuer_assigned_collections
+    issuer && Collection.where(collection_id: OAuthGroupMapping.where(issuer:).where.not(collection_id: nil).select(:collection_id))
+  end
+
   def roles
     rv = User::ROLES.collect { |r|
       r if methods.include?(r) && send(r)
     }
     (rv.compact + [:read_only])
+  end
+
+  def issuer
+    User::Issuer.new(super) if super
   end
 
   def ability
