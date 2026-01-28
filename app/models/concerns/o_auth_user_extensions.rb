@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module OAuthUser
+module OAuthUserExtensions
   class Error < StandardError
   end
 
@@ -9,6 +9,10 @@ module OAuthUser
   included do
     def oauthable?
       !!(oauth_subject && oauth_provider)
+    end
+
+    def issuer
+      User::Issuer.new(super) if super
     end
 
     def oauth_strategy
@@ -71,13 +75,19 @@ module OAuthUser
         user.oauth_refresh_token ||= data.oauth_refresh_token
         user.oauth_access_token = data.oauth_access_token
 
-        if OAuthGroupMapping.role_mappings_exists_for?(data.issuer)
+        if user.issuer && user.issuer.issuer != data.issuer
+          raise "Attempt to sign in to this user from a untrusted different identity provider: #{user.issuer.issuer} != #{data.issuer}"
+        end
+
+        user.issuer = data.issuer
+
+        if user.issuer&.role_mappings?
           user.reset_all_roles
           new_role = (User::ROLES & OAuthGroupMapping.retrieve_roles(data))[0]
           user.role = new_role
         end
 
-        if OAuthGroupMapping.collection_mappings_exists_for?(data.issuer)
+        if user.issuer&.collection_mappings?
           user.collection_ids = OAuthGroupMapping.retrieve_collection_ids(data)
         end
 
