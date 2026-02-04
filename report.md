@@ -1,12 +1,12 @@
 # Test report QKunst Collectiemanagement
 
-Date: 2025-06-18 22:59:42 +0200
+Date: 2026-02-04 09:48:32 +0100
 
 This report gives an overview of the test ran. This report is automatically created.
 
 ## Statistics
 
-In total **93.94%** of the lines are covered by automated test. The code base consists of **13786** lines of code.
+In total **93.66%** of the lines are covered by automated test. The code base consists of **15258** lines of code.
 
 ## Abilities
 
@@ -77,6 +77,7 @@ This lists what a user can do per object-type.
 |*Aanmaken*|✔|✔|✘|✘|✘|✘|✘|✘|
 |*Zien*|✔|✔|✔|✔|✔|✔|✔|✔|
 |*Bijwerken*|✔|✔|✘|✘|✘|✘|✘|✘|
+|*Translation missing: nl.abilities.advanced_filter_report*|✔|✔|✘|✘|✘|✘|✘|✘|
 |*Tijdsfilter*|✔|✔|✔|✘|✘|✘|✘|✘|
 |*Download titel-bordjes (pdf)*|✔|✔|✘|✘|✘|✘|✘|✘|
 |*Toegang tot beheer*|✔|✔|✔|✘|✘|✘|✘|✘|
@@ -128,7 +129,7 @@ This lists what a user can do per object-type.
 |*Kan herkomst bewerken (& inzien)*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Toon informatie achterzijde*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Aanmaken*|✔|✔|✘|✔|✔|✘|✘|✘|
-|*Wijzig interne opmerkingen*|✔|✔|✔|✔|✔|✘|✘|✘|
+|*Wijzig interne opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Toon interne opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Beheer locatie*|✔|✔|✘|✔|✔|✔|✘|✘|
 |*Toon locatie*|✔|✔|✔|✔|✔|✔|✔|✘|
@@ -224,7 +225,7 @@ This is a list of fields / properties the user can read
 |*Status*|✔|✔|✔|✔|✔|✔|✔|✘|
 |*Verwijderd uit collectie op*|✔|✔|✔|✔|✔|✔|✔|✘|
 |*Gebeurtenissen*|✔|✔|✔|✔|✔|✔|✔|✘|
-|*Opmerkingen voor intern gebruik*|✔|✔|✔|✔|✔|✘|✘|✘|
+|*Opmerkingen voor intern gebruik*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Formaatbeschrijving*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Voor verkoop sinds*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Voor verhuur sinds*|✔|✔|✔|✔|✔|✔|✘|✘|
@@ -246,6 +247,8 @@ This is a list of fields / properties the user can read
 |*Import ID*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Vervaardiger onbekend*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Tags*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Logistieke bijzonderheden*|✔|✔|✔|✔|✔|✔|✘|✘|
+|*Logistieke bijzonderheden toelichting*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Signatuur (incl. locatie)*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Geen signatuur aanwezig*|✔|✔|✔|✔|✔|✔|✘|✘|
 |*Overige opmerkingen*|✔|✔|✔|✔|✔|✔|✘|✘|
@@ -384,12 +387,14 @@ This is a list of fields / properties a user can write to / modify
 |*Eigendom*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Aard- en nagelvast*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Plaatsbaarheid*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Logistieke bijzonderheden toelichting*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Vervaardiger(s)*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Type schade beeld*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Type schade lijst*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Thema's*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Categorieën*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Technieken*|✔|✔|✘|✔|✔|✘|✘|✘|
+|*Translation missing: nl.activerecord.attributes.work.logistical_peculiarity_ids*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Herkomst opmerkingen*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Herkomst*|✔|✔|✘|✔|✔|✘|✘|✘|
 |*Aankoopprijs*|✔|✔|✘|✘|✔|✘|✘|✘|
@@ -475,6 +480,18 @@ Pagination of works
     can paginate
   as QKunst  compliance
     can paginate
+
+
+  Secure communication
+    configuration
+      has ssl config [QSECIMP0023]
+      production config enforces SSL [QSECIMP0023]
+      https config for collectionmanagement.qkunst.nl [QSECIMP0023]
+  Mutation Log [QSECIMP0024]
+    User
+      creates a version after sign in
+    Work
+      creates a version after update
 
 Signin in and out
   should sign in a regular user using password login
@@ -572,9 +589,10 @@ View report
   multi select
   as a facility manager (limited)
   as a facility manager support (limited)
+  unset filtering and redirecting
 
-Finished in 1 minute 14.52 seconds (files took 3.62 seconds to load)
-70 examples, 0 failures
+Finished in 1 minute 12.98 seconds (files took 3.75 seconds to load)
+76 examples, 0 failures
 
 
 ```
@@ -765,6 +783,15 @@ WorksController
     advisor
       renders pdf titles
       renders pdf titles
+  GET /collections/:collection_id/works/:id #show
+    compliance
+      should not  show internal comments and price reference
+    advisor
+      should  show internal comments and price reference
+    appraiser
+      should  show internal comments and price reference
+    facility_manager
+      should not  show internal comments and price reference
   PATCH/PUT /collections/:collection_id/works/:id (#update)
     shouldn't change anything by default
     shouldn't be change title when role == facility
@@ -814,6 +841,18 @@ Pagination of works
     can paginate
   as QKunst  compliance
     can paginate
+
+
+  Secure communication
+    configuration
+      has ssl config [QSECIMP0023]
+      production config enforces SSL [QSECIMP0023]
+      https config for collectionmanagement.qkunst.nl [QSECIMP0023]
+  Mutation Log [QSECIMP0024]
+    User
+      creates a version after sign in
+    Work
+      creates a version after update
 
 Signin in and out
   should sign in a regular user using password login
@@ -911,6 +950,7 @@ View report
   multi select
   as a facility manager (limited)
   as a facility manager support (limited)
+  unset filtering and redirecting
 
 ApplicationHelper
   #menu_link_to
@@ -942,6 +982,8 @@ CollectionReportHelper
     should created the proper nested urls
   #iterate_report_sections
     should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count
+    can do advanced filtering
+      should display a 7 column table; with a 6 col wide fields (header should span 6 cols) and 1 col count
   #render_range
     works with simple example
     works with complex example
@@ -967,6 +1009,10 @@ UitleenHelper
 WorksHelper
   filter_checkbox
     should return an nothing when empty
+  translate_extended_count
+    should return no works count
+    should return works count
+    should return parts if different
 
 LabelsSupport
   LabelsSupport::Grid
@@ -984,7 +1030,7 @@ SystemMailer
     renders the body
 
 Ability
-  admin
+  admin [QSECIMP0005]
     Works
       can read work(:work1)
       can edit work(:work1)
@@ -993,7 +1039,7 @@ Ability
       can show_details work(:work1)
     Users
       can update user(:user_with_no_rights)
-  advisor
+  advisor [QSECIMP0005]
     Test: alias working of :manage_collection
       can manage_collection collection(:collection_with_works)
       can review_collection collection(:collection_with_works)
@@ -1005,7 +1051,7 @@ Ability
       can show_details work(:work1)
     Users
       cannot update user(:user_with_no_rights)
-  compliance
+  compliance [QSECIMP0005]
     Collections
       can read collection(:collection_with_works)
       cannot read collection(:collection3)
@@ -1020,7 +1066,7 @@ Ability
       can show_details work(:work1)
     Users
       cannot update user(:user_with_no_rights)
-  appraiser
+  appraiser [QSECIMP0005]
     Collections
       can read collection(:collection_with_works)
       can read collection(:collection3)
@@ -1039,7 +1085,7 @@ Ability
       cannot read work(:work_with_private_theme)
     Users
       cannot update user(:user_with_no_rights)
-  facility_manager
+  facility_manager [QSECIMP0005]
     Collections
       can read collection(:collection_with_works)
       cannot read collection(:collection3)
@@ -1055,7 +1101,7 @@ Ability
       can show_details work(:work1)
     Users
       cannot update user(:user_with_no_rights)
-  registrator
+  registrator [QSECIMP0005]
     Collections
       can read collection(:collection_with_works)
       cannot read collection(:collection3)
@@ -1114,6 +1160,8 @@ Ability
   report related functions
     .report_field_abilities
       should report field abilities
+      should report read field abilities
+      should return fewer abilities for non reading
     .report_abilities
       should report field abilities
   #viewable_work_fields
@@ -1572,10 +1620,10 @@ Message
       accepts overrrides
 
 OAuthGroupMapping
-  .for
+  .for [QSECIMP0003]
     returns nothing when data is empty
     returns relevant when existing
-  .role_mappings_exists_for?
+  .role_mappings_exists_for? [QSECIMP0004]
     returns false when none
     returns false when none
   .collection_mappings_exists_for?
@@ -1728,38 +1776,56 @@ TimeSpan
       returns nil when no next time span exist
   scopes
     .current / .period
-      is expected to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...06-18 21:45:37.761378000 +0200", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...06-18 21:45:37.761378000 +0200", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...06-18 21:45:37.761378000 +0200", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...06-18 21:45:37.761378000 +0200", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:45:37.761378000 +0200", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:45:37.761378000 +0200", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...21:45:37.761378000 +0200", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...21:45:37.761378000 +0200", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...02-04 09:43:34.980436000 +0100", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...02-04 09:43:34.980436000 +0100", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...02-04 09:43:34.980436000 +0100", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...02-04 09:43:34.980436000 +0100", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:43:34.980436000 +0100", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:43:34.980436000 +0100", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...09:43:34.980436000 +0100", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...09:43:34.980436000 +0100", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
       should include expired, active time spans
       should include all when period is extreme
       should include only future and when period is extreme future
       should include only past and current when period is extreme history till now
     .active
-      is expected not to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...06-18 21:45:37.761378000 +0200", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...06-18 21:45:37.761378000 +0200", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 764037225, starts_at: "2020-01-01 01:00:00.000000000 +0100", ends_at: "2021-01-01 01:0...1:45:37.761378000 +0200", uuid: "time_span_expired", time_span_id: nil, comments: nil, old_data: {}>
-      is expected to include #<TimeSpan id: 84273152, starts_at: "2010-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id: ...21:45:37.761378000 +0200", uuid: "time_span_active", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...02-04 09:43:34.980436000 +0100", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...02-04 09:43:34.980436000 +0100", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 764037225, starts_at: "2020-01-01 01:00:00.000000000 +0100", ends_at: "2021-01-01 01:0...9:43:34.980436000 +0100", uuid: "time_span_expired", time_span_id: nil, comments: nil, old_data: {}>
+      is expected to include #<TimeSpan id: 84273152, starts_at: "2010-01-01 01:00:00.000000000 +0100", ends_at: nil, contact_id: ...09:43:34.980436000 +0100", uuid: "time_span_active", time_span_id: nil, comments: nil, old_data: {}>
       is expected to include #<TimeSpan id: 942982376, starts_at: "2021-01-01 13:00:00.000000000 +0100", ends_at: nil, contact_id:...e_span_collection_with_availability_sold_with_t...", time_span_id: nil, comments: nil, old_data: {}>
     .expired
-      is expected not to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...06-18 21:45:37.761378000 +0200", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...06-18 21:45:37.761378000 +0200", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...06-18 21:45:37.761378000 +0200", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:45:37.761378000 +0200", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
-      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...21:45:37.761378000 +0200", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 900254696, starts_at: "2000-01-02 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span1", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 748788316, starts_at: "2000-01-03 01:00:00.000000000 +0100", ends_at: nil, contact_id:...02-04 09:43:34.980436000 +0100", uuid: "time_span2", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 463907531, starts_at: "2000-01-04 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:0...02-04 09:43:34.980436000 +0100", uuid: "time_span3", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 96616300, starts_at: "2000-01-01 01:00:00.000000000 +0100", ends_at: "2400-01-01 01:00...02-04 09:43:34.980436000 +0100", uuid: "time_span4", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 524174866, starts_at: "1950-01-01 01:00:00.000000000 +0100", ends_at: "1982-01-01 01:0...:43:34.980436000 +0100", uuid: "time_span_historic", time_span_id: nil, comments: nil, old_data: {}>
+      is expected not to include #<TimeSpan id: 116402804, starts_at: "2100-01-01 01:00:00.000000000 +0100", ends_at: "2105-01-01 01:0...09:43:34.980436000 +0100", uuid: "time_span_future", time_span_id: nil, comments: nil, old_data: {}>
       should include expired, active time spans
+
+User::Issuer
+  #oauth_group_mappings
+    returns only mappings for the configured issuer
+  #role_mappings
+    filters mappings to those that include a role
+  #collection_mappings
+    filters mappings to those that include a collection
+  #role_mappings?
+    when the issuer has role mappings
+      returns true
+    when the issuer has no role mappings
+      returns false
+  #collection_mappings?
+    when the issuer has collection mappings
+      returns true
+    when the issuer has no collection mappings
+      returns false
 
 User
   methods
@@ -1783,6 +1849,8 @@ User
       should return all timespans for admin
       should not return timespans for collection with works child user
       should return a timespan for qkunst_with_collection
+    #anonymize!
+      anonymizes a user
     #collection_ids
       should return ids of collections
     #collection_accessibility_log
@@ -1807,6 +1875,9 @@ User
         should return false
       appraiser
         should return false
+    #issuer
+      returns a User::Issuer object when the issuer attribute is set
+      returns nil when the issuer attribute is blank
     #role
       should return read_only by default
       should return admin for admin
@@ -1842,6 +1913,10 @@ User
   Callbacks
     name change should result in name changes with work
       should change
+    #send_user_confirmed_after_confirmation
+      should not send a message after update
+      should send a message after confirmation
+      should skip message when confirmed long ago
 
 Validators::CollectionScopeValidator
   validates properly
@@ -1908,6 +1983,11 @@ Work::Search
     .build_search_and_filter_query
       returns a hash
       filters for ids
+      filters for tags
+      filters for location_raw
+      filters for cluster
+      _invert above filters
+      handles complex case
 
 Work::SizingRendering
   #three_dimensional?
@@ -2193,6 +2273,10 @@ Api::V1::TimeSpansController
       ends_at_lt
         allows for filtering on end date
         returns more when filtering on future end date
+      period
+        allows for filtering on end date
+        allows for filtering on begin and end date
+        allows for filtering on begin
     advisor
       allows for filtering on external contact url
 
@@ -2291,6 +2375,9 @@ Artists
     GET collection/id/artists
       shouldn't be publicly accessible
       should be accessible by QKunst having access to collection
+      filter works used to retrieve the artists based on tag
+      filter works used to retrieve the artists based on tag will raise 404 when unknown tag is used
+      allows for ransack filters on year of birth
     GET collection/:collection_id/artists/:id
       shouldn't be publicly accessible
       should be accessible by QKunst having access to collection
@@ -2407,14 +2494,17 @@ Collection::UsersController
       should return 200
       should show users
       should show users from a few collections deep
+      should not include removed users
     compliance
       should return 200
       should show users
       should show users from a few collections deep
+      should not include removed users
     admin
       should return 200
       should show users
       should show users from a few collections deep
+      should include removed users
   POST /collection/:collection_id/users/:id
     shouldn't be publicly accessible!
     not a role manager
@@ -2498,6 +2588,19 @@ Collections
     should be accessible when logged in as admin
     should not be accessible when logged in as an anonymous user
     should allow accesss to the single collection the user has access to
+  GET /collections/manage
+    shouldn't be publicly accessible!
+    with read_only
+      shoud not be accessible
+    with admin
+      should be accessible
+  GET /collections/manage/surface_tool
+    shouldn't be publicly accessible!
+    with admin
+      should be accessible
+      should show summary
+    with read_only
+      shoud not be accessible
 
 /contacts
   GET /index
@@ -2792,6 +2895,16 @@ Stages
         does not create a new TimeSpan
         renders a successful response (i.e. to display the 'new' template)
 
+/users
+  GET /users/password/new [QSECIMP0006]
+    is accessible by default (default devise controller)
+  POST /users/session
+    returns a 422 when signing in without authenticity token
+  User Devise config
+    has support for time based unlocking [QSECIMP0028]
+    has support for email based unlocking [QSECIMP0028]
+    allows for a maximum of 10 requests [QSECIMP0028]
+
 /collection/:id/work_sets
   signed in
     GET #index
@@ -2800,6 +2913,10 @@ Stages
       responds in collection context
       responds outside collection context
       highlights works that do not belong to the same contact
+    GET #new
+      responds in collection context
+      responds outside collection context
+      doesn't show update
 
 Works
   PATCH /collections/:collection_id/works/:id
@@ -3019,6 +3136,16 @@ UnsecureTmpBasicPictureUploader
 artists/show
   renders attributes
 
+base/edit
+  renders the edit frame_type form
+
+base/new
+  renders new frame_type form
+
+base/show
+  renders attributes
+  shows that it is hidden when hidden
+
 collections/show
   Stages
     renders stages for admin
@@ -3026,15 +3153,6 @@ collections/show
     renders no stages when no stages are present for collection, even when admin
     renders no stages when read only
     renders no stages when read only, not even when in a subcollection
-
-frame_types/edit
-  renders the edit frame_type form
-
-frame_types/new
-  renders new frame_type form
-
-frame_types/show
-  renders attributes
 
 works/edit_tags
   allows_to_edit_tags
@@ -3050,6 +3168,12 @@ works/show
       renders correctly
     detailed_discreet
       renders correctly
+    logistics
+      renders correctly
+
+AnonymizeUnusedAccountsWorker
+  removes users who don't have an account [QSECIMP0025]
+  anonymizes users who don't have an account [QSECIMP0025]
 
 Collection::DownloadWorker
   works for xlsx
@@ -3108,8 +3232,8 @@ Pending: (Failures listed here are expected and do not affect your suite's statu
      # Temporarily skipped with xit
      # ./spec/requests/batch_photo_uploads_spec.rb:23
 
-Finished in 5 minutes 49 seconds (files took 4.92 seconds to load)
-1495 examples, 0 failures, 9 pending
+Finished in 4 minutes 56.3 seconds (files took 4.38 seconds to load)
+1557 examples, 0 failures, 9 pending
 
 
 ```
