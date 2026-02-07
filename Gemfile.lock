@@ -232,8 +232,6 @@ GEM
       addressable
     csv (3.3.5)
     daemons (1.4.1)
-    dalli (5.0.0)
-      logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.2)
@@ -750,7 +748,6 @@ DEPENDENCIES
   carrierwave-imageoptimizer
   collectie_nederland!
   daemons
-  dalli
   database_cleaner
   devise
   dotenv-rails

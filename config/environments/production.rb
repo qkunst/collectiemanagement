@@ -76,7 +76,7 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   else
-    logger = ::Logger.new("log/production.log", "daily", shift_period_suffix: "%d")
+    logger = ::Logger.new("log/#{Rails.env}.log", "daily", shift_period_suffix: "%d")
     config.logger = logger
   end
 
@@ -84,9 +84,9 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   Rails.application.config.middleware.use ExceptionNotification::Rack,
     email: {
-      email_prefix: "[CollectionManagement] ",
-      sender_address: %("CollectionManagement Exception" <execption_notification@murb.nl>),
-      exception_recipients: %w[qkunst@murb.nl]
+      email_prefix: "[#{I18n.t("application.name")}-#{Rails.env}] ",
+      sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb.nl>),
+      exception_recipients: ["#{I18n.t("application.name")}-#{Rails.env}".parameterize]
     }
 
   if Rails.application.credentials.elasticsearch_host
