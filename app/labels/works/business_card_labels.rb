@@ -37,7 +37,7 @@ class Works::BusinessCardLabels
 
       pdf.bounding_box(*grid.bounding_box) do
         pdf.bounding_box(*grid.area_bounding_box([6, 0], [11, 7])) do
-          artist = "<font style=\"italic\">#{sanitize(work.artist_name_rendered(name_order: :human))}</font>"
+          artist = "<font style=\"italic\">#{sanitize(work.artist_name_rendered(name_order: :human, include_years: false))}</font>"
           title = "<i>#{sanitize(work.title_rendered)}</i>"
           year = "(#{work.object_creation_year})" if work.object_creation_year
           pdf.text [artist, title, year].compact.join("<br/>"), valign: :bottom, inline_format: true, leading: 3
