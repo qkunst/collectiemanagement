@@ -69,12 +69,12 @@
                     <% end %>
                   <% end %>
                   <% if can? :download_public_datadump, @collection %>
-                    <li><%=link_to ".xml <small>(publiek)</small>".html_safe, collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml", title: "xml-file zonder gevoelige informatie" } %></li>
+                    <li><%= link_to ".xml <small>(publiek)</small>".html_safe, collection_works_path(@collection, format: :xml, params: @cleaned_params.merge({audience: :public})), { download: "Pubic.xml", title: "xml-file zonder gevoelige informatie" } %></li>
                   <% end %>
-                  <% if can? :download_photos, @collection  %>
-                    <li><%=link_to ".zip <small>(alle foto’s)</small>".html_safe, collection_works_path(@collection, params: @cleaned_params, format: :zip), title: "zip-file met alle foto’s, geschatte grootte: #{number_to_human_size(@works_count * 2.5 * 417582 )}" %></li>
-                    <li><%=link_to ".zip <small>(foto’s voor)</small>".html_safe, collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})), title: "zip-file met foto’s van de voorzijde van de werken, geschatte grootte: #{number_to_human_size(@works_count * 417582 )}" %></li>
-                    <li><%=link_to ".zip <small>(foto’s publiek)</small>".html_safe, collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true, published: true})), title: "zip-file met publiceerbare foto’s, geschatte grootte: #{number_to_human_size(@works_count * 417582 )}" %></li>
+                  <% if can? :download_photos, @collection %>
+                    <li><%= link_to ".zip <small>(alle foto’s)</small>".html_safe, collection_works_path(@collection, params: @cleaned_params, format: :zip), title: "zip-file met alle foto’s, geschatte grootte: #{number_to_human_size(@works_count * 2.5 * 417582 )}" %></li>
+                    <li><%= link_to ".zip <small>(foto’s voor)</small>".html_safe, collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true})), title: "zip-file met foto’s van de voorzijde van de werken, geschatte grootte: #{number_to_human_size(@works_count * 417582 )}" %></li>
+                    <li><%= link_to ".zip <small>(foto’s publiek)</small>".html_safe, collection_works_path(@collection, format: :zip, params: @cleaned_params.merge({only_front: true, published: true})), title: "zip-file met publiceerbare foto’s, geschatte grootte: #{number_to_human_size(@works_count * 417582 )}" %></li>
                   <% end %>
                 </ul>
               </div>
