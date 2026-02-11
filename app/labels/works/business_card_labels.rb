@@ -40,7 +40,7 @@ class Works::BusinessCardLabels
           artist = "<font size='12'>#{sanitize(work.artist_name_rendered(name_order: :human, include_years: false))}</font>"
           title = "<font size='9'><i>#{sanitize(work.title_rendered)}</i></font>"
           year = "<font size='9'>(#{work.object_creation_year})</font>" if work.object_creation_year
-          pdf.text [artist, title, year].compact.join("<br/>"), valign: :bottom, inline_format: true, leading: 3
+          pdf.text [artist, title, year].compact.join("<br/>"), valign: :bottom, inline_format: true, leading: 3, size: 9
         end
 
         if qr_code_enabled
