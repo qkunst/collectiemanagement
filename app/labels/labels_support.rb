@@ -51,10 +51,10 @@ module LabelsSupport
       [[margin, (outer_height - margin)], width:, height:]
     end
 
-    def area_bounding_box(top_left, bottom_right = nil)
+    def area_bounding_box(top_left, bottom_right = nil, offset: [0, 0])
       top_left_cell = cells[top_left[1]][top_left[0]]
       bottom_right_cell = bottom_right ? (cells[bottom_right[1]][bottom_right[0]]) : top_left_cell
-      [[top_left_cell.x, top_left_cell.y_max], width: (bottom_right_cell.x_max - top_left_cell.x), height: (top_left_cell.y_max - bottom_right_cell.y)]
+      [[top_left_cell.x + offset[0], top_left_cell.y_max + offset[1]], width: (bottom_right_cell.x_max - top_left_cell.x), height: (top_left_cell.y_max - bottom_right_cell.y)]
     end
   end
 end

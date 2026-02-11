@@ -12,6 +12,20 @@ module Works::PdfResponse
       end
     end
 
+    def show_business_card_label_pdf_response
+      labels = Works::BusinessCardLabels.new(
+        collection: @collection,
+        works: @works,
+        qr_code_enabled: ActiveRecord::Type::Boolean.new.cast(params[:qr_code_enabled]),
+        resource_variant: params[:resource_variant],
+        foreground_color: params[:foreground_color],
+        show_logo: ActiveRecord::Type::Boolean.new.cast(params[:show_logo]),
+        a4print: ["true", "1", 1].include?(params[:a4print])
+      )
+
+      send_data labels.render, filename: "titels #{@collection.name}.pdf"
+    end
+
     def show_label_pdf_response
       labels = Works::TitleLabels.new(
         collection: @collection,

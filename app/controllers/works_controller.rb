@@ -106,6 +106,8 @@ class WorksController < ApplicationController
       format.pdf do
         if params["as"] == "title_labels"
           show_label_pdf_response
+        elsif params["as"] == "business_card_labels"
+          show_business_card_label_pdf_response
         else
           show_pdf_response
         end
