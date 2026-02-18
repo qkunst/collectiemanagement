@@ -77,6 +77,7 @@ gem "elasticsearch-rails", "~> 7"
 ## DEVELOPMENT
 ##
 group :development do
+  gem "herb"
   gem "letter_opener"
   gem "capistrano"
   gem "capistrano-rbenv"
@@ -86,6 +87,9 @@ group :development do
   gem "highline"
   gem "web-console"
   gem "listen"
+  gem "standard"
+  gem "standard-performance"
+  gem "standard-rails"
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
@@ -147,7 +151,6 @@ end
 group :test, :development do
   gem "parallel_tests"
 end
-gem "standard", group: [:development, :test]
 gem "dotenv-rails", groups: [:development, :test]
 gem "annotate", group: [:development]
 
