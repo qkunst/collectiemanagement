@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-class BatchController < ApplicationController
+class BatchesController < ApplicationController
   include Works::Filtering
   include Works::WorkIds
 
   before_action :set_collection
   before_action :set_works_by_numbers
   before_action :check_ability
+
+  def new
+  end
 
   def show
     if params[:batch_process_property] == "create_report"
@@ -19,6 +22,11 @@ class BatchController < ApplicationController
 
       @form.default_to_ignore!
     end
+  end
+
+  def create
+    show
+    render :show unless response.redirect?
   end
 
   def update

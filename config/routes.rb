@@ -139,9 +139,7 @@ Rails.application.routes.draw do
 
     get "works/modified" => "works#modified_index"
 
-    get "batch" => "batch#show"
-    post "batch" => "batch#show"
-    patch "batch" => "batch#update"
+    resource :batch, only: [:show, :update, :new, :create]
 
     get "mobile" => "mobiles#show"
     patch "mobile" => "mobiles#update"

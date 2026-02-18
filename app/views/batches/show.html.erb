@@ -1,6 +1,6 @@
 <%= simple_form_for @form, url: collection_batch_path(@collection), method: :patch, html: {id: "batch-work"} do |f| %>
   <% if @works.any? %>
-    <input type="hidden" value="<%=@work_ids.join(",")%>" name="work_ids_comma_separated" />
+    <input type="hidden" value="<%= @work_ids.join(",") %>" name="work_ids_comma_separated">
     <h1>Meerdere werken bijwerken</h1>
     <p>Pas <%= link_to "#{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %> gelijktijdig aan.
       Wil je informatie verwijderen, maak (of houd) het veld leeg en selecteer ‘Vervang'. Wil je informatie toevoegen, vul de informatie in in het juiste veld en selecteer ‘Voeg toe’. Velden met daaronder de actie 'Negeer' worden niet aangepast.</p>
@@ -8,7 +8,7 @@
     <fieldset>
       <%= link_to "Open camera scanner", scan_url(open_in_context: true), class: [:button, :tertiary, :right], data: { open_in_context: true} %>
       <label for="work_numbers_return_separated">Inventarisnummers / alternatieve nummers (waaronder evt. barcodes) van aan te passen werken regel-gescheiden</label>
-      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus="autofocus"></textarea>
+      <textarea data-zxing-output-target name="work_numbers_return_separated" id="work_numbers_return_separated" autofocus><%= params[:work_numbers_return_separated] %></textarea>
     </fieldset>
   <% end %>
   <div class="batch-inputs">
@@ -16,16 +16,16 @@
     <p>Corrigeer de volgende fouten:</p>
     <ul>
       <% @form.errors.full_messages.each do |message| %>
-        <li><%= message%></li>
+        <li><%= message %></li>
       <% end %>
     </ul>
     <% end %>
     <% if can_edit_field?(:location) %>
       <fieldset>
-        <%= f.association :main_location, param_name: :main_location_id, input_html: {class: 'chosen-select location', data: {strategy_input_id:"work_update_main_location_id_strategy"}}, collection: @collection.super_base_collection.locations.not_hidden  %><%= f.batch_editable_strategy_select(:main_location_id) %>
-        <%= f.batch_editable_input :location%>
-        <%= f.batch_editable_input :location_floor%>
-        <%= f.batch_editable_input :location_detail%>
+        <%= f.association :main_location, param_name: :main_location_id, input_html: {class: 'chosen-select location', data: {strategy_input_id:"work_update_main_location_id_strategy"}}, collection: @collection.super_base_collection.locations.not_hidden %><%= f.batch_editable_strategy_select(:main_location_id) %>
+        <%= f.batch_editable_input :location %>
+        <%= f.batch_editable_input :location_floor %>
+        <%= f.batch_editable_input :location_detail %>
         <%= f.batch_editable_input :work_status, param_name: :work_status_id, input_type: :association, input_html: {class: 'chosen-select'} %>
       </fieldset>
     <% end %>
@@ -37,7 +37,7 @@
     <% end %>
     <% if can_edit_field?(:cluster_name) %>
       <fieldset>
-      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', data: {placeholder: "Selecteer een bestaand cluster of geef een clusternaam op"}}%><span></span>
+      <%= f.association :cluster, collection: @collection.available_clusters, input_html: {class: 'chosen-select', data: {placeholder: "Selecteer een bestaand cluster of geef een clusternaam op"}} %><span></span>
       <%= f.batch_editable_input :cluster_name %>
       </fieldset>
     <% end %>
@@ -46,20 +46,20 @@
         <%= f.batch_editable_input :grade_within_collection, collection: Work::GRADES_WITHIN_COLLECTION, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :placeability, param_name: :placeability_id, input_type: :association, collection: Placeability.not_hidden, input_html: {class: 'chosen-select'} %>
       </fieldset>
-    <% end%>
+    <% end %>
     <% if can_edit_field? :tag_list %>
       <% if can_edit_field? :theme_ids %>
         <%= f.batch_editable_input :themes, param_name: :theme_ids, input_type: :association, collection: @collection.available_themes, input_html: {class: 'chosen-select'} %>
       <% end %>
       <fieldset style="padding-bottom: 8em">
         <label>Tags</label>
-        <input type="hidden" name="work[tag_list][]" value=""/>
-        <select id="works_tags" class="select2 tags" multiple="multiple" name="work[tag_list][]" data-strategy-input-id="work_update_tag_list_strategy">
+        <input type="hidden" name="work[tag_list][]" value="">
+        <select id="works_tags" class="select2 tags" multiple name="work[tag_list][]" data-strategy-input-id="work_update_tag_list_strategy">
         </select><%= f.batch_editable_strategy_select(:tag_list) %>
       </fieldset>
     <% end %>
 
-    <% if can_edit_field?(:technique_ids) && can_edit_field?(:subset_id)%>
+    <% if can_edit_field?(:technique_ids) && can_edit_field?(:subset_id) %>
       <fieldset>
         <%= f.batch_editable_input :subset, param_name: :subset_id, input_type: :association, input_html: {class: 'chosen-select'} %>
         <%= f.batch_editable_input :object_categories, param_name: :object_category_ids, input_type: :association, input_html: {class: 'chosen-select'} %>
@@ -78,7 +78,7 @@
     <% end %>
     <% if can_edit_field? :appraisals_attributes %>
       <fieldset>
-        <%= f.batch_editable_input :balance_category, param_name: :balance_category_id, input_type: :association, input_html: {class: 'chosen-select'}%>
+        <%= f.batch_editable_input :balance_category, param_name: :balance_category_id, input_type: :association, input_html: {class: 'chosen-select'} %>
       </fieldset>
       <fieldset>
         <p>Let op: wanneer een naam en datum wordt ingevuld wordt dit gezien als een nieuwe waardering die de oude overschrijft. Waarderingen die na 6 februari 2017 zijn toegevoegd blijven wel zichtbaar onder eerdere waarderingen.</p>
@@ -114,15 +114,15 @@
     <% end %>
   </div>
 
-<hr/>
+<hr>
 <h2 id="works">Werken</h2>
 <p>De volgende werken zullen hiermee worden aangepast. </p>
 <ul class="works-list">
 <%= render partial: "works/work", collection: @works.limit(24), locals: {container: :li} %>
 </ul>
-<% if @work_count > 24%>
+<% if @work_count > 24 %>
 <p>Dit zijn niet alle werken, het zijn in totaal <%= I18n.t("count.works", count: @work_count) %>. <%= link_to "Open een overzicht met alle #{I18n.t("count.works", count: @work_count) }", collection_works_path(@collection, params: {ids: @work_ids.join(",") }), target: "_blank" %></p>
-<% end%>
+<% end %>
 
     <div class="sub-nav bottom-nav right-aligned">
   <p><small>Let op: bij grote hoeveelheden werken kan het bijwerken een langere tijd duren.</small></p>
