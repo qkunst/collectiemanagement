@@ -29,8 +29,8 @@ class CollectionAttribute < ApplicationRecord
 
   before_validation :set_defaults_when_missing
 
-  validates_uniqueness_of :label, scope: [:collection_id, :attributed_id, :attributed_type]
-  validates_presence_of :label, :value, :collection, :attributed
+  validates :label, uniqueness: {scope: [:collection_id, :attributed_id, :attributed_type]}
+  validates :label, :value, :collection, :attributed, presence: true
   validates :language, inclusion: {in: LANGUAGES}
   validates :attribute_type, inclusion: {in: ATTRIBUTE_TYPES}
 

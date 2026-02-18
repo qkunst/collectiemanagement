@@ -7,11 +7,11 @@ module CollectionOwnable
     belongs_to :collection, optional: true
 
     if column_names.include?("name") && column_names.include?("hide")
-      validates_presence_of :name
-      validates_uniqueness_of :name, scope: :collection_id, unless: ->(a) { a.hidden? }
+      validates :name, presence: true
+      validates :name, uniqueness: {scope: :collection_id, unless: ->(a) { a.hidden? }}
     elsif column_names.include? "name"
-      validates_presence_of :name
-      validates_uniqueness_of :name, scope: :collection_id
+      validates :name, presence: true
+      validates :name, uniqueness: {scope: :collection_id}
     end
 
     scope :general, -> { where(collection_id: nil) }

@@ -57,15 +57,14 @@ class Artist < ApplicationRecord
 
   has_cache_for_method :geoname_ids
 
-  after_save :update_artist_name_rendered_async
-  after_touch :update_artist_name_rendered_async
-
   before_save :sync_dates_and_years
   before_save :sync_places
   before_save :cache_geoname_ids
+  after_save :update_artist_name_rendered_async
+  after_touch :update_artist_name_rendered_async
 
   scope :created_at_date, ->(date) { where("artists.created_at >= ? AND artists.created_at <= ?", date.to_time.beginning_of_day, date.to_time.end_of_day) }
-  scope :exclude_artist, ->(artist) { where("artists.id != ?", artist.id) }
+  scope :exclude_artist, ->(artist) { where.not(artists: {id: artist.id}) }
   scope :have_name, -> { where.not("(artists.last_name = '' OR artists.last_name IS NULL) AND (artists.prefix = '' OR artists.prefix IS NULL) AND (artists.first_name = '' OR artists.first_name IS NULL)") }
   scope :no_name, -> { where(last_name: [nil, ""], prefix: [nil, ""], first_name: [nil, ""]) }
   scope :order_by_name, -> { order(:last_name, :prefix, :first_name) }

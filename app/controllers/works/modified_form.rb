@@ -11,7 +11,7 @@ class Works::ModifiedForm
 
   def to_date= value
     if value.is_a? String
-      @to_date = value.present? ? value.to_date : nil
+      @to_date = value.presence&.to_date
     elsif value.is_a? Date
       @to_date = value
     else
@@ -21,7 +21,7 @@ class Works::ModifiedForm
 
   def from_date= value
     if value.is_a? String
-      @from_date = value.present? ? value.to_date : nil
+      @from_date = value.presence&.to_date
     elsif value.is_a? Date
       @from_date = value
     else

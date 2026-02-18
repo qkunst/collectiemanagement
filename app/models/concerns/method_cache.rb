@@ -24,7 +24,7 @@ module MethodCache
 
         define_method(:"cache_#{method_name}") do
           new_cache_value = send(method_name).to_json
-          write_attribute("#{method_name}_cache", new_cache_value)
+          self["#{method_name}_cache"] = new_cache_value
         end
 
         define_method(:"cache_#{method_name}!") do |update_column = true|
@@ -32,12 +32,12 @@ module MethodCache
           if update_column
             update_column("#{method_name}_cache", new_cache_value)
           else
-            write_attribute("#{method_name}_cache", new_cache_value)
+            self["#{method_name}_cache"] = new_cache_value
           end
         end
 
         define_method(:"cached_#{method_name}") do # |arg=nil| # default arg to allow before_blah callbacks
-          column_value = read_attribute("#{method_name}_cache")
+          column_value = self["#{method_name}_cache"]
           if column_value
             value = JSON.parse(column_value)
             value = value.map(&:to_sym) if as == :symbols && value.is_a?(Array)

@@ -23,15 +23,15 @@ class StatsController < ApplicationController
   private
 
   def technique_stats
-    tally_hash_to_chartjs_data(works.left_outer_joins(:techniques).select("techniques.name").pluck(:name).map { |a| a.blank? ? "Onbekend" : a }.tally)
+    tally_hash_to_chartjs_data(works.left_outer_joins(:techniques).select("techniques.name").pluck(:name).map { |a| a.presence || "Onbekend" }.tally)
   end
 
   def categories_stats
-    tally_hash_to_chartjs_data(works.left_outer_joins(:object_categories).select("object_categories.name").pluck(:name).map { |a| a.blank? ? "Onbekend" : a }.tally)
+    tally_hash_to_chartjs_data(works.left_outer_joins(:object_categories).select("object_categories.name").pluck(:name).map { |a| a.presence || "Onbekend" }.tally)
   end
 
   def artist_gender_stats
-    tally_hash_to_chartjs_data(works.left_outer_joins(:artists).select("artists.gendfer").pluck(:gender).map { |a| a.blank? ? "unknown" : a }.tally.map { |k, v| [I18n.t(k, scope: "activerecord.values.artist.gender"), v] }.to_h)
+    tally_hash_to_chartjs_data(works.left_outer_joins(:artists).select("artists.gendfer").pluck(:gender).map { |a| a.presence || "unknown" }.tally.map { |k, v| [I18n.t(k, scope: "activerecord.values.artist.gender"), v] }.to_h)
   end
 
   def object_creation_year_stats

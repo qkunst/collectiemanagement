@@ -15,7 +15,7 @@
 
 class IdsHash < ApplicationRecord
   after_initialize :store_hash
-  validates_presence_of :hashed, :ids_compressed
+  validates :hashed, :ids_compressed, presence: true
 
   class << self
     def init(*args)

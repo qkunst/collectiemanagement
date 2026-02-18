@@ -90,7 +90,7 @@ module ImportCollection::Workbook
     if fields.count != 1
       Rails.logger.warn "Keywords zoeken werkt alleen met 1 outputveld"
     else
-      Rails.logger.debug "FIND KEYWORDS! #{fields.first}"
+      Rails.logger.debug { "FIND KEYWORDS! #{fields.first}" }
       analyzed_field_props = analyze_field_properties(fields.first)
       association = analyzed_field_props[:association]
 
@@ -99,7 +99,7 @@ module ImportCollection::Workbook
         names = options.collect { |a| a.name.to_s.downcase }
         keyword_finder = KeywordFinder::Keywords.new(names)
         table_values = keyword_finder.find_in(table_value.to_s.downcase)
-        Rails.logger.debug "  find kerwords from string '#{table_value}' in: #{names.join(", ")}: #{table_values.join(", ")}"
+        Rails.logger.debug { "  find kerwords from string '#{table_value}' in: #{names.join(", ")}: #{table_values.join(", ")}" }
         table_values
       end
     end

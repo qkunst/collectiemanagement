@@ -36,7 +36,7 @@ class Appraisal < ApplicationRecord
   after_destroy :update_appraisee_appraisal_data!
   after_save :update_appraisee_appraisal_data!
 
-  validates_presence_of :appraised_on
+  validates :appraised_on, presence: true
   validate :validate_appraisable
 
   include ActionView::Helpers::NumberHelper

@@ -94,7 +94,7 @@ class Collection < ApplicationRecord
   has_many :time_spans
   has_many :contacts
 
-  validates_uniqueness_of :unique_short_code, allow_nil: true
+  validates :unique_short_code, uniqueness: {allow_nil: true}
   validate :pdf_title_export_variants_text_valid?
 
   has_cache_for_method :geoname_ids, trigger: :before_save

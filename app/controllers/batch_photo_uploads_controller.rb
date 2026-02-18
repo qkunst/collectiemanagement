@@ -44,7 +44,7 @@ class BatchPhotoUploadsController < ApplicationController
         format.json { render :show, status: :created, location: collection_batch_photo_upload_path(@collection, @batch_photo_upload) }
       else
         format.html { render :new }
-        format.json { render json: @batch_photo_upload.errors, status: :unprocessable_entity }
+        format.json { render json: @batch_photo_upload.errors, status: :unprocessable_content }
       end
     end
   end
@@ -58,7 +58,7 @@ class BatchPhotoUploadsController < ApplicationController
         format.json { render :show, status: :ok, location: collection_batch_photo_upload_path(@collection, @batch_photo_upload) }
       else
         format.html { render :edit }
-        format.json { render json: @batch_photo_upload.errors, status: :unprocessable_entity }
+        format.json { render json: @batch_photo_upload.errors, status: :unprocessable_content }
       end
     end
   end

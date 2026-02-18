@@ -19,7 +19,7 @@ class CustomReport < ApplicationRecord
   belongs_to :custom_report_template
   has_and_belongs_to_many :works
 
-  validates_presence_of :collection, :custom_report_template
+  validates :collection, :custom_report_template, presence: true
 
   store :variables
 

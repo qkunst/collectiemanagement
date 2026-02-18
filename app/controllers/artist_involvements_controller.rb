@@ -26,7 +26,7 @@ class ArtistInvolvementsController < ApplicationController
         format.json { render :show, status: :created, location: @artist_involvement }
       else
         format.html { render :new }
-        format.json { render json: @artist_involvement.errors, status: :unprocessable_entity }
+        format.json { render json: @artist_involvement.errors, status: :unprocessable_content }
       end
     end
   end
@@ -40,7 +40,7 @@ class ArtistInvolvementsController < ApplicationController
         format.json { render :show, status: :ok, location: @artist_involvement }
       else
         format.html { render :edit }
-        format.json { render json: @artist_involvement.errors, status: :unprocessable_entity }
+        format.json { render json: @artist_involvement.errors, status: :unprocessable_content }
       end
     end
   end

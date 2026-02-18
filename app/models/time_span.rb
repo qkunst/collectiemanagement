@@ -105,7 +105,7 @@ class TimeSpan < ApplicationRecord
 
   def finish
     self.ends_at ||= Time.current
-    write_attribute(:status, :finished)
+    self[:status] = :finished
   end
 
   def end_time_span

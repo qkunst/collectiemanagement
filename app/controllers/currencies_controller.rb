@@ -34,7 +34,7 @@ class CurrenciesController < ApplicationController
         format.json { render :show, status: :created, location: @currency }
       else
         format.html { render :new }
-        format.json { render json: @currency.errors, status: :unprocessable_entity }
+        format.json { render json: @currency.errors, status: :unprocessable_content }
       end
     end
   end
@@ -48,7 +48,7 @@ class CurrenciesController < ApplicationController
         format.json { render :show, status: :ok, location: @currency }
       else
         format.html { render :edit }
-        format.json { render json: @currency.errors, status: :unprocessable_entity }
+        format.json { render json: @currency.errors, status: :unprocessable_content }
       end
     end
   end

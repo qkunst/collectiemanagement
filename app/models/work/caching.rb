@@ -18,7 +18,7 @@ module Work::Caching
 
     def simple_artists_for_artist_name_rendering
       [begin
-        SimpleArtist.new_from_json(read_attribute(:artist_name_rendered))
+        SimpleArtist.new_from_json(self[:artist_name_rendered])
       rescue JSON::ParserError
         if attributes["artist_name_rendered"]
           return attributes["artist_name_rendered"]
@@ -53,7 +53,7 @@ module Work::Caching
 
     def update_artist_name_rendered!
       update_artist_name_rendered
-      update_columns(artist_name_rendered: read_attribute(:artist_name_rendered), artist_name_for_sorting: read_attribute(:artist_name_for_sorting), updated_at: Time.now)
+      update_columns(artist_name_rendered: self[:artist_name_rendered], artist_name_for_sorting: self[:artist_name_for_sorting], updated_at: Time.now)
     end
 
     def update_latest_appraisal_data!

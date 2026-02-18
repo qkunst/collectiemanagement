@@ -45,7 +45,7 @@ class CustomReportsController < ApplicationController
         format.json { render :show, status: :created, location: @custom_report }
       else
         format.html { render :new }
-        format.json { render json: @custom_report.errors, status: :unprocessable_entity }
+        format.json { render json: @custom_report.errors, status: :unprocessable_content }
       end
     end
   end
@@ -61,7 +61,7 @@ class CustomReportsController < ApplicationController
         format.json { render :show, status: :ok, location: @custom_report }
       else
         format.html { render :edit }
-        format.json { render json: @custom_report.errors, status: :unprocessable_entity }
+        format.json { render json: @custom_report.errors, status: :unprocessable_content }
       end
     end
   end

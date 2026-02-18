@@ -26,7 +26,7 @@ class Reminder < ApplicationRecord
   scope :prototypes, -> { general }
   scope :actual, -> { collection_specific }
 
-  validates_presence_of :interval_unit, :interval_length
+  validates :interval_unit, :interval_length, presence: true
 
   has_many :messages
 

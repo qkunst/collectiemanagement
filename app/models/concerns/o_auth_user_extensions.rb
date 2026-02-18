@@ -42,7 +42,7 @@ module OAuthUserExtensions
       validated_token = oauth_strategy.validate_id_token(id_token)
 
       if validated_token["sub"] == oauth_subject
-        update(oauth_access_token: new_token.token, oauth_refresh_token: (new_token.refresh_token.present? ? new_token.refresh_token : refresh_token), oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
+        update(oauth_access_token: new_token.token, oauth_refresh_token: new_token.refresh_token.presence || refresh_token, oauth_expires_at: Time.at(new_token.expires_at, in: "UTC").to_datetime, oauth_id_token: id_token)
       end
 
       self

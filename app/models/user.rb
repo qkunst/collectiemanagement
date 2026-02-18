@@ -70,6 +70,7 @@ class User < ApplicationRecord
   store :filter_params
   store :raw_open_id_token
 
+  before_save :serialize_collection_accessibility!
   after_update :schedule_sync_stored_user_names
   after_update :send_user_confirmed_after_confirmation
 
@@ -89,11 +90,10 @@ class User < ApplicationRecord
   scope :confirmed, -> { where.not(confirmed_at: nil) }
   scope :recently_updated, -> { where("users.updated_at > ?", 1.month.ago) }
 
-  before_save :serialize_collection_accessibility!
   delegate :can?, to: :ability
 
   def qkunst?
-    read_attribute(:qkunst) || admin? || appraiser? || advisor?
+    self[:qkunst] || admin? || appraiser? || advisor?
   end
 
   def role
@@ -198,7 +198,7 @@ class User < ApplicationRecord
   end
 
   def admin?
-    read_attribute(:admin) && oauthable? && trusted_admin_domain?
+    self[:admin] && oauthable? && trusted_admin_domain?
   end
   alias_method :admin, :admin?
 
@@ -211,7 +211,7 @@ class User < ApplicationRecord
   end
 
   def super_admin?
-    admin? && read_attribute(:super_admin)
+    admin? && self[:super_admin]
   end
 
   def generate_api_key!

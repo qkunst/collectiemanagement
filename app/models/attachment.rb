@@ -18,13 +18,13 @@ class Attachment < ApplicationRecord
   has_and_belongs_to_many :works
   has_and_belongs_to_many :artists
 
-  validates_presence_of :file
+  validates :file, presence: true
 
   scope :for_roles, ->(roles) { (roles.include?(:admin) || roles.include?(:advisor)) ? where("1 = 1") : where(arel_table[:visibility].matches_any(roles.collect { |role| "%#{role}%" })) }
   scope :for_role, ->(role) { for_roles([role]) }
   scope :for_me, ->(user) { for_roles(user.roles).where(collection_id: user.accessible_collection_ids) }
-  scope :without_works, -> { left_outer_joins(:works).where(works: {id: nil}) }
-  scope :without_artists, -> { left_outer_joins(:artists).where(artists: {id: nil}) }
+  scope :without_works, -> { where.missing(:works) }
+  scope :without_artists, -> { where.missing(:artists) }
 
   mount_uploader :file, BasicFileUploader
 
@@ -45,11 +45,11 @@ class Attachment < ApplicationRecord
   end
 
   def file_name
-    name? ? name : read_attribute(:file)
+    name? ? name : self[:file]
   end
 
   def extension
-    read_attribute(:file).split(".").last
+    self[:file].split(".").last
   end
 
   def export_file_name

@@ -7,7 +7,7 @@ RSpec.feature "Manage Collection", type: :feature do
 
   def download_json(collection, prefix_id: nil)
     visit api_v1_collection_works_path(collection, format: :json)
-    filename = File.join(Rails.root, "tmp", "#{SecureRandom.uuid}.json")
+    filename = Rails.root.join("tmp", "#{SecureRandom.uuid}.json").to_s
     File.write(filename, page.body.gsub("\"id\":", "\"id\":#{prefix_id}")) if prefix_id
     filename
   end

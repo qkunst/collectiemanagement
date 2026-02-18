@@ -31,7 +31,7 @@
 class Geoname < ApplicationRecord
   scope :populated_places, -> { where(feature_code: ["PPL", "PPLA", "PPLA2", "PPLC", "PPLG", "PPLH", "PPLL", "PPLQ", "PPLS", "PPLX", "ISL"]) }
 
-  has_many :translations, foreign_key: :geoname_id, primary_key: :geonameid, class_name: "GeonameTranslation"
+  has_many :translations, primary_key: :geonameid, class_name: "GeonameTranslation"
 
   def admin1
     @admin1 ||= GeonamesAdmindiv.where(admin_code: "#{country_code}.#{admin1_code}").first

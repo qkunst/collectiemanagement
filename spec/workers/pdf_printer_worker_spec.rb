@@ -8,7 +8,7 @@ RSpec.describe PdfPrinterWorker, type: :model do
       # not running this in ci due to lack of chrome
       user = users(:admin)
 
-      expect { PdfPrinterWorker.new.perform(Rails.root.join("public", "404.html").to_s, {"inform_user_id" => user.id}) }.to change(Message, :count).by(1)
+      expect { PdfPrinterWorker.new.perform(Rails.public_path.join("404.html").to_s, {"inform_user_id" => user.id}) }.to change(Message, :count).by(1)
 
       message = Message.last
 

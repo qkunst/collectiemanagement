@@ -18,13 +18,13 @@ RSpec.describe ImportCollection::Workbook, type: :model do
     end
     describe "#workbook" do
       it "should update import settings" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_collection_file.csv").to_s))
         expect(i.workbook.class).to eq(Workbook::Book)
       end
     end
     describe "#import_file_to_workbook_table" do
       it "should return the table" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_collection_file.csv").to_s))
         expect(i.import_file_to_workbook_table.class).to eq(Workbook::Table)
         expect(i.import_file_to_workbook_table.to_csv).to match("stock_number,artist_name,work_title,Drager,Niveau")
         expect(i.import_file_to_workbook_table.to_csv).to match("Qimp001, Achternaam,Zonder Titel,doek,A")
@@ -49,14 +49,14 @@ RSpec.describe ImportCollection::Workbook, type: :model do
     end
     describe "#update" do
       it "should allow for updating import settings" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_collection_file.csv").to_s))
         i.update("import_settings" => {"title" => {"split_strategy" => "split_nothing", "assign_strategy" => "append", "fields" => ["work.title"]}})
         expect(i.import_settings).to eq({"title" => {"split_strategy" => "split_nothing", "assign_strategy" => "append", "fields" => ["work.title"]}})
       end
     end
     describe "#read" do
       it "should work" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_collection_file.csv").to_s))
         i.collection = collections(:collection1)
         i.update("import_settings" => {
           "work_title" => {"split_strategy" => "split_nothing", "assign_strategy" => "append", "fields" => ["work.title"]},
@@ -96,7 +96,7 @@ RSpec.describe ImportCollection::Workbook, type: :model do
         expect(read[2].artists).to eq([])
       end
       it "should import into a different collection when sub" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_collection_file_edge_cases.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_collection_file_edge_cases.csv").to_s))
         i.collection = collections(:collection1)
         i.update("import_settings" => {
           "work_title" => {"split_strategy" => "split_nothing", "assign_strategy" => "append", "fields" => ["work.title"]},
@@ -131,7 +131,7 @@ RSpec.describe ImportCollection::Workbook, type: :model do
       end
 
       it "should not import into a different collection when not a child" do
-        i = ImportCollection.create(file: File.open(File.join(Rails.root, "spec", "fixtures", "import_failing_collection.csv")))
+        i = ImportCollection.create(file: File.open(Rails.root.join("spec/fixtures/import_failing_collection.csv").to_s))
         i.collection = collections(:collection1)
         i.update("import_settings" => {
           "work_title" => {"split_strategy" => "split_nothing", "assign_strategy" => "append", "fields" => ["work.title"]},

@@ -7,7 +7,7 @@ class Works::TitleLabels
   def render
     code = collection.unique_short_code_from_self_or_base
     base_url = Rails.application.config_for(:config)[:ppid_base_domain]
-    logo_path = File.open(Rails.root.join("app", "assets", "images", "logo.svg"))
+    logo_path = File.open(Rails.root.join("app/assets/images/logo.svg"))
     self.a4print = true if a4print.nil?
     self.foreground_color ||= "000000"
 

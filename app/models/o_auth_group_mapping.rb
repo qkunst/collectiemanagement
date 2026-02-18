@@ -15,10 +15,10 @@
 class OAuthGroupMapping < ApplicationRecord
   has_paper_trail
 
-  validates_inclusion_of :value_type, in: %w[role group resource], allow_blank: false
-  validates_presence_of :issuer
-  validates_presence_of :value
-  validates_inclusion_of :role, in: User::ROLES.map(&:to_s), allow_blank: true
+  validates :value_type, inclusion: {in: %w[role group resource], allow_blank: false}
+  validates :issuer, presence: true
+  validates :value, presence: true
+  validates :role, inclusion: {in: User::ROLES.map(&:to_s), allow_blank: true}
 
   belongs_to :collection, optional: true
 

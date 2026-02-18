@@ -23,7 +23,7 @@ class ArtistInvolvement < ApplicationRecord
 
   accepts_nested_attributes_for :involvement
 
-  validates_presence_of :involvement_type
+  validates :involvement_type, presence: true
 
   before_save :copy_place_geoname_id_from_involvement_when_nil
 

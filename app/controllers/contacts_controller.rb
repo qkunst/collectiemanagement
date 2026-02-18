@@ -34,7 +34,7 @@ class ContactsController < ApplicationController
     if @contact.save
       redirect_to [@collection, @contact], notice: "Contact is toegevoegd."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -45,7 +45,7 @@ class ContactsController < ApplicationController
     if @contact.update(contact_params)
       redirect_to [@collection, @contact], notice: "Contact is bijgewerkt."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

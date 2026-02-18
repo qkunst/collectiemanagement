@@ -20,7 +20,7 @@ RSpec.feature "Import works", type: :feature do
     end
     click_on "Import"
     click_on "Nieuwe import"
-    attach_file "Importbestand", File.join(Rails.root, "spec", "fixtures", "import_collection_file.csv")
+    attach_file "Importbestand", Rails.root.join("spec/fixtures/import_collection_file.csv").to_s
     click_on "Import toevoegen"
     expect(page).to have_content("artist_name")
     expect(page).to have_content("work_title")
@@ -51,7 +51,7 @@ RSpec.feature "Import works", type: :feature do
     end
     click_on "Import"
     click_on "Nieuwe set aan foto's uploaden"
-    files = ["Q001", "Q005", "Q006", "Qna"].map { |a| File.join(Rails.root, "spec", "fixtures", "batch_photo_upload", "#{a}.jpg") }
+    files = ["Q001", "Q005", "Q006", "Qna"].map { |a| Rails.root.join("spec", "fixtures", "batch_photo_upload", "#{a}.jpg").to_s }
     attach_file "Afbeeldingen", files, multiple: true
     click_on "Foto-import toevoegen"
     expect(page).to have_content("Work1")

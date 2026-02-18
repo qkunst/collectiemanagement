@@ -22,7 +22,7 @@ class CustomReportTemplate < ApplicationRecord
 
   has_many :custom_reports
 
-  validates_presence_of :title
+  validates :title, presence: true
 
   alias_attribute :name, :title
   alias_attribute :contents, :text

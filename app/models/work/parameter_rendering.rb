@@ -118,7 +118,7 @@ module Work::ParameterRendering
 
     def location_description
       rv = [location, location_floor, location_detail].compact.map(&:strip).filter(&:present?).join("; ")
-      rv unless rv.blank?
+      rv.presence
     end
 
     def locality_geoname_name
@@ -176,7 +176,7 @@ module Work::ParameterRendering
       elsif title_nil
         "Nog geen titel"
       else
-        read_attribute(:title)
+        self[:title]
       end
     end
 

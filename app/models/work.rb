@@ -368,11 +368,11 @@ class Work < ApplicationRecord
     if date.is_a?(String) || date.is_a?(Numeric)
       date = date.to_i
       if (date > 1900) && (date < 2100)
-        write_attribute(:purchase_year, date)
+        self[:purchase_year] = date
       end
     elsif date.is_a?(Date) || date.is_a?(Time) || date.is_a?(DateTime)
       write_attribute(:purchased_on, date)
-      write_attribute(:purchase_year, date.year)
+      self[:purchase_year] = date.year
     end
   end
 
@@ -483,7 +483,7 @@ class Work < ApplicationRecord
   # TODO: public description is still a legacy field in the database; this should be removed in the future
   def public_description
     rv = collection_attributes.public_description.map(&:value).join("\n\n")
-    rv if rv.present?
+    rv.presence
   end
 
   def report_val_sorted_artist_ids
@@ -581,7 +581,7 @@ class Work < ApplicationRecord
     if titel.to_s.strip == ""
       write_attribute(:title, nil)
     elsif ["zonder titel", "onbekend"].include? titel.to_s.strip.downcase
-      write_attribute(:title_unknown, true)
+      self[:title_unknown] = true
     else
       write_attribute(:title, titel)
     end
@@ -592,7 +592,7 @@ class Work < ApplicationRecord
     if year.to_i > 0
       write_attribute(:object_creation_year, year)
     elsif ["geen jaar", "zonder jaartal", "onbekend"].include? year.to_s
-      write_attribute(:object_creation_year_unknown, true)
+      self[:object_creation_year_unknown] = true
     end
   end
 
@@ -604,7 +604,7 @@ class Work < ApplicationRecord
     if sig.to_s.strip == ""
       write_attribute(:signature_comments, nil)
     elsif sig.to_s.strip.downcase == "niet gesigneerd"
-      write_attribute(:no_signature_present, true)
+      self[:no_signature_present] = true
     else
       write_attribute(:signature_comments, sig)
     end

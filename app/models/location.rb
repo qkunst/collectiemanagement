@@ -21,7 +21,7 @@ class Location < ApplicationRecord
   NAME_SPLITTER = /[,-]/
   belongs_to :collection
 
-  validates_presence_of :name
+  validates :name, presence: true
   has_many :works, foreign_key: :main_location_id
   store :other_structured_data
 

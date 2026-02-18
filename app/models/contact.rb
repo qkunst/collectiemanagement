@@ -17,9 +17,9 @@
 class Contact < ApplicationRecord
   belongs_to :collection
 
-  validates_presence_of :name
-  validates_presence_of :url, if: :external_and_no_remote_data?
-  validates_uniqueness_of :url, if: :external_and_no_remote_data?, scope: :collection
+  validates :name, presence: true
+  validates :url, presence: {if: :external_and_no_remote_data?}
+  validates :url, uniqueness: {if: :external_and_no_remote_data?, scope: :collection}
 
   scope :internal, -> { where(external: [nil, false]) }
   scope :external, -> { where(external: true) }
