@@ -7,7 +7,10 @@ module NameId
     default_scope -> { order(:name) }
     scope :distinct_with_name, -> { distinct.unscope(:order) }
     scope :find_by_case_insensitive_name, ->(name) { where(arel_table[:name].matches_any([name].flatten)) }
-    validates_presence_of :name
+
+    validates :name, presence: true
+
+    after_save :reset_names_hash!
 
     def <=> other
       name <=> other.name
@@ -30,6 +33,12 @@ module NameId
         end
       }
     end
+
+    private
+
+    def reset_names_hash!
+      self.class.reset_names_hash!
+    end
   end
 
   class_methods do
@@ -42,6 +51,10 @@ module NameId
         end
       end
       @@names_hash[to_s]
+    end
+
+    def reset_names_hash!
+      defined?(@@names_hash) && @@names_hash[to_s] = nil
     end
 
     def names ids

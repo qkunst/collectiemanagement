@@ -3,36 +3,6 @@
 require "rails_helper"
 
 RSpec.describe NameId, type: :model do
-  describe "#names_hash" do
-    it "should work" do
-      expect(Subset.names_hash.values).to include("Historical")
-      expect(Subset.names_hash.values).to include("Modern")
-      expect(Subset.names_hash.values).to include("Contemporary")
-      expect(Theme.names_hash.values).to include("earth")
-      expect(Theme.names_hash.values).to include("wind")
-      expect(Theme.names_hash.values).to include("fire")
-    end
-  end
-
-  describe "#find_in_string" do
-    it "should find single strings" do
-      returned = Subset.find_in_string("A Modern style work")
-      expect(returned.first.class).to eq(Subset)
-      expect(returned.first.name).to eq("Modern")
-    end
-    it "can be repeated strings" do
-      returned = Subset.find_in_string("A Contemporary style work")
-      expect(returned.first.class).to eq(Subset)
-      expect(returned.first.name).to eq("Contemporary")
-    end
-    it "should work" do
-      returned = Theme.find_in_string("Inspired by the band earth wind & fire")
-      expect(returned).to include(Theme.find_by_name("earth"))
-      expect(returned).to include(Theme.find_by_name("wind"))
-      expect(returned).to include(Theme.find_by_name("fire"))
-    end
-  end
-
   describe "#to_s" do
     it "should feature the name first" do
       expect(themes(:earth).to_s).to start_with("#<Theme:earth")
@@ -41,7 +11,37 @@ RSpec.describe NameId, type: :model do
     end
   end
 
+  describe "callbacks" do
+    describe "#reset_names_hash!" do
+      it "resets the names hash for the object" do
+        theme = Theme.create(name: "zon")
+        expect(Theme.names(theme.id)).to eq({theme.id => "zon"})
+        theme.update(name: "sun")
+        expect(Theme.names(theme.id)).to eq({theme.id => "sun"})
+      end
+    end
+  end
+
   describe "Class methods" do
+    describe ".find_in_string" do
+      it "should find single strings" do
+        returned = Subset.find_in_string("A Modern style work")
+        expect(returned.first.class).to eq(Subset)
+        expect(returned.first.name).to eq("Modern")
+      end
+      it "can be repeated strings" do
+        returned = Subset.find_in_string("A Contemporary style work")
+        expect(returned.first.class).to eq(Subset)
+        expect(returned.first.name).to eq("Contemporary")
+      end
+      it "should work" do
+        returned = Theme.find_in_string("Inspired by the band earth wind & fire")
+        expect(returned).to include(Theme.find_by_name("earth"))
+        expect(returned).to include(Theme.find_by_name("wind"))
+        expect(returned).to include(Theme.find_by_name("fire"))
+      end
+    end
+
     describe ".find_by_case_insensitive_name" do
       it "should find by string" do
         returned = Subset.find_by_case_insensitive_name("modern")
@@ -55,6 +55,7 @@ RSpec.describe NameId, type: :model do
         expect(returned.collect(&:name)).to include("Historical")
       end
     end
+
     describe ".names" do
       it "should return a proper name kv" do
         name = "Contemporary"
@@ -63,6 +64,17 @@ RSpec.describe NameId, type: :model do
       end
       it "should return 'Naamloos' when nil" do
         expect(Subset.names(-1)).to eq({-1 => "Naamloos"})
+      end
+    end
+
+    describe ".names_hash" do
+      it "should work" do
+        expect(Subset.names_hash.values).to include("Historical")
+        expect(Subset.names_hash.values).to include("Modern")
+        expect(Subset.names_hash.values).to include("Contemporary")
+        expect(Theme.names_hash.values).to include("earth")
+        expect(Theme.names_hash.values).to include("wind")
+        expect(Theme.names_hash.values).to include("fire")
       end
     end
   end
