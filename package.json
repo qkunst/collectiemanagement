@@ -6,7 +6,7 @@
     "chosen-js": ">=1.8.7",
     "esbuild": "^0.15.13",
     "install": "^0.13.0",
-    "jquery": ">=3.4.1",
+    "jquery": "3.7.1",
     "jquery_nested_form": ">=0.3.3",
     "leaflet": "^1.9.4",
     "promise-polyfill": ">=8.1.3",

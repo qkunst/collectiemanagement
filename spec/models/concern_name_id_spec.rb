@@ -78,6 +78,15 @@ RSpec.describe NameId, type: :model do
       end
     end
   end
+
+  describe "Module methods" do
+    describe ".includees" do
+      it "Returns the classes that include NameId" do
+        expect(NameId.includees).to include Theme
+        expect(NameId.includees).to include Subset
+      end
+    end
+  end
   #    describe ".empty_artists" do
   #      it "should list all workless-artists" do
   #        expect(Artist.empty_artists.count).to eq 1

@@ -3,6 +3,12 @@
 module NameId
   extend ActiveSupport::Concern
 
+  class << self
+    def includees
+      ObjectSpace.each_object(Class).select { |c| c.included_modules.include?(NameId) } # rubocop:disable Style/ModuleMemberExistenceCheck
+    end
+  end
+
   included do
     default_scope -> { order(:name) }
     scope :distinct_with_name, -> { distinct.unscope(:order) }
