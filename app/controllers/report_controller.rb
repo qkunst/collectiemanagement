@@ -20,6 +20,9 @@ class ReportController < ApplicationController
     @title = "Rapportage voor #{@collection.name}"
     @show_filter_check_boxes = can?(:filter_report, @collection)
 
+    # make sure no unnamed items are presented
+    NameId.includees.each(&:reset_names_hash!)
+
     prepare_report
     prepare_report_outline
 
