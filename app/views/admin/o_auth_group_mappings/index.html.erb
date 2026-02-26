@@ -2,7 +2,6 @@
 <p>Overzicht van OAuth koppelingsregels die ervoor zorgen dat klanten automatisch in kunnen loggen op onze systemen met de juiste authorisatie..</p>
 
 
-
 <table>
   <thead>
     <tr><th>Issuer</th><th>Value Type</th><th>Value</th><th>Collection ID</th><th>Role</th></tr>
@@ -13,8 +12,8 @@
         <td><%= mapping.issuer %></td>
         <td><%= mapping.value_type %></td>
         <td><%= mapping.value %></td>
-        <td><%= mapping.collection_id %></td>
-        <td><%= mapping.role %></td>
+        <td><%= link_to mapping.collection.name, mapping.collection %></td>
+        <td><%= I18n.t mapping.role, scope: "activerecord.values.user.role" %></td>
       </tr>
     <% end %>
   </tbody>
