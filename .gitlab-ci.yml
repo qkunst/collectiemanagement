@@ -48,7 +48,7 @@ test:
     - redis:alpine
     - postgres:11
   script:
-    - yarn install --frozen-lockfile --cache-folder .yarn-cache
+    - yarn install --cache-folder .yarn-cache
     - bundle exec rails assets:precompile RAILS_ENV=gitlabci
     - RAILS_ENV=gitlabci bundle exec rspec
   coverage: /\(\d+.\d+\%\) covered/
