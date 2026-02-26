@@ -1,7 +1,13 @@
 <div class="row">
   <div class="columns">
     <h2>Bewerk <%= @user.email %> <small><%= link_to('Verwijder gebruiker', user_path(@user), method: :delete, data: {confirm: "Weet u zeker dat u deze gebruiker wilt verwijderen?"}, class: :warn) if can?(:destroy, @user) %></small></h2>
-    <p>Deze gebruiker wordt <strong><%= @user.activated? ? "wel" : "niet" %></strong> als geactiveerd beschouwd. De gebruiker is het laatst ingelogd op <%= I18n.l(@user.current_sign_in_at, format: :long) %>.</p>
+    <p>Deze gebruiker wordt <strong><%= @user.activated? ? "wel" : "niet" %></strong> als geactiveerd beschouwd.
+      <% if @user.current_sign_in_at %>
+        De gebruiker is het laatst ingelogd op <%= I18n.l(@user.current_sign_in_at, format: :long) %>.
+      <% else %>
+        De gebruiker is nog niet ingelogd geweest.
+      <% end %>
+    </p>
     <%= simple_form_for(@user) do |f| %>
       <h2>Rollen</h2>
       <% if @user.issuer&.role_mappings? %>
