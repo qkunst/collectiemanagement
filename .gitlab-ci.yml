@@ -70,7 +70,7 @@ test:
 
 standard:
   script:
-    - gem install standard
+    - gem install standard standard-rails standard-performance
     - standardrb
 
 bundleaudit:
