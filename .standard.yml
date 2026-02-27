@@ -2,3 +2,9 @@ parallel: true
 plugins:
    - standard-rails
    - standard-performance
+ignore:
+   - db/migrate/2022*
+   - db/migrate/2021*
+   - db/migrate/201*
+   - db/migrate/2023*
+   - db/migrate/2024*
