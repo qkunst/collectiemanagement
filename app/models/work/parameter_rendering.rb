@@ -53,21 +53,11 @@ module Work::ParameterRendering
     end
 
     def condition_work_rendered
-      rv = []
-      rv.push(condition_work.name) if condition_work
-      rv.push(damage_types.collect { |a| a.name }.join(", "))
-      rv.push(condition_work_comments) if condition_work_comments?
-      rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
-      rv if rv != ""
+      [condition_work&.name, damage_types.collect(&:name).join(", "), condition_work_comments&.presense].compact.join(";").presence
     end
 
     def condition_frame_rendered
-      rv = []
-      rv.push(condition_frame.name) if condition_frame
-      rv.push(frame_damage_types.collect { |a| a.name }.join(", "))
-      rv.push(condition_frame_comments) if condition_frame_comments?
-      rv = rv.delete_if { |a| a.nil? || a == "" }.join("; ")
-      rv if rv != ""
+      [condition_frame&.name, frame_damage_types.collect(&:name).join(", "), condition_frame_comments&.presense].compact.join(";").presence
     end
 
     def hpd_keywords
