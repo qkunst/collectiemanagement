@@ -3,7 +3,7 @@
 require "rails_helper"
 
 def pluck_work_ids(response)
-  JSON.parse(response.body)["data"].map { |d| d["id"] }
+  JSON.parse(response.body)["data"].pluck("id")
 end
 
 RSpec.describe Api::V1::WorksController, type: :request do
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
         get api_v1_collection_work_path(collection, work, format: :json)
         expect(response).to be_ok
         response_data = JSON.parse(response.body)["data"]
-        expect(response_data["time_spans"].map { |a| a["uuid"] }).to include(time_span.uuid)
+        expect(response_data["time_spans"].pluck("uuid")).to include(time_span.uuid)
       end
     end
   end
@@ -124,7 +124,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
         expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["collection_attributes"][0]["value"]).to match "Private note about artist_1, firstname (1900 - 2000) in Collection with works child (sub of Collection 1 » colection with works)"
         expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["artists"][0]["collection_attributes"][0]["language"]).to match "en"
         expect(json_data_response.find { |w| w["stock_number"] == "Q002" }["artists"][0]["description_in_collection_context"]).to be_nil
-        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["collection_attributes"].map { |a| a["language"] }.sort).to eq ["en", "nl"]
+        expect(json_data_response.find { |w| w["stock_number"] == "Q001" }["collection_attributes"].pluck("language").sort).to eq ["en", "nl"]
       end
 
       it "plucks" do

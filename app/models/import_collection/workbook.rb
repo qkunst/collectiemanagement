@@ -6,7 +6,7 @@ module ImportCollection::Workbook
   end
 
   def import_file_to_workbook_table
-    return nil if import_file_snippet.nil? || import_file_snippet.empty?
+    return nil if import_file_snippet.blank?
 
     offset = internal_header_row_offset
     table = ::Workbook::Table.new
@@ -25,7 +25,7 @@ module ImportCollection::Workbook
   end
 
   def import_file_snippet_to_workbook_table
-    return nil if import_file_snippet.nil? || import_file_snippet.empty?
+    return nil if import_file_snippet.blank?
 
     offset = internal_header_row_offset
     table = ::Workbook::Table.new

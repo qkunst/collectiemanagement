@@ -41,7 +41,7 @@ module Template
     end
 
     def fields
-      Template::Helper.fields_with_modifiers(contents).collect { |a| a[:field] }.uniq
+      Template::Helper.fields_with_modifiers(contents).pluck(:field).uniq
     end
   end
 

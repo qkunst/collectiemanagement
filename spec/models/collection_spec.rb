@@ -515,7 +515,7 @@ RSpec.describe Collection, type: :model do
   describe "Scopes" do
     describe "default scope" do
       it "orders by collection_name_extended_cache" do
-        Collection.all.each { |c| c.cache_collection_name_extended!(true) }
+        Collection.all.find_each { |c| c.cache_collection_name_extended!(true) }
 
         collections = Collection.where(id: collections(:collection1).expand_with_child_collections.pluck(:id))
         expect(collections.map(&:collection_name_extended_cache)).to eq([

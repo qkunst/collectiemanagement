@@ -75,12 +75,12 @@ class GeonamesCountry < ApplicationRecord
 
   class << self
     def find_or_create_corresponding_geoname_summary
-      all.each { |a| a.find_or_create_corresponding_geoname_summary }
+      all.find_each { |a| a.find_or_create_corresponding_geoname_summary }
     end
 
     def import!
       delete_all
-      puts "Importing countries..."
+      Rails.logger.debug "Importing countries..."
       transaction do
         File.read("data/countryInfo.txt").split("\n").collect { |a| a.split("\t") }.each do |a|
           GeonamesCountry.create(

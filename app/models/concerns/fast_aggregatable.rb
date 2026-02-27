@@ -41,7 +41,7 @@ module FastAggregatable
       if ids.include? nil
         rv[attribute][Work::Search::NOT_SET_VALUE] ||= {count: 999999, name: Work::Search::NOT_SET_VALUE}
       end
-      attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+      attribute.to_s.classify.constantize.where(id: [ids]).find_each do |a|
         rv[attribute][a] ||= {count: 20000, name: a.name}
       end
       rv
@@ -54,7 +54,7 @@ module FastAggregatable
       if ids.include? nil
         rv[attribute][Work::Search::NOT_SET_VALUE] ||= {count: 999999, name: Work::Search::NOT_SET_VALUE}
       end
-      attribute.to_s.classify.constantize.where(id: [ids]).each do |a|
+      attribute.to_s.classify.constantize.where(id: [ids]).find_each do |a|
         rv[attribute][a] ||= {count: 999999, name: a.name}
       end
     end

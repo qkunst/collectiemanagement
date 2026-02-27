@@ -475,7 +475,7 @@ class Collection < ApplicationRecord
     if persisted? && changes.key?("base")
       child_collection_ids = expand_with_child_collections.select { |c| c.id unless c.base? || c == self }.compact
 
-      Theme.where(collection_id: child_collection_ids).each do |instance|
+      Theme.where(collection_id: child_collection_ids).find_each do |instance|
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
@@ -491,7 +491,7 @@ class Collection < ApplicationRecord
         end
       end
 
-      Cluster.where(collection_id: child_collection_ids).each do |instance|
+      Cluster.where(collection_id: child_collection_ids).find_each do |instance|
         instance.collection = self
         unless instance.save
           if instance.errors.details[:name] && instance.errors.details[:name][0][:error] == :taken
@@ -505,14 +505,14 @@ class Collection < ApplicationRecord
         end
       end
 
-      Attachment.where(collection_id: child_collection_ids).each do |instance|
+      Attachment.where(collection_id: child_collection_ids).find_each do |instance|
         instance.collection = self
         unless instance.save
           raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")
         end
       end
 
-      CollectionAttribute.where(collection_id: child_collection_ids).each do |instance|
+      CollectionAttribute.where(collection_id: child_collection_ids).find_each do |instance|
         instance.collection = self
         unless instance.save
           raise CollectionBaseError.new("Base transition cannot be performed for collection with id #{id}, #{instance.errors.messages}")

@@ -27,7 +27,7 @@ class Collections::NumberLabels
 
     Prawn::Labels.new(numbers, type: type || "A8") do |pdf, number|
       url = URI.join(base_url, "#{code}/", number).to_s
-      puts url
+      Rails.logger.debug url
       margin = 5
 
       pdf.bounding_box([margin, pdf.bounds.top - margin], width: pdf.bounds.width - (2 * margin), height: pdf.bounds.height - (2 * margin)) do

@@ -104,7 +104,7 @@ namespace :rbenv do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
-        puts "rbenv already installed, updating..."
+        Rails.logger.debug "rbenv already installed, updating..."
       end
       begin
         execute "cd ~/.rbenv && git pull"
@@ -117,7 +117,7 @@ namespace :rbenv do
       begin
         execute "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
       rescue SSHKit::Command::Failed
-        puts "rbenv/ruby-build plugin already installed, updating..."
+        Rails.logger.debug "rbenv/ruby-build plugin already installed, updating..."
         execute "cd ~/.rbenv/plugins/ruby-build && git pull"
       end
       rbenv_ruby = File.read(".ruby-version").strip
@@ -129,7 +129,7 @@ namespace :rbenv do
 
       execute "export PATH=\"$HOME/.rbenv/bin:$PATH\" && eval \"$(rbenv init -)\" && gem install bundler --no-document"
       if fetch(:rbenv_ruby).nil?
-        puts "\nPlease uncomment the line `# set :rbenv_ruby, File.read('.ruby-version').strip` to enable capistrano rbenv"
+        Rails.logger.debug "\nPlease uncomment the line `# set :rbenv_ruby, File.read('.ruby-version').strip` to enable capistrano rbenv"
       end
 
       execute :echo, "'export PATH=\"$HOME/.rbenv/bin:$PATH\"'", ">>", "~/.bashrc"

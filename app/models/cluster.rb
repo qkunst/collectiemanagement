@@ -35,7 +35,7 @@ class Cluster < ApplicationRecord
 
   class << self
     def remove_all_without_works
-      Cluster.joins("LEFT JOIN works ON works.cluster_id = clusters.id").distinct.where("works.id IS NULL").destroy_all
+      Cluster.joins("LEFT JOIN works ON works.cluster_id = clusters.id").distinct.where(works: {id: nil}).destroy_all
     end
 
     def remove_cluster_id_where_cluster_is_removed!

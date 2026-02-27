@@ -34,7 +34,7 @@ module Work::Caching
       simple_artists = simple_artists_for_artist_name_rendering
       return simple_artists if simple_artists.is_a?(String) && simple_artists.present?
 
-      names = simple_artists.collect { |a| a.name(options) }.delete_if(&:blank?)
+      names = simple_artists.collect { |a| a.name(options) }.compact_blank!
 
       return "Onbekend" if artist_unknown && names.empty?
       return nil if names.empty?

@@ -620,7 +620,7 @@ namespace :import do
     material_map = material_map_stringed.map { |k, v| [k, v.map { |t, m| [t, material_submapping[t].find_by_name(m)] }.to_h] }.to_h
 
     collection = Collection.find_or_create_by(name: "CIS Rijk")
-    json = JSON.parse(File.read(Rails.root.join("data/import/cisrijk.json")))
+    json = JSON.parse(Rails.root.join("data/import/cisrijk.json").read)
 
     json.each do |json_work|
       print "🆕"
@@ -634,7 +634,7 @@ namespace :import do
       object_placement = :binnen
       if json_location
         object_placement = :buiten if json_location["placement"] == "buiten"
-        json_location.delete_if { |k, v| v.blank? }
+        json_location.compact_blank!
         building_name = json_location["buildingName"]&.strip
         name = if building_name
           city = json_location["city"]&.strip
@@ -669,7 +669,7 @@ namespace :import do
 
       # artists
       w.artists = json_work.delete("artists").map do |artist_json|
-        artist_json.delete_if { |k, v| v.blank? }
+        artist_json.compact_blank!
 
         artist = Artist.find_by(rkd_artist_id: artist_json["RKDartistID"]) if artist_json["RKDartistID"].present?
         unless artist
@@ -771,9 +771,9 @@ namespace :import do
       images = images.values if images.is_a?(Hash)
       images = images.sort_by { |img| img["sortOrder"].to_i }
 
-      w.remote_photo_front_url = images[0]["urlLargeImage"] if images.present? && !w.photo_front.present?
-      w.remote_photo_detail_1_url = images[1]["urlLargeImage"] if images[1].present? && !w.photo_detail_1.present?
-      w.remote_photo_detail_2_url = images[2]["urlLargeImage"] if images[2].present? && !w.photo_detail_2.present?
+      w.remote_photo_front_url = images[0]["urlLargeImage"] if images.present? && w.photo_front.blank?
+      w.remote_photo_detail_1_url = images[1]["urlLargeImage"] if images[1].present? && w.photo_detail_1.blank?
+      w.remote_photo_detail_2_url = images[2]["urlLargeImage"] if images[2].present? && w.photo_detail_2.blank?
 
       puts images[0]["urlLargeImage"] if images.present?
       json_work["plaatsing"] = object_placement

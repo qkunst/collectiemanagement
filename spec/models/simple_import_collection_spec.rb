@@ -14,7 +14,7 @@
 require "rails_helper"
 RSpec.describe SimpleImportCollection, type: :model do
   let(:filename) { "import_collection_file.xlsx" }
-  let(:subject) { described_class.new(file: File.open(Rails.root.join("spec", "fixtures", filename)), collection: collections(:collection1)) }
+  let(:subject) { described_class.new(file: Rails.root.join("spec", "fixtures", filename).open, collection: collections(:collection1)) }
 
   describe "initialization" do
     it "sets defaults" do
@@ -106,7 +106,7 @@ RSpec.describe SimpleImportCollection, type: :model do
            "Qimp002" => ["locatie specificatie", 1200, Date.new(2023, 1, 12)],
            "Qimp003" => ["Aankoopdatum 1 december; 40 cent", 1200.4, Date.new(2023, 12, 1)],
            "Qimp004" => ["Aankoopdatum 12 januari", 1200.4, Date.new(2023, 1, 12)]}.each do |stock_number, expected|
-            some_work_attributes = Work.where(stock_number:).pluck(*attributes).first
+            some_work_attributes = Work.where(stock_number:).pick(*attributes)
             expect(some_work_attributes).to eq expected
           end
         end

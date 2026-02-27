@@ -33,7 +33,7 @@ class Attachment < ApplicationRecord
   end
 
   def visibility= values
-    write_attribute(:visibility, values.delete_if { |a| a.nil? || a.empty? }.join(","))
+    write_attribute(:visibility, values.compact_blank!.join(","))
   end
 
   def append_works= works

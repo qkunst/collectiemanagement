@@ -422,7 +422,7 @@ RSpec.describe Work, type: :model do
         work1.save
         work1.location = "Newer address"
         work1.save
-        expect(works(:work1).location_history.collect { |a| a[:location] }).to eq(["New adress", "Newer address"])
+        expect(works(:work1).location_history.pluck(:location)).to eq(["New adress", "Newer address"])
       end
       it "returns complete history if work is created after enabling history" do
         work = collections(:collection1).works.create(location: "first location")
@@ -430,31 +430,31 @@ RSpec.describe Work, type: :model do
         work.save
         work.location = "third location"
         work.save
-        expect(work.location_history.collect { |a| a[:location] }).to eq(["first location", "second location", "third location"])
+        expect(work.location_history.pluck(:location)).to eq(["first location", "second location", "third location"])
       end
       it "skip_current options skips current" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = "second location"
         work.save
-        expect(work.location_history(skip_current: true).collect { |a| a[:location] }).to eq(["first location"])
+        expect(work.location_history(skip_current: true).pluck(:location)).to eq(["first location"])
       end
       it "returns empty location if empty location" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = nil
         work.save
-        expect(work.location_history.collect { |a| a[:location] }).to eq(["first location", nil])
+        expect(work.location_history.pluck(:location)).to eq(["first location", nil])
       end
       it "never returns empty location if empty location and no empty locations" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = ""
         work.save
-        expect(work.location_history(empty_locations: false).collect { |a| a[:location] }).to eq(["first location"])
+        expect(work.location_history(empty_locations: false).pluck(:location)).to eq(["first location"])
       end
       it "never returns empty location if empty location and no empty locations (and doesn't just pop the skip current false)" do
         work = collections(:collection1).works.create(location: "first location")
         work.location = ""
         work.save
-        expect(work.location_history(empty_locations: false, skip_current: true).collect { |a| a[:location] }).to eq(["first location"])
+        expect(work.location_history(empty_locations: false, skip_current: true).pluck(:location)).to eq(["first location"])
       end
     end
 

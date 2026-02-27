@@ -24,7 +24,7 @@ class GeonameTranslation < ApplicationRecord
   class << self
     def import!
       delete_all
-      puts "Importing dutch alternate names data..."
+      Rails.logger.debug "Importing dutch alternate names data..."
 
       transaction do
         File.read("data/nl_alternateNames.txt").split("\n").collect { |a| a.split("\t") }.each do |a|

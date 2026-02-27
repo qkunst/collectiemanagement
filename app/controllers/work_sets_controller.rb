@@ -130,7 +130,7 @@ class WorkSetsController < ApplicationController
   private
 
   def append_to_work_set?
-    params.dig(:work_set, :id).present? && !params.dig(:work_set, :dynamic).present?
+    params.dig(:work_set, :id).present? && params.dig(:work_set, :dynamic).blank?
   end
 
   def update_work_set?

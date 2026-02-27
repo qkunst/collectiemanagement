@@ -112,10 +112,10 @@ RSpec.configure do |config|
   end
 
   config.before do
-    Work.all.each do |work|
+    Work.all.find_each do |work|
       work.update_artist_name_rendered!
     end
-    Collection.all.each { |c| c.cache_collection_name_extended!(true) }
+    Collection.all.find_each { |c| c.cache_collection_name_extended!(true) }
   end
 
   done = "/tmp/parallel-setup-done-#{ENV["TEST_ENV_NUMBER"] ? Process.ppid : Process.pid}"
@@ -141,7 +141,7 @@ RSpec.configure do |config|
     end
     begin
       Work.__elasticsearch__.create_index!
-      Work.all.each(&:reindex!)
+      Work.all.find_each(&:reindex!)
     rescue Faraday::ConnectionFailed
     end
     puts "Setting up test conditions... DONE"

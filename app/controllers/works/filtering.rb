@@ -44,7 +44,7 @@ module Works::Filtering
         time_filter_params[:enabled] = params[:time_filter][:enabled]
         time_filter_params[:name] = params[:time_filter][:name]
       end
-      time_filter_params = time_filter_params.select { |_, v| v.present? }
+      time_filter_params = time_filter_params.compact_blank
       time_filter_params[:base_scope] = @collection.works_including_child_works
       @time_filter = TimeFilter.new(time_filter_params)
     end

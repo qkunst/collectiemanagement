@@ -136,7 +136,7 @@ class ArtistsController < ApplicationController
     authorize! :combine, @artist
 
     combine_params = params.require(:artist).permit(artists_with_same_name: [])
-    artist_ids_to_combine_with = combine_params[:artists_with_same_name].delete_if(&:blank?)
+    artist_ids_to_combine_with = combine_params[:artists_with_same_name].compact_blank!
     count = @artist.combine_artists_with_ids(artist_ids_to_combine_with)
 
     redirect_to @artist, notice: "De vervaardigers zijn samengevoegd, er zijn #{count} werken opnieuw gekoppeld."

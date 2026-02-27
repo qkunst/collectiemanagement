@@ -77,16 +77,16 @@ class Geoname < ApplicationRecord
 
   class << self
     def find_or_create_corresponding_geoname_summary
-      all.each { |a| a.find_or_create_corresponding_geoname_summary }
+      all.find_each { |a| a.find_or_create_corresponding_geoname_summary }
     end
 
     def import!
       delete_all
-      puts "Importing NL data..."
+      Rails.logger.debug "Importing NL data..."
       transaction do
         File.read("data/NL.txt").split("\n").collect { |a| a.split("\t") }.each { |a| Geoname.create(geonameid: a[0], name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18]) }
       end
-      puts "Importing cities5000 data..."
+      Rails.logger.debug "Importing cities5000 data..."
 
       transaction do
         File.read("data/cities5000.txt").split("\n").collect { |a| a.split("\t") }.each do |a|
@@ -94,7 +94,7 @@ class Geoname < ApplicationRecord
           gn.update(name: a[1], asciiname: a[2], alternatenames: a[3], latitude: a[4], longitude: a[5], feature_class: a[6], feature_code: a[7], country_code: a[8], cc2: a[9], admin1_code: a[10], admin2_code: a[11], admin3_code: a[12], admin4_code: a[13], population: a[14], elevation: a[15], dem: a[16], timezone: a[17], modification_date: a[18])
         end
       end
-      puts "Generating summaries data..."
+      Rails.logger.debug "Generating summaries data..."
       transaction do
         find_or_create_corresponding_geoname_summary
       end

@@ -96,12 +96,12 @@ class Artist < ApplicationRecord
       artist_name
     else
       first_name_part = [first_name, prefix].join(" ").strip
-      [last_name, first_name_part].delete_if(&:blank?).compact.join(", ")
+      [last_name, first_name_part].compact_blank!.compact.join(", ")
     end
   end
 
   def human_name
-    artist_name || [first_name, prefix, last_name].delete_if(&:blank?).join(" ")
+    artist_name || [first_name, prefix, last_name].compact_blank!.join(" ")
   end
 
   def base_file_name
@@ -160,7 +160,7 @@ class Artist < ApplicationRecord
 
   def prefix
     rv = read_attribute(:prefix)
-    (rv.nil? || rv.empty?) ? nil : rv
+    rv.presence
   end
 
   def retrieve_rkd_artists!
@@ -322,7 +322,7 @@ class Artist < ApplicationRecord
     def names_hash
       unless defined?(@@artist_names)
         @@artist_names = {}
-        Artist.all.each do |artist|
+        Artist.all.find_each do |artist|
           @@artist_names[artist.id] = artist.name
         end
       end
@@ -375,7 +375,7 @@ class Artist < ApplicationRecord
 
     def group_by_name
       groups = {}
-      all.each do |artist|
+      all.find_each do |artist|
         groups[artist.name] = [] unless groups[artist.name]
         groups[artist.name] << artist.id
       end

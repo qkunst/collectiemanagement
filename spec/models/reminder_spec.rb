@@ -62,8 +62,8 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         s1 = stages(:stage1)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c, stage: s1)
-        expect(r.next_dates).to eq([("2000-01-01T12:00".to_time + 50.years).to_date])
-        expect(r.next_date).to eq(("2000-01-01T12:00".to_time + 50.years).to_date)
+        expect(r.next_dates).to eq([(Time.zone.parse("2000-01-01T12:00") + 50.years).to_date])
+        expect(r.next_date).to eq((Time.zone.parse("2000-01-01T12:00") + 50.years).to_date)
       end
       it "should return an empty array if the next date for non repeating has already passed" do
         c = collections(:collection_with_stages)
@@ -77,18 +77,18 @@ RSpec.describe Reminder, type: :model do
         s1 = stages(:stage1)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c, stage: s1, repeat: true)
         expect(r.next_dates).to eq([
-          ("2000-01-01T12:00".to_time + 50.years).to_date,
-          ("2000-01-01T12:00".to_time + 100.years).to_date,
-          ("2000-01-01T12:00".to_time + 150.years).to_date,
-          ("2000-01-01T12:00".to_time + 200.years).to_date,
-          ("2000-01-01T12:00".to_time + 250.years).to_date,
-          ("2000-01-01T12:00".to_time + 300.years).to_date,
-          ("2000-01-01T12:00".to_time + 350.years).to_date,
-          ("2000-01-01T12:00".to_time + 400.years).to_date,
-          ("2000-01-01T12:00".to_time + 450.years).to_date,
-          ("2000-01-01T12:00".to_time + 500.years).to_date
+          (Time.zone.parse("2000-01-01T12:00") + 50.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 100.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 150.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 200.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 250.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 300.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 350.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 400.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 450.years).to_date,
+          (Time.zone.parse("2000-01-01T12:00") + 500.years).to_date
         ])
-        expect(r.next_date).to eq(("2000-01-01T12:00".to_time + 50.years).to_date)
+        expect(r.next_date).to eq((Time.zone.parse("2000-01-01T12:00") + 50.years).to_date)
       end
       it "should return today for event that triggers today" do
         c = collections(:collection_with_stages)

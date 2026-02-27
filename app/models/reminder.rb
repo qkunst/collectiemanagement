@@ -95,7 +95,7 @@ class Reminder < ApplicationRecord
   end
 
   def text?
-    !(text.nil? || text.empty?)
+    !text.blank?
   end
 
   def to_message
@@ -113,7 +113,7 @@ class Reminder < ApplicationRecord
 
   class << self
     def send_reminders!
-      Reminder.actual.all.each do |reminder|
+      Reminder.actual.all.find_each do |reminder|
         reminder.send_message_if_current_date_is_next_date!
       rescue NoMethodError
       end

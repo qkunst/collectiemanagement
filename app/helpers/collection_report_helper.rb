@@ -48,7 +48,7 @@ module CollectionReportHelper
   def filter_check_box(filter_params)
     @selection_filter ||= {}
 
-    present_filter_params = filter_params.select { |k, v| v.present? }
+    present_filter_params = filter_params.compact_blank
     present_filter_param = present_filter_params.to_a.last
 
     param_name = present_filter_param[0]
@@ -107,7 +107,7 @@ module CollectionReportHelper
   def link(group, selection)
     link_label = selection
 
-    if @params.nil? || @params.empty?
+    if @params.blank?
       @params = {}
     end
     @params.delete("filter[#{group}.id]")

@@ -15,7 +15,7 @@ class RootCollection < ActiveRecord::Migration[5.2]
   end
 
   def self.down
-    Collection.where(root: true).each do |c|
+    Collection.where(root: true).find_each do |c|
       c.collections.each do |sc|
         sc.parent_collection = nil
         sc.save

@@ -24,7 +24,7 @@ module OAuthUserExtensions
     end
 
     def refresh_required?
-      Time.at(oauth_expires_at.to_i) < 1.minute.from_now
+      Time.zone.at(oauth_expires_at.to_i) < 1.minute.from_now
     end
 
     def refresh!(force: false)

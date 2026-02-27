@@ -12,7 +12,7 @@ class AddIssuerToUsers < ActiveRecord::Migration[8.0]
 
   def change
     add_column :users, :issuer, :string
-    ::User.where.not(oauth_provider: nil).each do |user|
+    ::User.where.not(oauth_provider: nil).find_each do |user|
       user.update_column(:issuer, temp_issuer(user))
     end
   end

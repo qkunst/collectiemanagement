@@ -74,7 +74,7 @@ class GeonameSummary < ApplicationRecord
   class << self
     def with_parents
       ids = []
-      all.each do |a|
+      all.find_each do |a|
         ids += a.cached_parent_geoname_ids
         ids << a.geoname_id
       end
@@ -109,7 +109,7 @@ class GeonameSummary < ApplicationRecord
 
     def to_hash
       h = {}
-      all.each do |summ|
+      all.find_each do |summ|
         h[summ.geoname_id] = {name: summ.name, desc: summ.parent_description}
       end
       h

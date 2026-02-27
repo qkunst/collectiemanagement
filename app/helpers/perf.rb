@@ -11,7 +11,7 @@ class Perf
       end
       end_time = Time.current
       avg_time = ((end_time - start_time) / options[:times].to_f).round(4)
-      puts "Average time per cycle (n = #{options[:times]}): #{avg_time}"
+      Rails.logger.debug { "Average time per cycle (n = #{options[:times]}): #{avg_time}" }
       rv
     end
   end

@@ -162,7 +162,7 @@ module ImportCollection::Json
         oringal_photo_front = work_data["photo_front"]&.[]("screen")
         work.photo_front = URI.parse(oringal_photo_front).open if oringal_photo_front
       rescue TypeError
-        puts "Image oringal_photo_front failed... ignoring."
+        Rails.logger.debug "Image oringal_photo_front failed... ignoring."
       end
     end
 
@@ -174,7 +174,7 @@ module ImportCollection::Json
         oringal_photo_back = work_data["photo_back"]&.[]("screen")
         work.photo_back = URI.parse(oringal_photo_back).open if oringal_photo_back
       rescue TypeError
-        puts "Image oringal_photo_back failed... ignoring."
+        Rails.logger.debug "Image oringal_photo_back failed... ignoring."
       end
     end
 
@@ -186,7 +186,7 @@ module ImportCollection::Json
         oringal_photo_detail_1 = work_data["photo_detail_1"]&.[]("screen")
         work.photo_detail_1 = URI.parse(oringal_photo_detail_1).open if oringal_photo_detail_1
       rescue TypeError
-        puts "Image oringal_photo_detail_1 failed... ignoring."
+        Rails.logger.debug "Image oringal_photo_detail_1 failed... ignoring."
       end
     end
 
@@ -198,7 +198,7 @@ module ImportCollection::Json
         oringal_photo_detail_2 = work_data["photo_detail_2"]&.[]("screen")
         work.photo_detail_2 = URI.parse(oringal_photo_detail_2).open if oringal_photo_detail_2
       rescue TypeError
-        puts "Image oringal_photo_detail_2 failed... ignoring."
+        Rails.logger.debug "Image oringal_photo_detail_2 failed... ignoring."
       end
     end
   end

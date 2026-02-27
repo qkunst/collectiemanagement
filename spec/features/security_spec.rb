@@ -8,7 +8,7 @@ RSpec.feature "", type: :feature do
 
   describe "Secure communication" do
     describe "configuration" do
-      let(:production_config) { File.read(Rails.root.join("config/environments/production.rb")) }
+      let(:production_config) { Rails.root.join("config/environments/production.rb").read }
       it "has ssl config [QSECIMP0023]" do
         expect(production_config.match(/(config.force_ssl\s*=\s*([a-z]*))/)).to be_present
       end

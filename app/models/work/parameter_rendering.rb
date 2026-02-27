@@ -117,7 +117,7 @@ module Work::ParameterRendering
     end
 
     def location_description
-      rv = [location, location_floor, location_detail].compact.map(&:strip).filter(&:present?).join("; ")
+      rv = [location, location_floor, location_detail].compact.map(&:strip).compact_blank.join("; ")
       rv.presence
     end
 
