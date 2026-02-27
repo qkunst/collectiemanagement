@@ -86,7 +86,7 @@ Rails.application.configure do
     email: {
       email_prefix: "[#{I18n.t("application.name")}-#{Rails.env}] ",
       sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb.nl>),
-      exception_recipients: ["#{I18n.t("application.name")}-#{Rails.env}".parameterize]
+      exception_recipients: ["#{"#{I18n.t("application.name")}-#{Rails.env}".parameterize}@murb.nl"]
     }
 
   if Rails.application.credentials.elasticsearch_host
