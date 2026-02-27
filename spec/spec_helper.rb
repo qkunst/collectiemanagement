@@ -5,7 +5,9 @@ require "simplecov-cobertura"
 require "capybara/rails"
 require "parallel_tests"
 SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter if Rails.env.gitlabci?
-SimpleCov.start
+SimpleCov.start do
+  add_filter ["vendor/ruby", "public/assets"]
+end
 RSpec::OpenAPI.path = "docs/schema.yaml"
 Capybara.configure do |config|
   config.use_html5_parsing = true
