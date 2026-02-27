@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_28_085506) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_27_155250) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "tablefunc"
@@ -151,6 +151,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_28_085506) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "language"
     t.string "attribute_type", default: "unknown"
+    t.index ["collection_id"], name: "index_collection_attributes_on_collection_id"
   end
 
   create_table "collections", force: :cascade do |t|

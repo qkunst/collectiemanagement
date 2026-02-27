@@ -29,7 +29,7 @@ class CollectionAttribute < ApplicationRecord
 
   before_validation :set_defaults_when_missing
 
-  validates :label, uniqueness: {scope: [:collection_id, :attributed_id, :attributed_type]}
+  validates :label, uniqueness: {scope: [:collection_id, :attributed_id, :attributed_type]} # standard:disable Rails/UniqueValidationWithoutIndex as we have a sufficient index on collection id
   validates :label, :value, presence: true
   validates :language, inclusion: {in: LANGUAGES}
   validates :attribute_type, inclusion: {in: ATTRIBUTE_TYPES}

@@ -5,7 +5,7 @@ module BaseController
 
   included do
     before_action :set_collection
-    before_action :set_named_variable_by_class, only: [:show, :edit, :update, :destroy]
+    before_action :set_named_variable_by_class
     before_action :authentication_callbacks
     helper_method :controlled_class
 
@@ -96,7 +96,7 @@ module BaseController
     end
 
     def set_named_variable_by_class
-      self.named_variable = controlled_class.find(params[:id])
+      self.named_variable = controlled_class.find(params[:id]) if params[:id]
     end
 
     def white_listed_params

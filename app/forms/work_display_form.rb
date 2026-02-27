@@ -112,7 +112,7 @@ class WorkDisplayForm
     self.group = nil unless group.nil? || valid_groups.include?(group)
     self.sort = nil unless sort.nil? || valid_sorts.include?(sort)
     self.display = nil unless display.nil? || valid_displays.include?(display)
-    self.attributes_to_display = (attributes_to_display || []).select(&:present?).map(&:to_sym)
+    self.attributes_to_display = (attributes_to_display || []).compact_blank.map(&:to_sym)
     self.hide_empty_fields = !["0", "false", false].include?(hide_empty_fields.to_s)
   end
 

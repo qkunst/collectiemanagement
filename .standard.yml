@@ -1,10 +1,15 @@
 parallel: true
 plugins:
-   - standard-rails
-   - standard-performance
+  - standard-rails
+  - standard-performance
 ignore:
-   - db/migrate/2022*
-   - db/migrate/2021*
-   - db/migrate/201*
-   - db/migrate/2023*
-   - db/migrate/2024*
+  - "config/deploy.rb":
+      - Rails/Exit
+  - "**/*":
+      - Rails/HasAndBelongsToMany
+  - db/migrate/2022*
+  - db/migrate/2021*
+  - db/migrate/2020*
+  - db/migrate/201*
+  - db/migrate/2023*
+  - db/migrate/2024*
