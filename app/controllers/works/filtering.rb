@@ -127,7 +127,7 @@ module Works::Filtering
 
       include_selection_group = [selection_group] - [:grade_within_collection]
 
-      @works.select(IDS_TO_SELECT_WHEN_GROUPING[selection_group || :id]).includes(include_selection_group).each do |work|
+      sort_works(@works).select(IDS_TO_SELECT_WHEN_GROUPING[selection_group || :id]).includes(include_selection_group).each do |work|
         groups = work.send(selection_group)
         groups = nil if groups.methods.include?(:count) && groups.methods.include?(:all) && (groups.count == 0)
         [groups].flatten.each do |group|
@@ -156,7 +156,7 @@ module Works::Filtering
       work_ids = if @works.is_a? Array
         @works[@min_index..@max_index].uniq.map(&:id)
       else
-        @works.offset(@min_index).limit(@max_index - @min_index + 1).pluck(:id).uniq
+        sort_works(@works.offset(@min_index).limit(@max_index - @min_index + 1)).pluck(:id).uniq
       end
       @works = sort_works(preload_relation_ships(Work.where(id: work_ids)))
     end
