@@ -16,7 +16,7 @@ class TimeSpansController < ApplicationController
 
   # GET /time_spans/new
   def new
-    @time_span = @collection.base_collection.time_spans.new(starts_at: Time.now, subject: @subject, status: :concept)
+    @time_span = @collection.base_collection.time_spans.new(starts_at: Time.current, subject: @subject, status: :concept)
   end
 
   # GET /time_spans/1/edit

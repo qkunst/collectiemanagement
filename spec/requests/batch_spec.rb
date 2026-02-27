@@ -177,7 +177,7 @@ RSpec.describe "WorkBatchs", type: :request do
       end
       it "should ignore ignored fields" do
         sign_in users(:appraiser)
-        appraisal_date = Time.now.to_date
+        appraisal_date = Time.current.to_date
         patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
@@ -191,7 +191,7 @@ RSpec.describe "WorkBatchs", type: :request do
 
         it "should stop when work cannot be appraised (diptych scenario)" do
           sign_in users(:appraiser)
-          appraisal_date = Time.now.to_date + 5.day
+          appraisal_date = Time.current.to_date + 5.day
           patch collection_batch_path(collections(:collection3)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
           appraisal = Appraisal.find_by(appraised_on: appraisal_date)
           expect(appraisal).to eq(nil)

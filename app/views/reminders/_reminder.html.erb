@@ -1,24 +1,24 @@
 <article class="reminder card">
-  <header><%if reminder.repeat?%><%= button_to( 'Instellen voor deze collectie', collection_reminders_path(@collection), params: {reminder: reminder.to_hash}, method: :post, class: [:small, :button, :right]) if @collection and reminder.collection.nil? %><div class="right" class="repeat" title="Terugkerende herinnering">♻</div><% end%>
+  <header><% if reminder.repeat? %><%= button_to( 'Instellen voor deze collectie', collection_reminders_path(@collection), params: {reminder: reminder.to_hash}, method: :post, class: [:small, :button, :right]) if @collection and reminder.collection.nil? %><div class="right" class="repeat" title="Terugkerende herinnering">♻</div><% end %>
     <h5><%= link_to reminder.name, [reminder.collection, reminder].compact %></h5>
   </header>
   <div class="body">
-    <%= simple_format reminder.text.to_s.truncate(1000)%>
+    <%= simple_format reminder.text.to_s.truncate(1000) %>
   </div>
   <footer>
     <% if reminder.stage %>
-      <%= "#{'Iedere ' if reminder.repeat?}#{distance_of_time_in_words(Time.now, (Time.now + reminder.additional_time))}".gsub(/ongeveer een/,'').gsub(/ongeveer /,'').gsub('Iedere  jaar', 'Ieder jaar') %> na <em><%= reminder.stage.name %></em>.
+      <%= "#{'Iedere ' if reminder.repeat?}#{distance_of_time_in_words(Time.current, (Time.current + reminder.additional_time))}".gsub(/ongeveer een/,'').gsub(/ongeveer /,'').gsub('Iedere  jaar', 'Ieder jaar') %> na <em><%= reminder.stage.name %></em>.
     <% else reminder.collection %>
-      <%= "#{'Iedere ' if reminder.repeat?}#{distance_of_time_in_words(Time.now, (Time.now + reminder.additional_time))}".gsub(/ongeveer een/,'').gsub(/ongeveer /,'').gsub('Iedere  jaar', 'Ieder jaar') %> na <%= I18n.l reminder.reference_date, format: :long %>.
+      <%= "#{'Iedere ' if reminder.repeat?}#{distance_of_time_in_words(Time.current, (Time.current + reminder.additional_time))}".gsub(/ongeveer een/,'').gsub(/ongeveer /,'').gsub('Iedere  jaar', 'Ieder jaar') %> na <%= I18n.l reminder.reference_date, format: :long %>.
     <% end %>
     <% if reminder.collection %>
     <% begin %>
     <% if reminder.next_date and reminder.reference_date %>
-      De volgende herinnering wordt verstuurd over <%= distance_of_time_in_words(Time.now, reminder.next_date )%>.
+      De volgende herinnering wordt verstuurd over <%= distance_of_time_in_words(Time.current, reminder.next_date ) %>.
     <% end %>
     <% rescue NoMethodError %>
       <strong>Let op: </strong> Deze herinnering is gebaseerd op een projectfase, maar dit project kent deze projectfase niet!
     <% end %>
-    <% end%>
+    <% end %>
   </footer>
 </article>

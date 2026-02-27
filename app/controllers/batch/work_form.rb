@@ -17,7 +17,7 @@ class Batch::WorkForm < Work
   end
 
   def appraisal
-    @appraisal ||= Batch::AppraisalForm.new(appraised_on: Time.now, update_appraised_on_strategy: :replace)
+    @appraisal ||= Batch::AppraisalForm.new(appraised_on: Time.current, update_appraised_on_strategy: :replace)
   end
 
   def appraisals_attributes= options

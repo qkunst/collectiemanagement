@@ -22,7 +22,7 @@ class CollectionsController < ApplicationController
     @parent_collection.purge_old_indexed_works!
     @parent_collection.works_including_child_works.reindex_async!
     sleep(2)
-    redirect_to collection_report_path(@parent_collection, params: {time: Time.now.to_i})
+    redirect_to collection_report_path(@parent_collection, params: {time: Time.current.to_i})
   end
 
   def manage

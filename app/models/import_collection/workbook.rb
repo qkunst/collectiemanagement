@@ -154,8 +154,8 @@ module ImportCollection::Workbook
 
     parameters.merge!({
       import_collection_id: id,
-      imported_at: Time.now,
-      updated_at: Time.now,
+      imported_at: Time.current,
+      updated_at: Time.current,
       external_inventory: external_inventory,
       old_data: row.to_hash.map { |k, v| [k, v&.value] }.to_h
     })

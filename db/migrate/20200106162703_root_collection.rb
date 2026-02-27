@@ -6,7 +6,7 @@ class RootCollection < ActiveRecord::Migration[5.2]
 
     add_column :collections, :root, :boolean, default: false
 
-    Collection.unscoped.insert({root: true, name: "-", created_at: Time.now, updated_at: Time.now})
+    Collection.unscoped.insert({root: true, name: "-", created_at: Time.current, updated_at: Time.current})
 
     c = Collection.unscoped.where(root: true).first
     change_column_default :collections, :parent_collection_id, c.id

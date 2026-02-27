@@ -81,7 +81,7 @@ class TimeSpan < ApplicationRecord
     (time_spans.starts_at <= :start AND time_spans.status = 'active')
     ", {start: period.begin || 2000.years.ago, end: period.end || 2000.years.from_now})
                  }
-  scope :current, -> { period(Time.now...Time.now) }
+  scope :current, -> { period(Time.current...Time.current) }
   scope :sold, -> { where(status: [:active, :finished]).where(classification: :purchase) }
   scope :sold_within_period, ->(period) { sold.where(starts_at: period) }
   scope :outgoing_rental_within_period, ->(period) { period(period).rental_outgoing.active_or_finished }

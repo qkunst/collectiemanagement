@@ -20,7 +20,7 @@ class AppraisalsController < ApplicationController
       notice: @latest_appraisal&.notice,
 
       appraised_by: current_user.name,
-      appraised_on: Time.now.to_date,
+      appraised_on: Time.current.to_date,
       appraisee: @appraisee
     )
   end

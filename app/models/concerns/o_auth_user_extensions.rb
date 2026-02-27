@@ -24,7 +24,7 @@ module OAuthUserExtensions
     end
 
     def refresh_required?
-      Time.at(oauth_expires_at.to_i) < (Time.now + 1.minute)
+      Time.at(oauth_expires_at.to_i) < 1.minute.from_now
     end
 
     def refresh!(force: false)
@@ -68,7 +68,7 @@ module OAuthUserExtensions
         user.name = data.name
         user.qkunst = data.qkunst
         user.domain = data.domain || data.email.split("@")[1]
-        user.confirmed_at ||= Time.now if data.email_confirmed?
+        user.confirmed_at ||= Time.current if data.email_confirmed?
         user.raw_open_id_token = data.raw_open_id_token&.to_hash
         user.app = !!data.app
         user.oauth_expires_at = data.oauth_expires_at

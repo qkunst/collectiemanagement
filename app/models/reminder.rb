@@ -54,13 +54,13 @@ class Reminder < ApplicationRecord
       time = 1
       while dates.count < 10
         date = (reference_date + additional_time(time)).to_date
-        dates << date if date >= Time.now.to_date
+        dates << date if date >= Time.current.to_date
         time += 1
       end
       dates
     elsif reference_date && collection
       date = (reference_date + additional_time(1)).to_date
-      (date >= Time.now.to_date) ? [date] : []
+      (date >= Time.current.to_date) ? [date] : []
     end
   end
 
@@ -81,7 +81,7 @@ class Reminder < ApplicationRecord
   end
 
   def current_time
-    Time.now
+    Time.current
   end
 
   def current_date

@@ -633,7 +633,7 @@ class Work < ApplicationRecord
   end
 
   def significantly_updated
-    self.significantly_updated_at = Time.now
+    self.significantly_updated_at = Time.current
   end
 
   def significantly_updated!
@@ -648,7 +648,7 @@ class Work < ApplicationRecord
   end
 
   def mark_as_removed_from_collection_according_to_work_status
-    self.removed_from_collection_at ||= Time.now if work_status&.set_work_as_removed_from_collection
+    self.removed_from_collection_at ||= Time.current if work_status&.set_work_as_removed_from_collection
   end
 
   def update_location_with_main_location

@@ -53,6 +53,6 @@ class Location < ApplicationRecord
   private
 
   def update_works!
-    works.update_all(location: name, updated_at: Time.now, significantly_updated_at: Time.now)
+    works.update_all(location: name, updated_at: Time.current, significantly_updated_at: Time.current)
   end
 end

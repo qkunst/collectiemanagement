@@ -14,7 +14,7 @@
 class CachedApi < ApplicationRecord
   before_save :pull_url!
 
-  scope :expired, -> { where(arel_table[:created_at].lt(Time.now - 1.month)) }
+  scope :expired, -> { where(arel_table[:created_at].lt(1.month.ago)) }
 
   def pull_url!
     require "open-uri"

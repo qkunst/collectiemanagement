@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   def geoname_summaries
     response.headers["Cache-Control"] = "public"
     response.headers["Pragma"] = "cache"
-    response.headers["Expires"] = (Time.now + 1.week).rfc822
+    response.headers["Expires"] = 1.week.from_now.rfc822
 
     render json: GeonameSummary.selectable.to_array.to_json
   end

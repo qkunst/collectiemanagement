@@ -2241,8 +2241,8 @@ Work
       does find a work matching a very short period around the selling date
       does not find a work matching a very short period just before the selling date
     .outgoing_rental_between
-      expect period to include current and past lendings if < Time.now
-      expect period to include only active and expired lendings if 1.day.ago < Time.now
+      expect period to include current and past lendings if < Time.current
+      expect period to include only active and expired lendings if 1.day.ago < Time.current
       expect period to include only historic lendings if < active
 
 WorkStatus

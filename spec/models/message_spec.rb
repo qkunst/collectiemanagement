@@ -127,8 +127,8 @@ RSpec.describe Message, type: :model do
         Message.destroy_all
         m = Message.create(from_user: u1, to_user: u2, subject: "sub", message: "messss")
         Message.create(from_user: u2, to_user: u3, subject: "sub", message: "messss", in_reply_to_message: m)
-        expect(Message.sent_at_date(Time.now.to_date).count).to eq(2)
-        expect(Message.sent_at_date(Time.now.to_date + 1.day).count).to eq(0)
+        expect(Message.sent_at_date(Time.current.to_date).count).to eq(2)
+        expect(Message.sent_at_date(Time.current.to_date + 1.day).count).to eq(0)
       end
     end
     describe "thread_can_be_accessed_by_user" do

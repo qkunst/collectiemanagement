@@ -120,7 +120,7 @@ Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Co
   Work.create(parameters)
 end
 
-Collection.unscoped.insert({root: true, name: "-", created_at: Time.now, updated_at: Time.now})
+Collection.unscoped.insert({root: true, name: "-", created_at: Time.current, updated_at: Time.current})
 
 c = Collection.unscoped.where(root: true).first
 

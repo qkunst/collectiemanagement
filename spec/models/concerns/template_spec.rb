@@ -62,7 +62,7 @@ RSpec.describe Template, type: :model do
     it "should parse string with obects" do
       template = TemplateTestImpl.new
       template.contents = "\n{{voornaam.hoofdletter.hoofdletters}} {{achternaam.hoofdletter}} {{Datum.vandaag}} {{gewoon.hoofdletter}}"
-      expect(template.content_merge({"achternaam" => "jan", "voornaam" => "kees", "gewoon" => "gewoon"})).to eq("\n<p>KEES Jan #{I18n.l Time.now.to_date, format: :long} Gewoon</p>\n")
+      expect(template.content_merge({"achternaam" => "jan", "voornaam" => "kees", "gewoon" => "gewoon"})).to eq("\n<p>KEES Jan #{I18n.l Time.current.to_date, format: :long} Gewoon</p>\n")
     end
   end
 end

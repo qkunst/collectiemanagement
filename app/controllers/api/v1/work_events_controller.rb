@@ -41,7 +41,7 @@ class Api::V1::WorkEventsController < Api::V1::ApiController
         contact: contact,
         status: work_event_params[:status],
         classification: work_event_params[:event_type],
-        starts_at: Time.now,
+        starts_at: Time.current,
         comments: work_event_params[:comments]
       )
     end

@@ -26,7 +26,7 @@ class Collection::UsersController < ApplicationController
   def update
     authorize! :update, @user
 
-    if @user.update(user_params.merge(updated_at: Time.now))
+    if @user.update(user_params.merge(updated_at: Time.current))
       redirect_to collection_users_path(@collection), notice: "De gebruiker is bijgewerkt."
     else
       render :edit

@@ -103,7 +103,7 @@ module Template
     module LetterTextAreaObjects
       class Datum
         def self.vandaag
-          I18n.l Time.now.to_date, format: :long
+          I18n.l Time.current.to_date, format: :long
         end
       end
     end

@@ -180,9 +180,9 @@ class Message < ApplicationRecord
   end
 
   def actioned_upon_by_qkunst_admin= bool
-    self.actioned_upon_by_qkunst_admin_at ||= Time.now
+    self.actioned_upon_by_qkunst_admin_at ||= Time.current
     if conversation_start_message.nil?
-      time = Time.now
+      time = Time.current
       conversation.each do |conversation_message|
         conversation_message.actioned_upon_by_qkunst_admin_at ||= time
         conversation_message.save

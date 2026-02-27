@@ -20,7 +20,7 @@ module OmniAuth
       #
       # @return String
       def store_nonce
-        new_response.set_cookie("omniauth.azure.nonce", {value: encrypt(new_nonce), path: "/", expires: (Time.now + 60 * 60), secure: true, httponly: true, same_site: :none})
+        new_response.set_cookie("omniauth.azure.nonce", {value: encrypt(new_nonce), path: "/", expires: (Time.current + 60 * 60), secure: true, httponly: true, same_site: :none})
       end
 
       def generate_salt

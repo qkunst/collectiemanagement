@@ -3,7 +3,7 @@
 namespace :seed do
   desc "generate works"
   task thousand: :environment do
-    c = Collection.create(name: "Seed #{Time.now}")
+    c = Collection.create(name: "Seed #{Time.current}")
     themes = Theme.all
     subsets = Subset.all
     media = Medium.all

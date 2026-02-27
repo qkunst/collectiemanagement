@@ -70,7 +70,7 @@ RSpec.describe Api::V1::WorksController, type: :request do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
         expect(JSON.parse(response.body)["meta"]["total_count"]).to eq total
 
-        collections(:collection_with_works).works.update_all(significantly_updated_at: Time.now)
+        collections(:collection_with_works).works.update_all(significantly_updated_at: Time.current)
         collections(:collection_with_works).works.first.update_columns(significantly_updated_at: 1.year.ago)
 
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json, significantly_updated_since: 1.week.ago)

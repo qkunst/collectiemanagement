@@ -32,43 +32,43 @@ RSpec.describe TimeSpan, type: :model do
   describe ".new & validations" do
     context "concept" do
       it "is valid when subject, collection and contact are set" do
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
       end
 
       it "is not valid when work is no longer available, collection and contact are set" do
         work.removed_from_collection!
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :rental_outgoing)
         expect(ts.valid?).to be_falsey
       end
 
       it "is not valid when classification is false, but subject, collection and contact are set" do
-        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :false_classification)
+        ts = TimeSpan.new(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :false_classification)
         expect(ts.valid?).to be_falsey
       end
 
       it "is valid when classification is reservation and work is in use" do
-        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: :rental_outgoing)
         work.reload
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.current, status: :reservation, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
         fully_reloaded_work = Work.find(work.id)
         expect(fully_reloaded_work.availability_status).to eq(:lent)
       end
 
       it "is valid when work was reserved but will now be lent" do
-        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :reservation, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.current, status: :reservation, classification: :rental_outgoing)
         work.reload
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: :rental_outgoing)
         expect(ts.valid?).to be_truthy
         fully_reloaded_work = Work.find(work.id)
         expect(fully_reloaded_work.availability_status).to eq(:lent)
       end
 
       it "is is not valid when work was lent but will now be lent" do
-        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact_internal), starts_at: Time.current, status: :active, classification: :rental_outgoing)
         work.reload
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :rental_outgoing)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: :rental_outgoing)
         expect(ts.valid?).to be_falsey
         fully_reloaded_work = Work.find(work.id)
         expect(fully_reloaded_work.availability_status).to eq(:lent)
@@ -106,11 +106,11 @@ RSpec.describe TimeSpan, type: :model do
 
   describe "Callbacks" do
     it "#remove_work_from_collection_when_purchase_active" do
-      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :purchase)
+      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_falsey
 
-      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: :purchase)
+      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: :purchase)
       work.reload
       expect(work.removed_from_collection?).to be_truthy
     end
@@ -118,10 +118,10 @@ RSpec.describe TimeSpan, type: :model do
     describe "#sync_time_spans_for_works_when_work_set" do
       let(:work_set) { work_sets(:random_other_collection) }
       let(:classification) { :purchase }
-      let(:time_span) { TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :active, classification: classification) }
+      let(:time_span) { TimeSpan.create(subject: work_set, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: classification) }
 
       it "creates none when a work" do
-        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: classification)
+        ts = TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: classification)
         expect(ts.time_spans).to eq([])
       end
 
@@ -182,7 +182,7 @@ RSpec.describe TimeSpan, type: :model do
         it "significantly updates edit status of works" do
           work = works(:work1)
           work.update_column(:significantly_updated_at, 1.day.ago)
-          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :rental_outgoing)
           time_span.save
           expect(Work.find(work.id).significantly_updated_at).to be > 1.hour.ago
         end
@@ -190,7 +190,7 @@ RSpec.describe TimeSpan, type: :model do
         it "triggers async reindex of work" do
           work = works(:work1)
           expect(work).to receive(:reindex_async!)
-          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.now, status: :concept, classification: :rental_outgoing)
+          time_span = TimeSpan.new(subject: work, collection: collections(:collection1), contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :rental_outgoing)
           time_span.save
         end
       end
@@ -316,7 +316,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include only future and when period is extreme future" do
-        period = Time.now...Date.new(2300, 1, 1)
+        period = Time.current...Date.new(2300, 1, 1)
         [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_future].each do |span|
           expect(TimeSpan.period(period)).to include time_spans(span)
         end
@@ -326,7 +326,7 @@ RSpec.describe TimeSpan, type: :model do
       end
 
       it "should include only past and current when period is extreme history till now" do
-        period = Date.new(1900, 1, 1)...Time.now
+        period = Date.new(1900, 1, 1)...Time.current
         [:time_span1, :time_span2, :time_span3, :time_span4, :time_span_historic].each do |span|
           expect(TimeSpan.period(period)).to include time_spans(span)
         end

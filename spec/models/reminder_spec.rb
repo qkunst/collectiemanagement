@@ -49,7 +49,7 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 10, name: "Naam", collection: c)
         r.to_message!
-        expect(r.last_sent_at.to_date).to eq(Time.now.to_date)
+        expect(r.last_sent_at.to_date).to eq(Time.current.to_date)
       end
     end
     describe "#next_dates / #next_date" do
@@ -95,7 +95,7 @@ RSpec.describe Reminder, type: :model do
         s1 = stages(:stage1)
         r = Reminder.create(interval_unit: :year, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: true)
 
-        next_first_jan = (Time.now.beginning_of_year + 1.year).to_date
+        next_first_jan = (Time.current.beginning_of_year + 1.year).to_date
 
         expect(r.next_dates).to eq([
           next_first_jan,
@@ -114,10 +114,10 @@ RSpec.describe Reminder, type: :model do
         c = collections(:collection_with_stages)
         s1 = stages(:stage1)
         cs1 = c.find_state_of_stage(s1)
-        cs1.completed_at = Time.now - 1.day
+        cs1.completed_at = 1.day.ago
         r = Reminder.create(interval_unit: :day, interval_length: 1, name: "Naam", collection: c, stage: s1, repeat: false)
         expect(r.next_dates).to eq([
-          Time.now.to_date
+          Time.current.to_date
         ])
       end
       it "should return nil for event that hasn't passed yet" do
@@ -178,8 +178,8 @@ RSpec.describe Reminder, type: :model do
         message_count_before = Message.count
         c = collections(:collection_with_stages)
         r = Reminder.create(interval_unit: :year, interval_length: 50, name: "Naam", collection: c)
-        expect(r.current_date).to eq(Time.now.to_date)
-        expect(r.next_date).to eq((Time.now + 50.years).to_date)
+        expect(r.current_date).to eq(Time.current.to_date)
+        expect(r.next_date).to eq(50.years.from_now.to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)
         expect(Message.count).to eq(message_count_before)
       end
@@ -203,7 +203,7 @@ RSpec.describe Reminder, type: :model do
         expect(r.send_message_if_current_date_is_next_date!).to eq(true)
         expect(Message.count).to eq(message_count_before + 1)
         expect(r.current_date).to eq((r.created_at + 50.years).to_date)
-        expect(r.next_date).to eq((Time.now + 50.years).to_date)
+        expect(r.next_date).to eq(50.years.from_now.to_date)
         expect(Message.where(reminder: r).count).to eq(1)
         expect(Message.where(reminder: r).first.created_at.to_date).to eq((r.created_at + 50.years).to_date)
         expect(r.send_message_if_current_date_is_next_date!).to eq(nil)

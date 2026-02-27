@@ -25,7 +25,7 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       subject_type: "Work",
       collection_id: collection.id,
       status: "concept",
-      starts_at: Time.now,
+      starts_at: Time.current,
       classification: "rental_outgoing"
     }
   }
@@ -36,7 +36,7 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
       subject_type: "Work",
       collection_id: collection.id,
       status: "invalid",
-      starts_at: Time.now,
+      starts_at: Time.current,
       classification: "rental_outgoing"
     }
   }
@@ -107,7 +107,7 @@ RSpec.describe "/collection/:id/time_spans", type: :request do
         let(:valid_attributes) {
           {
             status: "active",
-            starts_at: Time.now,
+            starts_at: Time.current,
             classification: "rental_outgoing"
           }
         }
