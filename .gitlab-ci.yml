@@ -51,7 +51,7 @@ test:
     - yarn install --cache-folder .yarn-cache
     - bundle exec rails assets:precompile RAILS_ENV=gitlabci
     - RAILS_ENV=gitlabci bundle exec rspec
-  coverage: /Line Coverage\:\s\d+.\d+\%/
+  coverage: /Line Coverage\:\s(\d+.\d+\%)/
   artifacts:
     when: always
     paths:
