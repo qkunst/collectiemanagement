@@ -106,7 +106,7 @@ module Works::Filtering
       @works = @collection.search_works(@search_text, filter || {}, options)
       @works = @works.published if params[:published]
       @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
-      @works = @works.where(id: IdsHash.find_by(hashed: params[:work_ids_hash])&.ids) if params[:work_ids_hash]
+      @works = @works.where(id: IdsHash.recover(params[:work_ids_hash])) if params[:work_ids_hash]
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
       @inventoried_objects_count = @works.distinct.count
@@ -114,6 +114,7 @@ module Works::Filtering
       @works = @works.limit(params[:limit].to_i) if params[:limit]
       @works = @works.offset(params[:from].to_i) if params[:from]
       @works = @works.where(id: ((params[:id_gt].to_i + 1)...)) if params[:id_gt]
+      @works
     end
 
     def sort_works(works)
