@@ -48,6 +48,10 @@ class IdsHash < ApplicationRecord
         prev2 + 1 != e
       }.map { |b, *, c| c ? (b..c) : b }
     end
+
+    def recover(hashed)
+      IdsHash.find_by(hashed:)&.ids
+    end
   end
 
   def ids
