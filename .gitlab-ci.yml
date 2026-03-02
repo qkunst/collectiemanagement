@@ -32,6 +32,8 @@ cache:
     - node_modules
 
 test:
+  rules:
+    - if: $GOAL != "JUST_SECURITY"
   before_script:
     - bundle install --path=vendor/ruby --without production --jobs $(nproc) "${FLAGS[@]}"
     - bundle exec rails db:create RAILS_ENV=gitlabci
@@ -54,7 +56,10 @@ test:
   coverage: /Line Coverage\:\s(\d+.\d+\%)/
   artifacts:
     when: always
+    expire_in: 7d
     paths:
+      - public/assets
+      - log/
       - rspec.xml
       - coverage/coverage.xml
     reports:
@@ -62,13 +67,10 @@ test:
       coverage_report:
         coverage_format: cobertura
         path: coverage/coverage.xml
-  artifacts:
-    expire_in: 7d
-    paths:
-      - public/assets
-      - log/
 
 standard:
+  rules:
+    - if: $GOAL != "JUST_SECURITY"
   script:
     - gem install standard standard-rails standard-performance
     - standardrb
