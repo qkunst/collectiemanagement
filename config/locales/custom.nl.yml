@@ -804,5 +804,5 @@ nl:
         primary_key: Koppelvlak
   report:
     titles:
-      balance_category: Geen marktwaarde toegekend
-      missing_explainer: Geen vervangingswaarde toegekend
+      balance_category: Balanscategorie
+      missing_explainer: Geen categorie toegekend

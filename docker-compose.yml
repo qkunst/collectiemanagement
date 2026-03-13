@@ -1,10 +1,9 @@
-version: '3.3'
 services:
   elasticsearch:
-    image: 'elasticsearch:7.13.2'
+    image: "elasticsearch:7.13.2"
     ports:
-    - "59200:9200"
+      - "59200:9200"
     environment:
-    - discovery.type=single-node
-    - xpack.security.enabled=true
-    - ELASTIC_PASSWORD=PleaseChangeMe
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=PleaseChangeMe

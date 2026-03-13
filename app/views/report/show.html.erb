@@ -1,21 +1,21 @@
 <h2>Rapportage</h2>
-<p><%= describe_work_counts%>
-  <%= t(".disclaimer")%>
+<p><%= describe_work_counts %>
+  <%= t(".disclaimer") %>
 </p>
 <% if @inventoried_objects_count_in_search != @inventoried_objects_count %>
-   <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine<% if Sidekiq::Workers.new.size > 0%>, maar wordt momenteel bijgewerkt<% end %>.</div>
-<% end%>
+   <div data-closable class="callout primary">De zoekmachine loopt momenteel achter op de aantallen in de zoekmachine<% if Sidekiq::Workers.new.size > 0 %>, maar wordt momenteel bijgewerkt<% end %>.</div>
+<% end %>
 
 <% begin %>
   <%= form_tag collection_report_path, method: :get, id: :report_filter do %>
-  <input type="hidden" name="filter[_and][]" value="<%= Work::Search::NOT_SET_VALUE%>" />
+  <input type="hidden" name="filter[_and][]" value="<%= Work::Search::NOT_SET_VALUE %>">
   <% if can?(:time_filter, @collection) && @collection.show_availability_status? %>
   <div class="callout secondary row">
     <%= simple_fields_for @time_filter do |time_filter_form| %>
       <div class="medium-12 columns">
         <%= time_filter_form.input :enabled, as: :boolean, input_html: {data: {qtoggle: :report_filter_fields, "qtoggle-class": "show"}} %>
       </div>
-      <div id="report_filter_fields" class="<%=@time_filter.enabled? ? 'show' : ''%>">
+      <div id="report_filter_fields" class="<%= @time_filter.enabled? ? 'show' : '' %>">
         <div class="medium-4 columns">
           <%= time_filter_form.input :name, collection: Work::TIME_FILTER_SCOPES.map{|a| [I18n.t(a, scope: "filters.time"), a]} %>
         </div>
@@ -35,22 +35,22 @@
     <nav class="tab-head" class="Rapportage navigatie">
     <ul>
       <% @sections.each do |head, contents| %>
-        <li><a href="#<%=head.to_s.parameterize%>"><%= head %></a></li>
+        <li><a href="#<%= head.to_s.parameterize %>"><%= head %></a></li>
       <% end %>
     </ul>
     </nav>
     <% end %>
 
     <% @sections.each do |head, contents| %>
-      <section id="<%=head.to_s.parameterize%>">
+      <section id="<%= head.to_s.parameterize %>">
         <% if @sections.keys.count > 1 %>
 
-        <h3><%=head%></h3>
+        <h3><%= head %></h3>
         <% end %>
         <div class="row">
           <% contents.each do |column| %>
-            <div class="large-<%=(12.0/contents.length).to_i%> column float-left">
-              <%= render_report_column(column)%>
+            <div class="large-<%= (12.0/contents.length).to_i %> column float-left">
+              <%= render_report_column(column) %>
             </div>
           <% end %>
         </div>
@@ -60,12 +60,12 @@
   </div>
 
   <div class="bottom-controls">
-  <%= button_tag "Toon geselecteerde werken", name: :filter_on, value: :works, class: [:tertiary, :button, :small]%>
+  <%= button_tag "Toon geselecteerde werken", name: :filter_on, value: :works, class: [:tertiary, :button, :small] %>
   <%= button_tag t(".create_work_set"), name: :filter_on, value: :create_work_set, class: [:tertiary, :button, :small] if can?(:create, WorkSet) %>
-  <%= button_tag "Werk aantallen selectie in rapportage bij", name: :filter_on, value: :report, class: [:secondary, :button, :small]%>
+  <%= button_tag "Werk aantallen selectie in rapportage bij", name: :filter_on, value: :report, class: [:secondary, :button, :small] %>
   </div>
 
-  <%end%>
+  <% end %>
   <p><small>Waar de prijzen oorspronkelijk niet in euro's waren, zijn deze voor de rapportage omgezet naar euro's.</small></p>
 <% rescue Elasticsearch::Transport::Transport::Errors::NotFound %>
 <p>De rapportage kon niet gedraaid worden</p>

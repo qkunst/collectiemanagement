@@ -30,7 +30,7 @@ module Report
           aggregation.merge!(basic_aggregation_snippet(key, postfix: "_id"))
         end
 
-        [:condition_work, :condition_frame, :sources, :placeability, :themes, :owner, :cluster, :work_status].each do |key|
+        [:condition_work, :condition_frame, :sources, :placeability, :themes, :owner, :cluster, :work_status, :balance_category].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key, include_missing: true, postfix: ".id"))
         end
 
@@ -38,28 +38,16 @@ module Report
           aggregation.merge!(basic_aggregation_snippet(key, postfix: ".id"))
         end
 
-        [:abstract_or_figurative, :grade_within_collection, :object_format_code, :tag_list, :object_creation_year, :purchase_year, :purchase_price_in_eur, :minimum_bid, :selling_price, :publish, :image_rights, :permanently_fixed].each do |key|
+        [:market_value, :replacement_value, :abstract_or_figurative, :grade_within_collection, :object_format_code, :tag_list, :object_creation_year, :purchase_year, :purchase_price_in_eur, :minimum_bid, :selling_price, :publish, :image_rights, :permanently_fixed].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key, include_missing: true))
         end
 
-        [:market_value, :replacement_value, :inventoried, :refound, :new_found, :checked, :has_photo_front, :availability_status, :for_purchase, :for_rent].each do |key|
+        [:inventoried, :refound, :new_found, :checked, :has_photo_front, :availability_status, :for_purchase, :for_rent].each do |key|
           aggregation.merge!(basic_aggregation_snippet(key))
         end
 
-        aggregation.merge!(basic_aggregation_snippet(:market_value_range, field: :market_value_min) { basic_aggregation_snippet(:market_value_max) })
+        aggregation.merge!(basic_aggregation_snippet(:market_value_range, field: :market_value_min, include_missing: true) { basic_aggregation_snippet(:market_value_max) })
         aggregation.merge!(basic_aggregation_snippet(:replacement_value_range, field: :replacement_value_min) { basic_aggregation_snippet(:replacement_value_max) })
-
-        aggregation.merge!(missing_only_aggregation_snippet(:market_value_min_ignore_super_missing, field: :market_value_min) do
-          missing_only_aggregation_snippet(:market_value_ignore_super_missing, field: :market_value) do
-            basic_aggregation_snippet(:balance_category, include_missing: true, postfix: ".id")
-          end
-        end)
-
-        aggregation.merge!(missing_only_aggregation_snippet(:replacement_value_min_ignore_super_missing, field: :replacement_value_min) do
-          missing_only_aggregation_snippet(:replacement_value_ignore_super_missing, field: :replacement_value) do
-            missing_only_aggregation_snippet(:missing_explainer_missing, field: :replacement_value)
-          end
-        end)
 
         aggregation.merge!(basic_aggregation_snippet(:location_raw) do
           basic_aggregation_snippet(:location_floor_raw) do

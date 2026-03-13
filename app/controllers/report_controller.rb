@@ -89,8 +89,8 @@ class ReportController < ApplicationController
     if can?(:read_valuation, @collection) && @sections["Marktwaardering"]
       @sections["Herkomst"] << [:purchase_price_in_eur]
 
-      @sections["Marktwaardering"] += [[:market_value_range], [:market_value], [:market_value_min_ignore_super]]
-      @sections["Vervangingswaardering"] += [[:replacement_value_range], [:replacement_value], [:replacement_value_min_ignore_super]]
+      @sections["Marktwaardering"] += [[:market_value_range], [:market_value], [:balance_category]]
+      @sections["Vervangingswaardering"] += [[:replacement_value_range], [:replacement_value]]
 
       @sections["Beprijzing"] += [[:minimum_bid], [:selling_price]]
       @sections["Beprijzing"] << [:for_purchase, :for_rent] if @collection&.show_availability_status?
