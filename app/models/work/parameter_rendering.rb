@@ -53,11 +53,11 @@ module Work::ParameterRendering
     end
 
     def condition_work_rendered
-      [condition_work&.name, damage_types.collect(&:name).join(", "), condition_work_comments&.presense].compact.join(";").presence
+      [condition_work&.name, damage_types.collect(&:name).join(", "), condition_work_comments&.presence].compact.join(";").presence
     end
 
     def condition_frame_rendered
-      [condition_frame&.name, frame_damage_types.collect(&:name).join(", "), condition_frame_comments&.presense].compact.join(";").presence
+      [condition_frame&.name, frame_damage_types.collect(&:name).join(", "), condition_frame_comments&.presence].compact.join(";").presence
     end
 
     def hpd_keywords
