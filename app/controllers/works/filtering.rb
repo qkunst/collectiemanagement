@@ -118,6 +118,7 @@ module Works::Filtering
     end
 
     def sort_works(works)
+      return works if works.is_a?(Array) # doesn't work yet with an array
       works.except(:order).order_by(@work_display_form.sort)
     end
 

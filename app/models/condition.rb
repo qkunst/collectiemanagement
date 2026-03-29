@@ -20,7 +20,10 @@ class Condition < ApplicationRecord
   class << self
     def find_by_name name
       if name.is_a?(String) && (name.length > 3)
-        all.find { |a| a.name.downcase.match(name.downcase) }
+        all.find do |a|
+          a.name.downcase == name.downcase || a.name.downcase.match(name.downcase)
+        rescue RegexpError
+        end
       end
     end
   end

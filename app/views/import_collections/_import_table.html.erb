@@ -56,9 +56,9 @@ if @import_collection.import_file_snippet_to_workbook_table
   table = table.gsub(/data-key=\"([A-Za-z0-9\_\-]+)\"\>/) do |match|
     match = match.match(/\"([A-Za-z0-9\_\-]+)\"/)[1]
     '><div class="field-settings">
-      <label><select name="[import_settings]['+match+'][split_strategy]" title="Splits veld">'+split_strategy_options_html(match)+'</select></label>
-      <label><select name="[import_settings]['+match+'][assign_strategy]" title="Selecteer voor veld">'+assign_strategy_options_html(match)+'</select></label>
-      <label><select name="[import_settings]['+match+'][fields][]" multiple="multiple" title="Plaats in veld(en)" class="select2">'+field_options_html(match)+'</select></label>
+      <label><select name="import_settings['+match+'][split_strategy]" title="Splits veld">'+split_strategy_options_html(match)+'</select></label>
+      <label><select name="import_settings['+match+'][assign_strategy]" title="Selecteer voor veld">'+assign_strategy_options_html(match)+'</select></label>
+      <label><select name="import_settings['+match+'][fields][]" multiple="multiple" title="Plaats in veld(en)" class="select2">'+field_options_html(match)+'</select></label>
     </div>'
   end
   table = table.gsub("<tbody>","<tbody style=\"height: 50em; overflow-y: scroll\">")
