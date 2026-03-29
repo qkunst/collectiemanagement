@@ -79,7 +79,7 @@ class WorksController < ApplicationController
 
     begin
       set_works
-    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest, Works::Filtering::Error => e
       @works = []
       @works_count = 0
       @inventoried_objects_count = 0

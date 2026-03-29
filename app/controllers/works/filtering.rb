@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Works::Filtering
+  class Error < RuntimeError
+  end
   extend ActiveSupport::Concern
 
   MAX_WORK_COUNT = 99999
@@ -118,7 +120,7 @@ module Works::Filtering
     end
 
     def sort_works(works)
-      return works if works.is_a?(Array) # doesn't work yet with an array
+      raise Error, "unexpected list of works" if works.is_a?(Array) # doesn't work yet with an array
       works.except(:order).order_by(@work_display_form.sort)
     end
 
