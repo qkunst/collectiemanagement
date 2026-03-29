@@ -26,6 +26,7 @@ RSpec.feature "Import works", type: :feature do
     expect(page).to have_content("work_title")
     first("input[value='Import bewaren']").click
     expect(page).to have_content("Nog geen titel")
+
     click_on("Bewerk de importinstellingen")
     first('select[name="import_settings[stock_number][fields][]"] option[value="work.stock_number"]').select_option
     first('select[name="import_settings[artist_name][fields][]"] option[value="artists.last_name"]').select_option
@@ -33,7 +34,10 @@ RSpec.feature "Import works", type: :feature do
     first('select[name="import_settings[drager][fields][]"] option[value="work.medium"]').select_option
     first('select[name="import_settings[niveau][fields][]"] option[value="work.grade_within_collection"]').select_option
     first("[value='Import bewaren']").click
+
+    expect(page).to have_content("Qimp004")
     click_on "Importeer de werken"
+
     expect(page).to have_content("De werken zijn geïmporeerd.")
   end
 
