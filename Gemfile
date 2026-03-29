@@ -162,3 +162,6 @@ gem "pupprb", git: "https://gitlab.com/murb/pupprb.git"
 # gem "stimulus-rails"
 
 gem "ransack" # , "~> 4.3"
+gem "ostruct"
+gem "bcrypt"
+gem "stringio"

@@ -752,6 +752,7 @@ DEPENDENCIES
   annotate
   attribute_normalizer
   autoprefixer-rails
+  bcrypt
   bootsnap
   branding_repo!
   bullet
@@ -801,6 +802,7 @@ DEPENDENCIES
   omniauth-central_login!
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
+  ostruct
   paper_trail
   paper_trail-association_tracking
   parallel_tests
@@ -832,6 +834,7 @@ DEPENDENCIES
   standard
   standard-performance
   standard-rails
+  stringio
   strip_attributes
   web-console
   workbook!
