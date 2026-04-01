@@ -121,7 +121,7 @@ module Work::SizingRendering
       rv = [rv, "⌀ #{dimension_to_s(diameter)}"].compact.join("; ") if dimension_to_s(diameter)
       return nil if rv.empty?
 
-      rv
+      rv.presence
     end
 
     def numeric_value_with_fallback primary, secondary

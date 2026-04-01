@@ -5,10 +5,10 @@
     <%= define_when_present :object_categories, {humanize_attribute_value: true} %>
     <%= define_when_present :techniques %>
     <%= define_when_present :medium, {classname: :complete_data} %>
-    <%= define_when_present :frame_size_with_fallback%>
+    <%= define_when_present :frame_size_with_fallback %>
     <% case @work_display_form&.display %>
     <% when :limited_auction %>
-      <%= define_when_present :signature_rendered  %>
+      <%= define_when_present :signature_rendered %>
       <%= define_when_present :condition_work_rendered %>
       <%= define_when_present :condition_frame_rendered %>
     <% when :limited_selling_price %>
