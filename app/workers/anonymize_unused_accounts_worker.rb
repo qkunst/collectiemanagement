@@ -11,5 +11,8 @@ class AnonymizeUnusedAccountsWorker
         user.anonymize!
       end
     end
+    User.where(last_sign_in_at: nil, created_at: (...2.weeks.ago)).find_each do |user|
+      user.destroy!
+    end
   end
 end
