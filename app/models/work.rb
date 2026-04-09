@@ -311,7 +311,7 @@ class Work < ApplicationRecord
   end
 
   def appraisable_set
-    @appraisable_set ||= work_sets.reverse.find(&:count_as_one?)
+    @appraisable_set ||= work_sets.rfind(&:count_as_one?)
   end
 
   def countable_set
