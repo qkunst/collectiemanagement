@@ -8,7 +8,7 @@
 image: $CI_REGISTRY/murb-org/build-image/ruby:3.4
 
 variables:
-# Configure postgres service (https://hub.docker.com/_/postgres/)
+  # Configure postgres service (https://hub.docker.com/_/postgres/)
   POSTGRES_DB: gitlabci
   POSTGRES_USER: gitlabci
   POSTGRES_PASSWORD: gitlabci
@@ -35,7 +35,8 @@ test:
   rules:
     - if: $GOAL != "JUST_SECURITY"
   before_script:
-    - bundle install --path=vendor/ruby --without production --jobs $(nproc) "${FLAGS[@]}"
+    - bundle config set path 'vendor/ruby'
+    - bundle install "${FLAGS[@]}"
     - bundle exec rails db:create RAILS_ENV=gitlabci
     - bundle exec rails db:migrate RAILS_ENV=gitlabci
     - bundle exec rails qkunst:new_index_and_sync RAILS_ENV=gitlabci
@@ -46,7 +47,12 @@ test:
   services:
     - name: "docker.elastic.co/elasticsearch/elasticsearch:7.13.2"
       alias: "elasticsearch"
-      command: [ "bin/elasticsearch", "-Expack.security.enabled=false", "-Ediscovery.type=single-node" ]
+      command:
+        [
+          "bin/elasticsearch",
+          "-Expack.security.enabled=false",
+          "-Ediscovery.type=single-node",
+        ]
     - redis:alpine
     - postgres:11
   script:
