@@ -23,7 +23,7 @@ module Work::TimeSpans
     end
 
     def current_active_time_span
-      @current_active_time_span ||= time_spans.rfind(&:current_and_active?) || time_spans.rfind(&:current_and_active_or_reserved?)
+      @current_active_time_span ||= time_spans.to_a.rfind(&:current_and_active?) || time_spans.to_a.rfind(&:current_and_active_or_reserved?)
     end
 
     def last_active_time_span
