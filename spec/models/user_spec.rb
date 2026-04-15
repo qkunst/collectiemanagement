@@ -371,6 +371,24 @@ RSpec.describe User, type: :model do
         expect(new_user.facility_manager?).to be_truthy
         expect(new_user.collections).not_to include(collections(:collection1))
       end
+      it "auto stores the raw data" do
+        email = "a@a.com"
+        User.where(email: email).destroy_all
+        raw_open_id_token = OmniAuth::AuthHash.new(a: 2, b: [OmniAuth::AuthHash.new(a: 2)])
+
+        data = Users::OmniauthCallbackData.new(
+          email: email,
+          oauth_provider: "google_oauth2",
+          oauth_subject: "123", email_confirmed: true,
+          roles: ["jfjfjk"], issuer: "microsoft/abc",
+          raw_open_id_token:
+        )
+
+        new_user = User.from_omniauth_callback_data(data)
+
+        expect(new_user).to be_persisted
+        expect(new_user.raw_open_id_token).to eq({"a" => 2, "b" => [{"a" => 2}]})
+      end
       it "auto subscribes a user to a role and group when configured as such" do
         email = "a@a.com"
         User.where(email: email).destroy_all

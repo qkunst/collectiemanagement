@@ -72,7 +72,7 @@ module OAuthUserExtensions
         user.raw_open_id_token = data.raw_open_id_token&.to_hash
         user.app = !!data.app
         user.oauth_expires_at = data.oauth_expires_at
-        user.oauth_refresh_token ||= data.oauth_refresh_token
+        user.oauth_refresh_token = data.oauth_refresh_token if data.oauth_refresh_token
         user.oauth_access_token = data.oauth_access_token
 
         if user.issuer && user.issuer.issuer != data.issuer

@@ -62,11 +62,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_before_action :verify_authenticity_token
 
   def google_oauth2
-    data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: "google_oauth2")
-    data.email = omniauth_data.info[:email] unless omniauth_data.info[:email_verified] == false
-    data.email_confirmed = omniauth_data.info[:email_verified]
-    data.name = omniauth_data.info[:name]
-    data.domain = omniauth_data.dig("extra", "id_info", "hd") # hd contains organisation's domain in case of GoogleSuite-subscriber
+    data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"].to_s, oauth_provider: "google_oauth2")
+    data.email = omniauth_data.info[:email].to_s unless omniauth_data.info[:email_verified] == false
+    data.email_confirmed = omniauth_data.info[:email_verified].to_s
+    data.name = omniauth_data.info[:name].to_s
+    data.domain = omniauth_data.dig("extra", "id_info", "hd").to_s # hd contains organisation's domain in case of GoogleSuite-subscriber
     data.qkunst = true if data.domain == "qkunst.nl"
 
     data.raw_open_id_token = omniauth_data&.extra&.raw_info.to_h
@@ -98,17 +98,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def azureactivedirectory
-    data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"], oauth_provider: omniauth_data["provider"])
-    data.email = omniauth_data.info[:email]
+    data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"].to_s, oauth_provider: omniauth_data["provider"].to_s)
+    data.email = omniauth_data.info[:email].to_s
     data.email_confirmed = true
-    data.name = omniauth_data.info[:name]
+    data.name = omniauth_data.info[:name].to_s
     data.qkunst = false
 
     data.raw_open_id_token = omniauth_data&.extra&.raw_info&.id_token_claims&.to_h
     data.issuer = "#{omniauth_data["provider"]}/#{data.raw_open_id_token["iss"]}"
 
-    data.groups = data.raw_open_id_token["groups"]
-    data.roles = data.raw_open_id_token["wids"]
+    data.groups = data.raw_open_id_token["groups"].map(&:to_s)
+    data.roles = data.raw_open_id_token["wids"].map(&:to_s)
 
     create_user_with_callback_data(data, "Microsoft")
   end
