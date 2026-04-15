@@ -5,8 +5,8 @@ module Work::CustomParameterRendering
 
   included do
     # custom for single customer; will have to adjust when adding more customers
-    def business_rent_price_ex_vat
-      if Date.current >= Date.new(2026, 5, 1)
+    def business_rent_price_ex_vat(at_date = Date.current)
+      if at_date >= Date.new(2026, 5, 1)
         if selling_price.nil?
           nil
         elsif selling_price < 500
@@ -27,8 +27,8 @@ module Work::CustomParameterRendering
       end
     end
 
-    def default_rent_price
-      if Date.current >= Date.new(2026, 7, 1)
+    def default_rent_price(at_date = Date.current)
+      if at_date >= Date.new(2026, 7, 1)
         if selling_price.nil?
           nil
         elsif selling_price < 1000

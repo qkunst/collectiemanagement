@@ -183,6 +183,41 @@ RSpec.describe Api::V1::WorksController, type: :request do
         get api_v1_collection_works_path(collections(:collection_with_works), format: :json)
         expect(JSON.parse(response.body)["data"].count).to be < 3
       end
+
+      it "allows for retrieving prices" do
+        collection = collections(:collection_with_works)
+        work_of_interest = collection.works_including_child_works.first
+        work_of_interest.update(selling_price: 1000)
+        collection.update(commercial: true)
+
+        get api_v1_collection_works_path(collection, format: :json)
+        data = JSON.parse(response.body)["data"]
+        work_data = data.find { |work| work["id"] == work_of_interest.id }
+
+        expect(work_data["selling_price"].to_i).to eq(1000)
+        expect(work_data["default_rent_price"].to_i).to be > 0
+        expect(work_data["default_rent_price"].to_i).to be < 1000
+      end
+
+      it "allows for retrieving rent prices at certain date" do
+        collection = collections(:collection_with_works)
+        work_of_interest = collection.works_including_child_works.first
+        work_of_interest.update(selling_price: 1000)
+        collection.update(commercial: true)
+
+        get api_v1_collection_works_path(collection, format: :json, params: {rent_prices_at_date: Date.new(2024, 1, 1)})
+        data = JSON.parse(response.body)["data"]
+        work_data = data.find { |work| work["id"] == work_of_interest.id }
+
+        expect(work_data["selling_price"].to_i).to eq(1000)
+        expect(work_data["default_rent_price"].to_i).to eq(14)
+
+        get api_v1_collection_works_path(collection, format: :json, params: {rent_prices_at_date: Date.new(2026, 9, 1)})
+        data = JSON.parse(response.body)["data"]
+        work_data = data.find { |work| work["id"] == work_of_interest.id }
+
+        expect(work_data["default_rent_price"].to_i).to eq(16)
+      end
     end
 
     describe "GET /api/v1/collections/:collection_id/works/:id #show" do

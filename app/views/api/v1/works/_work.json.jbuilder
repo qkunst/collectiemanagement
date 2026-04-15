@@ -102,11 +102,12 @@ if current_api_user.ability.can?(:read, Appraisal)
   json.market_value_range "#{work.market_value_min}-#{work.market_value_max}"
   json.replacement_value work.replacement_value
   json.replacement_value_range "#{work.replacement_value_min}-#{work.replacement_value_max}"
-
 end
+
 json.collection_attributes(work.collection_attributes) do |collection_attribute|
   json.extract! collection_attribute, :value, :language, :attribute_type, :label
 end
+
 if current_api_user.ability.can?(:read, TimeSpan)
   json.time_spans(work.time_spans) do |time_span|
     json.partial! "api/v1/time_spans/time_span", locals: {time_span: time_span, work_context: true}
@@ -119,6 +120,10 @@ if current_api_user.ability.can?(:read, TimeSpan)
 end
 json.available work.available?
 json.tag_list work.cached_tag_list
-json.business_rent_price_ex_vat work.business_rent_price_ex_vat
-json.default_rent_price work.default_rent_price
+
+if @collection.commercial?
+  json.business_rent_price_ex_vat work.business_rent_price_ex_vat(params[:rent_prices_at_date]&.try(:to_date) || Date.current)
+  json.default_rent_price work.default_rent_price(params[:rent_prices_at_date]&.try(:to_date) || Date.current)
+end
+
 json.url collection_work_url(work.collection, work)

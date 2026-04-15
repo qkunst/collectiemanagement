@@ -16,11 +16,27 @@ RSpec.describe Work::CustomParameterRendering do
       end
     end
 
+    {nil => nil, 12 => 8.5, 1000 => 14, 2000 => 22, 10000 => 110}.each do |selling_price, rent_price|
+      it "returns #{rent_price} when the selling price is #{selling_price} when new date is explicitly sent" do
+        travel_to(new_date - 1.day) do
+          expect(Work.new(selling_price: selling_price).business_rent_price_ex_vat(new_date)).to eq(rent_price)
+        end
+      end
+    end
+
     context "new price regime" do
       {nil => nil, 12 => 8.5, 1000 => 14, 2000 => 22, 10000 => 110}.each do |selling_price, rent_price|
         it "returns #{rent_price} when the selling price is #{selling_price}" do
           travel_to(new_date) do
             expect(Work.new(selling_price: selling_price).business_rent_price_ex_vat).to eq(rent_price)
+          end
+        end
+      end
+
+      {nil => nil, 12 => 7, 1000 => 12.4, 1700 => 17, 10000 => 100}.each do |selling_price, rent_price|
+        it "returns #{rent_price} when the selling price is #{selling_price} and old date is explititly sent" do
+          travel_to(new_date) do
+            expect(Work.new(selling_price: selling_price).business_rent_price_ex_vat(new_date - 1)).to eq(rent_price)
           end
         end
       end
@@ -38,6 +54,14 @@ RSpec.describe Work::CustomParameterRendering do
       it "returns #{rent_price} when the selling price is #{selling_price}" do
         travel_to(new_date - 1.day) do
           expect(Work.new(selling_price: selling_price).default_rent_price).to eq(rent_price)
+        end
+      end
+    end
+
+    {nil => nil, 12 => 9.50, 1000 => 16, 1700 => 16, 4700 => 40, 7500 => nil}.each do |selling_price, rent_price|
+      it "returns #{rent_price} when the selling price is #{selling_price} and new date is explicitly sent" do
+        travel_to(new_date - 1.day) do
+          expect(Work.new(selling_price: selling_price).default_rent_price(new_date)).to eq(rent_price)
         end
       end
     end
