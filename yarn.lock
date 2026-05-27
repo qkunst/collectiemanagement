@@ -1064,17 +1064,17 @@ __metadata:
     promise-polyfill: "npm:>=8.1.3"
     puppeteer: "npm:^24.1.0"
     rails-ujs: "npm:>=5.2.4-1"
-    select2: "npm:>=4.0.12"
+    select2: "npm:^4.1.0"
     stimulus: "npm:^3.2.1"
     what-input: "npm:>=5.2.6"
     yarn: "npm:>=1.22.19"
   languageName: unknown
   linkType: soft
 
-"select2@npm:>=4.0.12":
-  version: 4.0.13
-  resolution: "select2@npm:4.0.13"
-  checksum: 10c0/a393866565a5f878ca21276ed32793595851debb35ff48a8c368640e732619349f547d335b438b45ff5647145eb6c5af868cd5153740de58306a2dca2498550f
+"select2@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "select2@npm:4.1.0"
+  checksum: 10c0/4cb595600e91a319473013ffdf37cc14cfdb31ba3c0a930a0b652cbd924abccce17b1f45630d073da18ad820ecd402420c57355b15b045e683ef0a96783eaf1d
   languageName: node
   linkType: hard
 
