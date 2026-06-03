@@ -118,7 +118,14 @@ module ApplicationHelper
     end.join("\n").html_safe
   end
 
-  def all_filter_data_to_hidden_inputs
-    data_to_hidden_inputs({time_filter: @time_filter&.to_parameters, filter: @selection_filter, no_child_works: @no_child_works, q: @search_text}.compact_blank)
+  def all_filter_data_to_hidden_inputs(filter: @selection_filter)
+    data_to_hidden_inputs({
+      time_filter: @time_filter&.to_parameters,
+      filter:,
+      no_child_works: @no_child_works,
+      ids: @ids_filter&.join(","),
+      work_ids_hash: params[:work_ids_hash],
+      q: @search_text
+    }.compact_blank)
   end
 end

@@ -160,7 +160,7 @@
     </div>
 
     <div class="hidden inputs">
-      <%= data_to_hidden_inputs({filter: @selection_filter.select{|k,v| [k,v] unless %w[geoname_ids tag_list placeability_id grade_within_collection sources.id subset_id main_collection cluster_id object_categories.id availability_status].include?(k)}}) %>
+      <%= all_filter_data_to_hidden_inputs(filter: @selection_filter.select{|k,v| [k,v] unless %w[geoname_ids tag_list placeability_id grade_within_collection sources.id subset_id main_collection cluster_id object_categories.id availability_status].include?(k)}) %>
     </div>
 
   </aside>

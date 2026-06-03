@@ -53,7 +53,7 @@ class BatchesController < ApplicationController
 
   def set_works_by_numbers
     work_numbers = separate_by(params[:work_numbers_return_separated], /\n/)
-    work_ids = separate_by(params[:work_ids_comma_separated], /,/) + Array(params[:selected_works])
+    work_ids = separate_by(params[:ids], /,/) + Array(params[:selected_works])
 
     selected_work_group_type = :skip
     selected_work_group_ids = []

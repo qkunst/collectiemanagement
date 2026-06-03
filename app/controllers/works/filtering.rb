@@ -26,16 +26,22 @@ module Works::Filtering
     # sets filter starting with empty or a user's previous filter; but reset when params are present that modify the state
     def initiate_filter
       @selection_filter = current_user&.filter_params&.[](:filter) || {}
-      if params[:filter] || params[:work_display_form] || params[:ids] || params[:work_ids_comma_separated] || params[:time_filter] || params[:work_ids_hash]
+      if params[:filter] || params[:work_display_form] || params[:ids] || params[:time_filter] || params[:work_ids_hash]
         @selection_filter = {}
       end
     end
 
     def set_all_filters
+      set_ids_filter
       set_selection_filter
       set_time_filter
       set_no_child_works
       set_search_text
+    end
+
+    def set_ids_filter
+      @ids_filter = Array(params[:ids]).join(",").split(",").map(&:to_i) if params[:ids]
+      @work_ids_hash = params[:work_ids_hash] if params[:work_ids_hash]&.match?(/\A[A-Za-z0-9+\/=]+\z/)
     end
 
     def set_time_filter
@@ -107,8 +113,8 @@ module Works::Filtering
 
       @works = @collection.search_works(@search_text, filter || {}, options)
       @works = @works.published if params[:published]
-      @works = @works.where(id: Array(params[:ids]).join(",").split(",").map(&:to_i)) if params[:ids]
-      @works = @works.where(id: IdsHash.recover(params[:work_ids_hash])) if params[:work_ids_hash]
+      @works = @works.where(id: @ids_filter) if @ids_filter
+      @works = @works.where(id: IdsHash.recover(@work_ids_hash)) if @work_ids_hash
       @works = @works.significantly_updated_since(DateTime.parse(params[:significantly_updated_since])) if params[:significantly_updated_since]
 
       @inventoried_objects_count = @works.distinct.count

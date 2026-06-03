@@ -168,7 +168,7 @@ RSpec.describe "WorkBatchs", type: :request do
       it "should store appraisal" do
         sign_in users(:appraiser)
         appraisal_date = "2012-07-21".to_date
-        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "REPLACE"}}}}
+        patch collection_batch_path(collections(:collection1)), params: {ids: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "REPLACE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
         expect(appraisal.market_value).to eq(2_000)
@@ -178,7 +178,7 @@ RSpec.describe "WorkBatchs", type: :request do
       it "should ignore ignored fields" do
         sign_in users(:appraiser)
         appraisal_date = Time.current.to_date
-        patch collection_batch_path(collections(:collection1)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
+        patch collection_batch_path(collections(:collection1)), params: {ids: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
         appraisal = Appraisal.find_by(appraised_on: appraisal_date)
         expect(appraisal.appraised_on).to eq(appraisal_date)
         expect(appraisal.market_value).to eq(2_000)
@@ -192,7 +192,7 @@ RSpec.describe "WorkBatchs", type: :request do
         it "should stop when work cannot be appraised (diptych scenario)" do
           sign_in users(:appraiser)
           appraisal_date = Time.current.to_date + 5.day
-          patch collection_batch_path(collections(:collection3)), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
+          patch collection_batch_path(collections(:collection3)), params: {ids: work_selection.map(&:id).join(","), work: {appraisals_attributes: {"0": {appraised_on: appraisal_date, update_appraised_on_strategy: "REPLACE", appraised_by: "Harald", update_appraised_by_strategy: "REPLACE", market_value: 2_000, update_market_value_strategy: "REPLACE", reference: "abc", update_reference_strategy: "IGNORE"}}}}
           appraisal = Appraisal.find_by(appraised_on: appraisal_date)
           expect(appraisal).to eq(nil)
           expect(response.body).to match("Het gewaardeerde werk is niet afzonderlijk te waarderen")
@@ -208,7 +208,7 @@ RSpec.describe "WorkBatchs", type: :request do
         collection = collections(:collection1)
         theme = themes(:fire)
 
-        patch collection_batch_path(collection), params: {work_ids_comma_separated: work_selection.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
+        patch collection_batch_path(collection), params: {ids: work_selection.map(&:id).join(","), work: {collection_id: collection.id, theme_ids: ["", theme.id], update_theme_ids_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
         expect(response).to redirect_to collection_works_path(ids: work_selection.map(&:id).sort.join(","))
 
@@ -250,7 +250,7 @@ RSpec.describe "WorkBatchs", type: :request do
           a.tag_list = ["existing_tag"]
           a.save
         end
-        patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REPLACE"}}
+        patch collection_batch_path(collection), params: {ids: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REPLACE"}}
         expect(response).to have_http_status(302)
         works.collect do |a|
           a.reload
@@ -265,7 +265,7 @@ RSpec.describe "WorkBatchs", type: :request do
           a.tag_list = ["existing_tag"]
           a.save
         end
-        patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "APPEND"}}
+        patch collection_batch_path(collection), params: {ids: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "APPEND"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }
         expect(works.first.tag_list).to match_array(["existing_tag", "eerste nieuwe tag", "first new tag"])
@@ -278,7 +278,7 @@ RSpec.describe "WorkBatchs", type: :request do
           a.tag_list = ["existing_tag", "tag to delete"]
           a.save
         end
-        patch collection_batch_path(collection), params: {work_ids_comma_separated: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["tag to delete", "eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REMOVE"}}
+        patch collection_batch_path(collection), params: {ids: works.map(&:id).join(","), work: {collection_id: collection.id, tag_list: ["tag to delete", "eerste nieuwe tag", "first new tag"], update_tag_list_strategy: "REMOVE"}}
         expect(response).to have_http_status(302)
         works.collect { |a| a.reload }
         expect(works.first.tag_list).to match_array(["existing_tag"])
