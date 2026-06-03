@@ -58,6 +58,9 @@ require "rails_helper"
 RSpec.describe User, type: :model do
   include ActiveJob::TestHelper
 
+  let(:password) { "tops3crtAndVerySecure!" }
+  let(:password_confirmation) { password }
+
   after do
     clear_enqueued_jobs
   end
@@ -170,7 +173,7 @@ RSpec.describe User, type: :model do
     end
     describe "#collection_accessibility_log" do
       it "should be empty when new" do
-        u = User.new({email: "test@example.com", password: "tops3crt!", password_confirmation: "tops3crt!"})
+        u = User.new({email: "test@example.com", password:, password_confirmation:})
         expect(u.collection_accessibility_serialization).to eq({})
         u.save
         u.reload
@@ -481,14 +484,14 @@ RSpec.describe User, type: :model do
       it "should not send a message after update" do
         offset = ActiveJob::Base.queue_adapter.enqueued_jobs.size
         expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
-        User.create(email: "new@example.com", password: "asdfasdf", password_confirmation: "asdfasdf")
+        User.create(email: "new@example.com", password:, password_confirmation:)
         expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
       end
 
       it "should send a message after confirmation" do
         offset = ActiveJob::Base.queue_adapter.enqueued_jobs.size
         expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
-        u = User.create(email: "new@example.com", password: "asdfasdf", password_confirmation: "asdfasdf")
+        u = User.create(email: "new@example.com", password:, password_confirmation:)
         expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
         u.confirmed_at = Time.current
         u.save
