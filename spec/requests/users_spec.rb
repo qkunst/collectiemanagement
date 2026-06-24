@@ -23,7 +23,7 @@ RSpec.describe "/users", type: :request do
   describe "GET /users/sign_in" do
     it "uses HTML password fields that hide the passowrd [QSECIMP0012]" do
       get new_user_session_path
-      expect(response.body).to match /input.*type="password" name="user\[password\]" id="user_password"/
+      expect(response.body).to match(/input.*type="password" name="user\[password\]" id="user_password"/)
     end
   end
 
@@ -54,7 +54,6 @@ RSpec.describe "/users", type: :request do
       end
     end
   end
-
 
   describe "DELETE /users/:id [QSECIMP0007]" do
     it "is not possible for an anonymous user to edit a user" do

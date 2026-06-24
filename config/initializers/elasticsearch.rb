@@ -12,7 +12,6 @@ if Rails.application.credentials.elasticsearch_host
   }
 end
 
-
 hosts = begin
   Rails.application.config.elasticsearch[:hosts]
 rescue NoMethodError
