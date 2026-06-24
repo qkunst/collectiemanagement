@@ -82,24 +82,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-  Rails.application.config.middleware.use ExceptionNotification::Rack,
-    email: {
-      email_prefix: "[#{I18n.t("application.name")}-#{Rails.env}] ",
-      sender_address: %("#{I18n.t("application.name")} Exception" <execption_notification@murb.nl>),
-      exception_recipients: ["#{"#{I18n.t("application.name")}-#{Rails.env}".parameterize}@murb.nl"]
-    }
-
-  if Rails.application.credentials.elasticsearch_host
-    config.elasticsearch = {
-      hosts: [{
-        host: Rails.application.credentials.elasticsearch_host,
-        port: Rails.application.credentials.elasticsearch_port,
-        user: Rails.application.credentials.elasticsearch_user,
-        password: Rails.application.credentials.elasticsearch_password,
-        scheme: Rails.application.credentials.elasticsearch_scheme
-      }]
-    }
-  end
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [:id]

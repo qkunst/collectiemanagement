@@ -7,7 +7,7 @@ RSpec.describe Collection::UsersController, type: :request do
 
   let(:collection) { collections(:collection1) }
 
-  describe "GET /collections/:id/users" do
+  describe "GET /collections/:id/users [QSECIMP0009]" do
     it "shouldn't be publicly accessible!" do
       get collection_users_path(collection)
       expect(response).to have_http_status(302)

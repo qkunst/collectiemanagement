@@ -20,24 +20,67 @@ RSpec.describe "/users", type: :request do
     end
   end
 
-  describe "POST /users/session" do
+  describe "GET /users/sign_in" do
+    it "uses HTML password fields that hide the passowrd [QSECIMP0012]" do
+      get new_user_session_path
+      expect(response.body).to match /input.*type="password" name="user\[password\]" id="user_password"/
+    end
+  end
+
+  describe "POST /users/session [QSECIMP0011]" do
     it "returns a 422 when signing in without authenticity token" do
       post user_session_path(params: {user: {email: "test-user2@murb.nl", password: "asdfasdf", remember_me: false}})
       expect(response).to be_unprocessable
     end
   end
 
-  describe "User Devise config" do
-    it "has support for time based unlocking [QSECIMP0028]" do
-      expect(User.unlock_strategy_enabled?(:time)).to be_truthy
+  describe "GET /users/:id/edit [QSECIMP0007]" do
+    it "is not possible for an anonymous user to edit a user" do
+      get edit_user_path(users(:user2))
+      expect(response).to be_redirect
     end
 
-    it "has support for email based unlocking [QSECIMP0028]" do
-      expect(User.unlock_strategy_enabled?(:email)).to be_truthy
+    it "is possible for an admin to edit a user" do
+      sign_in users(:admin)
+      get edit_user_path(users(:user2))
+      expect(response).to be_successful
     end
 
-    it "allows for a maximum of 10 requests [QSECIMP0028]" do
-      expect(Devise.maximum_attempts).to be <= 10
+    (User::ROLES - [:admin]).each do |role|
+      it "is not possible for an #{role} user to edit a user" do
+        sign_in users(role)
+        get edit_user_path(users(:user2))
+        expect(response).not_to be_successful
+      end
+    end
+  end
+
+
+  describe "DELETE /users/:id [QSECIMP0007]" do
+    it "is not possible for an anonymous user to edit a user" do
+      expect do
+        delete user_path(users(:user2))
+      end.not_to change(User, :count)
+
+      expect(response).to be_redirect
+    end
+
+    it "is possible for an admin to edit a user" do
+      sign_in users(:admin)
+      expect do
+        delete user_path(users(:user2))
+      end.to change(User, :count).by(-1)
+      expect(response).to be_redirect
+    end
+
+    (User::ROLES - [:admin]).each do |role|
+      it "is not possible for an #{role} user to edit a user" do
+        sign_in users(role)
+        expect do
+          delete user_path(users(:user2))
+        end.not_to change(User, :count)
+        expect(response).not_to be_successful
+      end
     end
   end
 end

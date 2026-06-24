@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "RKD::Artists", type: :request do
+RSpec.describe "RKD::Artists QSECIMP0008", type: :request do
   describe "GET /rkd_artists" do
     it "shouldn't be publicly accessible" do
       get rkd_artists_path

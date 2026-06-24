@@ -64,6 +64,7 @@ RSpec.describe User, type: :model do
   after do
     clear_enqueued_jobs
   end
+
   describe "methods" do
     describe "#accessible_collections" do
       it "should return all collections when admin (except when not qkunst managed)" do
@@ -179,6 +180,7 @@ RSpec.describe User, type: :model do
         u.reload
         expect(u.collection_accessibility_serialization).to eq({})
       end
+
       it "should log accessible projects with name and id on save" do
         u = users(:user3)
         expect(u.collection_accessibility_serialization).to eq({})
@@ -318,6 +320,7 @@ RSpec.describe User, type: :model do
         expect(accessible_users).not_to include(users(:read_only)) # collection3 isn't in collection 1 tree
       end
     end
+
     describe "#accessible_roles" do
       manager_role_roles = [:advisor, :compliance, :qkunst, :appraiser, :facility_manager, :read_only]
 
@@ -333,6 +336,23 @@ RSpec.describe User, type: :model do
         advisor = users(:advisor)
         advisor.role_manager = true
         expect(advisor.accessible_roles).to eq(manager_role_roles)
+      end
+    end
+
+    describe "#password" do
+      it "doesn't store passwords in plain text [QSECIMP0013]" do
+        user = User.create(email: "new@example.com", password:, password_confirmation:)
+        json_user_attributes = user.attributes.to_json
+        expect(user.attributes["encrypted_password"]).not_to eq(password)
+        expect(json_user_attributes).not_to match password
+      end
+
+      it "logs a password change [QSECIMP0017] " do
+        old_password = "before123123"
+        user = User.create(email: "new@example.com", password: old_password, password_confirmation: old_password)
+        expect {
+          user.update(password:, password_confirmation:)
+        }.to change(user.versions, :count).by(1)
       end
     end
   end
@@ -506,6 +526,30 @@ RSpec.describe User, type: :model do
         u.update(name: "Registrator")
         expect(ActiveJob::Base.queue_adapter.enqueued_jobs.size).to eq(offset)
       end
+    end
+  end
+
+  describe "Lifecycle [QSECIMP0018, QSECIMP0019]" do
+    it "logs on create" do
+      expect {
+        User.create(email: "new@example.com", password:, password_confirmation:)
+      }.to change(PaperTrail::Version.where(item_type: "User"), :count).by(1)
+    end
+
+    it "logs on update" do
+      user = users(:qkunst)
+
+      expect {
+        user.update(password:, password_confirmation:)
+      }.to change(PaperTrail::Version.where(item_type: "User"), :count).by(1)
+    end
+
+    it "logs on destroy" do
+      user = users(:qkunst)
+
+      expect {
+        user.destroy
+      }.to change(PaperTrail::Version.where(item_type: "User"), :count).by(1)
     end
   end
 end

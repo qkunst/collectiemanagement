@@ -90,6 +90,8 @@ group :development do
   gem "standard"
   gem "standard-performance"
   gem "standard-rails"
+  gem "ruby-lsp"
+  gem "brakeman"
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'

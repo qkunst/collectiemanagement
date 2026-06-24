@@ -56,6 +56,7 @@ test:
     - redis:alpine
     - postgres:11
   script:
+    - echo "QSECIMP0022	CI	Automatisch testen"
     - yarn install --cache-folder .yarn-cache
     - bundle exec rails assets:precompile RAILS_ENV=gitlabci
     - RAILS_ENV=gitlabci bundle exec rspec
@@ -83,11 +84,13 @@ standard:
 
 bundleaudit:
   script:
+    - echo "QSECIMP0001	CI	Automatisch scannen gems"
     - gem install bundler-audit
     - bundle audit
 
 brakeman:
   script:
+    - echo "QSECIMP0002	CI	Automatisch scannen code op fouten"
     - gem install prism # older versions of prism might give errors on `it`
     - gem install brakeman
     - brakeman -i config/brakeman.ignore
