@@ -28,7 +28,6 @@ describe "Initializers" do
       load Rails.root.join("config/initializers/elasticsearch.rb")
       expect(Elasticsearch::Model.client.transport.transport.hosts).to eq([{host: "127.0.0.1", password: nil, port: 9200, protocol: "http", scheme: nil, user: nil}])
     end
-
   end
 
   describe "Devise" do
@@ -49,7 +48,7 @@ describe "Initializers" do
     end
 
     it "enforces minimum password complexity [QSECIMP0015]" do
-      expect(Devise.password_length).to be >= 12
+      expect(Devise.password_length.min).to be >= 12
     end
   end
 end
