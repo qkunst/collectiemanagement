@@ -233,9 +233,10 @@ GEM
     concurrent-ruby (1.3.7)
     connection_pool (3.0.2)
     content_disposition (1.0.0)
-    crass (1.0.6)
-    css_parser (2.2.0)
+    crass (1.0.7)
+    css_parser (3.0.0)
       addressable
+      ssrf_filter (~> 1.5)
     csv (3.3.5)
     daemons (1.4.1)
     database_cleaner (2.1.0)
@@ -303,7 +304,7 @@ GEM
       railties (>= 3.1.0)
       sass (>= 3.3.0)
       sprockets-es6 (>= 0.9.0)
-    fugit (1.12.2)
+    fugit (1.12.3)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     globalid (1.4.0)
@@ -365,7 +366,7 @@ GEM
     loofah (2.25.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    mail (2.9.0)
+    mail (2.9.1)
       logger
       mini_mime (>= 0.1.1)
       net-imap
@@ -403,7 +404,7 @@ GEM
       net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.2)
+    net-ssh (7.3.3)
     nio4r (2.7.5)
     nokogiri (1.19.4)
       mini_portile2 (~> 2.8.2)
@@ -479,16 +480,13 @@ GEM
       ttfunk (~> 1.8)
     prawn-labels (1.2.6)
       prawn (>= 1.0.0, < 3.0.0)
-    prawn-svg (0.40.2)
-      css_parser (>= 1.6, < 3)
+    prawn-svg (0.40.3)
+      css_parser (>= 1.17.1, < 4)
       matrix (~> 0.4.2)
       prawn (>= 0.11.1, < 3)
       rexml (>= 3.4.2, < 4)
     prettyprint (0.2.0)
     prism (1.9.0)
-    psych (5.4.0)
-      date
-      stringio
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
@@ -553,9 +551,10 @@ GEM
       prism (>= 1.6.0)
       tsort
     rchardet (1.10.2)
-    rdoc (7.2.0)
+    rdoc (8.0.0)
       erb
-      psych (>= 4.0.0)
+      prism (>= 1.6.0)
+      rbs (>= 4.0.0)
       tsort
     redis-client (0.30.0)
       connection_pool
@@ -578,7 +577,7 @@ GEM
     rspec-mocks (3.13.8)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-openapi (0.28.0)
+    rspec-openapi (0.30.0)
       actionpack (>= 5.2.0)
       rails-dom-testing
       rspec-core
@@ -626,7 +625,7 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    rubyzip (3.4.0)
+    rubyzip (3.4.1)
     rufus-scheduler (3.9.2)
       fugit (~> 1.1, >= 1.11.1)
     sass (3.7.4)
