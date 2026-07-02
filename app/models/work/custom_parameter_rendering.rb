@@ -36,9 +36,9 @@ module Work::CustomParameterRendering
         elsif selling_price < 2000
           16.0
         elsif selling_price >= 7500
-          (selling_price / 100.0).round(2)
+          (selling_price / 100.0 * 1.1).round(2)
         else
-          [selling_price / 100.0, 40].min
+          [(selling_price / 100.0 * 1.1).round(2), 40].min
         end
       elsif selling_price.nil?
         nil
