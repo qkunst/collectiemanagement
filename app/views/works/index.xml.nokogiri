@@ -46,11 +46,11 @@ xml.works(
       xml['dcterms'].alternative work.description if work.description
       xml['dc'].description work.public_description
 
-      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number"}, work.stock_number)
-      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number_file_safe"}, work.stock_number_file_safe)
-      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_1"}, work.alt_number_1)
-      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_2"}, work.alt_number_2)
-      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_3"}, work.alt_number_3)
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number"}, work.stock_number) if work.stock_number.present?
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:stock_number_file_safe"}, work.stock_number_file_safe) if work.stock_number_file_safe.present?
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_1"}, work.alt_number_1) if work.alt_number_1.present?
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_2"}, work.alt_number_2) if work.alt_number_2.present?
+      xml['dc'].identifier({"xsi:scheme"=>"qkunst:alt_number_3"}, work.alt_number_3) if work.alt_number_3.present?
 
       work.artists.each do |author|
         xml['dcterms'].creator do
@@ -63,15 +63,6 @@ xml.works(
             xml['dc'].identifier author.rkd_artist_id
             xml['rdau'].P60594((author.place_of_birth_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_birth_geoname_id}"} : {}), author.place_of_birth)
             xml['rdau'].P60592((author.place_of_death_geoname_id ? {"rdf:resource"=>"http://sws.geonames.org/#{author.place_of_death_geoname_id}"} : {}), author.place_of_death)
-            # rdaGr2:biographicalInformation > rdau:P60492
-            # rdaGr2:dateOfBirth > rdau:P60599
-            # rdaGr2:dateOfDeath > rdau:P60598
-            # rdaGr2:dateOfEstablishment > rdau:P60524
-            # rdaGr2:dateOfTermination > rdau:P60525
-            # rdaGr2:gender > rdau:P60531
-            # rdaGr2:professionOrOccupation > rdau:P60468
-            # rdaGr2:placeOfBirth > rdau:P60594
-            # rdaGr2:placeOfDeath > rdau:P60592
           end
         end
       end
@@ -88,7 +79,7 @@ xml.works(
       xml['dc'].date({unknown: work.object_creation_year_unknown}, work.object_creation_year)
 
       xml.medium work.medium.name if work.medium
-      xml.print_({unkown: work.print_unknown}, work.print)
+      xml.print_({unknown: work.print_unknown}, work.print)
       xml.signature_comments({not_present: work.no_signature_present}, work.signature_comments) if @fields_to_expose.include? "signature_comments"
 
       dcterms_extent(xml, work.frame_width,    {unit: "cm", dimension: "width", describes: "frame"})           if @fields_to_expose.include? "frame_width"
@@ -141,7 +132,6 @@ xml.works(
       has_name(xml, :style, work.style) if @fields_to_expose.include? "style_id"
       has_name(xml, :subset, work.subset) if @fields_to_expose.include? "subset_id"
       has_name(xml, :created_by, work.created_by) if @fields_to_expose.include? "created_by"
-      has_name(xml, :medium, work.medium) if @fields_to_expose.include? "medium_id"
       has_name(xml, :placeability, work.placeability) if @fields_to_expose.include? "placeability"
       has_name(xml, :owner, work.owner) if @fields_to_expose.include? "owner"
       has_name(xml, :cluster, work.cluster) if @fields_to_expose.include? "cluster_id"
