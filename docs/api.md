@@ -71,4 +71,3 @@ Een meer curly request:
     response = JSON.parse(`#{command}`)
 
     puts "Succesful" if response["data"].count > 1
-
