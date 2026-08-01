@@ -104,7 +104,7 @@ namespace :rbenv do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
-        puts "rbenv already installed, updating..."
+        puts "rbenv already installed, updating..." # standard:disable Rails/Output
       end
       begin
         execute "cd ~/.rbenv && git pull"
@@ -118,7 +118,7 @@ namespace :rbenv do
       begin
         execute "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
       rescue SSHKit::Command::Failed
-        puts "rbenv/ruby-build plugin already installed, updating..."
+        puts "rbenv/ruby-build plugin already installed, updating..." # standard:disable Rails/Output
         execute "cd ~/.rbenv/plugins/ruby-build && git pull"
       end
       rbenv_ruby = File.read(".ruby-version").strip
