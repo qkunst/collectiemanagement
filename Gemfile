@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~>8.0"
+gem "rails", "~>8.1"
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # Use Puma as the app server
@@ -127,7 +127,7 @@ gem "mail" # , "~> 2.7.0"
 gem "daemons"
 gem "redis-rails" # jobs
 gem "exception_notification"
-gem "zipline", git: "https://github.com/alhajrahmoun/zipline.git", ref: "3fcbe12b01e6399a0a4db5292addecdb267cfa03"
+gem "zipline" # , git: "https://github.com/alhajrahmoun/zipline.git", ref: "3fcbe12b01e6399a0a4db5292addecdb267cfa03"
 gem "rubyzip" # , "2.3.2"
 gem "rack-headers_filter"
 gem "strip_attributes"
