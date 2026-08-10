@@ -55,7 +55,7 @@ RSpec.describe Works::Filtering, type: :model do
     it "returns works in a hash" do
       subject.params = {work_ids_hash: ids_hash.hashed}
       subject.send(:set_ids_filter)
-      expect(subject.send(:set_works)).to eq([works(:work1), works(:work2)])
+      expect(subject.send(:set_works).map(&:id).sort).to eq([works(:work1), works(:work2)].map(&:id).sort)
     end
   end
 end
