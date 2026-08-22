@@ -20,7 +20,7 @@ RSpec.describe "BatchPhotoUploads", type: :request do
       expect(response).to have_http_status(302)
     end
 
-    xit "creates thumbs when upload is started" do
+    it "creates thumbs when upload is started" do
       sign_in users(:admin)
       c = Collection.create(name: "test")
       file = fixture_file_upload("image.jpg", "image/jpeg", :binary)
