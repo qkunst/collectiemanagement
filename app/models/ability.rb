@@ -299,6 +299,13 @@ class Ability
     can [:time_filter, :read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :create, :update, :read, :download_photos, :download_datadump, :download_pdf, :download_title_labels, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :review, :destroy], Collection, id: accessible_collection_ids
 
     can [:edit_availability, :read_status, :read_api, :create_work_events_api, :read, :read_condition, :create, :tag, :update, :edit_photos, :read_information_back, :manage_location, :read_internal_comments, :edit_purchase_information, :edit_source_information, :write_internal_comments, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
+
+    # advisors should be able to destroy works if their collections are not managed by QKunst
+    can :destroy, Work do |work|
+      work.collection_id.in?(accessible_collection_ids) &&
+        !work.collection.qkunst_managed?
+    end
+
     can [:create, :update, :read, :complete], Message
   end
 

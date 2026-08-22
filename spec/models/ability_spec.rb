@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Ability, type: :model do
+RSpec.describe Ability, "[QSECIMP0005]", type: :model do
   example_groups = {
     admin: {
       "Works" => [
@@ -23,6 +23,7 @@ RSpec.describe Ability, type: :model do
       ],
       "Works" => [
         [:read, :work, :work1, true],
+        [:destroy, :work, :work1, false],
         [:edit, :work, :work1, true],
         [:edit_location, :work, :work1, true],
         [:read, :work, :work6, false],
@@ -41,6 +42,7 @@ RSpec.describe Ability, type: :model do
         [:read_extended_report, :collection, :collection_with_works, true]
       ],
       "Works" => [
+        [:destroy, :work, :work1, false],
         [:read, :work, :work1, true],
         [:edit, :work, :work1, false],
         [:edit_location, :work, :work1, false],
@@ -85,6 +87,7 @@ RSpec.describe Ability, type: :model do
       ],
       "Works" => [
         [:read, :work, :work1, true],
+        [:destroy, :work, :work1, false],
         [:edit, :work, :work1, false],
         [:edit_location, :work, :work1, true],
         [:read, :work, :work6, false],
@@ -120,15 +123,38 @@ RSpec.describe Ability, type: :model do
   }
 
   example_groups.each do |k1, v1|
-    context "#{k1} [QSECIMP0005]" do
+    context k1.to_s.humanize do
       let(:user) { Ability.new(users(k1)) }
       v1.each do |k2, v2|
         describe k2 do
           v2.each do |v3|
-            it "#{v3[3] ? "can" : "cannot"} #{v3[0]} #{v3[1]}(:#{v3[2]})" do
+            it "#{v3[3] ? "can" : "can not"} #{v3[0]} #{v3[1]}(:#{v3[2]})".humanize do
               test_obj = send(v3[1].to_s.pluralize.to_sym, v3[2])
               expect(user.can?(v3[0], test_obj)).to eq(v3[3])
             end
+          end
+        end
+      end
+    end
+  end
+
+  describe "Advisor of a non QKunst managed collection" do
+    v1 = example_groups[:advisor].deep_dup
+    let(:user) { Ability.new(users(:advisor)) }
+
+    before do
+      allow_any_instance_of(Collection).to receive(:qkunst_managed?).and_return(false)
+    end
+
+    # Override 1 of 1: Advisors of QKunst managed collections can destroy works
+    v1["Works"].select { |a| a[0] == :destroy }.each { |a| a[3] = true }
+
+    v1.each do |k2, v2|
+      describe k2 do
+        v2.each do |v3|
+          it "#{v3[3] ? "can" : "can not"} #{v3[0]} #{v3[1]}(:#{v3[2]})".humanize do
+            test_obj = send(v3[1].to_s.pluralize.to_sym, v3[2])
+            expect(user.can?(v3[0], test_obj)).to eq(v3[3])
           end
         end
       end
@@ -146,13 +172,13 @@ RSpec.describe Ability, type: :model do
         it "can update anonymous users for a collection" do
           expect(user.can?(:update, users(:user_with_no_rights))).to eq(true)
         end
-        it "#{(k1 == :admin) ? "can" : "cannot"} update an admin user" do
+        it "#{(k1 == :admin) ? "can" : "can not"} update an admin user" do
           expect(user.can?(:update, users(:admin))).to eq(k1 == :admin)
         end
-        it "#{(k1 == :admin) ? "can" : "cannot"} update self" do
+        it "#{(k1 == :admin) ? "can" : "can not"} update self" do
           expect(user.can?(:update, users(k1))).to eq(k1 == :admin)
         end
-        it "#{(k1 == :admin) ? "can" : "cannot"} update an user from another collection" do
+        it "#{(k1 == :admin) ? "can" : "can not"} update an user from another collection" do
           expect(user.can?(:update, users(:read_only_with_access_to_collection_with_stages))).to eq(k1 == :admin)
         end
         it "can update an user from current collection" do
