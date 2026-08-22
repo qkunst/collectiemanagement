@@ -1,7 +1,7 @@
 <h1>Attributen import</h1>
 <p>Aandachtspunten:</p>
 <ul>
-<li>We adviseren om informatie bij te werken op basis van de database ID (afkomstig uit b.v. een eerdere <em>ex</em>port). Alternatief kan gekozen worden om de informatie aan werken te koppelen op basis van het inventarisnummer; het is dan wel van belang dat deze gegarandeerd uniek is. Mochten meerdere werken hetzelfde inventarisnummer delen kan het zijn dat informatie verkeerd gekoppeld wordt.</li>
+<li>We adviseren om informatie bij te werken op basis van de database ID (afkomstig uit b.v. een eerdere <em>ex</em>port). Alternatief kan gekozen worden om de informatie aan werken te koppelen op basis van het inventarisnummer. Bij het koppelen op inventarisnummer is het van belang dat deze gegarandeerd uniek is; wanneer meerdere werken hetzelfde inventarisnummer delen kan het zijn dat informatie verkeerd gekoppeld wordt.</li>
 <% if @simple_import_collection.file_extension == "csv" %>
 <li>Soms wordt een Amerikaanse notatie gebruikt, stel het nummerformaat dan in op ".".</li>
 <% end %>
@@ -28,9 +28,9 @@
   </div>
 </div>
 <%= f.submit class: [:primary, :button]%>
-<%= f.submit value: "Voer import uit", name: "write", class: [:warning, :right, :button] if @works.any?%>
+<%= f.submit value: "Voer import uit", name: "write", class: [:warning, :right, :button] if @works.present?%>
 <% end %>
-<% if @works.any? %>
+<% if @works.present? %>
 <h2>voorvertoning</h2>
 <p>In deze voorvertoning worden een beperkt aantal werken getoond met de nieuwe gegevens. Als u tevreden bent met de voorvertoning, kunt u de import uitvoeren.</p>
 

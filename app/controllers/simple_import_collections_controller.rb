@@ -15,6 +15,7 @@ class SimpleImportCollectionsController < ApplicationController
 
   def create
     @simple_import_collection = SimpleImportCollection.new(simple_import_collection_params.merge(collection: @collection).merge(SimpleImportCollection::DEFAULT_SETTINGS))
+
     if @simple_import_collection.save
       redirect_to collection_simple_import_collection_path(@collection, @simple_import_collection)
     else

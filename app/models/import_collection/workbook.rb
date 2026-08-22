@@ -109,6 +109,7 @@ module ImportCollection::Workbook
     parameters = ActiveSupport::HashWithIndifferentAccess.new
 
     (import_settings || {}).each do |key, import_setting|
+      next if key.nil?
       cell = row[key.to_sym] || row[key]
       next if cell.nil?
 

@@ -100,7 +100,6 @@ RSpec.describe "Attachments", type: :request do
 
         attachment = Attachment.find_by_name(image_name)
         expect(last_response.location).to end_with(collection_work_path(collection, work))
-
         expect(attachment.collection).to eq(collection)
         expect(attachment.works).to eq([work])
       end
