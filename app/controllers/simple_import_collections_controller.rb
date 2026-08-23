@@ -27,8 +27,11 @@ class SimpleImportCollectionsController < ApplicationController
     if @simple_import_collection.update(simple_import_collection_params)
       if params[:write]
         @simple_import_collection.write
+        redirect_to collection_works_path(@collection), notice: "De import is voltooid."
+      else
+        redirect_to collection_simple_import_collection_path(@collection, @simple_import_collection)
+
       end
-      redirect_to collection_simple_import_collection_path(@collection, @simple_import_collection)
     else
       render :show
     end

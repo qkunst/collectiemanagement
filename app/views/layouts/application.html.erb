@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="nl">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= "#{I18n.t("application.name")} - #{@title}" %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= I18n.t("application.name") %> - <%= @title %></title>
 
     <%= stylesheet_link_tag    "application", media: 'all' %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= javascript_include_tag javascript_path("application"), defer: true, data: { turbo_track: "reload" } %>
     <%= javascript_include_tag "zxing", "data-turbo-track": "reload", defer: true if ["scan", "batch"].include?(controller_name) %>
 
     <%= csrf_meta_tags %>
@@ -22,19 +22,19 @@
       </div>
       <div class="top-bar-title">
           <%= link_to root_path do %>
-            <%= File.read(Rails.root.join("app", "assets","images", "logo.svg")).html_safe %>
-          <% end%>
+            <%= File.read(Rails.root.join("app", "assets","images", "logo.svg")).html_safe %> <%# herb:disable erb-no-unsafe-raw %>
+          <% end %>
       </div>
       <div id="responsive-menu" class="hide-for-print hide-for-small-only">
 
         <div class="top-bar-left">
           <ul class="vertical-only-small menu">
             <li><%= menu_link_to 'Collecties', collections_path if current_user %></li>
-            <% if @collection && @collection.id%>
-            <li class="submenu-container  hide-for-medium"><%= menu_link_to @collection.name, collection_path(@collection)%>
+            <% if @collection && @collection.id %>
+            <li class="submenu-container  hide-for-medium"><%= menu_link_to @collection.name, collection_path(@collection) %>
               <ul class="menu vertical-only-small">
                 <li><%= menu_link_to "Overzicht", collection_path(@collection), only_exact_path_match: true %></li>
-                <li><%= menu_link_to "Werken", collection_works_path(@collection)%></li>
+                <li><%= menu_link_to "Werken", collection_works_path(@collection) %></li>
                 <li><%= menu_link_to "Rapportage", collection_report_path(@collection) if can? :read_report, @collection %></li>
                 <li><%= menu_link_to "Vervaardigers", collection_artists_path(@collection) if can? :read, Artist %></li>
                 <li><%= menu_link_to "Clusters", collection_clusters_path(@collection) if can? :review_collection, Cluster %></li>
@@ -43,7 +43,7 @@
             </li>
             <% end %>
             <% if can? :read, Message %>
-              <li><%= menu_link_to 'Berichten', messages_path%></li>
+              <li><%= menu_link_to 'Berichten', messages_path %></li>
             <% end %>
             <% unless offline? %>
               <li><%= menu_link_to 'Vervaardigers', artists_path if can?(:manage, Artist) %></li>
@@ -62,7 +62,7 @@
             <% else %>
             <li><%= link_to "Inloggen", new_user_session_path %> </li>
 
-            <% end%>
+            <% end %>
             <% if current_user && current_user.qkunst? %>
               <li id="online-statuses">
                 <a href="/debug-offline?offline=offline" data-turbo="false" class="online-status" id="online-status-offline" title="onlinestatus: offline"></a>
@@ -87,18 +87,17 @@
       <div class="row">
         <main class="large-12 columns" id="content">
           <% if @collection and @collection.name %>
-            <%= render partial: 'collections/subnav'%>
+            <%= render partial: 'collections/subnav' %>
             <% if request.path.match(/\/manage\//) || @manage_controller %>
-              <%= render partial: 'collections/manage_subnav'%>
+              <%= render partial: 'collections/manage_subnav' %>
             <% end %>
           <% end %>
           <%= yield %>
-
          </main>
        </div>
-     <footer class="">
+     <footer>
        <div class="row columns">
-          <%= yield(:footer)%>
+          <%= yield(:footer) %>
        </div>
      </footer>
      <div id="context-container" class="closed">

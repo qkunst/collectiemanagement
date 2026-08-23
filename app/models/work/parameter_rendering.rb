@@ -106,11 +106,6 @@ module Work::ParameterRendering
       end
     end
 
-    def location_description
-      rv = [location, location_floor, location_detail].compact.map(&:strip).compact_blank.join("; ")
-      rv.presence
-    end
-
     def locality_geoname_name
       geoname_summary&.label
     end

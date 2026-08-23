@@ -21,7 +21,7 @@
         <% else %>
           <%= define_when_present :location %>
         <% end %>
-        <% if @work && @work.main_location&.address%>
+        <% if @work && @work.main_location&.address %>
           <tr><th>Adres</th><td><%= link_to @work.main_location.address, collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
         <% end %>
         <%= define_when_present :location_floor %>
@@ -29,13 +29,13 @@
         <% if @work_display_form&.display_detailed_with_location_history? %>
           <tr><th>Historie datum</th><th>Vorige locatie</th></tr>
           <% work.location_history(empty_locations: false, skip_current: true).each do |h_work| %>
-            <tr><td><%= I18n.l(h_work[:created_at], format: :short)%></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ")%></td></tr>
+            <tr><td><%= I18n.l(h_work[:created_at], format: :short) %></td><td><%= [h_work[:location],h_work[:location_floor],h_work[:location_detail]].compact.join("; ") %></td></tr>
           <% end %>
         <% end %>
         </tbody>
       <% end %>
     <% end %>
-    <% if can?(:read_status, work)%>
+    <% if can?(:read_status, work) %>
       <%= definition_list_for work, {render_as: :table} do %>
         <%= define_when_present :work_status %>
         <%= define_when_present :highlight %>
@@ -43,19 +43,19 @@
           <%= define_when_present :for_purchase %>
           <%= define_when_present :for_rent %>
           <% if define?(:availability_status) %>
-            <tr><th><%= Work.human_attribute_name(:availability_status)%></th><td>
+            <tr><th><%= Work.human_attribute_name(:availability_status) %></th><td>
               <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
-                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true }%>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true } %>
               <% elsif work.currently_relevant_time_span %>
-                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true }%>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true } %>
               <% else %>
                 <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
-              <% end%>
+              <% end %>
               <% if Rails.application.credentials.uitleen_site && work.persisted? %>
                 (<%= link_to "Toon in uitleen", File.join(Rails.application.credentials.uitleen_site, collection_work_path(work.collection, work)) %>)
               <% end %>
             </td></tr>
-          <% end%>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>
@@ -75,13 +75,13 @@
         <%= define_when_present :frame_type %>
       <% end %>
       <% if @work_display_form&.display_complete? || @work_display_form&.display_logistics? %>
-        <%= define_when_present :logistical_peculiarities%>
-        <%= define_when_present :logistical_peculiarities_comments if @work == work%>
+        <%= define_when_present :logistical_peculiarities %>
+        <%= define_when_present :logistical_peculiarities_comments if @work == work %>
       <% end %>
       <%= define_when_present :signature_rendered %>
       <%= define_when_present :object_format_code, {modifier: :upcase} %>
       <%= define_when_present :work_size, {description: "Afm. beeld (cm)"} %>
-      <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"}  %>
+      <%= define_when_present :frame_size, {description: "Afm. lijst (cm)"} %>
       <%= define_when_present :weight %>
       <%= define_when_present :dimension_weight_description %>
       <% if @work_display_form&.display_complete? %>
@@ -97,7 +97,7 @@
         <%= define_when_present :locality_geoname_name %>
       <% end %>
       <%= define_when_present :cluster unless @work_display_form&.display_detailed_discreet?|| @work_display_form&.display_logistics? %>
-      <%= define_when_present :print_rendered  %>
+      <%= define_when_present :print_rendered %>
     <% end %>
   </div>
   <div class="medium-6 columns">
@@ -106,7 +106,7 @@
       <%= define_when_present :condition_work_rendered %>
       <%= define_when_present :condition_frame_rendered %>
       <% if @work_display_form&.display_complete? %>
-        <%= define_when_present :placeability  %>
+        <%= define_when_present :placeability %>
         <%= define_when_present :permanently_fixed if work.permanently_fixed %>
         <%= define_when_present :main_collection %>
       <% end %>
@@ -124,11 +124,8 @@
     <%= definition_list_for work, {render_as: :table} do %>
       <% if define?(:work_sets, value: work.work_sets.any?) %>
         <tr>
-          <% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) && !@work_display_form&.display_logistics? %>
-          <th rowspan="2">
-          <% else %>
-          <th>
-          <% end %>
+
+          <th<% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) && !@work_display_form&.display_logistics? %> rowspan="2"<% end %>>
             <%= Work.human_attribute_name(:work_sets) %>
           </th>
           <td><%= (work.work_sets.map do |ws|
@@ -141,13 +138,13 @@
           </td>
         </tr>
       <% end %>
-      <% if can?(:read_valuation, work.collection) && !@work_display_form&.display_detailed_discreet? && !@work_display_form&.display_logistics?  %>
+      <% if can?(:read_valuation, work.collection) && !@work_display_form&.display_detailed_discreet? && !@work_display_form&.display_logistics? %>
         <% if work.appraised_in_set? && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) %>
           <tr><td>Waardering voor gehele <%= work.appraisable_set.work_set_type_name %></td></tr>
         <% end %>
         <%= define_when_present :purchased_on_with_fallback %>
         <% if define?(:purchase_price) %>
-          <tr><th><%=Work.human_attribute_name(:purchase_price)%></th><td><%=number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
+          <tr><th><%= Work.human_attribute_name(:purchase_price) %></th><td><%= number_to_currency work.purchase_price, unit: work.purchase_price_symbol %></td></tr>
         <% end %>
         <%= define_when_present :market_value_complete, modifier: :number_to_currency, description: "Marktwaarde" %>
         <%= define_when_present :replacement_value_complete, modifier: :number_to_currency, description: "Vervangingswaarde" %>
@@ -159,11 +156,11 @@
 
         <%= define_when_present :minimum_bid, modifier: :number_to_currency %>
         <% if define?(:selling_price) %>
-          <tr><th><%=Work.human_attribute_name(:selling_price)%></th><td><%=number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
+          <tr><th><%= Work.human_attribute_name(:selling_price) %></th><td><%= number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
           <% if @collection.commercial? %>
             <%= define_when_present :default_rent_price, {modifier: :number_to_currency} %>
             <%= define_when_present :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
-          <% end%>
+          <% end %>
         <% end %>
         <%= define_when_present :balance_category %>
         <%= define_when_present :selling_price_minimum_bid_comments %>
@@ -182,7 +179,7 @@
         artist_involvements_texts = work.cached_collection_locality_artist_involvements_texts
       end
       if artist_involvements_texts && artist_involvements_texts.length > 0 %>
-      <tr><th>Gerelateerde<br/>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%=a%></li><% end %></ul></td></tr>
+      <tr><th>Gerelateerde<br>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%= a %></li><% end %></ul></td></tr>
       <% end %>
       <% if @work_display_form&.display_complete? %>
         <%
@@ -195,7 +192,7 @@
           <tr><th>Bijlagen:</th><td><ul>
             <% work_attachments.each do |attachment| %>
               <li>
-                <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size)%>)</small>
+                <%= @for_print ? attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}") : link_to(attachment.file_name.truncate(30, omission: "…#{attachment.file_name&.last(15)}"), attachment.file.url, title: attachment.file_name, target: '_blank') %> <small>(<%= number_to_human_size(attachment.file.size) %>)</small>
               </li>
             <% end %>
           </ul></td></tr>
@@ -203,14 +200,14 @@
         <%= define_when_present :image_rights %>
         <%= define_when_present :publish %>
         <%= define_when_present :created_at %>
-        <%= define_when_present :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3)%>
+        <%= define_when_present :significantly_updated_at, {classname: "show-only-sort-updated_at"} if work.significantly_updated_at.to_f.round(3) != work.created_at.to_f.round(3) %>
         <%= define_when_present :inventoried_at %>
         <%= define_when_present :refound_at %>
         <%= define_when_present :new_found_at %>
       <% end %>
       <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? || @work_display_form&.display_logistics? %>
       <% if define?(:old_data) && work.persisted? %>
-      <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true}%></td></tr>
+      <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true} %></td></tr>
       <% end %>
     <% end %>
   </div>

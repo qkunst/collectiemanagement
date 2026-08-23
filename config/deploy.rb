@@ -146,7 +146,7 @@ namespace :rbenv do
       end
 
       # don't check the rbenv_ruby_dir if :rbenv_ruby is not set (it will always fail)
-      unless rbenv_ruby.nil? || (test "[ -d #{fetch(:rbenv_ruby_dir)} ]") || ARGV.include?("rbenv:install")
+      unless rbenv_ruby.nil? || (test "[ -d #{fetch(:rbenv_ruby_dir)} ]") || ARGV.include?("rbenv:install") || ARGV.include?("rbenv:update")
         warn "rbenv: #{rbenv_ruby} is not installed or not found in #{fetch(:rbenv_ruby_dir)} on #{host}"
         exit 1
       end

@@ -140,6 +140,7 @@ class Work < ApplicationRecord
   include CustomParameterRendering
   include PreloadRelationsForDisplay
   include Reflecting
+  include Work::Location
   include Search
   include SizingRendering
   include TimeSpans
@@ -158,7 +159,6 @@ class Work < ApplicationRecord
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
   before_save :update_artist_name_rendered
-  before_save :update_location_with_main_location
   before_save :mark_as_removed_from_collection_according_to_work_status
 
   before_save :mark_significant_update_if_significant
@@ -177,7 +177,6 @@ class Work < ApplicationRecord
   belongs_to :frame_type, optional: true
   belongs_to :geoname_summary, foreign_key: :locality_geoname_id, primary_key: :geoname_id, optional: true
   belongs_to :import_collection, optional: true
-  belongs_to :main_location, optional: true, class_name: "Location"
   belongs_to :medium, optional: true
   belongs_to :owner, optional: true
   belongs_to :placeability, optional: true
@@ -210,7 +209,7 @@ class Work < ApplicationRecord
   scope :order_by, ->(sort_key) do
     case sort_key.to_sym
     when :location
-      order(:location, Arel.sql("works.location_floor = '-3' DESC, works.location_floor = '-2' DESC, works.location_floor = '-1' DESC, works.location_floor = '0' DESC, works.location_floor = 'BG' DESC"), :location_floor, :location_detail)
+      order_by_location
     when :created_at
       order(created_at: :desc)
     when :created_at_asc
@@ -275,7 +274,7 @@ class Work < ApplicationRecord
 
   acts_as_taggable
 
-  normalize_attributes :location, :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :abstract_or_figurative, :location_detail
+  normalize_attributes :stock_number, :alt_number_1, :alt_number_2, :alt_number_3, :photo_front, :photo_back, :photo_detail_1, :photo_detail_2, :title, :print, :grade_within_collection, :abstract_or_figurative
 
   mount_uploader :photo_front, PictureUploader
   mount_uploader :photo_back, PictureUploader
@@ -502,69 +501,6 @@ class Work < ApplicationRecord
     themes.uniq.collect { |a| a.id }.sort.join(",")
   end
 
-  def location_history(skip_current: false, empty_locations: true)
-    location_versions = []
-    uniq_location_versions = []
-    versions.each_with_index do |version, index|
-      location_versions[index] = {created_at: version.created_at, event: version.event, user: User.where(id: version.whodunnit).first&.name, location: nil, location_floor: nil, location_detail: nil}
-      if version.object && (index > 0)
-        reified_object = Work.new(YAML.safe_load(version.object, permitted_classes: ::ActiveRecord.yaml_column_permitted_classes, aliases: true).select { |k, v| [k, v] if ["location", "location_floor", "location_detail"].include?(k) })
-        location_versions[index - 1][:location] = reified_object.location
-        location_versions[index - 1][:location_floor] = reified_object.location_floor
-        location_versions[index - 1][:location_detail] = reified_object.location_detail
-      end
-    end
-
-    # complete with latest info
-    index = location_versions.count
-
-    if index > 0
-      location_versions[index - 1][:location] = location
-      location_versions[index - 1][:location_floor] = location_floor
-      location_versions[index - 1][:location_detail] = location_detail
-
-      # filter out irrelevant changes
-      uniq_location_versions = [location_versions[0]]
-      location_versions.each do |location_version|
-        last_uniq_location_version = uniq_location_versions.last
-        last_uniq_location_description = last_uniq_location_version.fetch_values(:location, :location_floor, :location_detail).join("")
-        location_version_description = location_version.fetch_values(:location, :location_floor, :location_detail).join("")
-
-        if (last_uniq_location_description != location_version_description) && (empty_locations || !location_version_description.blank?)
-          uniq_location_versions << location_version
-        end
-      end
-      if skip_current && (empty_locations == true || location_description)
-        uniq_location_versions.pop
-      end
-      uniq_location_versions
-    else
-      []
-    end
-  end
-
-  def main_location_id= id
-    self.main_location = if id.is_a?(Integer) || id.to_s.match(/\A\d+$/)
-      Location.find(id)
-    elsif id.blank?
-      nil
-    else
-      Location.find_or_create_by_name_and_collection(id, collection.super_base_collection)
-    end
-  end
-
-  def restore_last_location_if_blank!
-    unless location_description
-      prev_location = location_history(skip_current: true, empty_locations: false).last
-      if prev_location
-        self.location = prev_location[:location]
-        self.location_detail = prev_location[:location_detail]
-        self.location_floor = prev_location[:location_floor]
-        save!
-      end
-    end
-  end
-
   def available_themes
     collection.available_themes
   end
@@ -651,10 +587,6 @@ class Work < ApplicationRecord
     self.removed_from_collection_at ||= Time.current if work_status&.set_work_as_removed_from_collection
   end
 
-  def update_location_with_main_location
-    self.location = main_location.name if main_location
-  end
-
   class << self
     def attributes_present
       query_main = column_names.map { |column_name| "(SELECT 1 AS \"#{column_name}\" FROM \"works\" WHERE \"works\".\"#{column_name}\" IS NOT NULL LIMIT 1)" }.join(", ")
@@ -668,12 +600,6 @@ class Work < ApplicationRecord
 
     def ransackable_associations(_ = nil)
       %w[tags]
-    end
-
-    def collect_locations
-      rv = {}
-      group(:location).count.sort { |a, b| a[0].to_s.downcase <=> b[0].to_s.downcase }.each { |a| rv[a[0]] = {count: a[1], subs: []} }
-      rv
     end
 
     def quick_destroy_all

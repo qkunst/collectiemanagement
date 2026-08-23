@@ -4,21 +4,21 @@ container ||= "div"
 this_works_collection_work_url = work.id && !@for_print ? collection_work_path(work.collection_id, work.id) : "#"
 %>
 <% cache_unless(@no_work_cache, ["works/_work", "2.0.6", work, @work_display_form&.display_cache_key, @selection_filter&.[]("geoname_ids"), @for_print, params[:surface_calc]]) do %>
-<<%= container %> class="panel work<%=' external_inventory' if work.external_inventory? %> <%= @work_display_form&.display %>">
-  <% if !@for_print && @work_set&.id && can?(:edit, @work_set) && !@work_set.dynamic?%>
-  <div class="actions">
-    <%= button_to('⨯', work_set_work_path(@work_set,work.id), method: :delete, class: [:alert, :button, :medium], title: "Verwijder werk uit deze groep", data: {confirm: "Weet je zeker dat je dit werk uit deze groep wilt verwijderen?"}) %>
-  </div>
+  <<%= container %> class="panel work<%= ' external_inventory' if work.external_inventory? %> <%= @work_display_form&.display %>">
+  <% if !@for_print && @work_set&.id && can?(:edit, @work_set) && !@work_set.dynamic? %>
+    <div class="actions">
+      <%= button_to('⨯', work_set_work_path(@work_set,work.id), method: :delete, class: [:alert, :button, :medium], title: "Verwijder werk uit deze groep", data: {confirm: "Weet je zeker dat je dit werk uit deze groep wilt verwijderen?"}) %>
+    </div>
   <% end %>
   <div class="image_wrapper">
     <% if work.photo_front? %>
       <div class="image">
         <% if @for_print %>
-          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || ""))  %>
+          <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || "")) %>
         <% else %>
-            <%= link_to this_works_collection_work_url, class: :block do %>
-              <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || ""), loading: "lazy")  %>
-            <% end %>
+          <%= link_to this_works_collection_work_url, class: :block do %>
+            <%= image_tag("#{work.photo_front_url(:big_thumb)}?#{work.updated_at.to_i}", class: "nonlinked_show", decoding: 'async', alt: (work.description || ""), loading: "lazy") %>
+          <% end %>
 
         <% end %>
       </div>
@@ -26,21 +26,23 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
   </div>
   <div class="data js-block-link">
     <% if !@for_print %>
-    <label class="work-selector hide-for-print">
-      <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" %>
-    </label>
+      <label class="work-selector hide-for-print">
+        <%= check_box_tag "selected_works[]", work.id, (params[:selected_works] && params[:selected_works][work.id]), id: "selected_works_#{work.id}" %>
+      </label>
     <% end %>
-      <p class="stocknumber"><%= @for_print ? work.stock_number : link_to(work.stock_number, this_works_collection_work_url) %><% if work.external_inventory? %><span title="Dit werk is niet door #{I18n.t(organisation.name)} geïnventariseerd">*</span><% end %></p>
-        <% if @work_display_form&.display_compact?%>
-        <h3><%= work.artist_name_rendered_without_years_nor_locality %></h3>
-        <% else %>
-        <h3><%= work.artist_name_rendered(include_years: true, include_locality: true)%></h3>
-        <% end %>
+    <p class="stocknumber"><%= @for_print ? work.stock_number : link_to(work.stock_number, this_works_collection_work_url) %><% if work.external_inventory? %><span title="Dit werk is niet door #{I18n.t(organisation.name)} geïnventariseerd">*</span><% end %></p>
+    <h3>
+      <% if @work_display_form&.display_compact? %>
+        <%= work.artist_name_rendered_without_years_nor_locality %>
+      <% else %>
+        <%= work.artist_name_rendered(include_years: true, include_locality: true) %>
+      <% end %>
+    </h3>
 
-        <h4><%= @for_print ? work.title_with_year_rendered : link_to(work.title_with_year_rendered, this_works_collection_work_url) %></h4>
+    <h4><%= @for_print ? work.title_with_year_rendered : link_to(work.title_with_year_rendered, this_works_collection_work_url) %></h4>
 
-        <p><%= work.description%></p>
-        <%=
+    <p><%= work.description %></p>
+    <%=
         case @work_display_form&.display
         when :complete, :detailed, :detailed_with_location_history, :detailed_discreet, :logistics
           render :partial => 'works/work_detailed_data', locals: {work: work}
@@ -49,5 +51,5 @@ this_works_collection_work_url = work.id && !@for_print ? collection_work_path(w
         end
         %>
   </div>
-</<%= container %>>
+  </<%= container %>>
 <% end %>
