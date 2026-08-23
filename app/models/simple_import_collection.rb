@@ -12,6 +12,8 @@
 #  collection_id       :bigint
 #
 class SimpleImportCollection < ImportCollection
+  validates :file, presence: true
+
   after_initialize :set_defaults
   DEFAULT_SETTINGS = {merge_data: true, primary_key: :stock_number, decimal_separator: ","}
 

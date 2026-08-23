@@ -211,6 +211,12 @@ namespace :server do
       end
 
       begin
+        execute "test -f #{shared_path}/config/config.yml && echo Application config already present"
+      rescue SSHKit::Command::Failed
+        execute "printf \"shared:\\n  ppid_base_domain:\\n  from_address:\\n  uitleen_site:\\n\" > #{shared_path}/config/config.yml"
+      end
+
+      begin
         execute "mkdir -p #{shared_path}/config/initializers"
         execute "test -f #{shared_path}/config/initializers/mailer.rb && echo Mailer config already present"
       rescue SSHKit::Command::Failed
@@ -244,6 +250,14 @@ namespace :sidekiq do
       upload! "#{host_tmp_dir}/sidekiq.service", ".config/systemd/user/" # , "~/.config/systemd/user/default.target.want/"
       execute "systemctl --user daemon-reload"
       execute "systemctl --user enable sidekiq"
+    end
+  end
+
+  task :log do
+    on roles(:all), in: :sequence do |app|
+      execute "systemctl --user daemon-reload"
+      execute "systemctl --user enable sidekiq"
+      execute "systemctl --user status sidekiq.service"
     end
   end
 
