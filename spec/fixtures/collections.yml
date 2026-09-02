@@ -51,19 +51,19 @@ collection1:
   name: Collection 1
   parent_collection: :root_collection
   appraise_with_ranges: true
-  collection_name_extended_cache: "\"Collection 1\""
+  collection_name_extended_cache: '"Collection 1"'
 
 collection2:
   <<: *proto_collection
   name: Collection 2 (sub of Collection 1)
   parent_collection: :collection1
-  collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1)\""
+  collection_name_extended_cache: '"Collection 1 » Collection 2 (sub of Collection 1)"'
 
 collection4:
   <<: *proto_collection
   name: Collection 4
   parent_collection: :collection2
-  collection_name_extended_cache: "\"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4\""
+  collection_name_extended_cache: '"Collection 1 » Collection 2 (sub of Collection 1) » Collection 4"'
 
 collection_with_works:
   <<: *proto_collection
@@ -72,62 +72,68 @@ collection_with_works:
   parent_collection: :collection1
   geoname_ids_cache: "[]"
   unique_short_code: col_with_works
-  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1)\""
+  collection_name_extended_cache: '"Collection 1 » Collection with works (sub of Collection 1)"'
 
 collection_with_works_child:
   <<: *proto_collection
   name: Collection with works child (sub of Collection 1 » colection with works)
   parent_collection: :collection_with_works
-  collection_name_extended_cache: "\"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 » colection with works)\""
+  collection_name_extended_cache: '"Collection 1 » Collection with works (sub of Collection 1) » Collection with works child (sub of Collection 1 » colection with works)"'
 
 collection3:
   <<: *proto_collection
   name: Collection 3
   unique_short_code: COL4
   parent_collection: :root_collection
-  collection_name_extended_cache: "\"Collection 3\""
+  collection_name_extended_cache: '"Collection 3"'
 
 collection_with_stages:
   <<: *proto_collection
   name: Collection with stages
   parent_collection: :root_collection
   base: true
-  collection_name_extended_cache: "\"Collection with stages\""
+  collection_name_extended_cache: '"Collection with stages"'
 
 collection_with_stages_child:
   <<: *proto_collection
   name: Collection with stages child
   parent_collection: :collection_with_stages
-  collection_name_extended_cache: "\"Collection with stages » Collection with stages child\""
+  collection_name_extended_cache: '"Collection with stages » Collection with stages child"'
 
 boring_collection:
   <<: *proto_collection
   name: Just a boring collection
   parent_collection: :root_collection
-  collection_name_extended_cache: "\"Just a boring collection\""
+  collection_name_extended_cache: '"Just a boring collection"'
 
 sub_boring_collection:
   <<: *proto_collection
   name: Just a sub boring collection
   parent_collection: :boring_collection
-  collection_name_extended_cache: "\"Just a boring collection » Just a sub boring collection\""
+  collection_name_extended_cache: '"Just a boring collection » Just a sub boring collection"'
 
 not_qkunst_managed_collection:
   <<: *proto_collection
   name: Not a QKunst managed Collection
   parent_collection: :root_collection
-  collection_name_extended_cache: "\"Not a QKunst managed Collection\""
+  collection_name_extended_cache: '"Not a QKunst managed Collection"'
   qkunst_managed: false
+
+not_qkunst_managed_sub_collection:
+  <<: *proto_collection
+  name: Sub of a non-QKunst managed Collection
+  parent_collection: :root_collection
+  collection_name_extended_cache: '"Not a QKunst managed Collection » Sub of a non-QKunst managed Collection"'
 
 collection_with_availability:
   <<: *proto_collection
   name: Manage availability demo collection
   parent_collection: :root_collection
-  collection_name_extended_cache: "\"Manage availability demo collection\""
+  collection_name_extended_cache: '"Manage availability demo collection"'
   show_availability_status: true
 
 sub_collection_with_inherited_availability:
   <<: *proto_collection
   name: Manage availability sub demo collection
   parent_collection: :collection_with_availability
-  collection_name_extended_cache: "\"Manage availability demo collection » Manage availability sub demo collection\""
+  collection_name_extended_cache: '"Manage availability demo collection » Manage availability sub demo collection"'

@@ -59,7 +59,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   has_paper_trail
 
-  ROLES = [:admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :facility_manager_support, :read_only]
+  ROLES = [:super_admin, :admin, :advisor, :compliance, :qkunst, :appraiser, :facility_manager, :facility_manager_support, :read_only]
   ADMIN_DOMAINS = ["qkunst.nl", "murb.nl", "heden.nl"]
   ADMIN_OAUTH_PROVIDERS = ["google_oauth2", "central_login"]
 

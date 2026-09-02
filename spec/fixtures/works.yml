@@ -322,6 +322,13 @@ not_qkunst_managed_work:
   artists:
     - :artist1
 
+not_qkunst_managed_work_in_sub:
+  collection: :not_qkunst_managed_sub_collection
+  title: Not QKunst managed Work in sub
+  stock_number: NQKMCW02
+  artists:
+    - :artist1
+
 collection_with_availability_available_work:
   title: Available
   stock_number: QDT2b

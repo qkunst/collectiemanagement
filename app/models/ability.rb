@@ -246,31 +246,13 @@ class Ability
     end
   end
 
+  def initialize_super_admin
+    can :manage, :all
+  end
+
   def initialize_admin
     can :manage, :all
-
-    can [:clean, :combine, :manage_collection], Artist
-
-    can :manage_collection, Cluster
-    can :manage_collection, Collection
-    can :filter_report, Collection
-    can :manage_collection, CustomReport
-    can :manage, CustomReport
-    can :manage, Message
-    can :manage, Owner
-
-    can [:read, :copy], RKD::Artist
-
-    can [:edit_visibility, :update], Attachment, collection_id: accessible_collection_ids
-    can :manage, LibraryItem
-
-    can [:read_cluster_report, :read_api, :create_work_events_api, :batch_edit, :manage, :download_photos, :download_datadump, :download_pdf, :download_public_datadump, :access_valuation, :read_report, :read_extended_report, :read_valuation, :read_status, :access_valuation, :read_valuation_reference, :refresh, :update_status, :review_modified_works, :destroy], Collection, id: accessible_collection_ids
-
-    can [:read_api, :read_condition, :edit_photos, :edit_source_information, :read_information_back, :create, :read_internal_comments, :write_internal_comments, :manage_location, :tag, :view_location_history, :show_details], Work, collection_id: accessible_collection_ids
-    can :manage, Message
-    can :manage, TimeSpan
-    can [:destroy, :edit_admin, :manage], User
-    can [:read_without_collection, :manage], WorkSet
+    cannot :manage, Collection, qkunst_managed: false
   end
 
   def initialize_advisor
