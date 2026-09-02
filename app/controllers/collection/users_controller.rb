@@ -13,7 +13,7 @@ class Collection::UsersController < ApplicationController
     users += @collection.users_including_child_collection_users
     users = users.select { |a| !a.email.match(/removed-at-(.*)@removed\.qkunst\.nl/) } unless current_user.admin?
 
-    @users = users
+    @users = users.uniq
     @collections = @collection.expand_with_child_collections
     @inactive_users = User.inactive.confirmed.recently_updated.to_a
   end
