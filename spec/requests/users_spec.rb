@@ -46,7 +46,13 @@ RSpec.describe "/users", type: :request do
       expect(response).to be_successful
     end
 
-    (User::ROLES - [:admin]).each do |role|
+    it "is possible for an super admin to edit a user" do
+      sign_in users(:super_admin)
+      get edit_user_path(users(:user2))
+      expect(response).to be_successful
+    end
+
+    (User::ROLES - [:admin, :super_admin]).each do |role|
       it "is not possible for an #{role} user to edit a user" do
         sign_in users(role)
         get edit_user_path(users(:user2))
@@ -72,7 +78,15 @@ RSpec.describe "/users", type: :request do
       expect(response).to be_redirect
     end
 
-    (User::ROLES - [:admin]).each do |role|
+    it "is possible for an super admin to edit a user" do
+      sign_in users(:super_admin)
+      expect do
+        delete user_path(users(:user2))
+      end.to change(User, :count).by(-1)
+      expect(response).to be_redirect
+    end
+
+    (User::ROLES - [:admin, :super_admin]).each do |role|
       it "is not possible for an #{role} user to edit a user" do
         sign_in users(role)
         expect do

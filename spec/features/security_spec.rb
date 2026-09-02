@@ -22,6 +22,8 @@ RSpec.feature "", type: :feature do
           stderr.read.chomp
         end
 
+        skip("Offline") if headers.match? "Could not resolve host"
+
         expect(headers).to match "\n< Location: https://collectiemanagement.qkunst.nl/\r\n"
 
         headers = Open3.popen3("curl -v https://collectiemanagement.qkunst.nl") do |stdin, stdout, stderr, thread|
