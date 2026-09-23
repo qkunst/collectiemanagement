@@ -112,6 +112,10 @@
       <%= f.batch_editable_input :highlight, as: :boolean %>
       <%= f.batch_editable_input :publish, as: :boolean %>
     <% end %>
+    <% if can_edit_field?(:removed_from_collection) %>
+      <%= f.batch_editable_input :removed_from_collection, as: :boolean %>
+    <% end %>
+
   </div>
 
 <hr>
