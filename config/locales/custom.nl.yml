@@ -3,31 +3,31 @@ nl:
     inventoried_objects_count:
       zero: geen onderdelen
       one: 1 onderdeel
-      other: ! '%{count} onderdelen'
+      other: ! "%{count} onderdelen"
     works_with_article:
       zero: geen werken
       one: het werk
-      other: ! 'de %{count} werken'
+      other: ! "de %{count} werken"
     works:
       zero: geen werken
       one: 1 werk
-      other: ! '%{count} werken'
+      other: ! "%{count} werken"
     changes:
       zero: geen wijzigingen
       one: 1 wijziging
-      other: ! '%{count} wijzigingen'
+      other: ! "%{count} wijzigingen"
     artists:
       zero: geen vervaardigers
       one: 1 vervaardiger
-      other: ! '%{count} vervaardigers'
+      other: ! "%{count} vervaardigers"
     possible_matches:
       zero: geen hits in gevonden
       one: 1 mogelijke match gevonden
-      other: ! '%{count} mogelijke matches gevonden'
+      other: ! "%{count} mogelijke matches gevonden"
   simple_form:
     include_blanks:
       theme:
-        collection: 'Algemeen'
+        collection: "Algemeen"
   save_and_edit_next: Na bewaren direct de volgende bewerken
   abilities:
     manage: Beheren
@@ -239,6 +239,7 @@ nl:
       work:
         availability_status:
           sold: Verkocht
+          removed_from_collection: Verwijderd
           lent: Uitgeleend
           available: Beschikbaar
           reserved: Gereserveerd
@@ -517,7 +518,7 @@ nl:
         for_rent_at: Voor verhuur sinds
         for_rent: Voor verhuur
         frame_damage_type_ids: Type schade lijst
-        frame_damage_types:  Type schade lijst
+        frame_damage_types: Type schade lijst
         frame_depth: Diepte lijst (cm)
         frame_diameter: Diameter lijst (cm)
         frame_height: Hoogte lijst (cm)
@@ -780,18 +781,18 @@ nl:
         role_manager: Rollenbeheerder
         qkunst: QKunst registratiemedewerker
         admin: Administrator (heeft toegang tot alle collecties en functies)
-        collections: 'Collecties waartoe deze gebruiker toegang toe heeft'
+        collections: "Collecties waartoe deze gebruiker toegang toe heeft"
         receive_mails: Ontvang e-mails bij updates (meldingen, nieuwe berichten)
         login: Inloggen
         password: Wachtwoord
         current_password: Huidige wachtwoord
-        password_confirmation: 'Wachtwoord bevestiging'
-        newsletter: 'Ik wil de nieuwsbrief ontvangen'
-        first_name: 'Voornaam'
-        last_name: 'Achternaam'
-        remember_me: 'Onthoud mij'
-        city: 'Stad'
-        company_name: 'Bedrijfsnaam'
+        password_confirmation: "Wachtwoord bevestiging"
+        newsletter: "Ik wil de nieuwsbrief ontvangen"
+        first_name: "Voornaam"
+        last_name: "Achternaam"
+        remember_me: "Onthoud mij"
+        city: "Stad"
+        company_name: "Bedrijfsnaam"
       work_status:
         hide: Verberg
         name: Naam
