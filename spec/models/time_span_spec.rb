@@ -105,14 +105,31 @@ RSpec.describe TimeSpan, type: :model do
   end
 
   describe "Callbacks" do
-    it "#remove_work_from_collection_when_purchase_active" do
-      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :concept, classification: :purchase)
-      work.reload
-      expect(work.removed_from_collection?).to be_falsey
+    describe "#remove_work_from_collection_when_purchase_active" do
+      let(:status) { :concept }
+      let(:timespan) { TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status:, classification: :purchase) }
 
-      TimeSpan.create(subject: work, collection: works(:work1).collection.base_collection, contact: contacts(:contact1), starts_at: Time.current, status: :active, classification: :purchase)
-      work.reload
-      expect(work.removed_from_collection?).to be_truthy
+      it "marks not as removed from collection when status is concept" do
+        timespan
+        work.reload
+        expect(work.removed_from_collection?).to be_falsey
+      end
+
+      context "active" do
+        let(:status) { :active }
+
+        it "marks as removed from collection when status is active" do
+          timespan
+          work.reload
+          expect(work.removed_from_collection?).to be_truthy
+        end
+
+        it "returns availability_status sold" do
+          timespan
+          work.reload
+          expect(work.availability_status).to eq(:sold)
+        end
+      end
     end
 
     describe "#sync_time_spans_for_works_when_work_set" do
@@ -132,7 +149,7 @@ RSpec.describe TimeSpan, type: :model do
       it "results in underlying works to be no longer available" do
         time_span
 
-        expect(work_set.works.first.availability_status).to eq(:sold)
+        expect(work_set.works.first.reload.availability_status).to eq(:sold)
         expect(work_set.works.first.removed_from_collection?).to eq(true)
       end
 
