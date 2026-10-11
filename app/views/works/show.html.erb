@@ -1,64 +1,68 @@
 <header class="row">
   <div class="medium-10 columns">
-      <% if @work.artists.count > 0 %>
-        <h3 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h3>
-      <% elsif @work.artist_unknown %>
-        <h3 class="subheader"><%= @work.artist_name_rendered%></h3>
-      <% end %>
+    <% if @work.artists.count > 0 %>
+      <h3 class="subheader"><% @work.artists.uniq.each do |artist| %><%= link_to artist.name(include_years: true, include_locality: true, rebuild: true), [@work.collection, artist].compact %> <% end %></h3>
+    <% elsif @work.artist_unknown %>
+      <h3 class="subheader"><%= @work.artist_name_rendered %></h3>
+    <% end %>
 
     <h1><%= @work.title_rendered %></h1>
   </div>
   <div class="medium-2 columns">
     <nav class="right" id="stocknumber-nav" aria-label="Blader werken"><%= link_to "◀", [@collection, @work.previous], title: "Achteruit" %><span class="stocknumber"><%= @work.stock_number %></span><%= link_to "▶", [@collection, @work.next], title: "Vooruit" %></nav>
-    <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br/><%= I18n.l @work.created_at, format: :short%></p>
+    <p class="meta">Toegevoegd <%= "door #{@work.created_by_name}" if current_user.qkunst? %> op <br ><%= I18n.l @work.created_at, format: :short %></p>
   </div>
   <div class="large-12 columns">
     <p>
       <%= simple_format @work.description %>
     </p>
     <% if @work.public_description? %>
-    <h4>Toelichting voor publiek</h4>
-    <p>
-      <%= simple_format @work.public_description %>
-    </p>
+      <h4>Toelichting voor publiek</h4>
+      <p>
+        <%= simple_format @work.public_description %>
+      </p>
     <% end %>
   </div>
 </header>
 
 
-<% if @work.photos?%>
-  <div class="imageviewer">
-    <%= image_tag(@work.photo_front? ? @work.photo_front_url(:screen) : '' , class: :show, alt: (@work.description || ""))  %>
-    <ul class="thumbs" >
+<div class="imageviewer">
+  <% if @work.photos? %>
+
+    <%= image_tag(@work.photo_front? ? @work.photo_front_url(:screen) : '' , class: :show, alt: (@work.description || "")) %>
+    <ul class="thumbs">
       <% if can?(:edit_photos, Work) %>
-      <li><%= link_to "Beheer foto's", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :secondary, :expanded, :right]%></li>
+        <li><%= link_to "Beheer foto's", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :secondary, :expanded, :right] %></li>
       <% end %>
       <% [:front,:back,:detail_1,:detail_2].each do |phototype| %>
         <% if @work.send("photo_#{phototype}?".to_sym) %>
-          <li title="<%= Work.human_attribute_name "photo_#{phototype}"%>">
+          <li title="<%= Work.human_attribute_name "photo_#{phototype}" %>">
             <%= link_to "#{@work.send("photo_#{phototype}".to_sym).screen.url}?#{@work.updated_at.to_i}" do %>
               <%= image_tag("#{@work.send("photo_#{phototype}".to_sym).thumb.url}?#{@work.updated_at.to_i}", alt: "Toon #{Work.human_attribute_name("photo_#{phototype}")}") %>
             <% end %>
             <% if can?(:edit_photos, Work) %>
-              <%= button_to '⨯', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"}%>
+              <%= button_to '⨯', collection_work_path(@collection, @work), params: {"work[remove_photo_#{phototype}]" => true}, method: :patch, class: 'small alert button', data: {confirm: "Weet je zeker dat je deze foto wilt verwijderen"} %>
             <% end %>
           </li>
         <% end %>
       <% end %>
     </ul>
-  </div>
-<% else %>
-  <div class="imageviewer">
 
-  <div class="callout">
-    <% if can?(:edit_photos, Work) %>
-      <p>Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline]%></p>
-    <% else %>
-      <p>Er zijn aan dit werk nog geen foto's toegekend.</p>
-    <% end %>
-  </div>
-  </div>
-<% end %>
+  <% else %>
+
+
+    <div class="callout">
+      <p>
+        <% if can?(:edit_photos, Work) %>
+          Dit werk heeft nog geen foto's <%= link_to "Voeg foto’s toe", collection_work_edit_photos_path(@collection,@work), data: { open_in_context: true}, class: [:button, :inline] %>
+        <% else %>
+          Er zijn aan dit werk nog geen foto's toegekend.
+        <% end %>
+      </p>
+    </div>
+
+  <% end %>
+</div>
 <div class="row">
   <div class="column">
 
@@ -70,35 +74,37 @@
       <li><%= link_to 'Bewerk', edit_collection_work_path(@collection,@work), class: 'primary small button right' %></li>
     <% end %>
     <% if can? :create, Appraisal %>
-      <li><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
-      <li><%= link_to 'Beprijs', collection_work_edit_prices_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+      <li><%= link_to 'Waardeer', new_collection_work_appraisal_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true} %></li>
+      <li><%= link_to 'Beprijs', collection_work_edit_prices_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true} %></li>
     <% end %>
     <% if (can? :create, TimeSpan) && @collection.base_collection.show_availability_status && @work.time_spans.none? %>
-      <li><%= link_to "Start gebeurtenis", new_collection_work_time_span_path(@collection, @work), class: 'secondary small button right'%></li>
+      <li><%= link_to "Start gebeurtenis", new_collection_work_time_span_path(@collection, @work), class: 'secondary small button right' %></li>
     <% elsif (can? :create, TimeSpan) && @collection.base_collection.show_availability_status %>
-      <li><%= link_to "Gebeurtenissen", collection_work_time_spans_path(@collection, @work), class: 'secondary small button right'%></li>
+      <li><%= link_to "Gebeurtenissen", collection_work_time_spans_path(@collection, @work), class: 'secondary small button right' %></li>
     <% end %>
 
     <% if can? :tag, @work %>
-      <li><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true}%></li>
+      <li><%= link_to 'Beheer tags', collection_work_edit_tags_path(@collection,@work), class: 'secondary small button right', data: { open_in_context: true} %></li>
     <% end %>
     <% if can? :create, @work.attachments.new(collection: @collection) %>
       <% attachment_count = @work.attachments.count + @custom_reports.count %>
-      <% if attachment_count == 0 %>
-      <li><%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true}%></li>
-      <% else %>
       <li>
-        <%= link_to collection_work_attachments_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
-          Beheer bijlagen <span class="badge"><%=attachment_count%></span>
+        <% if attachment_count == 0 %>
+          <%= link_to 'Bijlage toevoegen', new_collection_work_attachment_path(@collection, @work), class: 'secondary small button right', title: "Bijlage toevoegen", data: { open_in_context: true} %>
+        <% else %>
+
+          <%= link_to collection_work_attachments_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
+            Beheer bijlagen <span class="badge"><%= attachment_count %></span>
+          <% end %>
+
         <% end %>
       </li>
-      <% end %>
     <% end %>
     <% if @collection.show_library? && can?(:create, @work.library_items.new(collection: @collection)) %>
       <% library_item_count = @work.library_items.count %>
       <li>
         <%= link_to collection_work_library_items_path(@collection, @work), class: 'secondary small button right', data: { open_in_context: true} do %>
-          Bibliotheek <span class="badge"><%=library_item_count%></span>
+          Bibliotheek <span class="badge"><%= library_item_count %></span>
         <% end %>
       </li>
     <% end %>
@@ -115,6 +121,6 @@
   </div>
 </div>
 <div class="row columns show-work">
-  <%= render :partial => 'works/work_detailed_data', locals: {work: @work} %>
+  <%= render :partial => 'works/work_detailed_data', locals: {work: @work, collection: @collection} %>
 
 </div>

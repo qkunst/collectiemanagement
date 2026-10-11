@@ -17,12 +17,12 @@
         </tr></thead>
         <tbody>
         <% if work.main_location_id %>
-          <tr><th>Adres</th><td><%= link_to work.location, collection_location_path(@collection, work.main_location_id) %></td></tr>
+          <tr><th>Adres</th><td><%= link_to work.location, collection_location_path(collection, work.main_location_id) %></td></tr>
         <% else %>
           <%= define_when_present :location %>
         <% end %>
-        <% if @work && @work.main_location&.address %>
-          <tr><th>Adres</th><td><%= link_to @work.main_location.address, collection_location_path(@collection.base_collection, @work.main_location) %></td></tr>
+        <% if work.main_location&.address %>
+          <tr><th>Adres</th><td><%= link_to work.main_location.address, collection_location_path(collection.base_collection, work.main_location) %></td></tr>
         <% end %>
         <%= define_when_present :location_floor %>
         <%= define_when_present :location_detail %>
@@ -39,15 +39,15 @@
       <%= definition_list_for work, {render_as: :table} do %>
         <%= define_when_present :work_status %>
         <%= define_when_present :highlight %>
-        <% if @collection.base_collection.show_availability_status && !@work_display_form&.display_logistics? %>
+        <% if collection.base_collection.show_availability_status && !@work_display_form&.display_logistics? %>
           <%= define_when_present :for_purchase %>
           <%= define_when_present :for_rent %>
           <% if define?(:availability_status) %>
             <tr><th><%= Work.human_attribute_name(:availability_status) %></th><td>
               <% if work.currently_relevant_time_span && work.availability_status == :reserved %>
-                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(@collection, work), data: { open_in_context: true } %>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_spans_path(collection, work), data: { open_in_context: true } %>
               <% elsif work.currently_relevant_time_span %>
-                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(@collection, work, work.currently_relevant_time_span), data: { open_in_context: true } %>
+                <%= link_to I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status"), collection_work_time_span_path(collection, work, work.currently_relevant_time_span), data: { open_in_context: true } %>
               <% else %>
                 <%= I18n.t(work.availability_status, scope: "activerecord.values.work.availability_status") %>
               <% end %>
@@ -60,9 +60,9 @@
       <% end %>
     <% end %>
     <%= definition_list_for work, {render_as: :table} do %>
-      <%= define_when_present :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, work.collection) %>
-      <%= define_when_present :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, work.collection) %>
-      <%= define_when_present :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, work.collection) %>
+      <%= define_when_present :alt_number_1, description: Work.human_attribute_name_overridden(:alt_number_1, collection) %>
+      <%= define_when_present :alt_number_2, description: Work.human_attribute_name_overridden(:alt_number_2, collection) %>
+      <%= define_when_present :alt_number_3, description: Work.human_attribute_name_overridden(:alt_number_3, collection) %>
       <%= define_when_present :alt_number_4 %>
       <%= define_when_present :alt_number_5 %>
       <%= define_when_present :alt_number_6 %>
@@ -157,7 +157,7 @@
         <%= define_when_present :minimum_bid, modifier: :number_to_currency %>
         <% if define?(:selling_price) %>
           <tr><th><%= Work.human_attribute_name(:selling_price) %></th><td><%= number_to_currency work.selling_price %> <%= "(niet publiek)" if !work.publish_selling_price? %></td></tr>
-          <% if @collection.commercial? %>
+          <% if collection.commercial? %>
             <%= define_when_present :default_rent_price, {modifier: :number_to_currency} %>
             <%= define_when_present :business_rent_price_ex_vat, {modifier: :number_to_currency} %>
           <% end %>
@@ -178,7 +178,8 @@
       else
         artist_involvements_texts = work.cached_collection_locality_artist_involvements_texts
       end
-      if artist_involvements_texts && artist_involvements_texts.length > 0 %>
+      if artist_involvements_texts && artist_involvements_texts.length > 0
+      %>
       <tr><th>Gerelateerde<br>betrekkingen:</th><td><ul><% artist_involvements_texts.each do |a| %><li><%= a %></li><% end %></ul></td></tr>
       <% end %>
       <% if @work_display_form&.display_complete? %>
@@ -207,7 +208,7 @@
       <% end %>
       <%= define_when_present :checked_at unless @work_display_form&.display_detailed_discreet? || @work_display_form&.display_logistics? %>
       <% if define?(:old_data) && work.persisted? %>
-      <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(@collection, work), data: { open_in_context: true} %></td></tr>
+      <tr><th>Verder</th><td><%= link_to "Gegevens ten tijde van import", collection_work_old_data_path(collection, work), data: { open_in_context: true} %></td></tr>
       <% end %>
     <% end %>
   </div>
