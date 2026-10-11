@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@import 'settings';
+@import "settings";
 
 .stocknumber,
 .stocknumber a {
@@ -44,7 +44,8 @@
   }
 }
 
-ul.works-list, ol.works-list {
+ul.works-list,
+ol.works-list {
   padding-left: 0;
   padding-right: 0;
   list-style: none;
@@ -65,8 +66,6 @@ ul.works-list, ol.works-list {
       overflow: hidden;
     }
   }
-
-
 }
 
 #works-list {
@@ -161,7 +160,6 @@ ul.works-list, ol.works-list {
         height: 1.5em;
         line-height: 0.5em;
       }
-
     }
   }
 
@@ -215,7 +213,8 @@ tr.show-only-sort-updated_at {
 .sort-significantly_updated_at,
 .sort-significantly_updated_at_asc,
 .sort-updated_at_asc,
-.sort-updated_at {
+.sort-updated_at,
+.show-work {
   tr.show-only-sort-updated_at {
     display: table-row;
   }
@@ -324,7 +323,6 @@ tr.show-only-sort-updated_at {
         line-height: 1.3;
         margin-top: -1px;
         margin-bottom: 1px;
-
       }
 
       td {
@@ -344,7 +342,6 @@ tr.show-only-sort-updated_at {
     font-weight: 300;
     color: darken($anchor-color, 20);
   }
-
 }
 
 body.compact .complete_data,
@@ -405,7 +402,7 @@ body.detailed div.detailed_data {
       }
 
       form {
-        button[type=submit].alert {
+        button[type="submit"].alert {
           position: absolute;
           top: 4px;
           right: 4px;
@@ -417,7 +414,6 @@ body.detailed div.detailed_data {
 
       &.right {
         float: right;
-
       }
 
       .button.expanded {
@@ -434,8 +430,6 @@ body.detailed div.detailed_data {
       height: 120px;
     }
   }
-
-  ;
 }
 
 .touch {
