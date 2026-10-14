@@ -67,3 +67,4 @@ public/assets/**.png
 public/assets/**.json
 
 # public/assets/table_filterable-36dbd79e9b246a6d7063e67fa00b0bfa15e5b47998262791e55c5917035dff41.js.gz
+config/credentials/development.yml.enc

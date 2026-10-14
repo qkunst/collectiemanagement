@@ -128,13 +128,13 @@
           <th<% if can?(:read_valuation, work.collection) && work.appraised_in_set? && @work_display_form&.display != :detailed_discreet && (define?(:market_value_complete) || define?(:replacement_value_complete) ||define?(:market_value_range_complete) || define?(:replacement_value_range_complete)) && !@work_display_form&.display_logistics? %> rowspan="2"<% end %>>
             <%= Work.human_attribute_name(:work_sets) %>
           </th>
-          <td><%= (work.work_sets.map do |ws|
+          <td><%= sanitize(work.work_sets.map do |ws|
             if @for_print
-              sanitize(ws.name)
+              h(ws.name)
             else
-              link_to(sanitize(ws.name), ws)
+              link_to(h(ws.name), [collection, ws].compact)
             end
-          end.to_sentence).html_safe %>
+          end.to_sentence) %>
           </td>
         </tr>
       <% end %>
