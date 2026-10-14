@@ -6,7 +6,7 @@ RSpec.feature "Edit photos", type: :feature do
   extend FeatureHelper
   include FeatureHelper
 
-  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
+  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "can edit photo's" do
         allow_any_instance_of(PictureUploader).to receive(:resize_to_fit)

@@ -6,7 +6,7 @@ RSpec.feature "View report", type: :feature, requires_elasticsearch: true do
   include FeatureHelper
 
   scenario "as an admin" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     # required for TravisCI
     collections(:collection1).works_including_child_works.all.reindex!
@@ -44,7 +44,7 @@ RSpec.feature "View report", type: :feature, requires_elasticsearch: true do
   end
 
   scenario "multi select" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     # required for TravisCI
     collections(:collection1).works_including_child_works.all.reindex!

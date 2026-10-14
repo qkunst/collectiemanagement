@@ -8,7 +8,7 @@ RSpec.feature "Pagination of works", type: :feature do
 
   let(:collection) { collections(:collection1) }
 
-  ["qkunst-test-read_only@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
+  ["qkunst-test-read_only@internet.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       it "can paginate" do
         login email_address

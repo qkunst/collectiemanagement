@@ -71,7 +71,7 @@ RSpec.feature "Werken groeperen", type: :feature do
   end
 
   scenario "Admin can remove a work from a group" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     visit collection_work_set_path(work_sets(:random_other_collection).works.first.collection, work_sets(:random_other_collection))
 
@@ -82,7 +82,7 @@ RSpec.feature "Werken groeperen", type: :feature do
   end
 
   scenario "Admin can start a time span for a group" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     work_set = work_sets(:available_works)
     collection = work_sets(:available_works).works.first.collection

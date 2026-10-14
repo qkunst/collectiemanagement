@@ -6,7 +6,7 @@ RSpec.feature "Admin can set reminders", type: :feature do
   include FeatureHelper
 
   scenario "on a global level" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     visit reminders_path
     expect(page).to have_content("Herinneringen")
@@ -27,7 +27,7 @@ RSpec.feature "Admin can set reminders", type: :feature do
   end
 
   scenario "on collection-level" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     visit collection_reminders_path(Collection.first)
     expect(page).to have_content("Herinneringen")

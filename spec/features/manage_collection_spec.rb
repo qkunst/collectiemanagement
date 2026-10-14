@@ -7,7 +7,7 @@ RSpec.feature "Manage Collection", type: :feature do
 
   context "as admin" do
     before(:each) do
-      login "qkunst-admin-user@murb.nl"
+      login "qkunst-admin-user@qkunst.nl"
 
       visit collections_path
 

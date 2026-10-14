@@ -6,7 +6,7 @@ RSpec.feature "Admin can review", type: :feature do
   include FeatureHelper
 
   scenario "modified works on collection level and work level" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     click_on "Collecties"
     if page.body.match?("id=\"collections-list\"")

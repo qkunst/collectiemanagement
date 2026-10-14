@@ -8,7 +8,7 @@ RSpec.feature "Filter from report", type: :feature do
   scenario "as an admin", requires_elasticsearch: true do
     inital_works_count = 2
 
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     # required for TravisCI
     collections(:collection1).works_including_child_works.all.reindex!

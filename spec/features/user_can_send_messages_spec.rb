@@ -6,7 +6,7 @@ RSpec.feature "User can send messages", type: :feature do
   include FeatureHelper
 
   scenario "can mark message as completed" do
-    login "qkunst-admin-user@murb.nl"
+    login "qkunst-admin-user@qkunst.nl"
 
     visit message_path(messages(:old_message))
 
@@ -15,7 +15,7 @@ RSpec.feature "User can send messages", type: :feature do
     }.to change(Message.where(actioned_upon_by_qkunst_admin_at: nil), :count).by(-1)
   end
 
-  ["qkunst-test-facility_manager@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
+  ["qkunst-test-facility_manager@murb.nl", "qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
     context email_address do
       scenario "can send messages" do
         login email_address
@@ -39,7 +39,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         expect {
           click_on "Bericht versturen"
-        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@murb.nl") ? 1 : 2)
+        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@qkunst.nl") ? 1 : 2)
 
         message = Message.find_by_subject(subject)
         expect(message.actioned_upon_by_qkunst_admin?).to eq(false)
@@ -56,7 +56,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         click_on "Uitloggen"
 
-        login "qkunst-admin-user@murb.nl"
+        login "qkunst-admin-user@qkunst.nl"
 
         click_on "Berichten"
         click_on "Ondewerp #{email_address}"
@@ -65,7 +65,7 @@ RSpec.feature "User can send messages", type: :feature do
 
         expect {
           click_on "Bericht versturen"
-        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@murb.nl") ? 1 : 2)
+        }.to change(ActionMailer::Base.deliveries, :count).by((email_address == "qkunst-admin-user@qkunst.nl") ? 1 : 2)
 
         message.reload
         expect(message.actioned_upon_by_qkunst_admin?).to eq(true)

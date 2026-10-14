@@ -575,7 +575,7 @@ User can send messages
   can mark message as completed
   qkunst-test-facility_manager@murb.nl
     can send messages
-  qkunst-admin-user@murb.nl
+  qkunst-admin-user@qkunst.nl
     can send messages
   qkunst-test-appraiser@murb.nl
     can send messages
@@ -936,7 +936,7 @@ User can send messages
   can mark message as completed
   qkunst-test-facility_manager@murb.nl
     can send messages
-  qkunst-admin-user@murb.nl
+  qkunst-admin-user@qkunst.nl
     can send messages
   qkunst-test-appraiser@murb.nl
     can send messages

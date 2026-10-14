@@ -84,7 +84,7 @@ advisor_user_with_api_key:
   confirmed_at: 2000-01-01T01:00
   domain: murb.nl
 admin:
-  email: qkunst-admin-user@murb.nl
+  email: qkunst-admin-user@qkunst.nl
   admin: true
   name: Administrator
   oauth_provider: google_oauth2
@@ -251,6 +251,6 @@ collection_with_works_user:
     - :collection_with_works
 
 # admin_notify:
-#   email: qkunst-admin-user@murb.nl
+#   email: qkunst-admin-user@qkunst.nl
 #
 #   encrypted_password: $2a$10$3QhbgFGNuY2iwx4IdENWtedNUOFLQWac8ugxeVXg2awXDkyT3j97.

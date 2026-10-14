@@ -6,8 +6,10 @@ RSpec.feature "Navigate works in a collection", type: :feature do
   include FeatureHelper
   extend FeatureHelper
 
-  ["qkunst-test-read_only@murb.nl", "qkunst-test-compliance@murb.nl"].each do |email_address|
-    context email_to_role(email_address) do
+  [:read_only, :compliance].each do |role|
+    context role do
+      let(:email_address) { users(role).email }
+
       scenario "cannot edit anything" do
         visit root_path
         expect(page).to have_content(I18n.t("application.name"))
@@ -34,7 +36,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
       end
     end
   end
-  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
+  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "can edit work through main form" do
         login email_address
@@ -44,7 +46,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
         click_on "Collecties"
         expect(page).to have_content("Collection 1")
 
-        click_on "Collection 1" if ["qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
+        click_on "Collection 1" if ["qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
 
         expect(page).to have_content("Doorzoek de werken")
         within "#responsive-menu" do
@@ -77,7 +79,7 @@ RSpec.feature "Navigate works in a collection", type: :feature do
     end
   end
 
-  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-facility_manager@murb.nl"].each do |email_address|
+  ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl", "qkunst-test-facility_manager@murb.nl"].each do |email_address|
     context email_to_role(email_address) do
       scenario "can edit location through location form" do
         login email_address
@@ -87,9 +89,9 @@ RSpec.feature "Navigate works in a collection", type: :feature do
         click_on "Collecties"
         expect(page).to have_content("Collection 1")
 
-        click_on "Collection 1" if ["qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
+        click_on "Collection 1" if ["qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl"].include? email_address
         click_on "Work1"
-        expect(page).not_to have_content("Bewerk gegevens") unless ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@murb.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].include?(email_address)
+        expect(page).not_to have_content("Bewerk gegevens") unless ["qkunst-regular-user-with-collection@murb.nl", "qkunst-admin-user@qkunst.nl", "qkunst-test-appraiser@murb.nl", "qkunst-test-advisor@murb.nl"].include?(email_address)
         expect(page).to have_content("Bewerk")
         first(".detailed_data table tr a").click
         expect(page).to have_content("Bewerk locatie")

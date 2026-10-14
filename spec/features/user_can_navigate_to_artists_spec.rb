@@ -13,9 +13,8 @@ RSpec.feature "Navigate works", type: :feature do
   end
 
   scenario "read only" do
-    login "qkunst-test-read_only@murb.nl"
-
-    User.find_by_email("qkunst-test-read_only@murb.nl")
+    user = users(:read_only)
+    login user.email
 
     click_on "Collecties"
     expect(page).not_to have_content("Bewerk")
