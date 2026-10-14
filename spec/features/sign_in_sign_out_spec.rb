@@ -11,6 +11,15 @@ RSpec.feature "Signin in and out (QSECIMP0011)" do
     expect(page.body).to match("Succesvol ingelogd")
   end
 
+  it "should not throw an error when the user does not exist at all" do
+    visit root_path
+    first(".large-12.columns .button").click
+    fill_in("E-mailadres", with: "email_address")
+    fill_in("Wachtwoord", with: "password")
+    first("#new_user input[type=submit]").click
+    expect(page.find(".callout.alert").text).to match("Ongeldig e-mailadres of wachtwoord.")
+  end
+
   it "shouldn't reveal existence of an account [QSECIMP0074]" do
     password_login(user, "WrongPassword")
     expect(page.body).not_to match("Succesvol ingelogd")
