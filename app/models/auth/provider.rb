@@ -12,4 +12,5 @@
 #
 
 class Auth::Provider < ApplicationRecord
+  self.table_name = "auth_providers"
 end

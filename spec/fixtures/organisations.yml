@@ -1,0 +1,39 @@
+# == Schema Information
+#
+# Table name: organisations
+#
+#  id               :integer          not null, primary key
+#  domains          :json
+#  auth_provider_id :integer
+#  name             :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+# Indexes
+#
+#  index_organisations_on_auth_provider_id  (auth_provider_id)
+#
+
+murb_org:
+  name: murb
+  domains: ["murb.nl"]
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
+
+qkunst_org:
+  name: QKunst
+  domains: ["qkunst.nl"]
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
+
+multi_domain_org:
+  name: Multi Domain Org
+  domains: ["example.org", "example.com"]
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
+
+no_domain_org:
+  name: No Domain Org
+  domains: []
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00

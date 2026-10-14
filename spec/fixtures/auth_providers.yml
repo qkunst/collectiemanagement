@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: auth_providers
+#
+#  id         :integer          not null, primary key
+#  strategy   :string
+#  client_id  :string
+#  secret     :string
+#  options    :json
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+google_oauth2:
+  strategy: google_oauth2
+  client_id: test-google-client-id
+  secret: test-google-secret
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
+
+azure_activedirectory:
+  strategy: azure_activedirectory
+  client_id: test-azure-client-id
+  secret: test-azure-secret
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00

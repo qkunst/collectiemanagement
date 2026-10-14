@@ -15,5 +15,7 @@
 #
 
 class Organisation < ApplicationRecord
-  belongs_to :auth_provider, optional: true
+  belongs_to :auth_provider, class_name: "Auth::Provider", optional: true
+
+  scope :for_domain, ->(domain) { where("domains::jsonb @> ?::jsonb", domain.to_json) }
 end
