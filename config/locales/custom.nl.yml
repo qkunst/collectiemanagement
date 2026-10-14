@@ -204,6 +204,7 @@ nl:
           unknown: onbekend
       user:
         role:
+          super_admin: Superadministrator (ook niet beheerde)
           admin: Administrator
           qkunst: Registrator
           compliance: Compliance
