@@ -22,11 +22,11 @@ class UsersController < ApplicationController
   end
 
   def oauth
-    @methods = if params[:methods] == "google"
+    @methods = if methods.include?("google") || methods.include?("google_oauth2")
       [:google]
-    elsif params[:methods] == "microsoft"
+    elsif methods.include?("microsoft") || methods.include?("azureactivedirectory")
       [:microsoft]
-    elsif params[:methods] == "central_login"
+    elsif methods.include? "central_login"
       [:central_login]
     else
       [:google, :microsoft]
@@ -58,6 +58,18 @@ class UsersController < ApplicationController
     current_untouchable_collections = @user.collections.map(&:id) - current_user.accessible_collections.map(&:id)
     parameters["collection_ids"] = (parameters["collection_ids"].map(&:to_i) & current_user.accessible_collections.map(&:id)) + current_untouchable_collections
     parameters
+  end
+
+  def methods
+    rv = params[:methods]
+
+    if rv.is_a?(String)
+      rv.split(",")
+    elsif rv.is_a?(Array)
+      rv
+    else
+      []
+    end
   end
 
   def set_user

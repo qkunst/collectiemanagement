@@ -41,7 +41,7 @@ RSpec.feature "Signin in and out (QSECIMP0011)" do
     expect(existing_user_response).to match("Ongeldig e-mailadres of wachtwoord.")
 
     password_login(users(:admin))
-    expect(page.find(".callout.alert").text).to eq(existing_user_response)
+    expect(page.text).to match("Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de collectie van uw organisatie.")
   end
 
   context "admin" do
@@ -55,7 +55,13 @@ RSpec.feature "Signin in and out (QSECIMP0011)" do
     it "should not allow password login as admin user" do
       password_login(user)
       expect(page.body).not_to match("Succesvol ingelogd")
-      expect(page.body).to match("Ongeldig e-mailadres of wachtwoord, of u mag niet op deze wijze inloggen.")
+      expect(page.text).to match("Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de collectie van uw organisatie.")
+    end
+
+    it "should not allow password login as admin user" do
+      password_login(user)
+      expect(page.text).to match("Log in met uw Google account")
+      expect(page.text).not_to match("Log in met uw Microsoft account")
     end
   end
 
