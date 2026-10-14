@@ -14,7 +14,7 @@
 #  index_organisations_on_auth_provider_id  (auth_provider_id)
 #
 
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Organisation, type: :model do
   describe "scopes" do
