@@ -5,10 +5,11 @@
 #   gem 'sqlite3'
 #
 development:
-  username: murb
+  username: postgres
+  password: postgres
   adapter: postgresql
   encoding: unicode
-  database: qkunst-dev
+  database: collectionmanagement-dev
   host: localhost
   pool: 5
   timeout: 5000
@@ -17,10 +18,11 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  username: murb
+  username: postgres
+  password: postgres
   adapter: postgresql
   encoding: unicode
-  database: qkunst-test<%= ENV['TEST_ENV_NUMBER'] %>
+  database: collectionmanagement-test<%= ENV['TEST_ENV_NUMBER'] %>
   host: localhost
   pool: 5
   timeout: 5000

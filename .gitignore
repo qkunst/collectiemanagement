@@ -28,6 +28,12 @@ erd.pdf
 .~*
 /coverage
 results.html
+/public/assets/*.js*
+/public/assets/*.css*
+/public/assets/*.map*
+/public/assets/logo-*
+/public/assets/chosen*
+/public/assets/.sprockets*
 /public/packs
 /public/packs-test
 /node_modules
