@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_27_155250) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_101221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "tablefunc"
@@ -107,6 +107,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_27_155250) do
   create_table "attachments_works", id: false, force: :cascade do |t|
     t.bigint "attachment_id", null: false
     t.bigint "work_id", null: false
+  end
+
+  create_table "auth_providers", force: :cascade do |t|
+    t.string "strategy"
+    t.string "client_id"
+    t.string "secret"
+    t.json "options"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "balance_categories", force: :cascade do |t|
@@ -515,6 +524,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_27_155250) do
     t.index ["work_id"], name: "index_object_categories_works_on_work_id"
   end
 
+  create_table "organisations", force: :cascade do |t|
+    t.json "domains"
+    t.bigint "auth_provider_id"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["auth_provider_id"], name: "index_organisations_on_auth_provider_id"
+  end
+
   create_table "owners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -865,4 +883,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_27_155250) do
     t.index ["collection_id"], name: "index_works_on_collection_id"
     t.index ["stock_number"], name: "index_works_on_stock_number"
   end
+
+  add_foreign_key "organisations", "auth_providers"
 end
