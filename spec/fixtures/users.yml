@@ -55,14 +55,17 @@ user1:
   email: test-user1@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
 user2:
   email: test-user2@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
 user3:
   email: test-user3@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
 user_with_api_key:
   email: qkunst-test-user-with-api-key@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
@@ -70,6 +73,7 @@ user_with_api_key:
   collections:
     - :collection_with_works
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
 advisor_user_with_api_key:
   email: qkunst-test-advisor-user-with-api-key@murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
@@ -78,24 +82,25 @@ advisor_user_with_api_key:
   collections:
     - :collection_with_works
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
 admin:
   email: qkunst-admin-user@murb.nl
   admin: true
   name: Administrator
   oauth_provider: google_oauth2
   oauth_subject: 1
-  domain: qkunst.nl
+  domain: murb.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
 supposed_admin_without_oauth:
-  email: supposed-qkunst-admin-user@murb.nl
+  email: supposed-qkunst-admin-user@qkunst.nl
   admin: true
   name: Administrator
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   domain: qkunst.nl
   confirmed_at: 2000-01-01T01:00
 super_admin:
-  email: qkunst-super-admin-user@murb.nl
+  email: qkunst-super-admin-user@qkunst.nl
   admin: true
   super_admin: true
   oauth_provider: google_oauth2
@@ -105,7 +110,7 @@ super_admin:
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
 qkunst:
-  email: qkunst-regular-user@murb.nl
+  email: qkunst-regular-user@qkunst.nl
   admin: false
   qkunst: true
   domain: qkunst.nl
@@ -121,11 +126,18 @@ qkunst_with_collection:
     - :collection1
   confirmed_at: 2000-01-01T01:00
 user_with_no_rights:
-  email: qkunst-test-user_with_no_rights@murb.nl
+  email: qkunst-test-user_with_no_rights@example.com
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   confirmed_at: 2000-01-01T01:00
+  domain: murb.nl
+user_with_org_with_auth_provider:
+  email: qkunst-test-user_with_no_rights@authorg.nl
+  encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
+  confirmed_at: 2000-01-01T01:00
+  domain: authorg.nl
 read_only:
-  email: qkunst-test-read_only@murb.nl
+  email: qkunst-test-read_only@internet.nl
+  domain: internet.nl
   encrypted_password: $2a$10$s/x8ancC7e8swZmETRemL.AEaOvcfBq3Hmwm3Luxt49HWAAhUvmyy
   collections:
     - :collection1

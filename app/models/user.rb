@@ -206,10 +206,6 @@ class User < ApplicationRecord
     ADMIN_DOMAINS.include? domain
   end
 
-  def enforce_oauth?
-    admin? || (organisation&.auth_provider.present?)
-  end
-
   def organisation
     Organisation.includes(:auth_provider).for_domain(domain).first
   end

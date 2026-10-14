@@ -11,6 +11,10 @@ module OAuthUserExtensions
       !!(oauth_subject && oauth_provider)
     end
 
+    def enforce_oauth?
+      admin? || (organisation&.auth_provider.present?) || oauthable?
+    end
+
     def issuer
       User::Issuer.new(super) if super
     end

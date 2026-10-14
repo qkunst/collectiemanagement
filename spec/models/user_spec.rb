@@ -237,6 +237,37 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe "#enforce_oauth?" do
+      it "returns false when no organisation exists" do
+        user = users(:read_only)
+        expect(user.organisation).to be_nil
+        expect(user.enforce_oauth?).to be false
+      end
+
+      it "returns false when organisation exists but has no auth provider" do
+        user = users(:user_with_no_rights)
+        expect(user.organisation).to eq(organisations(:murb_org))
+        expect(user.enforce_oauth?).to be false
+      end
+
+      it "returns true when organisation has an auth provider" do
+        user = users(:user_with_org_with_auth_provider)
+        expect(user.organisation).to eq(organisations(:org_with_auth_provider))
+        expect(user.enforce_oauth?).to be true
+      end
+
+      it "returns true when the user has used an auth provider" do
+        user = users(:collection_with_works_user)
+        expect(user.organisation&.oauth_provider).to be_nil
+        expect(user.enforce_oauth?).to be true
+      end
+
+      it "returns true for admin users" do
+        user = users(:admin)
+        expect(user.enforce_oauth?).to be true
+      end
+    end
+
     describe "#issuer" do
       it "returns a User::Issuer object when the issuer attribute is set" do
         user = users(:admin)

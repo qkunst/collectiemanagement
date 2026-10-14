@@ -37,3 +37,10 @@ no_domain_org:
   domains: []
   created_at: 2024-01-01 00:00:00
   updated_at: 2024-01-01 00:00:00
+
+org_with_auth_provider:
+  name: Org With Auth Provider
+  domains: ["authorg.nl"]
+  auth_provider: google_oauth2
+  created_at: 2024-01-01 00:00:00
+  updated_at: 2024-01-01 00:00:00
