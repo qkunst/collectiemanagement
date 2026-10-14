@@ -13,7 +13,6 @@ class Users::SessionsController < Devise::SessionsController
     super
     if current_user.enforce_oauth?
       sign_out
-      # set_flash_message! :notice, ""
       set_flash_message! :alert, :oauth_required
     end
   end
