@@ -120,6 +120,11 @@ Collection.find_by(name: "Subcollectie").update_column(:parent_collection_id, Co
   Work.create(parameters)
 end
 
+
+["Meerluik", "Presentatie"].map { WorkSetType.where({name: it}).first_or_create }
+
+
+
 Collection.unscoped.insert({root: true, name: "-", created_at: Time.current, updated_at: Time.current})
 
 c = Collection.unscoped.where(root: true).first
