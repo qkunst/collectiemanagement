@@ -61,7 +61,7 @@ module FeatureHelper
   end
 
   def email_to_role email
-    name = email.gsub("@murb.nl", "").gsub("test", "").gsub(/[-_]/, " ").gsub("@internet.nl","").gsub("qkunst", "QKunst").gsub("admin user", "administrator")
+    name = email.gsub("@murb.nl", "").gsub("test", "").gsub(/[-_]/, " ").gsub("@internet.nl", "").gsub("qkunst", "QKunst").gsub("admin user", "administrator")
     "as #{name}"
   end
 end
