@@ -1,7 +1,7 @@
 <h1>Log in</h1>
 <div class="row">
 <div class="medium-8 columns">
-  <p>Welkom in de <%=I18n.t("application.name")%> webapplicatie. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de bedrijfscollectie van uw organisatie.  </p>
+  <p>Welkom in de <%= I18n.t("application.name") %> webapplicatie. Indien u bent geautoriseerd kunt u inloggen om toegang te krijgen tot de bedrijfscollectie van uw organisatie.  </p>
 
 <% if !Rails.application.credentials.central_login_id || Rails.env.development? %>
   <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -23,7 +23,7 @@
 <div class="medium-4 columns">
 <% if !Rails.application.credentials.central_login_id || Rails.env.development? %>
   <h4>Nog geen account?</h4>
-  <p>Heeft u nog geen toegang tot <%=I18n.t("application.name")%>? U kunt alvast registreren. Een <%=I18n.t("organisation.name")%> administrator kan vervolgens uw account activeren.</p>
+  <p>Heeft u nog geen toegang tot <%= I18n.t("application.name") %>? U kunt alvast registreren. Een <%= I18n.t("organisation.name") %> administrator kan vervolgens uw account activeren.</p>
 
   <p><%= link_to 'Registreer', new_registration_path(:user), class: [:button, :expanded] %></p>
   <p>Bekijk ons <a href="https://qkunst.nl/privacy/" target="_blank">gegevensbeleid</a>.</p>
