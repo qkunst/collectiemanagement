@@ -12,5 +12,6 @@
 #
 
 class Auth::Provider < ApplicationRecord
+  has_many :organisations, dependent: :destroy
   self.table_name = "auth_providers"
 end

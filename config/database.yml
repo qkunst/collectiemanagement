@@ -22,7 +22,7 @@ test:
   password: postgres
   adapter: postgresql
   encoding: unicode
-  database: collectionmanagement-test<%= ENV['TEST_ENV_NUMBER'] %>
+  database: collectionmanagement-test
   host: localhost
   pool: 5
   timeout: 5000

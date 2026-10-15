@@ -159,10 +159,11 @@ class Work < ApplicationRecord
   before_save :update_created_by_name
   before_save :convert_purchase_price_in_eur
   before_save :update_artist_name_rendered
-  before_save :mark_as_removed_from_collection_according_to_work_status
 
+  before_save :mark_as_removed_from_collection_according_to_work_status
   before_save :mark_significant_update_if_significant
   before_create :significantly_updated
+  after_save :update_artist_name_rendered!
 
   after_save :touch_collection!
   attr_accessor :skip_touch_collection

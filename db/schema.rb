@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_101221) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_101222) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "tablefunc"
@@ -883,6 +883,4 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_101221) do
     t.index ["collection_id"], name: "index_works_on_collection_id"
     t.index ["stock_number"], name: "index_works_on_stock_number"
   end
-
-  add_foreign_key "organisations", "auth_providers"
 end
