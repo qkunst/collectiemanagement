@@ -9,7 +9,14 @@
 #  options    :json
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  uuid       :string
 #
+# Indexes
+#
+#  index_auth_providers_on_client_id_and_strategy  (client_id,strategy)
+#  index_auth_providers_on_uuid                    (uuid)
+#
+
 _fixture:
   model_class: Auth::Provider
 
@@ -19,6 +26,7 @@ google_oauth2:
   secret: test-google-secret
   created_at: 2024-01-01 00:00:00
   updated_at: 2024-01-01 00:00:00
+  uuid: 157c44b0-45ce-487a-ae4d-6953f74a0a62
 
 azure_activedirectory:
   strategy: azure_activedirectory
@@ -26,3 +34,4 @@ azure_activedirectory:
   secret: test-azure-secret
   created_at: 2024-01-01 00:00:00
   updated_at: 2024-01-01 00:00:00
+  uuid: 157c44b0-45ce-487a-ae4d-6953f74a0a61

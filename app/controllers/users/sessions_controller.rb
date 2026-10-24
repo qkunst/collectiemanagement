@@ -10,9 +10,9 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    if oauth_provider
+    if auth_strategy
       sign_out
-      redirect_to users_oauth_path(methods: [oauth_provider])
+      redirect_to users_oauth_path(methods: [auth_strategy], auth_provider_uuid: auth_provider&.uuid)
     else
       super
       # this has basically become a no-op
@@ -54,8 +54,12 @@ class Users::SessionsController < Devise::SessionsController
     User.find_by(email:)
   end
 
-  def oauth_provider
+  def auth_provider
+    organisation&.auth_provider
+  end
+
+  def auth_strategy
     sleep(rand / 2) # adding some noise
-    organisation&.auth_provider || user&.oauth_provider
+    auth_provider&.strategy || user&.oauth_provider
   end
 end

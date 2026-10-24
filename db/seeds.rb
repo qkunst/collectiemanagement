@@ -127,3 +127,8 @@ Collection.unscoped.insert({root: true, name: "-", created_at: Time.current, upd
 c = Collection.unscoped.where(root: true).first
 
 Collection.unscoped.where(parent_collection_id: nil).where.not(root: true).update_all(parent_collection_id: c.id)
+
+valid_provider = Auth::Provider.create(strategy: :central_login, client_id: Rails.application.credentials.central_login_id, secret: Rails.application.credentials.central_login_secret)
+invalid_provider = Auth::Provider.create(strategy: :central_login, client_id: Rails.application.credentials.central_login_id, secret: "invalid")
+Organisation.create(domains: ["murb.nl"], name: "murb NL", auth_provider: valid_provider)
+Organisation.create(domains: ["murb.eu"], name: "murb EU (invalid)", auth_provider: invalid_provider)

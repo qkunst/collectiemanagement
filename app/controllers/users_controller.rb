@@ -23,14 +23,16 @@ class UsersController < ApplicationController
 
   def oauth
     @methods = if methods.include?("google") || methods.include?("google_oauth2")
-      [:google]
+      [:google_oauth2]
     elsif methods.include?("microsoft") || methods.include?("azureactivedirectory")
-      [:microsoft]
+      [:azureactivedirectory]
     elsif methods.include? "central_login"
       [:central_login]
     else
-      [:google, :microsoft]
+      [:google_oauth2, :azureactivedirectory]
     end
+
+    @auth_provider_uuid = params[:auth_provider_uuid] if params[:auth_provider_uuid].to_s.match?(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
   end
 
   def update

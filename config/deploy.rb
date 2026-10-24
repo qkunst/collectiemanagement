@@ -156,6 +156,7 @@ namespace :rbenv do
   task :update do
     on roles(:app), in: :sequence do
       execute "git -C ~/.rbenv/plugins/ruby-build pull"
+      execute "rm -rf ~/.rbenv/shims/.rbenv-shim"
       execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
       execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
       execute "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
