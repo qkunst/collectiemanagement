@@ -253,6 +253,7 @@ RSpec.describe User, type: :model do
       it "returns true when organisation has an auth provider" do
         user = users(:user_with_org_with_auth_provider)
         expect(user.organisation).to eq(organisations(:org_with_auth_provider))
+        expect(user.organisation.auth_provider).to eq(auth_providers(:azure_activedirectory))
         expect(user.enforce_oauth?).to be true
       end
 
