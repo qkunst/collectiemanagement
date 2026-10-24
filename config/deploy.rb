@@ -104,7 +104,7 @@ namespace :rbenv do
       begin
         execute "git clone https://github.com/rbenv/rbenv.git ~/.rbenv"
       rescue SSHKit::Command::Failed
-        puts "rbenv already installed, updating..." # standard:disable Rails/Output
+        Rails.logger.debug "rbenv already installed, updating..."
       end
       begin
         execute "cd ~/.rbenv && git pull"
@@ -114,15 +114,14 @@ namespace :rbenv do
       end
       # execute "~/.rbenv/bin/rbenv init"
       execute "mkdir -p ~/.rbenv/plugins"
-      execute "mkdir -p ~/tmp"
       begin
         execute "git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build"
       rescue SSHKit::Command::Failed
-        puts "rbenv/ruby-build plugin already installed, updating..." # standard:disable Rails/Output
+        Rails.logger.debug "rbenv/ruby-build plugin already installed, updating..."
         execute "cd ~/.rbenv/plugins/ruby-build && git pull"
       end
       rbenv_ruby = File.read(".ruby-version").strip
-      execute "TMPDIR=~/tmp ~/.rbenv/bin/rbenv install -s #{fetch(:rbenv_ruby) || rbenv_ruby}"
+      execute "~/.rbenv/bin/rbenv install -s #{fetch(:rbenv_ruby) || rbenv_ruby}"
       execute "~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby) || rbenv_ruby}"
       execute "~/.rbenv/bin/rbenv local #{fetch(:rbenv_ruby) || rbenv_ruby}"
       # execute "~/.rbenv/bin/rbenv rehash"
@@ -157,9 +156,9 @@ namespace :rbenv do
   task :update do
     on roles(:app), in: :sequence do
       execute "git -C ~/.rbenv/plugins/ruby-build pull"
-      execute " RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
-      execute " RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
-      execute " RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
+      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv install #{fetch(:rbenv_ruby)} -s -k"
+      execute "RBENV_ROOT=~/.rbenv ~/.rbenv/bin/rbenv global #{fetch(:rbenv_ruby)}"
+      execute "RBENV_ROOT=~/.rbenv RBENV_VERSION=#{fetch(:rbenv_ruby)} ~/.rbenv/bin/rbenv exec gem install -N bundler"
     end
   end
 end
