@@ -1,5 +1,30 @@
 # frozen_string_literal: true
 
+SETUP_PROC = lambda do |env|
+  request = Rack::Request.new(env)
+
+  if request.path.to_s.match?(/callback/)
+    # binding.irb
+    provider = Auth::Provider.find_by_encrypted_provider_uuid!(request.cookies["_provider_id"])
+  else
+    # We're setting up the request
+    response = Rack::Response.new(env)
+    provider_uuid = "5af10363-90bc-4dd2-89e8-df3844bbc852"
+    # provider_uuid = "0bc7e1de-db11-481b-85dc-fea3fa71207b" # invalid config
+    provider = Auth::Provider.find_by(uuid: provider_uuid)
+    response.set_cookie("_provider_id", provider.encrypted_provider_uuid)
+    binding.irb
+    response.finish
+  end
+
+  # binding.irb
+  # provider_uuid = "5af10363-90bc-4dd2-89e8-df3844bbc852"
+
+  # Note client_id & client_secret for Facebook
+  env["omniauth.strategy"].options[:client_id] = provider.client_id
+  env["omniauth.strategy"].options[:client_secret] = provider.secret
+end
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -241,9 +266,10 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
   config.omniauth :google_oauth2, Rails.application.credentials.google_client_id, Rails.application.credentials.google_client_secret, {scope: "userinfo.email,userinfo.profile,openid", prompt: "select_account"}
   config.omniauth :azureactivedirectory, Rails.application.credentials.azure_client_id, "common", {scope: "openid email profile", prompt: "select_account"}
-  config.omniauth :central_login, Rails.application.credentials.central_login_id, Rails.application.credentials.central_login_secret, {client_options: {site: Rails.application.credentials.central_login_site}, scope: "openid email profile"}
+  config.omniauth :central_login, Rails.application.credentials.central_login_id, Rails.application.credentials.central_login_secret, {client_options: {site: Rails.application.credentials.central_login_site}, scope: "openid email profile", setup: SETUP_PROC}
 
   config.parent_mailer = "ApplicationMailer"
 
