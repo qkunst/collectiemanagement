@@ -13,7 +13,7 @@ SETUP_PROC = lambda do |env|
     # provider_uuid = "0bc7e1de-db11-481b-85dc-fea3fa71207b" # invalid config
     provider = Auth::Provider.find_by(uuid: provider_uuid)
     response.set_cookie("_provider_id", provider.encrypted_provider_uuid)
-    binding.irb
+    # binding.irb
     response.finish
   end
 
