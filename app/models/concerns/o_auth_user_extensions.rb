@@ -97,7 +97,7 @@ module OAuthUserExtensions
 
         user.save
 
-        user.refresh!(force: true) if user.persisted? && user.oauth_refresh_token # retrieve oauth_id_token; machine authenticators do not have refresh tokens
+        # user.refresh!(force: true) if user.persisted? && user.oauth_refresh_token # retrieve oauth_id_token; machine authenticators do not have refresh tokens
 
         user
       end
