@@ -139,7 +139,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "creates omniauth callback data with user fields" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -155,7 +158,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "sets the issuer on callback data" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -168,7 +174,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "uses 'sub' as oauth_subject when 'uid' is missing" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -191,7 +200,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
           it "uses 'uid' as oauth_subject" do
             callback_data = nil
-            allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+            allow(User).to receive(:from_omniauth_callback_data) { |data|
+              callback_data = data
+              created_user
+            }
 
             controller.current_api_user
 
@@ -219,7 +231,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "creates omniauth callback data with app fields" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -235,7 +250,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "sets the issuer with app/ prefix for app users" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -258,7 +276,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
           it "derives the name from sub and issuer" do
             callback_data = nil
-            allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+            allow(User).to receive(:from_omniauth_callback_data) { |data|
+              callback_data = data
+              created_user
+            }
 
             controller.current_api_user
 
@@ -278,7 +299,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
           it "replaces underscores with spaces in the derived name" do
             callback_data = nil
-            allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+            allow(User).to receive(:from_omniauth_callback_data) { |data|
+              callback_data = data
+              created_user
+            }
 
             controller.current_api_user
 
@@ -292,7 +316,7 @@ RSpec.describe Api::V1::ApiController, type: :controller do
       # ----------------------------------------------------------------
       context "when token includes resources and roles" do
         let(:created_user) { User.new }
-        let(:resources) { [{ "api" => "https://api.example.com" }] }
+        let(:resources) { [{"api" => "https://api.example.com"}] }
         let(:roles) { ["admin"] }
         let(:regular_user_token_payload) do
           {
@@ -313,7 +337,10 @@ RSpec.describe Api::V1::ApiController, type: :controller do
 
         it "passes resources and roles to the callback data" do
           callback_data = nil
-          allow(User).to receive(:from_omniauth_callback_data) { |data| callback_data = data; created_user }
+          allow(User).to receive(:from_omniauth_callback_data) { |data|
+            callback_data = data
+            created_user
+          }
 
           controller.current_api_user
 
@@ -430,21 +457,21 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
       end
 
       it "returns 401" do
-        get endpoint, headers: { "X-user-id" => regular_user.id.to_s }
+        get endpoint, headers: {"X-user-id" => regular_user.id.to_s}
         expect(response).to have_http_status(401)
       end
     end
 
     context "with invalid token" do
       it "returns 401" do
-        get endpoint, headers: { "X-user-id" => api_key_user.id.to_s, "X-hmac-token" => "invalid-token" }
+        get endpoint, headers: {"X-user-id" => api_key_user.id.to_s, "X-hmac-token" => "invalid-token"}
         expect(response).to have_http_status(401)
       end
     end
 
     context "with non-existent user id" do
       it "returns 401" do
-        get endpoint, headers: { "X-user-id" => "-1" }
+        get endpoint, headers: {"X-user-id" => "-1"}
         expect(response).to have_http_status(401)
       end
     end
@@ -463,7 +490,7 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
       end
 
       it "returns 401 with expiration message" do
-        get endpoint, headers: { "Authorization" => "Bearer #{bearer_token}" }
+        get endpoint, headers: {"Authorization" => "Bearer #{bearer_token}"}
         expect(response).to have_http_status(401)
         json = JSON.parse(response.body)
         expect(json["message"]).to eq("Not authorized JWT token is expired")
@@ -472,7 +499,7 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
 
     context "when Authorization header lacks Bearer prefix" do
       it "returns 401" do
-        get endpoint, headers: { "Authorization" => "Token some-token" }
+        get endpoint, headers: {"Authorization" => "Token some-token"}
         expect(response).to have_http_status(401)
       end
     end
@@ -487,7 +514,7 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
 
       it "raises JWT::DecodeError (not caught by the controller)" do
         expect {
-          get endpoint, headers: { "Authorization" => "Bearer " }
+          get endpoint, headers: {"Authorization" => "Bearer "}
         }.to raise_error(JWT::DecodeError)
       end
     end
@@ -508,12 +535,12 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
 
     context "for a regular user" do
       it "returns 200 with data" do
-        get endpoint, headers: { "Authorization" => "Bearer #{bearer_token}" }
+        get endpoint, headers: {"Authorization" => "Bearer #{bearer_token}"}
         expect(response).to be_successful
       end
 
       it "calls the strategy validate_id_token" do
-        get endpoint, headers: { "Authorization" => "Bearer #{bearer_token}" }
+        get endpoint, headers: {"Authorization" => "Bearer #{bearer_token}"}
         expect(mocked_strategy).to have_received(:validate_id_token).with(bearer_token)
       end
     end
@@ -534,7 +561,7 @@ RSpec.describe "Api::V1 Authentication (request-level)", type: :request do
       end
 
       it "returns 200 with data" do
-        get endpoint, headers: { "Authorization" => "Bearer #{bearer_token}" }
+        get endpoint, headers: {"Authorization" => "Bearer #{bearer_token}"}
         expect(response).to be_successful
       end
     end
