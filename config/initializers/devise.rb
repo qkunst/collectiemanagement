@@ -7,7 +7,6 @@ SETUP_PROC = lambda do |env|
     uuid = env["rack.session"][:provider_uuid]
     provider = Auth::Provider.find_by(strategy: env["omniauth.strategy"].name, uuid:)
   else
-    # binding.irb
     provider_uuid = request.params["provider_uuid"]
     env["rack.session"][:provider_uuid] = provider_uuid
     provider = Auth::Provider.find_by(strategy: env["omniauth.strategy"].name, uuid: provider_uuid)
@@ -15,6 +14,7 @@ SETUP_PROC = lambda do |env|
 
   if provider
     env["omniauth.strategy"].options[:client_id] = provider.client_id
+    env["omniauth.strategy"].options[:client_options] = provider.options&.[]("client_options")
     env["omniauth.strategy"].options[:client_secret] = provider.secret
   end
 end
