@@ -5,16 +5,19 @@ require "rails_helper"
 RSpec.describe "Users::OmniauthCallbacks", type: :request do
   let(:valid_google_auth) do
     {
-      "provider" => "google_oauth2",
-      "uid" => "google-uid-123",
-      "info" => {
-        "email" => "testuser@example.com",
-        "email_verified" => true,
-        "name" => "Test User"
+      provider: "google_oauth2",
+      uid: "google-uid-123",
+      info: {
+        email: "testuser@example.com",
+        email_verified: true,
+        name: "Test User"
       },
-      "extra" => {
-        "raw_info" => {
-          "hd" => "example.com"
+      extra: {
+        raw_info: {
+          hd: "example.com"
+        },
+        id_info: {
+          hd: "example.com"
         }
       }
     }
@@ -22,44 +25,44 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
   let(:valid_central_login_auth) do
     {
-      "provider" => "central_login",
-      "uid" => "cl-uid-456",
-      "info" => {
-        "email" => "cluser@example.com",
-        "email_verified" => true,
-        "name" => "Central Login User"
+      provider: "central_login",
+      uid: "cl-uid-456",
+      info: {
+        email: "cluser@example.com",
+        email_verified: true,
+        name: "Central Login User"
       },
-      "credentials" => {
-        "expires_at" => Time.now.utc + 3600,
-        "refresh_token" => "refresh-token-abc",
-        "token" => "access-token-xyz"
+      credentials: {
+        expires_at: Time.now.utc + 3600,
+        refresh_token: "refresh-token-abc",
+        token: "access-token-xyz"
       },
-      "extra" => {
-        "raw_info" => OpenStruct.new(
+      extra: {
+        raw_info: {
           issuer: "cl-issuer",
           resources: ["resource1"],
           roles: ["role1"]
-        )
+        }
       }
     }
   end
 
   let(:valid_azure_auth) do
     {
-      "provider" => "azureactivedirectory",
-      "uid" => "azure-uid-789",
-      "info" => {
-        "email" => "azureuser@example.com",
-        "name" => "Azure User"
+      provider: "azureactivedirectory",
+      uid: "azure-uid-789",
+      info: {
+        email: "azureuser@example.com",
+        name: "Azure User"
       },
-      "extra" => {
-        "raw_info" => OpenStruct.new(
+      extra: {
+        raw_info: {
           id_token_claims: {
-            "iss" => "azure-iss",
-            "groups" => ["group-1", "group-2"],
-            "wids" => ["wid-1", "wid-2"]
+            iss: "azure-iss",
+            groups: ["group-1", "group-2"],
+            wids: ["wid-1", "wid-2"]
           }
-        )
+        }
       }
     }
   end
@@ -67,7 +70,11 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
   describe "POST /users/auth/google_oauth2/callback" do
     context "with valid auth data" do
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(valid_google_auth)
+        OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(valid_google_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:google_oauth2] = nil
       end
 
       it "creates and signs in the user" do
@@ -76,7 +83,7 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
         end.to change(User, :count).by(1)
 
         expect(response).to be_redirect
-        expect(controller.session[:user_id]).to be_present
+        expect(controller.current_user).to be_present
       end
 
       it "sets the correct user attributes" do
@@ -91,7 +98,7 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
       context "with unverified email" do
         let(:valid_google_auth) do
-          super().tap { |h| h["info"]["email_verified"] = false }
+          super().tap { |h| h[:info][:email_verified] = false }
         end
 
         it "sets the email but does not confirm the user" do
@@ -105,7 +112,10 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
       context "with qkunst domain" do
         let(:valid_google_auth) do
-          super().tap { |h| h["extra"]["raw_info"]["hd"] = "qkunst.nl" }
+          super().tap do |h|
+            h[:extra][:raw_info][:hd] = "qkunst.nl"
+            h[:extra][:id_info][:hd] = "qkunst.nl"
+          end
         end
 
         it "marks the user as qkunst" do
@@ -128,11 +138,15 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
     context "with invalid auth data (missing email)" do
       let(:invalid_auth) do
-        valid_google_auth.tap { |h| h["info"].delete("email") }
+        valid_google_auth.tap { |h| h[:info].delete(:email) }
       end
 
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(invalid_auth)
+        OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(invalid_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:google_oauth2] = nil
       end
 
       it "redirects to registration with an alert" do
@@ -153,7 +167,11 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
   describe "POST /users/auth/central_login/callback" do
     context "with valid auth data" do
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(valid_central_login_auth)
+        OmniAuth.config.mock_auth[:central_login] = OmniAuth::AuthHash.new(valid_central_login_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:central_login] = nil
       end
 
       it "creates and signs in the user" do
@@ -162,7 +180,7 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
         end.to change(User, :count).by(1)
 
         expect(response).to be_redirect
-        expect(controller.session[:user_id]).to be_present
+        expect(controller.current_user).to be_present
       end
 
       it "sets the correct user attributes" do
@@ -187,11 +205,15 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
     context "with invalid auth data" do
       let(:invalid_auth) do
-        valid_central_login_auth.tap { |h| h["info"].delete("email") }
+        valid_central_login_auth.tap { |h| h[:info].delete(:email) }
       end
 
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(invalid_auth)
+        OmniAuth.config.mock_auth[:central_login] = OmniAuth::AuthHash.new(invalid_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:central_login] = nil
       end
 
       it "redirects to registration with an alert" do
@@ -206,7 +228,11 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
   describe "POST /users/auth/azureactivedirectory/callback" do
     context "with valid auth data" do
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(valid_azure_auth)
+        OmniAuth.config.mock_auth[:azureactivedirectory] = OmniAuth::AuthHash.new(valid_azure_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:azureactivedirectory] = nil
       end
 
       it "creates and signs in the user" do
@@ -215,7 +241,7 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
         end.to change(User, :count).by(1)
 
         expect(response).to be_redirect
-        expect(controller.session[:user_id]).to be_present
+        expect(controller.current_user).to be_present
       end
 
       it "sets the correct user attributes" do
@@ -239,11 +265,15 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
 
     context "with invalid auth data" do
       let(:invalid_auth) do
-        valid_azure_auth.tap { |h| h["info"].delete("email") }
+        valid_azure_auth.tap { |h| h[:info].delete(:email) }
       end
 
       before do
-        allow(request.env).to receive(:[]).with("omniauth.auth").and_return(invalid_auth)
+        OmniAuth.config.mock_auth[:azureactivedirectory] = OmniAuth::AuthHash.new(invalid_auth)
+      end
+
+      after do
+        OmniAuth.config.mock_auth[:azureactivedirectory] = nil
       end
 
       it "redirects to registration with an alert" do
@@ -256,19 +286,32 @@ RSpec.describe "Users::OmniauthCallbacks", type: :request do
   end
 
   describe "user already exists with matching oauth credentials" do
-    let(:existing_user) { create(:user, email: "testuser@example.com", oauth_subject: "google-uid-123", oauth_provider: "google_oauth2") }
-
     before do
-      allow(request.env).to receive(:[]).with("omniauth.auth").and_return(valid_google_auth)
+      OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(valid_google_auth)
+      # Create user directly via from_omniauth_callback_data to ensure proper persistence
+      User.from_omniauth_callback_data(
+        Users::OmniauthCallbackData.new(
+          email: "testuser@example.com",
+          oauth_provider: "google_oauth2",
+          oauth_subject: "google-uid-123",
+          email_confirmed: true
+        )
+      )
+    end
+
+    after do
+      OmniAuth.config.mock_auth[:google_oauth2] = nil
     end
 
     it "signs in the existing user without creating a duplicate" do
+      initial_count = User.count
       expect do
         post user_google_oauth2_omniauth_callback_path
-      end.not_to change(User, :count)
+      end.not_to change(User, :count).from(initial_count)
 
       expect(response).to be_redirect
-      expect(controller.session[:user_id]).to eq(existing_user.id)
+      expect(controller.current_user).not_to be_nil
+      expect(controller.current_user.oauth_subject).to eq("google-uid-123")
     end
   end
 end

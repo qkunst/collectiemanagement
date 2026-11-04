@@ -5,8 +5,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def google_oauth2
     data = Users::OmniauthCallbackData.new(oauth_subject: omniauth_data["uid"].to_s, oauth_provider: "google_oauth2")
-    data.email = omniauth_data.info[:email].to_s unless omniauth_data.info[:email_verified] == false
-    data.email_confirmed = omniauth_data.info[:email_verified].to_s
+    data.email = omniauth_data.info[:email].to_s
+    data.email_confirmed = "true" if omniauth_data.info[:email_verified] == true
     data.name = omniauth_data.info[:name].to_s
     data.domain = omniauth_data.dig("extra", "id_info", "hd").to_s # hd contains organisation's domain in case of GoogleSuite-subscriber
     data.qkunst = true if data.domain == "qkunst.nl"
@@ -65,6 +65,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       session["devise.omniauth_data"] = request.env["omniauth.auth"].except("extra") # Removing extra as it can overflow some session stores
       redirect_to new_user_registration_url, alert: @user.errors.full_messages.join("\n")
     end
+  rescue ArgumentError
+    session["devise.omniauth_data"] = request.env["omniauth.auth"].except("extra")
+    redirect_to new_user_registration_url, alert: "#{kind} authentication failed."
   end
 
   def failure
