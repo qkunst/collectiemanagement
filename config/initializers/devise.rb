@@ -2,20 +2,25 @@
 
 SETUP_PROC = lambda do |env|
   request = Rack::Request.new(env)
+  strategy = env["omniauth.strategy"]
 
   if request.path.to_s.match?(/callback/)
     uuid = env["rack.session"][:provider_uuid]
-    provider = Auth::Provider.find_by(strategy: env["omniauth.strategy"].name, uuid:)
+    provider = Auth::Provider.find_by(strategy: strategy.name, uuid:)
   else
     provider_uuid = request.params["provider_uuid"]
     env["rack.session"][:provider_uuid] = provider_uuid
-    provider = Auth::Provider.find_by(strategy: env["omniauth.strategy"].name, uuid: provider_uuid)
+    provider = Auth::Provider.find_by(strategy: strategy.name, uuid: provider_uuid)
   end
 
   if provider
-    env["omniauth.strategy"].options[:client_id] = provider.client_id
-    env["omniauth.strategy"].options[:client_options] = provider.options&.[]("client_options")
-    env["omniauth.strategy"].options[:client_secret] = provider.secret
+    if strategy.is_a?(OmniAuth::Strategies::AzureActiveDirectory) && (tenant = provider.options&.[]("tenant"))
+      strategy.options.tenant = tenant
+    end
+
+    strategy.options[:client_id] = provider.client_id
+    strategy.options[:client_options] = provider.options&.[]("client_options")
+    strategy.options[:client_secret] = provider.secret
   end
 end
 
